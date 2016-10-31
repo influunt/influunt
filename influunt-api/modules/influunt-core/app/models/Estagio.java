@@ -366,6 +366,18 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.")
+    public boolean isTempoMaximoPermanenciaMaiorQueVerdeDeSeguranca() {
+        if (getTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
+            return getTempoMaximoPermanencia() > getGruposSemaforicos()
+                    .stream()
+                    .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
+                    .min()
+                    .orElse(0);
+        }
+        return true;
+    }
+
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}")
     public boolean isTempoVerdeDemandaPrioritaria() {
         if (isDemandaPrioritaria()) {
