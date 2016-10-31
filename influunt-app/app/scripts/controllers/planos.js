@@ -23,7 +23,8 @@ angular.module('influuntApp')
       var selecionaAnel, adicionaEstagioASequencia, carregaDadosPlano, getOpcoesEstagiosDisponiveis,
           getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
-          setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanos;
+          setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanos,
+          getErrosNumeroEstagiosPlanoManual;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = 0;
 
@@ -301,7 +302,7 @@ angular.module('influuntApp')
         return $scope
           .submit($scope.objeto)
           .then(function(res) { $scope.objeto = res; })
-          .catch(function(err) { 
+          .catch(function(err) {
             $scope.errors = err;
             atualizaTempoEstagiosPlanos();
           })
@@ -339,7 +340,7 @@ angular.module('influuntApp')
         erros.push(getErrosUltrapassaTempoCiclo(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoAtuadoSemDetector(listaErros, currentPlanoIndex));
         erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
-
+        erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
 
@@ -457,15 +458,26 @@ angular.module('influuntApp')
         var erros = [];
 
         if(listaErros){
-          var errosultrapassaTempoCiclo = _.get(listaErros, 'planos['+ currentPlanoIndex +'].ultrapassaTempoCiclo');
-          if (errosultrapassaTempoCiclo) {
-            _.each(errosultrapassaTempoCiclo, function (errosNoPlano){
+          var errosUltrapassaTempoCiclo = _.get(listaErros, 'planos['+ currentPlanoIndex +'].ultrapassaTempoCiclo');
+          if (errosUltrapassaTempoCiclo) {
+            _.each(errosUltrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
                 var texto = errosNoPlano.replace("{temposEstagios}", tempoEstagiosPlanos)
                 .replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
                 erros.push(texto);
               }
             });
+          }
+        }
+        return erros;
+      };
+
+      getErrosNumeroEstagiosPlanoManual = function(listaErros, currentPlanoIndex) {
+        var erros = [];
+        if (listaErros) {
+          var erroEstagioManual = _.get(listaErros, 'planos['+ currentPlanoIndex +'].numeroEstagiosEmModoManualOk[0]');
+          if (erroEstagioManual) {
+            erros.push(erroEstagioManual);
           }
         }
         return erros;
