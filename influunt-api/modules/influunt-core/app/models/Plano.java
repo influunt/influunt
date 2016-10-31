@@ -1,6 +1,5 @@
 package models;
 
-import checks.ControladorAneisCheck;
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
