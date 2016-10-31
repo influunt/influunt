@@ -118,7 +118,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var date = moment(inicioControlador.date),
           time = moment(inicioControlador.time);
       var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
-      $scope.parametrosSimulacao.inicioControlador = moment(dateStr);
+      //$scope.parametrosSimulacao.inicioControlador = moment(dateStr);
+      $scope.parametrosSimulacao.inicioControlador = moment();
     }
   }, true);
 
@@ -127,7 +128,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var date = moment(inicioSimulacao.date),
           time = moment(inicioSimulacao.time);
       var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
-      $scope.parametrosSimulacao.inicioSimulacao = moment(dateStr);
+      //$scope.parametrosSimulacao.inicioSimulacao = moment(dateStr);
+      $scope.parametrosSimulacao.inicioSimulacao = moment();
     }
   }, true);
 
@@ -136,7 +138,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var date = moment(fimSimulacao.date),
           time = moment(fimSimulacao.time);
       var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
-      $scope.parametrosSimulacao.fimSimulacao = moment(dateStr);
+      //$scope.parametrosSimulacao.fimSimulacao = moment(dateStr);
+      $scope.parametrosSimulacao.fimSimulacao = moment();      
     }
   }, true);
 

@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -156,8 +157,11 @@ public class ParametroSimulacao {
             });
             aneis.add(anelSimulacaoConfig);
         });
-
         sc.setAneis(aneis);
+        sc.setDetectores(getControlador().getDetectores().stream().map(detector ->
+                new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
+                                                            detector.getAnel().getPosicao(),
+                                                            detector.getPosicao())).collect(Collectors.toList()));
 
         return sc;
     }

@@ -25,6 +25,7 @@ var influunt;
         var intervalosGroup;
         var textoIntervalosGroup;
         var gruposSemaforicosGroup;
+        var loadingGroup;
         var grupoControles;
         var eventosGroup;
         var totalGruposSemaforicos = 0;
@@ -69,6 +70,7 @@ var influunt;
           game.load.spritesheet('estado', '/images/simulador/modos.png', 10, 25);
           game.load.spritesheet('controles', '/images/simulador/controles.png', 30, 26);
           game.load.image('grid', '/images/simulador/grid.png');
+          game.load.image('loading', '/images/raro_azul.png');
 
           config.aneis.forEach(function(anel,index){
             anel.estagios.forEach(function(estagio){
@@ -625,9 +627,20 @@ var influunt;
             desenhaPlano(x,'#260339',troca[2]);
           });
         }
-
+        
+        function criaLoading(){
+          var background  = game.add.graphics( 0, 0 );
+          background.beginFill(0xCCCCCC, 1);
+          background.bounds = new PIXI.Rectangle(0, 0, 1000, 700);
+          background.drawRect(0, 0, 1000, 700);
+          var loading = game.add.sprite(500, 350, "loading");
+          loading.anchor.set(0.5,0.5);
+          loadingGroup.add(background);
+          loadingGroup.add(loading);
+        }
+        
         function create() {
-
+          
           game.stage.backgroundColor = '#cccccc';
           cursors = game.input.keyboard.createCursorKeys();
           game.world.setBounds(0, 0, 1000 + (duracaoSimulacao * 10 * Math.max(1,velocidade)), 800);
@@ -647,9 +660,8 @@ var influunt;
             });
           });
 
-
-
           criaControles();
+
 
           var onConnect = function () {
                // Once a connection has been made, make a subscription and send a message.
@@ -664,6 +676,7 @@ var influunt;
               var json = JSON.parse(message.payloadString);
               processaEstagios(json.aneis);
               processaPlanos(json.trocas);
+              loadingGroup.visible = false;
             }
           };
 
@@ -690,7 +703,8 @@ var influunt;
           plano.anchor.set(0,1);
 
           game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
-
+          loadingGroup = game.add.group();
+          criaLoading();
         }
 
         function render() {
