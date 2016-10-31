@@ -274,7 +274,6 @@ angular.module('influuntApp')
       };
 
       atualizaEventos = function() {
-        atualizaPosicaoEventos();
         $scope.currentEventos = _
           .chain($scope.objeto.eventos)
           .filter(function(e){
@@ -289,22 +288,17 @@ angular.module('influuntApp')
           {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}, tipo: $scope.currentTipoEvento}
         );
 
+        atualizaPosicaoEventos();
         atualizaErrosEventos();
         return $scope.currentEventos;
       };
 
       atualizaPosicaoEventosDoTipo = function(tipo) {
-        var index = 1;
-        return _.chain($scope.objeto.eventos)
-          .filter(function(e){
-            return e.tipo === tipo;
-          })
-          .orderBy(['posicao'])
-          .value()
-          .forEach(function (evento){
-            evento.posicao = index;
-            index++;
-          });
+        return _.chain($scope.currentEventos)
+          .filter({tipo: tipo})
+          .orderBy('posicao')
+          .each(function(evento, index) { evento.posicao = index + 1; })
+          .value();
       };
 
       atualizaPosicaoEventos = function() {
