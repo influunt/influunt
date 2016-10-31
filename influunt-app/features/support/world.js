@@ -233,6 +233,11 @@ var World = function () {
     return driver.findElement(webdriver.By.linkText(text));
   };
 
+  this.waitToggle = function() {
+    var _this = this;
+    return _this.sleep(300);
+  };
+
   this.findByText = function(text) {
     return driver.findElement(webdriver.By.text(text));
   };

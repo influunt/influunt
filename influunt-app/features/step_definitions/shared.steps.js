@@ -10,6 +10,10 @@ module.exports = function() {
     return sharedSteps.cadastrarControlador();
   });
 
+  this.Given(/^que o sistema possua controladores cadastrados$/, function() {
+    return sharedSteps.variosControladores();
+  });
+
   this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
     return sharedSteps.cadastrarPlanoParaControlador();
   });
@@ -69,6 +73,10 @@ module.exports = function() {
     return sharedSteps.checarTotalInseridosNaTabela(numero);
   });
 
+  this.Given(/^o sistema deverá mostrar "([^"]*)" items na tabela$/, function (numero) {
+    return sharedSteps.checarTotalInseridosNaTabela(numero);
+  });
+
   this.Given(/^o sistema deverá mostrar "([^"]*)" na listagem$/, function (numero) {
     return sharedSteps.checarTotalInseridosNaTabela(numero);
   });
@@ -98,10 +106,22 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
-    return sharedSteps.checarStatusControladorListagem(status);
+    return sharedSteps.checarValoresNaTabela(status);
+  });
+
+  this.Given(/^o sistema deverá mostrar na tabela o valor "([^"]*)"$/, function (status) {
+    return sharedSteps.checarValoresNaTabela(status);
   });
 
   this.Given(/^em resumo clicar em "([^"]*)"$/, function (tooltipSelector) {
     return sharedSteps.clicarEditarEmResumo(tooltipSelector);
+  });
+
+  this.Given(/^o usuário esteja na listagem de controladores$/, function () {
+    return sharedSteps.isListagemControladores();
+  });
+
+  this.Given(/^o usuário acesse a listagem de "([^"]*)"$/, function (localizacao) {
+    return sharedSteps.visitarListagem(localizacao);
   });
 };
