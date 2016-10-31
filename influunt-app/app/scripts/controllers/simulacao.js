@@ -13,7 +13,7 @@ angular.module('influuntApp')
 .controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams', 'MQTT_ROOT',
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getTimeStr;
+  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getMoment;
 
   $scope.init = function() {
     var controladorId = $stateParams.idControlador;
@@ -34,11 +34,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
                                    imposicaoPlanos: [{}] };
 
     var now = new Date();
-    $scope.inicioControlador = { time: new Date(0, 0, 0, 0, 0, 0), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.inicioControlador = { hora: ''+now.getHours(), minuto: ''+now.getMinutes(), segundo: ''+now.getSeconds(), date: new Date(new Date().setHours(0,0,0,0)) };
 
-    $scope.inicioSimulacao = { time: new Date(0, 0, 0, 0, 0,0), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.inicioSimulacao = { hora: ''+now.getHours(), minuto: ''+now.getMinutes(), segundo: ''+now.getSeconds(), date: new Date(new Date().setHours(0,0,0,0)) };
 
-    $scope.fimSimulacao = { time: new Date(0, 0, 0, 0, 5, 0), date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.fimSimulacao = { hora: ''+now.getHours(), minuto: ''+(now.getMinutes()+5), segundo: ''+now.getSeconds(), date: new Date(new Date().setHours(0,0,0,0)) };
 
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
@@ -114,29 +114,26 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   }, true);
 
   $scope.$watch('inicioControlador', function(inicioControlador) {
-    if (inicioControlador && inicioControlador.date && inicioControlador.time) {
-      var date = moment(inicioControlador.date),
-          time = moment(inicioControlador.time);
-      var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
-      $scope.parametrosSimulacao.inicioControlador = moment(dateStr);
+    if (inicioControlador && inicioControlador.date && inicioControlador.hora && inicioControlador.minuto && inicioControlador.segundo) {
+      var date = moment(inicioControlador.date);
+      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), inicioControlador.hora, inicioControlador.minuto, inicioControlador.segundo);
+      $scope.parametrosSimulacao.inicioControlador = dateMoment;
     }
   }, true);
 
   $scope.$watch('inicioSimulacao', function(inicioSimulacao) {
-    if (inicioSimulacao && inicioSimulacao.date && inicioSimulacao.time) {
-      var date = moment(inicioSimulacao.date),
-          time = moment(inicioSimulacao.time);
-      var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
-      $scope.parametrosSimulacao.inicioSimulacao = moment(dateStr);
+    if (inicioSimulacao && inicioSimulacao.date && inicioSimulacao.hora && inicioSimulacao.minuto && inicioSimulacao.segundo) {
+      var date = moment(inicioSimulacao.date);
+      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), inicioSimulacao.hora, inicioSimulacao.minuto, inicioSimulacao.segundo);
+      $scope.parametrosSimulacao.inicioSimulacao = dateMoment;
     }
   }, true);
 
   $scope.$watch('fimSimulacao', function(fimSimulacao) {
-    if (fimSimulacao && fimSimulacao.date && fimSimulacao.time) {
-      var date = moment(fimSimulacao.date),
-          time = moment(fimSimulacao.time);
-      var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), time.hour(), time.minute(), time.second());
-      $scope.parametrosSimulacao.fimSimulacao = moment(dateStr);
+    if (fimSimulacao && fimSimulacao.date && fimSimulacao.hora && fimSimulacao.minuto && fimSimulacao.segundo) {
+      var date = moment(fimSimulacao.date);
+      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), fimSimulacao.hora, fimSimulacao.minuto, fimSimulacao.segundo);
+      $scope.parametrosSimulacao.fimSimulacao = dateMoment;
     }
   }, true);
 
@@ -145,8 +142,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       _.forEach($scope.disparosDetectores.disparos, function(disparo, index) {
         if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
           var date = moment(disparo.date);
-          var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), disparo.hora, disparo.minuto, disparo.segundo);
-          $scope.parametrosSimulacao.disparoDetectores[index].disparo = moment(dateStr);
+          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), disparo.hora, disparo.minuto, disparo.segundo);
+          $scope.parametrosSimulacao.disparoDetectores[index].disparo = dateMoment;
         }
       });
     }
@@ -157,15 +154,16 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       _.forEach($scope.imposicoesPlanos.imposicoes, function(imposicao, index) {
         if (imposicao.date && imposicao.hora && imposicao.minuto && imposicao.segundo) {
           var date = moment(imposicao.date);
-          var dateStr = getTimeStr(date.year(), date.month()+1, date.date(), imposicao.hora, imposicao.minuto, imposicao.segundo);
-          $scope.parametrosSimulacao.imposicaoPlanos[index].disparo = moment(dateStr);
+          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), imposicao.hora, imposicao.minuto, imposicao.segundo);
+          $scope.parametrosSimulacao.imposicaoPlanos[index].disparo = dateMoment;
         }
       });
     }
   }, true);
 
-  getTimeStr = function(ano, mes, dia, hora, minuto, segundo) {
-    return moment([ano, mes, dia, hora, minuto, segundo]).format('YYYY-MM-DD HH:mm:ss');
+  getMoment = function(ano, mes, dia, hora, minuto, segundo) {
+    var str = '' + ano + '-' + _.padStart(mes, 2, '0') + '-' + _.padStart(dia, 2, '0') + ' ' + _.padStart(hora, 2, '0') + ':' +  _.padStart(minuto, 2, '0') + ':' + _.padStart(segundo, 2, '0');
+    return moment(str, 'YYYY-MM-DD HH:mm:ss');
   };
 
   $scope.removerDisparoDetector = function(index) {

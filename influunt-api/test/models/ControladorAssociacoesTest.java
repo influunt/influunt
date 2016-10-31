@@ -14,6 +14,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -340,10 +341,20 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertNotNull("Associação Estágio3 x Grupo Semafórico1", estagioGrupoSemaforico31);
         assertNotNull("Associação Estágio4 x Grupo Semafórico2", estagioGrupoSemaforico42);
 
+        grupoSemaforico1.setEstagiosGruposSemaforicos(null);
+        grupoSemaforico2.setEstagiosGruposSemaforicos(null);
+
         estagioGrupoSemaforico11.setGrupoSemaforico(grupoSemaforico2); // 11 -> 12
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico11);
+
         estagioGrupoSemaforico22.setGrupoSemaforico(grupoSemaforico1); // 22 -> 21
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico22);
+
         estagioGrupoSemaforico31.setGrupoSemaforico(grupoSemaforico2); // 31 -> 32
+        grupoSemaforico2.addEstagioGrupoSemaforico(estagioGrupoSemaforico31);
+
         estagioGrupoSemaforico42.setGrupoSemaforico(grupoSemaforico1); // 42 -> 41
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico42);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
                 .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
@@ -355,27 +366,70 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         assertControladorAnelAssociacao(controladorRetornado, controlador);
 
+
+        anelCom4Estagios = controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        estagio1 = anelCom4Estagios.getEstagios().get(0);
+        estagio2 = anelCom4Estagios.getEstagios().get(1);
+        estagio3 = anelCom4Estagios.getEstagios().get(2);
+        estagio4 = anelCom4Estagios.getEstagios().get(3);
+
+
         estagioGrupoSemaforico11 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio1.getId()).eq("grupo_semaforico_id", grupoSemaforico1.getId()).findUnique();
         estagioGrupoSemaforico22 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio2.getId()).eq("grupo_semaforico_id", grupoSemaforico2.getId()).findUnique();
         estagioGrupoSemaforico31 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio3.getId()).eq("grupo_semaforico_id", grupoSemaforico1.getId()).findUnique();
         estagioGrupoSemaforico42 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio4.getId()).eq("grupo_semaforico_id", grupoSemaforico2.getId()).findUnique();
 
-//        assertNull("Associação Estágio1 x Grupo Semafórico1", estagioGrupoSemaforico11);
-//        assertNull("Associação Estágio2 x Grupo Semafórico2", estagioGrupoSemaforico22);
-//        assertNull("Associação Estágio3 x Grupo Semafórico1", estagioGrupoSemaforico31);
-//        assertNull("Associação Estágio4 x Grupo Semafórico2", estagioGrupoSemaforico42);
-
+        assertNull("Associação Estágio1 x Grupo Semafórico1", estagioGrupoSemaforico11);
+        assertNull("Associação Estágio2 x Grupo Semafórico2", estagioGrupoSemaforico22);
+        assertNull("Associação Estágio3 x Grupo Semafórico1", estagioGrupoSemaforico31);
+        assertNull("Associação Estágio4 x Grupo Semafórico2", estagioGrupoSemaforico42);
 
         EstagioGrupoSemaforico estagioGrupoSemaforico12 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio1.getId()).eq("grupo_semaforico_id", grupoSemaforico2.getId()).findUnique();
         EstagioGrupoSemaforico estagioGrupoSemaforico21 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio2.getId()).eq("grupo_semaforico_id", grupoSemaforico1.getId()).findUnique();
         EstagioGrupoSemaforico estagioGrupoSemaforico32 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio3.getId()).eq("grupo_semaforico_id", grupoSemaforico2.getId()).findUnique();
         EstagioGrupoSemaforico estagioGrupoSemaforico41 = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio4.getId()).eq("grupo_semaforico_id", grupoSemaforico1.getId()).findUnique();
 
-        // TODO Estes testes estão falhando, mas na interface está ok. Issue #673
-//        assertNotNull("Associação Estágio1 x Grupo Semafórico2", estagioGrupoSemaforico12);
-//        assertNotNull("Associação Estágio2 x Grupo Semafórico1", estagioGrupoSemaforico21);
-//        assertNotNull("Associação Estágio3 x Grupo Semafórico2", estagioGrupoSemaforico32);
-//        assertNotNull("Associação Estágio4 x Grupo Semafórico1", estagioGrupoSemaforico41);
+        assertNotNull("Associação Estágio1 x Grupo Semafórico2", estagioGrupoSemaforico12);
+        assertNotNull("Associação Estágio2 x Grupo Semafórico1", estagioGrupoSemaforico21);
+        assertNotNull("Associação Estágio3 x Grupo Semafórico2", estagioGrupoSemaforico32);
+        assertNotNull("Associação Estágio4 x Grupo Semafórico1", estagioGrupoSemaforico41);
+    }
+
+    @Test
+    public void validaTempoMaximoPermanencia() {
+        Controlador controlador = getControladorVerdesConflitantes();
+        controlador.save();
+
+        FaixasDeValores faixaDeValores = FaixasDeValores.getInstance();
+        faixaDeValores.setTempoMaximoPermanenciaEstagioMin(1);
+        faixaDeValores.save();
+
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        assertEquals(2, anelCom4Estagios.getGruposSemaforicos().size());
+
+        Estagio estagio1 = (Estagio) anelCom4Estagios.getEstagios().toArray()[0];
+        estagio1.setTempoMaximoPermanencia(5);
+
+        GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.getGruposSemaforicos().get(0);
+        EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
+        estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+
+        List<Erro> erros = getErros(controlador);
+
+        assertEquals(7, erros.size());
+        assertThat(erros, Matchers.hasItems(
+                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+                new Erro(CONTROLADOR, "Esse grupo semafórico deve estar associado a pelo menos um estágio", "aneis[0].gruposSemaforicos[1].associadoAoMenosAUmEstágio"),
+                new Erro(CONTROLADOR, "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.", "aneis[0].estagios[0].tempoMaximoPermanenciaMaiorQueVerdeDeSeguranca")
+        ));
+
     }
 
     @Override
