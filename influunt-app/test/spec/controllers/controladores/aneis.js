@@ -108,6 +108,8 @@ describe('Controller: ControladoresAneisCtrl', function () {
     it('Deve adicionar uma nova imagem à lista de estágios', function() {
       scope.adicionarEstagio({}, {id: 1, idJson: 'imagem-1'}, 'anel-1');
       expect(scope.currentAnel.estagios.length).toBe(1);
+      var estagio = _.find(scope.objeto.estagios, {imagem: {idJson: 'imagem-1'}});
+      expect(estagio.posicao).toBe(1);
     });
   });
 

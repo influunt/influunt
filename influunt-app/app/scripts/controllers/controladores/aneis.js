@@ -78,6 +78,7 @@ angular.module('influuntApp')
         var _imagem = { id: imagem.id, filename: imagem.filename, idJson: imagem.idJson };
         var estagio = {
           imagem: { idJson: imagem.idJson },
+          posicao: anel.estagios.length + 1,
           idJson: uuid
         };
 
