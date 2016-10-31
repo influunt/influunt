@@ -197,9 +197,18 @@ angular.module('influuntApp')
       };
 
       $scope.visualizarPlano = function(evento){
-
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
+
+        if (!angular.isDefined($scope.plano)) {
+          influuntAlert.alert(
+            $filter('translate')('planos.planoNaoConfigurado.tituloAlert'),
+            $filter('translate')('planos.planoNaoConfigurado.textoAlert')
+          );
+
+          return false;
+        }
+
         if ($scope.plano.modoOperacao === 'ATUADO' || $scope.plano.modoOperacao === 'MANUAL') {
           influuntAlert.alert(
             $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
