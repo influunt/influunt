@@ -20,9 +20,19 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/controladores_por_areas.sql');
   };
 
+  this.variosControladores = function() {
+    return world.execSqlScript('features/support/scripts/controladores/controladores.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
+    });
+  };
+
+  this.isListagemControladores = function() {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.waitForByXpath('//h5[contains(text(), "Programação")]');
     });
   };
 
@@ -168,16 +178,21 @@ var ObjetosComuns = function () {
     return world.getElementByXpath('//td[contains(text(), "'+numero+'.000.0001")]');
   };
 
-  this.checarStatusControladorListagem = function(status) {
+  this.checarValoresNaTabela = function(valor) {
     return world.waitForOverlayDisappear().then(function() {
       world.sleep(400);
-      return world.getElementByXpath('//td[contains(text(), "'+status+'")]');
+      return world.getElementByXpath('//td[contains(text(), "'+valor+'")]');
     });
   };
 
   this.clicarEditarEmResumo = function(selectorText) {
     return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
   };
+
+  this.visitarListagem = function(local) {
+    return world.visit('/app/'+local+'');
+  };
 };
+
 
 module.exports = ObjetosComuns;

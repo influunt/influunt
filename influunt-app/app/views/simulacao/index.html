@@ -50,14 +50,26 @@
                              datepicker-options="dateOptions"
                              ng-required="true"
                              close-text="Close" />
-                      <div uib-timepicker
-                           style="margin: auto;"
-                           ng-model="inicioControlador.time"
-                           hour-step="1"
-                           minute-step="1"
-                           show-seconds="1"
-                           show-meridian="false"></div>
                       <p class="help-block error-msg" data-ng-repeat="error in errors.inicioControlador">{{ error }}</p>
+                    </div>
+                    <div class="col-sm-12 m-t">
+                      <div class="row">
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="inicioControlador.hora">
+                            <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+                          </select>
+                        </div>
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="inicioControlador.minuto">
+                            <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+                          </select>
+                        </div>
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="inicioControlador.segundo">
+                            <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -75,14 +87,26 @@
                              datepicker-options="dateOptions"
                              ng-required="true"
                              close-text="Close" />
-                      <div uib-timepicker
-                           style="margin: auto;"
-                           ng-model="inicioSimulacao.time"
-                           hour-step="1"
-                           minute-step="1"
-                           show-seconds="1"
-                           show-meridian="false"></div>
                       <p class="help-block error-msg" data-ng-repeat="error in errors.inicioSimulacao">{{ error }}</p>
+                    </div>
+                    <div class="col-sm-12 m-t">
+                      <div class="row">
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="inicioSimulacao.hora">
+                            <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+                          </select>
+                        </div>
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="inicioSimulacao.minuto">
+                            <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+                          </select>
+                        </div>
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="inicioSimulacao.segundo">
+                            <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -100,18 +124,29 @@
                              datepicker-options="dateOptions"
                              ng-required="true"
                              close-text="Close" />
-                      <div uib-timepicker
-                           style="margin: auto;"
-                           ng-model="fimSimulacao.time"
-                           hour-step="1"
-                           minute-step="1"
-                           show-seconds="1"
-                           show-meridian="false"></div>
                       <p class="help-block error-msg" data-ng-repeat="error in errors.fimSimulacao">{{ error }}</p>
+                    </div>
+                    <div class="col-sm-12 m-t">
+                      <div class="row">
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="fimSimulacao.hora">
+                            <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+                          </select>
+                        </div>
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="fimSimulacao.minuto">
+                            <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+                          </select>
+                        </div>
+                        <div class='col-sm-4'>
+                          <select class='form-control m-b' name='account' data-ng-model="fimSimulacao.segundo">
+                            <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
