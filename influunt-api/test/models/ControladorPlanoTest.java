@@ -391,29 +391,30 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setTempoCiclo(40);
         estagioPlano2Anel2.setTempoVerde(20);
 
-        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMinimo(30);
         estagioPlano1Anel4.setTempoVerdeMaximo(20);
         estagioPlano1Anel4.setTempoVerdeIntermediario(40);
         estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano2Anel4.setTempoVerdeMinimo(20);
-        estagioPlano2Anel4.setTempoVerdeMaximo(20);
-        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(30);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(25);
         estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano3Anel4.setTempoVerdeMinimo(20);
-        estagioPlano3Anel4.setTempoVerdeMaximo(20);
-        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(30);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(25);
         estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano4Anel4.setTempoVerdeMinimo(20);
-        estagioPlano4Anel4.setTempoVerdeMaximo(20);
-        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(30);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(25);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
         erros = getErros(controlador);
-        assertEquals(4, erros.size());
+        assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"),
                 new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
                 new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
                 new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
@@ -424,13 +425,17 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setTempoCiclo(60);
         estagioPlano2Anel2.setTempoVerde(21);
 
-        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(25);
+        estagioPlano1Anel4.setTempoVerdeMaximo(30);
 
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
                 new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
+
+        estagioPlano1Anel4.setTempoVerdeMinimo(20);
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
         criarEstagioPlano(anelCom4Estagios, plano1Anel4, new int[]{1, 2, 3, 4});
@@ -447,22 +452,22 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano2Anel2.setTempoVerde(21);
 
         estagioPlano1Anel4.setTempoVerdeMinimo(20);
-        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(21);
         estagioPlano1Anel4.setTempoVerdeIntermediario(20);
         estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano2Anel4.setTempoVerdeMinimo(20);
-        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(21);
         estagioPlano2Anel4.setTempoVerdeIntermediario(20);
         estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano3Anel4.setTempoVerdeMinimo(20);
-        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(21);
         estagioPlano3Anel4.setTempoVerdeIntermediario(20);
         estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano4Anel4.setTempoVerdeMinimo(20);
-        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(21);
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
@@ -487,22 +492,22 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano2Anel2.setTempoVerde(21);
 
         estagioPlano1Anel4.setTempoVerdeMinimo(20);
-        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(21);
         estagioPlano1Anel4.setTempoVerdeIntermediario(20);
         estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano2Anel4.setTempoVerdeMinimo(20);
-        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(21);
         estagioPlano2Anel4.setTempoVerdeIntermediario(20);
         estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano3Anel4.setTempoVerdeMinimo(20);
-        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(21);
         estagioPlano3Anel4.setTempoVerdeIntermediario(20);
         estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano4Anel4.setTempoVerdeMinimo(20);
-        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(21);
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
@@ -529,22 +534,22 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano2Anel2.setTempoVerde(21);
 
         estagioPlano1Anel4.setTempoVerdeMinimo(20);
-        estagioPlano1Anel4.setTempoVerdeMaximo(20);
+        estagioPlano1Anel4.setTempoVerdeMaximo(21);
         estagioPlano1Anel4.setTempoVerdeIntermediario(20);
         estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano2Anel4.setTempoVerdeMinimo(20);
-        estagioPlano2Anel4.setTempoVerdeMaximo(20);
+        estagioPlano2Anel4.setTempoVerdeMaximo(21);
         estagioPlano2Anel4.setTempoVerdeIntermediario(20);
         estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano3Anel4.setTempoVerdeMinimo(20);
-        estagioPlano3Anel4.setTempoVerdeMaximo(20);
+        estagioPlano3Anel4.setTempoVerdeMaximo(21);
         estagioPlano3Anel4.setTempoVerdeIntermediario(20);
         estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
 
         estagioPlano4Anel4.setTempoVerdeMinimo(20);
-        estagioPlano4Anel4.setTempoVerdeMaximo(20);
+        estagioPlano4Anel4.setTempoVerdeMaximo(21);
         estagioPlano4Anel4.setTempoVerdeIntermediario(20);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
@@ -569,14 +574,14 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavel")
+                new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavel")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano1Anel4);
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+                new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano2Anel4);
@@ -587,10 +592,24 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+                new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
+
+        plano1Anel2.setModoOperacao(ModoOperacaoPlano.MANUAL);
+        plano1Anel4.setModoOperacao(ModoOperacaoPlano.MANUAL);
+        erros = getErros(controlador);
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[0].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk"),
+                new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[1].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk")
+        ));
+
+        plano1Anel4.getEstagiosPlanos().remove(0);
+        plano1Anel4.getEstagiosPlanos().remove(1);
+
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
     }

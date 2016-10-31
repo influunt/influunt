@@ -412,24 +412,24 @@ public class ControladorTestUtil {
         plano1Anel2.setTempoCiclo(60);
         estagioPlano2Anel2.setTempoVerde(21);
 
-        estagioPlano1Anel4.setTempoVerdeMinimo(20);
+        estagioPlano1Anel4.setTempoVerdeMinimo(15);
         estagioPlano1Anel4.setTempoVerdeMaximo(20);
-        estagioPlano1Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano1Anel4.setTempoVerdeIntermediario(17);
         estagioPlano1Anel4.setTempoExtensaoVerde(10.0);
 
-        estagioPlano2Anel4.setTempoVerdeMinimo(20);
+        estagioPlano2Anel4.setTempoVerdeMinimo(15);
         estagioPlano2Anel4.setTempoVerdeMaximo(20);
-        estagioPlano2Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano2Anel4.setTempoVerdeIntermediario(17);
         estagioPlano2Anel4.setTempoExtensaoVerde(10.0);
 
-        estagioPlano3Anel4.setTempoVerdeMinimo(20);
+        estagioPlano3Anel4.setTempoVerdeMinimo(15);
         estagioPlano3Anel4.setTempoVerdeMaximo(20);
-        estagioPlano3Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano3Anel4.setTempoVerdeIntermediario(17);
         estagioPlano3Anel4.setTempoExtensaoVerde(10.0);
 
-        estagioPlano4Anel4.setTempoVerdeMinimo(20);
+        estagioPlano4Anel4.setTempoVerdeMinimo(15);
         estagioPlano4Anel4.setTempoVerdeMaximo(20);
-        estagioPlano4Anel4.setTempoVerdeIntermediario(20);
+        estagioPlano4Anel4.setTempoVerdeIntermediario(17);
         estagioPlano4Anel4.setTempoExtensaoVerde(10.0);
 
         return controlador;

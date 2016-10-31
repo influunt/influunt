@@ -23,9 +23,10 @@ angular.module('influuntApp')
       var selecionaAnel, adicionaEstagioASequencia, carregaDadosPlano, getOpcoesEstagiosDisponiveis,
           getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
-          setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos;
+          setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanos,
+          getErrosNumeroEstagiosPlanoManual;
 
-      var diagramaDebouncer = null;
+      var diagramaDebouncer = null, tempoEstagiosPlanos = 0;
 
       $scope.somenteVisualizacao = $state.current.data.somenteVisualizacao;
 
@@ -301,7 +302,10 @@ angular.module('influuntApp')
         return $scope
           .submit($scope.objeto)
           .then(function(res) { $scope.objeto = res; })
-          .catch(function(err) { $scope.errors = err; })
+          .catch(function(err) {
+            $scope.errors = err;
+            atualizaTempoEstagiosPlanos();
+          })
           .finally(influuntBlockui.unblock);
       };
 
@@ -336,7 +340,7 @@ angular.module('influuntApp')
         erros.push(getErrosUltrapassaTempoCiclo(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoAtuadoSemDetector(listaErros, currentPlanoIndex));
         erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
-
+        erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
 
@@ -454,17 +458,26 @@ angular.module('influuntApp')
         var erros = [];
 
         if(listaErros){
-          var errosultrapassaTempoCiclo = _.get(listaErros, 'planos['+ currentPlanoIndex +'].ultrapassaTempoCiclo');
-          if (errosultrapassaTempoCiclo) {
-            _.each(errosultrapassaTempoCiclo, function (errosNoPlano){
+          var errosUltrapassaTempoCiclo = _.get(listaErros, 'planos['+ currentPlanoIndex +'].ultrapassaTempoCiclo');
+          if (errosUltrapassaTempoCiclo) {
+            _.each(errosUltrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
-                var texto = errosNoPlano.replace("{temposEstagios}", _.sumBy($scope.currentEstagiosPlanos, function(o) {
-                  return o.tempoEstagio || 0;
-                }))
+                var texto = errosNoPlano.replace("{temposEstagios}", tempoEstagiosPlanos)
                 .replace("{tempoCiclo}", $scope.currentPlano.tempoCiclo);
                 erros.push(texto);
               }
             });
+          }
+        }
+        return erros;
+      };
+
+      getErrosNumeroEstagiosPlanoManual = function(listaErros, currentPlanoIndex) {
+        var erros = [];
+        if (listaErros) {
+          var erroEstagioManual = _.get(listaErros, 'planos['+ currentPlanoIndex +'].numeroEstagiosEmModoManualOk[0]');
+          if (erroEstagioManual) {
+            erros.push(erroEstagioManual);
           }
         }
         return erros;
@@ -493,9 +506,7 @@ angular.module('influuntApp')
       };
 
       getOpcoesEstagiosDisponiveis = function() {
-        var estagiosPlanos = _.map($scope.currentEstagiosPlanos, function(ep) {
-          return _.find($scope.objeto.estagios, { idJson: ep.estagio.idJson });
-        });
+        var estagiosPlanos = $scope.currentEstagiosPlanos;
 
         $scope.opcoesEstagiosDisponiveis = [
           utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex),
@@ -629,6 +640,13 @@ angular.module('influuntApp')
       getIndexPlano = function(anel, plano){
         var planos = _.find($scope.objeto.versoesPlanos, {idJson: anel.versaoPlano.idJson}).planos;
         return _.findIndex(planos, {idJson: plano.idJson});
+      };
+
+      atualizaTempoEstagiosPlanos = function(){
+        tempoEstagiosPlanos = _.sumBy($scope.currentEstagiosPlanos, function(o) {
+          return o.tempoEstagio || 0;
+        });
+        return tempoEstagiosPlanos;
       };
 
       $scope.podeSimular = function(controlador) {
