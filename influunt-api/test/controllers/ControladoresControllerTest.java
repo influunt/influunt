@@ -80,6 +80,15 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     @Test
     public void deveriaClonar() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+
+        Anel anelOriginal = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
+        Plano planoOriginal = anelOriginal.getPlanos().get(0);
+        planoOriginal.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+        EstagioPlano epDispensavel = planoOriginal.getEstagiosPlanos().get(0);
+        EstagioPlano epSeguinte = planoOriginal.getEstagiosPlanos().get(1);
+        epDispensavel.setDispensavel(true);
+        epDispensavel.setEstagioQueRecebeEstagioDispensavel(epSeguinte);
+
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
@@ -110,6 +119,12 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Versao Tabela Horaria", 1, controladorClonado.getVersoesTabelasHorarias().size());
         assertEquals("Status versão tabela horária antiga", StatusVersao.ARQUIVADO, versaoAntiga.getStatusVersao());
         assertEquals("Número de eventos", versaoAntiga.getTabelaHoraria().getEventos().size(), controladorClonado.getTabelaHoraria().getEventos().size());
+        versaoAntiga.getTabelaHoraria().getEventos().forEach(evento -> {
+            Evento eventoClonado = controladorClonado.getTabelaHoraria().getEventos().stream().filter(eventoClone -> eventoClone.getTipo().equals(evento.getTipo()) && eventoClone.getPosicao().equals(evento.getPosicao())).findFirst().orElse(null);
+            assertNotNull(eventoClonado);
+            assertEquals(evento.getDiaDaSemana(), eventoClonado.getDiaDaSemana());
+            assertEquals(evento.getHorario(), eventoClonado.getHorario());
+        });
 
         assertFields(controlador, controladorClonado);
 
@@ -121,6 +136,34 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             assertEquals("Teste Anel | Grupo Semaforicos", anel.getGruposSemaforicos().size(), anelClonado.getGruposSemaforicos().size());
             if (anel.isAtivo()) {
                 assertEquals("Teste anel | Planos", anel.getVersoesPlanos().get(0).getPlanos().size(), anelClonado.getPlanos().size());
+                anel.getVersoesPlanos().get(0).getPlanos().forEach(plano -> {
+                    Plano planoClonado = anelClonado.getPlanos().stream().filter(planoClone -> planoClone.getPosicao().equals(plano.getPosicao())).findFirst().orElse(null);
+                    assertNotNull(planoClonado);
+                    assertEquals("Teste anel | Planos: Descrição", plano.getDescricao(), planoClonado.getDescricao());
+                    assertEquals("Teste anel | Planos: Tempo Ciclo", plano.getTempoCiclo(), planoClonado.getTempoCiclo());
+                    assertEquals("Teste anel | Planos: Defasagem", plano.getDefasagem(), planoClonado.getDefasagem());
+                    assertEquals("Teste anel | Planos: Modo Operação", plano.getModoOperacao(), planoClonado.getModoOperacao());
+                    assertEquals("Teste anel | Planos | EstagioPlanos", plano.getEstagiosPlanos().size(), planoClonado.getEstagiosPlanos().size());
+                    plano.getEstagiosPlanos().forEach(estagioPlano -> {
+                        EstagioPlano epClonado = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getPosicao().equals(estagioPlano.getPosicao())).findFirst().orElse(null);
+                        assertNotNull(epClonado);
+                        assertEquals("Teste anel | Planos | EstagioPlanos: tempo verde", estagioPlano.getTempoVerde(), epClonado.getTempoVerde());
+                        assertEquals("Teste anel | Planos | EstagioPlanos: tempo verde mínimo", estagioPlano.getTempoVerdeMinimo(), epClonado.getTempoVerdeMinimo());
+                        assertEquals("Teste anel | Planos | EstagioPlanos: tempo verde máximo", estagioPlano.getTempoVerdeMaximo(), epClonado.getTempoVerdeMaximo());
+                        assertEquals("Teste anel | Planos | EstagioPlanos: tempo verde intermediário", estagioPlano.getTempoVerdeIntermediario(), epClonado.getTempoVerdeIntermediario());
+                        assertEquals("Teste anel | Planos | EstagioPlanos: dispensável", estagioPlano.isDispensavel(), epClonado.isDispensavel());
+                        if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
+                            EstagioPlano epQueRecebe = estagioPlano.getEstagioQueRecebeEstagioDispensavel();
+                            EstagioPlano epClonadoQueRecebe = epClonado.getEstagioQueRecebeEstagioDispensavel();
+                            assertNotNull(epClonadoQueRecebe);
+                            assertEquals("Teste anel | Planos | EstagioPlanos: estagio que recebe dispensavel (posição)", epQueRecebe.getPosicao(), epClonadoQueRecebe.getPosicao());
+                            assertEquals("Teste anel | Planos | EstagioPlanos: estagio que recebe dispensavel (tempo verde)", epQueRecebe.getTempoVerde(), epClonadoQueRecebe.getTempoVerde());
+                            assertEquals("Teste anel | Planos | EstagioPlanos: estagio que recebe dispensavel (tempo verde mínimo)", epQueRecebe.getTempoVerdeMinimo(), epClonadoQueRecebe.getTempoVerdeMinimo());
+                            assertEquals("Teste anel | Planos | EstagioPlanos: estagio que recebe dispensavel (tempo verde máximo)", epQueRecebe.getTempoVerdeMaximo(), epClonadoQueRecebe.getTempoVerdeMaximo());
+                            assertEquals("Teste anel | Planos | EstagioPlanos: estagio que recebe dispensavel (tempo verde intermediário)", epQueRecebe.getTempoVerdeIntermediario(), epClonadoQueRecebe.getTempoVerdeIntermediario());
+                        }
+                    });
+                });
             }
 
             if (anel.getEndereco() != null) {

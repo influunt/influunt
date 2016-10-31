@@ -246,14 +246,16 @@ public class ControladorUtil {
         });
 
         // Refazendo associacao estagio dispensavel planos
-        controladorClone.getAneis().forEach(anelClone -> {
-            anelClone.getPlanos().forEach(planoClone -> {
-                planoClone.getEstagiosPlanos().forEach(estagioPlanoClone -> {
-                    if (estagioPlanoClone.getEstagioQueRecebeEstagioDispensavel() != null) {
-                        EstagioPlano estagioPlanoAux = planoClone.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlanoClone.getIdJson())).findFirst().orElse(null);
-                        EstagioPlano estagioQueRecebeDispensavel = planoClone.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlanoClone.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null);
-                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(estagioQueRecebeDispensavel);
-                        Ebean.update(estagioPlanoAux);
+        controlador.getAneis().forEach(anel -> {
+            Anel anelClonado = controladorClone.getAneis().stream().filter(anelClone -> anelClone.getIdJson().equals(anel.getIdJson())).findFirst().orElse(null);
+            anel.getPlanos().forEach(plano -> {
+                Plano planoClonado = anelClonado.getPlanos().stream().filter(planoClone -> planoClone.getIdJson().equals(plano.getIdJson())).findFirst().orElse(null);
+                plano.getEstagiosPlanos().forEach(estagioPlano -> {
+                    if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
+                        EstagioPlano estagioPlanoClone = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+                        EstagioPlano epClonadoQueRecebe = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null);
+                        estagioPlanoClone.setEstagioQueRecebeEstagioDispensavel(epClonadoQueRecebe);
+                        Ebean.update(estagioPlanoClone);
                     }
                 });
             });
