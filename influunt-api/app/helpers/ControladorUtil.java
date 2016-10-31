@@ -22,7 +22,7 @@ import java.util.UUID;
  * Created by lesiopinheiro on 8/3/16.
  */
 @Singleton
-@SuppressWarnings({"ConstantConditions", "MismatchedQueryAndUpdateOfCollection", "Duplicates"})
+@SuppressWarnings({"ConstantConditions", "MismatchedQueryAndUpdateOfCollection"})
 public class ControladorUtil {
 
     private Provider<Application> provider;
@@ -35,7 +35,7 @@ public class ControladorUtil {
 
         long startTime = System.nanoTime();
 
-        Controlador controladorClone = copyPrimitveFields(controlador);
+        Controlador controladorClone = copyPrimitiveFields(controlador);
 
         /*
          * DADOS BASICOS
@@ -46,7 +46,7 @@ public class ControladorUtil {
         controladorClone.setSubarea(controlador.getSubarea());
 
         if (controlador.getEndereco() != null && controlador.getEndereco().getIdJson() != null) {
-            Endereco enderecoAux = copyPrimitveFields(controlador.getEndereco());
+            Endereco enderecoAux = copyPrimitiveFields(controlador.getEndereco());
             enderecoAux.setControlador(controladorClone);
             controladorClone.setEndereco(enderecoAux);
         }
@@ -56,20 +56,20 @@ public class ControladorUtil {
          */
         ArrayList<Anel> aneisClonados = new ArrayList<Anel>();
         controlador.getAneis().forEach(anel -> {
-            Anel anelClonado = copyPrimitveFields(anel);
+            Anel anelClonado = copyPrimitiveFields(anel);
             anelClonado.setControlador(controladorClone);
 
             anelClonado.setCroqui(getImagem(anel.getCroqui()));
 
             if (anel.getEndereco() != null && anel.getEndereco().getIdJson() != null) {
-                Endereco enderecoAux = copyPrimitveFields(anel.getEndereco());
+                Endereco enderecoAux = copyPrimitiveFields(anel.getEndereco());
                 enderecoAux.setAnel(anelClonado);
                 anelClonado.setEndereco(enderecoAux);
             }
 
             HashMap<UUID, Estagio> estagios = new HashMap<UUID, Estagio>();
             anel.getEstagios().forEach(estagio -> {
-                Estagio estagioAux = copyPrimitveFields(estagio);
+                Estagio estagioAux = copyPrimitiveFields(estagio);
                 estagioAux.setAnel(anelClonado);
                 estagioAux.setImagem(getImagem(estagio.getImagem()));
                 anelClonado.addEstagio(estagioAux);
@@ -82,7 +82,7 @@ public class ControladorUtil {
             */
             HashMap<UUID, GrupoSemaforico> gruposSemaforicos = new HashMap<UUID, GrupoSemaforico>();
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-                GrupoSemaforico grupoAux = copyPrimitveFields(grupoSemaforico);
+                GrupoSemaforico grupoAux = copyPrimitiveFields(grupoSemaforico);
                 grupoAux.setAnel(anelClonado);
                 anelClonado.addGruposSemaforicos(grupoAux);
                 gruposSemaforicos.put(grupoSemaforico.getId(), grupoAux);
@@ -93,7 +93,7 @@ public class ControladorUtil {
                 ArrayList<VerdesConflitantes> verdesOrigem = new ArrayList<VerdesConflitantes>();
 
                 grupoSemaforico.getVerdesConflitantesOrigem().forEach(verdesConflitantes -> {
-                    VerdesConflitantes verdesAux = copyPrimitveFields(verdesConflitantes);
+                    VerdesConflitantes verdesAux = copyPrimitiveFields(verdesConflitantes);
                     if (verdesConflitantes.getOrigem() != null) {
                         verdesAux.setOrigem(gruposSemaforicos.get(verdesConflitantes.getOrigem().getId()));
                     }
@@ -133,7 +133,7 @@ public class ControladorUtil {
             // Rodando novamente para montar a estagio grupo semaforico
             anel.getEstagios().forEach(estagio -> {
                 estagio.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> {
-                    EstagioGrupoSemaforico egsAux = copyPrimitveFields(estagioGrupoSemaforico);
+                    EstagioGrupoSemaforico egsAux = copyPrimitiveFields(estagioGrupoSemaforico);
                     Estagio estagioAux = estagiosClone.get(estagioGrupoSemaforico.getEstagio().getIdJson());
                     GrupoSemaforico gsAux = gruposClone.get(estagioGrupoSemaforico.getGrupoSemaforico().getIdJson());
                     egsAux.setEstagio(estagioAux);
@@ -144,7 +144,7 @@ public class ControladorUtil {
                 });
 
                 estagio.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> {
-                    TransicaoProibida transicaoProibidaAux = copyPrimitveFields(transicaoProibida);
+                    TransicaoProibida transicaoProibidaAux = copyPrimitiveFields(transicaoProibida);
                     Estagio estagioOrigemClone = estagiosClone.get(transicaoProibida.getOrigem().getIdJson());
                     transicaoProibidaAux.setOrigem(estagioOrigemClone);
                     estagioOrigemClone.addTransicaoProibidaOrigem(transicaoProibidaAux);
@@ -161,7 +161,7 @@ public class ControladorUtil {
 
                 HashMap<UUID, TabelaEntreVerdes> teAux = new HashMap<UUID, TabelaEntreVerdes>();
                 grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
-                    TabelaEntreVerdes tabelaEntreVerdesAux = copyPrimitveFields(tabelaEntreVerdes);
+                    TabelaEntreVerdes tabelaEntreVerdesAux = copyPrimitiveFields(tabelaEntreVerdes);
                     GrupoSemaforico grupoSemaforicoClone = gruposClone.get(tabelaEntreVerdes.getGrupoSemaforico().getIdJson());
                     tabelaEntreVerdesAux.setGrupoSemaforico(grupoSemaforicoClone);
                     grupoSemaforicoClone.addTabelaEntreVerdes(tabelaEntreVerdesAux);
@@ -170,19 +170,19 @@ public class ControladorUtil {
                 });
                 grupoSemaforico.getTransicoes().forEach(transicao -> {
                     GrupoSemaforico grupoSemaforicoAux = gruposClone.get(transicao.getGrupoSemaforico().getIdJson());
-                    Transicao transicaoAux = copyPrimitveFields(transicao);
+                    Transicao transicaoAux = copyPrimitiveFields(transicao);
                     transicaoAux.setOrigem(estagiosClone.get(transicao.getOrigem().getIdJson()));
                     transicaoAux.setDestino(estagiosClone.get(transicao.getDestino().getIdJson()));
                     transicaoAux.setGrupoSemaforico(grupoSemaforicoAux);
 
                     // TODO - O IDJSON do atraso de grupo nao esta sendo carregado via JSON Serializable/Deserializable
                     transicao.getAtrasoDeGrupo().getIdJson();
-                    AtrasoDeGrupo atrasoDeGrupoAux = copyPrimitveFields(transicao.getAtrasoDeGrupo());
+                    AtrasoDeGrupo atrasoDeGrupoAux = copyPrimitiveFields(transicao.getAtrasoDeGrupo());
                     atrasoDeGrupoAux.setTransicao(transicaoAux);
                     transicaoAux.setAtrasoDeGrupo(atrasoDeGrupoAux);
 
                     transicao.getTabelaEntreVerdesTransicoes().forEach(tabelaEntreVerdesTransicao -> {
-                        TabelaEntreVerdesTransicao tvt = copyPrimitveFields(tabelaEntreVerdesTransicao);
+                        TabelaEntreVerdesTransicao tvt = copyPrimitiveFields(tabelaEntreVerdesTransicao);
                         TabelaEntreVerdes te = teAux.get(tabelaEntreVerdesTransicao.getTabelaEntreVerdes().getId());
                         tvt.setTransicao(transicaoAux);
                         tvt.setTabelaEntreVerdes(te);
@@ -195,7 +195,7 @@ public class ControladorUtil {
             });
 
             anel.getDetectores().forEach(detector -> {
-                Detector detectorAux = copyPrimitveFields(detector);
+                Detector detectorAux = copyPrimitiveFields(detector);
                 Anel anelAux = aneisClone.get(detector.getAnel().getIdJson());
                 Estagio estagioAux = estagiosClone.get(detector.getEstagio().getIdJson());
                 detectorAux.setAnel(anelAux);
@@ -218,10 +218,10 @@ public class ControladorUtil {
                 novaVersao.setVersaoAnterior(versaoAntiga);
 
                 anel.getPlanos().forEach(plano -> {
-                    Plano planoClonado = copyPrimitveFields(plano);
+                    Plano planoClonado = copyPrimitiveFields(plano);
 
                     plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                        GrupoSemaforicoPlano gspClonado = copyPrimitveFields(grupoSemaforicoPlano);
+                        GrupoSemaforicoPlano gspClonado = copyPrimitiveFields(grupoSemaforicoPlano);
                         GrupoSemaforico gsClonado = gruposClone.get(grupoSemaforicoPlano.getGrupoSemaforico().getIdJson());
                         gspClonado.setGrupoSemaforico(gsClonado);
                         gspClonado.setPlano(planoClonado);
@@ -229,7 +229,7 @@ public class ControladorUtil {
                     });
 
                     plano.getEstagiosPlanos().forEach(estagioPlano -> {
-                        EstagioPlano estagioPlanoClonado = copyPrimitveFields(estagioPlano);
+                        EstagioPlano estagioPlanoClonado = copyPrimitiveFields(estagioPlano);
                         Estagio estagioClonado = estagiosClone.get(estagioPlano.getEstagio().getIdJson());
                         estagioPlanoClonado.setEstagio(estagioClonado);
                         estagioPlanoClonado.setPlano(planoClonado);
@@ -252,10 +252,7 @@ public class ControladorUtil {
                 Plano planoClonado = anelClonado.getPlanos().stream().filter(planoClone -> planoClone.getIdJson().equals(plano.getIdJson())).findFirst().orElse(null);
                 plano.getEstagiosPlanos().forEach(estagioPlano -> {
                     if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
-                        EstagioPlano estagioPlanoClone = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
-                        EstagioPlano epClonadoQueRecebe = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null);
-                        estagioPlanoClone.setEstagioQueRecebeEstagioDispensavel(epClonadoQueRecebe);
-                        Ebean.update(estagioPlanoClone);
+                        setarEstagioQueRecebeDispensavel(planoClonado, estagioPlano);
                     }
                 });
             });
@@ -264,23 +261,12 @@ public class ControladorUtil {
         // Clone de Tabela Horária
         VersaoTabelaHoraria versaoAntiga = controlador.getVersaoTabelaHorariaAtivaOuConfigurada();
         if (versaoAntiga != null && versaoAntiga.getTabelaHoraria() != null) {
-            TabelaHorario tabelaClonada = copyPrimitveFields(versaoAntiga.getTabelaHoraria());
+            TabelaHorario tabelaClonada = copyPrimitiveFields(versaoAntiga.getTabelaHoraria());
             tabelaClonada.setIdJson(UUID.randomUUID().toString());
             VersaoTabelaHoraria novaVersao = new VersaoTabelaHoraria(controladorClone, versaoAntiga.getTabelaHoraria(), tabelaClonada, usuario);
             tabelaClonada.setVersaoTabelaHoraria(novaVersao);
 
-            versaoAntiga.getTabelaHoraria().getEventos().forEach(evento -> {
-                Evento eventoClonado = copyPrimitveFields(evento);
-                eventoClonado.setIdJson(UUID.randomUUID().toString());
-                eventoClonado.setTabelaHorario(tabelaClonada);
-                eventoClonado.setDiaDaSemana(evento.getDiaDaSemana());
-                eventoClonado.setTipo(evento.getTipo());
-                eventoClonado.setHorario(evento.getHorario());
-                eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
-                eventoClonado.setData(evento.getData());
-                eventoClonado.setAgrupamento(evento.getAgrupamento());
-                tabelaClonada.addEvento(eventoClonado);
-            });
+            cloneEventos(versaoAntiga, tabelaClonada);
 
             versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
             versaoAntiga.update();
@@ -288,13 +274,7 @@ public class ControladorUtil {
         }
 
         //Atualizando IDJson de Planos
-        controladorClone.getAneis().forEach(anel -> {
-            anel.getPlanos().forEach(plano -> {
-                plano.getEstagiosPlanos().forEach(estagioPlano -> estagioPlano.setIdJson(UUID.randomUUID().toString()));
-                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> grupoSemaforicoPlano.setIdJson(UUID.randomUUID().toString()));
-                plano.setIdJson(UUID.randomUUID().toString());
-            });
-        });
+        atualizarIdJsonPlanos(controladorClone);
 
         //Atualizando IDJson
         controladorClone.getAneis().forEach(anel -> {
@@ -351,18 +331,18 @@ public class ControladorUtil {
                 novaVersao.setVersaoAnterior(versaoAntiga);
 
                 anel.getPlanos().forEach(plano -> {
-                    Plano planoAux = copyPrimitveFields(plano);
+                    Plano planoAux = copyPrimitiveFields(plano);
                     plano.setVersaoPlano(novaVersao);
 
                     plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-                        GrupoSemaforicoPlano gspAux = copyPrimitveFields(grupoSemaforicoPlano);
+                        GrupoSemaforicoPlano gspAux = copyPrimitiveFields(grupoSemaforicoPlano);
                         gspAux.setGrupoSemaforico(grupos.get(grupoSemaforicoPlano.getGrupoSemaforico().getIdJson()));
                         gspAux.setPlano(planoAux);
                         planoAux.addGruposSemaforicoPlano(gspAux);
                     });
 
                     plano.getEstagiosPlanos().forEach(estagioPlano -> {
-                        EstagioPlano estagioPlanoAux = copyPrimitveFields(estagioPlano);
+                        EstagioPlano estagioPlanoAux = copyPrimitiveFields(estagioPlano);
                         estagioPlanoAux.setEstagio(estagios.get(estagioPlano.getEstagio().getIdJson()));
                         estagioPlanoAux.setPlano(planoAux);
                         planoAux.addEstagios(estagioPlanoAux);
@@ -383,10 +363,7 @@ public class ControladorUtil {
             anel.getPlanos().forEach(plano -> {
                 plano.getEstagiosPlanos().forEach(estagioPlano -> {
                     if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
-                        EstagioPlano estagioPlanoAux = plano.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
-                        EstagioPlano estagioQueRecebeDispensavel = plano.getEstagiosPlanos().stream().filter(aux -> aux.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null);
-                        estagioPlanoAux.setEstagioQueRecebeEstagioDispensavel(estagioQueRecebeDispensavel);
-                        Ebean.update(estagioPlanoAux);
+                        setarEstagioQueRecebeDispensavel(plano, estagioPlano);
                     }
                 });
             });
@@ -395,36 +372,20 @@ public class ControladorUtil {
         // Clone de tabela horária
         VersaoTabelaHoraria versaoAntiga = controlador.getVersaoTabelaHorariaAtivaOuConfigurada();
         if (versaoAntiga != null && versaoAntiga.getTabelaHoraria() != null) {
-            TabelaHorario tabelaClonada = copyPrimitveFields(versaoAntiga.getTabelaHoraria());
+            TabelaHorario tabelaClonada = copyPrimitiveFields(versaoAntiga.getTabelaHoraria());
             tabelaClonada.setIdJson(UUID.randomUUID().toString());
             VersaoTabelaHoraria novaVersao = new VersaoTabelaHoraria(controlador, versaoAntiga.getTabelaHoraria(), tabelaClonada, usuario);
             tabelaClonada.setVersaoTabelaHoraria(novaVersao);
 
-            versaoAntiga.getTabelaHoraria().getEventos().forEach(evento -> {
-                Evento eventoClonado = copyPrimitveFields(evento);
-                eventoClonado.setIdJson(UUID.randomUUID().toString());
-                eventoClonado.setTabelaHorario(tabelaClonada);
-                eventoClonado.setDiaDaSemana(evento.getDiaDaSemana());
-                eventoClonado.setTipo(evento.getTipo());
-                eventoClonado.setHorario(evento.getHorario());
-                eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
-                eventoClonado.setData(evento.getData());
-                eventoClonado.setAgrupamento(evento.getAgrupamento());
-                tabelaClonada.addEvento(eventoClonado);
-            });
+            cloneEventos(versaoAntiga, tabelaClonada);
 
             versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
             controlador.addVersaoTabelaHoraria(novaVersao);
         }
 
         //Atualizando IDJson de Planos
-        controlador.getAneis().forEach(anel -> {
-            anel.getPlanos().forEach(plano -> {
-                plano.getEstagiosPlanos().forEach(estagioPlano -> estagioPlano.setIdJson(UUID.randomUUID().toString()));
-                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> grupoSemaforicoPlano.setIdJson(UUID.randomUUID().toString()));
-                plano.setIdJson(UUID.randomUUID().toString());
-            });
-        });
+        atualizarIdJsonPlanos(controlador);
+
         controlador.setBloqueado(true);
         Ebean.update(controlador);
 
@@ -437,23 +398,12 @@ public class ControladorUtil {
 
         VersaoTabelaHoraria versaoAntiga = controlador.getVersaoTabelaHorariaAtivaOuConfigurada();
         if (versaoAntiga != null && versaoAntiga.getTabelaHoraria() != null) {
-            TabelaHorario tabelaClonada = copyPrimitveFields(versaoAntiga.getTabelaHoraria());
+            TabelaHorario tabelaClonada = copyPrimitiveFields(versaoAntiga.getTabelaHoraria());
             tabelaClonada.setIdJson(UUID.randomUUID().toString());
             VersaoTabelaHoraria novaVersao = new VersaoTabelaHoraria(controlador, versaoAntiga.getTabelaHoraria(), tabelaClonada, usuario);
             tabelaClonada.setVersaoTabelaHoraria(novaVersao);
 
-            versaoAntiga.getTabelaHoraria().getEventos().forEach(evento -> {
-                Evento eventoClonado = copyPrimitveFields(evento);
-                eventoClonado.setIdJson(UUID.randomUUID().toString());
-                eventoClonado.setTabelaHorario(tabelaClonada);
-                eventoClonado.setDiaDaSemana(evento.getDiaDaSemana());
-                eventoClonado.setTipo(evento.getTipo());
-                eventoClonado.setHorario(evento.getHorario());
-                eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
-                eventoClonado.setData(evento.getData());
-                eventoClonado.setAgrupamento(evento.getAgrupamento());
-                tabelaClonada.addEvento(eventoClonado);
-            });
+            cloneEventos(versaoAntiga, tabelaClonada);
 
             versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
             controlador.addVersaoTabelaHoraria(novaVersao);
@@ -473,7 +423,7 @@ public class ControladorUtil {
             return null;
         }
         imagem.getFilename();
-        Imagem imagemAux = copyPrimitveFields(imagem);
+        Imagem imagemAux = copyPrimitiveFields(imagem);
         imagemAux.save();
 
         try {
@@ -495,7 +445,7 @@ public class ControladorUtil {
     }
 
 
-    private <T> T copyPrimitveFields(T obj) {
+    private <T> T copyPrimitiveFields(T obj) {
         try {
             T clone = (T) obj.getClass().newInstance();
             for (Field field : obj.getClass().getDeclaredFields()) {
@@ -525,6 +475,35 @@ public class ControladorUtil {
         return this;
     }
 
+    private void cloneEventos(VersaoTabelaHoraria versaoAntiga, TabelaHorario tabelaClonada) {
+        versaoAntiga.getTabelaHoraria().getEventos().forEach(evento -> {
+            Evento eventoClonado = copyPrimitiveFields(evento);
+            eventoClonado.setIdJson(UUID.randomUUID().toString());
+            eventoClonado.setTabelaHorario(tabelaClonada);
+            eventoClonado.setDiaDaSemana(evento.getDiaDaSemana());
+            eventoClonado.setTipo(evento.getTipo());
+            eventoClonado.setHorario(evento.getHorario());
+            eventoClonado.setPosicaoPlano(evento.getPosicaoPlano());
+            eventoClonado.setData(evento.getData());
+            eventoClonado.setAgrupamento(evento.getAgrupamento());
+            tabelaClonada.addEvento(eventoClonado);
+        });
+    }
 
+    private void atualizarIdJsonPlanos(Controlador controlador) {
+        controlador.getAneis().forEach(anel -> {
+            anel.getPlanos().forEach(plano -> {
+                plano.getEstagiosPlanos().forEach(estagioPlano -> estagioPlano.setIdJson(UUID.randomUUID().toString()));
+                plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> grupoSemaforicoPlano.setIdJson(UUID.randomUUID().toString()));
+                plano.setIdJson(UUID.randomUUID().toString());
+            });
+        });
+    }
+
+    private void setarEstagioQueRecebeDispensavel(Plano planoClonado, EstagioPlano estagioPlano) {
+        EstagioPlano estagioPlanoClone = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getIdJson().equals(estagioPlano.getIdJson())).findFirst().orElse(null);
+        EstagioPlano epClonadoQueRecebe = planoClonado.getEstagiosPlanos().stream().filter(ep -> ep.getIdJson().equals(estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson())).findFirst().orElse(null);
+        estagioPlanoClone.setEstagioQueRecebeEstagioDispensavel(epClonadoQueRecebe);
+        Ebean.update(estagioPlanoClone);
+    }
 }
-
