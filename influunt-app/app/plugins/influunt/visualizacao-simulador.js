@@ -9,6 +9,8 @@ var influunt;
         var game;
 
         velocidade = parseFloat(velocidade);
+        config.detectores_hash = {};
+        config.detectores.forEach(function(d) {config.detectores_hash["D" + d.tipo[0] + d.posicao] = d;});
 
         var quantidadeDeAneis = _.filter(config.aneis,function(a){return a.tiposGruposSemaforicos.length > 0;}).length;
         var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
@@ -37,9 +39,11 @@ var influunt;
         var descolamentoMaximo = 0;
         var relogio;
         var plano;
+        var data;
         var aneis = {};
         var client;
         var repeater;
+        var loadMoreRepeater;
         var started = false;
         var botoes = {};
         var estagios = {};
@@ -69,8 +73,8 @@ var influunt;
           game.load.spritesheet('veicular', '/images/simulador/sprite_veicular.png', 86, 25);
           game.load.spritesheet('estado', '/images/simulador/modos.png', 10, 25);
           game.load.spritesheet('controles', '/images/simulador/controles.png', 30, 26);
+          game.load.spritesheet('loading', '/images/simulador/loading.png', 200, 200);          
           game.load.image('grid', '/images/simulador/grid.png');
-          game.load.image('loading', '/images/raro_azul.png');
 
           config.aneis.forEach(function(anel,index){
             anel.estagios.forEach(function(estagio){
@@ -126,6 +130,10 @@ var influunt;
             estagios[estagio.name].visible = false;
           }
         }
+        
+        function disparoDetector(detector){
+          
+        }
 
         function estagioDown(estagio){
           if(estagios[estagio.name]){
@@ -140,30 +148,42 @@ var influunt;
         }
 
         function botaoPause(){
-          botoes.play.play('ON');
-          botoes.fastBackward.play('ON');
-          botoes.fastBackward.inputEnabled = true;
-          botoes.backward.inputEnabled = true;
-          botoes.foward.inputEnabled = true;
-          botoes.fastFoward.inputEnabled = true;
-          botoes.play.inputEnabled = true;
-
-          botoes.backward.play('ON');
-          botoes.export.play('ON');
-          botoes.log.play('ON');
-          botoes.fastFoward.play('ON');
-          botoes.foward.play('ON');
-          botoes.play.play('ON');
+          
+          Object.keys(botoes).forEach(function(botao){
+            if(!(botao == 'pause' ||  botoes[botao].name.startsWith("D") && !config.detectores_hash[botoes[botao].name])){
+              botoes[botao].inputEnabled = true;
+              botoes[botao].play('ON');            
+            }
+          });
+          
           botoes.pause.play('OFF');
-
           game.time.events.remove(repeater);
         }
 
+        function botaoDetector(detector){
+          if(config.detectores_hash[detector.name]){
+            var d = config.detectores_hash[detector.name];
+            var disparo = _.cloneDeep(inicioSimulacao);
+            disparo.add(tempo,"seconds");
+            var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo }
+
+            loadingGroup.visible = true;
+            intervalosGroup.children.forEach(function(c){c.destroy();});
+            eventosGroup.children.forEach(function(c){c.destroy();});
+
+            var message = new Paho.MQTT.Message(JSON.stringify(json));
+            message.destinationName = 'simulador/' + config.simulacaoId + '/detector';
+            client.send(message);
+            
+            game.time.events.remove(loadMoreRepeater);
+          }
+        }
+        
         function criaControles(){
 
-          var inicio = 375, y = 10;
+          var inicio = 185, y = 10;
 
-          [
+          var _botoes = [
               {nome: 'fastBackward',action: botaoFastBackward},
               {nome: 'backward',action: botaoBackward},
               {nome: 'play',action: botaoPlay},
@@ -171,12 +191,31 @@ var influunt;
               {nome: 'foward',action: botaoFoward},
               {nome: 'fastFoward',action: botaoFastFoward,incremento: 39},
               {nome: 'log',action: botaoLog},
-              {nome: 'export',action: botaoExport}
-          ].forEach(function(botaoSpec,index){
+              {nome: 'export',action: botaoExport, incremento: 39},
+              {nome: 'DV1',action: botaoDetector},            
+              {nome: 'DV2',action: botaoDetector},            
+              {nome: 'DV3',action: botaoDetector},            
+              {nome: 'DV4',action: botaoDetector},            
+              {nome: 'DV5',action: botaoDetector},            
+              {nome: 'DV6',action: botaoDetector},            
+              {nome: 'DV7',action: botaoDetector},            
+              {nome: 'DV8',action: botaoDetector , incremento: 39},                                                                                             
+              {nome: 'DP1',action: botaoDetector},            
+              {nome: 'DP2',action: botaoDetector},            
+              {nome: 'DP3',action: botaoDetector},            
+              {nome: 'DP4',action: botaoDetector}                                                      
+          ];
+
+          // config.detectores.forEach(function(dec){
+          //   _botoes.push({nome: dec.anel + '_' + dec.posicao + '_' + dec.tipo ,action: botaoDetector})
+          // });
+          
+          _botoes.forEach(function(botaoSpec,index){
             botoes[botaoSpec.nome] = game.add.sprite(inicio ,y , 'controles');
+            botoes[botaoSpec.nome].name = botaoSpec.nome;
             botoes[botaoSpec.nome].animations.add('HOVER', [index]);
-            botoes[botaoSpec.nome].animations.add('OFF', [index + 8]);
-            botoes[botaoSpec.nome].animations.add('ON', [index + 16]);
+            botoes[botaoSpec.nome].animations.add('OFF', [index + 20]);
+            botoes[botaoSpec.nome].animations.add('ON', [index + 40]);
             botoes[botaoSpec.nome].animations.play('OFF');
             botoes[botaoSpec.nome].inputEnabled = false;
             botoes[botaoSpec.nome].events.onInputOver.add(botaoOver,this);
@@ -191,23 +230,24 @@ var influunt;
             }
             grupoControles.add(botoes[botaoSpec.nome]);
           });
+          
         }
 
         function botaoPlay(){
+          
           botoes.pause.play('ON');
-          botoes.fastBackward.play('OFF');
-          botoes.fastBackward.inputEnabled = false;
-          botoes.backward.inputEnabled = false;
-          botoes.foward.inputEnabled = false;
-          botoes.fastFoward.inputEnabled = false;
-          botoes.backward.play('OFF');
-          botoes.export.play('OFF');
-          botoes.log.play('OFF');
-          botoes.fastFoward.play('OFF');
-          botoes.foward.play('OFF');
-          botoes.play.play('OFF');
+          botoes.play.inputEnabled = true;
+          
+          Object.keys(botoes).forEach(function(botao){
+            if(!(botao == 'pause' ||  botoes[botao].name.startsWith("D") && !config.detectores_hash[botoes[botao].name])){
+              botoes[botao].inputEnabled = false;
+              botoes[botao].play('OFF');            
+            }
+          });
+
           repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
+        
         function atualizaEstadosGruposSemaforicos(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
@@ -239,11 +279,13 @@ var influunt;
           planoSpec[2].forEach(function(modo,index){
             modos[index].setText(getModo(modo));
           })
+          var dataText = _.cloneDeep(inicioSimulacao).add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
+          data.setText(dataText);
         }
 
         function moveToLeft(){
           tempo += (velocidade);
-          relogio.setText(tempo + 's');
+          relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
           game.camera.x+=(10 * velocidade);
           atualizaEstadosGruposSemaforicos();
@@ -252,7 +294,7 @@ var influunt;
 
         function moveToRight(){
           tempo = Math.max(0,tempo - velocidade);
-          relogio.setText(tempo + 's');
+          relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();
@@ -634,9 +676,12 @@ var influunt;
           background.bounds = new PIXI.Rectangle(0, 0, 1000, 700);
           background.drawRect(0, 0, 1000, 700);
           var loading = game.add.sprite(500, 350, "loading");
+          loading.animations.add('loop', [0,1,2,3,2,1,0],3,true);
+          loading.play('loop');
           loading.anchor.set(0.5,0.5);
           loadingGroup.add(background);
           loadingGroup.add(loading);
+          loadingGroup.fixedToCamera = true;
         }
         
         function create() {
@@ -677,6 +722,9 @@ var influunt;
               processaEstagios(json.aneis);
               processaPlanos(json.trocas);
               loadingGroup.visible = false;
+              if(!loadMoreRepeater){
+                loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
+              } 
             }
           };
 
@@ -698,11 +746,17 @@ var influunt;
           relogio.anchor.set(1,0);
 
           style = { font: '15px Open Sans', fill: '#333' };
-          plano = game.add.text(10,40, 'Plano Atual:?', style);
+          plano = game.add.text(10,35, 'Plano Atual:?', style);
           plano.fixedToCamera = true;
           plano.anchor.set(0,1);
 
-          game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
+          style = { font: '12px Open Sans', fill: '#333' };
+          data = game.add.text(10,47, '?', style);
+          data.fixedToCamera = true;
+          data.anchor.set(0,1);
+
+
+          loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
           loadingGroup = game.add.group();
           criaLoading();
         }

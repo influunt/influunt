@@ -74,9 +74,10 @@ public abstract class Simulador implements MotorCallback {
         this.eventos.get(eventoMotor.getTimestamp()).add(eventoMotor);
     }
 
-    public Detector getDetector(TipoDetector tipoDetector, int detector) {
-        return controlador.getDetectores().stream()
-                .filter(detector1 -> detector1.getTipo().equals(tipoDetector) && detector1.getPosicao().equals(detector))
+    public Detector getDetector(int anel, TipoDetector tipoDetector, int detector) {
+        return controlador.getAneis().stream()
+                .filter(a -> a.getPosicao().equals(anel)).findFirst()
+                .get().getDetectores().stream().filter(detector1 -> detector1.getTipo().equals(tipoDetector) && detector1.getPosicao().equals(detector))
                 .findFirst().orElse(null);
     }
 
@@ -109,10 +110,11 @@ public abstract class Simulador implements MotorCallback {
     }
 
 
-    public void detectorAcionador(TipoDetector tipoDetector,DateTime disparo,int detector) {
+    public void detectorAcionador(int anel,TipoDetector tipoDetector,DateTime disparo,int detector) {
         ParametroSimulacaoDetector param = new ParametroSimulacaoDetector();
-        param.setDetector(getDetector(tipoDetector,detector));
+        param.setDetector(getDetector(anel,tipoDetector,detector));
         param.setDisparo(disparo);
-        this.parametros.getDetectores().add(new ParametroSimulacaoDetector());
+        this.parametros.getDetectores().add(param);
+        setup(dataInicioControlador, controlador, parametros);
     };
 }

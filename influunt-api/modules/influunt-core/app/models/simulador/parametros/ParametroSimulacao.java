@@ -143,6 +143,7 @@ public class ParametroSimulacao {
         sc.setControladorId(getControlador().getId().toString());
         sc.setSimulacaoId(getId().toString());
         List<SimulacaoConfig.AnelSimulacaoConfig> aneis = new ArrayList<>();
+        List<SimulacaoConfig.DetectorSimulacaoConfig> detectores = new ArrayList<>();
 
         getControlador().getAneis().stream()
                 .sorted((o1, o2) -> o1.getPosicao()
@@ -151,17 +152,26 @@ public class ParametroSimulacao {
             anelSimulacaoConfig.setNumero(anel.getPosicao());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
                     .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
-            anel.getEstagios().forEach( estagio -> {
+            anel.getEstagios().forEach(estagio -> {
                 anelSimulacaoConfig.getEstagios().add(new SimulacaoConfig.EstagioSimulacaoConfig(estagio.getPosicao(),
                         "api/v1/imagens/" + estagio.getImagem().getId() + "/thumb"));
             });
             aneis.add(anelSimulacaoConfig);
+
+            List<SimulacaoConfig.DetectorSimulacaoConfig> detectoresConfig = anel.getDetectores().stream().map(detector ->
+                    new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
+                            anel.getPosicao(),
+                            detector.getPosicao())).collect(Collectors.toList());
+
+            detectores.addAll(detectoresConfig);
+
         });
+
         sc.setAneis(aneis);
-        sc.setDetectores(getControlador().getDetectores().stream().map(detector ->
-                new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
-                                                            detector.getAnel().getPosicao(),
-                                                            detector.getPosicao())).collect(Collectors.toList()));
+
+
+        sc.setDetectores(detectores);
+
 
         return sc;
     }

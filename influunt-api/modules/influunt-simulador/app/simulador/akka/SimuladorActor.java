@@ -67,8 +67,9 @@ public class SimuladorActor extends UntypedActor {
                 JsonNode root = Json.parse(message.getPayload());
                 TipoDetector td = TipoDetector.valueOf(root.get("tipo").asText());
                 int posicao = root.get("posicao").asInt();
+                int anel = root.get("anel").asInt();
                 DateTime disparo = new DateTime(root.get("disparo").asLong());
-                detectorAcionador(td,disparo,posicao);
+                detectorAcionador(anel,td,disparo,posicao);
             });
 
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
@@ -81,9 +82,11 @@ public class SimuladorActor extends UntypedActor {
 
     }
 
-    private void detectorAcionador(TipoDetector tipoDetector, DateTime disparo, int detector) {
-        simulador.detectorAcionador(tipoDetector,disparo,detector);
+    private void detectorAcionador(int anel,TipoDetector tipoDetector, DateTime disparo, int detector) {
+        simulador.detectorAcionador(anel,tipoDetector,disparo,detector);
         pagina = 0;
+        trocasDePlanos.clear();
+        estagios.clear();
         proximaPagina();
     }
 
