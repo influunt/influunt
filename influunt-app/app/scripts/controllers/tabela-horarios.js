@@ -269,6 +269,8 @@ angular.module('influuntApp')
       atualizaDiagramaIntervalo = function () {
         var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
         $scope.plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
+        // alias necessária para o vis.
+        $scope.currentPlano = $scope.plano;
         if ($scope.plano) {
           var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.plano);
           var valoresMinimos = planoService.montaTabelaValoresMinimos($scope.objeto);
