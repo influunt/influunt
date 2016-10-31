@@ -176,6 +176,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
+        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde deve estar entre {min} e {max}")
     public boolean isTempoVerde() {
         if (getPlano().isTempoFixoIsolado() || getPlano().isTempoFixoCoordenado()) {
@@ -248,6 +252,17 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.")
+    public boolean isTempoVerdeMinimoFieldMenorMaximo() {
+        RangeUtils rangeUtils = RangeUtils.getInstance();
+        if (getPlano().isAtuado() &&
+                rangeUtils.TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) &&
+                rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
+            return getTempoVerdeMinimo() < getTempoVerdeMaximo();
+        }
+        return true;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo máximo de permanência.")
     public boolean isUltrapassaTempoMaximoPermanencia() {
         if (getEstagio().getTempoMaximoPermanenciaAtivado()) {
@@ -261,7 +276,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "não pode ficar em branco.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.")
     public boolean isEstagioQueRecebeEstagioDispensavel() {
         if (getPlano().isTempoFixoCoordenado() && isDispensavel()) {
             return getEstagioQueRecebeEstagioDispensavel() != null;
@@ -269,15 +284,19 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
-        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
-    }
-
-    @AssertTrue(groups = PlanosCheck.class, message = "deve ser o estágio anterior ou posterior ao estágio dispensável.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")
     public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
         if (getEstagioQueRecebeEstagioDispensavel() != null) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicao();
             return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio precisa estar associado a um detector para ser dispensável.")
+    public boolean isPodeSerEstagioDispensavel() {
+        if (isDispensavel()) {
+            return getEstagio().getDetector() != null;
         }
         return true;
     }
@@ -309,6 +328,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
                 "posicao=" + posicao +
                 ", estagio=E" + estagio.getPosicao() +
                 '}';
+    }
+    public EstagioPlano getEstagioPlanoAnterior() {
+        List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+        return getEstagioPlanoAnterior(listaEstagioPlanos);
     }
 
     public EstagioPlano getEstagioPlanoAnterior(List<EstagioPlano> listaEstagioPlanos) {

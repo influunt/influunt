@@ -653,8 +653,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         estagioPlano.setDispensavel(true);
 
         plano = criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 40);
-        criarEstagioPlano(anel, plano, 1, 1, 15, false);
-        criarEstagioPlano(anel, plano, 2, 2, 10, true);
+        criarEstagioPlano(anel, plano, 1, 1, 15, true);
+        criarEstagioPlano(anel, plano, 2, 2, 10, false);
 
         anel = getAnel(3);
         criaVersaoPlanos(anel);
@@ -662,7 +662,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
-        criarEstagioPlano(anel, plano, 4, 4, new int[]{10}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 12, 14, 11}, false);
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
@@ -738,17 +738,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         estagioPlano.setPosicao(posicao);
         estagioPlano.setPlano(plano);
         estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
-        if (tempos.length > 1) {
-            estagioPlano.setTempoVerdeMinimo(tempos[0]);
-            estagioPlano.setTempoVerdeIntermediario(tempos[1]);
-            estagioPlano.setTempoVerdeMaximo(tempos[2]);
-            estagioPlano.setTempoExtensaoVerde(tempos[3] / 10.0);
-        } else {
-            estagioPlano.setTempoVerdeMinimo(tempos[0]);
-            estagioPlano.setTempoVerdeIntermediario(tempos[0]);
-            estagioPlano.setTempoVerdeMaximo(tempos[0]);
-            estagioPlano.setTempoExtensaoVerde(1.0);
-        }
+        estagioPlano.setTempoVerdeMinimo(tempos[0]);
+        estagioPlano.setTempoVerdeIntermediario(tempos[1]);
+        estagioPlano.setTempoVerdeMaximo(tempos[2]);
+        estagioPlano.setTempoExtensaoVerde(tempos[3] / 10.0);
 
         estagioPlano.setDispensavel(dispensavel);
         plano.addEstagios(estagioPlano);
