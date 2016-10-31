@@ -1,5 +1,6 @@
 package models;
 
+import checks.ControladorAneisCheck;
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
@@ -236,8 +237,28 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @Transient
+    public boolean isManual() {
+        return Objects.nonNull(getModoOperacao()) && ModoOperacaoPlano.MANUAL.equals(getModoOperacao());
+    }
+
+    @JsonIgnore
+    @Transient
     public boolean isModoOperacaoVerde() {
         return Objects.nonNull(getModoOperacao()) && !ModoOperacaoPlano.APAGADO.equals(getModoOperacao()) && !ModoOperacaoPlano.INTERMITENTE.equals(getModoOperacao());
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.")
+    public boolean isNumeroEstagiosEmModoManualOk() {
+        if (isManual()) {
+            final int totalEstagios = getEstagiosPlanos().size();
+            return getAnel().getControlador().getAneis().stream()
+                    .filter(anel -> anel.isAtivo() && anel.isAceitaModoManual())
+                    .map(Anel::getPlanos)
+                    .flatMap(Collection::stream)
+                    .filter(plano -> plano != null && plano.isManual())
+                    .allMatch(plano -> plano.getEstagiosPlanos().size() == totalEstagios);
+        }
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -259,7 +280,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
-            return !(this.getEstagiosPlanos().size() != this.getEstagiosPlanos().stream().map(estagioPlano -> estagioPlano.getPosicao()).distinct().count());
+            return !(this.getEstagiosPlanos().size() != this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count());
         }
         return true;
     }

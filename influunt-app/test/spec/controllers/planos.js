@@ -793,6 +793,14 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.planoTemErro(2)).toBe(false);
         expect(scope.planoTemErro(3)).toBe(true);
       });
+
+      it('Deve pegar mensagem de erro de forma correta', function() {
+        scope.selecionaAnelPlanos(0);
+        scope.errors = {'aneis':[{'versoesPlanos':[{'planos':[null, {'numeroEstagiosEmModoManualOk':['Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}],'all':[{'planos':[{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']},null,{'ultrapassaTempoCiclo':['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']}]}]}]};
+        var erros = scope.getErrosPlanos(_.get(scope.errors, 'aneis[0].versoesPlanos[0]'));
+        expect(erros.length).toBe(1);
+        expect(erros[0]).toBe('Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.');
+      });
     });
 
     describe('testar limpar plano de um anel com plano exclusivo', function () {

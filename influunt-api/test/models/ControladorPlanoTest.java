@@ -598,6 +598,20 @@ public class ControladorPlanoTest extends ControladorTest {
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
+
+        plano1Anel2.setModoOperacao(ModoOperacaoPlano.MANUAL);
+        plano1Anel4.setModoOperacao(ModoOperacaoPlano.MANUAL);
+        erros = getErros(controlador);
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[0].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk"),
+                new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[1].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk")
+        ));
+
+        plano1Anel4.getEstagiosPlanos().remove(0);
+        plano1Anel4.getEstagiosPlanos().remove(1);
+
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
     }
 
     @Override
