@@ -4,6 +4,7 @@ describe('Controller: PlanosCtrl', function () {
   var PlanosCtrl,
       scope,
       $httpBackend,
+      $timeout,
       $q,
       $state,
       $controller,
@@ -11,12 +12,13 @@ describe('Controller: PlanosCtrl', function () {
       controladorId,
       anelId;
 
-  beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _$q_, _$state_) {
+  beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _$q_, _$state_, _$timeout_) {
     $httpBackend = _$httpBackend_;
     $q = _$q_;
     $state = _$state_;
     scope = $rootScope.$new();
     $controller = _$controller_;
+    $timeout = _$timeout_;
   }));
 
   var beforeEachFn = function(objControlador) {
@@ -277,6 +279,7 @@ describe('Controller: PlanosCtrl', function () {
         scope.currentPlano.modoOperacao = modo;
         scope.onChangeModoOperacao();
         scope.$apply();
+        $timeout.flush();
       };
 
       var isEstagioVeicular = function(controlador, estagioPlano) {
@@ -632,7 +635,7 @@ describe('Controller: PlanosCtrl', function () {
       it('Deve carregar o estagio atual e a lista de estágios alternativos para estágio dispensável', function() {
         var estagioPlano = sequenciaOriginal[1];
         var opcoesDisponiveis = [sequenciaOriginal[0], sequenciaOriginal[2]].map(function(ep) {
-          return _.find(scope.objeto.estagios, {idJson: ep.estagio.idJson}).idJson;
+          return ep.idJson;
         });
         scope.selecionaEstagioPlano(estagioPlano, 1);
         scope.$apply();
@@ -1008,5 +1011,105 @@ describe('Controller: PlanosCtrl', function () {
         expect(orderedIdJson).toEqual(orderedIdJsonVersoes);
       });
     });
+  });
+
+  describe('getErros', function () {
+    beforeEach(inject(function($timeout, handleValidations) {
+      beforeEachFn(ControladorComPlanos);
+      var error = [
+        {
+          "root": "Controlador",
+          "message": "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.",
+          "path": "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"
+        },
+        {
+          "root": "Controlador",
+          "message": "O estágio precisa estar associado a um detector para ser dispensável.",
+          "path": "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].podeSerEstagioDispensavel"
+        },
+        {
+          "root": "Controlador",
+          "message": "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.",
+          "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[1].estagioQueRecebeEstagioDispensavel"
+        },
+        {
+          "root": "Controlador",
+          "message": "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.",
+          "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[1].tempoVerdeMinimoFieldMenorMaximo"
+        },
+        {
+          "root": "Controlador",
+          "message": "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.",
+          "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[1].tempoVerdeIntermediarioFieldEntreMinimoMaximo"
+        },
+        {
+          "root": "Controlador",
+          "message": "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.",
+          "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"
+        },
+        {
+          "root": "Controlador",
+          "message": "Defasagem deve estar entre {min} e o tempo de ciclo",
+          "path": "aneis[0].versoesPlanos[0].planos[1].defasagem"
+        },
+        {
+          "root": "Controlador",
+          "message": "O tempo de verde está menor que o tempo de segurança configurado.",
+          "path": "aneis[0].versoesPlanos[0].planos[3].gruposSemaforicosPlanos[4].respeitaVerdesDeSeguranca"
+        },
+        {
+          "root": "Controlador",
+          "message": "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).",
+          "path": "aneis[0].versoesPlanos[0].planos[3].ultrapassaTempoCiclo"
+        }
+      ];
+
+      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+      scope.selecionaAnelPlanos(0);
+      scope.$apply();
+      $timeout.flush();
+    }));
+
+    it('Deve ter erro o anel 0 e não ter erro no anel 1', function() {
+      expect(scope.anelTemErro(0)).toBeTruthy();
+      expect(scope.anelTemErro(1)).toBeFalsy();
+    });
+
+    it('Deve ter erro para os planos 0 e 1 e não ter erro para o plano 2', function() {
+      expect(scope.planoTemErro(0)).toBeTruthy();
+      expect(scope.planoTemErro(1)).toBeTruthy();
+      expect(scope.planoTemErro(2)).toBeFalsy();
+    });
+
+    it('Deve existir um erro de defasagem no plano 1 e não existir no plano 0', function() {
+      expect(scope.erroDefasagem()).toBeFalsy();
+      scope.selecionaPlano(scope.currentPlanos[1], 1);
+      expect(scope.erroDefasagem()).toBeTruthy();
+      expect(scope.erroDefasagem()[0]).toBe("Defasagem deve estar entre 0 e o tempo de ciclo");
+    });
+
+    it('Deve existir erros em estagios planos', function() {
+      scope.selecionaPlano(scope.currentPlanos[0], 0);
+      expect(scope.getErrosEstagiosPlanos(0)).toBeTruthy();
+      expect(scope.getErrosEstagiosPlanos(0).tempoVerdeMinimoFieldMenorMaximo[0]).toBe('O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.');
+      expect(scope.getErrosEstagiosPlanos(1)).toBeTruthy();
+      expect(scope.getErrosEstagiosPlanos(1).estagioQueRecebeEstagioDispensavel[0]).toBe('O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.');
+      expect(scope.getErrosEstagiosPlanos(1).tempoVerdeMinimoFieldMenorMaximo[0]).toBe('O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.');
+      expect(scope.getErrosEstagiosPlanos(1).tempoVerdeIntermediarioFieldEntreMinimoMaximo[0]).toBe('O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.');
+      expect(scope.getErrosEstagiosPlanos(2)).toBeFalsy();
+    });
+    
+    it('Deve existir erros no plano', function() {
+      scope.selecionaPlano(scope.currentPlanos[2], 2);
+      var erros = scope.errors.aneis[0].versoesPlanos[0];
+      expect(scope.getErrosPlanos(erros).length).toBe(2);
+      expect(scope.getErrosPlanos(erros)[0]).toBe('G4 - O tempo de verde está menor que o tempo de segurança configurado.');
+      expect(scope.getErrosPlanos(erros)[1]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
+
+      var estagioPlano = scope.currentEstagiosPlanos[0];
+      estagioPlano.tempoEstagio = 15;
+      expect(scope.getErrosPlanos(erros)[1]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
+    });
+
   });
 });
