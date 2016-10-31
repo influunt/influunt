@@ -28,37 +28,63 @@ INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `area_i
                        ('2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'root',    '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br',   'Administrador Geral', true,  @AreaId, @PerfilAdministradorId, NOW(), NOW());
 
 
--- Permissões no APP
+
+-- # Permissões no APP
 SET @listarControladoresId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@listarControladoresId, 'listarControladores', '[Programação] Ver Controladores Cadastrados', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@listarControladoresId, 'listarControladores', '[Programação] - Ver Controladores Cadastrados', 'Ver lista de controladores cadastrados. A lista de controladores é a que é mostrada ao clicar no link "Programação". Se o usuário não tiver essa permissão, o link "Programação" é escondido do usuário.', NOW(), NOW());
+
 SET @visualizarControladorId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@visualizarControladorId, 'verControlador', '[Programação] Ver Detalhes de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@visualizarControladorId, 'verControlador', '[Programação] - Ver Detalhes do Status dos Controladores', 'Permissão para que o usuário consiga acessar a tela com os detalhes de programação de um controlador. Sem essa permissão usuário não irá visualizar o botão “Configuração”.', NOW(), NOW());
+
 SET @criarControladorId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@criarControladorId, 'criarControlador', '[Programação] Criar Novos Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@criarControladorId, 'criarControlador', '[Programação] - Criar e editar Controladores', 'Criar/Editar controladores. Se o usuário não tiver esta permissão, o botão "+Novo" é escondido do usuário na tela de listagem de controladores e não poderá editar controladores.',NOW(), NOW());
+
 SET @verNoMapaId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@verNoMapaId, 'verNoMapa', '[Programação] Ver Controladores no Mapa', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@verNoMapaId, 'verNoMapa', '[Programação] - Ver Controladores no Mapa', 'O usuário com esta permissão pode acessar a visualização no mapa dos controladores cadastrados. Se o usuário não tiver essa permissão, o botão "Ver no mapa" é escondido do usuário e ele não terá acesso.', NOW(), NOW());
+
 SET @verPlanosId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@verPlanosId, 'verPlanos', '[Programação] Ver Planos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@verPlanosId, 'verPlanos', '[Programação] - Ver Planos', 'O usuário com essa permissão pode ver os planos cadastrados no sistema. Se o usuário não tiver essa permissão, o botão "Planos" é escondido do usuário e não irá ter acesso.', NOW(), NOW());
+
 SET @criarPlanosId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@criarPlanosId, 'criarPlanos', '[Programação] Criar Planos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@criarPlanosId, 'criarPlanos', '[Programação] - Criar e editar Planos', 'Criar/Editar planos no sistema. Se o usuário não tiver essa permissão, os botões "Editar" e “Novo”  serão escondidos do usuário, e não irá ter acesso.', NOW(), NOW());
+
 SET @verTabelaHorariaId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@verTabelaHorariaId, 'verTabelaHoraria', '[Programação] Ver Tabelas Horárias', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@verTabelaHorariaId, 'verTabelaHoraria', '[Programação] - Ver Tabelas Horárias', 'O usuário com essa permissão pode ver as tabelas horárias cadastradas no sistema. Se o usuário não tiver essa permissão, o botão "Tabelas Horárias" é escondido do usuário.', NOW(), NOW());
+
 SET @criarTabelaHorariaId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@criarTabelaHorariaId, 'criarTabelaHoraria', '[Programação] Criar Tabelas Horárias', NOW(), NOW());
-SET @CriarAgrupamentoId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@CriarAgrupamentoId, 'criarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@criarTabelaHorariaId, 'criarTabelaHoraria', '[Programação] - Criar e editar Tabelas Horárias', 'Criar/Editar tabelas horárias no sistema. Se o usuário não tiver essa permissão, o botão "Editar" é escondido do usuário.', NOW(), NOW());
+
+SET @EditarUsuariosId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@EditarUsuariosId, 'editarUsuarios', '[Usuários] - Editar Usuários', 'Editar usuários no sistema. Se o usuário não tiver essa permissão, o botão "Editar" é escondido do usuário.', NOW(), NOW());
+
 SET @DefinirPermissoesId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@DefinirPermissoesId, 'definirPermissoes', '[Perfis] - Definir as permissões dos perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@DefinirPermissoesId, 'definirPermissoes', '[Perfis] - Definir as permissões dos perfis', 'O usuário com essa permissão pode definir as permissões dos perfis cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Definir Permissões" é escondido.', NOW(), NOW());
+
+SET @CriarAgrupamentoId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@CriarAgrupamentoId, 'criarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos', 'Criar novos agrupamentos (rotas e corredores) no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido e ele não terá acesso.', NOW(), NOW());
+
 
 
 -- # CRUD Cidades
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/cidades', '[Cidade] - Listar Cidades', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/cidades', '[Cidade] - Ver lista de cidades', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarCidades', '[Cidade] - Listar Cidades', NOW(), NOW());
+INSERT INTO `permissoes_app`  (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarCidades', '[Cidade] - Ver a lista de Cidades', 'O usuário com essa permissão pode ver a lista de cidades cadastradas no sistema. Se o usuário não tiver essa permissão o link "Cidades" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -66,7 +92,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarCidades', '[Cidade] - Criar Cidades', NOW(), NOW());
+INSERT INTO `permissoes_app`  (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarCidades', '[Cidade] - Criar Cidades', 'O usuário com essa permissão pode criar novas cidades no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -74,7 +101,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarCidades', '[Cidade] - Editar Cidades', NOW(), NOW());
+INSERT INTO `permissoes_app`  (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarCidades', '[Cidade] - Editar Cidades','O usuário com essa permissão pode alterar os dados de cidades cadastradas no sistema.  Se o usuário não tiver essa permissão o botão "Editar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -82,27 +110,33 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarCidades', '[Cidade] - Ver Detalhes de Cidades', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarCidades', '[Cidade] - Ver Detalhes de Cidades', 'O usuário com essa permissão pode ver todos os dados relativos às cidades cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/cidades/$id<[^/]+>', '[Cidade] - Remover Cidade', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/cidades/$id<[^/]+>', '[Cidade] - Excluir Cidade', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerCidades', '[Cidade] - Remover Cidades', NOW(), NOW());
+INSERT INTO `permissoes_app`  (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'removerCidades', '[Cidade] - Excluir Cidades', 'O usuário com essa permissão pode remover do banco de dados as cidades cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+
 
 
 -- # CRUD Areas
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/areas', '[Área] - Listar Áreas', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/areas', '[Área] - Ver a lista de Áreas', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarAreas', '[Área] - Listar Áreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarAreas', '[Área] - Ver a lista de Áreas','O usuário com essa permissão pode ver a lista de áreas cadastradas no sistema. Se o usuário não tiver essa permissão o link "Áreas" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@EditarUsuariosId, @PermissaoId);
 
 
 Set @PermissaoId = RANDOM_UUID();
@@ -110,7 +144,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarAreas', '[Área] - Criar Áreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarAreas', '[Área] - Criar Áreas','O usuário com essa permissão pode criar novas áreas no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -119,7 +154,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarAreas', '[Área] - Editar Áreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarAreas', '[Área] - Editar Áreas', 'O usuário com essa permissão pode alterar os dados de áreas cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Editar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -128,7 +164,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarAreas', '[Área] - Ver Detalhes de Áreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarAreas', '[Área] - Ver Detalhes de Áreas', 'O usuário com essa permissão pode ver todos os dados relativos às áreas cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -137,7 +174,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerAreas', '[Área] - Remover Áreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'removerAreas', '[Área] - Excluir Áreas', 'O usuário com essa permissão pode excluir do banco de dados as áreas cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.',NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -147,11 +185,12 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 -- # CRUD Subareas
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/subareas', '[Subárea] - Listar Subárea', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/subareas', '[Subárea] - Ver Lista de SubáreasListar Subárea', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarSubareas', '[Subárea] - Listar Subáreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarSubareas', '[Subárea] - Ver Lista de Subáreas', 'O usuário com essa permissão pode ver a lista de subáreas cadastradas no sistema. Se o usuário não tiver essa permissão o link "Subáreas" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@CriarAgrupamentoId, @PermissaoId);
 
@@ -160,7 +199,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarSubareas', '[Subárea] - Criar Subáreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarSubareas', '[Subárea] - Criar Subáreas', 'O usuário com essa permissão pode criar novas subáreas no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -168,7 +208,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarSubareas', '[Subárea] - Editar Subáreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarSubareas', '[Subárea] - Editar Subáreas','O usuário com essa permissão pode alterar os dados de subáreas cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Editar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -176,7 +217,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarSubareas', '[Subárea] - Ver Detalhes de Subáreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarSubareas', '[Subárea] - Ver Detalhes de Subáreas', 'O usuário com essa permissão pode ver todos os dados relativos às subáreas cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -184,7 +226,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerSubareas', '[Subárea] - Remover Subáreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'removerSubareas', '[Subárea] - Excluir Subáreas', 'O usuário com essa permissão pode excluir do banco de dados as subáreas cadastradas no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -197,7 +240,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarFabricantes', '[Fabricante] - Listar Fabricantes', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarFabricantes', '[Fabricante] - Ver a lista de Fabricantes', 'O usuário com essa permissão pode ver a lista de fabricantes cadastrados no sistema. Se o usuário não tiver essa permissão o link "Fabricantes" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -206,7 +250,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarFabricantes', '[Fabricante] - Criar Fabricantes', NOW(), NOW());
+INSERT INTO `permissoes_app`(`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarFabricantes', '[Fabricante] - Criar Fabricantes', 'O usuário com essa permissão pode criar novos fabricantes no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -215,7 +260,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarFabricantes', '[Fabricante] - Editar Fabricantes', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarFabricantes', '[Fabricante] - Editar Fabricantes','O usuário com essa permissão pode alterar os dados de fabricantes cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Editar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -224,7 +270,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarFabricantes', '[Fabricante] - Ver Detalhes de Fabricantes', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarFabricantes', '[Fabricante] - Ver Detalhes de Fabricantes', 'O usuário com essa permissão pode ver todos os dados relativos aos fabricantes cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -233,7 +280,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerFabricantes', '[Fabricante] - Remover Fabricantes', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'removerFabricantes', '[Fabricante] - Excluir Fabricantes', 'O usuário com essa permissão pode apagar do banco de dados os fabricantes cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -246,7 +294,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarModelos', '[Modelo Controlador] - Listar Modelos de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarModelos', '[Modelo Controlador] - Ver a lista de  Modelos de Controladores', 'O usuário com essa permissão pode ver a lista de modelos de controladores cadastrados no sistema. Se o usuário não tiver essa permissão o link "Modelo de Controladores" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -254,7 +303,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarModelos', '[Modelo Controlador] - Criar Modelos de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarModelos', '[Modelo Controlador] - Criar Modelos de Controladores', 'O usuário com essa permissão pode criar novos modelos de controladores no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -262,7 +312,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarModelos', '[Modelo Controlador] - Editar Modelos de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarModelos', '[Modelo Controlador] - Editar Modelos de Controladores', 'O usuário com essa permissão pode alterar os dados de modelos de controladores cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Editar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -270,7 +321,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarModelos', '[Modelo Controlador] - Ver Detalhes de Modelos de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarModelos', '[Modelo Controlador] - Ver Detalhes de Modelos de Controladores', 'O usuário com essa permissão pode ver todos os dados relativos aos modelos de controladores cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -278,7 +330,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerModelos', '[Modelo Controlador] - Remover Modelos de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+   (@permAppId, 'removerModelos', '[Modelo Controlador] - Exlcuir Modelos de Controladores', 'O usuário com essa permissão pode excluir do banco de dados os modelos de controladores cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -291,24 +344,26 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarAgrupamentos', '[Agrupamentos] - Listar Agrupamentos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarAgrupamentos', '[Agrupamentos] - Ver a lista de Agrupamentos', 'O usuário com essa permissão pode ver a lista de agrupamentos cadastrados no sistema. Se o usuário não tiver essa permissão o link "Agrupamentos" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/agrupamentos', '[Agrupamento] - Criar Novo Agrupamento', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@CriarAgrupamentoId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarAgrupamentos', '[Agrupamentos] - Criar Agrupamentos','O usuário com essa permissão pode criar novos agrupamentos no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@CriarAgrupamentoId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'PUT /api/v1/agrupamentos/$id<[^/]+>', '[Agrupamento] - Editar Agrupamento', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarAgrupamentos', '[Agrupamentos] - Editar Agrupamentos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarAgrupamentos', '[Agrupamentos] - Editar Agrupamentos', 'O usuário com essa permissão pode alterar os dados de agrupamentos cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Editar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -316,7 +371,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarAgrupamentos', '[Agrupamentos] - Ver Detalhes de Agrupamentos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarAgrupamentos', '[Agrupamentos] - Ver Detalhes de Agrupamentos', 'O usuário com essa permissão pode ver todos os dados relativos aos agrupamentos cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -324,7 +380,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerAgrupamentos', '[Agrupamentos] - Remover Agrupamentos', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`)
+  VALUES (@permAppId, 'removerAgrupamentos', '[Agrupamentos] - Excluir Agrupamentos', 'O usuário com essa permissão pode excluir do banco de dados os agrupamentos cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -360,7 +417,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarUsuarios', '[Usuários] - Listar Usuários', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarUsuarios', '[Usuários] - Ver a Lista de Usuários', 'O usuário com essa permissão pode ver a lista de usuários cadastrados no sistema. Se o usuário não tiver essa permissão o link "Usuários" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -368,7 +426,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarUsuarios', '[Usuários] - Criar Usuários', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarUsuarios', '[Usuários] - Criar Usuários', 'O usuário com essa permissão pode criar novos usuários no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -376,23 +435,25 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarUsuarios', '[Usuários] - Editar Usuários', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@EditarUsuariosId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/usuarios/$id<[^/]+>', '[Usuário] - Exibir um Usuário', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarUsuarios', '[Usuários] - Ver Detalhes de Usuários', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarUsuarios', '[Usuários] - Ver Detalhes de Usuários', 'O usuário com essa permissão pode ver todos os dados relativos aos usuários cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@EditarUsuariosId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/usuarios/$id<[^/]+>', '[Usuário] - Remover Usuários', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerUsuarios', '[Usuários] - Remover Usuários', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'removerUsuarios', '[Usuários] - Excluir Usuários', 'O usuário com essa permissão pode apagar do banco de dados os usuários cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -400,7 +461,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'verLogAcessoUsuarios', '[Usuários] - Ver Log de Acesso de Usuários', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'verLogAcessoUsuarios', '[Usuários] - Ver Log de Acesso de Usuários', 'O usuário com essa permissão pode ver o log de acesso dos usuários cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Log de Acesso" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -411,43 +473,51 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/perfis', '[Perfil] - Listar Perfis', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarPerfis', '[Perfis] - Ver a lista de Perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarPerfis', '[Perfis] - Ver a lista de Perfis', 'O usuário com essa permissão pode ver a lista de perfis cadastrados no sistema. Se o usuário não tiver essa permissão o link "Perfis" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@EditarUsuariosId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/perfis', '[Perfil] - Criar Novo Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarPerfis', '[Perfis] - Criar Perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'criarPerfis', '[Perfis] - Criar Perfis', 'O usuário com essa permissão pode criar novos perfis no sistema. Se o usuário não tiver essa permissão o botão "+Novo" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
--- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'PUT /api/v1/perfis/$id<[^/]+>', '[Perfil] - Editar Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
--- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarPerfis', '[Perfis] - Editar Perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarPerfis', '[Perfis] - Editar Perfis', 'O usuário com essa permissão pode ver todos os dados relativos aos perfis cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
--- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/perfis/$id<[^/]+>', '[Perfil] - Exibir Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarPerfis', '[Perfis] - Ver Detalhes de Perfis', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
--- INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
+
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/perfis/$id<[^/]+>', '[Perfil] - Remover Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerPerfis', '[Perfis] - Excluir Perfis', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'removerPerfis', '[Perfis] - Excluir Perfis', 'O usuário com essa permissão pode excluir do banco de dados os perfis cadastrados no sistema. Se o usuário não tiver essa permissão o botão "Excluir" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
 
 -- # CRUD Permissões
 
@@ -455,41 +525,27 @@ Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/permissoes', '[Permissão] - Listar Permissão', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarPermissoes', '[Permissões] - Listar Permissões', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/permissoes', '[Permissão] - Criar Nova Permissão', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'criarPermissoes', '[Permissões] - Criar Permissões', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'PUT /api/v1/permissoes/$id<[^/]+>', '[Permissão] - Editar Permissão', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarPermissoes', '[Permissões] - Editar Permissões', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/permissoes/$id<[^/]+>', '[Permissão] - Exibir Permissão', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarPermissoes', '[Permissões] - Ver Detalhes de Permissões', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/permissoes/$id<[^/]+>', '[Permissão] - Remover Permissão', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'removerPermissoes', '[Permissões] - Remover Permissões', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
 
@@ -587,7 +643,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEng
 
 -- TODO: verificar onde essa rota é usada
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/$id<[^/]+>/editar_tabela_horaria', '[Controladores] - Editar Tabela Horária', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/$id<[^/]+>/editar_tabelas_horarias', '[Controladores] - Editar Tabela Horária', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
@@ -697,6 +753,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEng
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarPlanosId, @PermissaoId);
 
 
+
 -- #Tabela Horária
 
 Set @PermissaoId = RANDOM_UUID();
@@ -756,11 +813,12 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 -- # Auditorias
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/auditorias', '[Auditoria] - Listar Auditorias', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/auditorias', '[Auditoria] - Ver a lista de modificações (Auditoria)', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'listarAuditorias', '[Auditoria] - Listar Auditorias', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'listarAuditorias', '[Auditoria] - Ver a lista de modificações (Auditoria)', 'O usuário com essa permissão pode ver a lista de modificações nas entidades cadastradas no sistema. Se o usuário não tiver essa permissão o menu "Auditoria" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -768,7 +826,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarAuditorias', '[Auditoria] - Ver Detalhes de Auditorias', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarAuditorias', '[Auditoria] - Ver Detalhes das modificações (Auditoria)', 'O usuário com essa permissão pode ver os detalhes das modificações realizadas no sistema. Se o usuário não tiver essa permissão o botão "Visualizar" é escondido.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -780,7 +839,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarFaixasDeValores', '[Faixas de Valores] - Ver Faixas de Valores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarFaixasDeValores', '[Faixas de Valores] - Ver Faixas de Valores', 'O usuário com essa permissão pode ver os limites cadastrados especificados para os valores utilizados na parâmetros da programação. Se o usuário não tiver essa permissão o link "Faixas de Valores" não é mostrado dentro do menu "Cadastros".', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -788,7 +848,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'editarFaixasDeValores', '[Faixas de Valores] - Editar Faixas de Valores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'editarFaixasDeValores', '[Faixas de Valores] - Editar Faixas de Valores', 'O usuário com essa permissão pode alterar os limites cadastrados especificados para os valores utilizados na parâmetros da programação. Se o usuário não tiver essa permissão a edição dos valores fica bloqueada.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -872,7 +933,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarStatusControladores', '[Dashboard] - Ver Status dos Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app`(`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarStatusControladores', '[Dashboard] - Ver Status dos Controladores', 'O usuário com essa permissão pode acessar o dashboard com os status dos controladores em operação.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -880,7 +942,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarStatusControladoresOnline', '[Dashboard] - Ver Controladores Online', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarStatusControladoresOnline', '[Dashboard] - Ver a lista de Controladores Online', 'O usuário com essa permissão pode acessar a lista com os controladores onlines no momento.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -888,7 +951,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarStatusControladoresOffline', '[Dashboard] - Ver Controladores Offline', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarStatusControladoresOffline', '[Dashboard] - Ver a lista de Controladores Offline', 'O usuário com essa permissão pode acessar a lista com os controladores offlines no momento.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
@@ -896,7 +960,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarDetalhesControlador', '[Dashboard] - Ver Detalhes dos Controladores', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarDetalhesControlador', '[Dashboard] - Ver Detalhes do Status dos Controladores', 'O usuário com essa permissão pode acessar ver os detalhes do status de um controlador.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -953,5 +1018,56 @@ Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'visualizarTodasAreas', '[Administração] - Visualizar todas as Areas', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `data_criacao`, `data_atualizacao`) VALUES (@permAppId, 'visualizarTodasAreas', '[Administração] - Visualizar Todas as Áreas', NOW(), NOW());
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarTodasAreas', '[Administração] - Visualizar Todas as Áreas', 'O usuário com essa permissão pode ver os dados relativos a todas as áreas cadastradas. Sem essa permissão o usuário somente vê os dados associados com a sua área.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+
+-- # Permissao Relatorios
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/auditoria', '[Relatórios] - Relatório de Auditoria', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'gerarRelatorioAuditorias', '[Relatórios] - Gerar Relatórios Auditoria', 'O usuário com essa permissão pode gerar relatórios de auditoria.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controladores_status', '[Relatórios] - Relatório de Controladores por Status', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'gerarRelatorioControladoresStatus', '[Relatórios] - Gerar Relatórios Controladores por Status', 'O usuário com essa permissão pode gerar relatórios de controladores por status.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controladores_falhas', '[Relatórios] - Relatório de Controladores por Falhas', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'gerarRelatorioControladoresFalhas', '[Relatórios] - Gerar Relatórios Controladores por Falhas', 'O usuário com essa permissão pode gerar relatórios de controladores por falhas.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controladores_entreverdes', '[Relatórios] - Relatório de Controladores com Atualizações Entreverdes', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'gerarRelatorioControladoresEntreverdes', '[Relatórios] - Gerar Relatórios Controladores com Atualizações Entreverdes', 'O usuário com essa permissão pode gerar relatórios de controladores com atualizações entreverdes.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+-- # Permissao Simulação
+Set @SimularId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@SimularId, 'simularControlador', '[Simulação] - Simular Funcionamento de Controlador', 'O usuário com essa permissão pode realizar a simulação de um controlador.', NOW(), NOW());
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/$id<[^/]+>/simulacao', '[Controladores] - Listar controladores para simulação', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@SimularId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/simulacao', '[Simulação] - Simular Funcionamento de Controlador', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@SimularId, @PermissaoId);

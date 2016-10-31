@@ -18,6 +18,11 @@
                       <tr>
                         <th></th>
                         <th sortable-th
+                          data-name="permissao"
+                          data-label="{{ 'perfis.permissoes.nome' | translate }}"
+                          data-ng-click="show()">
+                        </th>
+                        <th sortable-th
                           data-name="descricao"
                           data-label="{{ 'perfis.permissoes.descricao' | translate }}"
                           data-ng-click="show()">
@@ -34,6 +39,7 @@
                                  data-if-unchecked="atualizarPermissoes()">
                         </td>
                         <td>{{ role.nome }}</td>
+                        <td>{{ role.descricao }}</td>
                       </tr>
                     </tbody>
                   </table>
