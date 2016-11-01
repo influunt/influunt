@@ -762,6 +762,7 @@ var influunt;
         }
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
+        return game;
       }
       return Simulador;
     }());
