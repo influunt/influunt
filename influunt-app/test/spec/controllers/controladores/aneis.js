@@ -163,10 +163,22 @@ describe('Controller: ControladoresAneisCtrl', function () {
       scope.objeto = {
         aneis: [
           {idJson: 'anel-1',ativo: true, posicao: 1, enderecos: [{idJson: 'e1'},{idJson: 'e2'}]},
-          {idJson: 'anel-2',ativo: true, enderecos: [{idJson: 'e3'},{idJson: 'e4'}]},
+          {
+            idJson: 'anel-2',
+            ativo: true,
+            endereco: {idJson: 'e3'},
+            estagios: [{idJson: 'e1'}],
+            gruposSemaforicos: [{idJson: 'gs1'}],
+            detectores: [{idJson: 'd1'}],
+            planos: [{idJson: 'p1'}]
+          },
           {idJson: 'anel-3',ativo: false}
         ],
-        todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}]
+        todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}],
+        estagios: [{idJson: 'e1'}],
+        gruposSemaforicos: [{idJson: 'gs1'}],
+        detectores: [{idJson: 'd1'}],
+        planos: [{idJson: 'p1'}]
       };
       scope.aneis = scope.objeto.aneis;
       scope.desativarUltimoAnel();
@@ -177,8 +189,13 @@ describe('Controller: ControladoresAneisCtrl', function () {
       expect(scope.objeto.aneis[1].ativo).not.toBeTruthy();
     });
 
-    it('O anel desativado não deverá ter registro de enderecos.', function() {
-      expect(scope.objeto.aneis[1].enderecos).not.toBeDefined();
+    it('O anel deverá ter quaisquer configurações anteriores deletadas', function() {
+      expect(scope.objeto.aneis[1].ativo).toBeFalsy();
+      expect(scope.objeto.aneis[1].estagios).toEqual([]);
+      expect(scope.objeto.aneis[1].gruposSemaforicos).toEqual([]);
+      expect(scope.objeto.aneis[1].detectores).toEqual([]);
+      expect(scope.objeto.aneis[1].planos).toEqual([]);
+      expect(scope.objeto.aneis[1].endereco.idJson).toBeDefined();
     });
 
     it('Não deve permitir desativar o primeiro anel', function() {

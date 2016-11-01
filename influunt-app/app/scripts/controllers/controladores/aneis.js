@@ -16,7 +16,8 @@ angular.module('influuntApp')
 
       // Métodos privados.
       var ativaPrimeiroAnel, inicializaEnderecos, atualizarAneisAtivos, registrarWatcherCurrentAnel, setDadosBasicos,
-      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui, deletarCroquiNoServidor;
+      setandoEnderecoByAnel, watcherEndereco, setarImagensEstagios, inicializaObjetoCroqui, deletarCroquiNoServidor,
+      resetarAnel;
 
       /**
        * Pré-condições para acesso à tela de aneis: Somente será possível acessar esta
@@ -33,7 +34,6 @@ angular.module('influuntApp')
 
         return valid;
       };
-
 
       $scope.inicializaAneis = function() {
         return $scope.inicializaWizard().then(function() {
@@ -124,11 +124,6 @@ angular.module('influuntApp')
         });
       };
 
-      deletarCroquiNoServidor = function(imagemIdJson) {
-        var imagem = _.find($scope.objeto.imagens, { idJson: imagemIdJson });
-        return Restangular.one('imagens', imagem.id).customDELETE('croqui');
-      };
-
       $scope.removerEstagio = function(img) {
         if (!img.id) {
           return false;
@@ -191,8 +186,7 @@ angular.module('influuntApp')
           return false;
         }
 
-        $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
-        delete $scope.objeto.aneis[ultimoAnelAtivoIndex].enderecos;
+        resetarAnel($scope.objeto.aneis[ultimoAnelAtivoIndex]);
         atualizarAneisAtivos();
       };
 
@@ -213,6 +207,11 @@ angular.module('influuntApp')
             return deveApagarAnel;
           });
         }
+      };
+
+      deletarCroquiNoServidor = function(imagemIdJson) {
+        var imagem = _.find($scope.objeto.imagens, { idJson: imagemIdJson });
+        return Restangular.one('imagens', imagem.id).customDELETE('croqui');
       };
 
       setDadosBasicos = function() {
@@ -286,11 +285,11 @@ angular.module('influuntApp')
 
       setandoEnderecoByAnel = function (anel) {
         var endereco;
-        if(anel.posicao === 1){
+        if (anel.posicao === 1) {
           endereco = _.cloneDeep($scope.objeto.todosEnderecos[0]);
           delete endereco.id;
           endereco.idJson = UUID.generate();
-        }else{
+        } else {
           endereco = { idJson: UUID.generate() };
         }
 
@@ -308,5 +307,14 @@ angular.module('influuntApp')
             nomeImagem: croqui.filename
           };
         }
+      };
+
+      resetarAnel = function(anel) {
+        anel.ativo = false;
+        anel.estagios = [];
+        anel.gruposSemaforicos = [];
+        anel.detectores = [];
+        anel.planos = [];
+        setandoEnderecoByAnel(anel);
       };
   }]);

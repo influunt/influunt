@@ -41,7 +41,6 @@ public class ParametroSimulacaoDetector {
         if (TipoDetector.PEDESTRE.equals(detector.getTipo())) {
             return new EventoMotor(disparo, TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, detector.getAnel().getPosicao());
         } else {
-            System.out.println(detector.getAnel());
             return new EventoMotor(disparo, TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, detector.getAnel().getPosicao());
         }
     }

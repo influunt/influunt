@@ -392,6 +392,10 @@
   },
   "planos": {
     "titulo": "Planos",
+    "planoNaoConfigurado": {
+      "tituloAlert": "Atenção",
+      "textoAlert": "Este plano ainda não foi configurado"
+    },
     "modoOperacaoSemDiagrama": {
       "tituloAlert": "Atenção",
       "textoAlert": "Os modos de operação MANUAL E ATUADO não possuem diagrama de intervalos para exibir"

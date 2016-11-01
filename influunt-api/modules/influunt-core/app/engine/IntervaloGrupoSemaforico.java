@@ -312,21 +312,22 @@ public class IntervaloGrupoSemaforico {
     }
 
     private void parseEventos(IntervaloEstagio intervalo, ArrayNode eventos) {
-        ArrayNode fields = eventos.addArray();
+
         intervalo.getEventos().entrySet().stream().forEach(entry -> {
             entry.getValue().stream().forEach(eventoMotor -> {
                 switch (eventoMotor.getTipoEvento()){
                     case ACIONAMENTO_DETECTOR_PEDESTRE:
                     case ACIONAMENTO_DETECTOR_VEICULAR:
-                        parseEventoDetector(eventoMotor,entry,fields);
+                         parseEventoDetector(eventoMotor,entry,eventos.addArray());
                          break;
                     case TROCA_DE_PLANO_NO_ANEL:
-                        parseEventoTrocaPlano(eventoMotor,entry,fields);
+                        parseEventoTrocaPlano(eventoMotor,entry,eventos.addArray());
                         break;
 
                 }
             });
         });
+
     }
 
     private void parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
