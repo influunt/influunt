@@ -21,6 +21,12 @@ angular.module('influuntApp')
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
+
+      // Herda o comportamento de HistoricoCtrl
+      $scope.historicoController = $scope.$root.$new();
+      $controller('HistoricoCtrl', {$scope: $scope.historicoController});
+      $scope.historicoController.inicializaResourceHistorico('controladores');
+
       $scope.hideRemoveCoordenada = true;
 
       $scope.assertControlador = assertControlador;
@@ -443,10 +449,13 @@ angular.module('influuntApp')
       };
 
       $scope.copiar = function(controladorId, step) {
+        // step = step || 'app.wizard_controladores.dados_basicos';
+        // return $scope.historicoController.clonar(controladorId, step);
+
         step = step || 'app.wizard_controladores.dados_basicos';
-        return Restangular.one('controladores', controladorId).all('edit').customPOST()
+        return Restangular.one('controladores', controladorId).all('editar_controladores').customPOST()
           .then(function(res) {
-            $state.go(step,{id: res.id});
+            $state.go(step, {id: res.id});
           })
           .catch(function(err) {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
@@ -457,15 +466,7 @@ angular.module('influuntApp')
 
       $scope.configurar = function(controladorId, step) {
         step = step || 'app.wizard_controladores.dados_basicos';
-        return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
-          .then(function() {
-            $state.go(step,{id: controladorId});
-          })
-          .catch(function(err) {
-            toast.clear();
-            influuntAlert.alert('Controlador', err.data[0].message);
-          })
-          .finally(influuntBlockui.unblock);
+        return $scope.historicoController.editar(controladorId, step);
       };
 
       $scope.finalizar = function(controladorId) {

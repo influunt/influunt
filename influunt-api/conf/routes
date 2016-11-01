@@ -42,7 +42,7 @@ POST      /api/v1/controladores/associacao_detectores                 controller
 GET       /api/v1/controladores/:id                                   controllers.ControladoresController.findOne(id)
 DELETE    /api/v1/controladores/:id                                   controllers.ControladoresController.delete(id)
 GET       /api/v1/controladores/:id/simulacao                         controllers.ControladoresController.getControladorForSimulacao(id)
-POST      /api/v1/controladores/:id/edit                              controllers.ControladoresController.edit(id)
+POST      /api/v1/controladores/:id/editar_controladores              controllers.ControladoresController.edit(id)
 GET       /api/v1/controladores/:id/timeline                          controllers.ControladoresController.timeline(id)
 GET       /api/v1/controladores/:id/pode_editar                       controllers.ControladoresController.podeEditar(id)
 PUT       /api/v1/controladores/:id/finalizar                         controllers.ControladoresController.finalizar(id)

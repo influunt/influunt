@@ -196,8 +196,7 @@ angular.module('influuntApp')
         return angular.isDefined(evento.id) ? removerEventoRemoto(evento) : removerEventoNoCliente(evento);
       };
 
-      $scope.visualizarPlano = function(evento){
-
+      $scope.visualizarPlano = function(evento) {
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
         if ($scope.plano.modoOperacao === 'ATUADO' || $scope.plano.modoOperacao === 'MANUAL') {
@@ -209,7 +208,6 @@ angular.module('influuntApp')
           $('#modalDiagramaIntervalos').modal('show');
           return $scope.dadosDiagrama;
         }
-
       };
 
       adicionaTabelaHorario = function(controlador) {

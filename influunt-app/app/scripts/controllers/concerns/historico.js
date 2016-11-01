@@ -18,10 +18,11 @@ angular.module('influuntApp')
         resourceName = param;
       };
 
-      $scope.editar = function(controladorId) {
+      $scope.editar = function(controladorId, nextRoute) {
+        nextRoute = nextRoute || 'app.' + resourceName + '_edit';
         return Restangular.one('controladores', controladorId).all('pode_editar').customGET()
           .then(function() {
-            $state.go('app.' + resourceName + '_edit', { id: controladorId });
+            $state.go(nextRoute, { id: controladorId });
           })
           .catch(handleErroEditar);
       };
