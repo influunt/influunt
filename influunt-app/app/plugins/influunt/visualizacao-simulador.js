@@ -73,7 +73,7 @@ var influunt;
           game.load.spritesheet('veicular', '/images/simulador/sprite_veicular.png', 86, 25);
           game.load.spritesheet('estado', '/images/simulador/modos.png', 10, 25);
           game.load.spritesheet('controles', '/images/simulador/controles.png', 30, 26);
-          game.load.spritesheet('loading', '/images/simulador/loading.png', 200, 200);          
+          game.load.spritesheet('loading', '/images/simulador/loading.png', 200, 200);
           game.load.image('grid', '/images/simulador/grid.png');
 
           config.aneis.forEach(function(anel,index){
@@ -130,7 +130,7 @@ var influunt;
             estagios[estagio.name].visible = false;
           }
         }
-        
+
         function estagioDown(estagio){
           if(estagios[estagio.name]){
             if(estagios[estagio.name].visible){
@@ -144,11 +144,11 @@ var influunt;
         }
 
         function botaoPause(){
-          
+
           _.each(botoes, function(value,key){
             if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
               value.inputEnabled = true;
-              value.play('ON');            
+              value.play('ON');
             }
           });
 
@@ -170,75 +170,72 @@ var influunt;
             var message = new Paho.MQTT.Message(JSON.stringify(json));
             message.destinationName = 'simulador/' + config.simulacaoId + '/detector';
             client.send(message);
-            
+
             game.time.events.remove(loadMoreRepeater);
           }
         }
-        
+
         function criaControles(){
-
-          var inicio = 185, y = 10;
-
+          var inicio = 245, y = 10;
           var _botoes = [
-              {nome: 'fastBackward',action: botaoFastBackward},
-              {nome: 'backward',action: botaoBackward},
-              {nome: 'play',action: botaoPlay},
-              {nome: 'pause',action: botaoPause},
-              {nome: 'foward',action: botaoFoward},
-              {nome: 'fastFoward',action: botaoFastFoward,incremento: 39},
-              {nome: 'log',action: botaoLog},
-              {nome: 'export',action: botaoExport, incremento: 39},
-              {nome: 'DV1',action: botaoDetector},            
-              {nome: 'DV2',action: botaoDetector},            
-              {nome: 'DV3',action: botaoDetector},            
-              {nome: 'DV4',action: botaoDetector},            
-              {nome: 'DV5',action: botaoDetector},            
-              {nome: 'DV6',action: botaoDetector},            
-              {nome: 'DV7',action: botaoDetector},            
-              {nome: 'DV8',action: botaoDetector , incremento: 39},                                                                                             
-              {nome: 'DP1',action: botaoDetector},            
-              {nome: 'DP2',action: botaoDetector},            
-              {nome: 'DP3',action: botaoDetector},            
-              {nome: 'DP4',action: botaoDetector}                                                      
+              {nome: 'fastBackward', action: botaoFastBackward},
+              {nome: 'backward', action: botaoBackward},
+              {nome: 'play', action: botaoPlay},
+              {nome: 'pause', action: botaoPause},
+              {nome: 'foward', action: botaoFoward},
+              {nome: 'fastFoward', action: botaoFastFoward,incremento: 39},
+              {nome: 'DV1', action: botaoDetector},
+              {nome: 'DV2', action: botaoDetector},
+              {nome: 'DV3', action: botaoDetector},
+              {nome: 'DV4', action: botaoDetector},
+              {nome: 'DV5', action: botaoDetector},
+              {nome: 'DV6', action: botaoDetector},
+              {nome: 'DV7', action: botaoDetector},
+              {nome: 'DV8', action: botaoDetector, incremento: 39},
+              {nome: 'DP1', action: botaoDetector},
+              {nome: 'DP2', action: botaoDetector},
+              {nome: 'DP3', action: botaoDetector},
+              {nome: 'DP4', action: botaoDetector}
           ];
 
-          _botoes.forEach(function(botaoSpec,index){
-            botoes[botaoSpec.nome] = game.add.sprite(inicio ,y , 'controles');
+          _botoes.forEach(function(botaoSpec, index){
+            botoes[botaoSpec.nome] = game.add.sprite(inicio, y, 'controles');
             botoes[botaoSpec.nome].name = botaoSpec.nome;
             botoes[botaoSpec.nome].animations.add('HOVER', [index]);
-            botoes[botaoSpec.nome].animations.add('OFF', [index + 20]);
-            botoes[botaoSpec.nome].animations.add('ON', [index + 40]);
+            botoes[botaoSpec.nome].animations.add('OFF', [index + 18]);
+            botoes[botaoSpec.nome].animations.add('ON', [index + 36]);
             botoes[botaoSpec.nome].animations.play('OFF');
             botoes[botaoSpec.nome].inputEnabled = false;
             botoes[botaoSpec.nome].events.onInputOver.add(botaoOver,this);
             botoes[botaoSpec.nome].events.onInputOut.add(botaoOut,this);
-            if(botaoSpec.action !== undefined){
+            if (botaoSpec.action !== undefined) {
               botoes[botaoSpec.nome].events.onInputDown.add(botaoSpec.action, this);
             }
-            if(botaoSpec.incremento === undefined){
+
+            if (botaoSpec.incremento === undefined) {
               inicio += 31;
-            }else{
+            } else {
               inicio += botaoSpec.incremento;
             }
+
             grupoControles.add(botoes[botaoSpec.nome]);
           });
-          
         }
 
         function botaoPlay(){
-          
+
           botoes.pause.play('ON');
           botoes.play.inputEnabled = true;
-          
+
           _.each(botoes,function(value,key){
             if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
               value.inputEnabled = false;
-              value.play('OFF');            
+              value.play('OFF');
             }
           });
           repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
-        
+
         function atualizaEstadosGruposSemaforicos(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
@@ -660,7 +657,7 @@ var influunt;
             desenhaPlano(x,'#260339',troca[2]);
           });
         }
-        
+
         function criaLoading(){
           var background  = game.add.graphics( 0, 0 );
           background.beginFill(0xCCCCCC, 1);
@@ -674,9 +671,9 @@ var influunt;
           loadingGroup.add(loading);
           loadingGroup.fixedToCamera = true;
         }
-        
+
         function create() {
-          
+
           game.stage.backgroundColor = '#cccccc';
           cursors = game.input.keyboard.createCursorKeys();
           game.world.setBounds(0, 0, 1000 + (duracaoSimulacao * 10 * Math.max(1,velocidade)), 800);
@@ -715,7 +712,7 @@ var influunt;
               loadingGroup.visible = false;
               if(!loadMoreRepeater){
                 loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
-              } 
+              }
             }
           };
 
