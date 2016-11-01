@@ -232,7 +232,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
   $scope.pararSimulacao = function() {
     $scope.simulacao.state.destroy();
-    $('#canvas').html('')
-  }
+    $('#canvas').html('');
+  };
 
 }]);
