@@ -428,23 +428,51 @@
     <div class='col-sm-12'>
       <div class='row'>
         <div class='col-sm-12 text-center simular'>
-          <button class='btn btn-primary' type='button' name='button' data-ng-click="submitForm()">
+          <button type='button'
+                  class='btn btn-primary'
+                  name='button'
+                  data-ng-click="submitForm()"
+                  data-toggle="modal"
+                  data-target="#modal-simulacao">
             <i class='fa fa-play'></i> {{ 'simulacao.simular' | translate }}
           </button>
-          <button class='btn btn-primary' type='button' name='button'>
-            <i class='fa fa-pause'></i> {{ 'simulacao.interromper' | translate }}
-          </button>
-          <button class='btn btn-primary' type='button' name='button'>
-            <i class='fa fa-undo'></i> {{ 'simulacao.reiniciar' | translate }}
+          <button type='button'
+                  class='btn btn-info'
+                  name='button'
+                  data-toggle="modal"
+                  data-target="#myModal">
+            <i class='fa fa-eye'></i> {{ 'plugins.steps.labels.last_screen' | translate }}
           </button>
         </div>
-      </div>
-      <div class='col-sm-12'>
-        <div id="canvas"></div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal inmodal" id="modal-simulacao" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h3>{{ 'simulacao.titulo' | translate }}</h3>
+      </div>
+      <div class="modal-body">
+        <div class='col-sm-12'>
+
+          <div id="canvas"></div>
+          <br>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="pararSimulacao()">
+          {{ 'geral.crud.fechar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-include src="'views/controladores/wizard/common/popup-revisao.html'">
 
 <script type='text/javascript'>
   // Collapse ibox function

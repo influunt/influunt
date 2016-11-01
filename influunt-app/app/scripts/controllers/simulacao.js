@@ -16,7 +16,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getMoment;
 
   $scope.init = function() {
-    var controladorId = $stateParams.idControlador;
+    var controladorId = $stateParams.id;
     loadControlador(controladorId);
 
     $scope.velocidades = [
@@ -225,9 +225,14 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     var inicioSimulacao = moment(params.inicioSimulacao),
         fimSimulacao = moment(params.fimSimulacao),
         velocidade = params.velocidade;
-    return new influunt.components.Simulador(
+    $scope.simulacao = new influunt.components.Simulador(
       inicioSimulacao, fimSimulacao, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
     );
   };
+
+  $scope.pararSimulacao = function() {
+    $scope.simulacao.state.destroy();
+    $('#canvas').html('')
+  }
 
 }]);
