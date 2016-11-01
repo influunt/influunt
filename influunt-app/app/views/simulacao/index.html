@@ -11,11 +11,6 @@
           <div class='ibox float-e-margins' >
             <div class='ibox-title'>
               <h5>{{ 'simulacao.parametros' | translate }}</h5>
-              <div class='ibox-tools'>
-                <a class='collapse-link'>
-                  <i class='fa fa-chevron-up'></i>
-                </a>
-              </div>
             </div>
             <div class='ibox-content'>
               <div class='row'>
@@ -153,14 +148,9 @@
         </div>
 
         <div class='col-sm-9'>
-          <div class='ibox float-e-margins collapsed'>
+          <div class='ibox float-e-margins'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.progDisparo' | translate }}</h5>
-              <div class='ibox-tools'>
-                <a class='collapse-link'>
-                  <i class='fa fa-chevron-up'></i>
-                </a>
-              </div>
             </div>
             <div class='ibox-content'>
               <div class='row'>
@@ -234,14 +224,9 @@
             </div>
           </div>
 
-          <div class='ibox float-e-margins collapsed'>
+          <div class='ibox float-e-margins'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.progImposicao' | translate }}</h5>
-              <div class='ibox-tools'>
-                <a class='collapse-link'>
-                  <i class='fa fa-chevron-up'></i>
-                </a>
-              </div>
             </div>
             <div class='ibox-content'>
               <div class='row'>
@@ -428,23 +413,50 @@
     <div class='col-sm-12'>
       <div class='row'>
         <div class='col-sm-12 text-center simular'>
-          <button class='btn btn-primary' type='button' name='button' data-ng-click="submitForm()">
+          <button type='button'
+                  class='btn btn-primary'
+                  name='button'
+                  data-ng-click="submitForm()"
+                  data-toggle="modal"
+                  data-target="#modal-simulacao">
             <i class='fa fa-play'></i> {{ 'simulacao.simular' | translate }}
           </button>
-          <button class='btn btn-primary' type='button' name='button'>
-            <i class='fa fa-pause'></i> {{ 'simulacao.interromper' | translate }}
-          </button>
-          <button class='btn btn-primary' type='button' name='button'>
-            <i class='fa fa-undo'></i> {{ 'simulacao.reiniciar' | translate }}
+          <button type='button'
+                  class='btn btn-info'
+                  name='button'
+                  data-toggle="modal"
+                  data-target="#myModal">
+            <i class='fa fa-eye'></i> {{ 'plugins.steps.labels.last_screen' | translate }}
           </button>
         </div>
-      </div>
-      <div class='col-sm-12'>
-        <div id="canvas"></div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal inmodal" id="modal-simulacao" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="pararSimulacao()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3>{{ 'simulacao.titulo' | translate }}</h3>
+      </div>
+      <div class="modal-body">
+        <div id="canvas"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="pararSimulacao()">
+          {{ 'geral.crud.fechar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-include src="'views/controladores/wizard/common/popup-revisao.html'">
 
 <script type='text/javascript'>
   // Collapse ibox function
