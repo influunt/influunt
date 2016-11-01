@@ -56,11 +56,6 @@
     "route": "app.controladores"
   },
   {
-    "name": "auditorias",
-    "label": "auditorias.titulo",
-    "route": "app.auditorias"
-  },
-  {
     "name": "relatorios",
     "label": "relatorios.titulo",
     "children": [

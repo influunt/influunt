@@ -27,8 +27,8 @@ Funcionalidade: Verificar o perfil e seus acessos
   Cenário: Com o perfil básico não posso ter acesso a certas funcionalidades
     Dado o usuário logue no sistema com usuário "mobilab" e perfil "basico"
     Então o usuário deve ser enviado para a tela de dashboard
-    Então o usuário não deve ter acesso ao menu "auditoria"
-    E o usuário não deverá ter acesso a listagem de "auditorias"
+    # Então o usuário não deve ter acesso ao menu "auditoria"
+    # E o usuário não deverá ter acesso a listagem de "auditorias"
     E o usuário não deve ter acesso ao menu "controladores"
     E o usuário não deverá ter acesso a listagem de "controladores"
     E o usuário não deve ter acesso ao menu "usuarios"
@@ -48,8 +48,8 @@ Funcionalidade: Verificar o perfil e seus acessos
   Cenário: Com o perfil programador não posso ter acesso a certas funcionalidades
     Dado o usuário logue no sistema com usuário "mobilab" e perfil "programador"
     Então o usuário deve ser enviado para a tela de dashboard
-    Então o usuário não deve ter acesso ao menu "auditoria"
-    E o usuário não deverá ter acesso a listagem de "auditorias"
+    # Então o usuário não deve ter acesso ao menu "auditoria"
+    # E o usuário não deverá ter acesso a listagem de "auditorias"
     E o usuário não deve ter acesso ao menu "usuarios"
     E o usuário não deverá ter acesso a listagem de "usuarios"
     E o usuário não deve ter acesso ao menu "perfis"
