@@ -398,6 +398,10 @@
   },
   "planos": {
     "titulo": "Planos",
+    "planoNaoConfigurado": {
+      "tituloAlert": "Atenção",
+      "textoAlert": "Este plano ainda não foi configurado"
+    },
     "modoOperacaoSemDiagrama": {
       "tituloAlert": "Atenção",
       "textoAlert": "Os modos de operação MANUAL E ATUADO não possuem diagrama de intervalos para exibir"
@@ -474,7 +478,7 @@
       "salvarVoltarPara": "Salvar e voltar para",
       "salvarPermanecer": "Salvar e permanecer em",
       "voltarSemPara": "Voltar sem salvar para",
-      "salvarAvancarPara": "Salvar e avançar para", 
+      "salvarAvancarPara": "Salvar e avançar para",
       "naoPodeSalvarSemConfirmacao": "É necessário preencher os dados ou confirmar que não há nada a ser feito em todos os anéis.",
       "naoPodeSalvarSemConfirmacaoEntreVerdes": "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique todos os grupos ",
       "ver": "Visualizar",
@@ -585,6 +589,7 @@
     "permissoes": {
       "criar": "Criar",
       "descricao": "Descrição",
+      "nome": "Permissões",
       "editar": "Editar",
       "excluir": "Excluir",
       "permite": "Permite?",

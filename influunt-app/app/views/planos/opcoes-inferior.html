@@ -39,14 +39,14 @@
   </div>
 
   <div class="knob-item col-lg-3 col-sm-3">
-      <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
       data-ng-show="getErrosTempo('ExtensaoVerde')"
       inf-tooltip
       messages="[getErrosTempo('ExtensaoVerde')]">
       <i class="fa fa-exclamation"></i>
     </span>
     <influunt-knob ng-model="currentEstagiosPlanos[currentEstagioPlanoIndex].tempoExtensaoVerde"
-      min="objeto.extensaoVerdeMin" max="objeto.extensaoVerdeMax"
+      min="objeto.extensaoVerdeMin" max="objeto.extensaoVerdeMax" step="0.1"
       title="EXTENSÃO DE VERDE" label="SEG" read-only="somenteVisualizacao">
     </influunt-knob>
   </div>

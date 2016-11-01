@@ -29,7 +29,7 @@
                    type="button"
                    tooltips tooltip-side="bottom"
                    tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
-                   ui-sref="app.simulacao({ idControlador: objeto.id })"
+                   ui-sref="app.simulacao({ id: objeto.id })"
                    data-ng-if="podeSimular(objeto)"
                    permission permission-sref="'app.simulacao'">
                   <i class="fa fa-cogs"></i> {{ 'controladores.geral.simular' | translate }}
