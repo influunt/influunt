@@ -13,7 +13,7 @@ var WizardControladorPage = function () {
     var _this = this;
     return world.visit(INDEX_PATH).then(function() {
       return _this.isIndexPage();
-    })
+    });
   };
 
   this.isIndexPage = function() {

@@ -19,6 +19,3 @@ INSERT INTO `eventos` (`id`,`id_json`,`posicao`,`dia_da_semana`,`horario`,`data`
                       (RANDOM_UUID(),RANDOM_UUID(), 3,'TERCA',  '10:02:00', NOW(), NULL,3, 'NORMAL', @TabelaHorariaID, NULL, NOW(), NOW()),
                       (RANDOM_UUID(),RANDOM_UUID(), 4,'QUARTA', '18:10:00', NOW(), NULL,4, 'NORMAL', @TabelaHorariaID, NULL, NOW(), NOW()),
                       (RANDOM_UUID(),RANDOM_UUID(), 5,'QUINTA', '15:20:00', NOW(), NULL,5, 'NORMAL', @TabelaHorariaID, NULL, NOW(), NOW());
-
-
-
