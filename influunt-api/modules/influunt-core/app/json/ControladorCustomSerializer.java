@@ -167,6 +167,7 @@ public class ControladorCustomSerializer {
             root.put("nomeEndereco", controlador.getNomeEndereco());
         }
 
+        ArrayNode gruposJson = root.putArray("gruposSemaforicos");
         ArrayNode aneisJson = root.putArray("aneis");
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
             ObjectNode anelJson = aneisJson.addObject();
@@ -190,8 +191,13 @@ public class ControladorCustomSerializer {
                 planoJson.put("descricao", plano.getDescricao());
                 planoJson.put("modoOperacao", plano.getModoOperacao().toString());
             });
+            anel.getGruposSemaforicos().stream().forEach(grupoSemaforico -> {
+                ObjectNode grupoJson = gruposJson.addObject();
+                grupoJson.put("id", grupoSemaforico.getId().toString());
+                grupoJson.put("descricao", "G" + grupoSemaforico.getPosicao());
+                grupoJson.put("posicao", grupoSemaforico.getPosicao());
+            });
         });
-
         return root;
     }
 

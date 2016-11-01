@@ -29,6 +29,8 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Evento eventoAtual;
 
+    private MotorEventoHandler motorEventoHandler;
+
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
         this.callback = callback;
         this.controlador = controlador;
@@ -94,11 +96,10 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        if(eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR) ||
-           eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE)){
-            Integer anel = (Integer) eventoMotor.getParams()[1];
-            estagios.get(anel - 1).onEvento(eventoMotor);
-        }
+        motorEventoHandler.handle(eventoMotor);
+    }
 
+    public List<GerenciadorDeEstagios> getEstagios() {
+        return estagios;
     }
 }

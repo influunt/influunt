@@ -314,9 +314,9 @@
             </div>
           </div>
 
-          <div class='ibox float-e-margins collapsed ng-hide'>
+          <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
-              <h5>{{ 'simulacao.disparoFalhas' | translate }}</h5>
+              <h5>{{ 'simulacao.progFalhas' | translate }}</h5>
               <div class='ibox-tools'>
                 <a class='collapse-link'>
                   <i class='fa fa-chevron-up'></i>
@@ -328,100 +328,98 @@
                 <div class='col-sm-12'>
                   <div class='row'>
                     <div class='col-sm-3'>
-                      <h4>{{ 'simulacao.problema' | translate }}</h4>
+                      <h4>{{ 'simulacao.falha' | translate }}</h4>
                     </div>
                     <div class='col-sm-2'>
-                      <h4>{{ 'simulacao.falhas' | translate }}</h4>
+                      <h4>{{ 'simulacao.dataImposicao' | translate }}</h4>
                     </div>
                     <div class='col-sm-3'>
-                      <h4>{{ 'simulacao.data' | translate }}</h4>
-                    </div>
-                    <div class='col-sm-4'>
-                      <h4>{{ 'simulacao.horario' | translate }}</h4>
-                    </div>
-
-                    <div class='col-sm-3'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Problema 1</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
+                      <h4>{{ 'simulacao.horarioImposicao' | translate }}</h4>
                     </div>
                     <div class='col-sm-2'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Causar Falha</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
+                      <h4>{{ 'simulacao.tipoParametro' | translate }}</h4>
                     </div>
-                    <div class='col-sm-1'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Dia</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
-                    </div>
-                    <div class='col-sm-1'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Mês</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
-                    </div>
-                    <div class='col-sm-1'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Ano</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
-                    </div>
-                    <div class='col-sm-1'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Hora</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
-                    </div>
-                    <div class='col-sm-1'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Min</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
-                    </div>
-                    <div class='col-sm-1'>
-                      <select class='form-control m-b' name='account'>
-                          <option>Seg</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
-                    </div>
-                    <div class='col-sm-1'>
-                      <i class='fa fa-trash'></i>
-                    </div>
-                    <div class='col-sm-3'>
-                      <select class='form-control m-b' name='account'>
-                          <option>-</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                      </select>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.valorParametro' | translate }}</h4>
                     </div>
 
+                  </div>
+
+                  <div class='row' data-ng-repeat="imposicaoPlano in parametrosSimulacao.imposicaoPlanos">
+                    <div class='col-sm-3'>
+                      <select class='form-control m-b'
+                              name='plano'
+                              data-ng-disabled="!planos"
+                              data-ng-options="falha as falha.descricao for falha in falhas"
+                              data-ng-model="falhas.atual"></select>
+                    </div>
+                    <div data-ng-show="falhas.atual">
+                      <div class='col-sm-2'>
+                        <input type="text"
+                               class="form-control text-center"
+                               uib-datepicker-popup="dd/MM/yyyy"
+                               ng-model="imposicoesPlanos.imposicoes[$index].date"
+                               ng-click="imposicoesPlanos.imposicoes[$index].opened = true"
+                               is-open="imposicoesPlanos.imposicoes[$index].opened"
+                               datepicker-options="dateOptions"
+                               ng-required="true"
+                               close-text="Fechar"
+                               clear-text="Limpar"
+                               curreent-text="Hoje">
+                      </div>
+                      <div class='col-sm-1'>
+                        <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].hora">
+                          <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-1'>
+                        <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].minuto">
+                          <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-1'>
+                        <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].segundo">
+                          <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-2'>
+                          {{falhas.atual.descricaoParam}}
+                      </div>
+                      <div class='col-sm-1'>
+
+                        <select ng-show="falhas.atual.tipoParam == 'GRUPO_SEMAFORICO'" class='form-control m-b'
+                              name='plano'
+                              data-ng-disabled="!planos"
+                              data-ng-options="grupo as grupo.descricao for grupo in controlador.gruposSemaforicos | orderBy:'posicao' "
+                              data-ng-model="falhas.atual.valor"></select>
+
+                        <select ng-show="falhas.atual.tipoParam == 'DETECTOR_VEICULAR'" class='form-control m-b'
+                              name='plano'
+                              data-ng-disabled="!planos"
+                              data-ng-options="detector as detector.nome for detector in detectores"
+                              data-ng-model="falhas.atual.valor"></select>
+
+                        <select ng-show="falhas.atual.tipoParam == 'ANEL'" class='form-control m-b'
+                              name='plano'
+                              data-ng-disabled="!planos"
+                              data-ng-options="anel as anel.posicao for anel in controlador.aneis"
+                              data-ng-model="falhas.atual.valor"></select>
+                              
+                      </div>
+                                            
+                      <div class='col-sm-1'>
+                        <a data-ng-click="removerImposicaoPlano($index)">
+                          <i class='fa fa-trash text-danger'></i>
+                        </a>
+                      </div>
+                    </div>
                   </div>
 
                 </div>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>

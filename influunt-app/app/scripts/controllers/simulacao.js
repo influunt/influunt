@@ -55,7 +55,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   loadControlador = function(controladorId) {
     return Restangular.one('controladores', controladorId).customGET('simulacao')
       .then(function(response) {
-        $scope.controlador = response;
+        $scope.controlador = response.controlador;
+        $scope.alarmes = response.alarmes;
+        $scope.falhas = response.falhas;        
         $scope.controlador.aneis = _.orderBy($scope.controlador.aneis, 'posicao');
         _.forEach($scope.controlador.aneis, function(anel) {
           anel.detectores = _.orderBy(anel.detectores, ['tipo', 'posicao']);
