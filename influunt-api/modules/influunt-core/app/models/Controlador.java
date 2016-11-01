@@ -125,10 +125,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private List<VersaoTabelaHoraria> versoesTabelasHorarias;
 
     @Column
-    private boolean bloqueado;
+    private Boolean bloqueado = false;
 
     @Column
-    private boolean planosBloqueado;
+    private Boolean planosBloqueado = false;
 
     @JsonIgnore
     @Transient

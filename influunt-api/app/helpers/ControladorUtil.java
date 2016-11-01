@@ -423,25 +423,26 @@ public class ControladorUtil {
             return null;
         }
         imagem.getFilename();
-        Imagem imagemAux = copyPrimitiveFields(imagem);
-        imagemAux.save();
+        Imagem imagemClone = copyPrimitiveFields(imagem);
+        imagemClone.save();
 
         try {
             File appRootPath = provider.get().path();
-            Files.copy(imagem.getPath(appRootPath).toPath(), imagemAux.getPath(appRootPath).toPath());
+            File imagemPath = imagem.getPath(appRootPath);
+            if (imagemPath.exists()) {
+                Files.copy(imagemPath.toPath(), imagemClone.getPath(appRootPath).toPath());
 
-            //Create thumbnail
-            Thumbnails.of(imagemAux.getPath(appRootPath))
-                    .forceSize(150, 150)
-                    .outputFormat("jpg")
-                    .toFile(imagemAux.getPath(appRootPath, "thumb"));
-
-
+                //Create thumbnail
+                Thumbnails.of(imagemClone.getPath(appRootPath))
+                        .forceSize(150, 150)
+                        .outputFormat("jpg")
+                        .toFile(imagemClone.getPath(appRootPath, "thumb"));
+            }
         } catch (IOException e) {
-            imagemAux.delete();
+            imagemClone.delete();
             Logger.error(e.getMessage(), e);
         }
-        return imagemAux;
+        return imagemClone;
     }
 
 
