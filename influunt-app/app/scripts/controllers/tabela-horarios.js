@@ -197,9 +197,18 @@ angular.module('influuntApp')
       };
 
       $scope.visualizarPlano = function(evento){
-
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
+
+        if (!angular.isDefined($scope.plano)) {
+          influuntAlert.alert(
+            $filter('translate')('planos.planoNaoConfigurado.tituloAlert'),
+            $filter('translate')('planos.planoNaoConfigurado.textoAlert')
+          );
+
+          return false;
+        }
+
         if ($scope.plano.modoOperacao === 'ATUADO' || $scope.plano.modoOperacao === 'MANUAL') {
           influuntAlert.alert(
             $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
@@ -260,6 +269,8 @@ angular.module('influuntApp')
       atualizaDiagramaIntervalo = function () {
         var posicaoPlano = parseInt($scope.currentEvento.posicaoPlano);
         $scope.plano = _.find($scope.currentPlanos, {posicao: posicaoPlano});
+        // alias necessária para o vis.
+        $scope.currentPlano = $scope.plano;
         if ($scope.plano) {
           var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.plano);
           var valoresMinimos = planoService.montaTabelaValoresMinimos($scope.objeto);
@@ -274,7 +285,6 @@ angular.module('influuntApp')
       };
 
       atualizaEventos = function() {
-        atualizaPosicaoEventos();
         $scope.currentEventos = _
           .chain($scope.objeto.eventos)
           .filter(function(e){
@@ -289,22 +299,17 @@ angular.module('influuntApp')
           {tabelaHoraria: {idJson: $scope.currentTabelaHoraria.idJson}, tipo: $scope.currentTipoEvento}
         );
 
+        atualizaPosicaoEventos();
         atualizaErrosEventos();
         return $scope.currentEventos;
       };
 
       atualizaPosicaoEventosDoTipo = function(tipo) {
-        var index = 1;
-        return _.chain($scope.objeto.eventos)
-          .filter(function(e){
-            return e.tipo === tipo;
-          })
-          .orderBy(['posicao'])
-          .value()
-          .forEach(function (evento){
-            evento.posicao = index;
-            index++;
-          });
+        return _.chain($scope.currentEventos)
+          .filter({tipo: tipo})
+          .orderBy('posicao')
+          .each(function(evento, index) { evento.posicao = index + 1; })
+          .value();
       };
 
       atualizaPosicaoEventos = function() {
