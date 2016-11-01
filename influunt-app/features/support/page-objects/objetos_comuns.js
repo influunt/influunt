@@ -180,7 +180,8 @@ var ObjetosComuns = function () {
 
   this.checarValoresNaTabela = function(valor) {
     return world.waitForOverlayDisappear().then(function() {
-      world.sleep(400);
+      return world.sleep(1000);
+    }).then(function() {
       return world.getElementByXpath('//td[contains(text(), "'+valor+'")]');
     });
   };

@@ -49,9 +49,11 @@
           <div class="row" ng-if="!somenteVisualizacao">
             <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
               <div class="right">
-                <a class="btn btn-primary btn-danger" type="button"
+                <a class="btn btn-primary btn-danger"
+                   type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                   ng-click="cancelarEdicao()">
+                   data-ng-click="cancelarEdicao()"
+                   data-ng-if="objeto.planosBloqueado">
                   <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
                 </a>
               </div>

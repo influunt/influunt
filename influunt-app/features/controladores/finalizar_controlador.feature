@@ -12,7 +12,7 @@ Funcionalidade: Finalizar um controlador
     E que o usuário acesse a página de listagem de controladores
     Então o sistema "não pode" mostrar o botão "Finalizar Configuração"
 
-  Cenário: Mostrar o botão finalizar controlador
+    Cenário: Mostrar o botão finalizar controlador
     Dado que o sistema possua tabela horária para o controlador cadastrado
     E que o usuário acesse a página de listagem de controladores
     Então o sistema "pode" mostrar o botão "Finalizar Configuração"

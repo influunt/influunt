@@ -290,7 +290,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve estar associado a pelo menos um estágio")
     public boolean isAssociadoAoMenosAUmEstágio() {
         if (this.getAnel() != null) {
-            boolean anyEstagioGrupoSemaforico =  this.getAnel().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.getEstagiosGruposSemaforicos() != null && grupoSemaforico.getEstagiosGruposSemaforicos().size() > 0);
+            boolean anyEstagioGrupoSemaforico = this.getAnel().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.getEstagiosGruposSemaforicos() != null && grupoSemaforico.getEstagiosGruposSemaforicos().size() > 0);
             return !anyEstagioGrupoSemaforico || this.getEstagiosGruposSemaforicos() != null && this.getEstagiosGruposSemaforicos().size() > 0;
         } else {
             return true;

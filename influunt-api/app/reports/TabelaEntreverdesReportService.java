@@ -74,7 +74,7 @@ public class TabelaEntreverdesReportService extends ReportService<TabelaEntreVer
         for (TabelaEntreVerdes tabelaEntreVerdes : tabelas) {
             buffer.append(StringUtils.defaultIfBlank(tabelaEntreVerdes.getGrupoSemaforico().getAnel().getControlador().getCLC(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                     .append(StringUtils.defaultIfBlank(tabelaEntreVerdes.getGrupoSemaforico().getAnel().getControlador().getNomeEndereco(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                    .append(StringUtils.defaultIfBlank(tabelaEntreVerdes.getGrupoSemaforico().getAnel().getControlador().getStatusControladorReal(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                    .append(StringUtils.defaultIfBlank(tabelaEntreVerdes.getGrupoSemaforico().getAnel().getControlador().getStatusControladorReal().toString(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                     .append(StringUtils.defaultIfBlank(tabelaEntreVerdes.getDescricao(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                     .append(StringUtils.defaultIfBlank(tabelaEntreVerdes.getPosicao().toString(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
         }

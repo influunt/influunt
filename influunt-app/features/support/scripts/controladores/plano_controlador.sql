@@ -37,7 +37,7 @@ INSERT INTO `planos` (`id`, `id_json`,`posicao`,`descricao`,`tempo_ciclo`,`defas
                      (@PlanoId10,RANDOM_UUID(),5,'PLANO 5',0,0,@VersaoPlanoId2, 2, 1, NOW(), NOW());
 
 
--- estágio_id já vem cadastro do controlador.sqls
+-- estágio_id já j[a está cadastrado pelo arquivo controlador.sql
 INSERT INTO `estagios_planos` (`id`,`id_json`,`estagio_id`,`plano_id`,`posicao`,`tempo_verde`,`tempo_verde_minimo`,`tempo_verde_maximo`,`tempo_verde_intermediario`,`tempo_extensao_verde`,`dispensavel`,`estagio_que_recebe_estagio_dispensavel_id`,`data_criacao`,`data_atualizacao`) VALUES
                               (RANDOM_UUID(),RANDOM_UUID(),'63fc4b2b-85be-4900-a374-0e85fc7b1e85',@PlanoId1,1,12,0,0,0,0.0,FALSE,null,NOW(),NOW()),
                               (RANDOM_UUID(),RANDOM_UUID(),'a76a7b05-289b-460e-aad6-4901eb2cd1ba',@PlanoId1,2,13,0,0,0,0.0,FALSE,null,NOW(),NOW()),
@@ -91,9 +91,3 @@ INSERT INTO `grupos_semaforicos_planos` (`id`,`id_json`,`grupo_semaforico_id`,`p
                                         (RANDOM_UUID(),RANDOM_UUID(),'d20ca39b-9e50-42b5-8e6a-6fddfb2ba7ef',@PlanoId9,TRUE,NOW(),NOW()),
                                         (RANDOM_UUID(),RANDOM_UUID(),'227858c0-248f-4551-aeaf-6c3119fdb65f',@PlanoId10,TRUE,NOW(),NOW()),
                                         (RANDOM_UUID(),RANDOM_UUID(),'d20ca39b-9e50-42b5-8e6a-6fddfb2ba7ef',@PlanoId10,TRUE,NOW(),NOW());
-
-
-
-
-
-

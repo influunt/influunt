@@ -3,10 +3,12 @@
 var expect = require('chai').expect;
 var ModelosPage = require('../../support/page-objects/modelo_controladores');
 var ObjetosComuns = require('../../support/page-objects/objetos_comuns');
+var worldObj = require('../../support/world');
 
 module.exports = function() {
   var modelosPage = new ModelosPage();
   var objetosComuns = new ObjetosComuns();
+  var world = new worldObj.World();
 
   this.Given(/^que o usuário esteja na tela de listagem de modelos$/, function() {
     return modelosPage.indexPage();
@@ -74,7 +76,10 @@ module.exports = function() {
   });
 
   this.Given(/^clicar no botão de excluir um modelo$/, function() {
-    objetosComuns.clicarLinkComTexto('Excluir');
+    // objetosComuns.clicarLinkComTexto('Excluir');
+    return world.sleep(500).then(function() {
+      return world.getElementByXpath('//td[text() = "Modelo 2"]/following-sibling::td[2]/a[text() = "Excluir"]').click();
+    });
   });
 
   this.Given(/^nenhum modelo deve ser excluído$/, function() {

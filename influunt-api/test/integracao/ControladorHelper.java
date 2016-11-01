@@ -682,7 +682,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             evento.setData(new Date());
         }
         evento.setTabelaHorario(tabelaHoraria);
-        tabelaHoraria.addEventos(evento);
+        tabelaHoraria.addEvento(evento);
     }
 
     private void setDadosTabelaHoraria() {
@@ -715,7 +715,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             grupoPlano.setAtivado(true);
             grupoPlano.setPlano(plano);
             grupoPlano.setGrupoSemaforico(grupoSemaforico);
-            plano.addGruposSemaforicos(grupoPlano);
+            plano.addGruposSemaforicoPlano(grupoPlano);
         }
     }
 

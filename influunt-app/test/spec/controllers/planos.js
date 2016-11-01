@@ -158,6 +158,7 @@ describe('Controller: PlanosCtrl', function () {
         deferred.resolve(false);
         scope.$apply();
         expect(Restangular.one).not.toHaveBeenCalled();
+        expect(scope.$state.current.name).toBe('app.planos');
       });
 
       it('Deve excluir a copia local de plano se este não for sincronizado à API', function() {
