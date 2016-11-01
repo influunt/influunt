@@ -552,4 +552,5 @@ angular.module('influuntApp')
       $scope.podeSimular = function(controlador) {
         return controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
+
     }]);
