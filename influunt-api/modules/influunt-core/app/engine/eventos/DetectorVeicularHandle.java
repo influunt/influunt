@@ -95,11 +95,20 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
         final long tempoExtensao = ((long) (estagioPlano.getTempoExtensaoVerde() * 1000L));
         final long tempoMaximo = estagioPlano.getTempoVerdeMaximo() * 1000L;
 
-        IntervaloEstagio intervalo = range.getValue();
-        if ((intervalo.getDuracao() + tempoExtensao) <= tempoMaximo) {
+        final IntervaloEstagio intervalo = range.getValue();
+
+        final long tempoAdicionado = (contadorIntervalo + tempoExtensao) - range.getKey().upperEndpoint();
+
+        if (tempoAdicionado > 0) {
+            long novaDuracao = intervalo.getDuracao() + tempoAdicionado;
+            if (novaDuracao > tempoMaximo) {
+                novaDuracao = tempoMaximo;
+            }
+
             this.intervalos.remove(range.getKey());
-            intervalo.setDuracao(intervalo.getDuracao() + tempoExtensao);
-            this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + intervalo.getDuracao()), intervalo);
+            intervalo.setDuracao(novaDuracao);
+            this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + novaDuracao), intervalo);
         }
+
     }
 }
