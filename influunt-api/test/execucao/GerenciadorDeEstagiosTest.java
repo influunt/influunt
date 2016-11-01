@@ -671,14 +671,14 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
         Detector detector5 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
 
-        avancar(gerenciadorDeEstagios, 87);
+        avancar(gerenciadorDeEstagios, 95);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector2));
-        avancarAtuado(gerenciadorDeEstagios, 1);
+        avancar(gerenciadorDeEstagios, 1);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector3));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector2));
-        avancarAtuado(gerenciadorDeEstagios, 1);
+        avancar(gerenciadorDeEstagios, 1);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         avancar(gerenciadorDeEstagios, 20);
@@ -788,27 +788,27 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         verificaGruposSemaforicos(75, new GrupoCheck(16,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
         //No Final
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(11,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(11,11000,25400,EstadoGrupoSemaforico.VERDE));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(11,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(11,11000,23100,EstadoGrupoSemaforico.VERDE));
 
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(12,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(12,11000,25400,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(12,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(12,11000,23100,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(13,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(13,11000,25400,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(13,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(13,11000,23100,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(14,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(14,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(14,11000,25400,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(14,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(14,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(14,11000,23100,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(15,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(15,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(15,11000,25400,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(15,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(15,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(15,11000,23100,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(16,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(100, 400, new GrupoCheck(16,11000,25400,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(16,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(98, 100, new GrupoCheck(16,11000,23100,EstadoGrupoSemaforico.VERMELHO));
 
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(100).plus(400)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(98).plus(100)).getEstagio().getPosicao().intValue());
     }
 
     @Test
@@ -823,14 +823,14 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
         Detector detector5 = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
 
-        avancar(gerenciadorDeEstagios, 87);
+        avancar(gerenciadorDeEstagios, 95);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector2));
-        avancarAtuado(gerenciadorDeEstagios, 1);
+        avancar(gerenciadorDeEstagios, 1);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector3));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector4));
-        avancarAtuado(gerenciadorDeEstagios, 1);
+        avancar(gerenciadorDeEstagios, 1);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector1));
         avancar(gerenciadorDeEstagios, 20);
@@ -863,27 +863,27 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         verificaGruposSemaforicos(75, new GrupoCheck(16,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
         //No Final
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(11,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(11,11000,23200,EstadoGrupoSemaforico.VERDE));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(11,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(11,11000,21000,EstadoGrupoSemaforico.VERDE));
 
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(12,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(12,11000,23200,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(12,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(12,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(13,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(13,11000,23200,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(13,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(13,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(14,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(14,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(14,11000,23200,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(14,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(14,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(14,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(15,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(15,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(15,11000,23200,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(15,0,6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(15,6000,11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(15,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(16,0,11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(98, 200, new GrupoCheck(16,11000,23200,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(16,0,11000,EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(96, new GrupoCheck(16,11000,21000,EstadoGrupoSemaforico.VERMELHO));
 
-        assertEquals("Estagio atual", 5, listaEstagios.get(inicioExecucao.plusSeconds(98).plus(200)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 5, listaEstagios.get(inicioExecucao.plusSeconds(96)).getEstagio().getPosicao().intValue());
     }
 
     @Test
