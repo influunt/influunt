@@ -9,8 +9,8 @@ var influunt;
         var game;
 
         velocidade = parseFloat(velocidade);
-        config.detectores_hash = {};
-        config.detectores.forEach(function(d) {config.detectores_hash["D" + d.tipo[0] + d.posicao] = d;});
+        config.detectoresHash = {};
+        config.detectores.forEach(function(d) {config.detectoresHash["D" + d.tipo[0] + d.posicao] = d;});
 
         var quantidadeDeAneis = _.filter(config.aneis,function(a){return a.tiposGruposSemaforicos.length > 0;}).length;
         var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
@@ -131,10 +131,6 @@ var influunt;
           }
         }
         
-        function disparoDetector(detector){
-          
-        }
-
         function estagioDown(estagio){
           if(estagios[estagio.name]){
             if(estagios[estagio.name].visible){
@@ -149,21 +145,21 @@ var influunt;
 
         function botaoPause(){
           
-          Object.keys(botoes).forEach(function(botao){
-            if(!(botao == 'pause' ||  botoes[botao].name.startsWith("D") && !config.detectores_hash[botoes[botao].name])){
-              botoes[botao].inputEnabled = true;
-              botoes[botao].play('ON');            
+          _.each(botoes, function(value,key){
+            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
+              value.inputEnabled = true;
+              value.play('ON');            
             }
           });
-          
+
           botoes.pause.play('OFF');
           game.time.events.remove(repeater);
         }
 
         function botaoDetector(detector){
-          if(config.detectores_hash[detector.name]){
-            var d = config.detectores_hash[detector.name];
-            var disparo = _.cloneDeep(inicioSimulacao);
+          if(config.detectoresHash[detector.name]){
+            var d = config.detectoresHash[detector.name];
+            var disparo = inicioSimulacao.clone();
             disparo.add(tempo,"seconds");
             var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo }
 
@@ -206,10 +202,6 @@ var influunt;
               {nome: 'DP4',action: botaoDetector}                                                      
           ];
 
-          // config.detectores.forEach(function(dec){
-          //   _botoes.push({nome: dec.anel + '_' + dec.posicao + '_' + dec.tipo ,action: botaoDetector})
-          // });
-          
           _botoes.forEach(function(botaoSpec,index){
             botoes[botaoSpec.nome] = game.add.sprite(inicio ,y , 'controles');
             botoes[botaoSpec.nome].name = botaoSpec.nome;
@@ -238,13 +230,12 @@ var influunt;
           botoes.pause.play('ON');
           botoes.play.inputEnabled = true;
           
-          Object.keys(botoes).forEach(function(botao){
-            if(!(botao == 'pause' ||  botoes[botao].name.startsWith("D") && !config.detectores_hash[botoes[botao].name])){
-              botoes[botao].inputEnabled = false;
-              botoes[botao].play('OFF');            
+          _.each(botoes,function(value,key){
+            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
+              value.inputEnabled = false;
+              value.play('OFF');            
             }
           });
-
           repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
         
@@ -279,7 +270,7 @@ var influunt;
           planoSpec[2].forEach(function(modo,index){
             modos[index].setText(getModo(modo));
           })
-          var dataText = _.cloneDeep(inicioSimulacao).add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
+          var dataText = inicioSimulacao.clone().add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
           data.setText(dataText);
         }
 
@@ -675,7 +666,7 @@ var influunt;
           background.beginFill(0xCCCCCC, 1);
           background.bounds = new PIXI.Rectangle(0, 0, 1000, 700);
           background.drawRect(0, 0, 1000, 700);
-          var loading = game.add.sprite(500, 350, "loading");
+          var loading = game.add.sprite(500, 350, 'loading');
           loading.animations.add('loop', [0,1,2,3,2,1,0],3,true);
           loading.play('loop');
           loading.anchor.set(0.5,0.5);
