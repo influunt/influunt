@@ -64,7 +64,7 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         assertEquals(200, result.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(result));
-        assertEquals(4, json.size());
+        assertEquals(5, json.size());
         assertTrue(json.has("simulacaoId"));
         assertTrue(json.has("controladorId"));
         assertEquals(controlador.getId().toString(), json.get("controladorId").asText());

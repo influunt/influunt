@@ -1,5 +1,6 @@
 package models.simulador;
 
+import models.TipoDetector;
 import models.TipoGrupoSemaforico;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class SimulacaoConfig {
     private List<Integer> tempoCicloAnel = new ArrayList<>();
 
     private List<AnelSimulacaoConfig> aneis;
+    private List<DetectorSimulacaoConfig> detectores;
 
     public String getSimulacaoId() {
         return simulacaoId;
@@ -47,6 +49,14 @@ public class SimulacaoConfig {
 
     public void setAneis(List<AnelSimulacaoConfig> aneis) {
         this.aneis = aneis;
+    }
+
+    public List<DetectorSimulacaoConfig> getDetectores() {
+        return detectores;
+    }
+
+    public void setDetectores(List<DetectorSimulacaoConfig> detectores) {
+        this.detectores = detectores;
     }
 
     public static class EstagioSimulacaoConfig {
@@ -96,6 +106,32 @@ public class SimulacaoConfig {
 
         public void setEstagios(List<EstagioSimulacaoConfig> estagios) {
             this.estagios = estagios;
+        }
+    }
+
+    public static class DetectorSimulacaoConfig {
+        private final String tipo;
+
+        private final Integer anel;
+
+        private final Integer posicao;
+
+        public DetectorSimulacaoConfig(TipoDetector tipo, Integer anel, Integer posicao) {
+            this.tipo = tipo.toString();
+            this.anel = anel;
+            this.posicao = posicao;
+        }
+
+        public String getTipo() {
+            return tipo;
+        }
+
+        public Integer getAnel() {
+            return anel;
+        }
+
+        public Integer getPosicao() {
+            return posicao;
         }
     }
 }

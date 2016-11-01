@@ -1,10 +1,13 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
+import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -60,6 +63,14 @@ public class SimuladorActor extends UntypedActor {
             client.subscribe("simulador/" + id + "/proxima_pagina", 1, (topic, message) -> {
                 proximaPagina();
             });
+            client.subscribe("simulador/" + id + "/detector", 1, (topic, message) -> {
+                JsonNode root = Json.parse(message.getPayload());
+                TipoDetector td = TipoDetector.valueOf(root.get("tipo").asText());
+                int posicao = root.get("posicao").asInt();
+                int anel = root.get("anel").asInt();
+                DateTime disparo = new DateTime(root.get("disparo").asLong());
+                detectorAcionador(anel,td,disparo,posicao);
+            });
 
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             proximaPagina();
@@ -69,6 +80,14 @@ public class SimuladorActor extends UntypedActor {
         }
 
 
+    }
+
+    private void detectorAcionador(int anel,TipoDetector tipoDetector, DateTime disparo, int detector) {
+        simulador.detectorAcionador(anel,tipoDetector,disparo,detector);
+        pagina = 0;
+        trocasDePlanos.clear();
+        estagios.clear();
+        proximaPagina();
     }
 
     private void proximaPagina() {
@@ -81,6 +100,7 @@ public class SimuladorActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
+
     }
 
 
