@@ -959,7 +959,7 @@ angular
 
         // SIMULACAO
         .state('app.simulacao', {
-          url: '/simulacao?idControlador',
+          url: '/simulacao/:id',
           templateUrl: 'views/simulacao/index.html',
           controller: 'SimulacaoCtrl',
           controllerAs: 'simulacao',

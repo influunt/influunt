@@ -23,6 +23,7 @@ angular.module('influuntApp')
           maxPercentual: '=',
           min: '=',
           max: '=',
+          step: '=?',
           readOnly: '=',
           ngModel: '=',
           onChange: '&'
@@ -31,6 +32,7 @@ angular.module('influuntApp')
           var showLabel = function(args) {
             return '<p class="knob-value">' + args.value + '</p><p class="knob-label">' + scope.label + '</p>';
           };
+
           scope.mostrarPercentual = scope.mostrarPercentual || false;
           scope.ngModel = scope.ngModel || scope.min || 0;
           knob = $(element).find('.knob-shape').roundSlider({
@@ -40,7 +42,8 @@ angular.module('influuntApp')
             sliderType: 'min-range',
             value: scope.ngModel,
             handleShape: 'dot',
-            tooltipFormat: showLabel
+            tooltipFormat: showLabel,
+            step: scope.step || 1
           });
 
           scope.percentual = function() {
