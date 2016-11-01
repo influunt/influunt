@@ -92,5 +92,15 @@
 }
 
 #modal-simulacao .modal-body {
-  height: 740px;
+  height: 700px;
+  padding: 0;
+}
+
+#modal-simulacao .modal-header {
+  padding: 4px 0 0 0;
+}
+
+#modal-simulacao button.close {
+  margin-right: 15px;
+  margin-top: 5px;
 }
