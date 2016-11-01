@@ -41,6 +41,10 @@ public class PermissaoApp extends Model implements Serializable {
     @NotNull(message = "não pode ficar em branco")
     private String nome;
 
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private String descricao;
+
     @ManyToMany
     @JoinTable(name = "permissoes_app_permissoes", joinColumns = {@JoinColumn(name = "permissao_app_id")}, inverseJoinColumns = {@JoinColumn(name = "permissao_id")})
     private List<Permissao> permissoes;
@@ -95,6 +99,14 @@ public class PermissaoApp extends Model implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public List<Permissao> getPermissoes() {
