@@ -302,7 +302,7 @@ angular.module('influuntApp')
           );
         })
         .then(function(res) {
-          return res && influuntAlert.alert(
+          return res && influuntAlert.success(
             $filter('translate')('controladores.mapaControladores.enviarPlano'),
             $filter('translate')(
               'controladores.mapaControladores.sucessoEnvioPlano',
