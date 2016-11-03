@@ -172,7 +172,7 @@ angular.module('influuntApp')
           $scope.beforeSubmitForm();
         }
 
-        Restangular
+        return Restangular
           .all('controladores')
           .all(stepResource)
           .post($scope.objeto)
