@@ -1,6 +1,8 @@
 package controllers;
 
+import checks.ControladorFinalizaConfiguracaoCheck;
 import checks.Erro;
+import checks.InfluuntValidator;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
@@ -654,6 +656,20 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
     }
 
     @Test
+    public void naoDeveriaFinalizarControladorSemSMEE() {
+        Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
+        controlador.setNumeroSMEE(null);
+
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador,
+            javax.validation.groups.Default.class, ControladorFinalizaConfiguracaoCheck.class);
+
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro("Controlador", "O controlador não pode ser finalizado sem o número do SMEE preenchido.", "numeroSmeePreenchido")
+        ));
+    }
+
+    @Test
     public void deveriaClonarPlanosAnelCom2EstagiosEAtualizarPlano() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.update();
@@ -692,7 +708,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Total Tabelas Horárias", totalTabelasHorarias * 2, TabelaHorario.find.findRowCount());
         assertEquals("Total Eventos", totalEventos * 2, Evento.find.findRowCount());
     }
-
 
     @Test
     public void deveriaCancelarTabelaHorariaClonada() {

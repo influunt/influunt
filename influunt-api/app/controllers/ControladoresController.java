@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -317,6 +317,12 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
+
+            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, ControladorFinalizaConfiguracaoCheck.class);
+            if (erros.size() > 0) {
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
+
             if (request().body().asJson() != null) {
                 String descricao = request().body().asJson().get("descricao").asText();
                 if (StringUtils.isEmpty(descricao.trim())) {
