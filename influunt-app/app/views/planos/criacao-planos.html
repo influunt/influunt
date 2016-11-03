@@ -293,10 +293,6 @@
             </div>
           </div>
 
-
-
-
-
           <!-- MODAIS -->
           <!-- copia de planos. -->
           <div class="modal inmodal" id="modal-copiar-plano" tabindex="-1" role="dialog" aria-hidden="true">
@@ -308,7 +304,7 @@
                     <div class="col-sm-12 form-group">
                       <select select2
                           name="controladores" class="form-control"
-                          data-ng-options="option as option.descricao for option in currentPlanos track by option.idJson"
+                          data-ng-options="option as option.descricao for option in currentPlanos | filter: { modoOperacao: '!MANUAL' } track by option.idJson"
                           data-ng-model="planosDestino"
                           multiple="multiple"
                           style="width: 100%;">
