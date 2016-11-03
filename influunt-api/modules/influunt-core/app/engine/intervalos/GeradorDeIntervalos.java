@@ -40,7 +40,7 @@ public abstract class GeradorDeIntervalos {
                                                   ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                                                   EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
                                                   int index) {
-        if ((!plano.isModoOperacaoVerde() && index == 0) || (!plano.isModoOperacaoVerde() && modoAnterior != null && !modoAnterior.equals(plano.getModoOperacao()))){
+        if (!plano.isModoOperacaoVerde() && (index == 0 || (!listaEstagioPlanos.isEmpty() && !listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()))){
             return new GeradorIntermitente(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else if (!isModoAnteriorVerde(modoAnterior)) {
             if (modoAnterior.equals(ModoOperacaoPlano.INTERMITENTE)) {

@@ -310,7 +310,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
 
         if (!this.getTipo().equals(TipoEvento.NORMAL)) {
-            DateTime data = new DateTime(getData().getTime());
+            DateTime data = getDataHora();
 
             boolean ano = this.getTipo().equals(TipoEvento.ESPECIAL_NAO_RECORRENTE) ? agora.getYear() == data.getYear() : true;
             if (!ano || agora.getMonthOfYear() != data.getMonthOfYear() || agora.getDayOfMonth() != data.getDayOfMonth()) {

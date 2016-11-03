@@ -189,7 +189,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
         verificaGruposSemaforicos(75, new GrupoCheck(3, 14, 0, 6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 14, 6000, 11000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(75, new GrupoCheck(3, 11, 11000, 14000,EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(75, new GrupoCheck(3, 14, 11000, 14000,EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 14, 14000, 255000,EstadoGrupoSemaforico.DESLIGADO));
 
         verificaGruposSemaforicos(75, new GrupoCheck(3, 15, 0, 6000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));

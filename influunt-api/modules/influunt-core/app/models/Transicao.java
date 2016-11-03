@@ -76,6 +76,9 @@ public class Transicao extends Model implements Cloneable, Serializable {
     private DateTime dataAtualizacao;
 
     @Column
+    private boolean modoIntermitenteOuApagado;
+
+    @Column
     private boolean destroy;
 
     public Transicao() {
@@ -157,6 +160,14 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public boolean isModoIntermitenteOuApagado() {
+        return modoIntermitenteOuApagado;
+    }
+
+    public void setModoIntermitenteOuApagado(boolean modoIntermitenteOuApagado) {
+        this.modoIntermitenteOuApagado = modoIntermitenteOuApagado;
     }
 
     public boolean isDestroy() {

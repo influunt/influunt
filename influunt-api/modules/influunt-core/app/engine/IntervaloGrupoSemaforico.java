@@ -228,7 +228,13 @@ public class IntervaloGrupoSemaforico {
             }
 
             if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
-                final Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagio);
+                final Transicao transicao;
+                if (estagio.getId() != null) {
+                    transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagio);
+                } else {
+                    transicao = grupoSemaforico.findTransicaoByDestinoIntermitente(estagioAnterior);
+                }
+
                 final TabelaEntreVerdesTransicao tabelaEntreVerdes = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(plano.getPosicaoTabelaEntreVerde(), transicao);
                 final long tempo;
                 final long tempoAtraso = transicao.getTempoAtrasoGrupo() * 1000L;
@@ -241,6 +247,7 @@ public class IntervaloGrupoSemaforico {
                     tempo = (tabelaEntreVerdes.getTempoAmarelo() * 1000L) + tempoAtraso;
                     intervalos.put(Range.closedOpen(tempoAtraso, tempo), EstadoGrupoSemaforico.AMARELO);
                 }
+
                 intervalos.put(Range.closedOpen(tempo, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
             } else {
                 intervalos.put(Range.closedOpen(0L, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO);
