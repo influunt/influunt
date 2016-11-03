@@ -52,48 +52,48 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> verdesConflitantes() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class);
+            ControladorVerdesConflitantesCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> associacaoGruposSemaforicos() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> transicoesProibidas() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> entreVerdes() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> atrasoDeGrupo() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAtrasoDeGrupoCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAtrasoDeGrupoCheck.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> associacaoDetectores() {
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAtrasoDeGrupoCheck.class, ControladorAssociacaoDetectoresCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAtrasoDeGrupoCheck.class, ControladorAssociacaoDetectoresCheck.class);
     }
 
     @Transactional
@@ -228,7 +228,8 @@ public class ControladoresController extends Controller {
                 Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
                 if (controlador != null) {
                     controladores.add(controlador);
-            }});
+                }
+            });
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresForMapas(controladores)));
         }
 
@@ -305,7 +306,7 @@ public class ControladoresController extends Controller {
                 return CompletableFuture.completedFuture(ok());
             } else {
                 return CompletableFuture.completedFuture(forbidden(Json.toJson(
-                        Arrays.asList(new Erro("controlador", "Controlador em edição com o usuário: " + versaoControlador.getUsuario().getNome() + "", "")))));
+                    Arrays.asList(new Erro("controlador", "Controlador em edição com o usuário: " + versaoControlador.getUsuario().getNome() + "", "")))));
             }
         }
     }
@@ -321,7 +322,7 @@ public class ControladoresController extends Controller {
                 String descricao = request().body().asJson().get("descricao").asText();
                 if (StringUtils.isEmpty(descricao.trim())) {
                     return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY,
-                            Json.toJson(Collections.singletonList(new Erro("controlador", "Informe uma descrição para finalizar a configuração", "")))));
+                        Json.toJson(Collections.singletonList(new Erro("controlador", "Informe uma descrição para finalizar a configuração", "")))));
                 }
                 VersaoControlador versaoControlador = controlador.getVersaoControlador();
                 if (versaoControlador != null) {
