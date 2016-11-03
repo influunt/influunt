@@ -171,6 +171,23 @@ angular.module('influuntApp')
           $scope.errors.aneis[indexAnel].estagios[indexEstagioAnel].origemDeTransicoesProibidas[indexDestino];
       };
 
+      /**
+       * Garante que a ordem por posição de aneis e estágios será mantida sempre antes do submit dos dados.
+       * Isto é necessário para garantir que as validações sejam apresentadas nos elementos corretos.
+       */
+      $scope.beforeSubmitForm = function() {
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, 'posicao');
+
+        $scope.objeto.aneis.map(function(anel) {
+          var ids = _.map(anel.estagios, 'idJson');
+          anel.estagios = _.chain($scope.objeto.estagios)
+            .filter(function(e) { return ids.indexOf(e.idJson) >= 0; })
+            .orderBy('posicao')
+            .map(function(e) { return {idJson: e.idJson}; })
+            .value();
+        });
+      };
+
 
 
       $scope.$watch('errors', function(erros) {
