@@ -321,7 +321,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             message = "A sequência de estágios não é válida.")
     public boolean isSequenciaInvalida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
-            return sequenciaDeEstagioValida(ordenarEstagiosPorPosicao());
+            return sequenciaDeEstagioValida(getEstagiosOrdenados());
         }
         return true;
     }
@@ -424,10 +424,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         return 0;
     }
 
-    public List<EstagioPlano> ordenarEstagiosPorPosicao() {
-        List<EstagioPlano> listaEstagioPlanos = this.getEstagiosPlanos();
-        listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
-        return listaEstagioPlanos;
+    public List<EstagioPlano> getEstagiosOrdenados() {
+        return getEstagiosPlanos().stream().sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).collect(Collectors.toList());
     }
 
     public List<EstagioPlano> ordenarEstagiosPorPosicaoSemEstagioDispensavel() {
@@ -477,7 +475,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         if (this.isModoOperacaoVerde()) {
             preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicaoSemEstagioDispensavel());
-            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicao());
+            preencheTabelaEntreVerde(tabela, getEstagiosOrdenados());
             this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
                 preencheTabelaEntreVerde(tabela, e);
             });
