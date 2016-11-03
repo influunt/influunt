@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
@@ -284,14 +285,14 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")
-    public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
-        if (getEstagioQueRecebeEstagioDispensavel() != null) {
-            List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicao();
-            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
-        }
-        return true;
-    }
+     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")
+     public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
+         if (getEstagioQueRecebeEstagioDispensavel() != null) {
+             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosPlanos().stream().sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).collect(Collectors.toList());
+             return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
+         }
+         return true;
+     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio precisa estar associado a um detector para ser dispensável.")
     public boolean isPodeSerEstagioDispensavel() {
