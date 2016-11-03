@@ -43,7 +43,7 @@
               <div class="form-group" data-ng-class="{'has-error': errors.area}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
-                        data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas"
+                        data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas | orderBy: 'descricao'"
                         data-ng-model="objeto.area.idJson"
                         permission
                         permission-only="'visualizarTodasAreas'"
