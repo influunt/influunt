@@ -224,7 +224,7 @@ public class ControladoresController extends Controller {
 
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.stream().forEach(controladorFisico -> {
+            controladoresFisicos.forEach(controladorFisico -> {
                 Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
                 if (controlador != null) {
                     controladores.add(controlador);
