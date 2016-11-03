@@ -38,7 +38,7 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
         }],
         estagios: [{idJson: 'e1'}],
         gruposSemaforicos: [{idJson: 'gs1', transicoes: [{idJson: 't1'}]}]
-      }
+      };
 
       var result = scope.assertVerdesConflitantes();
       expect(result).toBeTruthy();
@@ -67,7 +67,7 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
           aneis: [
             {
               idJson: 1, ativo: true,
-              estagios: [{idJson: 'e1'}],
+              estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
               gruposSemaforicos: [{idJson: 'gs1'},{idJson: 'gs2'},{idJson: 'gs3'},{idJson: 'gs4'}]
             }
           ],
@@ -95,7 +95,7 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
           aneis: [
             {
               idJson: 1, ativo: true,
-              estagios: [{idJson: 'e1'}],
+              estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
               gruposSemaforicos: [{idJson: 'gs1'},{idJson: 'gs2'},{idJson: 'gs3'},{idJson: 'gs4'}]
             }
           ],
@@ -125,7 +125,7 @@ describe('Controller: ControladoresVerdesConflitantesCtrl', function () {
         aneis: [
           {
             idJson: 1, ativo: true,
-            estagios: [{idJson: 'e1'}],
+            estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
             gruposSemaforicos: [{idJson: 'gs1'},{idJson: 'gs2'},{idJson: 'gs3'},{idJson: 'gs4'}]
           }
         ],

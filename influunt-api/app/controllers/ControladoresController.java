@@ -224,7 +224,7 @@ public class ControladoresController extends Controller {
 
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.stream().forEach(controladorFisico -> {
+            controladoresFisicos.forEach(controladorFisico -> {
                 Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
                 if (controlador != null) {
                     controladores.add(controlador);
@@ -300,15 +300,14 @@ public class ControladoresController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            VersaoControlador versaoControlador = VersaoControlador.findByControlador(controlador);
-            if (versaoControlador != null && getUsuario().equals(versaoControlador.getUsuario())) {
-                return CompletableFuture.completedFuture(ok());
-            } else {
-                return CompletableFuture.completedFuture(forbidden(Json.toJson(
-                    Arrays.asList(new Erro("controlador", "Controlador em edição com o usuário: " + versaoControlador.getUsuario().getNome() + "", "")))));
-            }
         }
+
+        if (controlador.podeEditar(getUsuario())) {
+            return CompletableFuture.completedFuture(ok());
+        }
+
+        return CompletableFuture.completedFuture(forbidden(Json.toJson(
+            Collections.singletonList(new Erro("controlador", "Controlador em edição com o usuário: " + controlador.getVersaoControlador().getUsuario().getNome(), "")))));
     }
 
     @Transactional

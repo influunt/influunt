@@ -319,10 +319,13 @@ angular.module('influuntApp')
       };
 
       podeEditarControlador = function(controlador) {
-        var usuario = PermissionsService.getUsuario();
-        var editor = _.get(controlador, 'versaoControlador.usuario');
-        var statusVersao = _.get(controlador, 'statusVersao');
-        return statusVersao !== 'EDITANDO' || !editor || usuario.id === editor.id;
+        if (controlador) {
+          var controladorConfigurado = controlador.statusControladorReal !== 'EM_CONFIGURACAO' && controlador.statusControladorReal !== 'EDITANDO';
+          var usuario = PermissionsService.getUsuario();
+          var editor = _.get(controlador, 'versaoControlador.usuario');
+          return controladorConfigurado || !editor || usuario.id === editor.id;
+        }
+        return false;
       };
 
       return {

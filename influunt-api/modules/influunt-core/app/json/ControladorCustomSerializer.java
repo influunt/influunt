@@ -327,7 +327,11 @@ public class ControladorCustomSerializer {
         if (controlador.getVersaoControlador().getStatusVersao() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }
-
+        if (controlador.getVersaoControlador().getUsuario() != null) {
+            ObjectNode usuarioNode = root.putObject("versaoControlador").putObject("usuario");
+            usuarioNode.put("id", controlador.getVersaoControlador().getUsuario().getId().toString());
+            usuarioNode.put("nome", controlador.getVersaoControlador().getUsuario().getNome());
+        }
         root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
         Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
         if (anel != null) {

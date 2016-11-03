@@ -41,10 +41,10 @@ angular.module('influuntApp')
       };
 
       $scope.limitesList = function(modelo) {
-        var fields = ['limiteEstagio', 'limiteGrupoSemaforico', 'limiteAnel', 'limiteDetectorPedestre', 'limiteDetectorVeicular', 'limiteTabelasEntreVerdes'];
+        var fields = ['limiteEstagio', 'limiteGrupoSemaforico', 'limiteAnel', 'limiteDetectorPedestre', 'limiteDetectorVeicular', 'limiteTabelasEntreVerdes', 'limitePlanos'];
         var list = '<ul>';
         fields.forEach(function(field) {
-          list += '<li>'+$filter('translate')('modelos.'+field)+': '+modelo[field]+'</li>';
+          list += '<li>' + $filter('translate')('modelos.'+field) + ': ' + modelo[field] + '</li>';
         });
         list += '</ul>';
         return list;

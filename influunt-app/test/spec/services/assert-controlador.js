@@ -103,9 +103,10 @@ describe('Service: assertControlador', function () {
         controlador = {
           aneis: [{
             idJson: 1,
-            estagios: [{idJson: 'e1'}]
+            ativo: true,
+            estagios: [{idJson: 'e1'}, {idJson: 'e2'}]
           }],
-          estagios: [{idJson: 'e1'}]
+          estagios: [{idJson: 'e1'}, {idJson: 'e2'}]
         };
       });
 
@@ -116,6 +117,11 @@ describe('Service: assertControlador', function () {
 
       it('Deve invalidar o controlador se não houver estágios', function() {
         controlador.estagios = [];
+        expect(assertControlador.assertStepConfiguracaoGrupos(controlador)).toBeFalsy();
+      });
+
+      it('Deve invalidar um controlador se não houver ao menos dois estagios configurados por anel ativo.', function() {
+        controlador.estagios = [{idJson: 'e1'}];
         expect(assertControlador.assertStepConfiguracaoGrupos(controlador)).toBeFalsy();
       });
 

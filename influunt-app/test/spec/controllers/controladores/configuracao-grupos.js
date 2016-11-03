@@ -53,8 +53,8 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
     describe('Configuração válida', function () {
       beforeEach(function() {
         var objeto = {
-          aneis: [{idJson: 1, ativo: true, estagios: [{idJson: 'e1'}]}],
-          estagios: [{idJson: 'e1'}, {idJson: 'e2'}]
+          aneis: [{idJson: 1, ativo: true, estagios: [{idJson: 'e1'}, {idJson: 'e2'}]}],
+          estagios: [{idJson: 'e1'}, {idJson: 'e2'}, {idJson: 'e3'}]
         };
 
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaConfiguracaoGrupos);
@@ -73,8 +73,8 @@ describe('Controller: ControladoresConfiguracaoGruposCtrl', function () {
     describe('Configuração inicializada', function () {
       beforeEach(function() {
         var objeto = {
-          aneis: [{idJson: 1, ativo: true, gruposSemaforicos: [{idJson: 'gs1'}], estagios: [{idJson: 'e1'}]}],
-          estagios: [{idJson: 'e1'}],
+          aneis: [{idJson: 1, ativo: true, gruposSemaforicos: [{idJson: 'gs1'}], estagios: [{idJson: 'e1'}, {idJson: 'e2'}]}],
+          estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
           gruposSemaforicos: [{idJson: 'gs1'}, {idJson: 'gs2'}]
         };
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaConfiguracaoGrupos);

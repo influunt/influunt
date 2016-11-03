@@ -769,6 +769,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return StatusVersao.ATIVO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
     }
 
+    public boolean podeEditar(Usuario usuario) {
+        VersaoControlador versaoControlador = VersaoControlador.findByControlador(this);
+        StatusVersao statusControlador = versaoControlador.getStatusVersao();
+        boolean statusOk = !StatusVersao.EM_CONFIGURACAO.equals(statusControlador) && !StatusVersao.EDITANDO.equals(statusControlador);
+        return statusOk || usuario.equals(versaoControlador.getUsuario());
+    }
+
     public boolean podeSerEditadoPorUsuario(Usuario usuario) {
         VersaoControlador versao = VersaoControlador.findByControlador(this);
         return versao != null && usuario.equals(versao.getUsuario());

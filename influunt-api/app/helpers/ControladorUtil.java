@@ -389,6 +389,10 @@ public class ControladorUtil {
         controlador.setBloqueado(true);
         Ebean.update(controlador);
 
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+        versaoControlador.setUsuario(usuario);
+        Ebean.update(versaoControlador);
+
         long elapsed = System.nanoTime() - startTime;
         Logger.info(String.format("[PLANO] - DeepClone: Elapsed time: %d ns (%f seconds)%n", elapsed, elapsed / Math.pow(10, 9)));
     }
@@ -412,6 +416,10 @@ public class ControladorUtil {
             controlador.setBloqueado(true);
             controlador.setPlanosBloqueado(true);
             Ebean.update(controlador);
+
+            VersaoControlador versaoControlador = controlador.getVersaoControlador();
+            versaoControlador.setUsuario(usuario);
+            Ebean.update(versaoControlador);
         }
 
         long elapsed = System.nanoTime() - startTime;

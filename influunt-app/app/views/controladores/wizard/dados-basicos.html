@@ -112,7 +112,7 @@
               <footer class="form-group">
                 <p><small>{{ 'geral.auditoria.dataCriacao' | translate }}: {{ objeto.dataCriacao | date:"short" }}</small></p>
                 <p><small>{{ 'geral.auditoria.dataAtualizacao' | translate }}: {{ objeto.dataAtualizacao | date:"short" }}</small></p>
-                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.atualizadoPor }}</small></p>
+                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.versaoControlador.usuario.nome }}</small></p>
               </footer>
             </div>
 
