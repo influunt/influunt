@@ -14,6 +14,7 @@ import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import play.libs.Json;
 import utils.DBUtils;
 
 import javax.persistence.*;
@@ -21,10 +22,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 
 /**
@@ -767,6 +766,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public boolean podeClonar() {
         StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
         return StatusVersao.ATIVO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
+    }
+
+    public boolean podeEditar(Usuario usuario) {
+        VersaoControlador versaoControlador = VersaoControlador.findByControlador(this);
+        StatusVersao statusControlador = versaoControlador.getStatusVersao();
+        boolean statusOk = !StatusVersao.EM_CONFIGURACAO.equals(statusControlador) && !StatusVersao.EDITANDO.equals(statusControlador);
+        return statusOk || usuario.equals(versaoControlador.getUsuario());
     }
 
     public boolean podeSerEditadoPorUsuario(Usuario usuario) {

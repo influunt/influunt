@@ -533,8 +533,8 @@ angular.module('influuntApp')
           });
       };
 
-      $scope.podeEditarControlador = function() {
-        return planoService.podeEditarControlador($scope.objeto);
+      $scope.podeEditarControlador = function(controlador) {
+        return planoService.podeEditarControlador(controlador);
       };
 
       $scope.controladorBloqueadoParaEdicao = function() {
@@ -546,7 +546,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeFinalizar = function(controlador) {
-        var statusControladorOk = controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO';
+        var statusControladorOk = controlador.statusControladorReal === 'EM_CONFIGURACAO' || controlador.statusControladorReal === 'EDITANDO';
         return statusControladorOk && controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
       };
 
