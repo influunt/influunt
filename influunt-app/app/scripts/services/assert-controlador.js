@@ -41,6 +41,19 @@ angular.module('influuntApp')
     };
 
     /**
+     * Garante que todos os aneis possuam ao menos dois estágios.
+     *
+     * @param      {<type>}   controlador  The controlador
+     * @return     {boolean}  True if has ao menos dois estagios por anel, False otherwise.
+     */
+    var hasAoMenosDoisEstagiosPorAnel = function(controlador) {
+      return _.chain(controlador.aneis)
+        .filter('ativo')
+        .every(function(anel) { return _.isArray(anel.estagios) && anel.estagios.length > 1; })
+        .value();
+    };
+
+    /**
      * Verifica se o controlador possui ao menos uma transição por grupo semafórico
      *
      * @param      {Object}   controlador  The controlador
@@ -132,7 +145,7 @@ angular.module('influuntApp')
      * @return     {<type>}  { description_of_the_return_value }
      */
     var assertStepConfiguracaoGrupos = function(controlador) {
-      return assertStepAneis(controlador) && hasEstagios(controlador);
+      return assertStepAneis(controlador) && hasEstagios(controlador) && hasAoMenosDoisEstagiosPorAnel(controlador);
     };
 
     /**
