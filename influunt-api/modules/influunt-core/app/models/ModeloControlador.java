@@ -10,6 +10,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.deserializers.ModeloControladorDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.ModeloControladorSerializer;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -47,7 +48,7 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     private Fabricante fabricante;
 
     @Column
-    @NotNull(message = "não pode ficar em branco")
+    @NotBlank(message = "não pode ficar em branco")
     private String descricao;
 
     @Column
