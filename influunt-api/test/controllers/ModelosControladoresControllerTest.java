@@ -1,3 +1,5 @@
+import checks.Erro;
+import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import controllers.routes;
@@ -9,6 +11,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 
+import javax.validation.groups.Default;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,13 +48,28 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
 
     @Test
     public void testCriarNovoModeloControlador() {
-        ModeloControlador modeloControlador = criarModeloComFabricante("Modelo Básico", false);
-
+        ModeloControlador modelo = new ModeloControlador();
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modeloControlador));
+            .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modelo));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         ModeloControlador modeloControladorRetornado = Json.fromJson(json, ModeloControlador.class);
+        List<Erro> erros = getErros(modeloControladorRetornado);
+
+        assertEquals(422, postResult.status());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro("ModeloControlador", "não pode ficar em branco", "fabricante"),
+            new Erro("ModeloControlador", "não pode ficar em branco", "descricao")
+        ));
+
+
+        ModeloControlador modeloControlador = criarModeloComFabricante("Modelo Básico", false);
+
+        postRequest = new Http.RequestBuilder().method("POST")
+                .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modeloControlador));
+        postResult = route(postRequest);
+        json = Json.parse(Helpers.contentAsString(postResult));
+        modeloControladorRetornado = Json.fromJson(json, ModeloControlador.class);
 
         assertEquals(200, postResult.status());
         assertEquals("Modelo Básico", modeloControladorRetornado.getDescricao());
@@ -78,6 +96,7 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
 
         ModeloControlador novoModeloControlador = new ModeloControlador();
         novoModeloControlador.setDescricao("Teste atualizar");
+        novoModeloControlador.setFabricante(modelo.getFabricante());
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
                 .uri(routes.ModelosControladoresController.update(modeloControladorId.toString()).url())
@@ -128,5 +147,9 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
                 .uri(routes.ModelosControladoresController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
+    }
+
+    protected List<Erro> getErros(ModeloControlador modeloControlador) {
+        return new InfluuntValidator<ModeloControlador >().validate(modeloControlador, Default.class);
     }
 }
