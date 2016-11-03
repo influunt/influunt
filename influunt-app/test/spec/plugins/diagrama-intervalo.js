@@ -1170,4 +1170,86 @@
       });
     });
   });
+
+  describe('atraso de grupo automatico', function () {
+    var controlador, resposta;
+    beforeEach(inject(function(geraDadosDiagramaIntervalo) {
+      controlador = ControladorAtrasoGrupoAutomatico.get();
+      var anel = _.find(controlador.aneis, {posicao: 1});
+      var plano = _
+        .chain(anel.planos)
+        .map(function(p) { return _.find(controlador.planos, {idJson: p.idJson}); })
+        .find({posicao: 1})
+        .value();
+
+      var grupos = _
+        .chain(anel.gruposSemaforicos)
+        .map(function(g) { return _.find(controlador.gruposSemaforicos, {idJson: g.idJson}); })
+        .orderBy('posicao')
+        .value();
+
+      var valoresMinimos = {
+        verdeMin: controlador.verdeMin,
+        verdeMinimoMin: controlador.verdeMinimoMin
+      };
+
+      var planoDiagrama = geraDadosDiagramaIntervalo.gerar(plano, anel, grupos, controlador);
+
+      var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(planoDiagrama, valoresMinimos);
+      resposta = diagramaIntervaloBuilder.calcula();
+    }));
+
+    // Verdes Conflitantes
+    //   G1-G2
+    //   G1-G3
+    //   G4(pedestre) - G5(veicular)
+    describe('Atraso automático em G4-G5', function () {
+      it('Deve conter uma lista de erros vazia', function() {
+        expect(resposta.erros.length).toBe(0);
+      });
+
+      it('Deve possuir 5 grupos semafóricos e 3 estágios', function() {
+        expect(resposta.gruposSemaforicos.length).toBe(5);
+        expect(resposta.estagios.length).toBe(3);
+      });
+
+      it('O G4 deve ter 5 intervalos', function() {
+        expect(resposta.gruposSemaforicos[3].intervalos.length).toBe(5);
+      });
+
+      it('O G5 deve ter 5 intervalos', function() {
+        expect(resposta.gruposSemaforicos[4].intervalos.length).toBe(5);
+      });
+
+      it('Os intervalos do G4 devem durar 50(vermelho), 20(verde), 9(vermelho intermitente), 1(vermelho limpeza) e 15(vermelho)', function() {
+        debugger
+        expect(resposta.gruposSemaforicos[3].intervalos[0].duracao).toBe(50);
+        expect(resposta.gruposSemaforicos[3].intervalos[1].duracao).toBe(20);
+        expect(resposta.gruposSemaforicos[3].intervalos[2].duracao).toBe(9);
+        expect(resposta.gruposSemaforicos[3].intervalos[3].duracao).toBe(1);
+        expect(resposta.gruposSemaforicos[3].intervalos[4].duracao).toBe(15);
+
+        expect(resposta.gruposSemaforicos[3].intervalos[0].status).toBe(3);
+        expect(resposta.gruposSemaforicos[3].intervalos[1].status).toBe(1);
+        expect(resposta.gruposSemaforicos[3].intervalos[2].status).toBe(4);
+        expect(resposta.gruposSemaforicos[3].intervalos[3].status).toBe(6);
+        expect(resposta.gruposSemaforicos[3].intervalos[4].status).toBe(3);
+      });
+
+      it('Os intervalos do G5 devem durar 50(verde), 3(amarelo), 2(vermelho limpeza), 25(vermelho) e 20(verde)', function() {
+        expect(resposta.gruposSemaforicos[4].intervalos[0].duracao).toBe(50);
+        expect(resposta.gruposSemaforicos[4].intervalos[1].duracao).toBe(3);
+        expect(resposta.gruposSemaforicos[4].intervalos[2].duracao).toBe(2);
+        expect(resposta.gruposSemaforicos[4].intervalos[3].duracao).toBe(25);
+        expect(resposta.gruposSemaforicos[4].intervalos[4].duracao).toBe(20);
+
+        expect(resposta.gruposSemaforicos[4].intervalos[0].status).toBe(1);
+        expect(resposta.gruposSemaforicos[4].intervalos[1].status).toBe(2);
+        expect(resposta.gruposSemaforicos[4].intervalos[2].status).toBe(6);
+        expect(resposta.gruposSemaforicos[4].intervalos[3].status).toBe(3);
+        expect(resposta.gruposSemaforicos[4].intervalos[4].status).toBe(1);
+      });
+    });
+  });
+
 })();

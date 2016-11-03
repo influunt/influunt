@@ -10,11 +10,11 @@
 angular.module('influuntApp')
   .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter',
                              'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
-                             'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
+                             'influuntAlert', 'influuntBlockui',
                              'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs', 'SimulacaoService',
     function ($controller, $scope, $state, $timeout, Restangular, $filter,
               validaTransicao, utilEstagios, toast, modoOperacaoService,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
+              influuntAlert, influuntBlockui,
               handleValidations, utilControladores, planoService, breadcrumbs, SimulacaoService) {
 
       $controller('HistoricoCtrl', {$scope: $scope});
