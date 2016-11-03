@@ -307,7 +307,7 @@ public class ControladoresController extends Controller {
         }
 
         return CompletableFuture.completedFuture(forbidden(Json.toJson(
-            Collections.singletonList(new Erro("controlador", "Controlador em edição com o usuário: " + controlador.getVersaoControlador().getUsuario().getNome() + "", "")))));
+            Collections.singletonList(new Erro("controlador", "Controlador em edição com o usuário: " + controlador.getVersaoControlador().getUsuario().getNome(), "")))));
     }
 
     @Transactional

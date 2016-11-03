@@ -320,7 +320,7 @@ angular.module('influuntApp')
 
       podeEditarControlador = function(controlador) {
         if (controlador) {
-          var controladorConfigurado = controlador.statusControladorReal !== 'EM_CONFIGURACAO' && controlador.statusControladorReal !== 'EDITANDO'
+          var controladorConfigurado = controlador.statusControladorReal !== 'EM_CONFIGURACAO' && controlador.statusControladorReal !== 'EDITANDO';
           var usuario = PermissionsService.getUsuario();
           var editor = _.get(controlador, 'versaoControlador.usuario');
           return controladorConfigurado || !editor || usuario.id === editor.id;
