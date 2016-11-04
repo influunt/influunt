@@ -37,11 +37,17 @@ angular.module('influuntApp')
 
         currentPlano.gruposSemaforicosPlanos.forEach(function (gp){
           var grupoPlano = _.cloneDeep(_.find(controlador.gruposSemaforicosPlanos, {idJson: gp.idJson}));
+          var grupo = _.cloneDeep(_.find(controlador.gruposSemaforicos, {idJson: grupoPlano.grupoSemaforico.idJson}));
+          grupoPlano.grupoSemaforico.posicao = grupo.posicao;
           plano.gruposSemaforicosPlanos.push(grupoPlano);
 
-          var verdeConflitante = _.find(controlador.verdesConflitantes, { origem: { idJson: grupoPlano.grupoSemaforico.idJson } });
+          var verdeConflitante = _.filter(controlador.verdesConflitantes, { origem: { idJson: grupoPlano.grupoSemaforico.idJson } }) ||
+                                 _.filter(controlador.verdesConflitantes, { destino: { idJson: grupoPlano.grupoSemaforico.idJson } });
           plano.verdesConflitantesPlano.push(verdeConflitante);
         });
+        plano.verdesConflitantesPlano = _.flatten(plano.verdesConflitantesPlano);
+
+        plano.gruposSemaforicosPlanos = _.orderBy(plano.gruposSemaforicosPlanos, 'grupoSemaforico.posicao');
 
         currentPlano.estagiosPlanos.forEach(function(ep){
           var estagioPlano = _.cloneDeep(_.find(controlador.estagiosPlanos, {idJson: ep.idJson}));
@@ -87,7 +93,6 @@ angular.module('influuntApp')
         });
         plano.estagiosPlanos = _.orderBy(plano.estagiosPlanos, ['posicao']);
 
-        debugger
         return plano;
       }
     };

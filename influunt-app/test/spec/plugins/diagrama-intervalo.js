@@ -12,447 +12,449 @@
           defasagem: 0,
           quantidadeGruposSemaforicos: 5,
           modoOperacao: 'TEMPO_FIXO_ISOLADO',
-          estagiosPlanos: [{
-            id: 'EP1',
-            idJson: 'EP1-JSON',
-            tempoVerde: 20,
-            tempoVerdeMinimo: null,
-            tempoVerdeMaximo: null,
-            tempoVerdeIntermediario: null,
-            extensaoVerde: null,
-            estagio: {
-              id: 'E1',
-              idJson: 'E1-JSON',
-              gruposSemaforicos: [{
-                id: 'G1',
-                idJson: 'G1-JSON',
-                tipo: 'VEICULAR',
-                posicao: 1,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-1',
-                  idJson: 'tabela-entre-verdes-1-JSON',
-                  posicao: 1
-                }, {
-                  id: 'tabela-entre-verdes-1-2',
-                  idJson: 'tabela-entre-verdes-1-2-JSON',
-                  posicao: 2
-                }, ],
-                transicoes: [{
-                  id: 'transicao-1',
-                  idJson: 'transicao-1-JSON',
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-1',
-                      idJson: 'tabela-entre-verdes-1-JSON'
+          estagiosPlanos: [
+            {
+              id: 'EP1',
+              idJson: 'EP1-JSON',
+              tempoVerde: 20,
+              tempoVerdeMinimo: null,
+              tempoVerdeMaximo: null,
+              tempoVerdeIntermediario: null,
+              extensaoVerde: null,
+              estagio: {
+                id: 'E1',
+                idJson: 'E1-JSON',
+                gruposSemaforicos: [{
+                  id: 'G1',
+                  idJson: 'G1-JSON',
+                  tipo: 'VEICULAR',
+                  posicao: 1,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-1',
+                    idJson: 'tabela-entre-verdes-1-JSON',
+                    posicao: 1
+                  }, {
+                    id: 'tabela-entre-verdes-1-2',
+                    idJson: 'tabela-entre-verdes-1-2-JSON',
+                    posicao: 2
+                  }, ],
+                  transicoes: [{
+                    id: 'transicao-1',
+                    idJson: 'transicao-1-JSON',
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
                     },
-                    tempoAmarelo: 3,
-                    tempoVermelhoLimpeza: 1
-                  }]
-                }],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-1',
-                  idJson: 'transicao-perda-1-JSON',
-                  origem: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  destino: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  tempoAtrasoGrupo: 2
-                }]
-              }, {
-                id: 'G5',
-                idJson: 'G5-JSON',
-                tipo: 'PEDESTRE',
-                posicao: 5,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-2',
-                  idJson: 'tabela-entre-verdes-2-JSON',
-                  posicao: 1
-                }],
-                transicoes: [{
-                  id: 'transicao-3',
-                  idJson: 'transicao-3-JSON',
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-2',
-                      idJson: 'tabela-entre-verdes-2-JSON'
+                    destino: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
                     },
-                    tempoVermelhoIntermitente: 3,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }, {
-                  id: 'transicao-13',
-                  idJson: 'transicao-13-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-2',
-                      idJson: 'tabela-entre-verdes-2-JSON'
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-1',
+                        idJson: 'tabela-entre-verdes-1-JSON'
+                      },
+                      tempoAmarelo: 3,
+                      tempoVermelhoLimpeza: 1
+                    }]
+                  }],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-1',
+                    idJson: 'transicao-perda-1-JSON',
+                    origem: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
                     },
-                    tempoVermelhoIntermitente: 3,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-2',
-                  idJson: 'transicao-perda-2-JSON',
-                  origem: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  destino: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  tempoAtrasoGrupo: 0
-                }]
-              }, ]
-            }
-          }, {
-            id: 'EP2',
-            idJson: 'EP2-JSON',
-            tempoVerde: 10,
-            tempoVerdeMinimo: null,
-            tempoVerdeMaximo: null,
-            tempoVerdeIntermediario: null,
-            extensaoVerde: null,
-            estagio: {
-              id: 'E2',
-              idJson: 'E2-JSON',
-              gruposSemaforicos: [{
-                id: 'G3',
-                idJson: 'G3-JSON',
-                tipo: 'PEDESTRE',
-                posicao: 3,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-3',
-                  idJson: 'tabela-entre-verdes-3-JSON',
-                  posicao: 1
-                }],
-                transicoes: [{
-                  id: 'transicao-4',
-                  idJson: 'transicao-4-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-3',
-                      idJson: 'tabela-entre-verdes-3-JSON'
+                    destino: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
                     },
-                    tempoVermelhoIntermitente: 3,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }, {
-                  id: 'transicao-5',
-                  idJson: UUID.generate(),
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJSON: 'E3-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-3',
-                      idJson: 'tabela-entre-verdes-3-JSON'
-                    },
-                    tempoVermelhoIntermitente: 3,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }, ],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-3',
-                  idJson: 'transicao-perda-3-JSON',
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  tempoAtrasoGrupo: 0
-                }]
-              }, {
-                id: 'G5',
-                idJson: 'G5-JSON',
-                tipo: 'PEDESTRE',
-                posicao: 5,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-2',
-                  idJson: 'tabela-entre-verdes-2-JSON',
-                  posicao: 1
-                }],
-                transicoes: [{
-                  id: 'transicao-3',
-                  idJson: 'transicao-3-JSON',
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-2',
-                      idJson: 'tabela-entre-verdes-2-JSON'
-                    },
-                    tempoVermelhoIntermitente: 3,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }, {
-                  id: 'transicao-13',
-                  idJson: 'transicao-13-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-2',
-                      idJson: 'tabela-entre-verdes-2-JSON'
-                    },
-                    tempoVermelhoIntermitente: 3,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-4',
-                  idJson: 'transicao-perda-4-JSON',
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  tempoAtrasoGrupo: 0
-                }]
-              }, {
-                id: 'G4',
-                idJson: 'G4-JSON',
-                tipo: 'PEDESTRE',
-                posicao: 4,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-5',
-                  idJson: 'tabela-entre-verdes-5-JSON',
-                  posicao: 1
-                }],
-                transicoes: [{
-                  id: 'transicao-6',
-                  idJson: 'transicao-6-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-5',
-                      idJson: 'tabela-entre-verdes-5-JSON'
-                    },
-                    tempoVermelhoIntermitente: 5,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }, {
-                  id: 'transicao-7',
-                  idJson: 'transicao-7-JSON',
-                  origem: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  destino: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-5',
-                      idJson: 'tabela-entre-verdes-5-JSON'
-                    },
-                    tempoVermelhoIntermitente: 5,
-                    tempoVermelhoLimpeza: 3
-                  }]
-                }, ],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-5',
-                  idJson: 'transicao-perda-5-JSON',
-                  origem: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  destino: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  tempoAtrasoGrupo: 0
-                }]
-              }]
-            }
-          }, {
-            id: 'EP3',
-            idJson: 'EP3-JSON',
-            tempoVerde: 12,
-            tempoVerdeMinimo: null,
-            tempoVerdeMaximo: null,
-            tempoVerdeIntermediario: null,
-            extensaoVerde: null,
-            estagio: {
-              id: 'E3',
-              idJson: 'E3-JSON',
-              gruposSemaforicos: [{
-                id: 'G2',
-                idJson: 'G2-JSON',
-                tipo: 'VEICULAR',
-                posicao: 2,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-6',
-                  idJson: 'tabela-entre-verdes-6-JSON',
-                  posicao: 1
-                }],
-                transicoes: [{
-                  id: 'transicao-8',
-                  idJson: 'transicao-8-JSON',
-                  origem: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  destino: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-6',
-                      idJson: 'tabela-entre-verdes-6-JSON'
-                    },
-                    tempoAmarelo: 3,
-                    tempoVermelhoLimpeza: 3,
                     tempoAtrasoGrupo: 2
                   }]
-                }],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-6',
-                  idJson: 'transicao-perda-6-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tempoAtrasoGrupo: 0
-                }]
-              }, {
-                id: 'G4',
-                idJson: 'G4-JSON',
-                tipo: 'PEDESTRE',
-                posicao: 4,
-                tabelasEntreVerdes: [{
-                  id: 'tabela-entre-verdes-5',
-                  idJson: 'tabela-entre-verdes-5-JSON',
-                  posicao: 1
-                }],
-                transicoes: [{
-                  id: 'transicao-6',
-                  idJson: 'transicao-6-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-5',
-                      idJson: 'tabela-entre-verdes-5-JSON'
+                }, {
+                  id: 'G5',
+                  idJson: 'G5-JSON',
+                  tipo: 'PEDESTRE',
+                  posicao: 5,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-2',
+                    idJson: 'tabela-entre-verdes-2-JSON',
+                    posicao: 1
+                  }],
+                  transicoes: [{
+                    id: 'transicao-3',
+                    idJson: 'transicao-3-JSON',
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
                     },
-                    tempoVermelhoIntermitente: 5,
-                    tempoVermelhoLimpeza: 3
+                    destino: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-2',
+                        idJson: 'tabela-entre-verdes-2-JSON'
+                      },
+                      tempoVermelhoIntermitente: 3,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, {
+                    id: 'transicao-13',
+                    idJson: 'transicao-13-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-2',
+                        idJson: 'tabela-entre-verdes-2-JSON'
+                      },
+                      tempoVermelhoIntermitente: 3,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-2',
+                    idJson: 'transicao-perda-2-JSON',
+                    origem: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    destino: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    tempoAtrasoGrupo: 0
+                  }]
+                }, ]
+              }
+            }, {
+              id: 'EP2',
+              idJson: 'EP2-JSON',
+              tempoVerde: 10,
+              tempoVerdeMinimo: null,
+              tempoVerdeMaximo: null,
+              tempoVerdeIntermediario: null,
+              extensaoVerde: null,
+              estagio: {
+                id: 'E2',
+                idJson: 'E2-JSON',
+                gruposSemaforicos: [{
+                  id: 'G3',
+                  idJson: 'G3-JSON',
+                  tipo: 'PEDESTRE',
+                  posicao: 3,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-3',
+                    idJson: 'tabela-entre-verdes-3-JSON',
+                    posicao: 1
+                  }],
+                  transicoes: [{
+                    id: 'transicao-4',
+                    idJson: 'transicao-4-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-3',
+                        idJson: 'tabela-entre-verdes-3-JSON'
+                      },
+                      tempoVermelhoIntermitente: 3,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, {
+                    id: 'transicao-5',
+                    idJson: UUID.generate(),
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJSON: 'E3-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-3',
+                        idJson: 'tabela-entre-verdes-3-JSON'
+                      },
+                      tempoVermelhoIntermitente: 3,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, ],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-3',
+                    idJson: 'transicao-perda-3-JSON',
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    destino: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    tempoAtrasoGrupo: 0
                   }]
                 }, {
-                  id: 'transicao-7',
-                  idJson: 'transicao-7-JSON',
-                  origem: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  destino: {
-                    id: 'E1',
-                    idJson: 'E1-JSON'
-                  },
-                  tabelaEntreVerdesTransicoes: [{
-                    tabelaEntreVerdes: {
-                      id: 'tabela-entre-verdes-5',
-                      idJson: 'tabela-entre-verdes-5-JSON'
+                  id: 'G5',
+                  idJson: 'G5-JSON',
+                  tipo: 'PEDESTRE',
+                  posicao: 5,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-2',
+                    idJson: 'tabela-entre-verdes-2-JSON',
+                    posicao: 1
+                  }],
+                  transicoes: [{
+                    id: 'transicao-3',
+                    idJson: 'transicao-3-JSON',
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
                     },
-                    tempoVermelhoIntermitente: 5,
-                    tempoVermelhoLimpeza: 3
+                    destino: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-2',
+                        idJson: 'tabela-entre-verdes-2-JSON'
+                      },
+                      tempoVermelhoIntermitente: 3,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, {
+                    id: 'transicao-13',
+                    idJson: 'transicao-13-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-2',
+                        idJson: 'tabela-entre-verdes-2-JSON'
+                      },
+                      tempoVermelhoIntermitente: 3,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-4',
+                    idJson: 'transicao-perda-4-JSON',
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    destino: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    tempoAtrasoGrupo: 0
                   }]
-                }, ],
-                transicoesComGanhoDePassagem: [{
-                  id: 'transicao-perda-7',
-                  idJson: 'transicao-perda-7-JSON',
-                  origem: {
-                    id: 'E2',
-                    idJson: 'E2-JSON'
-                  },
-                  destino: {
-                    id: 'E3',
-                    idJson: 'E3-JSON'
-                  },
-                  tempoAtrasoGrupo: 0
+                }, {
+                  id: 'G4',
+                  idJson: 'G4-JSON',
+                  tipo: 'PEDESTRE',
+                  posicao: 4,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-5',
+                    idJson: 'tabela-entre-verdes-5-JSON',
+                    posicao: 1
+                  }],
+                  transicoes: [{
+                    id: 'transicao-6',
+                    idJson: 'transicao-6-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-5',
+                        idJson: 'tabela-entre-verdes-5-JSON'
+                      },
+                      tempoVermelhoIntermitente: 5,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, {
+                    id: 'transicao-7',
+                    idJson: 'transicao-7-JSON',
+                    origem: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    destino: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-5',
+                        idJson: 'tabela-entre-verdes-5-JSON'
+                      },
+                      tempoVermelhoIntermitente: 5,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, ],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-5',
+                    idJson: 'transicao-perda-5-JSON',
+                    origem: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    destino: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    tempoAtrasoGrupo: 0
+                  }]
                 }]
-              }, ]
+              }
+            }, {
+              id: 'EP3',
+              idJson: 'EP3-JSON',
+              tempoVerde: 12,
+              tempoVerdeMinimo: null,
+              tempoVerdeMaximo: null,
+              tempoVerdeIntermediario: null,
+              extensaoVerde: null,
+              estagio: {
+                id: 'E3',
+                idJson: 'E3-JSON',
+                gruposSemaforicos: [{
+                  id: 'G2',
+                  idJson: 'G2-JSON',
+                  tipo: 'VEICULAR',
+                  posicao: 2,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-6',
+                    idJson: 'tabela-entre-verdes-6-JSON',
+                    posicao: 1
+                  }],
+                  transicoes: [{
+                    id: 'transicao-8',
+                    idJson: 'transicao-8-JSON',
+                    origem: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    destino: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-6',
+                        idJson: 'tabela-entre-verdes-6-JSON'
+                      },
+                      tempoAmarelo: 3,
+                      tempoVermelhoLimpeza: 3,
+                      tempoAtrasoGrupo: 2
+                    }]
+                  }],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-6',
+                    idJson: 'transicao-perda-6-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tempoAtrasoGrupo: 0
+                  }]
+                }, {
+                  id: 'G4',
+                  idJson: 'G4-JSON',
+                  tipo: 'PEDESTRE',
+                  posicao: 4,
+                  tabelasEntreVerdes: [{
+                    id: 'tabela-entre-verdes-5',
+                    idJson: 'tabela-entre-verdes-5-JSON',
+                    posicao: 1
+                  }],
+                  transicoes: [{
+                    id: 'transicao-6',
+                    idJson: 'transicao-6-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-5',
+                        idJson: 'tabela-entre-verdes-5-JSON'
+                      },
+                      tempoVermelhoIntermitente: 5,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, {
+                    id: 'transicao-7',
+                    idJson: 'transicao-7-JSON',
+                    origem: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    destino: {
+                      id: 'E1',
+                      idJson: 'E1-JSON'
+                    },
+                    tabelaEntreVerdesTransicoes: [{
+                      tabelaEntreVerdes: {
+                        id: 'tabela-entre-verdes-5',
+                        idJson: 'tabela-entre-verdes-5-JSON'
+                      },
+                      tempoVermelhoIntermitente: 5,
+                      tempoVermelhoLimpeza: 3
+                    }]
+                  }, ],
+                  transicoesComGanhoDePassagem: [{
+                    id: 'transicao-perda-7',
+                    idJson: 'transicao-perda-7-JSON',
+                    origem: {
+                      id: 'E2',
+                      idJson: 'E2-JSON'
+                    },
+                    destino: {
+                      id: 'E3',
+                      idJson: 'E3-JSON'
+                    },
+                    tempoAtrasoGrupo: 0
+                  }]
+                }, ]
+              }
             }
-          }, ],
+          ],
           posicaoGruposSemaforicos: {
             G1: 0,
             G2: 1,
@@ -466,7 +468,30 @@
             2: 'G3',
             3: 'G4',
             4: 'G5'
-          }
+          },
+          gruposSemaforicosPlanos: [
+            {
+              grupoSemaforico: {
+                posicao: 1
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 2
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 3
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 4
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 5
+              }
+            }
+          ]
         };
         valoresMinimos = {
           verdeMin: 1,
@@ -1068,7 +1093,26 @@
             1: 'G6',
             2: 'G7',
             3: 'G8'
-          }
+          },
+          gruposSemaforicosPlanos: [
+            {
+              grupoSemaforico: {
+                posicao: 1
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 2
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 3
+              }
+            }, {
+              grupoSemaforico: {
+                posicao: 4
+              }
+            }
+          ]
         };
         valoresMinimos = {
           verdeMin: 1,
@@ -1275,14 +1319,14 @@
           expect(resposta.gruposSemaforicos[3].intervalos[4].status).toBe(3);
         });
 
-        it('Os intervalos do G5 devem durar 50(verde), 3(amarelo), 2(vermelho limpeza), 25(vermelho) e 20(verde)', function() {
+        it('Os intervalos do G5 devem durar 50(verde), 3(amarelo), 2(vermelho limpeza), 30(vermelho) e 15(verde)', function() {
           expect(resposta.gruposSemaforicos[4].intervalos.length).toBe(5);
 
           expect(resposta.gruposSemaforicos[4].intervalos[0].duracao).toBe(50);
           expect(resposta.gruposSemaforicos[4].intervalos[1].duracao).toBe(3);
           expect(resposta.gruposSemaforicos[4].intervalos[2].duracao).toBe(2);
-          expect(resposta.gruposSemaforicos[4].intervalos[3].duracao).toBe(25);
-          expect(resposta.gruposSemaforicos[4].intervalos[4].duracao).toBe(20);
+          expect(resposta.gruposSemaforicos[4].intervalos[3].duracao).toBe(30);
+          expect(resposta.gruposSemaforicos[4].intervalos[4].duracao).toBe(15);
 
           expect(resposta.gruposSemaforicos[4].intervalos[0].status).toBe(1);
           expect(resposta.gruposSemaforicos[4].intervalos[1].status).toBe(2);
