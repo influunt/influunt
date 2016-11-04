@@ -49,7 +49,7 @@ angular.module('influuntApp')
      * @param      {<type>}   name    The name
      * @return     {boolean}  The modo by name.
      */
-    var getModoIdByName = function(name) {
+    var get = function(name) {
       var id = MODOS.indexOf(name);
       return id >= 0 ? id : -1;
     };
@@ -57,6 +57,6 @@ angular.module('influuntApp')
     return {
       getCssClass: getCssClass,
       getModoById: getModoById,
-      getModoIdByName: getModoIdByName
+      get: get
     };
   });

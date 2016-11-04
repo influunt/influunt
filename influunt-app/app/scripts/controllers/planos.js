@@ -187,7 +187,7 @@ angular.module('influuntApp')
         grupoSemaforioPlano.ativado = isAtivo;
         if (!isAtivo) {
           grupo.intervalos.unshift({
-            status: modoOperacaoService.getModoIdByName('APAGADO'),
+            status: modoOperacaoService.get('APAGADO'),
             duracao: $scope.currentPlano.tempoCiclo || $scope.objeto.cicloMax
           });
         } else {

@@ -28,6 +28,7 @@ angular.module('influuntApp')
         plano.quantidadeGruposSemaforicos = anel.gruposSemaforicos.length;
         plano.posicaoGruposSemaforicos = {};
         plano.labelsGruposSemaforicos = {};
+        plano.verdesConflitantesPlano = [];
 
         gruposSemaforicos.forEach(function (grupo, index) {
           plano.posicaoGruposSemaforicos['G' + grupo.posicao] = index;
@@ -37,6 +38,9 @@ angular.module('influuntApp')
         currentPlano.gruposSemaforicosPlanos.forEach(function (gp){
           var grupoPlano = _.cloneDeep(_.find(controlador.gruposSemaforicosPlanos, {idJson: gp.idJson}));
           plano.gruposSemaforicosPlanos.push(grupoPlano);
+
+          var verdeConflitante = _.find(controlador.verdesConflitantes, { origem: { idJson: grupoPlano.grupoSemaforico.idJson } });
+          plano.verdesConflitantesPlano.push(verdeConflitante);
         });
 
         currentPlano.estagiosPlanos.forEach(function(ep){
@@ -82,6 +86,8 @@ angular.module('influuntApp')
           plano.estagiosPlanos.push(estagioPlano);
         });
         plano.estagiosPlanos = _.orderBy(plano.estagiosPlanos, ['posicao']);
+
+        debugger
         return plano;
       }
     };

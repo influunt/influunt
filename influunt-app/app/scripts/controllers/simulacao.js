@@ -33,7 +33,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
                                    disparoDetectores: [{}],
                                    imposicaoPlanos: [{}] };
 
-    var now = new Date();
     $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0,0,0,0)) };
 
     $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0,0,0,0)) };

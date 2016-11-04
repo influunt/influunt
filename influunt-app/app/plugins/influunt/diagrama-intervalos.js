@@ -1,51 +1,43 @@
 'use strict';
 
-function createArray(tam) {
-  var arr = new Array(tam || 0), i = tam;
-
-  if (arguments.length > 1) {
-      var args = Array.prototype.slice.call(arguments, 1);
-      while (i--) {
-        arr[tam - 1 - i] = createArray.apply(this, args);
-      }
-  }
-
-  return arr;
-}
-
-
 var influunt;
 (function (influunt) {
   var components;
   (function (components) {
     var DiagramaIntervalos = (function () {
+      var APAGADO = 0;
+      var VERDE = 1;
+      var AMARELO = 2;
+      var VERMELHO = 3;
+      var VERMELHO_INTERMITENTE = 4;
+      var INTERMITENTE = 5;
+      var VERMELHO_LIMPEZA = 6;
+
       function DiagramaIntervalos(plano, valoresMinimos) {
         this.plano = plano;
         this.valoresMinimos = valoresMinimos;
+
       }
       DiagramaIntervalos.prototype.calcula = function () {
         var plano = this.plano;
         var valoresMinimos = this.valoresMinimos;
-        var diagrama = createArray(plano.quantidadeGruposSemaforicos, plano.tempoCiclo);
         var estagios = [];
         var i = 0;
         var j = 0;
         var t = 0;
         var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao, tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao;
-        for(i = 0; i < diagrama.length; i++){
-          for(j = 0; j < diagrama[i].length; j++){
-            diagrama[i][j] = -1;
-          }
-        }
+
+        // cria uma matriz de tamanho quantidadeGruposSemaforicos x tempoCiclo, inicializada com -1 em todos os campos.
+        var diagrama = _.times(plano.quantidadeGruposSemaforicos, function() { return _.times(plano.tempoCiclo, _.constant(-1)); });
         var tempoCiclo = 0;
         var instante = 0;
-        for(i = 0; i < plano.estagiosPlanos.length; i++){
+        for (i = 0; i < plano.estagiosPlanos.length; i++) {
           estagioPlanoAtual = plano.estagiosPlanos[i];
           estagioAtual = estagioPlanoAtual.estagio;
           tempoVerde = estagioPlanoAtual.tempoVerde || valoresMinimos.verdeMin;
           estagioAnterior = this.estagioAnterior(plano.estagiosPlanos,i).estagio;
 
-          if(estagioAtual.idJson !== estagioAnterior.idJson){
+          if (estagioAtual.idJson !== estagioAnterior.idJson) {
             for(j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               grupo = estagioAnterior.gruposSemaforicos[j];
               if(!_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
@@ -54,28 +46,32 @@ var influunt;
                 tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {'tabelaEntreVerdes': {'idJson': tabelaEntreVerde.idJson}});
                 tempoAmarelo = tabelaEntreVerdesTransicao.tempoAmarelo ? parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) : 0;
                 tempoVermelhoIntermitente = tabelaEntreVerdesTransicao.tempoVermelhoIntermitente ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) : 0;
-                tempoAtrasoGrupo = tabelaEntreVerdesTransicao.tempoAtrasoGrupo ? parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) : 0;
-                tempoVermelhoLimpeza = tabelaEntreVerdesTransicao.tempoVermelhoLimpeza ? parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) : 0;
+
+                // ### PONTO DE INTERESSE ###
+                tempoAtrasoGrupo = parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) || 0;
+                tempoVermelhoLimpeza = parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) || 0;
 
                 tempoAmareloOuVermelhoIntermitente = grupo.tipo === 'VEICULAR' ? tempoAmarelo : tempoVermelhoIntermitente;
                 tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
                 posicao = plano.posicaoGruposSemaforicos['G' + grupo.posicao];
 
+                // ### PONTO DE INTERESSE ###
                 if(tempoAtrasoGrupo > 0){
                   for(t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
-                    diagrama[posicao][t] = 1;
+                    diagrama[posicao][t] = VERDE;
                   }
                 }
                 for(t = tempoCiclo + tempoAtrasoGrupo; t < tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t++){
-                  diagrama[posicao][t] = grupo.tipo === 'VEICULAR' ? 2 : 4;
+                  diagrama[posicao][t] = grupo.tipo === 'VEICULAR' ? AMARELO : VERMELHO_INTERMITENTE;
                 }
                 for(t = tempoCiclo + tempoAmareloOuVermelhoIntermitente + tempoAtrasoGrupo; t < tempoCiclo + tempoEntreVerde + tempoAtrasoGrupo; t++){
-                  diagrama[posicao][t] = 6;
+                  diagrama[posicao][t] = VERMELHO_LIMPEZA;
                 }
                 instante = Math.max(instante, tempoEntreVerde);
               }
             }
           }
+
           for(j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
              grupo = estagioAtual.gruposSemaforicos[j];
              var inicio;
@@ -87,9 +83,13 @@ var influunt;
                inicio = tempoCiclo;
              }
              for(t = inicio; t < tempoCiclo + instante + tempoVerde; t++){
-               diagrama[plano.posicaoGruposSemaforicos['G' + grupo.posicao]][t] = 1;
+               diagrama[plano.posicaoGruposSemaforicos['G' + grupo.posicao]][t] = VERDE;
              }
           }
+
+          // ### PONTO DE INTERESSE ###
+          console.log('=========> ajustar atraso de grupo automatico.');
+
           tempoCiclo += instante + (tempoVerde || 0);
 
           estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + tempoVerde});
@@ -99,7 +99,7 @@ var influunt;
         for(i = 0; i < diagrama.length; i++){
           for(j = 0; j < tempoCiclo; j++){
             if(diagrama[i][j] === -1){
-              diagrama[i][j] = 3;
+              diagrama[i][j] = VERMELHO;
             }
           }
         }
@@ -112,7 +112,7 @@ var influunt;
         var intervalos;
         diagrama.forEach(function(grupo) {
           for (i = grupo.length; i < size; i++) {
-            grupo[i] = 3;
+            grupo[i] = VERMELHO;
           }
         });
         var resultado = {gruposSemaforicos: [], estagios: estagios, erros: []};

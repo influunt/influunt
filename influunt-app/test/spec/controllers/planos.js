@@ -775,7 +775,7 @@ describe('Controller: PlanosCtrl', function () {
         scope.onChangeCheckboxGrupo(grupo, false);
         scope.$apply();
         expect(grupo.intervalos[0]).toBeDefined();
-        expect(grupo.intervalos[0].status).toBe(modoOperacaoService.getModoIdByName('APAGADO'));
+        expect(grupo.intervalos[0].status).toBe(modoOperacaoService.get('APAGADO'));
 
         scope.onChangeCheckboxGrupo(grupo, true);
         scope.$apply();
