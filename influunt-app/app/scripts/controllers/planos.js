@@ -515,7 +515,7 @@ angular.module('influuntApp')
         $scope.opcoesEstagiosDisponiveis = [
           utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex),
           utilEstagios.getProximoEstagio(estagiosPlanos, $scope.currentEstagioPlanoIndex)
-        ]
+        ];
 
         $scope.opcoesEstagiosDisponiveis = _
           .chain($scope.opcoesEstagiosDisponiveis)
