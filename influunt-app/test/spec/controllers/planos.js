@@ -658,6 +658,14 @@ describe('Controller: PlanosCtrl', function () {
 
         expect(scope.opcoesEstagiosDisponiveis.length).toBe(1);
         expect(scope.opcoesEstagiosDisponiveis[0].posicaoEstagio).toBe(1);
+
+
+        scope.currentEstagiosPlanos.splice(2, 1);
+        scope.selecionaEstagioPlano(scope.currentEstagiosPlanos[1], 1);
+        scope.$apply();
+
+        expect(scope.opcoesEstagiosDisponiveis.length).toBe(1);
+        expect(scope.opcoesEstagiosDisponiveis[0].posicaoEstagio).toBe(1);
       });
     });
 
