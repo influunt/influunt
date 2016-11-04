@@ -134,8 +134,8 @@ var influunt;
           var proximoEstagio = estagios[(estagioIndex + 1) % estagios.length];
           console.log('estagioAtual: ', estagioAtual)
           for (var instanteNoCiclo = tempoTotalEstagiosAteAgora; instanteNoCiclo < tempoTotalEstagiosAteAgora + estagioAtual.duracao; instanteNoCiclo++) {
-            console.log('instanteNoCiclo: ', instanteNoCiclo);
-            console.log('duracao: ', tempoTotalEstagiosAteAgora + estagioAtual.duracao)
+            // console.log('instanteNoCiclo: ', instanteNoCiclo);
+            // console.log('duracao: ', tempoTotalEstagiosAteAgora + estagioAtual.duracao)
 
             var conflitos = [];
 
@@ -147,12 +147,10 @@ var influunt;
 
             for (var k = 0; k < conflitos.length; k++) {
               var g1 = this.plano.gruposSemaforicosPlanos[conflitos[k]].grupoSemaforico;
-
               for (j = k+1; j < conflitos.length; j++) {
                 var g2 = this.plano.gruposSemaforicosPlanos[conflitos[j]].grupoSemaforico;
-
-                var conflitante = possuiConflito(g1, g2, this.plano.verdesConflitantesPlano);
-                if (conflitante) {
+                if (possuiConflito(g1, g2, this.plano.verdesConflitantesPlano)) {
+                  console.log('achou conflito ', g1.posicao, g2.posicao)
                   if (_.findIndex(estagioAtual.gruposSemaforicos, { posicao: g1.posicao }) > -1) {
                     // g1 está verde
                     if (_.findIndex(proximoEstagio.gruposSemaforicos, { posicao: g1.posicao }) > -1) {
@@ -172,7 +170,6 @@ var influunt;
                       diagrama[conflitos[j]].splice(instanteNoCiclo, 0, INDEFINIDO);
                     }
                   }
-
                 }
               }
             }
@@ -181,46 +178,20 @@ var influunt;
           tempoTotalEstagiosAteAgora += estagioAtual.duracao;
         }
 
-
-        // for(var instanteNoCiclo = 0; instanteNoCiclo < tempoCiclo; instanteNoCiclo++) {
-        //   var verdes = [],
-        //       entreverdes = [];
-
-        //   for(grupo = 0; grupo < diagrama.length; grupo++) {
-        //     if (diagrama[grupo][instanteNoCiclo] === VERDE) {
-        //       verdes.push(grupo);
-        //     }
-        //     else if (ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
-        //       entreverdes.push(grupo);
-        //     }
-        //     else if (diagrama[grupo][instanteNoCiclo] === INDEFINIDO && diagrama[grupo].length > tempoCiclo) {
-        //       // diagrama[grupo].splice(instanteNoCiclo, diagrama[grupo].length - tempoCiclo);
-        //     }
-        //   }
-        //   for (var k = 0; k < verdes.length; k++) {
-        //     var g1 = this.plano.gruposSemaforicosPlanos[conflitos[k]].grupoSemaforico;
-
-        //     for (j = 0; j < entreverdes.length; j++) {
-        //       var g2 = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
-        //       var conflitante = possuiConflito(g1, g2, this.plano.verdesConflitantesPlano);
-        //       if (conflitante) {
-        //         debugger;
-        //         diagrama[conflitos[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
-        //       }
-        //     }
-        //   }
-        // }
-
         console.log(diagrama);
         debugger
 
         _.each(diagrama, function(grupo, grupoindex) {
           if (grupo.length > tempoCiclo) {
+            for (var i = grupo.length - 1; i >= tempoCiclo; i--) {
+              if (grupo[i] === INDEFINIDO) {
+                grupo.splice(i, 1);
+              } else if (grupo[i] === VERDE) {
+                grupo.splice(0, 0, VERDE);
+                grupo.splice(grupo.length - 1, 1);
+              }
+            }
             _.eachRight(grupo, function(instanteNoCiclo, i) {
-              var estagioIndex = getEstagioIndex(instanteNoCiclo);
-              var estagio = estagios[estagioIndex];
-              var proximoEstagioIndex = estagioIndex + 1 === estagios.length ? 0 : estagioIndex + 1;
-              var proximoEstagio = estagios[proximoEstagioIndex];
               if (instanteNoCiclo === INDEFINIDO && grupo.length > tempoCiclo) {
                 grupo.splice(i, 1);
               }
