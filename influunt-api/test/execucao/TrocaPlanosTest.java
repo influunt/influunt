@@ -29,10 +29,10 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
     private Controlador controlador;
     private DateTime inicioExecucao;
     private DateTime inicioControlador;
-    HashMap<DateTime, Evento> listaTrocaPlano;
-    HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
-    HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
-    HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
+    private HashMap<DateTime, Evento> listaTrocaPlano;
+    private HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
+    private HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
+    private HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
 
     @Before
     public void setup() {
@@ -185,40 +185,10 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
 
     }
 
-
-    private void avancarHoras(Motor motor, long i) {
-        i *= 36000;
-        while (i-- > 0) {
+    private void avancarHoras(Motor motor, long quantidade) {
+        quantidade *= 36000;
+        while ((quantidade--) > 0) {
             motor.tick();
         }
     }
-
-    public class GrupoCheck {
-
-        private final int anel;
-
-        private final int grupo;
-
-        private final long inicio;
-
-        private final long fim;
-
-        private final EstadoGrupoSemaforico estado;
-
-        public GrupoCheck(int anel, int grupo, int inicio, int fim, EstadoGrupoSemaforico estadoGrupoSemaforico) {
-            this.grupo = grupo;
-            this.anel = anel;
-            this.inicio = inicio;
-            this.fim = fim;
-            this.estado = estadoGrupoSemaforico;
-        }
-
-        public void check(HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> intervalos, DateTime instante) {
-            assertNotNull("Mudanca", intervalos.get(instante));
-            assertEquals("Comeco", inicio, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
-            assertEquals("Fim", fim, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
-            assertEquals("Estado", estado, intervalos.get(instante).get(anel).getEstados().get(this.grupo).get(this.inicio));
-        }
-    }
-
 }

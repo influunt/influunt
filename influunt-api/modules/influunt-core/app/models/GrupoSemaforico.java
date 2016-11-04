@@ -354,11 +354,11 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         if (!getTransicoesComPerdaDePassagem().isEmpty()) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : getEstagiosGruposSemaforicos()) {
                 Estagio origem = estagioGrupoSemaforico.getEstagio();
-                if (!(getTransicoes()
+                if (getTransicoes()
                     .stream()
                     .filter(transicao -> origem.equals(transicao.getOrigem())
                         && transicao.isModoIntermitenteOuApagado())
-                    .count() == 1)) {
+                    .count() != 1) {
                     return false;
                 }
             }

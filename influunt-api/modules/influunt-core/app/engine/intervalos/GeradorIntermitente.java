@@ -38,7 +38,7 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
             final IntervaloEstagio intervalo = entreverde.getValue();
             final Estagio estagio = intervalo.getEstagioPlanoAnterior().getEstagio();
 
-            long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagio.getPosicao(), null)) + 3000L;;
+            long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagio.getPosicao(), null)) + 3000L;
 
             String idJsonNovoEstagio = UUID.randomUUID().toString();
 

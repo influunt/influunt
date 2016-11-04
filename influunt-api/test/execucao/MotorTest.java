@@ -28,10 +28,10 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     private Controlador controlador;
     private DateTime inicioExecucao;
     private DateTime inicioControlador;
-    HashMap<DateTime, Evento> listaTrocaPlano;
-    HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
-    HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
-    HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
+    private HashMap<DateTime, Evento> listaTrocaPlano;
+    private HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
+    private HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
+    private HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
 
     @Before
     public void setup() {
@@ -260,29 +260,29 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
 
-    private void avancarSegundos(Motor motor, long i) {
-        i *= 10;
-        while (i-- > 0) {
+    private void avancarSegundos(Motor motor, long quantidade) {
+        quantidade *= 10;
+        while ((quantidade--) > 0) {
             motor.tick();
         }
     }
 
-    private void avancarMilis(Motor motor, long i) {
-        while (i-- > 0) {
+    private void avancarMilis(Motor motor, long quantidade) {
+        while (quantidade-- > 0) {
             motor.tick();
         }
     }
 
-    private void avancarHoras(Motor motor, long i) {
-        i *= 36000;
-        while (i-- > 0) {
+    private void avancarHoras(Motor motor, long quantidade) {
+        quantidade *= 36000;
+        while ((quantidade--) > 0) {
             motor.tick();
         }
     }
 
-    private void avancarMinutos(Motor motor, long i) {
-        i *= 600;
-        while (i-- > 0) {
+    private void avancarMinutos(Motor motor, long quantidade) {
+        quantidade *= 600;
+        while ((quantidade--) > 0) {
             motor.tick();
         }
     }
