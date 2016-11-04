@@ -1,0 +1,37 @@
+DELETE FROM `verdes_conflitantes`;
+DELETE FROM `tabela_entre_verdes_transicao`;
+DELETE FROM `atrasos_de_grupos`;
+DELETE FROM `transicoes`;
+DELETE FROM `transicoes_proibidas`;
+DELETE FROM `detectores`;
+DELETE FROM `grupos_semaforicos_planos`;
+DELETE FROM `estagios_grupos_semaforicos`;
+DELETE FROM `estagios_planos`;
+DELETE FROM `planos`;
+DELETE FROM `estagios`;
+DELETE FROM `tabela_entre_verdes`;
+DELETE FROM `grupos_semaforicos`;
+DELETE FROM `enderecos`;
+DELETE FROM `eventos`;
+UPDATE `versoes_tabelas_horarias` SET tabela_horaria_origem_id = NULL;
+DELETE FROM `tabela_horarios`;
+DELETE FROM `versoes_tabelas_horarias`;
+DELETE FROM `versoes_planos`;
+DELETE FROM `agrupamentos_aneis`;
+DELETE FROM `aneis`;
+DELETE FROM `versoes_controladores`;
+DELETE FROM `controladores_fisicos`;
+DELETE FROM `controladores`;
+DELETE FROM `agrupamentos`;
+DELETE FROM `limite_area`;
+UPDATE usuarios SET area_id=NULL WHERE login='mobilab';
+DELETE FROM `areas`;
+DELETE FROM `cidades`;
+DELETE FROM `modelo_controladores`;
+DELETE FROM `fabricantes`;
+DELETE FROM `imagens`;
+DELETE FROM `faixas_de_valores`;
+
+SET @FabricanteId = RANDOM_UUID();
+INSERT INTO `fabricantes`(`id`, `id_json`, `nome`, `data_criacao`, `data_atualizacao`) VALUES
+(@FabricanteId, NULL, 'Raro Labs', NOW(),NOW());
