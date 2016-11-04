@@ -219,7 +219,7 @@
       "tabela": "TABELA",
       "novaTabela": "Nova Tabela",
       "descricao": "Descrição",
-      "modoIntermitenteOuApagado": "Intermitente/Apagado"
+      "modoIntermitenteOuApagado": "Intermitente ou Apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -251,7 +251,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
-      "modoIntermitenteOuApagado": "Intermitente/Apagado",
+      "modoIntermitenteOuApagado": "Intermitente ou Apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
