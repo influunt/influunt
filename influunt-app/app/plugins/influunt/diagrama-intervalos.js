@@ -130,45 +130,47 @@ var influunt;
         // ### PONTO DE INTERESSE ###
         var tempoTotalEstagiosAteAgora = 0;
         for (var estagioIndex = 0; estagioIndex < estagios.length; estagioIndex++) {
-          var estagioAtual = estagios[estagioIndex];
+          estagioAtual = estagios[estagioIndex];
           var proximoEstagio = estagios[(estagioIndex + 1) % estagios.length];
           console.log('estagioAtual: ', estagioAtual)
           for (var instanteNoCiclo = tempoTotalEstagiosAteAgora; instanteNoCiclo < tempoTotalEstagiosAteAgora + estagioAtual.duracao; instanteNoCiclo++) {
             console.log('instanteNoCiclo: ', instanteNoCiclo);
             console.log('duracao: ', tempoTotalEstagiosAteAgora + estagioAtual.duracao)
 
-            var verdes = [],
-                entreverdes = [];
+            var conflitos = [];
 
             for(grupo = 0; grupo < diagrama.length; grupo++) {
-              if (diagrama[grupo][instanteNoCiclo] === VERDE) {
-                verdes.push(grupo);
-              }
-              else if (ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
-                entreverdes.push(grupo);
-              }
-              else if (diagrama[grupo][instanteNoCiclo] === INDEFINIDO && diagrama[grupo].length > tempoCiclo) {
-                // diagrama[grupo].splice(instanteNoCiclo, diagrama[grupo].length - tempoCiclo);
+              if (diagrama[grupo][instanteNoCiclo] === VERDE || ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
+                conflitos.push(grupo);
               }
             }
 
-            if (instanteNoCiclo === 75)
-              debugger
+            for (var k = 0; k < conflitos.length; k++) {
+              var g1 = this.plano.gruposSemaforicosPlanos[conflitos[k]].grupoSemaforico;
 
-            for (var k = 0; k < verdes.length; k++) {
-              var gVerde = this.plano.gruposSemaforicosPlanos[verdes[k]].grupoSemaforico;
+              for (j = k+1; j < conflitos.length; j++) {
+                var g2 = this.plano.gruposSemaforicosPlanos[conflitos[j]].grupoSemaforico;
 
-              for (j = 0; j < entreverdes.length; j++) {
-                var gEntreverde = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
-                var conflitante = possuiConflito(gVerde, gEntreverde, this.plano.verdesConflitantesPlano);
+                var conflitante = possuiConflito(g1, g2, this.plano.verdesConflitantesPlano);
                 if (conflitante) {
-                  // debugger;
-                  if (_.findIndex(estagioAtual.gruposSemaforicos, { posicao: verdes[k]+1 }) > -1 && _.findIndex(proximoEstagio.gruposSemaforicos, { posicao: verdes[k]+1 }) > -1) {
-                    // não é perda de passagem
-                    diagrama[verdes[k]].splice(instanteNoCiclo, 1, INDEFINIDO);
-                  } else {
-                    // perda de passagem
-                    diagrama[verdes[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+                  if (_.findIndex(estagioAtual.gruposSemaforicos, { posicao: g1.posicao }) > -1) {
+                    // g1 está verde
+                    if (_.findIndex(proximoEstagio.gruposSemaforicos, { posicao: g1.posicao }) > -1) {
+                      // g1 continua verde no estagio seguinte
+                      diagrama[conflitos[k]].splice(instanteNoCiclo, 1, INDEFINIDO);
+                    } else {
+                      // g1 passou p/ vermelho
+                      diagrama[conflitos[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+                    }
+                  } else if (_.findIndex(estagioAtual.gruposSemaforicos, { posicao: g2.posicao }) > -1) {
+                    // g2 está verde
+                    if (_.findIndex(proximoEstagio.gruposSemaforicos, { posicao: g2.posicao }) > -1) {
+                      // g2 continua verde no estagio seguinte
+                      diagrama[conflitos[j]].splice(instanteNoCiclo, 1, INDEFINIDO);
+                    } else {
+                      // g2 passou p/ vermelho
+                      diagrama[conflitos[j]].splice(instanteNoCiclo, 0, INDEFINIDO);
+                    }
                   }
 
                 }
@@ -196,14 +198,14 @@ var influunt;
         //     }
         //   }
         //   for (var k = 0; k < verdes.length; k++) {
-        //     var gVerde = this.plano.gruposSemaforicosPlanos[verdes[k]].grupoSemaforico;
+        //     var g1 = this.plano.gruposSemaforicosPlanos[conflitos[k]].grupoSemaforico;
 
         //     for (j = 0; j < entreverdes.length; j++) {
-        //       var gEntreverde = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
-        //       var conflitante = possuiConflito(gVerde, gEntreverde, this.plano.verdesConflitantesPlano);
+        //       var g2 = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
+        //       var conflitante = possuiConflito(g1, g2, this.plano.verdesConflitantesPlano);
         //       if (conflitante) {
         //         debugger;
-        //         diagrama[verdes[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+        //         diagrama[conflitos[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
         //       }
         //     }
         //   }
