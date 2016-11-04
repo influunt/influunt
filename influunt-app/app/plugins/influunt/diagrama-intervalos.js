@@ -89,7 +89,7 @@ var influunt;
 
           tempoCiclo += instante + (tempoVerde || 0);
 
-          estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + tempoVerde});
+          estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + tempoVerde, gruposSemaforicos: estagioAtual.gruposSemaforicos});
           instante = 0;
         }
 
@@ -128,36 +128,89 @@ var influunt;
         // }
 
         // ### PONTO DE INTERESSE ###
-        for(var instanteNoCiclo = 0; instanteNoCiclo < tempoCiclo; instanteNoCiclo++) {
-          var verdes = [],
-              entreverdes = [];
+        var tempoTotalEstagiosAteAgora = 0;
+        for (var estagioIndex = 0; estagioIndex < estagios.length; estagioIndex++) {
+          var estagioAtual = estagios[estagioIndex];
+          var proximoEstagio = estagios[(estagioIndex + 1) % estagios.length];
+          console.log('estagioAtual: ', estagioAtual)
+          for (var instanteNoCiclo = tempoTotalEstagiosAteAgora; instanteNoCiclo < tempoTotalEstagiosAteAgora + estagioAtual.duracao; instanteNoCiclo++) {
+            console.log('instanteNoCiclo: ', instanteNoCiclo);
+            console.log('duracao: ', tempoTotalEstagiosAteAgora + estagioAtual.duracao)
 
-          for(grupo = 0; grupo < diagrama.length; grupo++) {
-            if (diagrama[grupo][instanteNoCiclo] === VERDE) {
-              verdes.push(grupo);
-            }
-            else if (ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
-              entreverdes.push(grupo);
-            }
-            else if (diagrama[grupo][instanteNoCiclo] === INDEFINIDO && diagrama[grupo].length > tempoCiclo) {
-              // diagrama[grupo].splice(instanteNoCiclo, diagrama[grupo].length - tempoCiclo);
-            }
-          }
-          for (var k = 0; k < verdes.length; k++) {
-            var gVerde = this.plano.gruposSemaforicosPlanos[verdes[k]].grupoSemaforico;
+            var verdes = [],
+                entreverdes = [];
 
-            for (j = 0; j < entreverdes.length; j++) {
-              var gEntreverde = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
-              var conflitante = possuiConflito(gVerde, gEntreverde, this.plano.verdesConflitantesPlano);
-              if (conflitante) {
-                debugger;
-                diagrama[verdes[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+            for(grupo = 0; grupo < diagrama.length; grupo++) {
+              if (diagrama[grupo][instanteNoCiclo] === VERDE) {
+                verdes.push(grupo);
+              }
+              else if (ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
+                entreverdes.push(grupo);
+              }
+              else if (diagrama[grupo][instanteNoCiclo] === INDEFINIDO && diagrama[grupo].length > tempoCiclo) {
+                // diagrama[grupo].splice(instanteNoCiclo, diagrama[grupo].length - tempoCiclo);
               }
             }
+
+            if (instanteNoCiclo === 75)
+              debugger
+
+            for (var k = 0; k < verdes.length; k++) {
+              var gVerde = this.plano.gruposSemaforicosPlanos[verdes[k]].grupoSemaforico;
+
+              for (j = 0; j < entreverdes.length; j++) {
+                var gEntreverde = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
+                var conflitante = possuiConflito(gVerde, gEntreverde, this.plano.verdesConflitantesPlano);
+                if (conflitante) {
+                  // debugger;
+                  if (_.findIndex(estagioAtual.gruposSemaforicos, { posicao: verdes[k]+1 }) > -1 && _.findIndex(proximoEstagio.gruposSemaforicos, { posicao: verdes[k]+1 }) > -1) {
+                    // não é perda de passagem
+                    diagrama[verdes[k]].splice(instanteNoCiclo, 1, INDEFINIDO);
+                  } else {
+                    // perda de passagem
+                    diagrama[verdes[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+                  }
+
+                }
+              }
+            }
+
           }
+          tempoTotalEstagiosAteAgora += estagioAtual.duracao;
         }
 
+
+        // for(var instanteNoCiclo = 0; instanteNoCiclo < tempoCiclo; instanteNoCiclo++) {
+        //   var verdes = [],
+        //       entreverdes = [];
+
+        //   for(grupo = 0; grupo < diagrama.length; grupo++) {
+        //     if (diagrama[grupo][instanteNoCiclo] === VERDE) {
+        //       verdes.push(grupo);
+        //     }
+        //     else if (ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
+        //       entreverdes.push(grupo);
+        //     }
+        //     else if (diagrama[grupo][instanteNoCiclo] === INDEFINIDO && diagrama[grupo].length > tempoCiclo) {
+        //       // diagrama[grupo].splice(instanteNoCiclo, diagrama[grupo].length - tempoCiclo);
+        //     }
+        //   }
+        //   for (var k = 0; k < verdes.length; k++) {
+        //     var gVerde = this.plano.gruposSemaforicosPlanos[verdes[k]].grupoSemaforico;
+
+        //     for (j = 0; j < entreverdes.length; j++) {
+        //       var gEntreverde = this.plano.gruposSemaforicosPlanos[entreverdes[j]].grupoSemaforico;
+        //       var conflitante = possuiConflito(gVerde, gEntreverde, this.plano.verdesConflitantesPlano);
+        //       if (conflitante) {
+        //         debugger;
+        //         diagrama[verdes[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+        //       }
+        //     }
+        //   }
+        // }
+
         console.log(diagrama);
+        debugger
 
         _.each(diagrama, function(grupo, grupoindex) {
           if (grupo.length > tempoCiclo) {
@@ -167,7 +220,7 @@ var influunt;
               var proximoEstagioIndex = estagioIndex + 1 === estagios.length ? 0 : estagioIndex + 1;
               var proximoEstagio = estagios[proximoEstagioIndex];
               if (instanteNoCiclo === INDEFINIDO && grupo.length > tempoCiclo) {
-                grupo.splice(-1, 1);
+                grupo.splice(i, 1);
               }
             });
           }
