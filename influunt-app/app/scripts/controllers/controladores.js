@@ -547,7 +547,10 @@ angular.module('influuntApp')
 
       $scope.podeFinalizar = function(controlador) {
         var statusControladorOk = controlador.statusControladorReal === 'EM_CONFIGURACAO' || controlador.statusControladorReal === 'EDITANDO';
-        return statusControladorOk && controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        return statusControladorOk &&
+          controlador.controladorConfigurado &&
+          controlador.planoConfigurado &&
+          controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {

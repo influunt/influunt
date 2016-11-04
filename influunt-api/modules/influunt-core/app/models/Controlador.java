@@ -575,6 +575,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return this.getTabelaHoraria() != null;
     }
 
+    @AssertTrue(groups = ControladorFinalizaConfiguracaoCheck.class, message = "O controlador não pode ser finalizado sem o número do SMEE preenchido.")
+    public boolean isNumeroSmeePreenchido() { return this.getNumeroSMEE() != null && !this.getNumeroSMEE().isEmpty(); }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
