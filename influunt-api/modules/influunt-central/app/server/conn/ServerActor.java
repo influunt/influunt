@@ -26,7 +26,7 @@ public class ServerActor extends UntypedActor {
 
     private final String mqttPort;
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtCentral;
 

@@ -224,6 +224,35 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(133)).get(3).getEstagio().getPosicao().intValue());
     }
 
+    @Test
+    public void entradaModoIntermitenteTest() throws IOException {
+        inicioControlador = new DateTime(2016, 10, 20, 20, 0, 0);
+        inicioExecucao = new DateTime(2016, 10, 20, 20, 0, 0);
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 210);
+
+        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(1).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(80)).get(2).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(3).getPosicaoPlano().intValue());
+    }
+
+    @Test
+    public void entradaESaidaModoIntermitenteNoEntreverdeTest() throws IOException {
+        inicioControlador = new DateTime(2016, 10, 20, 21, 0, 0);
+        inicioExecucao = new DateTime(2016, 10, 20, 21, 0, 0);
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 210);
+
+        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(1).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(80)).get(2).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(3).getPosicaoPlano().intValue());
+
+        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(69)).get(1).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(60)).get(3).getPosicaoPlano().intValue());
+    }
+
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
         listaTrocaPlano.put(timestamp, eventoAtual);
@@ -260,36 +289,37 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
 
-    private void avancarSegundos(Motor motor, long quantidade) {
-        quantidade *= 10;
+    private void avancarSegundos(Motor motor, long i) {
+        long quantidade = i * 10L;
         while ((quantidade--) > 0) {
             motor.tick();
         }
     }
 
-    private void avancarMilis(Motor motor, long quantidade) {
+    private void avancarMilis(Motor motor, long i) {
+        long quantidade = i;
         while (quantidade-- > 0) {
             motor.tick();
         }
     }
 
-    private void avancarHoras(Motor motor, long quantidade) {
-        quantidade *= 36000;
+    private void avancarHoras(Motor motor, long i) {
+        long quantidade = i * 36000L;
         while ((quantidade--) > 0) {
             motor.tick();
         }
     }
 
-    private void avancarMinutos(Motor motor, long quantidade) {
-        quantidade *= 600;
+    private void avancarMinutos(Motor motor, long i) {
+        long quantidade = i * 600L;
         while ((quantidade--) > 0) {
             motor.tick();
         }
     }
 
     private void avancarDias(Motor motor, long i) {
-        i *= 864.000;
-        while (i-- > 0) {
+        long quantidade = i * 864000L;
+        while ((quantidade--) > 0) {
             motor.tick();
         }
     }

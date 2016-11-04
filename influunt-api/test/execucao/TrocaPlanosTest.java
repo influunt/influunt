@@ -75,7 +75,7 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 9, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 14, listaTrocaPlano.size());
     }
 
     @Test
@@ -147,7 +147,7 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 9, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 14, listaTrocaPlano.size());
     }
 
     @Override
@@ -185,8 +185,8 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
 
     }
 
-    private void avancarHoras(Motor motor, long quantidade) {
-        quantidade *= 36000;
+    private void avancarHoras(Motor motor, long i) {
+        long quantidade = i * 36000;
         while ((quantidade--) > 0) {
             motor.tick();
         }

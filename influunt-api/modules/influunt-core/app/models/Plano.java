@@ -279,7 +279,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
-            return !(this.getEstagiosPlanos().size() != this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count());
+            return this.getEstagiosPlanos().size() == this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count();
         }
         return true;
     }

@@ -30,9 +30,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     private final String port;
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    Router router;
+    private Router router;
 
     private Map<String, Long> contador = new HashMap<String, Long>();
 
@@ -83,7 +83,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Exception) {
             throw (Exception) message;
-        } else if (message.equals("CONNECT")) {
+        } else if ("CONNECT".equals(message)) {
             central = getSender();
             connect();
             getSender().tell("CONNECTED", getSelf());

@@ -17,9 +17,9 @@ import os72c.client.protocols.MensagemInterrupcao;
  * Created by rodrigosol on 6/24/16.
  */
 public class Supervisor extends UntypedActor {
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    Long i = 0l;
+    private Long i = 0L;
 
     private Intervalos intervalos;
 
@@ -77,6 +77,8 @@ public class Supervisor extends UntypedActor {
                         intervalos.proximoCiclo(Integer.valueOf(mensagemControladorSupervisor.argumentos[0]));
                     }
                     break;
+                default:
+                    break;
             }
         } else if (message instanceof MensagemInterrupcao) {
             intervalos.status();
@@ -101,6 +103,8 @@ public class Supervisor extends UntypedActor {
                     break;
                 case DETECTOR_VEICULAR:
                     tratarInterrupcaoDetectorVeicular(i);
+                    break;
+                default:
                     break;
             }
 

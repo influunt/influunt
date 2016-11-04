@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -354,11 +355,8 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         if (!getTransicoesComPerdaDePassagem().isEmpty()) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : getEstagiosGruposSemaforicos()) {
                 Estagio origem = estagioGrupoSemaforico.getEstagio();
-                if (getTransicoes()
-                    .stream()
-                    .filter(transicao -> origem.equals(transicao.getOrigem())
-                        && transicao.isModoIntermitenteOuApagado())
-                    .count() != 1) {
+                List<Transicao> transicoes = getTransicoes().stream().filter(transicao -> origem.equals(transicao.getOrigem())).collect(Collectors.toList());
+                if (!transicoes.isEmpty() && transicoes.stream().filter(Transicao::isModoIntermitenteOuApagado).count() != 1) {
                     return false;
                 }
             }
@@ -503,7 +501,14 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     public Transicao findTransicaoByDestinoIntermitente(Estagio origem) {
-        return getTransicoesComPerdaDePassagem().stream().filter(transicao -> origem.equals(transicao.getOrigem()) && transicao.isModoIntermitenteOuApagado()).findFirst().orElse(null);
+        List<Transicao> transicoes = getTransicoesComPerdaDePassagem().stream().filter(transicao -> origem.equals(transicao.getOrigem())).collect(Collectors.toList());
+        if (!transicoes.isEmpty()) {
+            return transicoes.stream().filter(Transicao::isModoIntermitenteOuApagado).findFirst().orElse(null);
+        } else {
+            //TODO: Caso não exista desse grupo semaforico para outro, pois existe transição proibida e o grupo roda nos dois estágios
+            //Devolvendo o primeiro marcado para usar modoIntermitenteOuApagado
+            return getTransicoesComPerdaDePassagem().stream().filter(Transicao::isModoIntermitenteOuApagado).findFirst().orElse(null);
+        }
     }
 
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {

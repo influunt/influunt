@@ -206,7 +206,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         List<EstagioPlano> novaLista = new ArrayList<>();
         final Boolean[] adicionado = {false};
         listaEstagioPlanos.forEach(item -> {
-            if (!(item.getPosicao() < estagioPlano.getPosicao()) && !adicionado[0]) {
+            if (item.getPosicao() >= estagioPlano.getPosicao() && !adicionado[0]) {
                 novaLista.add(estagioPlano);
                 adicionado[0] = true;
             }

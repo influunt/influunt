@@ -324,11 +324,14 @@ public class IntervaloGrupoSemaforico {
             entry.getValue().stream().forEach(eventoMotor -> {
                 switch (eventoMotor.getTipoEvento()){
                     case ACIONAMENTO_DETECTOR_PEDESTRE:
+                        break;
                     case ACIONAMENTO_DETECTOR_VEICULAR:
-                         parseEventoDetector(eventoMotor,entry,eventos.addArray());
-                         break;
+                        parseEventoDetector(eventoMotor,entry,eventos.addArray());
+                        break;
                     case TROCA_DE_PLANO_NO_ANEL:
                         parseEventoTrocaPlano(eventoMotor,entry,eventos.addArray());
+                        break;
+                    default:
                         break;
 
                 }
