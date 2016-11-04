@@ -515,7 +515,17 @@ angular.module('influuntApp')
         $scope.opcoesEstagiosDisponiveis = [
           utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex),
           utilEstagios.getProximoEstagio(estagiosPlanos, $scope.currentEstagioPlanoIndex)
-        ];
+        ]
+
+        $scope.opcoesEstagiosDisponiveis = _
+          .chain($scope.opcoesEstagiosDisponiveis)
+          .map(function(ep) {
+            var estagio = _.find($scope.objeto.estagios, { idJson: ep.estagio.idJson });
+            ep.posicaoEstagio = estagio.posicao;
+            return ep;
+          })
+          .uniqBy('posicaoEstagio')
+          .value();
 
         return $scope.opcoesEstagiosDisponiveis;
       };

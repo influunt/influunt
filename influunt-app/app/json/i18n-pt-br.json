@@ -394,6 +394,8 @@
   },
   "planos": {
     "titulo": "Planos",
+    "estagioDispensavel": "Estágio dispensável",
+    "estagioQueRecebeTempoDeEstagioDispensavel": "Estágio que recebe tempo do estágio dispensável",
     "planoNaoConfigurado": {
       "tituloAlert": "Atenção",
       "textoAlert": "Este plano ainda não foi configurado"

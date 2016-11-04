@@ -645,6 +645,20 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.currentEstagioPlano).toEqual(estagioPlano);
         expect(_.map(scope.opcoesEstagiosDisponiveis, 'idJson')).toEqual(opcoesDisponiveis);
       });
+
+      it('Deve apresentar somente um estágio caso anterior e próximo ao atual dispensável sejam o mesmo', function() {
+        var primeiroEstagio = _.cloneDeep(scope.currentEstagiosPlanos[0]);
+        primeiroEstagio.id = UUID.generate();
+        primeiroEstagio.idJson = UUID.generate();
+        primeiroEstagio.posicao = 3;
+        scope.currentEstagiosPlanos.splice(2, 1, primeiroEstagio);
+
+        scope.selecionaEstagioPlano(scope.currentEstagiosPlanos[1], 1);
+        scope.$apply();
+
+        expect(scope.opcoesEstagiosDisponiveis.length).toBe(1);
+        expect(scope.opcoesEstagiosDisponiveis[0].posicaoEstagio).toBe(1);
+      });
     });
 
     describe('leftEstagio', function () {
