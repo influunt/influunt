@@ -36,6 +36,12 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema exibe um alerta com a mensagem "([^"]*)"$/, function(msg) {
+    return sharedSteps.textoSweetAlert().then(function(text) {
+      expect(text).to.equal(msg);
+    });
+  });
+
   this.Given(/^o usuário confirmar$/, function() {
     return sharedSteps.botaoConfirmSweetAlert();
   });
