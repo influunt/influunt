@@ -303,6 +303,7 @@ angular.module('influuntApp')
                   tempoAtrasoGrupo: tevt.tempoAtrasoGrupo,
                   tempoVermelhoLimpeza: tevt.tempoVermelhoLimpeza,
                   tipo: transicao.tipo,
+                  modoIntermitenteOuApagado: transicao.modoIntermitenteOuApagado,
                   label: 'E' + origem.posicao + '-' + 'E' + destino.posicao
                 };
               });

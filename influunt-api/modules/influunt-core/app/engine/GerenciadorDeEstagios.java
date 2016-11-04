@@ -78,7 +78,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         //TODO: Se o intermitente sair antes de terminar o entreverde do estágio anterior o que deve acontecer?
         if (this.agendamento != null && (this.plano.isIntermitente() || this.plano.isApagada()) && !intervalo.isEntreverde()) {
-            intervalo.setDuracao(contadorIntervalo);
+            Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
+            intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
         } else {

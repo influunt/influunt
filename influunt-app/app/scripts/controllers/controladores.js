@@ -308,6 +308,7 @@ angular.module('influuntApp')
         transicoesToSearchFor.forEach(function(t) {
           var transicao = _.find(transicoesToFindIn, { idJson: t.idJson });
           $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            transicao: transicao,
             origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
             destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
           };

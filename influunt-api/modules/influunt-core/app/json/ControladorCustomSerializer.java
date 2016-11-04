@@ -1327,6 +1327,8 @@ public class ControladorCustomSerializer {
             refAtrasoDeGrupo("atrasoDeGrupo", transicao.getAtrasoDeGrupo(), transicaoJson);
         }
 
+        transicaoJson.put("modoIntermitenteOuApagado", transicao.isModoIntermitenteOuApagado());
+
         return transicaoJson;
     }
 
