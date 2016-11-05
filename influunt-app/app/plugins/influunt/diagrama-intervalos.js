@@ -175,7 +175,6 @@ var influunt;
         var houveConflito = true;
         for (i = 0; i < estagios.length && houveConflito; i++) {
           houveConflito = atrasoDeGrupoAutomatico();
-          console.log('==================> teste de conflitos: ', houveConflito);
         }
 
         //Inserindo o vermelho
@@ -185,6 +184,10 @@ var influunt;
               diagrama[i][j] = VERMELHO;
             }
           }
+        }
+
+        if (houveConflito) {
+          return {erros: ['Existem conflitos de verdes que não podem ser resolvidos automaticamente.']};
         }
 
         return this.gerarDiagramaIntervalo(diagrama, estagios, plano.tempoCiclo);

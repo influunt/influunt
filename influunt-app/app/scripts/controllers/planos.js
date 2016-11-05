@@ -279,8 +279,7 @@ angular.module('influuntApp')
       $scope.selecionaAnelPlanos = function(index) {
         selecionaAnel(index);
 
-        // var indexPlano = 0;
-        var indexPlano = 1;
+        var indexPlano = 0;
         if (angular.isDefined($scope.currentPlano)) {
           indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
