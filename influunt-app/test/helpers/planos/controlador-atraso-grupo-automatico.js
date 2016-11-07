@@ -7,26 +7,21 @@
  */
 var ControladorAtrasoGrupoAutomatico = {
   obj: {
-    "id": "9f3ccb14-67de-46c5-b16d-fce3ceeb5c2c",
+    "id": "4b87d1f7-7921-4588-b17a-4d005a8ec4ad",
     "versoesTabelasHorarias": [
       {
-        "id": "a8d64af2-9caf-4a98-ad00-a1736e9f816c",
-        "idJson": "ea98e9cd-c024-417b-a2ea-18e1cfedf277",
+        "id": "70a35933-c599-41f2-9424-e083cdcc3f4a",
+        "idJson": "a2d145ab-cf3d-4c63-839a-49beeb9e962e",
         "statusVersao": "EDITANDO",
         "tabelaHoraria": {
-          "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5"
+          "idJson": "77987356-2f13-4ac4-bed2-c0aecf7d6706"
         }
       }
     ],
     "numeroSMEE": "3341",
     "numeroSMEEConjugado1": "3342",
     "numeroSMEEConjugado2": "3343",
-    "firmware": "1",
-    "croqui": {
-      "id": "73fdefc0-372c-41af-814f-7a702d791941",
-      "idJson": "4dc0fbf6-6878-4a52-b644-258bdd89d9e5"
-    },
-    "sequencia": 2,
+    "sequencia": 4,
     "limiteEstagio": 16,
     "limiteGrupoSemaforico": 16,
     "limiteAnel": 4,
@@ -34,10 +29,10 @@ var ControladorAtrasoGrupoAutomatico = {
     "limiteDetectorVeicular": 8,
     "limiteTabelasEntreVerdes": 2,
     "limitePlanos": 16,
-    "nomeEndereco": "R. Emília Marengo com Rua Itapura",
-    "dataCriacao": "18/10/2016 12:26:22",
-    "dataAtualizacao": "27/10/2016 16:01:33",
-    "CLC": "3.003.0002",
+    "nomeEndereco": "R. Emília Marengo com Rua Itapura. ref.: 386",
+    "dataCriacao": "03/11/2016 09:08:41",
+    "dataAtualizacao": "07/11/2016 11:43:34",
+    "CLC": "1.000.0004",
     "bloqueado": false,
     "planosBloqueado": false,
     "verdeMin": "1",
@@ -57,7 +52,7 @@ var ControladorAtrasoGrupoAutomatico = {
     "vermelhoIntermitenteMin": "3",
     "vermelhoIntermitenteMax": "32",
     "vermelhoLimpezaVeicularMin": "0",
-    "vermelhoLimpezaVeicularMax": "15",
+    "vermelhoLimpezaVeicularMax": "7",
     "vermelhoLimpezaPedestreMin": "0",
     "vermelhoLimpezaPedestreMax": "5",
     "atrasoGrupoMin": "0",
@@ -75,4038 +70,2473 @@ var ControladorAtrasoGrupoAutomatico = {
     "ausenciaDeteccaoMax": "4320",
     "deteccaoPermanenteMin": "0",
     "deteccaoPermanenteMax": "1440",
-    "statusControlador": "EDITANDO",
-    "statusControladorReal": "EDITANDO",
+    "statusControlador": "EM_CONFIGURACAO",
+    "statusControladorReal": "EM_CONFIGURACAO",
     "area": {
-      "idJson": "afb12c64-d2a5-4af5-bb6b-ce692ce25bc4"
-    },
-    "subarea": {
-      "id": "970c11cb-1489-40c6-a379-fd518774c579",
-      "idJson": "5c1dc0f8-04ef-449d-a242-445948ffb31c",
-      "nome": "TATUAPE",
-      "numero": 3
+      "idJson": "66b6a0c4-a1c4-11e6-970d-0401fa9c1b01"
     },
     "endereco": {
-      "idJson": "c568ebcc-4112-47b0-b6dd-3a1fd4a8a6ba"
+      "idJson": "8586d3ea-8a3b-4c51-b171-cda543eabd05"
     },
     "modelo": {
-      "id": "181eb724-b2f3-46ec-9b13-32020fbe0641",
-      "idJson": "a26fd46c-dc8a-4b9d-9001-8005abb022f4",
-      "descricao": "CD300",
+      "id": "66b6ba69-a1c4-11e6-970d-0401fa9c1b01",
+      "idJson": "66b6ba7e-a1c4-11e6-970d-0401fa9c1b01",
+      "descricao": "Modelo Básico",
       "fabricante": {
-        "id": "0a6ca3de-d2af-4f1f-81eb-056398f3eea3",
-        "nome": "DIGICON"
+        "id": "66b6a723-a1c4-11e6-970d-0401fa9c1b01",
+        "nome": "Raro Labs"
       }
     },
     "aneis": [
       {
-        "id": "0dcc2eef-3be5-45ca-96f6-c8b3b42441af",
-        "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493",
-        "numeroSMEE": "3342",
+        "id": "1d6e1cef-1ec4-41f4-9532-03f5bd600e3f",
+        "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1",
         "ativo": true,
         "aceitaModoManual": true,
         "posicao": 2,
-        "CLA": "3.003.0002.2",
-        "croqui": {
-          "id": "27045ccb-4b4d-430e-936e-d56cf696c8b5",
-          "idJson": "3344355f-8f91-4228-9fb2-94bc07aeafc3"
-        },
+        "CLA": "1.000.0004.2",
         "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
+          "idJson": "67f12a26-3839-4c80-a712-778a7f76bde6"
         },
         "estagios": [
           {
-            "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+            "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
           },
           {
-            "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+            "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
           }
         ],
         "gruposSemaforicos": [
           {
-            "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+            "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
           },
           {
-            "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
+            "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
           }
         ],
         "detectores": [],
         "planos": [
           {
-            "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce"
+            "idJson": "24510147-ba9f-4a61-815d-63565ffca56f"
           },
           {
-            "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4"
-          },
-          {
-            "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a"
-          },
-          {
-            "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859"
-          },
-          {
-            "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408"
-          },
-          {
-            "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147"
+            "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d"
           }
         ],
         "endereco": {
-          "idJson": "dbfcc505-982d-4d1a-86a1-d1316b18c846"
+          "idJson": "e48eec2a-0b7a-44bf-889e-1c28fbdc58ea"
         }
       },
       {
-        "id": "51c6e466-35f4-4026-82ec-f0625b4ace52",
-        "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4",
-        "numeroSMEE": "3341",
-        "ativo": true,
-        "aceitaModoManual": true,
-        "posicao": 1,
-        "CLA": "3.003.0002.1",
-        "croqui": {
-          "id": "8a136970-fa35-432f-8472-d3fbf9afb20a",
-          "idJson": "a52e186b-12d7-47c4-9710-f98f75209044"
-        },
-        "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
-        },
-        "estagios": [
-          {
-            "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-          },
-          {
-            "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-          },
-          {
-            "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-          }
-        ],
-        "gruposSemaforicos": [
-          {
-            "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
-          },
-          {
-            "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
-          },
-          {
-            "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
-          },
-          {
-            "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
-          },
-          {
-            "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
-          }
-        ],
-        "detectores": [
-          {
-            "idJson": "eb1e16a5-095a-4a70-8fe6-fa00eaf17c6a"
-          }
-        ],
-        "planos": [
-          {
-            "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
-          },
-          {
-            "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-          },
-          {
-            "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-          },
-          {
-            "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
-          },
-          {
-            "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-          },
-          {
-            "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-          }
-        ],
-        "endereco": {
-          "idJson": "6f151dbe-4b8a-4eaf-a70a-63ea02e299af"
-        }
-      },
-      {
-        "id": "5f5c9041-afb7-4be8-87e3-f29c3d5788a2",
-        "idJson": "2d545706-f81d-4979-af5d-adc9ee9cfb55",
+        "id": "8d529b11-9c02-400f-b37e-77bca6f16cfe",
+        "idJson": "31802649-dcdd-42b1-8b03-60a6194e7e16",
         "ativo": false,
-        "aceitaModoManual": false,
+        "aceitaModoManual": true,
         "posicao": 4,
-        "CLA": "3.003.0002.4",
+        "CLA": "1.000.0004.4",
         "estagios": [],
         "gruposSemaforicos": [],
         "detectores": [],
         "planos": []
       },
       {
-        "id": "8704be66-72f4-40da-a8cf-864612e06653",
-        "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3",
-        "numeroSMEE": "3343",
+        "id": "9a12678a-b1af-4a24-b122-609908d58582",
+        "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865",
         "ativo": true,
         "aceitaModoManual": true,
         "posicao": 3,
-        "CLA": "3.003.0002.3",
-        "croqui": {
-          "id": "25127706-13ec-4842-bb83-b2659a3f4691",
-          "idJson": "8da07721-ffa6-47cc-847c-786337b4ab85"
-        },
+        "CLA": "1.000.0004.3",
         "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
+          "idJson": "ac4757a0-87bc-4b3b-a391-1e3ca8f9571b"
         },
         "estagios": [
           {
-            "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+            "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
           },
           {
-            "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+            "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
           },
           {
-            "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+            "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
           }
         ],
         "gruposSemaforicos": [
           {
-            "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+            "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
           },
           {
-            "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+            "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
           },
           {
-            "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+            "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
           }
         ],
         "detectores": [
           {
-            "idJson": "36bd6980-475b-47bc-a3d1-09bf166c2c31"
+            "idJson": "e57e24cf-0295-4a9e-8534-35afac23b532"
           }
         ],
         "planos": [
           {
-            "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
+            "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
           },
           {
-            "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-          },
-          {
-            "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
-          },
-          {
-            "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
-          },
-          {
-            "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-          },
-          {
-            "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
+            "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
           }
         ],
         "endereco": {
-          "idJson": "2d5ed6fe-721e-4136-b682-a4d81e9c598b"
+          "idJson": "07ff47fa-558c-47e4-b604-5f0f190bebf7"
+        }
+      },
+      {
+        "id": "fe3610bb-155b-4ee5-821e-1abcad30755e",
+        "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8",
+        "numeroSMEE": "3341",
+        "ativo": true,
+        "aceitaModoManual": true,
+        "posicao": 1,
+        "CLA": "1.000.0004.1",
+        "versaoPlano": {
+          "idJson": "d3ea90e7-ceda-4100-bf9a-e845a0e2af38"
+        },
+        "estagios": [
+          {
+            "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
+          },
+          {
+            "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
+          },
+          {
+            "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
+          }
+        ],
+        "gruposSemaforicos": [
+          {
+            "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
+          },
+          {
+            "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
+          },
+          {
+            "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
+          },
+          {
+            "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
+          },
+          {
+            "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
+          }
+        ],
+        "detectores": [
+          {
+            "idJson": "5ef1fad1-499c-417e-a2f4-706d6b0a6f6b"
+          }
+        ],
+        "planos": [
+          {
+            "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
+          },
+          {
+            "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
+          }
+        ],
+        "endereco": {
+          "idJson": "3632c309-6fb8-4d81-b7da-0ecab452ba7c"
         }
       }
     ],
     "estagios": [
       {
-        "id": "93c8af4d-5e01-4a6d-9935-b9e643c659e8",
-        "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc",
+        "id": "02a90d32-cafb-4f30-8aa3-e111956be126",
+        "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a",
         "tempoMaximoPermanencia": 127,
         "tempoMaximoPermanenciaAtivado": true,
         "demandaPrioritaria": false,
         "tempoVerdeDemandaPrioritaria": 1,
         "posicao": 3,
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
         },
         "imagem": {
-          "idJson": "023fc423-d200-4802-a10d-278bc8dbf250"
+          "idJson": "4c2f780e-0ee4-43a8-9fb8-3741e16700b4"
         },
-        "origemDeTransicoesProibidas": [
-          {
-            "idJson": "0ed7a7f4-db35-4a52-8322-8294a80f2401"
-          }
-        ],
+        "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
-        "alternativaDeTransicoesProibidas": [
-          {
-            "idJson": "efdaa90c-3544-4d5d-bb3c-3b99ff77d313"
-          }
-        ],
+        "alternativaDeTransicoesProibidas": [],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "dcdc677a-6e16-4ffc-aca5-bf2eeacaba18"
-          },
-          {
-            "idJson": "789ff361-1fcb-4a31-b011-1c39eb33653c"
+            "idJson": "c52f614f-2dc9-4fef-b4e7-f2a40f1d7073"
           }
         ]
       },
       {
-        "id": "b04167db-e819-4c7e-ad3a-d7576b48d8c8",
-        "idJson": "513ccc36-b0dd-4846-b404-226f14941f68",
+        "id": "9e647fea-27a8-431a-9db1-235160e652f3",
+        "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605",
         "tempoMaximoPermanencia": 127,
         "tempoMaximoPermanenciaAtivado": true,
         "demandaPrioritaria": false,
         "tempoVerdeDemandaPrioritaria": 1,
         "posicao": 1,
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
         },
         "imagem": {
-          "idJson": "9ff36447-ddbd-49e4-9ca4-7afe404c6686"
-        },
-        "origemDeTransicoesProibidas": [],
-        "destinoDeTransicoesProibidas": [
-          {
-            "idJson": "efdaa90c-3544-4d5d-bb3c-3b99ff77d313"
-          }
-        ],
-        "alternativaDeTransicoesProibidas": [
-          {
-            "idJson": "0ed7a7f4-db35-4a52-8322-8294a80f2401"
-          }
-        ],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "e292aadb-1d84-4617-87a6-b5779b6ed582"
-          },
-          {
-            "idJson": "45f51508-692d-4252-aa85-79883bca6601"
-          }
-        ]
-      },
-      {
-        "id": "16dc1e23-4761-4eef-9c61-1273c19f9a89",
-        "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd",
-        "tempoMaximoPermanencia": 127,
-        "tempoMaximoPermanenciaAtivado": true,
-        "demandaPrioritaria": false,
-        "tempoVerdeDemandaPrioritaria": 1,
-        "posicao": 3,
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "imagem": {
-          "idJson": "ad3de68a-00f4-462b-a868-c491bbf43cca"
+          "idJson": "4e1e4cde-2746-42e0-ad2f-d37aac3948d8"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
         "alternativaDeTransicoesProibidas": [],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "f378104d-e243-4c17-9b17-9ab0e25869cb"
+            "idJson": "1a92ac9b-a680-4057-8e62-a31679cbeb66"
           }
         ]
       },
       {
-        "id": "d22bae9b-77e2-44bd-9617-25edae0b5df4",
-        "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571",
+        "id": "22ac3625-580c-44c8-a880-b1c19c292485",
+        "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9",
         "tempoMaximoPermanencia": 127,
         "tempoMaximoPermanenciaAtivado": true,
         "demandaPrioritaria": false,
         "tempoVerdeDemandaPrioritaria": 1,
         "posicao": 2,
         "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
         },
         "imagem": {
-          "idJson": "24e23b1a-d05e-47cf-992b-14a3398a2bcb"
+          "idJson": "608ee6c8-81dd-47fd-9834-f02181f7c243"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
         "alternativaDeTransicoesProibidas": [],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "11ef45ac-5552-4f78-ba7c-12e88a37521d"
+            "idJson": "2e63fd43-c4a6-478d-8ded-21eb4a2f2946"
           }
         ],
         "detector": {
-          "idJson": "36bd6980-475b-47bc-a3d1-09bf166c2c31"
+          "idJson": "e57e24cf-0295-4a9e-8534-35afac23b532"
         }
       },
       {
-        "id": "3c672b46-14a2-4711-aa40-210391faa13b",
-        "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72",
+        "id": "1750fded-dc81-44eb-a9d5-2e87e03637ee",
+        "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1",
+        "tempoMaximoPermanencia": 127,
+        "tempoMaximoPermanenciaAtivado": true,
+        "demandaPrioritaria": false,
+        "tempoVerdeDemandaPrioritaria": 1,
+        "posicao": 1,
+        "anel": {
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
+        },
+        "imagem": {
+          "idJson": "352f6715-db29-4b3e-9303-fd5dc123289b"
+        },
+        "origemDeTransicoesProibidas": [],
+        "destinoDeTransicoesProibidas": [
+          {
+            "idJson": "ab63f066-a001-4d45-b07a-1ad615470ec8"
+          }
+        ],
+        "alternativaDeTransicoesProibidas": [
+          {
+            "idJson": "1759a0fa-81cc-4989-9111-aa94cca33e3d"
+          }
+        ],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "204ccea9-24a9-4ed2-b99c-0d25bfdee572"
+          },
+          {
+            "idJson": "19e5206c-25d8-4586-a02c-4d2837950ea3"
+          }
+        ]
+      },
+      {
+        "id": "1b7fcdb9-2201-4601-85d0-118ef30f43dc",
+        "idJson": "83f9f8e0-7308-4e76-a275-643564205996",
+        "tempoMaximoPermanencia": 127,
+        "tempoMaximoPermanenciaAtivado": true,
+        "demandaPrioritaria": false,
+        "tempoVerdeDemandaPrioritaria": 1,
+        "posicao": 3,
+        "anel": {
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
+        },
+        "imagem": {
+          "idJson": "cc73f6d9-1a14-4a9d-9b8b-7c8e07a17c94"
+        },
+        "origemDeTransicoesProibidas": [
+          {
+            "idJson": "1759a0fa-81cc-4989-9111-aa94cca33e3d"
+          }
+        ],
+        "destinoDeTransicoesProibidas": [],
+        "alternativaDeTransicoesProibidas": [
+          {
+            "idJson": "ab63f066-a001-4d45-b07a-1ad615470ec8"
+          }
+        ],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "3895aa23-3224-4b14-8dc1-a28297d5376d"
+          },
+          {
+            "idJson": "3e136e19-b02b-44f5-b5c7-1a6d306d430b"
+          }
+        ]
+      },
+      {
+        "id": "e8f1b3cc-6c89-40bb-98f7-2081d614f164",
+        "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70",
+        "tempoMaximoPermanencia": 127,
+        "tempoMaximoPermanenciaAtivado": true,
+        "demandaPrioritaria": false,
+        "tempoVerdeDemandaPrioritaria": 1,
+        "posicao": 1,
+        "anel": {
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
+        },
+        "imagem": {
+          "idJson": "7ab268a9-7b30-4851-b9a2-64c445fcb662"
+        },
+        "origemDeTransicoesProibidas": [],
+        "destinoDeTransicoesProibidas": [],
+        "alternativaDeTransicoesProibidas": [],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "6ea843c3-c283-42e1-9288-e81aae4cb9fd"
+          }
+        ]
+      },
+      {
+        "id": "731074d9-12f7-4d0e-a784-b5530a856357",
+        "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e",
+        "tempoMaximoPermanencia": 127,
+        "tempoMaximoPermanenciaAtivado": true,
+        "demandaPrioritaria": false,
+        "tempoVerdeDemandaPrioritaria": 1,
+        "posicao": 2,
+        "anel": {
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
+        },
+        "imagem": {
+          "idJson": "db2e885f-d3f0-4afc-8f28-bf974df5fbac"
+        },
+        "origemDeTransicoesProibidas": [],
+        "destinoDeTransicoesProibidas": [],
+        "alternativaDeTransicoesProibidas": [],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "58fe27eb-9808-414e-97de-076516b78d79"
+          }
+        ]
+      },
+      {
+        "id": "d26843f7-5e39-4531-985a-407982156329",
+        "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c",
         "tempoMaximoPermanencia": 60,
         "tempoMaximoPermanenciaAtivado": true,
         "demandaPrioritaria": false,
         "tempoVerdeDemandaPrioritaria": 1,
         "posicao": 2,
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "imagem": {
-          "idJson": "aeb254e3-7541-40f3-a71b-022a0bba211e"
+          "idJson": "a98e40d4-c307-430c-820a-f87fc725ccce"
         },
         "origemDeTransicoesProibidas": [
           {
-            "idJson": "efdaa90c-3544-4d5d-bb3c-3b99ff77d313"
+            "idJson": "ab63f066-a001-4d45-b07a-1ad615470ec8"
           }
         ],
         "destinoDeTransicoesProibidas": [
           {
-            "idJson": "0ed7a7f4-db35-4a52-8322-8294a80f2401"
+            "idJson": "1759a0fa-81cc-4989-9111-aa94cca33e3d"
           }
         ],
         "alternativaDeTransicoesProibidas": [],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "ddfa24e1-8e90-4509-bc82-9f27cc35547e"
+            "idJson": "bbf8e4a8-a955-4125-9ec2-c98c0247c1ae"
           },
           {
-            "idJson": "13739af3-be34-44a4-a3d5-95528824d7ef"
+            "idJson": "10f01256-3205-4cb2-a92b-339564630e1a"
           }
         ],
         "detector": {
-          "idJson": "eb1e16a5-095a-4a70-8fe6-fa00eaf17c6a"
+          "idJson": "5ef1fad1-499c-417e-a2f4-706d6b0a6f6b"
         }
-      },
-      {
-        "id": "3d815b0a-747b-46e1-8b7b-1f2b1662891a",
-        "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e",
-        "tempoMaximoPermanencia": 127,
-        "tempoMaximoPermanenciaAtivado": true,
-        "demandaPrioritaria": false,
-        "tempoVerdeDemandaPrioritaria": 1,
-        "posicao": 2,
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "imagem": {
-          "idJson": "6ce52c3e-2e5a-455e-966d-863b93e448df"
-        },
-        "origemDeTransicoesProibidas": [],
-        "destinoDeTransicoesProibidas": [],
-        "alternativaDeTransicoesProibidas": [],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "a74c1b23-a596-4774-ae10-a3a0a5123248"
-          }
-        ]
-      },
-      {
-        "id": "8eace505-238a-40a1-91ef-718f17e61251",
-        "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390",
-        "tempoMaximoPermanencia": 127,
-        "tempoMaximoPermanenciaAtivado": true,
-        "demandaPrioritaria": false,
-        "tempoVerdeDemandaPrioritaria": 1,
-        "posicao": 1,
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "imagem": {
-          "idJson": "9f32efcd-d832-4bdd-b9d1-1e39ad2a4f95"
-        },
-        "origemDeTransicoesProibidas": [],
-        "destinoDeTransicoesProibidas": [],
-        "alternativaDeTransicoesProibidas": [],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "7af20d19-5d56-4438-938a-874ead2f239c"
-          }
-        ]
-      },
-      {
-        "id": "2bb5d5a9-8f4e-4f74-82b8-b3a134ebd7e9",
-        "idJson": "00f04cee-ff99-4690-9029-c88c55928096",
-        "tempoMaximoPermanencia": 127,
-        "tempoMaximoPermanenciaAtivado": true,
-        "demandaPrioritaria": false,
-        "tempoVerdeDemandaPrioritaria": 1,
-        "posicao": 1,
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "imagem": {
-          "idJson": "54b5b708-cb38-4bca-b57a-3b077c02598f"
-        },
-        "origemDeTransicoesProibidas": [],
-        "destinoDeTransicoesProibidas": [],
-        "alternativaDeTransicoesProibidas": [],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "97f380a7-ee28-4470-b1a7-a2f625ee46a0"
-          }
-        ]
       }
     ],
     "gruposSemaforicos": [
       {
-        "id": "a0abef0f-7ad4-4c45-81d2-19562c3a4e1c",
-        "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21",
+        "id": "8970ad8b-149e-47c8-ac81-47a17c6f42e6",
+        "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04",
         "tipo": "VEICULAR",
         "posicao": 5,
         "faseVermelhaApagadaAmareloIntermitente": true,
         "tempoVerdeSeguranca": 10,
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "verdesConflitantesOrigem": [],
         "verdesConflitantesDestino": [
           {
-            "idJson": "ca918ee5-f3aa-47e5-9b72-3946c3f03e46"
+            "idJson": "eae40cc0-5c90-4664-aa85-74f468d1df6d"
           }
         ],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "dcdc677a-6e16-4ffc-aca5-bf2eeacaba18"
+            "idJson": "3895aa23-3224-4b14-8dc1-a28297d5376d"
           },
           {
-            "idJson": "e292aadb-1d84-4617-87a6-b5779b6ed582"
+            "idJson": "204ccea9-24a9-4ed2-b99c-0d25bfdee572"
           }
         ],
         "transicoes": [
           {
-            "idJson": "eb7d0c1c-1fe9-4ccc-911b-c6ab20605a50"
-          },
-          {
-            "idJson": "e24240bd-3e67-48bd-a19c-803536a82227"
-          },
-          {
-            "idJson": "5e07234d-b178-4fc7-962a-847c92e9784d"
+            "idJson": "d5a8b3de-df9f-4449-8dd1-55f2a9805080"
           }
         ],
         "transicoesComGanhoDePassagem": [
           {
-            "idJson": "16cbd3bb-cf8a-47e0-8879-16f0526bd000"
-          },
-          {
-            "idJson": "b56bff80-0f58-48a6-b891-439125656ce1"
-          },
-          {
-            "idJson": "d65b55f8-a970-4756-a6ab-bbf711b786ba"
+            "idJson": "63c98351-d4ac-489c-917f-39bac6595a8b"
           }
         ],
         "tabelasEntreVerdes": [
           {
-            "idJson": "7f0aec59-5ad6-4dc7-ac09-aa1bdd1b5fb5"
+            "idJson": "6be66f7e-eb77-4f31-ab6f-eec4e46ed4d1"
           }
         ]
       },
       {
-        "id": "bbbb221f-c75b-48bf-bd4f-09271e087ad7",
-        "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41",
-        "tipo": "VEICULAR",
-        "posicao": 7,
-        "faseVermelhaApagadaAmareloIntermitente": true,
-        "tempoVerdeSeguranca": 10,
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "verdesConflitantesOrigem": [],
-        "verdesConflitantesDestino": [
-          {
-            "idJson": "63ac962c-b23b-4e0c-8b67-466a51e3e9fb"
-          }
-        ],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "7af20d19-5d56-4438-938a-874ead2f239c"
-          }
-        ],
-        "transicoes": [
-          {
-            "idJson": "d7b6a981-5697-4edb-b586-f8ceda3d6327"
-          }
-        ],
-        "transicoesComGanhoDePassagem": [
-          {
-            "idJson": "9a6482e8-7d9f-488a-8c5a-fc7841832eb2"
-          }
-        ],
-        "tabelasEntreVerdes": [
-          {
-            "idJson": "02dfce93-5029-4d0f-a623-ee736b8e2a99"
-          }
-        ]
-      },
-      {
-        "id": "4873504f-05ac-46a7-8893-378c3785826f",
-        "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e",
-        "tipo": "VEICULAR",
-        "posicao": 3,
-        "faseVermelhaApagadaAmareloIntermitente": true,
-        "tempoVerdeSeguranca": 10,
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "verdesConflitantesOrigem": [],
-        "verdesConflitantesDestino": [
-          {
-            "idJson": "3e8c2ff0-3062-4c9f-b03b-5e0a1a2af8a6"
-          }
-        ],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "789ff361-1fcb-4a31-b011-1c39eb33653c"
-          }
-        ],
-        "transicoes": [
-          {
-            "idJson": "88305f20-3caa-4dcd-b4e1-ad2d350e33a5"
-          }
-        ],
-        "transicoesComGanhoDePassagem": [
-          {
-            "idJson": "f1ec1441-a755-4cdd-9256-e2cde3331f15"
-          },
-          {
-            "idJson": "ea161bad-92d8-416e-bc72-480b2dfcb161"
-          }
-        ],
-        "tabelasEntreVerdes": [
-          {
-            "idJson": "378b346d-5f84-4de3-bf50-6d3c1853fa08"
-          }
-        ]
-      },
-      {
-        "id": "c4a60a86-ba10-40b0-995d-48cf44185c8c",
-        "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd",
-        "tipo": "VEICULAR",
-        "posicao": 2,
-        "faseVermelhaApagadaAmareloIntermitente": true,
-        "tempoVerdeSeguranca": 10,
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "verdesConflitantesOrigem": [],
-        "verdesConflitantesDestino": [
-          {
-            "idJson": "efaeee61-c44e-4d63-af29-b662a033d271"
-          }
-        ],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "13739af3-be34-44a4-a3d5-95528824d7ef"
-          }
-        ],
-        "transicoes": [
-          {
-            "idJson": "d6c2300a-255e-4035-bd78-eb0857679ed6"
-          }
-        ],
-        "transicoesComGanhoDePassagem": [
-          {
-            "idJson": "73bac9a1-21ba-438a-a766-dfd397266689"
-          }
-        ],
-        "tabelasEntreVerdes": [
-          {
-            "idJson": "7987e164-fa4a-46a7-b928-74679d410e91"
-          }
-        ]
-      },
-      {
-        "id": "812d6142-ea42-4880-be0d-083f3b2f681b",
-        "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f",
-        "tipo": "VEICULAR",
-        "posicao": 6,
-        "faseVermelhaApagadaAmareloIntermitente": true,
-        "tempoVerdeSeguranca": 10,
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "verdesConflitantesOrigem": [
-          {
-            "idJson": "63ac962c-b23b-4e0c-8b67-466a51e3e9fb"
-          }
-        ],
-        "verdesConflitantesDestino": [],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "a74c1b23-a596-4774-ae10-a3a0a5123248"
-          }
-        ],
-        "transicoes": [
-          {
-            "idJson": "f8bd914d-4e67-42f1-8264-391dc7782af6"
-          }
-        ],
-        "transicoesComGanhoDePassagem": [
-          {
-            "idJson": "98553938-7586-43b1-a2d8-6b17af5e53e5"
-          }
-        ],
-        "tabelasEntreVerdes": [
-          {
-            "idJson": "5867fb67-2628-4f96-8fd6-28fbd3189523"
-          }
-        ]
-      },
-      {
-        "id": "f9a4aba8-c8b7-4607-9944-f6818cadc244",
-        "idJson": "27024439-a90f-4568-b643-b46a98b430fd",
-        "tipo": "VEICULAR",
-        "posicao": 1,
-        "faseVermelhaApagadaAmareloIntermitente": true,
-        "tempoVerdeSeguranca": 10,
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "verdesConflitantesOrigem": [
-          {
-            "idJson": "3e8c2ff0-3062-4c9f-b03b-5e0a1a2af8a6"
-          },
-          {
-            "idJson": "efaeee61-c44e-4d63-af29-b662a033d271"
-          }
-        ],
-        "verdesConflitantesDestino": [],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "45f51508-692d-4252-aa85-79883bca6601"
-          }
-        ],
-        "transicoes": [
-          {
-            "idJson": "bc75c24e-5696-41f5-a51c-ba6f7794f94d"
-          },
-          {
-            "idJson": "444425fd-25c8-4d05-be10-f82b9b6c831f"
-          }
-        ],
-        "transicoesComGanhoDePassagem": [
-          {
-            "idJson": "d6642ae7-6ca2-481b-b458-de6c260db08f"
-          }
-        ],
-        "tabelasEntreVerdes": [
-          {
-            "idJson": "4bc2ea66-02c4-4836-b10c-05bc09a4f682"
-          }
-        ]
-      },
-      {
-        "id": "4db796e2-2c2c-4069-b48f-f7d4cd54b124",
-        "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27",
-        "tipo": "VEICULAR",
-        "posicao": 9,
-        "faseVermelhaApagadaAmareloIntermitente": true,
-        "tempoVerdeSeguranca": 10,
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "verdesConflitantesOrigem": [
-          {
-            "idJson": "7070acaf-743b-4812-ace5-8afb8810bbc7"
-          }
-        ],
-        "verdesConflitantesDestino": [
-          {
-            "idJson": "a9a07e45-8f18-4726-a1fd-3be4ca36530a"
-          }
-        ],
-        "estagiosGruposSemaforicos": [
-          {
-            "idJson": "97f380a7-ee28-4470-b1a7-a2f625ee46a0"
-          }
-        ],
-        "transicoes": [
-          {
-            "idJson": "a8dc0d86-ea75-4921-9c9c-a1777608c640"
-          },
-          {
-            "idJson": "dec9bf63-b86a-485f-946d-9a92b8df754f"
-          }
-        ],
-        "transicoesComGanhoDePassagem": [
-          {
-            "idJson": "7a76e208-830d-4b87-8423-ab553f5267eb"
-          },
-          {
-            "idJson": "b56b4d45-8fbc-4211-8ed7-27330937fa79"
-          }
-        ],
-        "tabelasEntreVerdes": [
-          {
-            "idJson": "d25bdd29-99a3-484f-a423-41103be68ba1"
-          }
-        ]
-      },
-      {
-        "id": "5b02fbff-54f8-4d7a-aa96-9cb13ae5ecf0",
-        "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a",
+        "id": "0465cda7-24a8-4e5a-befe-f05c90bb62b3",
+        "idJson": "7264e985-8082-4120-8577-cb83f8b26e90",
         "tipo": "VEICULAR",
         "posicao": 8,
         "faseVermelhaApagadaAmareloIntermitente": true,
         "tempoVerdeSeguranca": 10,
         "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
         },
         "verdesConflitantesOrigem": [
           {
-            "idJson": "bf402035-f071-4550-b148-f267ddbed79c"
+            "idJson": "a2f0b558-6b6e-4818-bbd1-d273254875dd"
           },
           {
-            "idJson": "a9a07e45-8f18-4726-a1fd-3be4ca36530a"
+            "idJson": "137f1164-e501-4fd2-904d-8e151d151ee7"
           }
         ],
         "verdesConflitantesDestino": [],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "11ef45ac-5552-4f78-ba7c-12e88a37521d"
+            "idJson": "2e63fd43-c4a6-478d-8ded-21eb4a2f2946"
           }
         ],
         "transicoes": [
           {
-            "idJson": "bd2cb690-2073-4885-993c-6e00ab621abf"
+            "idJson": "81cd2daa-d5d1-44d2-ad23-5bf0764a0b10"
           },
           {
-            "idJson": "69e3a75e-6488-4635-849c-ff88c470f51a"
+            "idJson": "44077fec-0719-4a7c-81e9-7ee5eadcdf5d"
           }
         ],
         "transicoesComGanhoDePassagem": [
           {
-            "idJson": "ee014905-a3c7-4d4c-82c8-408577f58f1d"
+            "idJson": "4c814a1a-c0ee-46f1-bdf8-d9e7be2b3526"
           },
           {
-            "idJson": "d2371b6d-11af-4757-8c90-1dc6464ddaca"
+            "idJson": "4356ad3b-325c-4a98-a4f9-698738be5832"
           }
         ],
         "tabelasEntreVerdes": [
           {
-            "idJson": "ec2e3e78-f726-41ba-a5b7-56835ab3798d"
+            "idJson": "2bfc75fa-614b-4d15-892f-7b86e246ae4a"
           }
         ]
       },
       {
-        "id": "51f0b2d9-7a73-443f-8c46-685cd6e971a5",
-        "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0",
+        "id": "e378cf38-89f8-46d8-81c8-a1beb21ee9cd",
+        "idJson": "9050c64b-81f4-478d-85bf-834a46df783c",
+        "tipo": "VEICULAR",
+        "posicao": 1,
+        "faseVermelhaApagadaAmareloIntermitente": true,
+        "tempoVerdeSeguranca": 10,
+        "anel": {
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
+        },
+        "verdesConflitantesOrigem": [
+          {
+            "idJson": "12be3c45-3f05-4898-9d5f-424fc5e80d15"
+          },
+          {
+            "idJson": "b813f6c1-9416-49d4-be5f-88e830f19ef3"
+          }
+        ],
+        "verdesConflitantesDestino": [],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "19e5206c-25d8-4586-a02c-4d2837950ea3"
+          }
+        ],
+        "transicoes": [
+          {
+            "idJson": "c712c980-6a6c-48b3-abac-3daca1c1fd40"
+          },
+          {
+            "idJson": "1b362201-eef3-440c-943f-87f16854fa82"
+          }
+        ],
+        "transicoesComGanhoDePassagem": [
+          {
+            "idJson": "9156e406-7f65-4b27-a177-c1d89025158b"
+          }
+        ],
+        "tabelasEntreVerdes": [
+          {
+            "idJson": "16f1dd3e-1c96-466f-bed6-40660481fd09"
+          }
+        ]
+      },
+      {
+        "id": "3805c8bc-10d5-4d8b-a89d-812de8da87e4",
+        "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2",
+        "tipo": "VEICULAR",
+        "posicao": 9,
+        "faseVermelhaApagadaAmareloIntermitente": true,
+        "tempoVerdeSeguranca": 10,
+        "anel": {
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
+        },
+        "verdesConflitantesOrigem": [
+          {
+            "idJson": "55fc54a5-0be6-43ce-88cd-ffcd6243144e"
+          }
+        ],
+        "verdesConflitantesDestino": [
+          {
+            "idJson": "137f1164-e501-4fd2-904d-8e151d151ee7"
+          }
+        ],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "6ea843c3-c283-42e1-9288-e81aae4cb9fd"
+          }
+        ],
+        "transicoes": [
+          {
+            "idJson": "73d91029-9f8e-4e89-8c18-85f876fa41c3"
+          },
+          {
+            "idJson": "850fe771-dddf-494d-933a-0dbb7d714dd7"
+          }
+        ],
+        "transicoesComGanhoDePassagem": [
+          {
+            "idJson": "be5768f6-330a-483a-9530-2b61bdc5fe01"
+          },
+          {
+            "idJson": "bc71ea05-62e4-4fc0-bfd3-941720da8b76"
+          }
+        ],
+        "tabelasEntreVerdes": [
+          {
+            "idJson": "92a17459-ca97-4c8e-9b72-7fdcab877a62"
+          }
+        ]
+      },
+      {
+        "id": "46168ae9-26f0-4cbc-9ebe-b45d8f068133",
+        "idJson": "91738db7-eb21-4281-a075-8beae9eee256",
+        "tipo": "VEICULAR",
+        "posicao": 2,
+        "faseVermelhaApagadaAmareloIntermitente": true,
+        "tempoVerdeSeguranca": 10,
+        "anel": {
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
+        },
+        "verdesConflitantesOrigem": [],
+        "verdesConflitantesDestino": [
+          {
+            "idJson": "b813f6c1-9416-49d4-be5f-88e830f19ef3"
+          }
+        ],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "10f01256-3205-4cb2-a92b-339564630e1a"
+          }
+        ],
+        "transicoes": [
+          {
+            "idJson": "7789bdfa-765f-48ef-8bdc-2a84f709291c"
+          }
+        ],
+        "transicoesComGanhoDePassagem": [
+          {
+            "idJson": "5f35641b-250c-479e-994b-697478544687"
+          }
+        ],
+        "tabelasEntreVerdes": [
+          {
+            "idJson": "7e29b911-52e3-4db9-9af0-45a4d45f03a6"
+          }
+        ]
+      },
+      {
+        "id": "329b305c-37c4-47bf-9d88-acc5e2fbff62",
+        "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e",
         "tipo": "PEDESTRE",
         "posicao": 4,
         "faseVermelhaApagadaAmareloIntermitente": false,
         "tempoVerdeSeguranca": 4,
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "verdesConflitantesOrigem": [
           {
-            "idJson": "ca918ee5-f3aa-47e5-9b72-3946c3f03e46"
+            "idJson": "eae40cc0-5c90-4664-aa85-74f468d1df6d"
           }
         ],
         "verdesConflitantesDestino": [],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "ddfa24e1-8e90-4509-bc82-9f27cc35547e"
+            "idJson": "bbf8e4a8-a955-4125-9ec2-c98c0247c1ae"
           }
         ],
         "transicoes": [
           {
-            "idJson": "f3605b4f-dbe4-46bb-a950-bcc742d302cc"
+            "idJson": "99333939-b2b2-4db9-8448-059f0a635c5d"
           }
         ],
         "transicoesComGanhoDePassagem": [
           {
-            "idJson": "32204ffb-bd31-4aa8-972d-264d1ab45797"
+            "idJson": "9665b14a-0618-4063-b5af-697992c6a341"
           }
         ],
         "tabelasEntreVerdes": [
           {
-            "idJson": "01c385b3-7a4e-4379-bf61-577f9835f4fd"
+            "idJson": "fd884e45-cc3f-4963-b257-c039c47f80d4"
           }
         ]
       },
       {
-        "id": "4617e01e-abf6-4ba2-82cc-c811250a2201",
-        "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e",
+        "id": "432629d9-908b-4c77-a4f2-37085fba755f",
+        "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725",
+        "tipo": "VEICULAR",
+        "posicao": 3,
+        "faseVermelhaApagadaAmareloIntermitente": true,
+        "tempoVerdeSeguranca": 10,
+        "anel": {
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
+        },
+        "verdesConflitantesOrigem": [],
+        "verdesConflitantesDestino": [
+          {
+            "idJson": "12be3c45-3f05-4898-9d5f-424fc5e80d15"
+          }
+        ],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "3e136e19-b02b-44f5-b5c7-1a6d306d430b"
+          }
+        ],
+        "transicoes": [
+          {
+            "idJson": "13244186-7491-4572-aa9c-ecead504a732"
+          }
+        ],
+        "transicoesComGanhoDePassagem": [
+          {
+            "idJson": "3549c7af-a0fa-4e0e-91a8-b071525ba12e"
+          },
+          {
+            "idJson": "d2dfb650-ba71-4cc9-a134-15a6ba72d990"
+          }
+        ],
+        "tabelasEntreVerdes": [
+          {
+            "idJson": "7db1328d-d570-4ae3-8b91-56bf3835b366"
+          }
+        ]
+      },
+      {
+        "id": "ec9a92c7-eb62-4eee-806f-8ad264328005",
+        "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a",
         "tipo": "VEICULAR",
         "posicao": 10,
         "faseVermelhaApagadaAmareloIntermitente": true,
         "tempoVerdeSeguranca": 10,
         "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
         },
         "verdesConflitantesOrigem": [],
         "verdesConflitantesDestino": [
           {
-            "idJson": "bf402035-f071-4550-b148-f267ddbed79c"
+            "idJson": "55fc54a5-0be6-43ce-88cd-ffcd6243144e"
           },
           {
-            "idJson": "7070acaf-743b-4812-ace5-8afb8810bbc7"
+            "idJson": "a2f0b558-6b6e-4818-bbd1-d273254875dd"
           }
         ],
         "estagiosGruposSemaforicos": [
           {
-            "idJson": "f378104d-e243-4c17-9b17-9ab0e25869cb"
+            "idJson": "c52f614f-2dc9-4fef-b4e7-f2a40f1d7073"
           }
         ],
         "transicoes": [
           {
-            "idJson": "d2ec33ee-f26c-4cfa-a12a-25763dad5acf"
+            "idJson": "47a89330-821e-41c2-97bb-1acdca7105ba"
           },
           {
-            "idJson": "896e48d3-70f3-44ca-831e-b974e41b5f7b"
+            "idJson": "c88d9dbd-c8fa-495e-8244-59bf3993315c"
           }
         ],
         "transicoesComGanhoDePassagem": [
           {
-            "idJson": "9ebf40f9-b393-4a4b-8784-1ba04c36c290"
+            "idJson": "7385fd02-4fbd-4d3e-a602-e92823fb4b7f"
           },
           {
-            "idJson": "277045a5-e2b9-434d-8c02-de0ebb4b3d47"
+            "idJson": "4a049e7a-89c9-4629-ad5a-63e3d714a11f"
           }
         ],
         "tabelasEntreVerdes": [
           {
-            "idJson": "21a41bb4-4e72-4a7c-8dd5-763e1c6209d0"
+            "idJson": "65f898a8-a5ec-494c-9329-dda4aa2a0f3c"
+          }
+        ]
+      },
+      {
+        "id": "965dfafb-8cbc-4754-aa2f-c721f53112b1",
+        "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0",
+        "tipo": "VEICULAR",
+        "posicao": 7,
+        "faseVermelhaApagadaAmareloIntermitente": true,
+        "tempoVerdeSeguranca": 10,
+        "anel": {
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
+        },
+        "verdesConflitantesOrigem": [],
+        "verdesConflitantesDestino": [
+          {
+            "idJson": "f2838f50-f6c8-4b0b-b5fd-6b2b01b785f0"
+          }
+        ],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "1a92ac9b-a680-4057-8e62-a31679cbeb66"
+          }
+        ],
+        "transicoes": [
+          {
+            "idJson": "bae2e050-e047-4321-b971-d480db51de22"
+          }
+        ],
+        "transicoesComGanhoDePassagem": [
+          {
+            "idJson": "ee5407e9-fa17-4ee0-b193-613d3968204a"
+          }
+        ],
+        "tabelasEntreVerdes": [
+          {
+            "idJson": "4b9a4e03-d9e1-45e7-ac6f-f07a5527bfc9"
+          }
+        ]
+      },
+      {
+        "id": "415f434d-d1b4-4af7-8423-b9d9cfa1ae75",
+        "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c",
+        "tipo": "VEICULAR",
+        "posicao": 6,
+        "faseVermelhaApagadaAmareloIntermitente": true,
+        "tempoVerdeSeguranca": 10,
+        "anel": {
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
+        },
+        "verdesConflitantesOrigem": [
+          {
+            "idJson": "f2838f50-f6c8-4b0b-b5fd-6b2b01b785f0"
+          }
+        ],
+        "verdesConflitantesDestino": [],
+        "estagiosGruposSemaforicos": [
+          {
+            "idJson": "58fe27eb-9808-414e-97de-076516b78d79"
+          }
+        ],
+        "transicoes": [
+          {
+            "idJson": "6022d71b-55dc-45d4-95c1-6da4b85c2c6e"
+          }
+        ],
+        "transicoesComGanhoDePassagem": [
+          {
+            "idJson": "03e0529b-b4cc-4f39-bbd2-cd7e368db772"
+          }
+        ],
+        "tabelasEntreVerdes": [
+          {
+            "idJson": "c73f738f-4ee4-4757-888c-ec2195437e7a"
           }
         ]
       }
     ],
     "detectores": [
       {
-        "id": "e18efee5-4114-4681-b2be-4176023a2aa2",
-        "idJson": "36bd6980-475b-47bc-a3d1-09bf166c2c31",
-        "tipo": "VEICULAR",
-        "posicao": 1,
-        "monitorado": true,
-        "tempoAusenciaDeteccao": 60,
-        "tempoDeteccaoPermanente": 120,
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
-        }
-      },
-      {
-        "id": "8531772e-932e-4dbc-9aec-3c827501f6b8",
-        "idJson": "eb1e16a5-095a-4a70-8fe6-fa00eaf17c6a",
+        "id": "83b463f1-90f9-49c4-a2c5-b38cb9fc61a1",
+        "idJson": "5ef1fad1-499c-417e-a2f4-706d6b0a6f6b",
         "tipo": "PEDESTRE",
         "posicao": 1,
         "monitorado": true,
         "tempoAusenciaDeteccao": 60,
         "tempoDeteccaoPermanente": 120,
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
+        }
+      },
+      {
+        "id": "8ed0b1e4-c98a-407d-8595-2c4b34a7448f",
+        "idJson": "e57e24cf-0295-4a9e-8534-35afac23b532",
+        "tipo": "VEICULAR",
+        "posicao": 1,
+        "monitorado": true,
+        "tempoAusenciaDeteccao": 60,
+        "tempoDeteccaoPermanente": 120,
+        "anel": {
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
+        },
+        "estagio": {
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         }
       }
     ],
     "transicoesProibidas": [
       {
-        "id": "47823ad5-679c-4978-996c-6f38776bc038",
-        "idJson": "0ed7a7f4-db35-4a52-8322-8294a80f2401",
+        "id": "35b7796f-fee0-4588-a853-299b95a68a2f",
+        "idJson": "1759a0fa-81cc-4989-9111-aa94cca33e3d",
         "origem": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "destino": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "alternativo": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         }
       },
       {
-        "id": "67b12b8d-24b9-4c76-b9f2-1b1e7be4b895",
-        "idJson": "efdaa90c-3544-4d5d-bb3c-3b99ff77d313",
+        "id": "a614666b-5a67-403f-b685-898d9781bb63",
+        "idJson": "ab63f066-a001-4d45-b07a-1ad615470ec8",
         "origem": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "destino": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "alternativo": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         }
       }
     ],
     "estagiosGruposSemaforicos": [
       {
-        "id": "04aab9a7-5851-4f9f-9cf7-254afdbc281b",
-        "idJson": "dcdc677a-6e16-4ffc-aca5-bf2eeacaba18",
+        "id": "1c7e0986-52e9-45d8-97c9-ece9046e1233",
+        "idJson": "c52f614f-2dc9-4fef-b4e7-f2a40f1d7073",
         "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         }
       },
       {
-        "id": "e4e0af69-4865-4083-8b8e-9679c611e4ba",
-        "idJson": "789ff361-1fcb-4a31-b011-1c39eb33653c",
+        "id": "67689ca4-67f8-413d-8af8-f4f1151e7bf1",
+        "idJson": "6ea843c3-c283-42e1-9288-e81aae4cb9fd",
         "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         }
       },
       {
-        "id": "0b5d8bfd-76a2-44e7-8154-9276ae9f1454",
-        "idJson": "e292aadb-1d84-4617-87a6-b5779b6ed582",
+        "id": "8050fdbc-ec04-4689-896b-d706a8c65c4b",
+        "idJson": "204ccea9-24a9-4ed2-b99c-0d25bfdee572",
         "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         }
       },
       {
-        "id": "8643fd4f-1bee-4e35-aafe-38550958bea1",
-        "idJson": "7af20d19-5d56-4438-938a-874ead2f239c",
+        "id": "0ef6d3db-bab9-4c36-b4b6-55e2eab1bb03",
+        "idJson": "3895aa23-3224-4b14-8dc1-a28297d5376d",
         "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         }
       },
       {
-        "id": "74ddcbf8-707d-4dce-bedd-c717b02a05af",
-        "idJson": "f378104d-e243-4c17-9b17-9ab0e25869cb",
+        "id": "413e5ded-feeb-4ff9-9a80-1ef32041b090",
+        "idJson": "3e136e19-b02b-44f5-b5c7-1a6d306d430b",
         "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         }
       },
       {
-        "id": "6a97dcae-40a5-42c1-ad2a-24a5a704f0fb",
-        "idJson": "11ef45ac-5552-4f78-ba7c-12e88a37521d",
+        "id": "482f1610-6966-4c92-9f69-cb468ee6aca0",
+        "idJson": "58fe27eb-9808-414e-97de-076516b78d79",
         "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         },
         "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         }
       },
       {
-        "id": "c961d263-84bc-4db2-b4c9-e28cf753f13e",
-        "idJson": "97f380a7-ee28-4470-b1a7-a2f625ee46a0",
+        "id": "1b26ba75-0809-49dd-8df3-556a49b78874",
+        "idJson": "bbf8e4a8-a955-4125-9ec2-c98c0247c1ae",
         "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         }
       },
       {
-        "id": "b8b371f7-961c-456c-b3c4-48f5f9a3bc21",
-        "idJson": "ddfa24e1-8e90-4509-bc82-9f27cc35547e",
+        "id": "c8cab97a-b889-40c6-8828-d313b6d12c15",
+        "idJson": "1a92ac9b-a680-4057-8e62-a31679cbeb66",
         "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         },
         "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         }
       },
       {
-        "id": "b3b9affa-571f-4e89-b0ee-368cd48711db",
-        "idJson": "45f51508-692d-4252-aa85-79883bca6601",
+        "id": "c2a6b2c4-d7ce-44b6-af72-ea9b67b83920",
+        "idJson": "10f01256-3205-4cb2-a92b-339564630e1a",
         "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         }
       },
       {
-        "id": "cd7891df-6207-47cd-9e2e-a7c3df124f63",
-        "idJson": "13739af3-be34-44a4-a3d5-95528824d7ef",
+        "id": "82a5c973-df3a-49ca-99e4-c2305ea3f487",
+        "idJson": "2e63fd43-c4a6-478d-8ded-21eb4a2f2946",
         "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         }
       },
       {
-        "id": "f3727bac-670d-4e39-a21f-db85e3ae5d26",
-        "idJson": "a74c1b23-a596-4774-ae10-a3a0a5123248",
+        "id": "8d90f790-18c5-4afa-95f6-4f621b0bb3ce",
+        "idJson": "19e5206c-25d8-4586-a02c-4d2837950ea3",
         "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         }
       }
     ],
     "verdesConflitantes": [
       {
-        "id": "79f507d0-d6b3-46b1-a2ae-9efef2c95c70",
-        "idJson": "63ac962c-b23b-4e0c-8b67-466a51e3e9fb",
+        "id": "891c339a-877e-4a27-82e4-fba54697c3eb",
+        "idJson": "a2f0b558-6b6e-4818-bbd1-d273254875dd",
         "origem": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "destino": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         }
       },
       {
-        "id": "76b2fb32-231d-4e51-bb75-846fbbb999eb",
-        "idJson": "ca918ee5-f3aa-47e5-9b72-3946c3f03e46",
+        "id": "44335e64-4468-472d-bf42-cc84ea37abc8",
+        "idJson": "12be3c45-3f05-4898-9d5f-424fc5e80d15",
         "origem": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "destino": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         }
       },
       {
-        "id": "bc01e848-931b-4796-bb4e-d7a119fdd15d",
-        "idJson": "efaeee61-c44e-4d63-af29-b662a033d271",
+        "id": "944de8d7-3e6c-433d-bbdb-e34af1c4f1b3",
+        "idJson": "f2838f50-f6c8-4b0b-b5fd-6b2b01b785f0",
         "origem": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         },
         "destino": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         }
       },
       {
-        "id": "5cfc101a-b10f-45e2-a327-67af8d971677",
-        "idJson": "bf402035-f071-4550-b148-f267ddbed79c",
+        "id": "546e6808-6e65-4237-8b56-b440cd6453e8",
+        "idJson": "eae40cc0-5c90-4664-aa85-74f468d1df6d",
         "origem": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         },
         "destino": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         }
       },
       {
-        "id": "a9398bf2-9cf3-4ca0-9420-416574558d6d",
-        "idJson": "7070acaf-743b-4812-ace5-8afb8810bbc7",
+        "id": "566ff7fd-a5f5-4f75-ae46-ece92a602025",
+        "idJson": "b813f6c1-9416-49d4-be5f-88e830f19ef3",
         "origem": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "destino": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         }
       },
       {
-        "id": "991d67c9-91ca-44da-ba59-c61a6c5a03aa",
-        "idJson": "3e8c2ff0-3062-4c9f-b03b-5e0a1a2af8a6",
+        "id": "919f77d8-d728-4336-b1b2-051f1faa899e",
+        "idJson": "137f1164-e501-4fd2-904d-8e151d151ee7",
         "origem": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "destino": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         }
       },
       {
-        "id": "e865bbb7-7b08-4ad8-8afe-e2668d7b1ed8",
-        "idJson": "a9a07e45-8f18-4726-a1fd-3be4ca36530a",
+        "id": "64d2f2f6-c456-4062-8082-1ae6b6b7c9d4",
+        "idJson": "55fc54a5-0be6-43ce-88cd-ffcd6243144e",
         "origem": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "destino": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         }
       }
     ],
     "transicoes": [
       {
-        "id": "8bf63fbe-8871-4071-b120-144441f9da7d",
-        "idJson": "d2ec33ee-f26c-4cfa-a12a-25763dad5acf",
+        "id": "9a347c44-af32-4169-af7a-a1e3a0894347",
+        "idJson": "44077fec-0719-4a7c-81e9-7ee5eadcdf5d",
         "origem": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "destino": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "9d364fdd-ae5d-46e2-8e81-268fc0983ccd"
+            "idJson": "485dcd4c-04d9-403a-975f-f94702c621f3"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "138ec3f8-bd9c-421b-9b3e-9b875bf69ac6"
+          "idJson": "899db721-6b35-4a5a-a99e-87cf7f4eaffb"
         }
       },
       {
-        "id": "f379f709-fee3-47df-a7d8-424f2d98e3fb",
-        "idJson": "dec9bf63-b86a-485f-946d-9a92b8df754f",
+        "id": "9251a328-24bd-475b-af98-93eff016ca5d",
+        "idJson": "850fe771-dddf-494d-933a-0dbb7d714dd7",
         "origem": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "destino": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "fb4743d0-bb1d-404b-b3f2-71fff544c171"
+            "idJson": "c6e18c3e-e97f-4522-9a92-0856ff727351"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "79a447ea-0cd9-4d53-b75e-edebc2045586"
+          "idJson": "7d813db2-cf8b-470e-9225-c14d42147725"
         }
       },
       {
-        "id": "56736902-3ee2-4124-9b4b-56c340f73fc4",
-        "idJson": "eb7d0c1c-1fe9-4ccc-911b-c6ab20605a50",
+        "id": "0037a96b-4b98-416f-ae4b-e7a8aed94ec1",
+        "idJson": "6022d71b-55dc-45d4-95c1-6da4b85c2c6e",
         "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "ebad9c9f-836b-4fb7-b404-590dcd7a15b8"
+            "idJson": "bcd773a0-51cb-41c2-a0d4-06700becd2ad"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "fe696de0-9329-462e-9d62-c14721f7fdc2"
+          "idJson": "0138279b-e059-4e4c-8553-2a7d88ab267a"
         }
       },
       {
-        "id": "840279e3-1dd9-4906-8be5-4e7d599f224a",
-        "idJson": "e24240bd-3e67-48bd-a19c-803536a82227",
+        "id": "627d1f7d-ae3f-4c4f-a0f2-2ceeb6100fb7",
+        "idJson": "81cd2daa-d5d1-44d2-ad23-5bf0764a0b10",
         "origem": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "destino": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "e8107f82-0c03-462c-a15e-1cd3930807c3"
+            "idJson": "a1fe6b9b-8403-4d4a-ac4d-f8bc11645428"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "4c81ebc7-b708-4ecb-a2fc-c5f387b8a23e"
+          "idJson": "7f3daf53-ccd2-46dc-bc9f-2a9daa9c61eb"
         }
       },
       {
-        "id": "69f7a744-4d88-4263-8c44-190c41611a3b",
-        "idJson": "444425fd-25c8-4d05-be10-f82b9b6c831f",
+        "id": "e78dfe47-5b6b-48ea-8aa3-6aad3ecb92b6",
+        "idJson": "13244186-7491-4572-aa9c-ecead504a732",
         "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "destino": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "e7163c56-17f7-40d8-9cfd-6071623217e7"
+            "idJson": "6bef2396-4067-45d2-9ada-9c83d9864373"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "8a593f50-efa3-4a20-9346-60aaf573aa85"
+          "idJson": "ec0332a7-ef0a-41b1-9fa2-8450cadc7d13"
         }
       },
       {
-        "id": "a0f7fddc-a92b-4760-9938-1db7084ddfa3",
-        "idJson": "69e3a75e-6488-4635-849c-ff88c470f51a",
+        "id": "7c358a08-70f2-40f3-a1da-237a136ed5b2",
+        "idJson": "73d91029-9f8e-4e89-8c18-85f876fa41c3",
         "origem": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "destino": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "c71bd0a0-eca7-4bee-942a-fde3c0d7d16f"
+            "idJson": "96e8e6f7-7a24-4241-92e3-8218a3459e6a"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "e0d7b37b-6eeb-44a7-86ae-60b3807d7915"
+          "idJson": "f3e860c9-303b-4d95-b59d-0e9b33c15a57"
         }
       },
       {
-        "id": "1f28b278-f973-4e1a-8d1a-705fb807d279",
-        "idJson": "d7b6a981-5697-4edb-b586-f8ceda3d6327",
+        "id": "5cb7f170-40d3-495f-870a-9c4886828c5c",
+        "idJson": "c88d9dbd-c8fa-495e-8244-59bf3993315c",
         "origem": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "destino": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "02e16b92-80a9-425b-a440-f616bac1b7a3"
+            "idJson": "32423729-0fa5-418f-be00-c1672a7e4ed5"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "ee4d4f1e-7c3c-467c-b4f2-b4faac55ba11"
+          "idJson": "5f8c5a62-d942-4cdc-b1f5-3e4b1a9cff3a"
         }
       },
       {
-        "id": "49a44cda-2850-491f-bc59-fb289fade04c",
-        "idJson": "bd2cb690-2073-4885-993c-6e00ab621abf",
+        "id": "7009bd44-928b-47b0-aab5-4b953c64bf5b",
+        "idJson": "7789bdfa-765f-48ef-8bdc-2a84f709291c",
         "origem": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "destino": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "d19ae739-2a8a-46e0-bb8f-4bb2cca67458"
+            "idJson": "7b6a58d2-ebca-4976-b7d1-b99d286940c1"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "06f25a7f-10b5-4514-8531-a1f07d3c79f3"
+          "idJson": "7260777e-9a06-4f60-9ce6-434022bc44e9"
         }
       },
       {
-        "id": "670a4034-5d09-4e7c-882d-12712803755b",
-        "idJson": "d6c2300a-255e-4035-bd78-eb0857679ed6",
+        "id": "d6524cf7-90a3-42a4-97dd-102c318e537e",
+        "idJson": "99333939-b2b2-4db9-8448-059f0a635c5d",
         "origem": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "10f39602-46b3-4fe8-9762-41b5cbdce1e0"
+            "idJson": "faff3a9a-dfc4-4e18-9df6-5c1a496ea6aa"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "dfe22096-51f6-43b1-a07c-484f2d260774"
+          "idJson": "480d66b0-ee4e-461a-b80a-eac5258283d4"
         }
       },
       {
-        "id": "c82182bb-123c-485f-ac8d-71d4b7fa1681",
-        "idJson": "f3605b4f-dbe4-46bb-a950-bcc742d302cc",
+        "id": "467f7eeb-71d7-4af2-a38e-dc86dceeecb7",
+        "idJson": "47a89330-821e-41c2-97bb-1acdca7105ba",
         "origem": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "22c85e88-3811-4820-b8cf-40dc9fa64de5"
+            "idJson": "d446d05c-beb3-4e6e-9e58-cdad204728f4"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "ae9fe6be-5e1e-4549-aef0-18cb42633c02"
+          "idJson": "8dbbc26d-f123-4d7a-8071-537a1004b275"
         }
       },
       {
-        "id": "c4d0f54b-d027-4e87-8291-a172f276b261",
-        "idJson": "f8bd914d-4e67-42f1-8264-391dc7782af6",
+        "id": "9cb2dbbe-264d-4b56-93db-2a7dc862e10b",
+        "idJson": "1b362201-eef3-440c-943f-87f16854fa82",
         "origem": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "destino": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "7ec40cbb-d497-4daa-8864-9d6c3df75a18"
+            "idJson": "f3be26fa-a0b7-45f2-846e-eb1d00a42bbf"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "45c5e895-0a35-4724-beea-8d9d874772f1"
+          "idJson": "b1062658-2181-4dc1-b1d0-c1d008e2de6a"
         }
       },
       {
-        "id": "26c97391-16bd-45d8-89aa-c125b0b6a765",
-        "idJson": "88305f20-3caa-4dcd-b4e1-ad2d350e33a5",
+        "id": "291cb9ec-3ec3-4df1-add2-dd4ad90b441d",
+        "idJson": "c712c980-6a6c-48b3-abac-3daca1c1fd40",
         "origem": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "destino": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "7f21b51d-51b7-481e-851a-4c82f804a154"
+            "idJson": "cae0635f-3986-4176-8e1e-5b9cc5fc093e"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "469bbc28-f783-433f-a386-5dfbd8b51251"
+          "idJson": "f4f5da2c-a588-424e-8aaa-a61fa70c7ead"
         }
       },
       {
-        "id": "bd664add-b845-419a-bfd8-01470e5621a1",
-        "idJson": "a8dc0d86-ea75-4921-9c9c-a1777608c640",
+        "id": "9b4267be-c4cd-42f3-bee1-c4ec9b4cce94",
+        "idJson": "d5a8b3de-df9f-4449-8dd1-55f2a9805080",
         "origem": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "destino": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "5d956368-910a-4949-b287-a6e92904fc13"
+            "idJson": "63876dc0-2440-40ff-b8c1-78937b9e64ba"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
-        },
-        "tipo": "PERDA_DE_PASSAGEM",
-        "tempoAtrasoGrupo": "0",
-        "atrasoDeGrupo": {
-          "idJson": "e84c6301-421c-4dce-9a24-3710eb37bfb5"
-        }
-      },
-      {
-        "id": "5a433c00-b426-4b63-85c0-ab1e47152dca",
-        "idJson": "bc75c24e-5696-41f5-a51c-ba6f7794f94d",
-        "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-        },
-        "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        },
-        "tabelaEntreVerdesTransicoes": [
-          {
-            "idJson": "741242c9-f0cb-43be-b852-2e04a5ec50f2"
-          }
-        ],
-        "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
-        },
-        "tipo": "PERDA_DE_PASSAGEM",
-        "tempoAtrasoGrupo": "0",
-        "atrasoDeGrupo": {
-          "idJson": "c691dddb-7411-47c1-94b0-72902d32e859"
-        }
-      },
-      {
-        "id": "f4ecb5fc-a5b6-4838-97fa-28f78e82a36d",
-        "idJson": "5e07234d-b178-4fc7-962a-847c92e9784d",
-        "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-        },
-        "destino": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        },
-        "tabelaEntreVerdesTransicoes": [
-          {
-            "idJson": "f25f61b0-64be-42b8-948c-24f3c08882a3"
-          }
-        ],
-        "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "5",
         "atrasoDeGrupo": {
-          "idJson": "dae2fedc-3cda-4176-b810-cfef655d91eb"
+          "idJson": "928f8f62-11e2-4f9b-bc98-66ccddba3ac0"
         }
       },
       {
-        "id": "8c291639-8185-4e43-ab63-797611d630b3",
-        "idJson": "896e48d3-70f3-44ca-831e-b974e41b5f7b",
+        "id": "95f513b3-8dd9-4471-82da-fcb23c57899a",
+        "idJson": "bae2e050-e047-4321-b971-d480db51de22",
         "origem": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         },
         "destino": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "7fbe3c87-70a5-4f20-b111-7035ee3384ea"
+            "idJson": "648859bd-40ef-467f-8fb0-9c7e2724fefd"
           }
         ],
         "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         },
         "tipo": "PERDA_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "4cc23558-e561-4dfb-ad06-a3e738fc6d8a"
+          "idJson": "41cd846b-6044-4472-a312-e2d90da2e4f8"
         }
       }
     ],
     "transicoesComGanhoDePassagem": [
       {
-        "id": "3f2e4c4e-8f80-48d5-a800-66335ac26895",
-        "idJson": "d2371b6d-11af-4757-8c90-1dc6464ddaca",
+        "id": "9be8755e-de17-4f8e-86c6-dd79898de25f",
+        "idJson": "4c814a1a-c0ee-46f1-bdf8-d9e7be2b3526",
         "origem": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "destino": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "21fa526d-96cc-4f99-977a-76343044cc85"
+          "idJson": "71b02e0e-a945-46de-a8b4-93ee5bf3079f"
         }
       },
       {
-        "id": "33e85d3d-e35e-4796-9f7d-6324262228a9",
-        "idJson": "ee014905-a3c7-4d4c-82c8-408577f58f1d",
+        "id": "3040b42a-a0da-4532-8c25-e1dbac96d6cb",
+        "idJson": "be5768f6-330a-483a-9530-2b61bdc5fe01",
         "origem": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "destino": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "b31ed703-f63a-4c40-b966-32411c2d7560"
+          "idJson": "09723680-9b3c-4f6d-8610-692ce972fbc0"
         }
       },
       {
-        "id": "b5b163ce-713a-4b1f-b7a2-1304f78a4dc2",
-        "idJson": "b56b4d45-8fbc-4211-8ed7-27330937fa79",
+        "id": "65c5c178-4225-4a5e-902f-9da8e00c49ed",
+        "idJson": "9665b14a-0618-4063-b5af-697992c6a341",
         "origem": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "destino": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "f694e0a4-e2a4-4e76-8dec-c553468c069f"
+          "idJson": "c73e6ced-2cad-48f4-b91e-5adbc0e17fd9"
         }
       },
       {
-        "id": "a5c21717-18b2-47ab-a096-ac34ee1a2942",
-        "idJson": "d6642ae7-6ca2-481b-b458-de6c260db08f",
+        "id": "8faeb1fa-b415-4bfd-985f-adc7d3e31079",
+        "idJson": "5f35641b-250c-479e-994b-697478544687",
         "origem": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "destino": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "f996ba97-c667-45ec-89bd-e395aef39118"
+          "idJson": "7da877cf-61b5-4ec1-9cca-850c6314b2fd"
         }
       },
       {
-        "id": "8a324ce4-144b-47ab-a0ea-24e79db38b35",
-        "idJson": "7a76e208-830d-4b87-8423-ab553f5267eb",
+        "id": "292615b1-c6dd-459f-b4d5-0881f7c6346f",
+        "idJson": "d2dfb650-ba71-4cc9-a134-15a6ba72d990",
         "origem": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "destino": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "8e21abad-157d-4e89-ad00-d430c87b1f58"
+          "idJson": "5926d6cc-7417-4e33-8e62-ff6381aa64f7"
         }
       },
       {
-        "id": "c2095d65-0dc1-41fa-99cb-5e35128ec5b4",
-        "idJson": "32204ffb-bd31-4aa8-972d-264d1ab45797",
+        "id": "71115627-bae5-43aa-8c1a-27a82553c939",
+        "idJson": "ee5407e9-fa17-4ee0-b193-613d3968204a",
         "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         },
         "destino": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "1956fafd-a46f-45bb-a862-ed4f83b1a7f1"
+          "idJson": "f22c031a-e324-47e6-9878-9fe1ebbc5a5a"
         }
       },
       {
-        "id": "18d00b47-ca9f-4d8b-9e20-4f99690435ec",
-        "idJson": "9a6482e8-7d9f-488a-8c5a-fc7841832eb2",
+        "id": "1aa90140-27ca-482c-84a6-6edc186e5bb8",
+        "idJson": "3549c7af-a0fa-4e0e-91a8-b071525ba12e",
         "origem": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "destino": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "3f6c4b43-9143-4fee-ae23-7a651aa969c7"
+          "idJson": "1b3323e3-3e81-4777-a60c-3b22854cb0fb"
         }
       },
       {
-        "id": "d855ae0c-2536-4814-8b0e-7d105440a9b0",
-        "idJson": "277045a5-e2b9-434d-8c02-de0ebb4b3d47",
+        "id": "4abfc473-2b1a-42da-841c-1660b04a0b5c",
+        "idJson": "bc71ea05-62e4-4fc0-bfd3-941720da8b76",
         "origem": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "destino": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "d95cfd03-b425-40c7-87e3-86b6eb04fc75"
+          "idJson": "04763187-feb5-4896-8344-2b5e5ae3469c"
         }
       },
       {
-        "id": "bcadb5ad-0071-47cd-bd70-8c2757acb4f1",
-        "idJson": "d65b55f8-a970-4756-a6ab-bbf711b786ba",
+        "id": "de170e0e-16b2-4084-8bdf-6f2b2aeb03cd",
+        "idJson": "4a049e7a-89c9-4629-ad5a-63e3d714a11f",
         "origem": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "destino": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "f9193497-3f21-4b5f-9800-8950308bcfb2"
+          "idJson": "a5515725-323a-4e73-9d79-8a698fce7aa6"
         }
       },
       {
-        "id": "0c1e2e24-c838-4abb-a9a0-5160ed2fe1dc",
-        "idJson": "16cbd3bb-cf8a-47e0-8879-16f0526bd000",
+        "id": "cf3d625c-05df-4ea5-8e66-c1c133ad25e4",
+        "idJson": "63c98351-d4ac-489c-917f-39bac6595a8b",
         "origem": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "d8b4e8f7-5f6b-4394-b153-ae74af3de5f3"
+          "idJson": "dbcc1e62-bb75-4b4c-9dc7-7baa7ed31758"
         }
       },
       {
-        "id": "3f64ae22-e00c-43b6-967c-794e9b26413d",
-        "idJson": "b56bff80-0f58-48a6-b891-439125656ce1",
+        "id": "59583532-8118-4005-bbdb-622eea0bba02",
+        "idJson": "9156e406-7f65-4b27-a177-c1d89025158b",
         "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "39cf3152-8535-4bc6-bf99-3817bb3573c1"
+          "idJson": "1e405201-a291-468d-ad7f-9e6604b0ff60"
         }
       },
       {
-        "id": "3d3d1a6e-8a28-44a5-836f-697ff99d3cec",
-        "idJson": "f1ec1441-a755-4cdd-9256-e2cde3331f15",
+        "id": "b244aa42-f340-4982-b6eb-265b769fc6bd",
+        "idJson": "4356ad3b-325c-4a98-a4f9-698738be5832",
         "origem": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "b24492db-a537-441a-8a70-42496f22fcd2"
+          "idJson": "e834089c-1d54-4ae1-b49f-be3a9fa41eb1"
         }
       },
       {
-        "id": "f4e5fd7c-56bc-4be5-99fb-d5d5426c2486",
-        "idJson": "ea161bad-92d8-416e-bc72-480b2dfcb161",
+        "id": "32799afe-1d5f-418a-b802-7a9fb36871b3",
+        "idJson": "7385fd02-4fbd-4d3e-a602-e92823fb4b7f",
         "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         },
         "destino": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "29555a67-c694-4a0d-8419-43477fc6c359"
+          "idJson": "b41d4cba-7575-4750-b397-f983567c0780"
         }
       },
       {
-        "id": "b2f99595-44e7-439f-a483-22c2853f80c0",
-        "idJson": "73bac9a1-21ba-438a-a766-dfd397266689",
+        "id": "8238ebca-268f-406d-88ef-8d9d4c786604",
+        "idJson": "03e0529b-b4cc-4f39-bbd2-cd7e368db772",
         "origem": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         },
         "destino": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         },
         "tabelaEntreVerdesTransicoes": [],
         "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         },
         "tipo": "GANHO_DE_PASSAGEM",
         "tempoAtrasoGrupo": "0",
         "atrasoDeGrupo": {
-          "idJson": "bd0fbc56-d804-4d70-bca0-252aaeac488f"
-        }
-      },
-      {
-        "id": "a8ffb33b-39e8-4321-ad0d-174a3991fa3c",
-        "idJson": "9ebf40f9-b393-4a4b-8784-1ba04c36c290",
-        "origem": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
-        },
-        "destino": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
-        },
-        "tabelaEntreVerdesTransicoes": [],
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "tipo": "GANHO_DE_PASSAGEM",
-        "tempoAtrasoGrupo": "0",
-        "atrasoDeGrupo": {
-          "idJson": "a33b7102-331b-4be7-84f2-d117a5d5ac91"
-        }
-      },
-      {
-        "id": "5a17f181-299c-4c9b-8d6f-5b2fb45746e8",
-        "idJson": "98553938-7586-43b1-a2d8-6b17af5e53e5",
-        "origem": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
-        },
-        "destino": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
-        },
-        "tabelaEntreVerdesTransicoes": [],
-        "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
-        },
-        "tipo": "GANHO_DE_PASSAGEM",
-        "tempoAtrasoGrupo": "0",
-        "atrasoDeGrupo": {
-          "idJson": "a6f38291-71a5-4da1-a875-65ae5bd49199"
+          "idJson": "750e3a9b-b063-4d51-9f8c-41711a8eee23"
         }
       }
     ],
     "tabelasEntreVerdes": [
       {
-        "id": "73ca5152-d43f-4687-885c-c2038eb0505f",
-        "idJson": "21a41bb4-4e72-4a7c-8dd5-763e1c6209d0",
+        "id": "a2550895-6e26-48b8-be5d-04b84e365176",
+        "idJson": "2bfc75fa-614b-4d15-892f-7b86e246ae4a",
         "descricao": "PADRÃO",
         "posicao": 1,
         "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "7fbe3c87-70a5-4f20-b111-7035ee3384ea"
+            "idJson": "485dcd4c-04d9-403a-975f-f94702c621f3"
           },
           {
-            "idJson": "9d364fdd-ae5d-46e2-8e81-268fc0983ccd"
+            "idJson": "a1fe6b9b-8403-4d4a-ac4d-f8bc11645428"
           }
         ]
       },
       {
-        "id": "db85b45a-c62b-431a-bfa7-361a168d93e7",
-        "idJson": "7f0aec59-5ad6-4dc7-ac09-aa1bdd1b5fb5",
+        "id": "a89dc9d9-17b7-465d-8328-b4b7f63e4f66",
+        "idJson": "fd884e45-cc3f-4963-b257-c039c47f80d4",
         "descricao": "PADRÃO",
         "posicao": 1,
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "f25f61b0-64be-42b8-948c-24f3c08882a3"
+            "idJson": "faff3a9a-dfc4-4e18-9df6-5c1a496ea6aa"
+          }
+        ]
+      },
+      {
+        "id": "aca2502e-c45c-425a-a734-5bac3b606611",
+        "idJson": "6be66f7e-eb77-4f31-ab6f-eec4e46ed4d1",
+        "descricao": "PADRÃO",
+        "posicao": 1,
+        "grupoSemaforico": {
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
+        },
+        "tabelaEntreVerdesTransicoes": [
+          {
+            "idJson": "63876dc0-2440-40ff-b8c1-78937b9e64ba"
+          }
+        ]
+      },
+      {
+        "id": "86c9f9d9-87cc-43b0-a9e7-345b8d54f348",
+        "idJson": "7db1328d-d570-4ae3-8b91-56bf3835b366",
+        "descricao": "PADRÃO",
+        "posicao": 1,
+        "grupoSemaforico": {
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
+        },
+        "tabelaEntreVerdesTransicoes": [
+          {
+            "idJson": "6bef2396-4067-45d2-9ada-9c83d9864373"
+          }
+        ]
+      },
+      {
+        "id": "6c2c3171-c964-493d-99b3-c7cfbdee69ff",
+        "idJson": "92a17459-ca97-4c8e-9b72-7fdcab877a62",
+        "descricao": "PADRÃO",
+        "posicao": 1,
+        "grupoSemaforico": {
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
+        },
+        "tabelaEntreVerdesTransicoes": [
+          {
+            "idJson": "96e8e6f7-7a24-4241-92e3-8218a3459e6a"
           },
           {
-            "idJson": "e8107f82-0c03-462c-a15e-1cd3930807c3"
+            "idJson": "c6e18c3e-e97f-4522-9a92-0856ff727351"
+          }
+        ]
+      },
+      {
+        "id": "9858586a-58e6-4b31-a074-2ccbbc73689c",
+        "idJson": "16f1dd3e-1c96-466f-bed6-40660481fd09",
+        "descricao": "PADRÃO",
+        "posicao": 1,
+        "grupoSemaforico": {
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
+        },
+        "tabelaEntreVerdesTransicoes": [
+          {
+            "idJson": "f3be26fa-a0b7-45f2-846e-eb1d00a42bbf"
           },
           {
-            "idJson": "ebad9c9f-836b-4fb7-b404-590dcd7a15b8"
+            "idJson": "cae0635f-3986-4176-8e1e-5b9cc5fc093e"
           }
         ]
       },
       {
-        "id": "1d394a4f-84c7-4252-b7b6-64fe06cca908",
-        "idJson": "02dfce93-5029-4d0f-a623-ee736b8e2a99",
+        "id": "e8ea0fee-8a74-4681-b30a-9f6466c8686d",
+        "idJson": "7e29b911-52e3-4db9-9af0-45a4d45f03a6",
         "descricao": "PADRÃO",
         "posicao": 1,
         "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "02e16b92-80a9-425b-a440-f616bac1b7a3"
+            "idJson": "7b6a58d2-ebca-4976-b7d1-b99d286940c1"
           }
         ]
       },
       {
-        "id": "af309fe6-9115-4b14-8e75-84e0f867f9c6",
-        "idJson": "378b346d-5f84-4de3-bf50-6d3c1853fa08",
+        "id": "18653ca1-3fde-45af-983e-47978ab5e7e9",
+        "idJson": "c73f738f-4ee4-4757-888c-ec2195437e7a",
         "descricao": "PADRÃO",
         "posicao": 1,
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "7f21b51d-51b7-481e-851a-4c82f804a154"
+            "idJson": "bcd773a0-51cb-41c2-a0d4-06700becd2ad"
           }
         ]
       },
       {
-        "id": "aa2ddbce-312d-455b-83ca-5f46e51747ee",
-        "idJson": "5867fb67-2628-4f96-8fd6-28fbd3189523",
+        "id": "f8e92226-3163-4c7f-8dfe-e62c996521f2",
+        "idJson": "4b9a4e03-d9e1-45e7-ac6f-f07a5527bfc9",
         "descricao": "PADRÃO",
         "posicao": 1,
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "7ec40cbb-d497-4daa-8864-9d6c3df75a18"
+            "idJson": "648859bd-40ef-467f-8fb0-9c7e2724fefd"
           }
         ]
       },
       {
-        "id": "ac0008d1-5076-43b2-8d49-be6ec7ed0bde",
-        "idJson": "01c385b3-7a4e-4379-bf61-577f9835f4fd",
+        "id": "626b2dc0-bf1b-4a73-b15b-e823becec579",
+        "idJson": "65f898a8-a5ec-494c-9329-dda4aa2a0f3c",
         "descricao": "PADRÃO",
         "posicao": 1,
         "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "tabelaEntreVerdesTransicoes": [
           {
-            "idJson": "22c85e88-3811-4820-b8cf-40dc9fa64de5"
-          }
-        ]
-      },
-      {
-        "id": "91aead0b-c4c9-4125-a80a-dec415dc40fa",
-        "idJson": "7987e164-fa4a-46a7-b928-74679d410e91",
-        "descricao": "PADRÃO",
-        "posicao": 1,
-        "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
-        },
-        "tabelaEntreVerdesTransicoes": [
-          {
-            "idJson": "10f39602-46b3-4fe8-9762-41b5cbdce1e0"
-          }
-        ]
-      },
-      {
-        "id": "c787b366-3bd1-44a1-a7b9-d698191fe3bb",
-        "idJson": "ec2e3e78-f726-41ba-a5b7-56835ab3798d",
-        "descricao": "PADRÃO",
-        "posicao": 1,
-        "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
-        },
-        "tabelaEntreVerdesTransicoes": [
-          {
-            "idJson": "c71bd0a0-eca7-4bee-942a-fde3c0d7d16f"
+            "idJson": "32423729-0fa5-418f-be00-c1672a7e4ed5"
           },
           {
-            "idJson": "d19ae739-2a8a-46e0-bb8f-4bb2cca67458"
-          }
-        ]
-      },
-      {
-        "id": "916b340f-72e9-4b4c-b396-15d2b895740b",
-        "idJson": "d25bdd29-99a3-484f-a423-41103be68ba1",
-        "descricao": "PADRÃO",
-        "posicao": 1,
-        "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
-        },
-        "tabelaEntreVerdesTransicoes": [
-          {
-            "idJson": "5d956368-910a-4949-b287-a6e92904fc13"
-          },
-          {
-            "idJson": "fb4743d0-bb1d-404b-b3f2-71fff544c171"
-          }
-        ]
-      },
-      {
-        "id": "9c7238b5-4655-463a-a1e9-c84bae4dff79",
-        "idJson": "4bc2ea66-02c4-4836-b10c-05bc09a4f682",
-        "descricao": "PADRÃO",
-        "posicao": 1,
-        "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
-        },
-        "tabelaEntreVerdesTransicoes": [
-          {
-            "idJson": "741242c9-f0cb-43be-b852-2e04a5ec50f2"
-          },
-          {
-            "idJson": "e7163c56-17f7-40d8-9cfd-6071623217e7"
+            "idJson": "d446d05c-beb3-4e6e-9e58-cdad204728f4"
           }
         ]
       }
     ],
     "tabelasEntreVerdesTransicoes": [
       {
-        "id": "654fcd86-9392-4212-bd4f-c675fb8e66a3",
-        "idJson": "7ec40cbb-d497-4daa-8864-9d6c3df75a18",
+        "id": "709298ab-bab0-46e3-8cde-a25b9950557d",
+        "idJson": "a1fe6b9b-8403-4d4a-ac4d-f8bc11645428",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "5867fb67-2628-4f96-8fd6-28fbd3189523"
+          "idJson": "2bfc75fa-614b-4d15-892f-7b86e246ae4a"
         },
         "transicao": {
-          "idJson": "f8bd914d-4e67-42f1-8264-391dc7782af6"
+          "idJson": "81cd2daa-d5d1-44d2-ad23-5bf0764a0b10"
         }
       },
       {
-        "id": "ee39c74d-712f-4c50-bef1-0260b2912c91",
-        "idJson": "02e16b92-80a9-425b-a440-f616bac1b7a3",
+        "id": "b930b95e-5af4-4daa-ba5f-4fdcba70f471",
+        "idJson": "648859bd-40ef-467f-8fb0-9c7e2724fefd",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "02dfce93-5029-4d0f-a623-ee736b8e2a99"
+          "idJson": "4b9a4e03-d9e1-45e7-ac6f-f07a5527bfc9"
         },
         "transicao": {
-          "idJson": "d7b6a981-5697-4edb-b586-f8ceda3d6327"
+          "idJson": "bae2e050-e047-4321-b971-d480db51de22"
         }
       },
       {
-        "id": "463974b9-c8b0-4945-8853-5c5054947d47",
-        "idJson": "22c85e88-3811-4820-b8cf-40dc9fa64de5",
-        "tempoVermelhoIntermitente": "9",
-        "tempoVermelhoLimpeza": "1",
-        "tempoAtrasoGrupo": "0",
-        "tabelaEntreVerdes": {
-          "idJson": "01c385b3-7a4e-4379-bf61-577f9835f4fd"
-        },
-        "transicao": {
-          "idJson": "f3605b4f-dbe4-46bb-a950-bcc742d302cc"
-        }
-      },
-      {
-        "id": "f0fc584f-13c1-430f-a513-dad625affe5d",
-        "idJson": "ebad9c9f-836b-4fb7-b404-590dcd7a15b8",
+        "id": "fea05d70-6dd2-465f-a799-f2a370b9f4d6",
+        "idJson": "c6e18c3e-e97f-4522-9a92-0856ff727351",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "7f0aec59-5ad6-4dc7-ac09-aa1bdd1b5fb5"
+          "idJson": "92a17459-ca97-4c8e-9b72-7fdcab877a62"
         },
         "transicao": {
-          "idJson": "eb7d0c1c-1fe9-4ccc-911b-c6ab20605a50"
+          "idJson": "850fe771-dddf-494d-933a-0dbb7d714dd7"
         }
       },
       {
-        "id": "232a627a-7e7d-457f-81e6-c4e04ee5b4f2",
-        "idJson": "5d956368-910a-4949-b287-a6e92904fc13",
+        "id": "05fcd0b6-ab81-435c-aea6-b6be19c67987",
+        "idJson": "485dcd4c-04d9-403a-975f-f94702c621f3",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "d25bdd29-99a3-484f-a423-41103be68ba1"
+          "idJson": "2bfc75fa-614b-4d15-892f-7b86e246ae4a"
         },
         "transicao": {
-          "idJson": "a8dc0d86-ea75-4921-9c9c-a1777608c640"
+          "idJson": "44077fec-0719-4a7c-81e9-7ee5eadcdf5d"
         }
       },
       {
-        "id": "d3007827-e7a0-4c09-b43c-a67674813ff4",
-        "idJson": "e8107f82-0c03-462c-a15e-1cd3930807c3",
+        "id": "cc089fa4-83f8-40df-a427-165b41fca71e",
+        "idJson": "bcd773a0-51cb-41c2-a0d4-06700becd2ad",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "7f0aec59-5ad6-4dc7-ac09-aa1bdd1b5fb5"
+          "idJson": "c73f738f-4ee4-4757-888c-ec2195437e7a"
         },
         "transicao": {
-          "idJson": "e24240bd-3e67-48bd-a19c-803536a82227"
+          "idJson": "6022d71b-55dc-45d4-95c1-6da4b85c2c6e"
         }
       },
       {
-        "id": "75f2fef4-94f2-4b83-bc16-f697987b08ec",
-        "idJson": "9d364fdd-ae5d-46e2-8e81-268fc0983ccd",
+        "id": "f67e9efb-0325-4500-b8ae-af37509890eb",
+        "idJson": "d446d05c-beb3-4e6e-9e58-cdad204728f4",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "21a41bb4-4e72-4a7c-8dd5-763e1c6209d0"
+          "idJson": "65f898a8-a5ec-494c-9329-dda4aa2a0f3c"
         },
         "transicao": {
-          "idJson": "d2ec33ee-f26c-4cfa-a12a-25763dad5acf"
+          "idJson": "47a89330-821e-41c2-97bb-1acdca7105ba"
         }
       },
       {
-        "id": "063f3d2e-43c8-4418-8aa2-119119938373",
-        "idJson": "c71bd0a0-eca7-4bee-942a-fde3c0d7d16f",
+        "id": "a5140f18-a117-4e8e-b6d8-479e62c59afe",
+        "idJson": "6bef2396-4067-45d2-9ada-9c83d9864373",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "ec2e3e78-f726-41ba-a5b7-56835ab3798d"
+          "idJson": "7db1328d-d570-4ae3-8b91-56bf3835b366"
         },
         "transicao": {
-          "idJson": "69e3a75e-6488-4635-849c-ff88c470f51a"
+          "idJson": "13244186-7491-4572-aa9c-ecead504a732"
         }
       },
       {
-        "id": "b3e95236-3daf-476b-bc05-b4666fe97363",
-        "idJson": "e7163c56-17f7-40d8-9cfd-6071623217e7",
+        "id": "f4614c1a-4790-4614-b1af-109d11473348",
+        "idJson": "32423729-0fa5-418f-be00-c1672a7e4ed5",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "4bc2ea66-02c4-4836-b10c-05bc09a4f682"
+          "idJson": "65f898a8-a5ec-494c-9329-dda4aa2a0f3c"
         },
         "transicao": {
-          "idJson": "444425fd-25c8-4d05-be10-f82b9b6c831f"
+          "idJson": "c88d9dbd-c8fa-495e-8244-59bf3993315c"
         }
       },
       {
-        "id": "391b2017-6513-4626-a70c-4d2e6d17f5c7",
-        "idJson": "7fbe3c87-70a5-4f20-b111-7035ee3384ea",
+        "id": "86b3cd17-27c1-4735-945f-a12823b12f35",
+        "idJson": "cae0635f-3986-4176-8e1e-5b9cc5fc093e",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "21a41bb4-4e72-4a7c-8dd5-763e1c6209d0"
+          "idJson": "16f1dd3e-1c96-466f-bed6-40660481fd09"
         },
         "transicao": {
-          "idJson": "896e48d3-70f3-44ca-831e-b974e41b5f7b"
+          "idJson": "c712c980-6a6c-48b3-abac-3daca1c1fd40"
         }
       },
       {
-        "id": "ca5e3317-4dbf-4aa7-b657-3ce0414e1346",
-        "idJson": "10f39602-46b3-4fe8-9762-41b5cbdce1e0",
-        "tempoAmarelo": "3",
-        "tempoVermelhoLimpeza": "2",
-        "tempoAtrasoGrupo": "0",
-        "tabelaEntreVerdes": {
-          "idJson": "7987e164-fa4a-46a7-b928-74679d410e91"
-        },
-        "transicao": {
-          "idJson": "d6c2300a-255e-4035-bd78-eb0857679ed6"
-        }
-      },
-      {
-        "id": "3e74fa2f-7580-49b2-81b0-1de72c576b8e",
-        "idJson": "fb4743d0-bb1d-404b-b3f2-71fff544c171",
-        "tempoAmarelo": "3",
-        "tempoVermelhoLimpeza": "2",
-        "tempoAtrasoGrupo": "0",
-        "tabelaEntreVerdes": {
-          "idJson": "d25bdd29-99a3-484f-a423-41103be68ba1"
-        },
-        "transicao": {
-          "idJson": "dec9bf63-b86a-485f-946d-9a92b8df754f"
-        }
-      },
-      {
-        "id": "80241b75-13ab-46ed-87c4-7b4f0a67d643",
-        "idJson": "d19ae739-2a8a-46e0-bb8f-4bb2cca67458",
-        "tempoAmarelo": "3",
-        "tempoVermelhoLimpeza": "2",
-        "tempoAtrasoGrupo": "0",
-        "tabelaEntreVerdes": {
-          "idJson": "ec2e3e78-f726-41ba-a5b7-56835ab3798d"
-        },
-        "transicao": {
-          "idJson": "bd2cb690-2073-4885-993c-6e00ab621abf"
-        }
-      },
-      {
-        "id": "ff69591e-f629-4b4c-93e4-84638302901a",
-        "idJson": "7f21b51d-51b7-481e-851a-4c82f804a154",
-        "tempoAmarelo": "3",
-        "tempoVermelhoLimpeza": "2",
-        "tempoAtrasoGrupo": "0",
-        "tabelaEntreVerdes": {
-          "idJson": "378b346d-5f84-4de3-bf50-6d3c1853fa08"
-        },
-        "transicao": {
-          "idJson": "88305f20-3caa-4dcd-b4e1-ad2d350e33a5"
-        }
-      },
-      {
-        "id": "461d103d-570b-40f1-bda3-d183058609d1",
-        "idJson": "f25f61b0-64be-42b8-948c-24f3c08882a3",
+        "id": "16fcb198-2ba5-46bc-b67e-863e2b7a65a4",
+        "idJson": "63876dc0-2440-40ff-b8c1-78937b9e64ba",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "5",
         "tabelaEntreVerdes": {
-          "idJson": "7f0aec59-5ad6-4dc7-ac09-aa1bdd1b5fb5"
+          "idJson": "6be66f7e-eb77-4f31-ab6f-eec4e46ed4d1"
         },
         "transicao": {
-          "idJson": "5e07234d-b178-4fc7-962a-847c92e9784d"
+          "idJson": "d5a8b3de-df9f-4449-8dd1-55f2a9805080"
         }
       },
       {
-        "id": "a527d03a-b25a-48bf-aace-5806d27ab927",
-        "idJson": "741242c9-f0cb-43be-b852-2e04a5ec50f2",
+        "id": "e23640e4-6a9b-4299-8b57-a4d3368698a9",
+        "idJson": "faff3a9a-dfc4-4e18-9df6-5c1a496ea6aa",
+        "tempoVermelhoIntermitente": "9",
+        "tempoVermelhoLimpeza": "1",
+        "tempoAtrasoGrupo": "0",
+        "tabelaEntreVerdes": {
+          "idJson": "fd884e45-cc3f-4963-b257-c039c47f80d4"
+        },
+        "transicao": {
+          "idJson": "99333939-b2b2-4db9-8448-059f0a635c5d"
+        }
+      },
+      {
+        "id": "24bc4a5f-0eb8-4e00-a633-09f929367e3e",
+        "idJson": "f3be26fa-a0b7-45f2-846e-eb1d00a42bbf",
         "tempoAmarelo": "3",
         "tempoVermelhoLimpeza": "2",
         "tempoAtrasoGrupo": "0",
         "tabelaEntreVerdes": {
-          "idJson": "4bc2ea66-02c4-4836-b10c-05bc09a4f682"
+          "idJson": "16f1dd3e-1c96-466f-bed6-40660481fd09"
         },
         "transicao": {
-          "idJson": "bc75c24e-5696-41f5-a51c-ba6f7794f94d"
+          "idJson": "1b362201-eef3-440c-943f-87f16854fa82"
+        }
+      },
+      {
+        "id": "2991fc68-d198-4764-87ad-b224385b04b9",
+        "idJson": "96e8e6f7-7a24-4241-92e3-8218a3459e6a",
+        "tempoAmarelo": "3",
+        "tempoVermelhoLimpeza": "2",
+        "tempoAtrasoGrupo": "0",
+        "tabelaEntreVerdes": {
+          "idJson": "92a17459-ca97-4c8e-9b72-7fdcab877a62"
+        },
+        "transicao": {
+          "idJson": "73d91029-9f8e-4e89-8c18-85f876fa41c3"
+        }
+      },
+      {
+        "id": "ac9c91e6-d8c8-4f99-8dd7-251ad26682f3",
+        "idJson": "7b6a58d2-ebca-4976-b7d1-b99d286940c1",
+        "tempoAmarelo": "3",
+        "tempoVermelhoLimpeza": "2",
+        "tempoAtrasoGrupo": "0",
+        "tabelaEntreVerdes": {
+          "idJson": "7e29b911-52e3-4db9-9af0-45a4d45f03a6"
+        },
+        "transicao": {
+          "idJson": "7789bdfa-765f-48ef-8bdc-2a84f709291c"
         }
       }
     ],
     "planos": [
       {
-        "id": "3aa7b5ac-f0fd-475a-9133-325ed90070a0",
-        "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce",
-        "posicao": 4,
-        "descricao": "PLANO 4",
-        "tempoCiclo": 150,
+        "id": "d740afbe-1fb5-4ba2-ba9d-163cf9ef89de",
+        "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d",
+        "posicao": 2,
+        "descricao": "PLANO 2",
+        "tempoCiclo": 100,
         "defasagem": 10,
         "posicaoTabelaEntreVerde": 1,
         "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:51:51",
-        "dataAtualizacao": "27/10/2016 16:01:34",
+        "dataCriacao": "03/11/2016 11:56:49",
+        "dataAtualizacao": "07/11/2016 11:43:36",
         "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
         },
         "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
+          "idJson": "67f12a26-3839-4c80-a712-778a7f76bde6"
         },
         "estagiosPlanos": [
           {
-            "idJson": "572cc401-ebf2-4cb3-b68e-4c9ecd44af53"
+            "idJson": "cbbf7cb7-5e86-4492-bad5-7b611449c549"
           },
           {
-            "idJson": "e7c54bdf-7c7f-485a-8c5c-f10ad853b9a5"
+            "idJson": "d403afeb-3443-4f3f-8997-da4f36d719d4"
           }
         ],
         "gruposSemaforicosPlanos": [
           {
-            "idJson": "0ce4f617-2336-4874-a5af-716939c4de88"
+            "idJson": "8bbbf90f-395d-47dd-baaa-77199eafde07"
           },
           {
-            "idJson": "44e7037f-6126-45c3-8a40-a0f230fe4674"
+            "idJson": "84fe0d6e-6230-47b0-a6a5-ce2d7e6145fd"
           }
         ]
       },
       {
-        "id": "a0460b53-d1b8-437b-80ac-8ca84dd65921",
-        "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a",
-        "posicao": 2,
-        "descricao": "PLANO 2",
-        "tempoCiclo": 120,
-        "defasagem": 20,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:51:51",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "a2d08c74-1155-4080-822f-629d8f28df19"
-          },
-          {
-            "idJson": "8d09ed2a-9b64-4c5c-aeed-0dbad32650c4"
-          },
-          {
-            "idJson": "0ec2e9a8-3ba2-4855-98e7-a8fa62b46f46"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "99e20545-c535-4b30-8dd0-6c74e2424def"
-          },
-          {
-            "idJson": "02d2b530-7e99-48fd-81eb-0f27aaad2b8f"
-          },
-          {
-            "idJson": "af73c79f-2508-4813-b8de-7a787b11b9ba"
-          }
-        ]
-      },
-      {
-        "id": "35783ce0-7098-4280-9a7d-108768836ca9",
-        "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21",
-        "posicao": 6,
-        "descricao": "PLANO 6",
-        "tempoCiclo": 100,
-        "defasagem": 20,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:52:59",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "9ac13292-76dd-408f-a236-77e11c7f1c55"
-          },
-          {
-            "idJson": "19e39603-d937-434f-bbed-6e9b19c6417e"
-          },
-          {
-            "idJson": "1bbdb634-e8ea-417e-87a7-507bf2267292"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "d66c21b7-dee9-4f63-9bf5-b63c14eb9428"
-          },
-          {
-            "idJson": "6c6a0a1c-e96e-46d1-a448-01cda7979dbc"
-          },
-          {
-            "idJson": "60e83003-cab2-41ef-8d0f-3d74b7c98613"
-          }
-        ]
-      },
-      {
-        "id": "7b16d4c5-4783-4f3b-86a7-b45d4348fa53",
-        "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76",
+        "id": "8050eae7-1cb5-4928-b543-34a5eb11b309",
+        "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9",
         "posicao": 1,
         "descricao": "PLANO 1",
         "tempoCiclo": 100,
         "defasagem": 0,
         "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "20/10/2016 09:51:00",
-        "dataAtualizacao": "27/10/2016 16:01:34",
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "dataCriacao": "03/11/2016 11:52:52",
+        "dataAtualizacao": "07/11/2016 11:43:34",
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
+          "idJson": "d3ea90e7-ceda-4100-bf9a-e845a0e2af38"
         },
         "estagiosPlanos": [
           {
-            "idJson": "aa6e5a8e-2a57-475d-8230-c3ba0ca0c0ae"
+            "idJson": "15cefbcb-cd7b-4888-b796-5d54f50a5440"
           },
           {
-            "idJson": "9d7bb8d0-2ce0-4ce8-929c-5d44efff3452"
+            "idJson": "7526a62d-dd06-48df-9983-dbe1178af6c5"
           },
           {
-            "idJson": "845e96e7-80d1-4ca0-9423-dcfc04245bc9"
+            "idJson": "afdde69e-f28e-4df6-9a3f-94607572cd68"
           }
         ],
         "gruposSemaforicosPlanos": [
           {
-            "idJson": "3d14937c-1ead-40ea-b206-c2829c4d1f3a"
+            "idJson": "d480451c-1752-4509-b452-ab982e692d75"
           },
           {
-            "idJson": "dd1655d0-613c-4af2-bc4f-2e84902c5d01"
+            "idJson": "8a43e1b1-e31d-4903-9c56-7e876d3651f1"
           },
           {
-            "idJson": "b075aa32-1fbd-4b58-a5fd-05774eb0cd6d"
+            "idJson": "37e0ac36-0e97-42fa-96f9-1437ce55f179"
           },
           {
-            "idJson": "2d0ca816-c419-4c59-a620-e4012a35af5c"
+            "idJson": "7bf6057f-da51-40e5-ac92-71877ff9741e"
           },
           {
-            "idJson": "b150e3c4-18ed-4b8a-92ff-26ffaa0b170a"
+            "idJson": "1587873b-0c8c-4fb9-8aa4-7e0fd094d244"
           }
         ]
       },
       {
-        "id": "a004bd7f-9bff-4ce9-bb79-e023a57d5b5a",
-        "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6",
-        "posicao": 2,
-        "descricao": "PLANO 2",
-        "tempoCiclo": 120,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:43:42",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "667a1aed-a129-4286-9f6e-9bea3e08f8da"
-          },
-          {
-            "idJson": "faa5acd5-389a-41a9-9c7d-bb225852b8e9"
-          },
-          {
-            "idJson": "7e172e4f-fedf-45d7-abdf-c89b41f7ecb2"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "82930d31-e9c5-4dd0-b287-173c00e4875c"
-          },
-          {
-            "idJson": "e4f2a6e3-e040-491c-a0f9-330c3b60758c"
-          },
-          {
-            "idJson": "8ea424f7-7dc0-4ee8-bd2f-c5419e176fc9"
-          },
-          {
-            "idJson": "a86c34cc-9f97-495d-aae7-30e9e25ca2d0"
-          },
-          {
-            "idJson": "53d33c25-8851-4815-bf30-26d361c10e82"
-          }
-        ]
-      },
-      {
-        "id": "b1906fc7-205e-40c6-b0a1-dfb8fd79a17b",
-        "idJson": "3839e784-5006-45e3-8742-b06b6801e153",
-        "posicao": 6,
-        "descricao": "PLANO 6",
-        "tempoCiclo": 100,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:52:59",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "a5204462-cee2-407f-9713-c0ccb4566677"
-          },
-          {
-            "idJson": "741efab8-8f3b-4991-ad7c-c591449d398f"
-          },
-          {
-            "idJson": "1d8f595a-92e1-4806-b76f-5789fcc8ab34"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "e2d05229-3d02-4022-946c-addcec001103"
-          },
-          {
-            "idJson": "c03dc485-03bc-4949-9f2b-eec4dcc6dafd"
-          },
-          {
-            "idJson": "fe76461b-a7cc-4055-9c10-151d121083dd"
-          },
-          {
-            "idJson": "80239416-2975-4cc0-afcf-1e95cd590594"
-          },
-          {
-            "idJson": "8c8f4f99-df4b-48cc-b3e9-e31520dfa8cd"
-          }
-        ]
-      },
-      {
-        "id": "c0fd3707-7f04-47b0-87f4-901b0ceaa9d8",
-        "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859",
-        "posicao": 0,
-        "descricao": "Exclusivo",
-        "tempoCiclo": 30,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "MANUAL",
-        "dataCriacao": "20/10/2016 09:51:00",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "1e56b2b7-268e-456e-ab31-3f71053a16e1"
-          },
-          {
-            "idJson": "f1e79171-3faa-498c-9b38-3d60d2f961b4"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "ecd955ba-53d8-4e12-a941-b2d9aad8ddf3"
-          },
-          {
-            "idJson": "40c78d56-7fe0-48b3-9d9a-a561e0ba8aca"
-          }
-        ]
-      },
-      {
-        "id": "435209bd-485f-4b82-89cd-768a853deaf1",
-        "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4",
-        "posicao": 2,
-        "descricao": "PLANO 2",
-        "tempoCiclo": 120,
-        "defasagem": 10,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:51:51",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "260a212e-f0d1-4652-81e3-37b3fdb17dc8"
-          },
-          {
-            "idJson": "b4ec2c9e-6c5d-46fc-8240-d1b5766a55a7"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "2c031aa0-b11e-4656-aec7-7d1f770b1d58"
-          },
-          {
-            "idJson": "babcef7f-b9a8-47cc-9893-b899bd2d3d8a"
-          }
-        ]
-      },
-      {
-        "id": "be356830-9930-4674-90f1-2455c150b41a",
-        "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e",
-        "posicao": 0,
-        "descricao": "Exclusivo",
-        "tempoCiclo": 30,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "MANUAL",
-        "dataCriacao": "20/10/2016 09:51:00",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "3d75895a-9359-42fd-a384-6f6a87c6d79d"
-          },
-          {
-            "idJson": "6074ac32-f44b-4ff5-a8e9-522727f15d81"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "cb9bd906-cd71-42a1-a91e-b1e72a72b193"
-          },
-          {
-            "idJson": "ddcdbeeb-6f87-4ccc-8945-22e268674e3d"
-          },
-          {
-            "idJson": "a6cc3f54-6737-401f-8a32-c36b495c34ff"
-          }
-        ]
-      },
-      {
-        "id": "f59d5408-6e02-4bc7-9967-d7358bb779e8",
-        "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da",
-        "posicao": 5,
-        "descricao": "PLANO 5",
-        "tempoCiclo": 120,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:43:42",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "67984282-eb6a-4bbc-a317-89f546c7810d"
-          },
-          {
-            "idJson": "94c9090d-17ef-4bfa-8116-e58473458b30"
-          },
-          {
-            "idJson": "2e813cb6-c89c-4783-a455-b04e9314c654"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "798ebf36-c2ee-4751-95f3-098f718a277e"
-          },
-          {
-            "idJson": "8aff3bda-4c5b-444e-9c25-91ffa95e5b4d"
-          },
-          {
-            "idJson": "d1688f0f-a3d6-4d8b-906e-b17160c8fa3a"
-          },
-          {
-            "idJson": "7b6c07a6-b484-45f0-b296-fb88e06fcff7"
-          },
-          {
-            "idJson": "e987f8c4-d9f1-48e1-bcd7-564fcc2fd9df"
-          }
-        ]
-      },
-      {
-        "id": "770097f5-805a-4802-8a0b-d43a27a48078",
-        "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee",
-        "posicao": 5,
-        "descricao": "PLANO 5",
-        "tempoCiclo": 120,
-        "defasagem": 20,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:51:51",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
-        },
-        "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "3fa147dc-f754-4012-b5cc-7127140e33e1"
-          },
-          {
-            "idJson": "cd11786d-e161-4a89-a428-680574476414"
-          },
-          {
-            "idJson": "e72964d4-0495-4b90-9a3c-d83a744e41fc"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "01710734-88aa-4316-af22-632b30194ea4"
-          },
-          {
-            "idJson": "6fd05896-5dd0-40f9-b5ea-8acb4edd1be7"
-          },
-          {
-            "idJson": "c44f9802-bace-478c-8ddc-0c8dcac70aee"
-          }
-        ]
-      },
-      {
-        "id": "c74f8ef8-07da-48b7-909e-d2042f8561d4",
-        "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408",
-        "posicao": 5,
-        "descricao": "PLANO 5",
-        "tempoCiclo": 120,
-        "defasagem": 10,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:51:51",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "0dc47cf3-e088-472b-87c5-289cc5b422d1"
-          },
-          {
-            "idJson": "7a92067e-7200-4a40-bd75-f3ad20185da2"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "d9fbc30d-af05-43fd-b66c-8f48de0e0a37"
-          },
-          {
-            "idJson": "61e2eeea-1a7a-49a2-8859-eb133d3660e6"
-          }
-        ]
-      },
-      {
-        "id": "65e3796f-cd5a-475e-8053-0041f74cc8c8",
-        "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55",
-        "posicao": 4,
-        "descricao": "PLANO 4",
-        "tempoCiclo": 150,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:43:42",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "0bce0ff9-7384-42db-bf8a-0363641ff271"
-          },
-          {
-            "idJson": "05a42ee4-ea59-471d-9259-a86a9a83763a"
-          },
-          {
-            "idJson": "61d2fb94-cc53-4c10-9d91-4383a19a76c9"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "789a5903-c5b1-4e5d-a255-70018e778804"
-          },
-          {
-            "idJson": "cac087c7-3e46-450d-8e03-ba9c12223468"
-          },
-          {
-            "idJson": "03f6b757-d9f9-4c31-af26-19c16404f1c7"
-          },
-          {
-            "idJson": "cfc1fb5c-5315-4919-831e-b3f9c8be1368"
-          },
-          {
-            "idJson": "186310fb-07fb-45b6-91a7-80a39769d89c"
-          }
-        ]
-      },
-      {
-        "id": "a3bbac03-aa73-4047-9e15-75d7ccf948b6",
-        "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27",
-        "posicao": 0,
-        "descricao": "Exclusivo",
-        "tempoCiclo": 30,
-        "defasagem": 0,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "MANUAL",
-        "dataCriacao": "20/10/2016 09:51:00",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
-        },
-        "versaoPlano": {
-          "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "551bcef2-b277-4110-8239-2ac5a31ca4b7"
-          },
-          {
-            "idJson": "80216539-df79-405b-866b-bd13c98a2bf6"
-          },
-          {
-            "idJson": "da0833b5-4e07-49ef-a824-27ba46a02274"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "b221f70c-61b2-40b8-ad8d-f59dc86d2c8d"
-          },
-          {
-            "idJson": "b25ff2e0-be66-445c-abbb-62d22c3b89a9"
-          },
-          {
-            "idJson": "b5b4cf27-0796-4c75-a4b6-c3b004a647f5"
-          },
-          {
-            "idJson": "3ec42f13-d0b7-4243-a636-2d9208d4eb95"
-          },
-          {
-            "idJson": "b9a36d41-dedb-4a8b-a362-500f900fa3b4"
-          }
-        ]
-      },
-      {
-        "id": "c921bec5-fc2a-44c4-b72d-f397d9ba1f38",
-        "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147",
-        "posicao": 6,
-        "descricao": "PLANO 6",
-        "tempoCiclo": 100,
-        "defasagem": 10,
-        "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:52:59",
-        "dataAtualizacao": "27/10/2016 16:01:34",
-        "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
-        },
-        "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
-        },
-        "estagiosPlanos": [
-          {
-            "idJson": "6a1f3bed-e9ec-4fdc-9792-457384a410d4"
-          },
-          {
-            "idJson": "017b9015-ea7a-4bc7-a6d9-84f460aafc90"
-          }
-        ],
-        "gruposSemaforicosPlanos": [
-          {
-            "idJson": "3de64147-c947-4074-a23c-cad0d0656267"
-          },
-          {
-            "idJson": "f099b2db-da62-4fc8-88dc-df3eff79eebe"
-          }
-        ]
-      },
-      {
-        "id": "62c0e37b-4fff-4eb0-9a58-30201e5f29da",
-        "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a",
+        "id": "848fa7db-e4a8-4769-b0e3-5ada2771013e",
+        "idJson": "24510147-ba9f-4a61-815d-63565ffca56f",
         "posicao": 1,
         "descricao": "PLANO 1",
         "tempoCiclo": 100,
-        "defasagem": 10,
+        "defasagem": 0,
         "posicaoTabelaEntreVerde": 1,
-        "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "20/10/2016 09:51:00",
-        "dataAtualizacao": "27/10/2016 16:01:34",
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "dataCriacao": "03/11/2016 11:52:52",
+        "dataAtualizacao": "07/11/2016 11:43:36",
         "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
         },
         "versaoPlano": {
-          "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63"
+          "idJson": "67f12a26-3839-4c80-a712-778a7f76bde6"
         },
         "estagiosPlanos": [
           {
-            "idJson": "e555a4b5-7e68-4ee0-a2ac-4f3137eeb85f"
+            "idJson": "591aafe0-9c60-4a27-a148-5fab31acb393"
           },
           {
-            "idJson": "612b982a-a6c2-4f1e-9399-c961b5f57954"
+            "idJson": "4c82fdb3-3caf-451f-b6b5-8a6d5a0120ef"
           }
         ],
         "gruposSemaforicosPlanos": [
           {
-            "idJson": "77bd14da-d4c9-44c5-9611-632bac8b9c44"
+            "idJson": "1fe3dd9d-234d-4e06-a7d6-964fb42de277"
           },
           {
-            "idJson": "a2d1ecb0-0d95-4a22-8786-bc796874960c"
+            "idJson": "85791665-ac7d-4b99-bbb8-6c2eaa0ae434"
           }
         ]
       },
       {
-        "id": "3cb69e37-4d6f-4512-822f-001e16510012",
-        "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177",
-        "posicao": 4,
-        "descricao": "PLANO 4",
-        "tempoCiclo": 150,
-        "defasagem": 20,
+        "id": "b674a6e7-7f73-4a72-8c13-f80833fa0e7f",
+        "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409",
+        "posicao": 2,
+        "descricao": "PLANO 2",
+        "tempoCiclo": 100,
+        "defasagem": 0,
         "posicaoTabelaEntreVerde": 1,
         "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "27/10/2016 15:51:51",
-        "dataAtualizacao": "27/10/2016 16:01:34",
+        "dataCriacao": "03/11/2016 11:56:49",
+        "dataAtualizacao": "07/11/2016 11:43:34",
         "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
+          "idJson": "d3ea90e7-ceda-4100-bf9a-e845a0e2af38"
         },
         "estagiosPlanos": [
           {
-            "idJson": "d66bc893-737a-456e-a095-c4170d3ee543"
+            "idJson": "7d6d243a-2459-49d8-a7a9-f2f95331ec38"
           },
           {
-            "idJson": "84b081f7-8291-411e-b929-fd9d07e3e4c1"
+            "idJson": "a1e13b0c-81bd-4a60-be1f-6a9b3edd9094"
           },
           {
-            "idJson": "840d1cba-11eb-474f-8258-0e4b83d6b575"
+            "idJson": "4b55b0a2-181b-48ba-a9a0-886a5ff449b4"
           }
         ],
         "gruposSemaforicosPlanos": [
           {
-            "idJson": "970987cd-de38-4676-b8b5-57087d25383d"
+            "idJson": "04d41226-3251-4cab-9809-230292e54361"
           },
           {
-            "idJson": "c90091b2-6818-447e-a543-c2fb2201a21c"
+            "idJson": "ca5e93fa-b2e2-447a-8849-10f391803148"
           },
           {
-            "idJson": "38b7b150-8a63-44fa-8174-835d6d505fdb"
+            "idJson": "9a8006c3-4014-4003-8738-7163fa2943d9"
+          },
+          {
+            "idJson": "d4b338c3-1268-4104-9d4f-23a500ca9b4f"
+          },
+          {
+            "idJson": "5268a241-af92-4cf0-acd1-0635892edc1f"
           }
         ]
       },
       {
-        "id": "482fec3e-7f4a-4ee6-9ed4-faedec602212",
-        "idJson": "9c3ae287-1e26-4688-9489-870757c48936",
+        "id": "cdb34573-f232-4a85-84b3-46439e4fbd15",
+        "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857",
         "posicao": 1,
         "descricao": "PLANO 1",
+        "tempoCiclo": 100,
+        "defasagem": 0,
+        "posicaoTabelaEntreVerde": 1,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "dataCriacao": "03/11/2016 11:52:52",
+        "dataAtualizacao": "07/11/2016 11:43:36",
+        "anel": {
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
+        },
+        "versaoPlano": {
+          "idJson": "ac4757a0-87bc-4b3b-a391-1e3ca8f9571b"
+        },
+        "estagiosPlanos": [
+          {
+            "idJson": "ab5ba2e3-421d-46ff-a522-6e748b7dbf83"
+          },
+          {
+            "idJson": "85a656df-0751-4e7c-b805-c52e2fd8c9c5"
+          },
+          {
+            "idJson": "0f8cb387-d20f-4fec-b81d-1d2ed320f36d"
+          }
+        ],
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "da158461-1a58-4245-a41d-f734e99b545d"
+          },
+          {
+            "idJson": "f2ad334b-a4a7-4c39-ae4c-5edcb36c715c"
+          },
+          {
+            "idJson": "dfd8d3a9-1639-42e3-8b4c-1bf8dce756b3"
+          }
+        ]
+      },
+      {
+        "id": "58bd7967-2791-4e1a-b85d-aec210154e48",
+        "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f",
+        "posicao": 2,
+        "descricao": "PLANO 2",
         "tempoCiclo": 100,
         "defasagem": 20,
         "posicaoTabelaEntreVerde": 1,
         "modoOperacao": "TEMPO_FIXO_COORDENADO",
-        "dataCriacao": "20/10/2016 09:51:00",
-        "dataAtualizacao": "27/10/2016 16:01:34",
+        "dataCriacao": "03/11/2016 11:56:49",
+        "dataAtualizacao": "07/11/2016 11:43:36",
         "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
         },
         "versaoPlano": {
-          "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319"
+          "idJson": "ac4757a0-87bc-4b3b-a391-1e3ca8f9571b"
         },
         "estagiosPlanos": [
           {
-            "idJson": "e700267a-a0a6-48f4-a6de-08fecd02904d"
+            "idJson": "f6800131-d61f-4e66-a6f2-2732e2af2cad"
           },
           {
-            "idJson": "1356d7ba-ab1d-4ae8-88bb-e6738acf7a65"
+            "idJson": "6822afc1-736e-4dda-96c0-f5d9e90bd96e"
           },
           {
-            "idJson": "5e21cdd9-6852-4629-a3d0-177c5c0defa1"
+            "idJson": "1f24064e-dab2-49e0-835a-6c9a816b8924"
           }
         ],
         "gruposSemaforicosPlanos": [
           {
-            "idJson": "2ba304b2-c2b9-4cec-9eb8-0de45150ac32"
+            "idJson": "f637d495-e2fc-4e0d-8698-b0ad296a58ec"
           },
           {
-            "idJson": "00a32ed7-d0aa-43ff-a5f4-68c0889a5922"
+            "idJson": "6fbd1c2b-df48-4979-9f28-ceb16c11bb05"
           },
           {
-            "idJson": "3aba071f-2d8c-4954-a987-3bd28241e579"
+            "idJson": "30a76fb3-375e-4c68-95c2-d5fe3b97b6af"
           }
         ]
       }
     ],
     "gruposSemaforicosPlanos": [
       {
-        "id": "5f72b432-5fe0-4901-a9f6-275b838383b3",
-        "idJson": "8ea424f7-7dc0-4ee8-bd2f-c5419e176fc9",
+        "id": "cb34fd26-8614-45ab-a866-b4bd09cff660",
+        "idJson": "84fe0d6e-6230-47b0-a6a5-ce2d7e6145fd",
         "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
+          "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d"
         },
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         },
         "ativado": true
       },
       {
-        "id": "60684757-d5f1-4d12-a337-024de9f282b2",
-        "idJson": "b25ff2e0-be66-445c-abbb-62d22c3b89a9",
+        "id": "2416a7f0-324f-4f6a-9ad9-5333895197a9",
+        "idJson": "d480451c-1752-4509-b452-ab982e692d75",
         "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         },
         "ativado": true
       },
       {
-        "id": "e4291f18-ea88-47bd-a2b3-ca7cc5b86fc0",
-        "idJson": "60e83003-cab2-41ef-8d0f-3d74b7c98613",
+        "id": "46785196-0ee1-4d95-9e0e-ee1280bcfb77",
+        "idJson": "6fbd1c2b-df48-4979-9f28-ceb16c11bb05",
         "plano": {
-          "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
+          "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
         },
         "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "ativado": true
       },
       {
-        "id": "8b4a4150-8cd9-47af-b1e4-0a8ddd72796f",
-        "idJson": "fe76461b-a7cc-4055-9c10-151d121083dd",
+        "id": "3d25f5ad-1e31-4a54-ba68-3fee37167dfe",
+        "idJson": "8bbbf90f-395d-47dd-baaa-77199eafde07",
         "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
+          "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d"
         },
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         },
         "ativado": true
       },
       {
-        "id": "833f4575-468d-496d-af0a-4ec91f193a5b",
-        "idJson": "00a32ed7-d0aa-43ff-a5f4-68c0889a5922",
+        "id": "fb62a84e-ac62-4f48-b88e-3e724e295755",
+        "idJson": "1587873b-0c8c-4fb9-8aa4-7e0fd094d244",
         "plano": {
-          "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "ativado": true
       },
       {
-        "id": "c28c1fc9-ceb6-4093-b1af-74486d8d9958",
-        "idJson": "b9a36d41-dedb-4a8b-a362-500f900fa3b4",
+        "id": "d4227ab8-1929-4005-acd4-4c070cf3e98f",
+        "idJson": "85791665-ac7d-4b99-bbb8-6c2eaa0ae434",
         "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
+          "idJson": "24510147-ba9f-4a61-815d-63565ffca56f"
         },
         "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "aca70ec5-72b3-4878-9c3a-e66ae0ca314c"
         },
         "ativado": true
       },
       {
-        "id": "9b8ba970-a14e-4177-8896-c0df7352f1a9",
-        "idJson": "186310fb-07fb-45b6-91a7-80a39769d89c",
+        "id": "79768244-2935-4f95-9f86-0ab489ab79a7",
+        "idJson": "ca5e93fa-b2e2-447a-8849-10f391803148",
         "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         },
         "ativado": true
       },
       {
-        "id": "ead78a9a-33f9-45d9-8c52-7298451f0064",
-        "idJson": "53d33c25-8851-4815-bf30-26d361c10e82",
+        "id": "f2ea225e-bd88-46da-abab-1db0a9ecba52",
+        "idJson": "5268a241-af92-4cf0-acd1-0635892edc1f",
         "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         },
         "ativado": true
       },
       {
-        "id": "998229ea-5bca-426f-b328-99ec7db83f80",
-        "idJson": "babcef7f-b9a8-47cc-9893-b899bd2d3d8a",
+        "id": "bb4f13a1-00ba-499a-984d-088e38c5d094",
+        "idJson": "1fe3dd9d-234d-4e06-a7d6-964fb42de277",
         "plano": {
-          "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4"
+          "idJson": "24510147-ba9f-4a61-815d-63565ffca56f"
         },
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "bfb13da2-8ebf-49f4-8a7d-2c778bc0d0c0"
         },
         "ativado": true
       },
       {
-        "id": "f8e89b46-d3d4-4aa1-a795-ef04ae9043bf",
-        "idJson": "c44f9802-bace-478c-8ddc-0c8dcac70aee",
+        "id": "2059bd03-ddd9-4146-ab87-5351100a6139",
+        "idJson": "04d41226-3251-4cab-9809-230292e54361",
         "plano": {
-          "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "306eb390-603f-4ff1-a395-815bcc6d075e"
         },
         "ativado": true
       },
       {
-        "id": "0451d43c-4bcf-42cb-8262-1d64bc079482",
-        "idJson": "789a5903-c5b1-4e5d-a255-70018e778804",
+        "id": "ae45fcb1-d767-4c10-a659-427cd0f4e549",
+        "idJson": "8a43e1b1-e31d-4903-9c56-7e876d3651f1",
         "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         },
         "ativado": true
       },
       {
-        "id": "5c15943e-f1b6-4bb2-a700-916efbe892d7",
-        "idJson": "7b6c07a6-b484-45f0-b296-fb88e06fcff7",
+        "id": "0f7f5713-4398-47e1-a4aa-b13fb9efc7e7",
+        "idJson": "f2ad334b-a4a7-4c39-ae4c-5edcb36c715c",
         "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
+          "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
         },
         "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "ativado": true
       },
       {
-        "id": "a576bb7f-4c55-46a0-82c9-db173fb6d764",
-        "idJson": "8c8f4f99-df4b-48cc-b3e9-e31520dfa8cd",
+        "id": "f71637b4-b0fa-47de-9ca5-188f62102705",
+        "idJson": "7bf6057f-da51-40e5-ac92-71877ff9741e",
         "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
+          "idJson": "1ebe4788-d27c-491f-a167-15822aaf7725"
         },
         "ativado": true
       },
       {
-        "id": "82304cd6-4e4d-410b-ab33-a830abcaebbb",
-        "idJson": "61e2eeea-1a7a-49a2-8859-eb133d3660e6",
+        "id": "0b1db0fe-c35f-404e-b646-ccf18dbf2d49",
+        "idJson": "da158461-1a58-4245-a41d-f734e99b545d",
         "plano": {
-          "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408"
+          "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
         },
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "ativado": true
       },
       {
-        "id": "57a26f3f-6daf-488d-8729-ecb611a9414a",
-        "idJson": "a2d1ecb0-0d95-4a22-8786-bc796874960c",
+        "id": "64d49176-0cb4-4f14-a551-c7134fb8e674",
+        "idJson": "dfd8d3a9-1639-42e3-8b4c-1bf8dce756b3",
         "plano": {
-          "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a"
+          "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
         },
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "17763263-95ac-46ef-8d3e-7bbb98f2cdd2"
         },
         "ativado": true
       },
       {
-        "id": "7612acbb-1d10-4fdc-b5a8-20a5f527c120",
-        "idJson": "dd1655d0-613c-4af2-bc4f-2e84902c5d01",
+        "id": "e96eb836-6d7d-437e-8ed1-754164a1367e",
+        "idJson": "37e0ac36-0e97-42fa-96f9-1437ce55f179",
         "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
+          "idJson": "91738db7-eb21-4281-a075-8beae9eee256"
         },
         "ativado": true
       },
       {
-        "id": "acd0173b-cd07-4753-8053-32a6db2f868c",
-        "idJson": "3ec42f13-d0b7-4243-a636-2d9208d4eb95",
+        "id": "d7920391-fd86-4cdd-9e30-0b6b6eb24e73",
+        "idJson": "9a8006c3-4014-4003-8738-7163fa2943d9",
         "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
+          "idJson": "9050c64b-81f4-478d-85bf-834a46df783c"
         },
         "ativado": true
       },
       {
-        "id": "4e778947-0d18-4c6e-bd5e-0359fa34787b",
-        "idJson": "a6cc3f54-6737-401f-8a32-c36b495c34ff",
+        "id": "5dab68d4-8709-4c4e-a7d0-736cdb3c7e12",
+        "idJson": "30a76fb3-375e-4c68-95c2-d5fe3b97b6af",
         "plano": {
-          "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
+          "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
         },
         "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
+          "idJson": "7264e985-8082-4120-8577-cb83f8b26e90"
         },
         "ativado": true
       },
       {
-        "id": "7d4a4627-0385-43d5-92a0-f76254dd9269",
-        "idJson": "0ce4f617-2336-4874-a5af-716939c4de88",
+        "id": "e649ad63-d094-4276-97fa-6628c86bd107",
+        "idJson": "d4b338c3-1268-4104-9d4f-23a500ca9b4f",
         "plano": {
-          "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
+          "idJson": "15a4b75c-93c5-47bf-86ba-e9c424a9cc04"
         },
         "ativado": true
       },
       {
-        "id": "3495c2e7-494c-45f4-a496-25de47410c79",
-        "idJson": "3de64147-c947-4074-a23c-cad0d0656267",
+        "id": "2faa2537-fa2c-4790-bb0e-fc4aa34b1977",
+        "idJson": "f637d495-e2fc-4e0d-8698-b0ad296a58ec",
         "plano": {
-          "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147"
+          "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
         },
         "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
-        },
-        "ativado": true
-      },
-      {
-        "id": "200bb984-de5a-4710-aae0-689da30d3b40",
-        "idJson": "03f6b757-d9f9-4c31-af26-19c16404f1c7",
-        "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
-        },
-        "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
-        },
-        "ativado": true
-      },
-      {
-        "id": "a3c2f02f-6669-4d13-9809-403351eeeae2",
-        "idJson": "b5b4cf27-0796-4c75-a4b6-c3b004a647f5",
-        "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
-        },
-        "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "360b2e3d-6fc7-4164-a9f1-c7fb146c1008",
-        "idJson": "77bd14da-d4c9-44c5-9611-632bac8b9c44",
-        "plano": {
-          "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a"
-        },
-        "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
-        },
-        "ativado": true
-      },
-      {
-        "id": "d02f1c82-61f5-49de-a284-fca9951e7e55",
-        "idJson": "af73c79f-2508-4813-b8de-7a787b11b9ba",
-        "plano": {
-          "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-        },
-        "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
-        },
-        "ativado": true
-      },
-      {
-        "id": "966229b2-3dd5-4f66-bf46-384dc9dc5f30",
-        "idJson": "80239416-2975-4cc0-afcf-1e95cd590594",
-        "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-        },
-        "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "06d20cb0-9385-4aee-a439-ce614a07bfd0",
-        "idJson": "99e20545-c535-4b30-8dd0-6c74e2424def",
-        "plano": {
-          "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-        },
-        "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
-        },
-        "ativado": true
-      },
-      {
-        "id": "6d8d2954-7a5e-4220-b53a-1233788973e9",
-        "idJson": "e987f8c4-d9f1-48e1-bcd7-564fcc2fd9df",
-        "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-        },
-        "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "ac7b9700-c94a-4440-9e30-afa58a496fd9",
-        "idJson": "01710734-88aa-4316-af22-632b30194ea4",
-        "plano": {
-          "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
-        },
-        "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
-        },
-        "ativado": true
-      },
-      {
-        "id": "118f88cb-fc4a-488d-b889-308c845406f7",
-        "idJson": "d9fbc30d-af05-43fd-b66c-8f48de0e0a37",
-        "plano": {
-          "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408"
-        },
-        "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
-        },
-        "ativado": true
-      },
-      {
-        "id": "e34aff24-0373-497b-afaf-65baa735633d",
-        "idJson": "38b7b150-8a63-44fa-8174-835d6d505fdb",
-        "plano": {
-          "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-        },
-        "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
-        },
-        "ativado": true
-      },
-      {
-        "id": "396f60f8-f337-41bd-b9d3-c54311fe4a17",
-        "idJson": "e4f2a6e3-e040-491c-a0f9-330c3b60758c",
-        "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-        },
-        "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
-        },
-        "ativado": true
-      },
-      {
-        "id": "8c5a3ca9-cdb4-42bb-ad12-e841c3c673ea",
-        "idJson": "2c031aa0-b11e-4656-aec7-7d1f770b1d58",
-        "plano": {
-          "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4"
-        },
-        "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
-        },
-        "ativado": true
-      },
-      {
-        "id": "090d566a-ba6d-4a70-8362-ee559fd42466",
-        "idJson": "cac087c7-3e46-450d-8e03-ba9c12223468",
-        "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
-        },
-        "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
-        },
-        "ativado": true
-      },
-      {
-        "id": "7bfaad0b-d5e4-42eb-9a56-4402c33a857b",
-        "idJson": "6c6a0a1c-e96e-46d1-a448-01cda7979dbc",
-        "plano": {
-          "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
-        },
-        "grupoSemaforico": {
-          "idJson": "09316e06-fed0-46f0-86be-30eb46a20c27"
-        },
-        "ativado": true
-      },
-      {
-        "id": "4af93ff9-0891-4fe1-be05-3883473c7206",
-        "idJson": "c03dc485-03bc-4949-9f2b-eec4dcc6dafd",
-        "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-        },
-        "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
-        },
-        "ativado": true
-      },
-      {
-        "id": "c05a58df-acb3-418c-b722-937dc22cf177",
-        "idJson": "b075aa32-1fbd-4b58-a5fd-05774eb0cd6d",
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "a536b742-80ea-4522-9d26-e3d64adaf213",
-        "idJson": "a86c34cc-9f97-495d-aae7-30e9e25ca2d0",
-        "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-        },
-        "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "26fca13c-dbed-4240-8c8b-3586b416b8e4",
-        "idJson": "d1688f0f-a3d6-4d8b-906e-b17160c8fa3a",
-        "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-        },
-        "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
-        },
-        "ativado": true
-      },
-      {
-        "id": "6f757cd4-d645-4ca2-b64d-6166e85cb236",
-        "idJson": "970987cd-de38-4676-b8b5-57087d25383d",
-        "plano": {
-          "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-        },
-        "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
-        },
-        "ativado": true
-      },
-      {
-        "id": "48e44a15-6007-4424-9511-f2a0b6e2139d",
-        "idJson": "02d2b530-7e99-48fd-81eb-0f27aaad2b8f",
-        "plano": {
-          "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-        },
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "a36d81eb-eda8-48b6-af0a-f7a1ae4c09a5",
-        "idJson": "40c78d56-7fe0-48b3-9d9a-a561e0ba8aca",
-        "plano": {
-          "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859"
-        },
-        "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
-        },
-        "ativado": true
-      },
-      {
-        "id": "6765be28-22de-41b2-a6a8-1e3a1a8a0da1",
-        "idJson": "f099b2db-da62-4fc8-88dc-df3eff79eebe",
-        "plano": {
-          "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147"
-        },
-        "grupoSemaforico": {
-          "idJson": "f07d9d8b-31c1-48d1-ad44-3450509e026f"
-        },
-        "ativado": true
-      },
-      {
-        "id": "4cf16af7-0831-4c3a-8b7f-eefc3e3d36a5",
-        "idJson": "3d14937c-1ead-40ea-b206-c2829c4d1f3a",
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
-        },
-        "ativado": true
-      },
-      {
-        "id": "458a265c-f78b-4203-b4af-ec4d81221908",
-        "idJson": "ddcdbeeb-6f87-4ccc-8945-22e268674e3d",
-        "plano": {
-          "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
-        },
-        "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
-        },
-        "ativado": true
-      },
-      {
-        "id": "953cef19-b101-46c9-921b-02f3199e688d",
-        "idJson": "3aba071f-2d8c-4954-a987-3bd28241e579",
-        "plano": {
-          "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
-        },
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "25de0cf5-56dd-48bb-a14a-4c4e11fddb47",
-        "idJson": "d66c21b7-dee9-4f63-9bf5-b63c14eb9428",
-        "plano": {
-          "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
-        },
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "e7f0749b-8e7b-4ee3-9110-b7719aaad1df",
-        "idJson": "b150e3c4-18ed-4b8a-92ff-26ffaa0b170a",
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "grupoSemaforico": {
-          "idJson": "eccc3c8b-218f-42f1-8bee-11fec6062d21"
-        },
-        "ativado": true
-      },
-      {
-        "id": "5d764607-5e48-4ebf-8164-ea1c80345dcb",
-        "idJson": "ecd955ba-53d8-4e12-a941-b2d9aad8ddf3",
-        "plano": {
-          "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859"
-        },
-        "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
-        },
-        "ativado": true
-      },
-      {
-        "id": "07dd13c9-0c60-4093-969c-759dcddc9a3b",
-        "idJson": "798ebf36-c2ee-4751-95f3-098f718a277e",
-        "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-        },
-        "grupoSemaforico": {
-          "idJson": "27024439-a90f-4568-b643-b46a98b430fd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "d9928417-0d56-48cb-af1b-ca414985bdcd",
-        "idJson": "c90091b2-6818-447e-a543-c2fb2201a21c",
-        "plano": {
-          "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-        },
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "03dcd82d-0b6f-44c5-959e-717652db4d5b",
-        "idJson": "82930d31-e9c5-4dd0-b287-173c00e4875c",
-        "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-        },
-        "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "17b06db6-f3c6-4f8f-adf9-391ae55add00",
-        "idJson": "e2d05229-3d02-4022-946c-addcec001103",
-        "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-        },
-        "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
-        },
-        "ativado": true
-      },
-      {
-        "id": "214ff44a-d57f-4853-9095-b4acdf20d775",
-        "idJson": "cb9bd906-cd71-42a1-a91e-b1e72a72b193",
-        "plano": {
-          "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
-        },
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "db31d34f-89e3-4136-8125-65857961a8da",
-        "idJson": "2d0ca816-c419-4c59-a620-e4012a35af5c",
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "7e8dfd53-7db5-4b25-a331-d34cfbd47c80",
-        "idJson": "cfc1fb5c-5315-4919-831e-b3f9c8be1368",
-        "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
-        },
-        "grupoSemaforico": {
-          "idJson": "89e8cab5-2337-40d6-b6a8-c7816cd1ca5e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "d5b9b156-2277-475d-89f4-74b05853780f",
-        "idJson": "44e7037f-6126-45c3-8a40-a0f230fe4674",
-        "plano": {
-          "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce"
-        },
-        "grupoSemaforico": {
-          "idJson": "d3f9840a-d6d5-45aa-94cf-14de2b1fec41"
-        },
-        "ativado": true
-      },
-      {
-        "id": "01d558be-31e8-408f-a46c-6141699dabee",
-        "idJson": "b221f70c-61b2-40b8-ad8d-f59dc86d2c8d",
-        "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
-        },
-        "grupoSemaforico": {
-          "idJson": "93c9f615-bb22-4cf6-a11f-b1f36b7903f0"
-        },
-        "ativado": true
-      },
-      {
-        "id": "17cc76ee-6c28-4734-afe2-01e5591d5636",
-        "idJson": "8aff3bda-4c5b-444e-9c25-91ffa95e5b4d",
-        "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-        },
-        "grupoSemaforico": {
-          "idJson": "e60d0d71-ca19-47f0-942c-1276ff3734dd"
-        },
-        "ativado": true
-      },
-      {
-        "id": "ae067cac-d84f-4ea7-a651-50f4d1351dd6",
-        "idJson": "6fd05896-5dd0-40f9-b5ea-8acb4edd1be7",
-        "plano": {
-          "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
-        },
-        "grupoSemaforico": {
-          "idJson": "c4c97b82-c269-4571-a84e-011e770d4b8e"
-        },
-        "ativado": true
-      },
-      {
-        "id": "7f0ebc10-22a6-41b0-845b-d09af7b0db55",
-        "idJson": "2ba304b2-c2b9-4cec-9eb8-0de45150ac32",
-        "plano": {
-          "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
-        },
-        "grupoSemaforico": {
-          "idJson": "fc0601be-87ac-42cb-b5ec-625fc445610a"
+          "idJson": "71c8973f-87d4-42b4-92bb-49cf5693259a"
         },
         "ativado": true
       }
     ],
     "estagiosPlanos": [
       {
-        "id": "7b27a7b6-609c-4f6f-9616-cb7692514f76",
-        "idJson": "0bce0ff9-7384-42db-bf8a-0363641ff271",
-        "posicao": 3,
-        "tempoVerde": 25,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
-        },
-        "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        }
-      },
-      {
-        "id": "546c5875-64ac-4dd4-b884-8d9cd170cf1f",
-        "idJson": "d66bc893-737a-456e-a095-c4170d3ee543",
-        "posicao": 2,
-        "tempoVerde": 30,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-        },
-        "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
-        }
-      },
-      {
-        "id": "d05baa23-96b9-4967-ae1b-ad7bed1b6543",
-        "idJson": "5e21cdd9-6852-4629-a3d0-177c5c0defa1",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
-        },
-        "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
-        }
-      },
-      {
-        "id": "5062eb5e-d93b-4449-b9e7-f90738a64705",
-        "idJson": "1e56b2b7-268e-456e-ab31-3f71053a16e1",
-        "posicao": 2,
-        "tempoVerde": 10,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859"
-        },
-        "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
-        }
-      },
-      {
-        "id": "e94442c9-5ad8-4d74-a5bd-185af9102d87",
-        "idJson": "e72964d4-0495-4b90-9a3c-d83a744e41fc",
+        "id": "1780a729-3c54-4dd1-8ec7-c1847aeec1f6",
+        "idJson": "591aafe0-9c60-4a27-a148-5fab31acb393",
         "posicao": 1,
-        "tempoVerde": 65,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
+        "tempoVerde": 70,
         "dispensavel": false,
         "plano": {
-          "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
+          "idJson": "24510147-ba9f-4a61-815d-63565ffca56f"
         },
         "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         }
       },
       {
-        "id": "334b09d8-0c9e-4deb-8f64-abc92a211019",
-        "idJson": "6074ac32-f44b-4ff5-a8e9-522727f15d81",
-        "posicao": 1,
-        "tempoVerde": 10,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
-        },
-        "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
-        }
-      },
-      {
-        "id": "6edd1a39-c103-4362-932a-ca6d2ddabbf9",
-        "idJson": "cd11786d-e161-4a89-a428-680574476414",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
-        },
-        "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
-        }
-      },
-      {
-        "id": "0200a8af-7b2e-49e5-be2f-842a7249bc19",
-        "idJson": "67984282-eb6a-4bbc-a317-89f546c7810d",
-        "posicao": 2,
-        "tempoVerde": 25,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-        },
-        "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        }
-      },
-      {
-        "id": "ec58f61d-af80-40c6-8386-7503ecaf9670",
-        "idJson": "1bbdb634-e8ea-417e-87a7-507bf2267292",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
-        },
-        "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
-        }
-      },
-      {
-        "id": "51bd69db-8a2e-42ef-a0bd-a3a0c1e3ef75",
-        "idJson": "a2d08c74-1155-4080-822f-629d8f28df19",
-        "posicao": 1,
-        "tempoVerde": 65,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-        },
-        "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
-        }
-      },
-      {
-        "id": "9f7e609e-cf86-4bd9-bb09-439abdba00e8",
-        "idJson": "017b9015-ea7a-4bc7-a6d9-84f460aafc90",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147"
-        },
-        "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
-        }
-      },
-      {
-        "id": "db95b5f4-0923-4159-ae40-b76e047467d8",
-        "idJson": "19e39603-d937-434f-bbed-6e9b19c6417e",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
-        },
-        "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
-        }
-      },
-      {
-        "id": "ea035f66-f435-46ce-9036-acdbe07b2c39",
-        "idJson": "faa5acd5-389a-41a9-9c7d-bb225852b8e9",
-        "posicao": 1,
-        "tempoVerde": 60,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-        },
-        "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-        }
-      },
-      {
-        "id": "53d5a661-c564-4a96-97ae-31b9668e59f1",
-        "idJson": "9d7bb8d0-2ce0-4ce8-929c-5d44efff3452",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        }
-      },
-      {
-        "id": "bdd8ae2e-895b-4ab7-90f0-fffe745d48af",
-        "idJson": "84b081f7-8291-411e-b929-fd9d07e3e4c1",
-        "posicao": 1,
-        "tempoVerde": 75,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-        },
-        "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
-        }
-      },
-      {
-        "id": "2ce6ea65-3c1a-413b-aeb2-b1812ef1ea15",
-        "idJson": "e700267a-a0a6-48f4-a6de-08fecd02904d",
-        "posicao": 1,
-        "tempoVerde": 45,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
-        },
-        "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
-        }
-      },
-      {
-        "id": "3264a52e-efbe-475f-8b48-af6b550aa568",
-        "idJson": "572cc401-ebf2-4cb3-b68e-4c9ecd44af53",
-        "posicao": 2,
-        "tempoVerde": 30,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce"
-        },
-        "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
-        }
-      },
-      {
-        "id": "193bb080-8d66-4b17-9307-141b13ec7c1d",
-        "idJson": "551bcef2-b277-4110-8239-2ac5a31ca4b7",
-        "posicao": 2,
-        "tempoVerde": 10,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
-        },
-        "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        }
-      },
-      {
-        "id": "2f5b2c32-c315-4ef9-a6ad-c87d68f3fb37",
-        "idJson": "a5204462-cee2-407f-9713-c0ccb4566677",
-        "posicao": 1,
-        "tempoVerde": 40,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-        },
-        "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-        }
-      },
-      {
-        "id": "6198b380-633f-4732-9a60-f0b7e881370a",
-        "idJson": "8d09ed2a-9b64-4c5c-aeed-0dbad32650c4",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-        },
-        "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
-        }
-      },
-      {
-        "id": "78505ada-36bd-4875-8cfa-1a1244c80508",
-        "idJson": "260a212e-f0d1-4652-81e3-37b3fdb17dc8",
-        "posicao": 1,
-        "tempoVerde": 90,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4"
-        },
-        "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
-        }
-      },
-      {
-        "id": "6d6af573-e58f-4550-baa7-9030c37a6f1e",
-        "idJson": "0ec2e9a8-3ba2-4855-98e7-a8fa62b46f46",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-        },
-        "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
-        }
-      },
-      {
-        "id": "3053b7af-71f5-4c4b-af74-2b68c5315139",
-        "idJson": "3fa147dc-f754-4012-b5cc-7127140e33e1",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
-        },
-        "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
-        }
-      },
-      {
-        "id": "ef58535e-af1d-4287-af4d-e7670ccd0bcd",
-        "idJson": "1d8f595a-92e1-4806-b76f-5789fcc8ab34",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-        },
-        "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        }
-      },
-      {
-        "id": "4030c3f0-1e79-46fb-9afb-512c6f5736c8",
-        "idJson": "aa6e5a8e-2a57-475d-8230-c3ba0ca0c0ae",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        }
-      },
-      {
-        "id": "8ebd55bf-4d64-47da-9144-fdc23cac7cb3",
-        "idJson": "845e96e7-80d1-4ca0-9423-dcfc04245bc9",
-        "posicao": 1,
-        "tempoVerde": 40,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-        },
-        "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-        }
-      },
-      {
-        "id": "ef4f4582-ec00-4783-8de4-cb3f0516eca2",
-        "idJson": "7e172e4f-fedf-45d7-abdf-c89b41f7ecb2",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-        },
-        "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        }
-      },
-      {
-        "id": "6293e6c0-33c6-4ebd-a24d-9edabcacd848",
-        "idJson": "741efab8-8f3b-4991-ad7c-c591449d398f",
-        "posicao": 3,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-        },
-        "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        }
-      },
-      {
-        "id": "2ff79322-13bc-4a0e-bda9-b87d861eb5ec",
-        "idJson": "80216539-df79-405b-866b-bd13c98a2bf6",
-        "posicao": 1,
-        "tempoVerde": 10,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
-        },
-        "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
-        }
-      },
-      {
-        "id": "7f6e4061-b724-4128-bf59-0f213c55255b",
-        "idJson": "e555a4b5-7e68-4ee0-a2ac-4f3137eeb85f",
+        "id": "6efa63a4-cbae-4d41-ac17-b85d2f4128f6",
+        "idJson": "d403afeb-3443-4f3f-8997-da4f36d719d4",
         "posicao": 1,
         "tempoVerde": 70,
         "tempoVerdeMinimo": 0,
@@ -4115,130 +2545,41 @@ var ControladorAtrasoGrupoAutomatico = {
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a"
+          "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d"
         },
         "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "5ba381df-3f3d-40a4-bc3c-5b2ff88f1605"
         }
       },
       {
-        "id": "b5a805be-846e-414e-a2b9-b28c39934e8e",
-        "idJson": "667a1aed-a129-4286-9f6e-9bea3e08f8da",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-        },
-        "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        }
-      },
-      {
-        "id": "78d13d95-a5d4-4c2d-b192-5901d79d0d30",
-        "idJson": "b4ec2c9e-6c5d-46fc-8240-d1b5766a55a7",
-        "posicao": 2,
-        "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4"
-        },
-        "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
-        }
-      },
-      {
-        "id": "3280d856-1575-47f7-8f31-7e7e29b19664",
-        "idJson": "3d75895a-9359-42fd-a384-6f6a87c6d79d",
-        "posicao": 2,
-        "tempoVerde": 10,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
-        },
-        "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
-        }
-      },
-      {
-        "id": "9d2c29c2-e8a2-4346-baf4-51ce6b387526",
-        "idJson": "6a1f3bed-e9ec-4fdc-9792-457384a410d4",
+        "id": "63538482-ec0f-4b7a-b049-70b30bd9f0ad",
+        "idJson": "7526a62d-dd06-48df-9983-dbe1178af6c5",
         "posicao": 1,
-        "tempoVerde": 70,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
+        "tempoVerde": 40,
         "dispensavel": false,
         "plano": {
-          "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
         }
       },
       {
-        "id": "3e84c9e2-f533-43b4-91bc-ff5900249f1d",
-        "idJson": "94c9090d-17ef-4bfa-8116-e58473458b30",
-        "posicao": 3,
-        "tempoVerde": 25,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
-        },
-        "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        }
-      },
-      {
-        "id": "0153e37b-83e7-4ce4-8b06-97461d8c3c98",
-        "idJson": "0dc47cf3-e088-472b-87c5-289cc5b422d1",
+        "id": "7d644561-6683-4974-8554-19dd7d4e3737",
+        "idJson": "4c82fdb3-3caf-451f-b6b5-8a6d5a0120ef",
         "posicao": 2,
         "tempoVerde": 20,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408"
+          "idJson": "24510147-ba9f-4a61-815d-63565ffca56f"
         },
         "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         }
       },
       {
-        "id": "9fe5a8e3-a697-42ab-a6bd-7d3d13021f95",
-        "idJson": "05a42ee4-ea59-471d-9259-a86a9a83763a",
-        "posicao": 2,
-        "tempoVerde": 25,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
-        },
-        "estagio": {
-          "idJson": "bdb72a13-a29b-4dff-ab69-05b69f433d72"
-        }
-      },
-      {
-        "id": "3d85ba78-df4d-4a42-a940-40bafbe42eaa",
-        "idJson": "9ac13292-76dd-408f-a236-77e11c7f1c55",
+        "id": "c0bf97f5-b487-4f06-8a75-9b65d062e14e",
+        "idJson": "6822afc1-736e-4dda-96c0-f5d9e90bd96e",
         "posicao": 1,
         "tempoVerde": 45,
         "tempoVerdeMinimo": 0,
@@ -4247,32 +2588,28 @@ var ControladorAtrasoGrupoAutomatico = {
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
+          "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
         },
         "estagio": {
-          "idJson": "00f04cee-ff99-4690-9029-c88c55928096"
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
         }
       },
       {
-        "id": "d588f8e1-d634-432d-926b-cce419708d3f",
-        "idJson": "840d1cba-11eb-474f-8258-0e4b83d6b575",
+        "id": "d7e2540a-bf8e-499c-93be-ff01b88a4b32",
+        "idJson": "afdde69e-f28e-4df6-9a3f-94607572cd68",
         "posicao": 3,
-        "tempoVerde": 30,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
+        "tempoVerde": 20,
         "dispensavel": false,
         "plano": {
-          "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
         },
         "estagio": {
-          "idJson": "28821b34-c80e-436b-9c42-6ee2f7da81bd"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         }
       },
       {
-        "id": "d998ff07-3bd7-4e12-a3cc-3cf1c2537ad7",
-        "idJson": "612b982a-a6c2-4f1e-9399-c961b5f57954",
+        "id": "3d070349-2372-48a5-9ae0-400cff2d6f51",
+        "idJson": "f6800131-d61f-4e66-a6f2-2732e2af2cad",
         "posicao": 2,
         "tempoVerde": 20,
         "tempoVerdeMinimo": 0,
@@ -4281,49 +2618,79 @@ var ControladorAtrasoGrupoAutomatico = {
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a"
+          "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
         },
         "estagio": {
-          "idJson": "e3cf6c23-8180-4e8f-9c87-f7a4589aa44e"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         }
       },
       {
-        "id": "96ff0910-5a09-47c3-bbc9-f01be3547089",
-        "idJson": "2e813cb6-c89c-4783-a455-b04e9314c654",
-        "posicao": 1,
-        "tempoVerde": 50,
+        "id": "d22513dc-a283-49f7-aef4-c5b8f1ca7d9f",
+        "idJson": "4b55b0a2-181b-48ba-a9a0-886a5ff449b4",
+        "posicao": 3,
+        "tempoVerde": 20,
         "tempoVerdeMinimo": 0,
         "tempoVerdeMaximo": 0,
         "tempoVerdeIntermediario": 0,
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "83f9f8e0-7308-4e76-a275-643564205996"
         }
       },
       {
-        "id": "f2960469-6577-4f58-aea4-0a5e86b1f63d",
-        "idJson": "61d2fb94-cc53-4c10-9d91-4383a19a76c9",
-        "posicao": 1,
-        "tempoVerde": 80,
+        "id": "d556e7ed-6a66-4ade-989b-fdaef74ef507",
+        "idJson": "1f24064e-dab2-49e0-835a-6c9a816b8924",
+        "posicao": 3,
+        "tempoVerde": 20,
         "tempoVerdeMinimo": 0,
         "tempoVerdeMaximo": 0,
         "tempoVerdeIntermediario": 0,
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
+          "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
         },
         "estagio": {
-          "idJson": "513ccc36-b0dd-4846-b404-226f14941f68"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         }
       },
       {
-        "id": "a3340d13-dca8-4600-948a-55024b8a3a65",
-        "idJson": "1356d7ba-ab1d-4ae8-88bb-e6738acf7a65",
+        "id": "b83b9e56-64fa-4736-b29f-1dda6cac28a3",
+        "idJson": "a1e13b0c-81bd-4a60-be1f-6a9b3edd9094",
+        "posicao": 1,
+        "tempoVerde": 40,
+        "tempoVerdeMinimo": 0,
+        "tempoVerdeMaximo": 0,
+        "tempoVerdeIntermediario": 0,
+        "tempoExtensaoVerde": 0.0,
+        "dispensavel": false,
+        "plano": {
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
+        },
+        "estagio": {
+          "idJson": "242d2c3c-1773-4688-8c1e-fde218755bd1"
+        }
+      },
+      {
+        "id": "23e23cc8-c51e-4e7b-acd4-65743df36041",
+        "idJson": "ab5ba2e3-421d-46ff-a522-6e748b7dbf83",
+        "posicao": 1,
+        "tempoVerde": 45,
+        "dispensavel": false,
+        "plano": {
+          "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
+        },
+        "estagio": {
+          "idJson": "d3d9c928-61df-4eee-b87c-22c674037d70"
+        }
+      },
+      {
+        "id": "4fdb9ae4-3200-4a44-812c-305a353d4cb8",
+        "idJson": "cbbf7cb7-5e86-4492-bad5-7b611449c549",
         "posicao": 2,
         "tempoVerde": 20,
         "tempoVerdeMinimo": 0,
@@ -4332,658 +2699,413 @@ var ControladorAtrasoGrupoAutomatico = {
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
+          "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d"
         },
         "estagio": {
-          "idJson": "3f6dac3e-909b-4690-b9ad-af666752a571"
+          "idJson": "3b068b57-e93e-415d-88eb-84c5e35ccd3e"
         }
       },
       {
-        "id": "a98147c0-f143-4f98-91c4-84ef0d8512d1",
-        "idJson": "f1e79171-3faa-498c-9b38-3d60d2f961b4",
-        "posicao": 1,
-        "tempoVerde": 10,
+        "id": "95687d45-d8b3-480d-a2fd-b04a98aed91d",
+        "idJson": "85a656df-0751-4e7c-b805-c52e2fd8c9c5",
+        "posicao": 2,
+        "tempoVerde": 20,
         "dispensavel": false,
         "plano": {
-          "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859"
+          "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
         },
         "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "6b771a42-d8d2-4f90-9fc7-fd82bfcbd8b9"
         }
       },
       {
-        "id": "c0d36b22-e2c2-46b6-97e8-ba0b47622ebf",
-        "idJson": "7a92067e-7200-4a40-bd75-f3ad20185da2",
-        "posicao": 1,
-        "tempoVerde": 90,
+        "id": "46ff2a87-c281-4ad1-9cfd-f13cffb731a7",
+        "idJson": "7d6d243a-2459-49d8-a7a9-f2f95331ec38",
+        "posicao": 2,
+        "tempoVerde": 20,
         "tempoVerdeMinimo": 0,
         "tempoVerdeMaximo": 0,
         "tempoVerdeIntermediario": 0,
         "tempoExtensaoVerde": 0.0,
         "dispensavel": false,
         "plano": {
-          "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408"
+          "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
         },
         "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
         }
       },
       {
-        "id": "b474e6f0-722f-4779-a9a4-3ff39c7a408a",
-        "idJson": "da0833b5-4e07-49ef-a824-27ba46a02274",
+        "id": "413cf969-bdd2-4713-96b1-fc4dc8a6b0e1",
+        "idJson": "15cefbcb-cd7b-4888-b796-5d54f50a5440",
+        "posicao": 2,
+        "tempoVerde": 20,
+        "dispensavel": false,
+        "plano": {
+          "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
+        },
+        "estagio": {
+          "idJson": "48964f57-8d94-4abc-b5cd-8e9458459d5c"
+        }
+      },
+      {
+        "id": "9dc3f739-d89a-4ab7-abc8-254242ce57eb",
+        "idJson": "0f8cb387-d20f-4fec-b81d-1d2ed320f36d",
         "posicao": 3,
-        "tempoVerde": 10,
+        "tempoVerde": 20,
         "dispensavel": false,
         "plano": {
-          "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
+          "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
         },
         "estagio": {
-          "idJson": "0575779d-b038-47f0-b72e-ff11a7d47ccc"
-        }
-      },
-      {
-        "id": "60e454dd-a989-46bf-a46b-61490fd96585",
-        "idJson": "e7c54bdf-7c7f-485a-8c5c-f10ad853b9a5",
-        "posicao": 1,
-        "tempoVerde": 110,
-        "tempoVerdeMinimo": 0,
-        "tempoVerdeMaximo": 0,
-        "tempoVerdeIntermediario": 0,
-        "tempoExtensaoVerde": 0.0,
-        "dispensavel": false,
-        "plano": {
-          "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce"
-        },
-        "estagio": {
-          "idJson": "2a189819-36c3-4cc0-a989-6f8f19cff390"
+          "idJson": "01f5dce2-391a-4930-882d-bf0d656fb17a"
         }
       }
     ],
     "cidades": [
       {
-        "id": "8d92d1b1-8ee3-11e6-970d-0401fa9c1b01",
-        "idJson": "8d92dde5-8ee3-11e6-970d-0401fa9c1b01",
+        "id": "66b66819-a1c4-11e6-970d-0401fa9c1b01",
+        "idJson": "66b6941e-a1c4-11e6-970d-0401fa9c1b01",
         "nome": "São Paulo",
         "areas": [
           {
-            "idJson": "5c012ad1-aafe-46fa-b12b-037e76d8f1e6"
-          },
-          {
-            "idJson": "2ee35ce3-3acf-47f5-8239-002f9ba95ca2"
-          },
-          {
-            "idJson": "5599a1cc-1256-463f-bb83-9ede6a6f09be"
-          },
-          {
-            "idJson": "afb12c64-d2a5-4af5-bb6b-ce692ce25bc4"
-          },
-          {
-            "idJson": "3a9239c7-e8f3-4b8c-b9b1-09c5197ae796"
+            "idJson": "66b6a0c4-a1c4-11e6-970d-0401fa9c1b01"
           }
         ]
       }
     ],
     "areas": [
       {
-        "id": "408466c5-fb47-42d3-b96b-6d4f8867112c",
-        "idJson": "2ee35ce3-3acf-47f5-8239-002f9ba95ca2",
-        "descricao": 4,
-        "cidade": {
-          "idJson": "8d92dde5-8ee3-11e6-970d-0401fa9c1b01"
-        },
-        "limites": [],
-        "subareas": [
-          {
-            "id": "7c344fd0-2569-415d-a4df-31dcb34cdbb9",
-            "idJson": "43290b02-16e6-4058-b9bb-0bb05257b85b",
-            "nome": "VERGUEIRO",
-            "numero": "0"
-          }
-        ]
-      },
-      {
-        "id": "5b1971e9-c0b7-4b9c-9521-1d37c02bfc88",
-        "idJson": "5599a1cc-1256-463f-bb83-9ede6a6f09be",
-        "descricao": 5,
-        "cidade": {
-          "idJson": "8d92dde5-8ee3-11e6-970d-0401fa9c1b01"
-        },
-        "limites": [],
-        "subareas": [
-          {
-            "id": "143c5ccc-e43f-4a1a-ad81-796f93d65678",
-            "idJson": "d30215ed-92e8-429c-a682-1a8be3c5e232",
-            "nome": "Francisco Morato",
-            "numero": "54"
-          },
-          {
-            "id": "8fdc23f2-a6d7-4c3f-b10d-3545a74c410b",
-            "idJson": "fc969794-b0d8-4688-9997-ad644a4da55a",
-            "nome": "CONSOLAÇÃO 2",
-            "numero": "14"
-          }
-        ]
-      },
-      {
-        "id": "8d92d514-8ee3-11e6-970d-0401fa9c1b01",
-        "idJson": "3a9239c7-e8f3-4b8c-b9b1-09c5197ae796",
+        "id": "66b66a46-a1c4-11e6-970d-0401fa9c1b01",
+        "idJson": "66b6a0c4-a1c4-11e6-970d-0401fa9c1b01",
         "descricao": 1,
         "cidade": {
-          "idJson": "8d92dde5-8ee3-11e6-970d-0401fa9c1b01"
+          "idJson": "66b6941e-a1c4-11e6-970d-0401fa9c1b01"
         },
         "limites": [],
-        "subareas": [
-          {
-            "id": "6fbcf8d3-2d86-492a-ad7a-1292a27e565c",
-            "idJson": "71f2dfaf-54ad-413b-bf9f-a6b0f6ab5b7a",
-            "nome": "Consolação",
-            "numero": "1112"
-          },
-          {
-            "id": "baa931c0-47e7-4ac7-b257-3c6a0ff44cb6",
-            "idJson": "e93d92a4-c953-4822-823a-4f11829ff9f2",
-            "nome": "HIGIENOPOLIS",
-            "numero": "1111"
-          }
-        ]
-      },
-      {
-        "id": "3db52841-4c79-4c8b-92ec-b3d64c4d8e62",
-        "idJson": "5c012ad1-aafe-46fa-b12b-037e76d8f1e6",
-        "descricao": 2,
-        "cidade": {
-          "idJson": "8d92dde5-8ee3-11e6-970d-0401fa9c1b01"
-        },
-        "limites": [],
-        "subareas": [
-          {
-            "id": "c14b0886-bfa5-45f6-b92f-2048527b32a4",
-            "idJson": "8f69faf4-9175-425d-ac9e-fc3b1419886e",
-            "nome": "Pompeia",
-            "numero": "228"
-          }
-        ]
-      },
-      {
-        "id": "8486f761-aefa-4c73-a6c8-c965866d06d0",
-        "idJson": "afb12c64-d2a5-4af5-bb6b-ce692ce25bc4",
-        "descricao": 3,
-        "cidade": {
-          "idJson": "8d92dde5-8ee3-11e6-970d-0401fa9c1b01"
-        },
-        "limites": [],
-        "subareas": [
-          {
-            "id": "970c11cb-1489-40c6-a379-fd518774c579",
-            "idJson": "5c1dc0f8-04ef-449d-a242-445948ffb31c",
-            "nome": "TATUAPE",
-            "numero": "3"
-          }
-        ]
+        "subareas": []
       }
     ],
     "limites": [],
     "todosEnderecos": [
       {
-        "id": "80887422-0362-4a1f-848b-4fee83320998",
-        "idJson": "dbfcc505-982d-4d1a-86a1-d1316b18c846",
-        "localizacao": "R. Emília Marengo",
-        "latitude": -23.5541189,
-        "longitude": -46.560647700000004,
-        "localizacao2": "Rua Itapura"
-      },
-      {
-        "id": "058faa2f-1cbc-4678-8d22-9c64ba630d2c",
-        "idJson": "6f151dbe-4b8a-4eaf-a70a-63ea02e299af",
-        "localizacao": "R. Emília Marengo",
-        "latitude": -23.5541189,
-        "longitude": -46.560647700000004,
-        "localizacao2": "Rua Itapura"
-      },
-      {
-        "id": "01baadb9-2758-4bcb-a319-db2c116ba05e",
-        "idJson": "c568ebcc-4112-47b0-b6dd-3a1fd4a8a6ba",
-        "localizacao": "R. Emília Marengo",
-        "latitude": -23.5541189,
-        "longitude": -46.560647700000004,
-        "localizacao2": "Rua Itapura"
-      },
-      {
-        "id": "be300ffb-0b6c-407b-9007-f2e4bf59b54b",
-        "idJson": "2d5ed6fe-721e-4136-b682-a4d81e9c598b",
+        "id": "611337d8-00c8-4781-a61e-c611eb4897a5",
+        "idJson": "07ff47fa-558c-47e4-b604-5f0f190bebf7",
         "localizacao": "R. Emília Marengo",
         "latitude": -23.5541189,
         "longitude": -46.560647700000004,
         "localizacao2": "Rua Serra de Japi"
+      },
+      {
+        "id": "32e0fd89-bf06-433e-823e-feb993f7d9e8",
+        "idJson": "e48eec2a-0b7a-44bf-889e-1c28fbdc58ea",
+        "localizacao": "R. Emília Marengo",
+        "latitude": -23.5541189,
+        "longitude": -46.560647700000004,
+        "localizacao2": "Rua Itapura"
+      },
+      {
+        "id": "0be97b59-160c-43e6-aa14-748b995f121d",
+        "idJson": "8586d3ea-8a3b-4c51-b171-cda543eabd05",
+        "localizacao": "R. Emília Marengo",
+        "latitude": -23.5541189,
+        "longitude": -46.560647700000004,
+        "localizacao2": "Rua Itapura",
+        "referencia": "386"
+      },
+      {
+        "id": "822f0012-4958-42f5-a7dd-ff432a4af463",
+        "idJson": "3632c309-6fb8-4d81-b7da-0ecab452ba7c",
+        "localizacao": "R. Emília Marengo",
+        "latitude": -23.5541189,
+        "longitude": -46.560647700000004,
+        "localizacao2": "Rua Itapura",
+        "referencia": "386"
       }
     ],
     "imagens": [
       {
-        "id": "73fdefc0-372c-41af-814f-7a702d791941",
-        "idJson": "4dc0fbf6-6878-4a52-b644-258bdd89d9e5",
-        "fileName": "EMILIA MARENGO X ITAPURA CROQUI.bmp",
-        "contentType": "image/bmp"
-      },
-      {
-        "id": "8dc2fdb6-39ee-4b61-9737-4427ca6fd6d8",
-        "idJson": "6ce52c3e-2e5a-455e-966d-863b93e448df",
-        "fileName": "3342-A2-E2  ITAPURA X EMILIA MARENGO.JPG",
+        "id": "e6eb958b-e1c4-4909-99ee-1556c1b7bf0f",
+        "idJson": "4c2f780e-0ee4-43a8-9fb8-3741e16700b4",
+        "fileName": "2889ca15-b59a-40be-8490-9f802ea3e24d.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "cd2011ce-e6d7-44cd-b474-9fb243f8213b",
-        "idJson": "9ff36447-ddbd-49e4-9ca4-7afe404c6686",
-        "fileName": "3340 -A1-E1  EMILIA MARENGO X FCO MARENGO.jpg",
+        "id": "4dbc889b-db26-4e32-a373-feb57ee9c204",
+        "idJson": "608ee6c8-81dd-47fd-9834-f02181f7c243",
+        "fileName": "140483c6-71ca-4ba3-a238-d25b5ebaa107.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "a5e866bf-19b5-43df-b1ec-8edd681a2edd",
-        "idJson": "aeb254e3-7541-40f3-a71b-022a0bba211e",
-        "fileName": "3340 -A1-E2  FCO MARENGO X EMILIA MARENGO.jpg",
+        "id": "053a97e6-6278-4527-9e58-0261bcc1f767",
+        "idJson": "352f6715-db29-4b3e-9303-fd5dc123289b",
+        "fileName": "7c2c88b9-109b-4ea3-a04f-1d7313432c77.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "4a452395-ea7f-4955-b5bb-74f5fe8df83f",
-        "idJson": "023fc423-d200-4802-a10d-278bc8dbf250",
-        "fileName": "3340 -A1-E3  FCO MARENGO X EMILIA MAENGO.jpg",
+        "id": "594296d3-1b16-41f5-a20b-8eec148a5758",
+        "idJson": "4e1e4cde-2746-42e0-ad2f-d37aac3948d8",
+        "fileName": "2889ca15-b59a-40be-8490-9f802ea3e24d.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "aa7b1253-5bb5-4b32-9dce-55590c32c4f1",
-        "idJson": "24e23b1a-d05e-47cf-992b-14a3398a2bcb",
-        "fileName": "3342-A3-E2  SERRA JAPI SENTIDO CERET.JPG",
+        "id": "b0b62b84-ebe0-49f0-8553-6d7e3590307c",
+        "idJson": "db2e885f-d3f0-4afc-8f28-bf974df5fbac",
+        "fileName": "7c2c88b9-109b-4ea3-a04f-1d7313432c77.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "bbc615de-fff6-4129-9b15-d90566c142ca",
-        "idJson": "54b5b708-cb38-4bca-b57a-3b077c02598f",
-        "fileName": "3342-A3-E1  EMILIA MARENGO X SERRA JAPI.JPG",
+        "id": "b390281f-497b-4324-8927-38b807b64981",
+        "idJson": "cc73f6d9-1a14-4a9d-9b8b-7c8e07a17c94",
+        "fileName": "140483c6-71ca-4ba3-a238-d25b5ebaa107.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "27045ccb-4b4d-430e-936e-d56cf696c8b5",
-        "idJson": "3344355f-8f91-4228-9fb2-94bc07aeafc3",
-        "fileName": "EMILIA MARENGO X ITAPURA CROQUI.bmp",
-        "contentType": "image/bmp"
-      },
-      {
-        "id": "25127706-13ec-4842-bb83-b2659a3f4691",
-        "idJson": "8da07721-ffa6-47cc-847c-786337b4ab85",
-        "fileName": "EMILIA MARENGO X ITAPURA CROQUI.bmp",
-        "contentType": "image/bmp"
-      },
-      {
-        "id": "7a85e2dd-eb7e-4c71-a31d-7649f1e16e82",
-        "idJson": "ad3de68a-00f4-462b-a868-c491bbf43cca",
-        "fileName": "3342-A3-E2  SERRA JAPI SENTIDO RADIAL.JPG",
+        "id": "b1104ccd-f3ad-42c7-ac14-0d9ce9ff8a75",
+        "idJson": "a98e40d4-c307-430c-820a-f87fc725ccce",
+        "fileName": "2889ca15-b59a-40be-8490-9f802ea3e24d.jpg",
         "contentType": "image/jpeg"
       },
       {
-        "id": "8a136970-fa35-432f-8472-d3fbf9afb20a",
-        "idJson": "a52e186b-12d7-47c4-9710-f98f75209044",
-        "fileName": "3340 - ANEL 1 - EMILIA MARENGO X FCO MARENGO.bmp",
-        "contentType": "image/bmp"
-      },
-      {
-        "id": "ef8e3dba-8918-4dec-b270-4d1458ee4a8d",
-        "idJson": "9f32efcd-d832-4bdd-b9d1-1e39ad2a4f95",
-        "fileName": "3342-A2-E1  EMILIA MARENGO X ITAPURA.JPG",
+        "id": "a9b8a845-2862-4c4c-a001-a8612366463f",
+        "idJson": "7ab268a9-7b30-4851-b9a2-64c445fcb662",
+        "fileName": "7c2c88b9-109b-4ea3-a04f-1d7313432c77.jpg",
         "contentType": "image/jpeg"
       }
     ],
     "atrasosDeGrupo": [
       {
-        "id": "25dbf639-0e59-4678-8b36-2fe9f240f1f5",
-        "idJson": "8a593f50-efa3-4a20-9346-60aaf573aa85",
+        "id": "479610ae-1d35-44f9-9bf7-e53089a246ea",
+        "idJson": "5f8c5a62-d942-4cdc-b1f5-3e4b1a9cff3a",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "2f20c4c3-082e-448a-9c8d-a5ca0c5626b1",
-        "idJson": "e84c6301-421c-4dce-9a24-3710eb37bfb5",
+        "id": "59f87943-4d43-4e3a-8e80-fe53068dc603",
+        "idJson": "480d66b0-ee4e-461a-b80a-eac5258283d4",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "349ceff5-e91e-4f8d-9be2-c4374df43fcf",
-        "idJson": "f9193497-3f21-4b5f-9800-8950308bcfb2",
+        "id": "dfd1bc97-a6d7-4470-90ba-ea7840556b2a",
+        "idJson": "f22c031a-e324-47e6-9878-9fe1ebbc5a5a",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "bfa59917-732a-4414-8d64-07d015a3e956",
-        "idJson": "f996ba97-c667-45ec-89bd-e395aef39118",
+        "id": "b6d1adde-8128-471e-860e-18b7eb87d355",
+        "idJson": "71b02e0e-a945-46de-a8b4-93ee5bf3079f",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "8fe38987-9556-419c-ad10-9abb46008756",
-        "idJson": "21fa526d-96cc-4f99-977a-76343044cc85",
+        "id": "d6870361-4579-497c-ab5c-780706bdd7bc",
+        "idJson": "1b3323e3-3e81-4777-a60c-3b22854cb0fb",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "71b2a1a6-db17-40ad-87f3-5c8305357e23",
-        "idJson": "b31ed703-f63a-4c40-b966-32411c2d7560",
+        "id": "2b17ca73-c0a2-4c3a-8735-527eb1e18135",
+        "idJson": "e834089c-1d54-4ae1-b49f-be3a9fa41eb1",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "cbd7fab6-e8df-49fa-91dc-221e2288327b",
-        "idJson": "138ec3f8-bd9c-421b-9b3e-9b875bf69ac6",
+        "id": "899710b2-8df2-42c1-bc4e-2cf9fabfef29",
+        "idJson": "b1062658-2181-4dc1-b1d0-c1d008e2de6a",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "489cd818-5f4a-4e34-8dbc-4c28cdf77111",
-        "idJson": "e0d7b37b-6eeb-44a7-86ae-60b3807d7915",
+        "id": "28ea8e7b-3a52-4602-83c7-9aaa6a32b4e9",
+        "idJson": "f4f5da2c-a588-424e-8aaa-a61fa70c7ead",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "507d0833-8fd4-4afc-b51f-41275148c21a",
-        "idJson": "c691dddb-7411-47c1-94b0-72902d32e859",
+        "id": "0e100079-4d47-49ab-9b05-6255e6018864",
+        "idJson": "dbcc1e62-bb75-4b4c-9dc7-7baa7ed31758",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "1b86dca1-5cf6-4453-8bec-d2a89c885623",
-        "idJson": "3f6c4b43-9143-4fee-ae23-7a651aa969c7",
+        "id": "a61adc8f-14fc-467c-94ab-fb0a771c7261",
+        "idJson": "0138279b-e059-4e4c-8553-2a7d88ab267a",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "2ad2283d-80b4-4474-86ae-43b9566ad6bd",
-        "idJson": "469bbc28-f783-433f-a386-5dfbd8b51251",
+        "id": "36c0a402-cc29-4e22-95d1-07468d1446aa",
+        "idJson": "f3e860c9-303b-4d95-b59d-0e9b33c15a57",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "7b346908-bbc8-4d66-b6a6-1810baaaa037",
-        "idJson": "ae9fe6be-5e1e-4549-aef0-18cb42633c02",
+        "id": "0cef06cc-4043-454d-9039-fa636ab37f38",
+        "idJson": "7f3daf53-ccd2-46dc-bc9f-2a9daa9c61eb",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "fb3db793-4f06-44f7-add6-50f6c3d7ac82",
-        "idJson": "29555a67-c694-4a0d-8419-43477fc6c359",
+        "id": "b2756953-dfaf-41b8-abd6-b4e288c368a0",
+        "idJson": "c73e6ced-2cad-48f4-b91e-5adbc0e17fd9",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "99c94322-142b-434f-92df-c6172c7a7b65",
-        "idJson": "06f25a7f-10b5-4514-8531-a1f07d3c79f3",
+        "id": "d1979c3b-4e19-47af-a559-9b5d5cb13e30",
+        "idJson": "09723680-9b3c-4f6d-8610-692ce972fbc0",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "91337dac-9f22-43ba-87b1-ef487c61bf11",
-        "idJson": "4cc23558-e561-4dfb-ad06-a3e738fc6d8a",
+        "id": "c1196155-c75b-425e-abcf-5f045f20483a",
+        "idJson": "5926d6cc-7417-4e33-8e62-ff6381aa64f7",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "f18bc164-fde2-4ee9-9130-85c39684a941",
-        "idJson": "39cf3152-8535-4bc6-bf99-3817bb3573c1",
+        "id": "7197ad30-fd00-477c-b11a-db8ce57d8ba3",
+        "idJson": "1e405201-a291-468d-ad7f-9e6604b0ff60",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "e91411be-f5dc-47b8-aaee-30bbc4ea0993",
-        "idJson": "79a447ea-0cd9-4d53-b75e-edebc2045586",
+        "id": "5668d2de-1712-4699-8337-678a44b88132",
+        "idJson": "7260777e-9a06-4f60-9ce6-434022bc44e9",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "44218209-e8ed-4dca-9daa-ef9ad22b657b",
-        "idJson": "fe696de0-9329-462e-9d62-c14721f7fdc2",
-        "atrasoDeGrupo": 0
-      },
-      {
-        "id": "c5d9e8a9-cb81-4a38-9bb8-2cffcba389e3",
-        "idJson": "dae2fedc-3cda-4176-b810-cfef655d91eb",
+        "id": "03391f26-03d4-4093-8529-47dff8d46ac1",
+        "idJson": "928f8f62-11e2-4f9b-bc98-66ccddba3ac0",
         "atrasoDeGrupo": 5
       },
       {
-        "id": "6723a2b4-bf34-43eb-a8b9-6164926be565",
-        "idJson": "a33b7102-331b-4be7-84f2-d117a5d5ac91",
+        "id": "6ef4d7ec-447b-4d8e-8197-84ba7d61d571",
+        "idJson": "7da877cf-61b5-4ec1-9cca-850c6314b2fd",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "f9de1520-2d1f-46a8-bcb7-5289de875559",
-        "idJson": "bd0fbc56-d804-4d70-bca0-252aaeac488f",
+        "id": "ce48c9de-4633-4467-84da-46099c16f940",
+        "idJson": "ec0332a7-ef0a-41b1-9fa2-8450cadc7d13",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "14736550-d69c-4521-8e53-300c70cba2a6",
-        "idJson": "a6f38291-71a5-4da1-a875-65ae5bd49199",
+        "id": "aa681784-c173-467d-b5a6-996092e8e249",
+        "idJson": "a5515725-323a-4e73-9d79-8a698fce7aa6",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "095f4a3b-a608-4cfc-8a94-238810f50a1b",
-        "idJson": "1956fafd-a46f-45bb-a862-ed4f83b1a7f1",
+        "id": "e0467335-5aab-40c6-8fcd-0dd58afddb5e",
+        "idJson": "750e3a9b-b063-4d51-9f8c-41711a8eee23",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "da82930b-1368-43da-8628-41ece1e01f1a",
-        "idJson": "d8b4e8f7-5f6b-4394-b153-ae74af3de5f3",
+        "id": "3601e2db-a629-41fc-b5ea-953fa37c497d",
+        "idJson": "b41d4cba-7575-4750-b397-f983567c0780",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "4f5e89f6-3a95-4f2c-8a0c-c47e6699256e",
-        "idJson": "8e21abad-157d-4e89-ad00-d430c87b1f58",
+        "id": "cc052067-e082-46e0-8901-bf55ee81b2c9",
+        "idJson": "04763187-feb5-4896-8344-2b5e5ae3469c",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "d416295a-b833-4e53-bb76-a6316211168d",
-        "idJson": "4c81ebc7-b708-4ecb-a2fc-c5f387b8a23e",
+        "id": "a666ec4a-e5d5-4337-9703-77a2344887ec",
+        "idJson": "7d813db2-cf8b-470e-9225-c14d42147725",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "81c34d45-c027-4637-a117-e477150d1f78",
-        "idJson": "45c5e895-0a35-4724-beea-8d9d874772f1",
+        "id": "58d7974b-3b41-47d1-ae8c-6bb9dfac6060",
+        "idJson": "899db721-6b35-4a5a-a99e-87cf7f4eaffb",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "1d708e5d-acd1-4ccb-ac3a-ab135d45ec66",
-        "idJson": "f694e0a4-e2a4-4e76-8dec-c553468c069f",
+        "id": "5e01fe46-4722-413d-9c40-6e5c806d9263",
+        "idJson": "41cd846b-6044-4472-a312-e2d90da2e4f8",
         "atrasoDeGrupo": 0
       },
       {
-        "id": "088ce7a5-58cc-48e3-a05a-a0540e70c1bd",
-        "idJson": "d95cfd03-b425-40c7-87e3-86b6eb04fc75",
-        "atrasoDeGrupo": 0
-      },
-      {
-        "id": "ace0abb7-e9af-4b3e-a59b-de6518d03be4",
-        "idJson": "b24492db-a537-441a-8a70-42496f22fcd2",
-        "atrasoDeGrupo": 0
-      },
-      {
-        "id": "7111eb1a-050a-449e-8139-b09b2f0b0831",
-        "idJson": "dfe22096-51f6-43b1-a07c-484f2d260774",
-        "atrasoDeGrupo": 0
-      },
-      {
-        "id": "dcba0e2d-11e8-481b-828e-1d25ff663e0f",
-        "idJson": "ee4d4f1e-7c3c-467c-b4f2-b4faac55ba11",
+        "id": "226f8b85-54b6-4570-abb7-4705aae51aeb",
+        "idJson": "8dbbc26d-f123-4d7a-8071-537a1004b275",
         "atrasoDeGrupo": 0
       }
     ],
-    "statusVersao": "EDITANDO",
+    "statusVersao": "EM_CONFIGURACAO",
     "versaoControlador": {
-      "id": "96dbea4d-746c-4f50-93d9-94d6e10082bc",
+      "id": "b9e57d30-016d-4e55-9bef-1864d0433966",
       "idJson": null,
-      "descricao": "Controlador criado pelo usuário: Administrador Geral",
+      "descricao": "Controlador criado pelo usuário: paulo",
       "usuario": {
-        "id": "8d930297-8ee3-11e6-970d-0401fa9c1b01",
-        "nome": "Administrador Geral",
-        "login": "root",
-        "email": "root@influunt.com.br",
+        "id": "d348b85a-ceb0-49a9-9dcb-d54126db8bae",
+        "nome": "paulo",
+        "login": "paulo",
+        "email": "paulo@rarolabs.com.br",
         "area": {
-          "idJson": "afb12c64-d2a5-4af5-bb6b-ce692ce25bc4"
+          "idJson": "66b6a0c4-a1c4-11e6-970d-0401fa9c1b01"
         }
       }
     },
     "versoesPlanos": [
       {
-        "id": "4a6f5ec9-b795-453b-830f-8bc9b5c98350",
-        "idJson": "c2aff556-c252-4e9d-a03c-637d3a2d0ed5",
+        "id": "e71fb42c-6c4d-4d29-b0f5-27a98274bf0a",
+        "idJson": "d3ea90e7-ceda-4100-bf9a-e845a0e2af38",
         "statusVersao": "EDITANDO",
         "anel": {
-          "idJson": "d9c67923-8710-4fb5-866a-38c028ee86a4"
+          "idJson": "e7457fca-897e-4bd9-a380-050c4c6c58b8"
         },
         "planos": [
           {
-            "idJson": "163f67f0-cfd8-48f2-94af-c7f59940dc55"
+            "idJson": "acbdfff1-2d2f-4582-bed3-639513470da9"
           },
           {
-            "idJson": "2914de80-2f0c-4fda-9d38-e126a253fa76"
-          },
-          {
-            "idJson": "294c9a8e-57a0-4a1f-8e49-d4a1b4015fc6"
-          },
-          {
-            "idJson": "8ad00916-355c-4fc5-bdec-4c2cb2187e27"
-          },
-          {
-            "idJson": "3839e784-5006-45e3-8742-b06b6801e153"
-          },
-          {
-            "idJson": "7d56b43d-09c6-4dad-a16c-c333a8f716da"
+            "idJson": "9d937706-5b1a-4007-b9e4-a530c13b1409"
           }
         ]
       },
       {
-        "id": "bb331ce4-f686-45f6-be36-e88c570a39ae",
-        "idJson": "9df20e92-0b20-42d5-93d6-297cd4289319",
+        "id": "74f1eac9-4eeb-4ecc-9611-87eabaee5b1f",
+        "idJson": "ac4757a0-87bc-4b3b-a391-1e3ca8f9571b",
         "statusVersao": "EDITANDO",
         "anel": {
-          "idJson": "078e9420-b13b-48ba-beeb-95ba45d9d8d3"
+          "idJson": "f30c1621-ec51-47ed-bff1-a9758512d865"
         },
         "planos": [
           {
-            "idJson": "2cc8025b-debb-4694-b459-297b59f9fd21"
+            "idJson": "10d40af6-212e-4dc4-879a-81575f16e11f"
           },
           {
-            "idJson": "15a9c3e1-fe1d-4ea8-a6d1-2d3aff4ed177"
-          },
-          {
-            "idJson": "9c3ae287-1e26-4688-9489-870757c48936"
-          },
-          {
-            "idJson": "906ba906-527f-44ce-8da2-6cbab108b4ee"
-          },
-          {
-            "idJson": "abe96d47-fa89-4b12-a674-ee26741d861a"
-          },
-          {
-            "idJson": "d666dabb-03a6-4e66-9818-9c198f6f669e"
+            "idJson": "a867bcce-2e4a-44fc-b88d-5a9579b74857"
           }
         ]
       },
       {
-        "id": "2855c8f4-f4f2-4918-be50-4250d8b328b8",
-        "idJson": "fb186624-2c73-49f9-8d7c-3fc9d3b7de63",
+        "id": "de914912-1dbb-4f86-adb9-3cee6bb53282",
+        "idJson": "67f12a26-3839-4c80-a712-778a7f76bde6",
         "statusVersao": "EDITANDO",
         "anel": {
-          "idJson": "cd610cd4-f2cf-4079-93a2-fad92a85f493"
+          "idJson": "ea5465fe-c93b-464b-8c96-d47e2036a3d1"
         },
         "planos": [
           {
-            "idJson": "986222a1-e6e9-40bf-b79e-1f7aeb88c5ce"
+            "idJson": "24510147-ba9f-4a61-815d-63565ffca56f"
           },
           {
-            "idJson": "8ea9bc20-9313-4113-a0b7-51e16df68eb4"
-          },
-          {
-            "idJson": "aa614e64-a228-428c-93d9-f586fcdfb68a"
-          },
-          {
-            "idJson": "b962be0a-3b23-4efa-aef0-c19e461d8859"
-          },
-          {
-            "idJson": "abdaffeb-10e7-4134-8584-2b017c0ca408"
-          },
-          {
-            "idJson": "7669c3e5-b086-4c41-bd5c-cdcb19a13147"
+            "idJson": "29ba9ea9-d15c-46a5-b017-f507bf9c216d"
           }
         ]
       }
     ],
     "tabelasHorarias": [
       {
-        "id": "880586c3-32a1-4dcd-8c08-1270168eaafb",
-        "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5",
+        "id": "42109f1d-6f45-4b71-afc4-db55c27c48ba",
+        "idJson": "77987356-2f13-4ac4-bed2-c0aecf7d6706",
         "versaoTabelaHoraria": {
-          "idJson": "ea98e9cd-c024-417b-a2ea-18e1cfedf277"
+          "idJson": "a2d145ab-cf3d-4c63-839a-49beeb9e962e"
         },
         "eventos": [
           {
-            "idJson": "7be53fc4-09c7-40b1-8a67-f08d6a4bce00"
-          },
-          {
-            "idJson": "8868c6d1-4202-4524-999d-929b36c2635c"
-          },
-          {
-            "idJson": "d27accef-56dd-46f5-aca4-8737cd10f56d"
-          },
-          {
-            "idJson": "947c80d5-e0a7-47a4-a329-4596b74265cd"
-          },
-          {
-            "idJson": "92822d44-5459-4cd0-a7a3-b74c5d5ada4b"
+            "idJson": "1b9a5f47-cd6e-4c3d-b851-91075a5fcc18"
           }
         ]
       }
     ],
     "eventos": [
       {
-        "id": "5c46e658-9aa4-4e48-98d9-9bd435a63fb5",
-        "idJson": "d27accef-56dd-46f5-aca4-8737cd10f56d",
-        "posicao": "2",
-        "tipo": "NORMAL",
-        "diaDaSemana": "Segunda à Sábado",
-        "data": "27-10-2016",
-        "horario": "10:00:00.000",
-        "posicaoPlano": "2",
-        "tabelaHoraria": {
-          "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5"
-        }
-      },
-      {
-        "id": "19db6a4f-262e-48dd-9638-f82d1621a78d",
-        "idJson": "7be53fc4-09c7-40b1-8a67-f08d6a4bce00",
-        "posicao": "4",
-        "tipo": "NORMAL",
-        "diaDaSemana": "Segunda à Sexta",
-        "data": "27-10-2016",
-        "horario": "18:00:00.000",
-        "posicaoPlano": "5",
-        "tabelaHoraria": {
-          "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5"
-        }
-      },
-      {
-        "id": "bef29ba9-38d2-4b70-8317-bb514d2ef74c",
-        "idJson": "92822d44-5459-4cd0-a7a3-b74c5d5ada4b",
-        "posicao": "5",
-        "tipo": "NORMAL",
-        "diaDaSemana": "Todos os dias da semana",
-        "data": "27-10-2016",
-        "horario": "20:00:00.000",
-        "posicaoPlano": "6",
-        "tabelaHoraria": {
-          "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5"
-        }
-      },
-      {
-        "id": "57a53da2-205c-4382-ac91-eaf5a070446b",
-        "idJson": "8868c6d1-4202-4524-999d-929b36c2635c",
+        "id": "40496bfc-5621-4c92-ab5a-fa1fc1920240",
+        "idJson": "1b9a5f47-cd6e-4c3d-b851-91075a5fcc18",
         "posicao": "1",
         "tipo": "NORMAL",
         "diaDaSemana": "Todos os dias da semana",
-        "data": "08-04-0026",
-        "horario": "06:00:00.000",
+        "data": "07-11-2016",
+        "horario": "00:00:00.000",
         "posicaoPlano": "1",
         "tabelaHoraria": {
-          "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5"
-        }
-      },
-      {
-        "id": "5d0db162-901f-44be-864e-8ea45acacfae",
-        "idJson": "947c80d5-e0a7-47a4-a329-4596b74265cd",
-        "posicao": "3",
-        "tipo": "NORMAL",
-        "diaDaSemana": "Segunda à Sexta",
-        "data": "27-10-2016",
-        "horario": "16:00:00.000",
-        "posicaoPlano": "4",
-        "tabelaHoraria": {
-          "idJson": "799b4f9f-4e83-4261-be45-0dc5600274c5"
+          "idJson": "77987356-2f13-4ac4-bed2-c0aecf7d6706"
         }
       }
     ]
