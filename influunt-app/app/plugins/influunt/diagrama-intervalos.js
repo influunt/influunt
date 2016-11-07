@@ -173,7 +173,7 @@ var influunt;
         };
 
         var houveConflito = true;
-        for (i = 0; i < estagios.length && houveConflito; i++) {
+        for (i = 0; i <= estagios.length && houveConflito; i++) {
           houveConflito = atrasoDeGrupoAutomatico();
         }
 
@@ -185,6 +185,13 @@ var influunt;
             }
           }
         }
+
+        diagrama = _.map(diagrama, function(grupo) {
+          for (var i = tempoCiclo; i < self.plano.tempoCiclo; i++) {
+            grupo[i] = INDEFINIDO;
+          }
+          return grupo;
+        });
 
         if (houveConflito) {
           return {erros: ['Existem conflitos de verdes que não podem ser resolvidos automaticamente.']};

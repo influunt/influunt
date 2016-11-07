@@ -1335,7 +1335,7 @@
         });
       });
 
-      describe('Atraso automático em G4-G5', function () {
+      describe('Atraso automático em G4-G5 múltiplas passadas', function () {
         beforeEach(function() {
           var ids = _.map(plano.estagiosPlanos, 'idJson');
           var estagiosPlanos = controlador.estagiosPlanos.filter(function(ep) { return ids.indexOf(ep.idJson) >= 0; });
@@ -1443,6 +1443,43 @@
           expect(resposta.gruposSemaforicos[4].intervalos[2].status).toBe(2);
           expect(resposta.gruposSemaforicos[4].intervalos[3].status).toBe(6);
           expect(resposta.gruposSemaforicos[4].intervalos[4].status).toBe(3);
+        });
+      });
+
+      describe('Atraso automático em G4-G5 com conflito', function () {
+        beforeEach(function() {
+          controlador = ControladorAtrasoGrupoAutomaticoComConflito.get();
+          anel = _.find(controlador.aneis, {posicao: 1});
+          plano = _
+            .chain(anel.planos)
+            .map(function(p) { return _.find(controlador.planos, {idJson: p.idJson}); })
+            .find({posicao: 1})
+            .value();
+
+          grupos = _
+            .chain(anel.gruposSemaforicos)
+            .map(function(g) { return _.find(controlador.gruposSemaforicos, {idJson: g.idJson}); })
+            .orderBy('posicao')
+            .value();
+
+          valoresMinimos = {
+            verdeMin: controlador.verdeMin,
+            verdeMinimoMin: controlador.verdeMinimoMin
+          };
+
+          var planoDiagrama = geraDadosDiagramaIntervalo.gerar(plano, anel, grupos, controlador);
+          var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(planoDiagrama, valoresMinimos);
+          resposta = diagramaIntervaloBuilder.calcula();
+        });
+
+        it('Deve indincar erro de conflito no plano', function() {
+          expect(resposta.erros.length).toBe(1);
+          expect(resposta.erros[0]).toBe('Existem conflitos de verdes que não podem ser resolvidos automaticamente.');
+        });
+
+        it('Não deve possuir grupos semafóricos nem estágios', function() {
+          expect(resposta.gruposSemaforicos).not.toBeDefined();
+          expect(resposta.estagios).not.toBeDefined();
         });
       });
     });

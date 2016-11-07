@@ -5,7 +5,7 @@
  *
  * @type       {<type>}
  */
-var ControladorAtrasoGrupoAutomatico = {
+var ControladorAtrasoGrupoAutomaticoComConflito = {
   obj: {
     "id": "977d85e8-1c7a-45cc-807e-a51bcdbbe7f8",
     "versoesTabelasHorarias": [],
