@@ -18,6 +18,10 @@ angular.module('influuntApp')
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
           .then(function(res) {
+            if (res.length === 0) {
+              return false;
+            }
+
             $scope.listaControladores = res;
             return Restangular.all('areas').customGET(null, {'cidade.id': $scope.listaControladores[0].cidade.id});
           })

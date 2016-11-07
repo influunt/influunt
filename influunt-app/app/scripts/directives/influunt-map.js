@@ -7,7 +7,7 @@
  * # influuntMap
  */
 angular.module('influuntApp')
-  .directive('influuntMap', [function() {
+  .directive('influuntMap', ['MAP', function(MAP) {
     return {
       restrict: 'A',
       scope: {
@@ -20,7 +20,6 @@ angular.module('influuntApp')
       link: function(scope, element) {
         L.Icon.Default.imagePath = 'images/leaflet';
 
-        var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
         var DEFAULT_MARKER_OPTINS = {draggable: true};
         var DEFAULT_MAP_OPTIONS = {scrollWheelZoom: false};
@@ -28,10 +27,11 @@ angular.module('influuntApp')
         var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
         var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
         var HULL_CONCAVITY = 0.0013;
+        var DISTANCE_BETWEEN_POINTS = 300;
 
         // private methods.
         var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
-            getAreaTitle, getBoundingBox, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
+            getAreaTitle, getBoundingBox, getMiddlePoints, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
             renderMarkers, setView, setViewForArea;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
@@ -41,10 +41,11 @@ angular.module('influuntApp')
           }
 
           var options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), scope.options);
-
           map = L.map(element[0], options);
           map.setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
-          L.tileLayer(TILE_LAYER, {maxZoom: 20, id: 'mapbox.streets'}).addTo(map);
+
+          var tileLayer = new L.tileLayer.wms(MAP.url, MAP.options);
+          tileLayer.addTo(map);
         };
 
         createMarker = function(obj) {
@@ -117,8 +118,10 @@ angular.module('influuntApp')
             className: 'influunt-agrupamento'
           };
 
+          debugger
           options = _.merge(options, obj.options);
-          var points = getBoundingBox(obj.points);
+          var points = getMiddlePoints(obj.points)
+          points = getBoundingBox(points);
           points = getHullPoints(points);
           var agrupamento = L.polygon(points, options);
 
@@ -182,13 +185,33 @@ angular.module('influuntApp')
           return hull(points, hullConcavity, ['.lat', '.lng']);
         };
 
+        /**
+         * Cria pontos entre os pontos originais do agrupamento. O objetivo deste método é garantir que o contorno dos
+         * agrupamentos fique sempre na mesma espessura, inclusive em espaços onde não há pontos desenhados.
+         *
+         * @param      {<type>}  points  The points
+         */
+        getMiddlePoints = function(points) {
+          points = _.orderBy(points, ['latitude', 'longitude']);
+          var middlePoints = [];
+          for (var i = 0; i < points.length - 1; i++) {
+            var lat1 = new L.LatLng(points[i].latitude, points[i].longitude);
+            var lat2 = new L.LatLng(points[i + 1].latitude, points[i + 1].longitude);
+            middlePoints = _.concat(middlePoints, L.LatLng.getPointsBetween(lat1, lat2, DISTANCE_BETWEEN_POINTS));
+            middlePoints.push(lat1);
+            middlePoints.push(lat2);
+          }
+
+          return middlePoints;
+        };
+
         getBoundingBox = function(points) {
           var boxedPoints = [];
           _.each(points, function(point) {
-            var thisPoint = new L.LatLng(point.latitude, point.longitude);
-            boxedPoints.push(thisPoint);
+            // var point = new L.LatLng(point.latitude, point.longitude);
+            boxedPoints.push(point);
             for (var i = 0; i < 360; i += BOUNDING_BOX_VARIATION) {
-              boxedPoints.push(thisPoint.destinationPoint(i, BOUNDING_BOX_SIZE));
+              boxedPoints.push(point.destinationPoint(i, BOUNDING_BOX_SIZE));
             }
           });
 
@@ -215,7 +238,6 @@ angular.module('influuntApp')
 
           map.addLayer(polylineLayer);
         };
-
 
         var markersTimeout, areasTimeout, agrupamentosTimeout;
         renderMarkers = function(markers) {

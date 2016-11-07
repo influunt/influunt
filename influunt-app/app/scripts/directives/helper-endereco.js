@@ -9,7 +9,7 @@
 angular.module('influuntApp')
   .directive('helperEndereco', function () {
     return {
-      template: '<input type="text" autocomplete="off" placeholder="{{\'controladores.endereco\' | translate }}" class="form-control" data-ng-model="result" g-places-autocomplete>',
+      template: '<input type="text" autocomplete="off" placeholder="{{\'controladores.endereco\' | translate }}" class="form-control" data-ng-model="result" options="mapOptions" g-places-autocomplete>',
       restrict: 'E',
       scope: {
         latitude: '=',
@@ -18,6 +18,14 @@ angular.module('influuntApp')
         ngModel: '='
       },
       link: function postLink(scope) {
+
+        scope.mapOptions = {
+          componentRestrictions: {
+            country: ['br'],
+            // administrativeArea: ['São Paulo'],
+          }
+        };
+
         var updateGeometryData = function(value) {
           if (value.geometry && value.geometry.location) {
             scope.latitude = value.geometry.location.lat();
