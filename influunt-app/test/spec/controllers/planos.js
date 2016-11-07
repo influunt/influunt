@@ -81,7 +81,6 @@ describe('Controller: PlanosCtrl', function () {
     });
     
     it('Se o plano 2 estiver selecionado, ao trocar de anel o mesmo numero deve continuar selecionado e ser ativo', function() {
-      var aneis = _.filter(scope.objeto.aneis, 'ativo');
       var planoAnel1 = _.cloneDeep(scope.currentPlano);
       scope.selecionaAnelPlanos(1);
       var planoAnel2 = _.cloneDeep(scope.currentPlano);
