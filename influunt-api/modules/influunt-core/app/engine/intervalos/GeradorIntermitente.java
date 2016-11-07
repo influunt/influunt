@@ -36,7 +36,12 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
         this.intervalos = TreeRangeMap.create();
         if (isModoAnteriorVerde(modoAnterior) && entreverde != null && entreverde.getValue().isEntreverde()) {
             final IntervaloEstagio intervalo = entreverde.getValue();
-            final Estagio estagio = intervalo.getEstagioPlanoAnterior().getEstagio();
+            final Estagio estagio;
+            if (intervalo.getEstagioPlanoAnterior().getEstagio().getId() != null) {
+                estagio = intervalo.getEstagioPlanoAnterior().getEstagio();
+            } else {
+                estagio = intervalo.getEstagio();
+            }
 
             long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagio.getPosicao(), null)) + 3000L;
 
@@ -48,7 +53,7 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
 
             this.intervalos.put(Range.closedOpen(tempoEntreVerde, 255000L),
                     new IntervaloEstagio(255000L - tempoEntreVerde, false,
-                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), intervalo.getEstagioPlanoAnterior()));
+                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), this.estagioPlanoAtual));
         } else {
             this.intervalos.put(Range.closedOpen(0L, 255000L),
                     new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(UUID.randomUUID().toString()), null));

@@ -102,6 +102,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (contadorEstagio == listaEstagioPlanos.size()) {
                 atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
                 contadorEstagio = 0;
+                verificaEAjustaIntermitenteCasoDemandaPrioritaria();
                 geraIntervalos(0);
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
@@ -114,6 +115,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo = this.intervalos.get(contadorIntervalo);
         }
         return intervalo;
+    }
+
+    private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
+        if(!this.plano.isModoOperacaoVerde() &&
+            estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
+            this.modoAnterior = ModoOperacaoPlano.TEMPO_FIXO_ISOLADO;
+        }
     }
 
     private void verificaETrocaEstagio(IntervaloEstagio intervalo) {
