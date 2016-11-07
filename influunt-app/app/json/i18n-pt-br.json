@@ -73,9 +73,9 @@
       "imporPlano": "Impor Plano",
       "trocarTabela": "Trocar tabela horária",
       "enviarPlano": "Enviar plano",
-      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o plano {PLANO} para o anel da {ANEL}?",
+      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o {PLANO} para o anel da {ANEL}?",
       "descrevaEnvioPlano": "Descreva aqui as circunstâncias para o envio deste plano",
-      "sucessoEnvioPlano": "Plano {PLANO} enviado com sucesso ao anel {ANEL}",
+      "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "enviarTabela": "Enviar tabela horária",
       "imposicaoPlano": {
         "mensagem": "Selecione abaixo um plano para ser imposto"
