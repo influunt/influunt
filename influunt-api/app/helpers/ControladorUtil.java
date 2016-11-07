@@ -454,7 +454,7 @@ public class ControladorUtil {
     }
 
 
-    public <T> T copyPrimitiveFields(T obj) {
+    private <T> T copyPrimitiveFields(T obj) {
         try {
             T clone = (T) obj.getClass().newInstance();
             for (Field field : obj.getClass().getDeclaredFields()) {

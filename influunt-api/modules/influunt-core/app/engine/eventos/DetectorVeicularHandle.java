@@ -56,7 +56,7 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
             EstagioPlano estagioPlano = new EstagioPlano();
             estagioPlano.setEstagio(estagio);
             estagioPlano.setTempoVerde(estagio.getTempoVerdeDemandaPrioritaria());
-            if (plano.isModoOperacaoVerde()){
+            if (plano.isModoOperacaoVerde()) {
                 estagioPlano.setPlano(plano);
                 listaEstagioPlanos.add(listaEstagioPlanos.indexOf(estagioPlanoAtual) + 1, estagioPlano);
             } else {

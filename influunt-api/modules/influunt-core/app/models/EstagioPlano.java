@@ -265,7 +265,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo máximo de permanência.")
     public boolean isUltrapassaTempoMaximoPermanencia() {
-        if (getEstagio().getTempoMaximoPermanenciaAtivado()) {
+        if (getEstagio().isTempoMaximoPermanenciaAtivado()) {
             RangeUtils rangeUtils = RangeUtils.getInstance();
             if (getPlano().isAtuado() && rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
                 return getTempoVerdeMaximo() <= getEstagio().getTempoMaximoPermanencia();
@@ -368,12 +368,12 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoVerdeEstagio() {
-        if (this.getPlano().isAtuado() && this.getTempoVerdeMinimo() != null) {
-            return this.getTempoVerdeMinimo();
-        } else if (this.getPlano().isManual()) {
-            return this.getEstagio().getTempoMaximoPermanencia() + 1;
+        if (getPlano().isAtuado() && getTempoVerdeMinimo() != null) {
+            return getTempoVerdeMinimo();
+        } else if (getPlano().isManual() && !getEstagio().isDemandaPrioritaria()) {
+            return getEstagio().getTempoMaximoPermanencia() + 1;
         }
-        return this.getTempoVerde();
+        return getTempoVerde();
     }
 
     public Integer getDuracaoEstagio() {

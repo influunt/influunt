@@ -64,6 +64,7 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
 
     private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio) {
         Estagio estagio = new Estagio();
+        estagio.setTempoMaximoPermanenciaAtivado(false);
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setIdJson(idJsonNovoEstagio);
         estagioPlano.setPlano(plano);

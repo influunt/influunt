@@ -3,10 +3,9 @@ package engine.eventos;
 import engine.AgendamentoTrocaPlano;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
+import engine.services.PlanoService;
 import models.Anel;
-import models.ModoOperacaoPlano;
 import models.Plano;
-import services.PlanoService;
 
 /**
  * Created by leonardo on 11/7/16.

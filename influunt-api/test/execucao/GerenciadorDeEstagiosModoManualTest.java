@@ -110,6 +110,10 @@ public class GerenciadorDeEstagiosModoManualTest extends WithInfluuntApplication
         trocarEstagioModoManual();
         avancar(gerenciadorDeEstagios, 55);
         trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 20);
+        trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 20);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 200);
 
         imprimirListaEstagios(listaEstagios);
@@ -121,8 +125,12 @@ public class GerenciadorDeEstagiosModoManualTest extends WithInfluuntApplication
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(100)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(117)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(156)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(160)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(176)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(193)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(211)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(250)).getEstagio().getPosicao().intValue());
     }
+
 
     private void acionarModoManual() {
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_MODO_MANUAL));

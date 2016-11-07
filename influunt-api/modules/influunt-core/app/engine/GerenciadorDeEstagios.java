@@ -143,9 +143,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void verificaTempoMaximoDePermanenciaDoEstagio() {
         Estagio estagio = estagioPlanoAtual.getEstagio();
-        if (estagio.getTempoMaximoPermanenciaAtivado()) {
+        if (estagio.isTempoMaximoPermanenciaAtivado()) {
             long tempoMaximoEstagio = estagio.getTempoMaximoPermanencia() * 1000L;
-            tempoMaximoEstagio += intervaloGrupoSemaforicoAtual.getIntervaloEntreverde().getDuracao();
+            if (intervaloGrupoSemaforicoAtual != null && intervaloGrupoSemaforicoAtual.getIntervaloEntreverde() != null) {
+                tempoMaximoEstagio += intervaloGrupoSemaforicoAtual.getIntervaloEntreverde().getDuracao();
+            }
             if (contadorIntervalo >= tempoMaximoEstagio) {
                 if (plano.isManual()) {
                     this.agendamento.setMomentoOriginal(DateTime.now());
