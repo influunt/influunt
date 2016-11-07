@@ -67,6 +67,31 @@ describe('Controller: PlanosCtrl', function () {
     });
   });
 
+  describe('init - controlador mínimo', function () {
+    beforeEach(function() { 
+      beforeEachFn(ControladorComVariosAneis); 
+    });
+    it('O plano 1 deve estar ativo e ser coordenado', function() {
+      var aneis = _.filter(scope.objeto.aneis, 'ativo');
+      aneis.forEach(function(anel) {
+        var plano = _.find(scope.objeto.planos, {anel: {idJson: anel.idJson}, posicao: 1});
+        expect(plano.configurado).toBeTruthy();
+        expect(plano.modoOperacao).toBe('TEMPO_FIXO_COORDENADO');
+      });
+    });
+    
+    it('Se o plano 2 estiver selecionado, ao trocar de anel o mesmo numero deve continuar selecionado e ser ativo', function() {
+      var planoAnel1 = _.cloneDeep(scope.currentPlano);
+      scope.selecionaAnelPlanos(1);
+      var planoAnel2 = _.cloneDeep(scope.currentPlano);
+      expect(planoAnel1.configurado).toBeTruthy();
+      expect(planoAnel1.posicao).toBe(1);
+      
+      expect(planoAnel2.configurado).toBeTruthy();
+      expect(planoAnel2.posicao).toBe(1);
+    });
+  });
+
   describe('init - controlador com planos cadastrados', function () {
     beforeEach(function() { beforeEachFn(ControladorComPlanos); });
 

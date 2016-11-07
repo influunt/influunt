@@ -286,6 +286,7 @@ angular.module('influuntApp')
         }
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
+        $scope.currentPlano.configurado = true;
       };
 
       $scope.selecionaPlano = function(plano, index) {

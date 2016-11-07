@@ -30,7 +30,7 @@ describe('Service: planoService', function () {
       expect(plano.anel).toEqual({idJson: anel.idJson});
       expect(plano.descricao).toBe('PLANO 1');
       expect(plano.posicao).toBe(1);
-      expect(plano.modoOperacao).toBe('TEMPO_FIXO_ISOLADO');
+      expect(plano.modoOperacao).toBe('TEMPO_FIXO_COORDENADO');
       expect(plano.posicaoTabelaEntreVerde).toBe(1);
       expect(plano.tempoCiclo).toBe(controlador.cicloMin);
       expect(plano.versaoPlano).toEqual({idJson: anel.versaoPlano.idJson});

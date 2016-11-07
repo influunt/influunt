@@ -51,7 +51,7 @@ angular.module('influuntApp')
 
       criarPlano = function(controlador, anel, posicao, descricao, modoOperacao) {
         descricao = descricao || 'PLANO ' + posicao ;
-        modoOperacao = modoOperacao || 'TEMPO_FIXO_ISOLADO';
+        modoOperacao = modoOperacao || 'TEMPO_FIXO_COORDENADO';
         var plano = {
           idJson: UUID.generate(),
           anel: { idJson: anel.idJson },
@@ -332,7 +332,6 @@ angular.module('influuntApp')
         adicionar: adicionar,
         verdeMinimoDoEstagio: verdeMinimoDoEstagio,
         criarPlanoManualExclusivo: criarPlanoManualExclusivo,
-
         atualizaPlanos: atualizaPlanos,
         atualizaGruposSemaforicos: atualizaGruposSemaforicos,
         atualizaEstagios: atualizaEstagios,
