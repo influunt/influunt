@@ -50,21 +50,7 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
     }
 
     private void reduzirTempoEstagioAtual(EstagioPlano estagioPlanoAnterior) {
-        final long contador;
-        Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
-        IntervaloEstagio intervalo = range.getValue();
-        if (intervalo.isEntreverde()) {
-            range = this.intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-            intervalo = range.getValue();
-            contador = 0L;
-        } else {
-            contador = contadorIntervalo - range.getKey().lowerEndpoint();
-        }
-        long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
-        intervalo.setDuracao(duracao);
-        this.intervalos.remove(range.getKey());
-        final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
-        this.intervalos.put(novoRange, intervalo);
+        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
     }
 
     private void adicionaEstagioDemandaPrioritaria(Estagio estagio) {
