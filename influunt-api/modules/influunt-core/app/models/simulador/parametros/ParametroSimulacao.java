@@ -10,6 +10,7 @@ import models.Detector;
 import models.simulador.SimulacaoConfig;
 import org.joda.time.DateTime;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +44,17 @@ public class ParametroSimulacao {
     @NotNull(message = "não pode ficar em branco")
     private DateTime fimSimulacao;
 
+    @Valid
     private List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
 
+    @Valid
     private List<ParametroSimulacaoImposicaoPlano> imposicoes = new ArrayList<>();
 
+    @Valid
     private List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
+
+    @Valid
+    private List<ParametroSimulacaoAlarme> alarmes = new ArrayList<>();
 
     private UUID idControlador;
 
@@ -127,6 +134,14 @@ public class ParametroSimulacao {
 
     public void setFalhas(List<ParametroSimulacaoFalha> falhas) {
         this.falhas = falhas;
+    }
+
+    public List<ParametroSimulacaoAlarme> getAlarmes() {
+        return alarmes;
+    }
+
+    public void setAlarmes(List<ParametroSimulacaoAlarme> alarmes) {
+        this.alarmes = alarmes;
     }
 
     public UUID getIdControlador() {

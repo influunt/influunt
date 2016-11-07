@@ -10,15 +10,20 @@ import models.Detector;
 import models.TipoDetector;
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.NotNull;
+
 
 /**
  * Created by rodrigosol on 10/4/16.
  */
 @JsonDeserialize(using = ParametroSimulacaoDetectorDeserializer.class)
 public class ParametroSimulacaoDetector {
+
+    @NotNull(message = "não pode ficar em branco")
     private Detector detector;
 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime disparo;
 
     public Detector getDetector() {

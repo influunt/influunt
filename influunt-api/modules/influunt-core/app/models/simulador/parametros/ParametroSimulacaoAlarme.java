@@ -4,31 +4,33 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.EventoMotor;
 import engine.TipoEvento;
-import json.deserializers.simulacao.ParametroSimulacaoImposicaoPlanoDeserializer;
+import json.deserializers.simulacao.ParametroSimulacaoAlarmeDeserializer;
+import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
+import json.deserializers.simulacao.ParametroSimulacaoFalhaDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import models.Anel;
+import models.Detector;
+import models.GrupoSemaforico;
 import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Created by rodrigosol on 10/4/16.
  */
-@JsonDeserialize(using = ParametroSimulacaoImposicaoPlanoDeserializer.class)
-public class ParametroSimulacaoImposicaoPlano {
+@JsonDeserialize(using = ParametroSimulacaoAlarmeDeserializer.class)
+public class ParametroSimulacaoAlarme {
 
     @NotNull(message = "não pode ficar em branco")
-    private int plano;
+    private TipoEvento alarme;
 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @NotNull(message = "não pode ficar em branco")
     private DateTime disparo;
 
-    public int getPlano() {
-        return plano;
-    }
-
-    public void setPlano(int plano) {
-        this.plano = plano;
+    public EventoMotor toEvento() {
+        return null;
     }
 
     public DateTime getDisparo() {
@@ -39,8 +41,11 @@ public class ParametroSimulacaoImposicaoPlano {
         this.disparo = disparo;
     }
 
-    public EventoMotor toEvento() {
-        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_PLANO, plano);
+    public TipoEvento getAlarme() {
+        return alarme;
     }
 
+    public void setAlarme(TipoEvento alarme) {
+        this.alarme = alarme;
+    }
 }

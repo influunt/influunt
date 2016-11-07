@@ -314,7 +314,7 @@
             </div>
           </div>
 
-          <div class='ibox float-e-margins collapsed'>
+          <div class='ibox float-e-margins'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.progAlarmes' | translate }}</h5>
               <div class='ibox-tools'>
@@ -327,40 +327,33 @@
               <div class='row'>
                 <div class='col-sm-12'>
                   <div class='row'>
-                    <div class='col-sm-3'>
-                      <h4>{{ 'simulacao.falha' | translate }}</h4>
-                    </div>
-                    <div class='col-sm-2'>
-                      <h4>{{ 'simulacao.dataImposicao' | translate }}</h4>
+                    <div class='col-sm-5'>
+                      <h4>{{ 'simulacao.alarme' | translate }}</h4>
                     </div>
                     <div class='col-sm-3'>
-                      <h4>{{ 'simulacao.horarioImposicao' | translate }}</h4>
+                      <h4>{{ 'simulacao.dataAlarme' | translate }}</h4>
                     </div>
-                    <div class='col-sm-2'>
-                      <h4>{{ 'simulacao.tipoParametro' | translate }}</h4>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.horarioAlarme' | translate }}</h4>
                     </div>
-                    <div class='col-sm-2'>
-                      <h4>{{ 'simulacao.valorParametro' | translate }}</h4>
-                    </div>
-
                   </div>
 
-                  <div class='row' data-ng-repeat="imposicaoPlano in parametrosSimulacao.imposicaoPlanos">
-                    <div class='col-sm-3'>
+                  <div class='row' data-ng-repeat="alarmeControlador in parametrosSimulacao.alarmesControlador">
+                    <div class='col-sm-5'>
                       <select class='form-control m-b'
                               name='plano'
-                              data-ng-disabled="!planos"
-                              data-ng-options="falha as falha.descricao for falha in falhas"
-                              data-ng-model="falhas.atual"></select>
+                              data-ng-disabled="!alarmes"
+                              data-ng-options="alarme as alarme.descricao for alarme in alarmes"
+                              data-ng-model="alarmeControlador.alarme"></select>
                     </div>
-                    <div data-ng-show="falhas.atual">
-                      <div class='col-sm-2'>
+                    <div data-ng-show="alarmeControlador.alarme">
+                      <div class='col-sm-3'>
                         <input type="text"
                                class="form-control text-center"
                                uib-datepicker-popup="dd/MM/yyyy"
-                               ng-model="imposicoesPlanos.imposicoes[$index].date"
-                               ng-click="imposicoesPlanos.imposicoes[$index].opened = true"
-                               is-open="imposicoesPlanos.imposicoes[$index].opened"
+                               ng-model="alarmesControlador.alarmes[$index].date"
+                               ng-click="alarmesControlador.alarmes[$index].opened = true"
+                               is-open="alarmesControlador.alarmes[$index].opened"
                                datepicker-options="dateOptions"
                                ng-required="true"
                                close-text="Fechar"
@@ -368,47 +361,23 @@
                                current-text="Hoje">
                       </div>
                       <div class='col-sm-1'>
-                        <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].hora">
+                        <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].hora">
                           <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                         </select>
                       </div>
                       <div class='col-sm-1'>
-                        <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].minuto">
+                        <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].minuto">
                           <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                         </select>
                       </div>
                       <div class='col-sm-1'>
-                        <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].segundo">
+                        <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].segundo">
                           <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                         </select>
                       </div>
-                      <div class='col-sm-2'>
-                          {{falhas.atual.descricaoParam}}
-                      </div>
-                      <div class='col-sm-1'>
-
-                        <select ng-show="falhas.atual.tipoParam == 'GRUPO_SEMAFORICO'" class='form-control m-b'
-                              name='plano'
-                              data-ng-disabled="!planos"
-                              data-ng-options="grupo as grupo.descricao for grupo in controlador.gruposSemaforicos | orderBy:'posicao' "
-                              data-ng-model="falhas.atual.valor"></select>
-
-                        <select ng-show="falhas.atual.tipoParam == 'DETECTOR_VEICULAR'" class='form-control m-b'
-                              name='plano'
-                              data-ng-disabled="!planos"
-                              data-ng-options="detector as detector.nome for detector in detectores"
-                              data-ng-model="falhas.atual.valor"></select>
-
-                        <select ng-show="falhas.atual.tipoParam == 'ANEL'" class='form-control m-b'
-                              name='plano'
-                              data-ng-disabled="!planos"
-                              data-ng-options="anel as anel.posicao for anel in controlador.aneis"
-                              data-ng-model="falhas.atual.valor"></select>
-
-                      </div>
 
                       <div class='col-sm-1'>
-                        <a data-ng-click="removerImposicaoPlano($index)">
+                        <a data-ng-click="removerDisparoAlarme($index)">
                           <i class='fa fa-trash text-danger'></i>
                         </a>
                       </div>
@@ -437,10 +406,10 @@
                       <h4>{{ 'simulacao.falha' | translate }}</h4>
                     </div>
                     <div class='col-sm-2'>
-                      <h4>{{ 'simulacao.dataImposicao' | translate }}</h4>
+                      <h4>{{ 'simulacao.dataFalha' | translate }}</h4>
                     </div>
                     <div class='col-sm-3'>
-                      <h4>{{ 'simulacao.horarioImposicao' | translate }}</h4>
+                      <h4>{{ 'simulacao.horarioFalha' | translate }}</h4>
                     </div>
                     <div class='col-sm-1'>
                       <h4>{{ 'simulacao.tipoParametro' | translate }}</h4>
@@ -523,10 +492,6 @@
               </div>
             </div>
           </div>
-
-          <pre>{{ parametrosSimulacao | json }}</pre>
-          <pre>{{ falhasControlador | json }}</pre>
-          <pre>{{ falhas | json }}</pre>
 
         </div>
       </div>

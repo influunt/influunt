@@ -11,6 +11,8 @@ import models.Detector;
 import models.GrupoSemaforico;
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -19,6 +21,7 @@ import java.util.UUID;
 @JsonDeserialize(using = ParametroSimulacaoFalhaDeserializer.class)
 public class ParametroSimulacaoFalha {
 
+    @NotNull(message = "não pode ficar em branco")
     private TipoEvento falha;
 
     private GrupoSemaforico grupoSemaforico;
@@ -28,6 +31,7 @@ public class ParametroSimulacaoFalha {
     private Anel anel;
 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime disparo;
 
     public EventoMotor toEvento() {
@@ -47,25 +51,13 @@ public class ParametroSimulacaoFalha {
         return grupoSemaforico;
     }
 
-//    public void setGrupoSemaforico(GrupoSemaforico grupoSemaforico) {
-//        this.grupoSemaforico = grupoSemaforico;
-//    }
-
     public Detector getDetector() {
         return detector;
     }
 
-//    public void setDetector(Detector detector) {
-//        this.detector = detector;
-//    }
-
     public Anel getAnel() {
         return anel;
     }
-
-//    public void setAnel(Anel anel) {
-//        this.anel = anel;
-//    }
 
     public void setParametro(String id) {
         switch(TipoEvento.getFalha(falha.getCodigo())) {
@@ -85,6 +77,11 @@ public class ParametroSimulacaoFalha {
                 anel = Anel.find.byId(UUID.fromString(id));
                 break;
         }
+    }
+
+    @AssertTrue(message = "deve ter pelo menos um dos parâmetros.")
+    public boolean deveTerPeloMenosUmParametro() {
+        return detector != null || grupoSemaforico != null || anel != null;
     }
 
     public DateTime getDisparo() {

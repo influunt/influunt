@@ -54,8 +54,10 @@
     "monitorado": "Monitorado",
     "descricao": "Descrição",
     "modoOperacao": "Modo Operação",
-    "dataFalha": "Data da falha",
+    "dataFalha": "Data da Falha",
     "horarioFalha": "Horário da Falha",
+    "dataAlarme": "Data do Alarme",
+    "horarioAlarme": "Horário do Alarme",
     "detectorAlert": {
       "title": "Remover disparo de detector?",
       "text": "Deseja remover este disparo de detector da simulação?"
@@ -66,7 +68,11 @@
     },
     "falhaAlert": {
       "title": "Remover falha do controlador?",
-      "text": "Deseja remover esta falha do controlador da simulação?"
+      "text": "Deseja remover esta falha da simulação?"
+    },
+    "alarmeAlert": {
+      "title": "Remover alarme do controlador?",
+      "text": "Deseja remover este alarme da simulação?"
     }
   },
   "controladores": {

@@ -5,10 +5,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.simulador.parametros.ParametroSimulacao;
-import models.simulador.parametros.ParametroSimulacaoDetector;
-import models.simulador.parametros.ParametroSimulacaoFalha;
-import models.simulador.parametros.ParametroSimulacaoImposicaoPlano;
+import models.simulador.parametros.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import play.libs.Json;
@@ -72,6 +69,14 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
                 falhas.add(Json.fromJson(falha, ParametroSimulacaoFalha.class));
             }
             params.setFalhas(falhas);
+        }
+
+        if (node.has("alarmesControlador")) {
+            List<ParametroSimulacaoAlarme> alarmes = new ArrayList<>();
+            for (JsonNode falha : node.get("falhasControlador")) {
+                alarmes.add(Json.fromJson(falha, ParametroSimulacaoAlarme.class));
+            }
+            params.setAlarmes(alarmes);
         }
 
         return params;

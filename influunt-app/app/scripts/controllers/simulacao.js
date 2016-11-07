@@ -32,9 +32,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
                                    velocidade: 1,
                                    disparoDetectores: [{}],
                                    imposicaoPlanos: [{}],
-                                   falhasControlador: [{}] };
+                                   falhasControlador: [{}],
+                                   alarmesControlador: [{}] };
 
-    var now = new Date();
     $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
     $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
     $scope.fimSimulacao = { hora: '0', minuto: '5', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
@@ -42,6 +42,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
     $scope.falhasControlador = { falhas: [] };
+    $scope.alarmesControlador = { alarmes: [] };
 
     $scope.horas = HorariosService.getHoras();
     $scope.minutos = HorariosService.getMinutos();
@@ -130,8 +131,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var length = $scope.parametrosSimulacao.falhasControlador.length;
       var falha = $scope.parametrosSimulacao.falhasControlador[length - 1];
       var possuiParam = falha.falha && ((falha.falha.tipoParam && falha.parametro) || !falha.falha.tipoParam);
-      if (falha && falha.falha && falha.disparoFalha && possuiParam) {
+      if (falha && falha.falha && falha.disparo && possuiParam) {
         $scope.parametrosSimulacao.falhasControlador.push({});
+      }
+    }
+  }, true);
+
+  $scope.$watch('parametrosSimulacao.alarmesControlador', function(parametro) {
+    if (parametro) {
+      var length = $scope.parametrosSimulacao.alarmesControlador.length;
+      var alarme = $scope.parametrosSimulacao.alarmesControlador[length - 1];
+      if (alarme && alarme.alarme && alarme.disparo) {
+        $scope.parametrosSimulacao.alarmesControlador.push({});
       }
     }
   }, true);
@@ -198,6 +209,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     }
   }, true);
 
+  $scope.$watch('alarmesControlador.alarmes', function(alarmes) {
+    if (alarmes) {
+      _.forEach($scope.alarmesControlador.alarmes, function(alarme, index) {
+        if (alarme.date && alarme.hora && alarme.minuto && alarme.segundo) {
+          var date = moment(alarme.date);
+          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), alarme.hora, alarme.minuto, alarme.segundo);
+          $scope.parametrosSimulacao.alarmesControlador[index].disparo = dateMoment;
+        }
+      });
+    }
+  }, true);
+
   getMoment = function(ano, mes, dia, hora, minuto, segundo) {
     var str = '' + ano + '-' + _.padStart(mes, 2, '0') + '-' + _.padStart(dia, 2, '0') + ' ' + _.padStart(hora, 2, '0') + ':' +  _.padStart(minuto, 2, '0') + ':' + _.padStart(segundo, 2, '0');
     return moment(str, 'YYYY-MM-DD HH:mm:ss');
@@ -254,9 +277,28 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       });
   };
 
+  $scope.removerDisparoAlarme = function(index) {
+    var title = $filter('translate')('simulacao.alarmeAlert.title'),
+        text = $filter('translate')('simulacao.alarmeAlert.text');
+    return influuntAlert.confirm(title, text)
+      .then(function(confirmado) {
+        if (confirmado) {
+          if ($scope.parametrosSimulacao.alarmesControlador.length > 1) {
+            $scope.parametrosSimulacao.alarmesControlador.splice(index, 1);
+            $scope.alarmesControlador.alarmes.splice(index, 1);
+          } else {
+            $scope.parametrosSimulacao.alarmesControlador = [{}];
+            $scope.alarmesControlador.alarmes = [];
+          }
+        }
+      });
+  };
+
   $scope.submitForm = function() {
     $scope.parametrosSimulacao.disparoDetectores = _.filter($scope.parametrosSimulacao.disparoDetectores, 'detector');
     $scope.parametrosSimulacao.imposicaoPlanos = _.filter($scope.parametrosSimulacao.imposicaoPlanos, 'plano');
+    $scope.parametrosSimulacao.alarmesControlador = _.filter($scope.parametrosSimulacao.alarmesControlador, 'alarme');
+    $scope.parametrosSimulacao.falhasControlador = _.filter($scope.parametrosSimulacao.falhasControlador, 'falhas');
 
     return Restangular.all('simulacao').post($scope.parametrosSimulacao)
       .then(function(response) {
