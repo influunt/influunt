@@ -11,6 +11,11 @@
           <div class='ibox float-e-margins' >
             <div class='ibox-title'>
               <h5>{{ 'simulacao.parametros' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
             </div>
             <div class='ibox-content'>
               <div class='row'>
@@ -148,9 +153,14 @@
         </div>
 
         <div class='col-sm-9'>
-          <div class='ibox float-e-margins'>
+          <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.progDisparo' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
             </div>
             <div class='ibox-content'>
               <div class='row'>
@@ -224,9 +234,14 @@
             </div>
           </div>
 
-          <div class='ibox float-e-margins'>
+          <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.progImposicao' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
             </div>
             <div class='ibox-content'>
               <div class='row'>
@@ -269,7 +284,7 @@
                                ng-required="true"
                                close-text="Fechar"
                                clear-text="Limpar"
-                               curreent-text="Hoje">
+                               current-text="Hoje">
                       </div>
                       <div class='col-sm-1'>
                         <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].hora">
@@ -301,7 +316,7 @@
 
           <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
-              <h5>{{ 'simulacao.progFalhas' | translate }}</h5>
+              <h5>{{ 'simulacao.progAlarmes' | translate }}</h5>
               <div class='ibox-tools'>
                 <a class='collapse-link'>
                   <i class='fa fa-chevron-up'></i>
@@ -350,7 +365,7 @@
                                ng-required="true"
                                close-text="Fechar"
                                clear-text="Limpar"
-                               curreent-text="Hoje">
+                               current-text="Hoje">
                       </div>
                       <div class='col-sm-1'>
                         <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].hora">
@@ -389,9 +404,9 @@
                               data-ng-disabled="!planos"
                               data-ng-options="anel as anel.posicao for anel in controlador.aneis"
                               data-ng-model="falhas.atual.valor"></select>
-                              
+
                       </div>
-                                            
+
                       <div class='col-sm-1'>
                         <a data-ng-click="removerImposicaoPlano($index)">
                           <i class='fa fa-trash text-danger'></i>
@@ -404,7 +419,115 @@
               </div>
             </div>
           </div>
-          
+
+          <div class='ibox float-e-margins collapsed'>
+            <div class='ibox-title'>
+              <h5>{{ 'simulacao.progFalhas' | translate }}</h5>
+              <div class='ibox-tools'>
+                <a class='collapse-link'>
+                  <i class='fa fa-chevron-up'></i>
+                </a>
+              </div>
+            </div>
+            <div class='ibox-content'>
+              <div class='row'>
+                <div class='col-sm-12'>
+                  <div class='row'>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.falha' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.dataImposicao' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.horarioImposicao' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-1'>
+                      <h4>{{ 'simulacao.tipoParametro' | translate }}</h4>
+                    </div>
+                    <div class='col-sm-2'>
+                      <h4>{{ 'simulacao.valorParametro' | translate }}</h4>
+                    </div>
+                  </div>
+
+                  <div class='row' data-ng-repeat="falhaControlador in parametrosSimulacao.falhasControlador">
+                    <div class='col-sm-3'>
+                      <select class='form-control m-b'
+                              name='falha'
+                              data-ng-options="falha as falha.descricao for falha in falhas"
+                              data-ng-model="falhaControlador.falha"></select>
+                    </div>
+                    <div data-ng-show="falhaControlador.falha">
+                      <div class='col-sm-2'>
+                        <input type="text"
+                               class="form-control text-center"
+                               uib-datepicker-popup="dd/MM/yyyy"
+                               ng-model="falhasControlador.falhas[$index].date"
+                               ng-click="falhasControlador.falhas[$index].opened = true"
+                               is-open="falhasControlador.falhas[$index].opened"
+                               datepicker-options="dateOptions"
+                               ng-required="true"
+                               close-text="Fechar"
+                               clear-text="Limpar"
+                               current-text="Hoje">
+                      </div>
+                      <div class='col-sm-1'>
+                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].hora">
+                          <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-1'>
+                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].minuto">
+                          <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-1'>
+                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].segundo">
+                          <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-1'>
+                          {{ falhaControlador.falha.descricaoParam }}
+                      </div>
+                      <div class='col-sm-2'>
+                        <select ng-show="falhaControlador.falha.tipoParam === 'GRUPO_SEMAFORICO'" class='form-control m-b'
+                              name='param-grupo-semaforico'
+                              data-ng-options="grupo as grupo.descricao for grupo in controlador.gruposSemaforicos | orderBy: 'posicao'"
+                              data-ng-model="falhaControlador.parametro"></select>
+
+                        <select ng-show="falhaControlador.falha.tipoParam === 'DETECTOR_VEICULAR'" class='form-control m-b'
+                              name='param-detector-veicular'
+                              data-ng-options="detector as detector.nome for detector in detectoresVeicular"
+                              data-ng-model="falhaControlador.parametro"></select>
+
+                        <select ng-show="falhaControlador.falha.tipoParam === 'DETECTOR_PEDESTRE'" class='form-control m-b'
+                              name='param-detector-pedestre'
+                              data-ng-options="detector as detector.nome for detector in detectoresPedestre"
+                              data-ng-model="falhaControlador.parametro"></select>
+
+                        <select ng-show="falhaControlador.falha.tipoParam === 'ANEL'" class='form-control m-b'
+                              name='param-anel'
+                              data-ng-options="anel as anel.posicao for anel in controlador.aneis"
+                              data-ng-model="falhaControlador.parametro"></select>
+                      </div>
+
+                      <div class='col-sm-1'>
+                        <a data-ng-click="removerFalhaControlador($index)">
+                          <i class='fa fa-trash text-danger'></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <pre>{{ parametrosSimulacao | json }}</pre>
+          <pre>{{ falhasControlador | json }}</pre>
+          <pre>{{ falhas | json }}</pre>
+
         </div>
       </div>
     </div>
@@ -454,7 +577,7 @@
   </div>
 </div>
 
-<ng-include src="'views/controladores/wizard/common/popup-revisao.html'">
+<ng-include src="'views/controladores/wizard/common/popup-revisao.html'" />
 
 <script type='text/javascript'>
   // Collapse ibox function

@@ -47,7 +47,7 @@ public class ParametroSimulacao {
 
     private List<ParametroSimulacaoImposicaoPlano> imposicoes = new ArrayList<>();
 
-    private List<ParametroFalha> falhas = new ArrayList<>();
+    private List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
 
     private UUID idControlador;
 
@@ -121,11 +121,11 @@ public class ParametroSimulacao {
         this.imposicoes = imposicoes;
     }
 
-    public List<ParametroFalha> getFalhas() {
+    public List<ParametroSimulacaoFalha> getFalhas() {
         return falhas;
     }
 
-    public void setFalhas(List<ParametroFalha> falhas) {
+    public void setFalhas(List<ParametroSimulacaoFalha> falhas) {
         this.falhas = falhas;
     }
 

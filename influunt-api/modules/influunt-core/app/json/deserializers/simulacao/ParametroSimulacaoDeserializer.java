@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
+import models.simulador.parametros.ParametroSimulacaoFalha;
 import models.simulador.parametros.ParametroSimulacaoImposicaoPlano;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -63,6 +64,14 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
                 imposicoes.add(Json.fromJson(imposicao, ParametroSimulacaoImposicaoPlano.class));
             }
             params.setImposicoes(imposicoes);
+        }
+
+        if (node.has("falhasControlador")) {
+            List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
+            for (JsonNode falha : node.get("falhasControlador")) {
+                falhas.add(Json.fromJson(falha, ParametroSimulacaoFalha.class));
+            }
+            params.setFalhas(falhas);
         }
 
         return params;

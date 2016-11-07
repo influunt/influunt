@@ -25,17 +25,17 @@
     "progDisparo": "Programar disparo de detectores",
     "progImposicao": "Programar imposição de planos",
     "progAlarmes": "Programar disparo de alarmes",
-    "progFalhas": "Programar disparo de alarmes",
+    "progFalhas": "Programar falhas no controlador",
     "falha": "Falha",
     "disparoFalhas": "Disparo de falhas",
     "detectorVeicular": "Detector Veicular",
     "detector": "Detector",
     "tipoParametro": "Tipo Parâmetro",
-    "valorParametro": "Valor Parâmetro",        
+    "valorParametro": "Valor Parâmetro",
     "tipo": "Tipo",
     "plano": "Plano",
     "falhas": "Falhas",
-    "alarme": "Alarme",    
+    "alarme": "Alarme",
     "problema": "Problema",
     "tempoSimulacao": "Tempo de simulação",
     "simular": "Simular",
@@ -54,6 +54,8 @@
     "monitorado": "Monitorado",
     "descricao": "Descrição",
     "modoOperacao": "Modo Operação",
+    "dataFalha": "Data da falha",
+    "horarioFalha": "Horário da Falha",
     "detectorAlert": {
       "title": "Remover disparo de detector?",
       "text": "Deseja remover este disparo de detector da simulação?"
@@ -61,6 +63,10 @@
     "planoAlert": {
       "title": "Remover imposição de plano?",
       "text": "Deseja remover esta imposição de plano da simulação?"
+    },
+    "falhaAlert": {
+      "title": "Remover falha do controlador?",
+      "text": "Deseja remover esta falha do controlador da simulação?"
     }
   },
   "controladores": {

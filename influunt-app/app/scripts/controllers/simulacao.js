@@ -31,17 +31,17 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     $scope.parametrosSimulacao = { idControlador: controladorId,
                                    velocidade: 1,
                                    disparoDetectores: [{}],
-                                   imposicaoPlanos: [{}] };
+                                   imposicaoPlanos: [{}],
+                                   falhasControlador: [{}] };
 
     var now = new Date();
-    $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0,0,0,0)) };
-
-    $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0,0,0,0)) };
-
-    $scope.fimSimulacao = { hora: '0', minuto: '5', segundo: '0', date: new Date(new Date().setHours(0,0,0,0)) };
+    $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
+    $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
+    $scope.fimSimulacao = { hora: '0', minuto: '5', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
 
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
+    $scope.falhasControlador = { falhas: [] };
 
     $scope.horas = HorariosService.getHoras();
     $scope.minutos = HorariosService.getMinutos();
@@ -57,7 +57,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       .then(function(response) {
         $scope.controlador = response.controlador;
         $scope.alarmes = response.alarmes;
-        $scope.falhas = response.falhas;        
+        $scope.falhas = response.falhas;
         $scope.controlador.aneis = _.orderBy($scope.controlador.aneis, 'posicao');
         _.forEach($scope.controlador.aneis, function(anel) {
           anel.detectores = _.orderBy(anel.detectores, ['tipo', 'posicao']);
@@ -79,6 +79,16 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         .chain(controlador.aneis)
         .map('detectores')
         .flatten()
+        .value();
+
+      $scope.detectoresVeicular = _
+        .chain($scope.detectores)
+        .filter({ tipo: 'VEICULAR' })
+        .value();
+
+      $scope.detectoresPedestre = _
+        .chain($scope.detectores)
+        .filter({ tipo: 'PEDESTRE' })
         .value();
     }
   };
@@ -115,6 +125,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     }
   }, true);
 
+  $scope.$watch('parametrosSimulacao.falhasControlador', function(parametro) {
+    if (parametro) {
+      var length = $scope.parametrosSimulacao.falhasControlador.length;
+      var falha = $scope.parametrosSimulacao.falhasControlador[length - 1];
+      var possuiParam = falha.falha && ((falha.falha.tipoParam && falha.parametro) || !falha.falha.tipoParam);
+      if (falha && falha.falha && falha.disparoFalha && possuiParam) {
+        $scope.parametrosSimulacao.falhasControlador.push({});
+      }
+    }
+  }, true);
+
+
   $scope.$watch('inicioControlador', function(inicioControlador) {
     if (inicioControlador && inicioControlador.date && inicioControlador.hora && inicioControlador.minuto && inicioControlador.segundo) {
       var date = moment(inicioControlador.date);
@@ -138,6 +160,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       $scope.parametrosSimulacao.fimSimulacao = dateMoment;
     }
   }, true);
+
 
   $scope.$watch('disparosDetectores.disparos', function(disparos) {
     if (disparos) {
@@ -163,6 +186,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     }
   }, true);
 
+  $scope.$watch('falhasControlador.falhas', function(falhas) {
+    if (falhas) {
+      _.forEach($scope.falhasControlador.falhas, function(falha, index) {
+        if (falha.date && falha.hora && falha.minuto && falha.segundo) {
+          var date = moment(falha.date);
+          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), falha.hora, falha.minuto, falha.segundo);
+          $scope.parametrosSimulacao.falhasControlador[index].disparo = dateMoment;
+        }
+      });
+    }
+  }, true);
+
   getMoment = function(ano, mes, dia, hora, minuto, segundo) {
     var str = '' + ano + '-' + _.padStart(mes, 2, '0') + '-' + _.padStart(dia, 2, '0') + ' ' + _.padStart(hora, 2, '0') + ':' +  _.padStart(minuto, 2, '0') + ':' + _.padStart(segundo, 2, '0');
     return moment(str, 'YYYY-MM-DD HH:mm:ss');
@@ -176,8 +211,10 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         if (confirmado) {
           if ($scope.parametrosSimulacao.disparoDetectores.length > 1) {
             $scope.parametrosSimulacao.disparoDetectores.splice(index, 1);
+            $scope.disparosDetectores.disparos.splice(index, 1);
           } else {
             $scope.parametrosSimulacao.disparoDetectores = [{}];
+            $scope.disparosDetectores.disparos = [];
           }
         }
       });
@@ -191,8 +228,27 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         if (confirmado) {
           if ($scope.parametrosSimulacao.imposicaoPlanos.length > 1) {
             $scope.parametrosSimulacao.imposicaoPlanos.splice(index, 1);
+            $scope.imposicoesPlanos.imposicoes.splice(index, 1);
           } else {
             $scope.parametrosSimulacao.imposicaoPlanos = [{}];
+            $scope.imposicoesPlanos.imposicoes = [];
+          }
+        }
+      });
+  };
+
+  $scope.removerFalhaControlador = function(index) {
+    var title = $filter('translate')('simulacao.falhaAlert.title'),
+        text = $filter('translate')('simulacao.falhaAlert.text');
+    return influuntAlert.confirm(title, text)
+      .then(function(confirmado) {
+        if (confirmado) {
+          if ($scope.parametrosSimulacao.falhasControlador.length > 1) {
+            $scope.parametrosSimulacao.falhasControlador.splice(index, 1);
+            $scope.falhasControlador.falhas.splice(index, 1);
+          } else {
+            $scope.parametrosSimulacao.falhasControlador = [{}];
+            $scope.falhasControlador.falhas = [];
           }
         }
       });

@@ -259,9 +259,9 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
         ObjectNode response = Json.newObject();
-        response.set("controlador",new ControladorCustomSerializer().getControladorSimulacao(controlador));
-        response.set("falhas",Json.toJson(FalhasEAlertasService.getFalhas()));
-        response.set("alarmes",Json.toJson(FalhasEAlertasService.getAlarmes()));
+        response.set("controlador", new ControladorCustomSerializer().getControladorSimulacao(controlador));
+        response.set("falhas", Json.toJson(FalhasEAlertasService.getFalhas()));
+        response.set("alarmes", Json.toJson(FalhasEAlertasService.getAlarmes()));
 
         return CompletableFuture.completedFuture(ok(response));
     }
