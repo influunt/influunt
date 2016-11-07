@@ -36,9 +36,9 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
         this.intervalos = TreeRangeMap.create();
         if (isModoAnteriorVerde(modoAnterior) && entreverde != null && entreverde.getValue().isEntreverde()) {
             final IntervaloEstagio intervalo = entreverde.getValue();
-            final Estagio estagio = intervalo.getEstagioPlano().getEstagio();
+            final Estagio estagio = intervalo.getEstagioPlanoAnterior().getEstagio();
 
-            final long tempoEntreVerde = entreverde.getKey().upperEndpoint() + 3000L;
+            long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagio.getPosicao(), null)) + 3000L;
 
             String idJsonNovoEstagio = UUID.randomUUID().toString();
 
@@ -48,21 +48,13 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
 
             this.intervalos.put(Range.closedOpen(tempoEntreVerde, 255000L),
                     new IntervaloEstagio(255000L - tempoEntreVerde, false,
-                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio, estagio), intervalo.getEstagioPlanoAnterior()));
+                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), intervalo.getEstagioPlanoAnterior()));
         } else {
             this.intervalos.put(Range.closedOpen(0L, 255000L),
                     new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(UUID.randomUUID().toString()), null));
         }
 
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
-    }
-
-    private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio, Estagio estagio) {
-        Estagio novoEstagio = new Estagio();
-        novoEstagio.setIdJson(estagio.getIdJson());
-        EstagioPlano estagioPlano = criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio);
-        estagioPlano.setEstagio(novoEstagio);
-        return estagioPlano;
     }
 
     private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio) {

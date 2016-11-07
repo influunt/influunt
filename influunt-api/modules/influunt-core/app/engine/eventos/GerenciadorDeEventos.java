@@ -37,6 +37,8 @@ public abstract class GerenciadorDeEventos {
             case ACIONAMENTO_DETECTOR_VEICULAR:
                 new DetectorVeicularHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
+            default:
+                break;
         }
     }
 }

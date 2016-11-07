@@ -12,7 +12,7 @@ import status.StatusConexaoControlador;
  */
 public class ConexaoOnlineActorHandler extends UntypedActor {
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object message) throws Exception {

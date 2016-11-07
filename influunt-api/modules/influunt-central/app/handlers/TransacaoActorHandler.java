@@ -12,7 +12,7 @@ import utils.AtoresCentral;
  * Created by rodrigosol on 9/6/16.
  */
 public class TransacaoActorHandler extends UntypedActor {
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object message) throws Exception {
@@ -46,6 +46,9 @@ public class TransacaoActorHandler extends UntypedActor {
                     case ABORTED:
                         transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
+                        break;
+
+                    default:
                         break;
                 }
                 log.info("CENTRAL - TX Enviada: {}", transacao);

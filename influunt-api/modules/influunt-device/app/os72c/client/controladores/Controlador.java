@@ -53,6 +53,8 @@ public abstract class Controlador extends UntypedActor {
                     supervisor = getSender();
                     supervisorPronto(supervisor, mensagemControladorSupervisor.argumentos);
                     break;
+                default:
+                    break;
             }
         } else if (message instanceof Interrupcao) {
             Interrupcao i = (Interrupcao) message;
@@ -60,7 +62,8 @@ public abstract class Controlador extends UntypedActor {
                 case ERRO:
                     entrarEmModoAmarelhoIntermitente();
                     break;
-
+                default:
+                    break;
             }
         }
     }

@@ -25,17 +25,17 @@ import static org.junit.Assert.assertNull;
  */
 public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthentication {
 
-    DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
+    private DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
 
-    DateTime inicioExecucao = inicioControlador;
+    private DateTime inicioExecucao = inicioControlador;
 
-    Controlador controlador;
+    private Controlador controlador;
 
-    HashMap<DateTime, IntervaloGrupoSemaforico> listaEstagios;
+    private HashMap<DateTime, IntervaloGrupoSemaforico> listaEstagios;
 
-    HashMap<DateTime, IntervaloGrupoSemaforico> listaHistoricoEstagios;
+    private HashMap<DateTime, IntervaloGrupoSemaforico> listaHistoricoEstagios;
 
-    GerenciadorDeEstagios gerenciadorDeEstagios;
+    private GerenciadorDeEstagios gerenciadorDeEstagios;
 
     @Before
     public void setup() {
@@ -1416,14 +1416,15 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     }
 
     private void avancar(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
-        i *= 10;
-        while (i-- > 0) {
+        long quantidade = i * 10L;
+        while ((quantidade--) > 0) {
             gerenciadorDeEstagios.tick();
         }
     }
 
     private void avancarAtuado(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
-        while (i-- > 0) {
+        long quantidade = i;
+        while ((quantidade--) > 0) {
             gerenciadorDeEstagios.tick();
         }
     }

@@ -296,6 +296,12 @@ public class ControladorTestUtil {
                         }
                     }
                 }
+
+                grupoSemaforico.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> {
+                    Estagio origem = estagioGrupoSemaforico.getEstagio();
+                    Transicao t = grupoSemaforico.getTransicoes().stream().filter(transicao -> origem.equals(transicao.getOrigem())).findFirst().get();
+                    t.setModoIntermitenteOuApagado(true);
+                });
             }
         }
         return controlador;

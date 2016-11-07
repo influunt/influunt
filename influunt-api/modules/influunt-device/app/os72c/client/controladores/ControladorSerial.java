@@ -98,6 +98,9 @@ public class ControladorSerial extends Controlador implements SerialPortEventLis
                     break;
                 case AMARELHO_INTERMITENTE:
                     command += "5,";
+                    break;
+                default:
+                    break;
 
             }
 
@@ -138,8 +141,8 @@ public class ControladorSerial extends Controlador implements SerialPortEventLis
     }
 
 
-    private boolean processMessage(String msg) {
-        msg = msg.trim();
+    private boolean processMessage(String mensagem) {
+        String msg = mensagem.trim();
         System.out.println(msg);
         if (msg.endsWith("ACK;")) {
             //Permite o envio da proxima mudancao de grupo

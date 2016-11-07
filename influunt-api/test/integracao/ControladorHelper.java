@@ -2,6 +2,7 @@ package integracao;
 
 import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
+import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
@@ -409,7 +410,13 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void setEntreVerde(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAmarelo, Integer tempoVermelho) {
+    private void setEntreVerde(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino,
+                               Integer tempoAmarelo, Integer tempoVermelho, boolean modoIntermitenteOuApagado) {
+        Transicao transicao = setEntreVerde(anel, posicaoGrupo, posicaoOrigem, posicaoDestino, tempoAmarelo, tempoVermelho);
+        transicao.setModoIntermitenteOuApagado(modoIntermitenteOuApagado);
+    }
+
+    private Transicao setEntreVerde(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAmarelo, Integer tempoVermelho) {
         GrupoSemaforico grupoSemaforico = anel.findGrupoSemaforicoByPosicao(posicaoGrupo);
         Estagio origem = anel.findEstagioByPosicao(posicaoOrigem);
         Estagio destino = anel.findEstagioByPosicao(posicaoDestino);
@@ -421,59 +428,60 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             tabelaEntreVerdesTransicao.setTempoVermelhoIntermitente(tempoAmarelo);
         }
         tabelaEntreVerdesTransicao.setTempoVermelhoLimpeza(tempoVermelho);
+        return transicao;
     }
 
     private void setDadosTabelaEntreVerdes() {
         Anel anel = getAnel(1);
-        setEntreVerde(anel, 1, 1, 2, 3, 3);
+        setEntreVerde(anel, 1, 1, 2, 3, 3, true);
 
-        setEntreVerde(anel, 3, 2, 3, 5, 3);
-        setEntreVerde(anel, 5, 2, 3, 5, 3);
+        setEntreVerde(anel, 3, 2, 3, 5, 3, true);
+        setEntreVerde(anel, 5, 2, 3, 5, 3, true);
 
-        setEntreVerde(anel, 2, 3, 1, 3, 3);
-        setEntreVerde(anel, 4, 3, 1, 5, 3);
+        setEntreVerde(anel, 2, 3, 1, 3, 3, true);
+        setEntreVerde(anel, 4, 3, 1, 5, 3, true);
 
         anel = getAnel(2);
-        setEntreVerde(anel, 6, 1, 2, 3, 4);
+        setEntreVerde(anel, 6, 1, 2, 3, 4, true);
         setEntreVerde(anel, 6, 1, 3, 4, 5);
-        setEntreVerde(anel, 10, 1, 2, 3, 4);
+        setEntreVerde(anel, 10, 1, 2, 3, 4, true);
         setEntreVerde(anel, 10, 1, 3, 4, 5);
 
-        setEntreVerde(anel, 7, 2, 1, 3, 5);
+        setEntreVerde(anel, 7, 2, 1, 3, 5, true);
         setEntreVerde(anel, 7, 2, 3, 4, 5);
-        setEntreVerde(anel, 9, 2, 1, 3, 5);
+        setEntreVerde(anel, 9, 2, 1, 3, 5, true);
         setEntreVerde(anel, 9, 2, 3, 4, 5);
 
-        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5, true);
         setEntreVerde(anel, 8, 3, 2, 5, 5);
 
         anel = getAnel(3);
-        setEntreVerde(anel, 11, 1, 2, 3, 4);
+        setEntreVerde(anel, 11, 1, 2, 3, 4, true);
         setEntreVerde(anel, 11, 1, 3, 3, 4);
         setEntreVerde(anel, 11, 1, 4, 3, 4);
         setEntreVerde(anel, 11, 1, 5, 3, 4);
 
-        setEntreVerde(anel, 12, 2, 1, 3, 5);
+        setEntreVerde(anel, 12, 2, 1, 3, 5, true);
         setEntreVerde(anel, 12, 2, 3, 3, 5);
         setEntreVerde(anel, 12, 2, 4, 3, 5);
         setEntreVerde(anel, 12, 2, 5, 3, 5);
 
-        setEntreVerde(anel, 13, 3, 1, 3, 6);
+        setEntreVerde(anel, 13, 3, 1, 3, 6, true);
         setEntreVerde(anel, 13, 3, 2, 3, 6);
         setEntreVerde(anel, 13, 3, 4, 3, 6);
         setEntreVerde(anel, 13, 3, 5, 3, 6);
 
-        setEntreVerde(anel, 14, 4, 1, 6, 5);
+        setEntreVerde(anel, 14, 4, 1, 6, 5, true);
         setEntreVerde(anel, 14, 4, 2, 6, 5);
         setEntreVerde(anel, 14, 4, 3, 6, 5);
         setEntreVerde(anel, 14, 4, 5, 6, 5);
 
-        setEntreVerde(anel, 15, 4, 1, 6, 5);
+        setEntreVerde(anel, 15, 4, 1, 6, 5, true);
         setEntreVerde(anel, 15, 4, 2, 6, 5);
         setEntreVerde(anel, 15, 4, 3, 6, 5);
         setEntreVerde(anel, 15, 4, 5, 6, 5);
 
-        setEntreVerde(anel, 16, 5, 1, 4, 4);
+        setEntreVerde(anel, 16, 5, 1, 4, 4, true);
         setEntreVerde(anel, 16, 5, 2, 4, 4);
         setEntreVerde(anel, 16, 5, 3, 4, 4);
         setEntreVerde(anel, 16, 5, 4, 4, 4);
@@ -483,60 +491,60 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
     private void setDadosTabelaEntreVerdesCompleta() {
         Anel anel = getAnel(1);
-        setEntreVerde(anel, 1, 1, 2, 3, 3);
+        setEntreVerde(anel, 1, 1, 2, 3, 3, true);
         setEntreVerde(anel, 1, 1, 3, 3, 3);
-        setEntreVerde(anel, 5, 1, 3, 3, 3);
+        setEntreVerde(anel, 5, 1, 3, 3, 3, true);
 
-        setEntreVerde(anel, 3, 2, 3, 5, 3);
+        setEntreVerde(anel, 3, 2, 3, 5, 3, true);
         setEntreVerde(anel, 5, 2, 3, 5, 3);
         setEntreVerde(anel, 3, 2, 1, 5, 3);
         setEntreVerde(anel, 4, 2, 1, 5, 3);
 
-        setEntreVerde(anel, 2, 3, 1, 3, 3);
-        setEntreVerde(anel, 4, 3, 1, 5, 3);
+        setEntreVerde(anel, 2, 3, 1, 3, 3, true);
+        setEntreVerde(anel, 4, 3, 1, 5, 3, true);
         setEntreVerde(anel, 2, 3, 2, 3, 3);
 
         anel = getAnel(2);
-        setEntreVerde(anel, 6, 1, 2, 3, 4);
+        setEntreVerde(anel, 6, 1, 2, 3, 4, true);
         setEntreVerde(anel, 6, 1, 3, 4, 5);
-        setEntreVerde(anel, 10, 1, 2, 3, 4);
+        setEntreVerde(anel, 10, 1, 2, 3, 4, true);
         setEntreVerde(anel, 10, 1, 3, 4, 5);
 
-        setEntreVerde(anel, 7, 2, 1, 3, 5);
+        setEntreVerde(anel, 7, 2, 1, 3, 5, true);
         setEntreVerde(anel, 7, 2, 3, 4, 5);
-        setEntreVerde(anel, 9, 2, 1, 3, 5);
+        setEntreVerde(anel, 9, 2, 1, 3, 5, true);
         setEntreVerde(anel, 9, 2, 3, 4, 5);
 
-        setEntreVerde(anel, 8, 3, 1, 5, 5);
+        setEntreVerde(anel, 8, 3, 1, 5, 5, true);
         setEntreVerde(anel, 8, 3, 2, 5, 5);
 
         anel = getAnel(3);
-        setEntreVerde(anel, 11, 1, 2, 3, 4);
+        setEntreVerde(anel, 11, 1, 2, 3, 4, true);
         setEntreVerde(anel, 11, 1, 3, 3, 4);
         setEntreVerde(anel, 11, 1, 4, 3, 4);
         setEntreVerde(anel, 11, 1, 5, 3, 4);
 
-        setEntreVerde(anel, 12, 2, 1, 3, 5);
+        setEntreVerde(anel, 12, 2, 1, 3, 5, true);
         setEntreVerde(anel, 12, 2, 3, 3, 5);
         setEntreVerde(anel, 12, 2, 4, 3, 5);
         setEntreVerde(anel, 12, 2, 5, 3, 5);
 
-        setEntreVerde(anel, 13, 3, 1, 3, 6);
+        setEntreVerde(anel, 13, 3, 1, 3, 6, true);
         setEntreVerde(anel, 13, 3, 2, 3, 6);
         setEntreVerde(anel, 13, 3, 4, 3, 6);
         setEntreVerde(anel, 13, 3, 5, 3, 6);
 
-        setEntreVerde(anel, 14, 4, 1, 6, 5);
+        setEntreVerde(anel, 14, 4, 1, 6, 5, true);
         setEntreVerde(anel, 14, 4, 2, 6, 5);
         setEntreVerde(anel, 14, 4, 3, 6, 5);
         setEntreVerde(anel, 14, 4, 5, 6, 5);
 
-        setEntreVerde(anel, 15, 4, 1, 6, 5);
+        setEntreVerde(anel, 15, 4, 1, 6, 5, true);
         setEntreVerde(anel, 15, 4, 2, 6, 5);
         setEntreVerde(anel, 15, 4, 3, 6, 5);
         setEntreVerde(anel, 15, 4, 5, 6, 5);
 
-        setEntreVerde(anel, 16, 5, 1, 4, 4);
+        setEntreVerde(anel, 16, 5, 1, 4, 4, true);
         setEntreVerde(anel, 16, 5, 2, 4, 4);
         setEntreVerde(anel, 16, 5, 3, 4, 4);
         setEntreVerde(anel, 16, 5, 4, 4, 4);
@@ -626,6 +634,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 2, 3, 4, true);
         criarEstagioPlano(anel, plano, 3, 4, 20, false);
 
+        plano = criarPlano(anel, 12, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
+        criarPlano(anel, 16, ModoOperacaoPlano.INTERMITENTE, null);
+
         anel = getAnel(2);
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
@@ -655,6 +667,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 40);
         criarEstagioPlano(anel, plano, 1, 1, 15, true);
         criarEstagioPlano(anel, plano, 2, 2, 10, false);
+        criarPlano(anel, 16, ModoOperacaoPlano.INTERMITENTE, null);
 
         anel = getAnel(3);
         criaVersaoPlanos(anel);
@@ -667,20 +680,32 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
         criarPlano(anel, 10, ModoOperacaoPlano.INTERMITENTE, null);
+        criarPlano(anel, 11, ModoOperacaoPlano.INTERMITENTE, null);
+        criarPlano(anel, 12, ModoOperacaoPlano.INTERMITENTE, null);
+        criarPlano(anel, 16, ModoOperacaoPlano.INTERMITENTE, null);
 
         controlador.save();
     }
 
-    private void criarEvento(TabelaHorario tabelaHoraria, int posicao, TipoEvento tipoEvento, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {
+    private void criarEvento(TabelaHorario tabelaHoraria, int posicao, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {
         Evento evento = new Evento();
         evento.setPosicao(posicao);
-        evento.setTipo(tipoEvento);
+        evento.setTipo(TipoEvento.NORMAL);
         evento.setDiaDaSemana(diaDaSemana);
         evento.setHorario(horario);
         evento.setPosicaoPlano(posicaoPlano);
-        if (tipoEvento != TipoEvento.NORMAL) {
-            evento.setData(new Date());
-        }
+        evento.setTabelaHorario(tabelaHoraria);
+        tabelaHoraria.addEvento(evento);
+    }
+
+    private void criarEventoEspecial(TabelaHorario tabelaHoraria, int posicao, TipoEvento tipo, DateTime data, LocalTime horario, String nome, int posicaoPlano) {
+        Evento evento = new Evento();
+        evento.setNome(nome);
+        evento.setPosicao(posicao);
+        evento.setTipo(tipo);
+        evento.setData(data.toDate());
+        evento.setHorario(horario);
+        evento.setPosicaoPlano(posicaoPlano);
         evento.setTabelaHorario(tabelaHoraria);
         tabelaHoraria.addEvento(evento);
     }
@@ -692,17 +717,27 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
-        criarEvento(tabelaHoraria, 1, TipoEvento.NORMAL, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
-        criarEvento(tabelaHoraria, 2, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 1);
-        criarEvento(tabelaHoraria, 3, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
-        criarEvento(tabelaHoraria, 4, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
-        criarEvento(tabelaHoraria, 5, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:02:00"), 1);
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 11);
+        criarEvento(tabelaHoraria, 3, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
+        criarEvento(tabelaHoraria, 4, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
+        criarEvento(tabelaHoraria, 5, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:02:00"), 1);
 
-        criarEvento(tabelaHoraria, 6, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("19:00:00"), 1);
-        criarEvento(tabelaHoraria, 7, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("19:01:00"), 6);
-        criarEvento(tabelaHoraria, 8, TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("19:02:00"), 1);
-//        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("18:00:00"), 1);
-//        criarEvento(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, DiaDaSemana.DOMINGO, LocalTime.parse("08:00:00"), 1);
+        criarEvento(tabelaHoraria, 6, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("19:00:00"), 1);
+        criarEvento(tabelaHoraria, 7, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("19:01:00"), 6);
+        criarEvento(tabelaHoraria, 8, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("19:02:00"), 1);
+
+        criarEvento(tabelaHoraria, 9, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("20:00:00"), 10);
+        criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("20:00:58"), 16);
+
+        criarEvento(tabelaHoraria, 9, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:00"), 10);
+        criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:58"), 16);
+        criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:01:00"), 10);
+
+        criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
+
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016,12,25,0,0,0), LocalTime.parse("08:00:00"), "Natal", 11);
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017,03,15,0,0,0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
 
         controlador.save();
     }

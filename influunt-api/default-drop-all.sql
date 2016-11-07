@@ -1,179 +1,179 @@
-alter table agrupamentos_aneis drop constraint if exists fk_agrupamentos_aneis_agrupamentos;
-drop index if exists ix_agrupamentos_aneis_agrupamentos;
+alter table agrupamentos_aneis drop foreign key fk_agrupamentos_aneis_agrupamentos;
+drop index ix_agrupamentos_aneis_agrupamentos on agrupamentos_aneis;
 
-alter table agrupamentos_aneis drop constraint if exists fk_agrupamentos_aneis_aneis;
-drop index if exists ix_agrupamentos_aneis_aneis;
+alter table agrupamentos_aneis drop foreign key fk_agrupamentos_aneis_aneis;
+drop index ix_agrupamentos_aneis_aneis on agrupamentos_aneis;
 
-alter table aneis drop constraint if exists fk_aneis_controlador_id;
-drop index if exists ix_aneis_controlador_id;
+alter table aneis drop foreign key fk_aneis_controlador_id;
+drop index ix_aneis_controlador_id on aneis;
 
-alter table aneis drop constraint if exists fk_aneis_croqui_id;
+alter table aneis drop foreign key fk_aneis_croqui_id;
 
-alter table areas drop constraint if exists fk_areas_cidade_id;
-drop index if exists ix_areas_cidade_id;
+alter table areas drop foreign key fk_areas_cidade_id;
+drop index ix_areas_cidade_id on areas;
 
-alter table atrasos_de_grupos drop constraint if exists fk_atrasos_de_grupos_transicao_id;
+alter table atrasos_de_grupos drop foreign key fk_atrasos_de_grupos_transicao_id;
 
-alter table controladores drop constraint if exists fk_controladores_croqui_id;
+alter table controladores drop foreign key fk_controladores_croqui_id;
 
-alter table controladores drop constraint if exists fk_controladores_modelo_id;
-drop index if exists ix_controladores_modelo_id;
+alter table controladores drop foreign key fk_controladores_modelo_id;
+drop index ix_controladores_modelo_id on controladores;
 
-alter table controladores drop constraint if exists fk_controladores_area_id;
-drop index if exists ix_controladores_area_id;
+alter table controladores drop foreign key fk_controladores_area_id;
+drop index ix_controladores_area_id on controladores;
 
-alter table controladores drop constraint if exists fk_controladores_subarea_id;
-drop index if exists ix_controladores_subarea_id;
+alter table controladores drop foreign key fk_controladores_subarea_id;
+drop index ix_controladores_subarea_id on controladores;
 
-alter table controladores_fisicos drop constraint if exists fk_controladores_fisicos_area_id;
-drop index if exists ix_controladores_fisicos_area_id;
+alter table controladores_fisicos drop foreign key fk_controladores_fisicos_area_id;
+drop index ix_controladores_fisicos_area_id on controladores_fisicos;
 
-alter table detectores drop constraint if exists fk_detectores_anel_id;
-drop index if exists ix_detectores_anel_id;
+alter table detectores drop foreign key fk_detectores_anel_id;
+drop index ix_detectores_anel_id on detectores;
 
-alter table detectores drop constraint if exists fk_detectores_estagio_id;
+alter table detectores drop foreign key fk_detectores_estagio_id;
 
-alter table detectores drop constraint if exists fk_detectores_controlador_id;
-drop index if exists ix_detectores_controlador_id;
+alter table detectores drop foreign key fk_detectores_controlador_id;
+drop index ix_detectores_controlador_id on detectores;
 
-alter table enderecos drop constraint if exists fk_enderecos_controlador_id;
+alter table enderecos drop foreign key fk_enderecos_controlador_id;
 
-alter table enderecos drop constraint if exists fk_enderecos_anel_id;
+alter table enderecos drop foreign key fk_enderecos_anel_id;
 
-alter table estagios drop constraint if exists fk_estagios_imagem_id;
+alter table estagios drop foreign key fk_estagios_imagem_id;
 
-alter table estagios drop constraint if exists fk_estagios_anel_id;
-drop index if exists ix_estagios_anel_id;
+alter table estagios drop foreign key fk_estagios_anel_id;
+drop index ix_estagios_anel_id on estagios;
 
-alter table estagios drop constraint if exists fk_estagios_controlador_id;
-drop index if exists ix_estagios_controlador_id;
+alter table estagios drop foreign key fk_estagios_controlador_id;
+drop index ix_estagios_controlador_id on estagios;
 
-alter table estagios_grupos_semaforicos drop constraint if exists fk_estagios_grupos_semaforicos_estagio_id;
-drop index if exists ix_estagios_grupos_semaforicos_estagio_id;
+alter table estagios_grupos_semaforicos drop foreign key fk_estagios_grupos_semaforicos_estagio_id;
+drop index ix_estagios_grupos_semaforicos_estagio_id on estagios_grupos_semaforicos;
 
-alter table estagios_grupos_semaforicos drop constraint if exists fk_estagios_grupos_semaforicos_grupo_semaforico_id;
-drop index if exists ix_estagios_grupos_semaforicos_grupo_semaforico_id;
+alter table estagios_grupos_semaforicos drop foreign key fk_estagios_grupos_semaforicos_grupo_semaforico_id;
+drop index ix_estagios_grupos_semaforicos_grupo_semaforico_id on estagios_grupos_semaforicos;
 
-alter table estagios_planos drop constraint if exists fk_estagios_planos_estagio_id;
-drop index if exists ix_estagios_planos_estagio_id;
+alter table estagios_planos drop foreign key fk_estagios_planos_estagio_id;
+drop index ix_estagios_planos_estagio_id on estagios_planos;
 
-alter table estagios_planos drop constraint if exists fk_estagios_planos_plano_id;
-drop index if exists ix_estagios_planos_plano_id;
+alter table estagios_planos drop foreign key fk_estagios_planos_plano_id;
+drop index ix_estagios_planos_plano_id on estagios_planos;
 
-alter table estagios_planos drop constraint if exists fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3;
-drop index if exists ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3;
+alter table estagios_planos drop foreign key fk_estagios_planos_estagio_que_recebe_estagio_dispensavel_3;
+drop index ix_estagios_planos_estagio_que_recebe_estagio_dispensavel_3 on estagios_planos;
 
-alter table eventos drop constraint if exists fk_eventos_tabela_horario_id;
-drop index if exists ix_eventos_tabela_horario_id;
+alter table eventos drop foreign key fk_eventos_tabela_horario_id;
+drop index ix_eventos_tabela_horario_id on eventos;
 
-alter table eventos drop constraint if exists fk_eventos_agrupamento_id;
-drop index if exists ix_eventos_agrupamento_id;
+alter table eventos drop foreign key fk_eventos_agrupamento_id;
+drop index ix_eventos_agrupamento_id on eventos;
 
-alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_anel_id;
-drop index if exists ix_grupos_semaforicos_anel_id;
+alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_anel_id;
+drop index ix_grupos_semaforicos_anel_id on grupos_semaforicos;
 
-alter table grupos_semaforicos drop constraint if exists fk_grupos_semaforicos_controlador_id;
-drop index if exists ix_grupos_semaforicos_controlador_id;
+alter table grupos_semaforicos drop foreign key fk_grupos_semaforicos_controlador_id;
+drop index ix_grupos_semaforicos_controlador_id on grupos_semaforicos;
 
-alter table grupos_semaforicos_planos drop constraint if exists fk_grupos_semaforicos_planos_grupo_semaforico_id;
-drop index if exists ix_grupos_semaforicos_planos_grupo_semaforico_id;
+alter table grupos_semaforicos_planos drop foreign key fk_grupos_semaforicos_planos_grupo_semaforico_id;
+drop index ix_grupos_semaforicos_planos_grupo_semaforico_id on grupos_semaforicos_planos;
 
-alter table grupos_semaforicos_planos drop constraint if exists fk_grupos_semaforicos_planos_plano_id;
-drop index if exists ix_grupos_semaforicos_planos_plano_id;
+alter table grupos_semaforicos_planos drop foreign key fk_grupos_semaforicos_planos_plano_id;
+drop index ix_grupos_semaforicos_planos_plano_id on grupos_semaforicos_planos;
 
-alter table limite_area drop constraint if exists fk_limite_area_area_id;
-drop index if exists ix_limite_area_area_id;
+alter table limite_area drop foreign key fk_limite_area_area_id;
+drop index ix_limite_area_area_id on limite_area;
 
-alter table modelo_controladores drop constraint if exists fk_modelo_controladores_fabricante_id;
-drop index if exists ix_modelo_controladores_fabricante_id;
+alter table modelo_controladores drop foreign key fk_modelo_controladores_fabricante_id;
+drop index ix_modelo_controladores_fabricante_id on modelo_controladores;
 
-alter table permissoes_perfis drop constraint if exists fk_permissoes_perfis_perfis;
-drop index if exists ix_permissoes_perfis_perfis;
+alter table permissoes_perfis drop foreign key fk_permissoes_perfis_perfis;
+drop index ix_permissoes_perfis_perfis on permissoes_perfis;
 
-alter table permissoes_perfis drop constraint if exists fk_permissoes_perfis_permissoes;
-drop index if exists ix_permissoes_perfis_permissoes;
+alter table permissoes_perfis drop foreign key fk_permissoes_perfis_permissoes;
+drop index ix_permissoes_perfis_permissoes on permissoes_perfis;
 
-alter table permissoes_app_permissoes drop constraint if exists fk_permissoes_app_permissoes_permissoes_app;
-drop index if exists ix_permissoes_app_permissoes_permissoes_app;
+alter table permissoes_app_permissoes drop foreign key fk_permissoes_app_permissoes_permissoes_app;
+drop index ix_permissoes_app_permissoes_permissoes_app on permissoes_app_permissoes;
 
-alter table permissoes_app_permissoes drop constraint if exists fk_permissoes_app_permissoes_permissoes;
-drop index if exists ix_permissoes_app_permissoes_permissoes;
+alter table permissoes_app_permissoes drop foreign key fk_permissoes_app_permissoes_permissoes;
+drop index ix_permissoes_app_permissoes_permissoes on permissoes_app_permissoes;
 
-alter table planos drop constraint if exists fk_planos_versao_plano_id;
-drop index if exists ix_planos_versao_plano_id;
+alter table planos drop foreign key fk_planos_versao_plano_id;
+drop index ix_planos_versao_plano_id on planos;
 
-alter table sessoes drop constraint if exists fk_sessoes_usuario_id;
-drop index if exists ix_sessoes_usuario_id;
+alter table sessoes drop foreign key fk_sessoes_usuario_id;
+drop index ix_sessoes_usuario_id on sessoes;
 
-alter table subareas drop constraint if exists fk_subareas_area_id;
-drop index if exists ix_subareas_area_id;
+alter table subareas drop foreign key fk_subareas_area_id;
+drop index ix_subareas_area_id on subareas;
 
-alter table tabela_entre_verdes drop constraint if exists fk_tabela_entre_verdes_grupo_semaforico_id;
-drop index if exists ix_tabela_entre_verdes_grupo_semaforico_id;
+alter table tabela_entre_verdes drop foreign key fk_tabela_entre_verdes_grupo_semaforico_id;
+drop index ix_tabela_entre_verdes_grupo_semaforico_id on tabela_entre_verdes;
 
-alter table tabela_entre_verdes_transicao drop constraint if exists fk_tabela_entre_verdes_transicao_tabela_entre_verdes_id;
-drop index if exists ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id;
+alter table tabela_entre_verdes_transicao drop foreign key fk_tabela_entre_verdes_transicao_tabela_entre_verdes_id;
+drop index ix_tabela_entre_verdes_transicao_tabela_entre_verdes_id on tabela_entre_verdes_transicao;
 
-alter table tabela_entre_verdes_transicao drop constraint if exists fk_tabela_entre_verdes_transicao_transicao_id;
-drop index if exists ix_tabela_entre_verdes_transicao_transicao_id;
+alter table tabela_entre_verdes_transicao drop foreign key fk_tabela_entre_verdes_transicao_transicao_id;
+drop index ix_tabela_entre_verdes_transicao_transicao_id on tabela_entre_verdes_transicao;
 
-alter table tabela_horarios drop constraint if exists fk_tabela_horarios_versao_tabela_horaria_id;
+alter table tabela_horarios drop foreign key fk_tabela_horarios_versao_tabela_horaria_id;
 
-alter table transicoes drop constraint if exists fk_transicoes_grupo_semaforico_id;
-drop index if exists ix_transicoes_grupo_semaforico_id;
+alter table transicoes drop foreign key fk_transicoes_grupo_semaforico_id;
+drop index ix_transicoes_grupo_semaforico_id on transicoes;
 
-alter table transicoes drop constraint if exists fk_transicoes_origem_id;
-drop index if exists ix_transicoes_origem_id;
+alter table transicoes drop foreign key fk_transicoes_origem_id;
+drop index ix_transicoes_origem_id on transicoes;
 
-alter table transicoes drop constraint if exists fk_transicoes_destino_id;
-drop index if exists ix_transicoes_destino_id;
+alter table transicoes drop foreign key fk_transicoes_destino_id;
+drop index ix_transicoes_destino_id on transicoes;
 
-alter table transicoes_proibidas drop constraint if exists fk_transicoes_proibidas_origem_id;
-drop index if exists ix_transicoes_proibidas_origem_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_origem_id;
+drop index ix_transicoes_proibidas_origem_id on transicoes_proibidas;
 
-alter table transicoes_proibidas drop constraint if exists fk_transicoes_proibidas_destino_id;
-drop index if exists ix_transicoes_proibidas_destino_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_destino_id;
+drop index ix_transicoes_proibidas_destino_id on transicoes_proibidas;
 
-alter table transicoes_proibidas drop constraint if exists fk_transicoes_proibidas_alternativo_id;
-drop index if exists ix_transicoes_proibidas_alternativo_id;
+alter table transicoes_proibidas drop foreign key fk_transicoes_proibidas_alternativo_id;
+drop index ix_transicoes_proibidas_alternativo_id on transicoes_proibidas;
 
-alter table usuarios drop constraint if exists fk_usuarios_area_id;
-drop index if exists ix_usuarios_area_id;
+alter table usuarios drop foreign key fk_usuarios_area_id;
+drop index ix_usuarios_area_id on usuarios;
 
-alter table usuarios drop constraint if exists fk_usuarios_perfil_id;
-drop index if exists ix_usuarios_perfil_id;
+alter table usuarios drop foreign key fk_usuarios_perfil_id;
+drop index ix_usuarios_perfil_id on usuarios;
 
-alter table verdes_conflitantes drop constraint if exists fk_verdes_conflitantes_origem_id;
-drop index if exists ix_verdes_conflitantes_origem_id;
+alter table verdes_conflitantes drop foreign key fk_verdes_conflitantes_origem_id;
+drop index ix_verdes_conflitantes_origem_id on verdes_conflitantes;
 
-alter table verdes_conflitantes drop constraint if exists fk_verdes_conflitantes_destino_id;
-drop index if exists ix_verdes_conflitantes_destino_id;
+alter table verdes_conflitantes drop foreign key fk_verdes_conflitantes_destino_id;
+drop index ix_verdes_conflitantes_destino_id on verdes_conflitantes;
 
-alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_origem_id;
+alter table versoes_controladores drop foreign key fk_versoes_controladores_controlador_origem_id;
 
-alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_id;
+alter table versoes_controladores drop foreign key fk_versoes_controladores_controlador_id;
 
-alter table versoes_controladores drop constraint if exists fk_versoes_controladores_controlador_fisico_id;
-drop index if exists ix_versoes_controladores_controlador_fisico_id;
+alter table versoes_controladores drop foreign key fk_versoes_controladores_controlador_fisico_id;
+drop index ix_versoes_controladores_controlador_fisico_id on versoes_controladores;
 
-alter table versoes_controladores drop constraint if exists fk_versoes_controladores_usuario_id;
-drop index if exists ix_versoes_controladores_usuario_id;
+alter table versoes_controladores drop foreign key fk_versoes_controladores_usuario_id;
+drop index ix_versoes_controladores_usuario_id on versoes_controladores;
 
-alter table versoes_planos drop constraint if exists fk_versoes_planos_versao_anterior_id;
+alter table versoes_planos drop foreign key fk_versoes_planos_versao_anterior_id;
 
-alter table versoes_planos drop constraint if exists fk_versoes_planos_anel_id;
-drop index if exists ix_versoes_planos_anel_id;
+alter table versoes_planos drop foreign key fk_versoes_planos_anel_id;
+drop index ix_versoes_planos_anel_id on versoes_planos;
 
-alter table versoes_planos drop constraint if exists fk_versoes_planos_usuario_id;
-drop index if exists ix_versoes_planos_usuario_id;
+alter table versoes_planos drop foreign key fk_versoes_planos_usuario_id;
+drop index ix_versoes_planos_usuario_id on versoes_planos;
 
-alter table versoes_tabelas_horarias drop constraint if exists fk_versoes_tabelas_horarias_controlador_id;
-drop index if exists ix_versoes_tabelas_horarias_controlador_id;
+alter table versoes_tabelas_horarias drop foreign key fk_versoes_tabelas_horarias_controlador_id;
+drop index ix_versoes_tabelas_horarias_controlador_id on versoes_tabelas_horarias;
 
-alter table versoes_tabelas_horarias drop constraint if exists fk_versoes_tabelas_horarias_tabela_horaria_origem_id;
+alter table versoes_tabelas_horarias drop foreign key fk_versoes_tabelas_horarias_tabela_horaria_origem_id;
 
-alter table versoes_tabelas_horarias drop constraint if exists fk_versoes_tabelas_horarias_usuario_id;
-drop index if exists ix_versoes_tabelas_horarias_usuario_id;
+alter table versoes_tabelas_horarias drop foreign key fk_versoes_tabelas_horarias_usuario_id;
+drop index ix_versoes_tabelas_horarias_usuario_id on versoes_tabelas_horarias;
 
 drop table if exists agrupamentos;
 

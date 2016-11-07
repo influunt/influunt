@@ -15,7 +15,8 @@ angular.module('influuntApp')
         ngModel: '=?',
         ifChanged: '&',
         ifChecked: '&',
-        ifUnchecked: '&'
+        ifUnchecked: '&',
+        useBoolean: '='
       },
       link: function postLink(scope, element, attr) {
         $(document).ready(function() {
@@ -30,6 +31,8 @@ angular.module('influuntApp')
               $timeout(function() {
                 if(attr.type !== 'radio'){
                   scope.ngModel = ev.target.checked;
+                } else if(!!scope.useBoolean) {
+                  scope.ngModel = !!ev.target.value;
                 } else {
                   scope.ngModel = ev.target.value;
                 }

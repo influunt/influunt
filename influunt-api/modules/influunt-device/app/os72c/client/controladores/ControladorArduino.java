@@ -54,6 +54,8 @@ public class ControladorArduino extends Controlador {
                 case VERMELHO_INTERMITENTE:
                     command += "4,";
                     break;
+                default:
+                    break;
             }
 
         }

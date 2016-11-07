@@ -192,8 +192,8 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
             message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
         if (!this.getTabelaHorario().getEventos().isEmpty() && this.getHorario() != null && this.getDiaDaSemana() != null) {
-            return !(this.getTabelaHorario().getEventos().stream().filter(
-                    evento -> this.getDiaDaSemana().equals(evento.getDiaDaSemana()) && this.getHorario().equals(evento.getHorario())).count() > 1);
+            return this.getTabelaHorario().getEventos().stream().filter(
+                    evento -> this.getDiaDaSemana().equals(evento.getDiaDaSemana()) && this.getHorario().equals(evento.getHorario())).count() <= 1;
         }
         return true;
     }
@@ -310,7 +310,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
 
         if (!this.getTipo().equals(TipoEvento.NORMAL)) {
-            DateTime data = new DateTime(getData().getTime());
+            DateTime data = getDataHora();
 
             boolean ano = this.getTipo().equals(TipoEvento.ESPECIAL_NAO_RECORRENTE) ? agora.getYear() == data.getYear() : true;
             if (!ano || agora.getMonthOfYear() != data.getMonthOfYear() || agora.getDayOfMonth() != data.getDayOfMonth()) {

@@ -916,6 +916,8 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
+        transicao.setModoIntermitenteOuApagado(node.get("modoIntermitenteOuApagado").asBoolean());
+
         return transicao;
     }
 

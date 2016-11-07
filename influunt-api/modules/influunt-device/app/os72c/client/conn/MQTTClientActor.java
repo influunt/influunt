@@ -34,9 +34,9 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     private final String port;
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    Router router;
+    private Router router;
 
     private String id;
 
@@ -90,7 +90,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Exception) {
             throw (Exception) message;
-        } else if (message.equals("CONNECT")) {
+        } else if ("CONNECT".equals(message)) {
             controlador = getSender();
             connect();
             getSender().tell("CONNECTED", getSelf());

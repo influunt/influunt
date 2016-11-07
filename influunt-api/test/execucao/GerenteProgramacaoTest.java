@@ -36,12 +36,14 @@ public class GerenteProgramacaoTest {
         Evento especialRecorrente = new Evento();
         especialRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
         especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+        especialRecorrente.setHorario(dt.toLocalTime());
 
         especialRecorrente.setPosicaoPlano(2);
 
         Evento especialNaoRecorrente = new Evento();
         especialNaoRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
         especialNaoRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
+        especialNaoRecorrente.setHorario(dt.toLocalTime());
         especialNaoRecorrente.setPosicaoPlano(3);
 
         GerenciadorDeTabelaHoraria g = new GerenciadorDeTabelaHoraria();
@@ -76,7 +78,7 @@ public class GerenteProgramacaoTest {
         Evento especialRecorrente = new Evento();
         especialRecorrente.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
         especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
-
+        especialRecorrente.setHorario(dt.toLocalTime());
 
         assertTrue(especialRecorrente.isAtivoEm(agora));
 
@@ -105,7 +107,7 @@ public class GerenteProgramacaoTest {
         Evento especialRecorrente = new Evento();
         especialRecorrente.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
         especialRecorrente.setData(dt.toCalendar(Locale.forLanguageTag("pt-BR")).getTime());
-
+        especialRecorrente.setHorario(dt.toLocalTime());
 
         assertTrue(especialRecorrente.isAtivoEm(agora));
 

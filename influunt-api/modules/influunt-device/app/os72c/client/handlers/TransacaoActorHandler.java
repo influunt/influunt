@@ -66,6 +66,8 @@ public class TransacaoActorHandler extends UntypedActor {
                         transacao.etapaTransacao = EtapaTransacao.ABORTED;
                         envelope.setDestino(DestinoCentral.transacao(transacao.transacaoId));
                         break;
+                    default:
+                        break;
                 }
                 log.info("DEVICE - TX Enviada: {}", transacao);
                 envelope.setConteudo(transacao.toJson().toString());

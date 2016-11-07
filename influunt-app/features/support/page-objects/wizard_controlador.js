@@ -478,7 +478,7 @@ var WizardControladorPage = function () {
   };
 
   this.confirmaSemConfiguracao = function(){
-    var xpath = '//ins[contains(@class, "iCheck-helper")]';
+    var xpath = '//div[contains(@class, "icheckbox_square-green")]//ins[contains(@class, "iCheck-helper")]';
     return world.scrollToDown().then(function() {
       return world.getElementByXpath(xpath).click();
     });
