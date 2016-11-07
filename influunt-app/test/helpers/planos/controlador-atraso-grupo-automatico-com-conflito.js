@@ -23,37 +23,37 @@ var ControladorAtrasoGrupoAutomatico = {
     "CLC": "1.000.0005",
     "bloqueado": false,
     "planosBloqueado": false,
-    "verdeMin": "1",
-    "verdeMax": "255",
-    "verdeMinimoMin": "10",
-    "verdeMinimoMax": "255",
-    "verdeMaximoMin": "10",
-    "verdeMaximoMax": "255",
-    "extensaoVerdeMin": "1.0",
-    "extensaoVerdeMax": "10.0",
-    "verdeIntermediarioMin": "10",
-    "verdeIntermediarioMax": "255",
-    "defasagemMin": "0",
+    "verdeMin": 1,
+    "verdeMax": 255,
+    "verdeMinimoMin": 10,
+    "verdeMinimoMax": 255,
+    "verdeMaximoMin": 10,
+    "verdeMaximoMax": 255,
+    "extensaoVerdeMin": 1,
+    "extensaoVerdeMax": 10,
+    "verdeIntermediarioMin": 10,
+    "verdeIntermediarioMax": 255,
+    "defasagemMin": 0,
     "defasagemMax": "255",
-    "amareloMin": "3",
-    "amareloMax": "5",
-    "vermelhoIntermitenteMin": "3",
-    "vermelhoIntermitenteMax": "32",
-    "vermelhoLimpezaVeicularMin": "0",
-    "vermelhoLimpezaVeicularMax": "7",
-    "vermelhoLimpezaPedestreMin": "0",
-    "vermelhoLimpezaPedestreMax": "5",
-    "atrasoGrupoMin": "0",
+    "amareloMin": 3,
+    "amareloMax": 5,
+    "vermelhoIntermitenteMin": 3,
+    "vermelhoIntermitenteMax": 32,
+    "vermelhoLimpezaVeicularMin": 0,
+    "vermelhoLimpezaVeicularMax": 7,
+    "vermelhoLimpezaPedestreMin": 0,
+    "vermelhoLimpezaPedestreMax": 5,
+    "atrasoGrupoMin": 0,
     "atrasoGrupoMax": "20",
-    "verdeSegurancaVeicularMin": "10",
-    "verdeSegurancaVeicularMax": "30",
-    "verdeSegurancaPedestreMin": "4",
-    "verdeSegurancaPedestreMax": "10",
-    "maximoPermanenciaEstagioMin": "60",
-    "maximoPermanenciaEstagioMax": "255",
+    "verdeSegurancaVeicularMin": 10,
+    "verdeSegurancaVeicularMax": 30,
+    "verdeSegurancaPedestreMin": 4,
+    "verdeSegurancaPedestreMax": 10,
+    "maximoPermanenciaEstagioMin": 60,
+    "maximoPermanenciaEstagioMax": 255,
     "defaultMaximoPermanenciaEstagioVeicular": 127,
-    "cicloMin": "30",
-    "cicloMax": "255",
+    "cicloMin": 30,
+    "cicloMax": 255,
     "ausenciaDeteccaoMin": "0",
     "ausenciaDeteccaoMax": "4320",
     "deteccaoPermanenteMin": "0",
@@ -119,10 +119,66 @@ var ControladorAtrasoGrupoAutomatico = {
           }
         ],
         "detectores": [],
-        "planos": [],
+        "planos": [
+          {
+            "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+          },
+          {
+            "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+          },
+          {
+            "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+          },
+          {
+            "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+          },
+          {
+            "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+          },
+          {
+            "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+          },
+          {
+            "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+          },
+          {
+            "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+          },
+          {
+            "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+          },
+          {
+            "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+          },
+          {
+            "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+          },
+          {
+            "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+          },
+          {
+            "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+          },
+          {
+            "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+          },
+          {
+            "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+          },
+          {
+            "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+          },
+          {
+            "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+          }
+        ],
         "endereco": {
           "idJson": "37608afb-115b-4bb6-a930-4a31b6e1715b"
-        }
+        },
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        },
+        "localizacao": "Rua Paul Bouthilier, nº 266"
       },
       {
         "id": "31e4fb3e-5633-4e85-b91b-20dff999e742",
@@ -137,24 +193,24 @@ var ControladorAtrasoGrupoAutomatico = {
         "planos": []
       },
       {
-        "id": "3a938f4c-bd74-491c-a5c2-7050f8cdf60f",
-        "idJson": "32db49f0-caa9-4f86-862c-e93f6dd8dbaf",
-        "ativo": false,
-        "aceitaModoManual": true,
-        "posicao": 4,
-        "CLA": "1.000.0005.4",
-        "estagios": [],
-        "gruposSemaforicos": [],
-        "detectores": [],
-        "planos": []
-      },
-      {
         "id": "d922624c-4ff3-44d2-9217-d2f30e7f5ef7",
         "idJson": "10559751-15c7-432f-8d6b-37f92cd5b0ec",
         "ativo": false,
         "aceitaModoManual": true,
         "posicao": 3,
         "CLA": "1.000.0005.3",
+        "estagios": [],
+        "gruposSemaforicos": [],
+        "detectores": [],
+        "planos": []
+      },
+      {
+        "id": "3a938f4c-bd74-491c-a5c2-7050f8cdf60f",
+        "idJson": "32db49f0-caa9-4f86-862c-e93f6dd8dbaf",
+        "ativo": false,
+        "aceitaModoManual": true,
+        "posicao": 4,
+        "CLA": "1.000.0005.4",
         "estagios": [],
         "gruposSemaforicos": [],
         "detectores": [],
@@ -174,7 +230,8 @@ var ControladorAtrasoGrupoAutomatico = {
           "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
         },
         "imagem": {
-          "idJson": "fc8917bb-87e1-442c-ae67-ed91b9ac81cf"
+          "idJson": "fc8917bb-87e1-442c-ae67-ed91b9ac81cf",
+          "id": "a312d88d-53d9-4a74-82bf-1d3eb90446fc"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
@@ -183,7 +240,9 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "f323958e-1a61-47f9-a3b8-18777a600d90"
           }
-        ]
+        ],
+        "verdeMinimoEstagio": 10,
+        "isVeicular": true
       },
       {
         "id": "cc9541c8-32e1-4bbc-8339-1c0bf170c5bc",
@@ -197,7 +256,8 @@ var ControladorAtrasoGrupoAutomatico = {
           "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
         },
         "imagem": {
-          "idJson": "c5700a11-20cf-481a-9d62-584708a6da53"
+          "idJson": "c5700a11-20cf-481a-9d62-584708a6da53",
+          "id": "fab1e63f-a4be-4f09-8f8f-4e9305bd03fb"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
@@ -206,7 +266,9 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "ca67eae1-4a33-4afe-8cc9-6c753ed82a0a"
           }
-        ]
+        ],
+        "verdeMinimoEstagio": 10,
+        "isVeicular": true
       },
       {
         "id": "c4791f0e-e3ef-4fd0-9f2e-dc617e6e5952",
@@ -220,7 +282,8 @@ var ControladorAtrasoGrupoAutomatico = {
           "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
         },
         "imagem": {
-          "idJson": "67e2c36a-9d4c-4ea6-af13-4ab9d50f0b6c"
+          "idJson": "67e2c36a-9d4c-4ea6-af13-4ab9d50f0b6c",
+          "id": "60a24530-c6d2-49e0-a9c3-06de765634b6"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
@@ -229,7 +292,9 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "4a7739ff-09ce-49dd-9011-cbfc3db6d419"
           }
-        ]
+        ],
+        "verdeMinimoEstagio": 10,
+        "isVeicular": true
       },
       {
         "id": "70f5f3f9-51de-4569-ab2d-09993d4330b6",
@@ -243,7 +308,8 @@ var ControladorAtrasoGrupoAutomatico = {
           "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
         },
         "imagem": {
-          "idJson": "b1a69915-2818-4784-b5e8-a0f45632eef8"
+          "idJson": "b1a69915-2818-4784-b5e8-a0f45632eef8",
+          "id": "bf1479f6-3ac8-44c4-92e8-eeb9065e8bf9"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
@@ -252,7 +318,9 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "e5f2b2df-7884-420b-8cdb-8b5ca7774f34"
           }
-        ]
+        ],
+        "verdeMinimoEstagio": 10,
+        "isVeicular": true
       },
       {
         "id": "c2284f71-5b37-4140-a25a-03bba319dc05",
@@ -266,7 +334,8 @@ var ControladorAtrasoGrupoAutomatico = {
           "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
         },
         "imagem": {
-          "idJson": "7d3df30d-39d0-4d82-bc5a-45df9dea8b1f"
+          "idJson": "7d3df30d-39d0-4d82-bc5a-45df9dea8b1f",
+          "id": "454eb503-95e6-499d-8ce7-a859ce865a72"
         },
         "origemDeTransicoesProibidas": [],
         "destinoDeTransicoesProibidas": [],
@@ -275,7 +344,9 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "cad71e0d-a531-466a-aa3b-0513acc221b7"
           }
-        ]
+        ],
+        "verdeMinimoEstagio": 10,
+        "isVeicular": true
       }
     ],
     "gruposSemaforicos": [
@@ -341,7 +412,8 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "4de0a2ed-0b01-45ee-bedf-ad211edb7d1d"
           }
-        ]
+        ],
+        "$$hashKey": "object:281"
       },
       {
         "id": "793d1393-ba2d-4d4c-b27a-1c732a0475c2",
@@ -406,7 +478,8 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "5a1575f0-22ef-49b9-be73-63b8bc8f34f0"
           }
-        ]
+        ],
+        "$$hashKey": "object:284"
       },
       {
         "id": "f8de468e-1b0f-46f7-ac03-7f1a89467ac4",
@@ -471,7 +544,8 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "80024360-e2de-4c19-8c43-9d1fc85b016b"
           }
-        ]
+        ],
+        "$$hashKey": "object:282"
       },
       {
         "id": "fafc8ca1-c4a7-4b54-a2e9-ff5fa0b39375",
@@ -536,7 +610,8 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "2a9e5868-be11-4c65-b093-bf05fdf911e1"
           }
-        ]
+        ],
+        "$$hashKey": "object:283"
       },
       {
         "id": "e921c47b-2401-4d00-b64a-a65ddfcf06f2",
@@ -600,7 +675,8 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "2364aeba-1c75-4080-a1d1-5fef25cf2d10"
           }
-        ]
+        ],
+        "$$hashKey": "object:285"
       }
     ],
     "detectores": [],
@@ -1694,7 +1770,8 @@ var ControladorAtrasoGrupoAutomatico = {
           {
             "idJson": "81e4d2e4-499c-40a8-8686-e93693abe44a"
           }
-        ]
+        ],
+        "$$hashKey": "object:286"
       },
       {
         "id": "4bab7d19-f4a4-41f9-bdfb-1bd8e4084167",
@@ -1982,9 +2059,2741 @@ var ControladorAtrasoGrupoAutomatico = {
         }
       }
     ],
-    "planos": [],
-    "gruposSemaforicosPlanos": [],
-    "estagiosPlanos": [],
+    "planos": [
+      {
+        "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "Exclusivo",
+        "posicao": 0,
+        "modoOperacao": "MANUAL",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "9f80092a-a27a-4f5a-ade5-45a2e7602e4f"
+          },
+          {
+            "idJson": "369059a6-69ff-46bb-95e5-7bf8d5d4409e"
+          },
+          {
+            "idJson": "1c1e3764-b093-4cf8-8133-455783e4e888"
+          },
+          {
+            "idJson": "cc0b887c-e792-4fdc-b3e9-597bc7077e9d"
+          },
+          {
+            "idJson": "794d9e75-1486-4e90-b9c6-545c71239623"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "718dee9c-c8fe-4012-8610-802f27460abf"
+          },
+          {
+            "idJson": "1be34f39-e636-47d2-9692-f4bde80618a3"
+          },
+          {
+            "idJson": "0435df12-657d-4f78-b3ad-e71ba92d21d7"
+          },
+          {
+            "idJson": "0825cbed-cfa6-4d1a-9246-f02a8b84f81a"
+          },
+          {
+            "idJson": "85dbef47-8693-4aea-ab92-a2983cb06302"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        },
+        "manualExclusivo": true
+      },
+      {
+        "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 1",
+        "posicao": 1,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "d8c5477b-bf0e-47f2-94ee-46329559ebc0"
+          },
+          {
+            "idJson": "8bed2d5d-fc20-4829-b744-9548927274f7"
+          },
+          {
+            "idJson": "fe6bfc32-ebd1-4393-9d38-5d27db295867"
+          },
+          {
+            "idJson": "aa2728a2-71e5-4ff1-9ab4-9bc43622a6b6"
+          },
+          {
+            "idJson": "28188470-e640-43ad-9d8e-2b992d9bda08"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "02784cd1-5ab1-429d-8312-042eada4de94"
+          },
+          {
+            "idJson": "8578bf1a-c226-45ae-8c85-52a4a50a7fa3"
+          },
+          {
+            "idJson": "8072c59c-773e-4904-adab-90a2bb1c0b5f"
+          },
+          {
+            "idJson": "2f8d3167-3376-40e2-a3bd-073000c9c4c2"
+          },
+          {
+            "idJson": "e2a53443-8072-429f-b31d-8e712ff2b471"
+          }
+        ],
+        "tempoCiclo": 100,
+        "configurado": true,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "216d0496-f7b6-4038-95b7-1975218e050a",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 2",
+        "posicao": 2,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "91ed7599-15e4-4660-828b-9ee921a8b30e"
+          },
+          {
+            "idJson": "8cecf451-b01c-4ced-9d0c-826fb53f3fd7"
+          },
+          {
+            "idJson": "44dca8cb-700c-48aa-bfb7-987d543d6493"
+          },
+          {
+            "idJson": "c5a285e9-40c0-49f3-8cb8-582aebaec570"
+          },
+          {
+            "idJson": "3b3a1aa1-b5c6-4819-8df0-879430f6de04"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "e232bc1f-67bd-43cf-897e-dc08c329018c"
+          },
+          {
+            "idJson": "af435d08-f043-445e-8cae-732d5b0f17be"
+          },
+          {
+            "idJson": "e32f6a3d-bfed-4100-9da9-edaf46515896"
+          },
+          {
+            "idJson": "b590187f-efda-4986-8aa7-678097997fe7"
+          },
+          {
+            "idJson": "e1fe0e3d-1c72-4561-98e1-e3b727801e37"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 3",
+        "posicao": 3,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "ffde822e-c03f-41ec-9271-c094ee3e0239"
+          },
+          {
+            "idJson": "869addf9-e54f-41fe-84c7-1577e2ccd151"
+          },
+          {
+            "idJson": "2660ba06-9cf2-4bd8-8723-3834f417ddc7"
+          },
+          {
+            "idJson": "3669063b-f2dc-4c38-b29e-9c2ec230f483"
+          },
+          {
+            "idJson": "25508f7c-09e7-4961-b1a8-169f112f58f6"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "7c88c6cf-758c-4450-85da-3871337ce801"
+          },
+          {
+            "idJson": "d240b912-529c-4152-a132-95ed10444b2b"
+          },
+          {
+            "idJson": "4f980485-763a-41a4-b128-28972d5faaf6"
+          },
+          {
+            "idJson": "b9ef614a-7fd2-496a-ad85-c99a9be9799a"
+          },
+          {
+            "idJson": "bf3d7fee-5210-48cd-9bfa-a025a860f09e"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 4",
+        "posicao": 4,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "22ceeed8-c8cf-4448-8bbe-9967ca49f521"
+          },
+          {
+            "idJson": "f3b0b32b-5978-4a54-9a6f-f0c4ff6e544c"
+          },
+          {
+            "idJson": "b6e425ee-2241-4f62-a931-401458f0a9d8"
+          },
+          {
+            "idJson": "f7ab9a7b-3907-40ef-ae86-423cf8912129"
+          },
+          {
+            "idJson": "40dd97ec-cb54-416c-9b89-6f725dc35d10"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "1fae84bd-2c25-497d-ae49-dbc75c199344"
+          },
+          {
+            "idJson": "a9376ae1-d39d-4417-9a87-d826e64339d8"
+          },
+          {
+            "idJson": "7bf9c4dc-d6ec-46eb-a0c0-4baf701289a6"
+          },
+          {
+            "idJson": "034a0f40-58c9-4c0c-aff6-c187a3031138"
+          },
+          {
+            "idJson": "a03f4b95-ed63-4188-af9b-bbe0affea532"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 5",
+        "posicao": 5,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "50718f50-8680-496e-9c5b-f4864bb4b3c6"
+          },
+          {
+            "idJson": "34b04967-3094-482f-9004-e4053bbfca26"
+          },
+          {
+            "idJson": "aeb96a3b-67ff-4f1c-8cbf-2213b81f182e"
+          },
+          {
+            "idJson": "86ca5433-440a-46cf-ac9c-2e98a86bf6ee"
+          },
+          {
+            "idJson": "393fcf23-3f39-4e92-9084-e12d89fdb899"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "f44c6c0f-5bd3-412e-b324-667faadc5397"
+          },
+          {
+            "idJson": "69236cf2-73fa-4e84-85b6-088855029592"
+          },
+          {
+            "idJson": "d9ea17d8-0541-421a-bca9-1a485dc0f8b7"
+          },
+          {
+            "idJson": "0e24cf0b-9f93-424b-8cd7-318a4c055c0f"
+          },
+          {
+            "idJson": "0943e20f-0b6a-4d08-bfc7-aa8be7c1dfc5"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 6",
+        "posicao": 6,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "eb5aceaa-3e4f-4805-bc6a-d2a2c0abd5c6"
+          },
+          {
+            "idJson": "9166b3b6-e4ac-4f08-971c-023fd45a1f36"
+          },
+          {
+            "idJson": "b09d18f7-feca-42c1-8c33-b0ca0241b702"
+          },
+          {
+            "idJson": "9bd0316f-53bd-401b-a985-fc9696aa27c5"
+          },
+          {
+            "idJson": "da4f3e1b-1272-48eb-b40d-cc04baebebab"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "34a16448-82f0-4bd0-9c9b-672d5b4bc62c"
+          },
+          {
+            "idJson": "8d1c63e1-e236-43ea-9b3f-de41c06d6fb2"
+          },
+          {
+            "idJson": "d4484d46-479a-4897-82e9-7667d9f57312"
+          },
+          {
+            "idJson": "93e6d5e1-e80c-42bc-a8c3-4d2b07a599b2"
+          },
+          {
+            "idJson": "14db8e18-978c-4520-a9cb-1c4365452f9f"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 7",
+        "posicao": 7,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "57686ccc-316e-4bc4-8b8c-cade3c1cb323"
+          },
+          {
+            "idJson": "99ef4549-4943-475f-ad44-d003089af891"
+          },
+          {
+            "idJson": "dd98f0dd-ef7a-4f9f-9ed4-f04470e9f663"
+          },
+          {
+            "idJson": "631a022f-54a2-4151-b227-e6347517776e"
+          },
+          {
+            "idJson": "8d304413-7282-413e-915d-7157cfea6e3a"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "d8089bf1-8605-46ed-8c1a-60af0e521145"
+          },
+          {
+            "idJson": "c945db00-3d0a-49e1-956f-c7cfd6998cd3"
+          },
+          {
+            "idJson": "2a4594e0-7809-4ae3-a646-9554a867cf2e"
+          },
+          {
+            "idJson": "804de185-09de-478a-a475-da1b1110bd0d"
+          },
+          {
+            "idJson": "57aa4c80-32af-4293-b2d5-504242fc162b"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 8",
+        "posicao": 8,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "a288f728-b9b7-45b5-8d52-b8516a5cde26"
+          },
+          {
+            "idJson": "92ac501c-b756-47e1-bebb-c2d53f3c9542"
+          },
+          {
+            "idJson": "e9e7c011-5937-41ef-ba12-20998afcfa44"
+          },
+          {
+            "idJson": "50bd3034-f3ad-4e27-8a44-945f6db841b4"
+          },
+          {
+            "idJson": "9adcd6b5-3e3f-4710-980e-5565d63e8a6b"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "5b453258-9c0d-4cbe-8a1d-4cc9f74a03c1"
+          },
+          {
+            "idJson": "67d80596-9736-4056-8ba5-820777c03de5"
+          },
+          {
+            "idJson": "36f931e4-622b-4598-b5c8-90ec4f54421f"
+          },
+          {
+            "idJson": "c4bbb3a0-7e23-40b2-9bdb-4814ba78dabc"
+          },
+          {
+            "idJson": "15c2f48e-3cc9-4280-b1d7-f7b399049262"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 9",
+        "posicao": 9,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "c5c367e3-2fbc-4c6a-88b4-570224b1fb63"
+          },
+          {
+            "idJson": "02cb17a2-4438-409b-ab64-d6ea4469afc5"
+          },
+          {
+            "idJson": "071b53b9-b8a7-4b6b-9708-30b5abb07c08"
+          },
+          {
+            "idJson": "43111abd-8fd9-4b1d-8733-11613431e84b"
+          },
+          {
+            "idJson": "47c73ef2-9ef2-4a90-bb16-c762ca400610"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "22eea508-b1d1-4160-9206-bf1a0e189e06"
+          },
+          {
+            "idJson": "774d7c93-db3b-42bb-884a-49c813a9deb6"
+          },
+          {
+            "idJson": "42298636-8441-44db-a813-a8e393c1eefe"
+          },
+          {
+            "idJson": "86520062-84a8-4e9a-b4af-ffb1ac25c66b"
+          },
+          {
+            "idJson": "100fc407-9087-4be8-981f-ed231b49791b"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 10",
+        "posicao": 10,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "49b94a9c-a982-4387-9d9c-9142f1582743"
+          },
+          {
+            "idJson": "862cdf5d-9f28-4e2b-96ef-18d93b2a9dba"
+          },
+          {
+            "idJson": "b9ca091a-dc34-42fd-a5a7-4551cc52d35b"
+          },
+          {
+            "idJson": "0ac7fe2e-fc31-4761-ac2d-d50b1b0dc299"
+          },
+          {
+            "idJson": "9431707e-22e5-4d79-b3b7-1eb43cbafd7f"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "f16163b1-b738-4836-988c-dc2151216f4e"
+          },
+          {
+            "idJson": "31b40527-6843-4608-b563-50f09fd10009"
+          },
+          {
+            "idJson": "e0468356-9241-467f-a82f-cb9e759ccfd3"
+          },
+          {
+            "idJson": "8946b6a4-7e49-41e2-a974-22f391e1b81f"
+          },
+          {
+            "idJson": "9ca5b951-6fb4-4fe6-8ea0-94f3b927f5a0"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 11",
+        "posicao": 11,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "5da0c9e4-3d98-487a-9549-ba8b8f2400b9"
+          },
+          {
+            "idJson": "c85be328-510c-4c0d-9b2a-94dfa8b9d780"
+          },
+          {
+            "idJson": "f4ad8ded-8e3e-48e3-ac2a-72e91911c299"
+          },
+          {
+            "idJson": "9741db28-1d28-4676-9fbb-7d22e57feacc"
+          },
+          {
+            "idJson": "b7b4c17d-c92d-48ab-ace9-0f4fb551f658"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "88c91d69-e6a6-4c59-90d2-81b355a852d1"
+          },
+          {
+            "idJson": "59655463-4847-4cd0-937d-2f6f9d159c78"
+          },
+          {
+            "idJson": "1f28795d-2517-4362-a7d7-0196d0c21ff2"
+          },
+          {
+            "idJson": "105060b9-04ab-46d4-980a-11d100dacc76"
+          },
+          {
+            "idJson": "9c90f3ca-784e-4d26-be11-1451ee30b8ca"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 12",
+        "posicao": 12,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "574b5d6d-ad63-4299-9534-6d0dfa64b662"
+          },
+          {
+            "idJson": "7ddf9057-caab-4aa5-8222-f2489cda764c"
+          },
+          {
+            "idJson": "4fffae1d-e0db-4902-959d-dcd6896a6c30"
+          },
+          {
+            "idJson": "3906ce4a-bf25-4db6-a13a-6022c04c97d2"
+          },
+          {
+            "idJson": "dcbc4d98-e994-4af0-882e-1650585d8809"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "7b648c8d-1a00-41f0-b382-9cdbe45057f2"
+          },
+          {
+            "idJson": "8dfd44d9-10b2-4813-8881-9ae72c71ef8d"
+          },
+          {
+            "idJson": "2daae396-dd34-4e78-8608-b509bd71f610"
+          },
+          {
+            "idJson": "466bc3ae-833e-4687-b878-972b8df375cb"
+          },
+          {
+            "idJson": "efb73e51-69bc-4be3-8403-0132cb9256e1"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 13",
+        "posicao": 13,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "6bcffff9-36d4-4cd2-a58c-739be092099c"
+          },
+          {
+            "idJson": "7ec60cfb-6b3c-442c-a2e2-4299e959d2b1"
+          },
+          {
+            "idJson": "0c9a61f4-6052-4937-896b-e86caa60221f"
+          },
+          {
+            "idJson": "fc75d2c8-793d-4546-ada0-d7fb182719ff"
+          },
+          {
+            "idJson": "74644d0c-191c-4a88-b476-09d8ba462c5e"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "763871ad-eece-4ddd-bd14-f4954b28e618"
+          },
+          {
+            "idJson": "3ea6a7e6-da29-422f-97e8-224330a9b81d"
+          },
+          {
+            "idJson": "7cad5eec-2e33-4e69-8f4e-fcadad66f250"
+          },
+          {
+            "idJson": "41116921-843e-4046-b002-88630c2b98c8"
+          },
+          {
+            "idJson": "d68cb97f-2a00-42c8-a7df-87a22da58320"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 14",
+        "posicao": 14,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "ce6e32fd-623f-4157-b945-8c2f4602e9e2"
+          },
+          {
+            "idJson": "df2e38e1-b08c-400f-b755-6fadb4443325"
+          },
+          {
+            "idJson": "34585496-8472-43e4-95c6-e819eabfb92a"
+          },
+          {
+            "idJson": "10901202-8750-41b1-a805-d872037f0b3e"
+          },
+          {
+            "idJson": "1497c4be-4a32-4836-86b6-70be2a193bf7"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "01749fa5-ffa9-4284-9c8c-a591360bb026"
+          },
+          {
+            "idJson": "e459ff60-6758-4afe-8aa1-fa0a98efb7fb"
+          },
+          {
+            "idJson": "4f2f402c-124d-4c70-8569-9c0a44a38fdc"
+          },
+          {
+            "idJson": "57478df6-1f05-4516-8048-b25629f75403"
+          },
+          {
+            "idJson": "e4d33149-394f-4be1-b261-aa6409c13dec"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 15",
+        "posicao": 15,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "1bc338d3-107a-4fbf-abf3-004093fdbfd2"
+          },
+          {
+            "idJson": "7b0d29dc-57ef-4be7-86f4-ac9e824da1ea"
+          },
+          {
+            "idJson": "ecb69c27-64c6-4467-8699-fa53f37075fa"
+          },
+          {
+            "idJson": "7053ceca-e416-4b3e-a65f-0bf004b50372"
+          },
+          {
+            "idJson": "4ed2275f-e068-4dfe-9bd9-9291746692de"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "5c1cd917-6fc4-4ec4-a33c-81481a8c69ee"
+          },
+          {
+            "idJson": "121e98e4-e13b-472d-a229-a3aa1c5b76aa"
+          },
+          {
+            "idJson": "9da83fb9-1764-4668-b3a5-9bb48c983c69"
+          },
+          {
+            "idJson": "c6fbf5c6-8b35-41ed-ad94-953e14f38fec"
+          },
+          {
+            "idJson": "113e637c-0174-4964-816e-0cd381bde0cc"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      },
+      {
+        "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "descricao": "PLANO 16",
+        "posicao": 16,
+        "modoOperacao": "TEMPO_FIXO_ISOLADO",
+        "posicaoTabelaEntreVerde": 1,
+        "gruposSemaforicosPlanos": [
+          {
+            "idJson": "33158a9b-38cd-4893-bf88-4c79f4c2e04f"
+          },
+          {
+            "idJson": "63991501-1150-40fd-b5ea-538becdd9bf3"
+          },
+          {
+            "idJson": "aee5e705-2d24-4dca-9b81-8f81859a8c8c"
+          },
+          {
+            "idJson": "a530778e-0fda-4025-92e0-783bce47aa37"
+          },
+          {
+            "idJson": "1c46aaeb-f389-4de8-9b69-de5cf756f6ab"
+          }
+        ],
+        "estagiosPlanos": [
+          {
+            "idJson": "77a029f3-7b4e-4a7f-82c3-15dd5b2e2df7"
+          },
+          {
+            "idJson": "bd94ba16-5c56-4e54-938d-d45672a232b0"
+          },
+          {
+            "idJson": "3138331e-2f9a-4ea8-a2dc-56708caa7036"
+          },
+          {
+            "idJson": "9faa3bf4-8f55-42f2-b85f-ef3c00b29875"
+          },
+          {
+            "idJson": "a82823bd-306e-4932-a132-2c17bcc6ce81"
+          }
+        ],
+        "tempoCiclo": 30,
+        "configurado": false,
+        "versaoPlano": {
+          "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f"
+        }
+      }
+    ],
+    "gruposSemaforicosPlanos": [
+      {
+        "idJson": "9f80092a-a27a-4f5a-ade5-45a2e7602e4f",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        }
+      },
+      {
+        "idJson": "369059a6-69ff-46bb-95e5-7bf8d5d4409e",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        }
+      },
+      {
+        "idJson": "1c1e3764-b093-4cf8-8133-455783e4e888",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        }
+      },
+      {
+        "idJson": "cc0b887c-e792-4fdc-b3e9-597bc7077e9d",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        }
+      },
+      {
+        "idJson": "794d9e75-1486-4e90-b9c6-545c71239623",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        }
+      },
+      {
+        "idJson": "d8c5477b-bf0e-47f2-94ee-46329559ebc0",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        }
+      },
+      {
+        "idJson": "8bed2d5d-fc20-4829-b744-9548927274f7",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        }
+      },
+      {
+        "idJson": "fe6bfc32-ebd1-4393-9d38-5d27db295867",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        }
+      },
+      {
+        "idJson": "aa2728a2-71e5-4ff1-9ab4-9bc43622a6b6",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        }
+      },
+      {
+        "idJson": "28188470-e640-43ad-9d8e-2b992d9bda08",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        }
+      },
+      {
+        "idJson": "91ed7599-15e4-4660-828b-9ee921a8b30e",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        }
+      },
+      {
+        "idJson": "8cecf451-b01c-4ced-9d0c-826fb53f3fd7",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        }
+      },
+      {
+        "idJson": "44dca8cb-700c-48aa-bfb7-987d543d6493",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        }
+      },
+      {
+        "idJson": "c5a285e9-40c0-49f3-8cb8-582aebaec570",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        }
+      },
+      {
+        "idJson": "3b3a1aa1-b5c6-4819-8df0-879430f6de04",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        }
+      },
+      {
+        "idJson": "ffde822e-c03f-41ec-9271-c094ee3e0239",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        }
+      },
+      {
+        "idJson": "869addf9-e54f-41fe-84c7-1577e2ccd151",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        }
+      },
+      {
+        "idJson": "2660ba06-9cf2-4bd8-8723-3834f417ddc7",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        }
+      },
+      {
+        "idJson": "3669063b-f2dc-4c38-b29e-9c2ec230f483",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        }
+      },
+      {
+        "idJson": "25508f7c-09e7-4961-b1a8-169f112f58f6",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        }
+      },
+      {
+        "idJson": "22ceeed8-c8cf-4448-8bbe-9967ca49f521",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        }
+      },
+      {
+        "idJson": "f3b0b32b-5978-4a54-9a6f-f0c4ff6e544c",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        }
+      },
+      {
+        "idJson": "b6e425ee-2241-4f62-a931-401458f0a9d8",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        }
+      },
+      {
+        "idJson": "f7ab9a7b-3907-40ef-ae86-423cf8912129",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        }
+      },
+      {
+        "idJson": "40dd97ec-cb54-416c-9b89-6f725dc35d10",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        }
+      },
+      {
+        "idJson": "50718f50-8680-496e-9c5b-f4864bb4b3c6",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        }
+      },
+      {
+        "idJson": "34b04967-3094-482f-9004-e4053bbfca26",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        }
+      },
+      {
+        "idJson": "aeb96a3b-67ff-4f1c-8cbf-2213b81f182e",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        }
+      },
+      {
+        "idJson": "86ca5433-440a-46cf-ac9c-2e98a86bf6ee",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        }
+      },
+      {
+        "idJson": "393fcf23-3f39-4e92-9084-e12d89fdb899",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        }
+      },
+      {
+        "idJson": "eb5aceaa-3e4f-4805-bc6a-d2a2c0abd5c6",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        }
+      },
+      {
+        "idJson": "9166b3b6-e4ac-4f08-971c-023fd45a1f36",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        }
+      },
+      {
+        "idJson": "b09d18f7-feca-42c1-8c33-b0ca0241b702",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        }
+      },
+      {
+        "idJson": "9bd0316f-53bd-401b-a985-fc9696aa27c5",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        }
+      },
+      {
+        "idJson": "da4f3e1b-1272-48eb-b40d-cc04baebebab",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        }
+      },
+      {
+        "idJson": "57686ccc-316e-4bc4-8b8c-cade3c1cb323",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        }
+      },
+      {
+        "idJson": "99ef4549-4943-475f-ad44-d003089af891",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        }
+      },
+      {
+        "idJson": "dd98f0dd-ef7a-4f9f-9ed4-f04470e9f663",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        }
+      },
+      {
+        "idJson": "631a022f-54a2-4151-b227-e6347517776e",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        }
+      },
+      {
+        "idJson": "8d304413-7282-413e-915d-7157cfea6e3a",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        }
+      },
+      {
+        "idJson": "a288f728-b9b7-45b5-8d52-b8516a5cde26",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        }
+      },
+      {
+        "idJson": "92ac501c-b756-47e1-bebb-c2d53f3c9542",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        }
+      },
+      {
+        "idJson": "e9e7c011-5937-41ef-ba12-20998afcfa44",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        }
+      },
+      {
+        "idJson": "50bd3034-f3ad-4e27-8a44-945f6db841b4",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        }
+      },
+      {
+        "idJson": "9adcd6b5-3e3f-4710-980e-5565d63e8a6b",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        }
+      },
+      {
+        "idJson": "c5c367e3-2fbc-4c6a-88b4-570224b1fb63",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        }
+      },
+      {
+        "idJson": "02cb17a2-4438-409b-ab64-d6ea4469afc5",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        }
+      },
+      {
+        "idJson": "071b53b9-b8a7-4b6b-9708-30b5abb07c08",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        }
+      },
+      {
+        "idJson": "43111abd-8fd9-4b1d-8733-11613431e84b",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        }
+      },
+      {
+        "idJson": "47c73ef2-9ef2-4a90-bb16-c762ca400610",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        }
+      },
+      {
+        "idJson": "49b94a9c-a982-4387-9d9c-9142f1582743",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        }
+      },
+      {
+        "idJson": "862cdf5d-9f28-4e2b-96ef-18d93b2a9dba",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        }
+      },
+      {
+        "idJson": "b9ca091a-dc34-42fd-a5a7-4551cc52d35b",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        }
+      },
+      {
+        "idJson": "0ac7fe2e-fc31-4761-ac2d-d50b1b0dc299",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        }
+      },
+      {
+        "idJson": "9431707e-22e5-4d79-b3b7-1eb43cbafd7f",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        }
+      },
+      {
+        "idJson": "5da0c9e4-3d98-487a-9549-ba8b8f2400b9",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        }
+      },
+      {
+        "idJson": "c85be328-510c-4c0d-9b2a-94dfa8b9d780",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        }
+      },
+      {
+        "idJson": "f4ad8ded-8e3e-48e3-ac2a-72e91911c299",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        }
+      },
+      {
+        "idJson": "9741db28-1d28-4676-9fbb-7d22e57feacc",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        }
+      },
+      {
+        "idJson": "b7b4c17d-c92d-48ab-ace9-0f4fb551f658",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        }
+      },
+      {
+        "idJson": "574b5d6d-ad63-4299-9534-6d0dfa64b662",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        }
+      },
+      {
+        "idJson": "7ddf9057-caab-4aa5-8222-f2489cda764c",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        }
+      },
+      {
+        "idJson": "4fffae1d-e0db-4902-959d-dcd6896a6c30",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        }
+      },
+      {
+        "idJson": "3906ce4a-bf25-4db6-a13a-6022c04c97d2",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        }
+      },
+      {
+        "idJson": "dcbc4d98-e994-4af0-882e-1650585d8809",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        }
+      },
+      {
+        "idJson": "6bcffff9-36d4-4cd2-a58c-739be092099c",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        }
+      },
+      {
+        "idJson": "7ec60cfb-6b3c-442c-a2e2-4299e959d2b1",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        }
+      },
+      {
+        "idJson": "0c9a61f4-6052-4937-896b-e86caa60221f",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        }
+      },
+      {
+        "idJson": "fc75d2c8-793d-4546-ada0-d7fb182719ff",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        }
+      },
+      {
+        "idJson": "74644d0c-191c-4a88-b476-09d8ba462c5e",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        }
+      },
+      {
+        "idJson": "ce6e32fd-623f-4157-b945-8c2f4602e9e2",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        }
+      },
+      {
+        "idJson": "df2e38e1-b08c-400f-b755-6fadb4443325",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        }
+      },
+      {
+        "idJson": "34585496-8472-43e4-95c6-e819eabfb92a",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        }
+      },
+      {
+        "idJson": "10901202-8750-41b1-a805-d872037f0b3e",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        }
+      },
+      {
+        "idJson": "1497c4be-4a32-4836-86b6-70be2a193bf7",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        }
+      },
+      {
+        "idJson": "1bc338d3-107a-4fbf-abf3-004093fdbfd2",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        }
+      },
+      {
+        "idJson": "7b0d29dc-57ef-4be7-86f4-ac9e824da1ea",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        }
+      },
+      {
+        "idJson": "ecb69c27-64c6-4467-8699-fa53f37075fa",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        }
+      },
+      {
+        "idJson": "7053ceca-e416-4b3e-a65f-0bf004b50372",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        }
+      },
+      {
+        "idJson": "4ed2275f-e068-4dfe-9bd9-9291746692de",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        }
+      },
+      {
+        "idJson": "33158a9b-38cd-4893-bf88-4c79f4c2e04f",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "911ebc3b-25b7-4599-8531-a2f776850b11"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        }
+      },
+      {
+        "idJson": "63991501-1150-40fd-b5ea-538becdd9bf3",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "e04d3c80-06de-45c1-b635-c81ce567ac8c"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        }
+      },
+      {
+        "idJson": "aee5e705-2d24-4dca-9b81-8f81859a8c8c",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "3e22d9c8-6a98-45cc-8bb9-b4e9cfb5a696"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        }
+      },
+      {
+        "idJson": "a530778e-0fda-4025-92e0-783bce47aa37",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "9e494c36-72d9-485c-b69e-85ac411e912a"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        }
+      },
+      {
+        "idJson": "1c46aaeb-f389-4de8-9b69-de5cf756f6ab",
+        "ativado": true,
+        "grupoSemaforico": {
+          "idJson": "02c45e6c-c594-40e6-b11a-a6b238db83b2"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        }
+      }
+    ],
+    "estagiosPlanos": [
+      {
+        "idJson": "718dee9c-c8fe-4012-8610-802f27460abf",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "1be34f39-e636-47d2-9692-f4bde80618a3",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "0435df12-657d-4f78-b3ad-e71ba92d21d7",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "0825cbed-cfa6-4d1a-9246-f02a8b84f81a",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "85dbef47-8693-4aea-ab92-a2983cb06302",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "02784cd1-5ab1-429d-8312-042eada4de94",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "$$hashKey": "object:501",
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "8578bf1a-c226-45ae-8c85-52a4a50a7fa3",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "$$hashKey": "object:504",
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "8072c59c-773e-4904-adab-90a2bb1c0b5f",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "$$hashKey": "object:503",
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "2f8d3167-3376-40e2-a3bd-073000c9c4c2",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "$$hashKey": "object:502",
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "e2a53443-8072-429f-b31d-8e712ff2b471",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false,
+        "$$hashKey": "object:500",
+        "origemTransicaoProibida": false,
+        "destinoTransicaoProibida": false
+      },
+      {
+        "idJson": "e232bc1f-67bd-43cf-897e-dc08c329018c",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "af435d08-f043-445e-8cae-732d5b0f17be",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "e32f6a3d-bfed-4100-9da9-edaf46515896",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "b590187f-efda-4986-8aa7-678097997fe7",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "e1fe0e3d-1c72-4561-98e1-e3b727801e37",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "7c88c6cf-758c-4450-85da-3871337ce801",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "d240b912-529c-4152-a132-95ed10444b2b",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "4f980485-763a-41a4-b128-28972d5faaf6",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "b9ef614a-7fd2-496a-ad85-c99a9be9799a",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "bf3d7fee-5210-48cd-9bfa-a025a860f09e",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "1fae84bd-2c25-497d-ae49-dbc75c199344",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "a9376ae1-d39d-4417-9a87-d826e64339d8",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "7bf9c4dc-d6ec-46eb-a0c0-4baf701289a6",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "034a0f40-58c9-4c0c-aff6-c187a3031138",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "a03f4b95-ed63-4188-af9b-bbe0affea532",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "f44c6c0f-5bd3-412e-b324-667faadc5397",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "69236cf2-73fa-4e84-85b6-088855029592",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "d9ea17d8-0541-421a-bca9-1a485dc0f8b7",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "0e24cf0b-9f93-424b-8cd7-318a4c055c0f",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "0943e20f-0b6a-4d08-bfc7-aa8be7c1dfc5",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "34a16448-82f0-4bd0-9c9b-672d5b4bc62c",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "8d1c63e1-e236-43ea-9b3f-de41c06d6fb2",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "d4484d46-479a-4897-82e9-7667d9f57312",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "93e6d5e1-e80c-42bc-a8c3-4d2b07a599b2",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "14db8e18-978c-4520-a9cb-1c4365452f9f",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "d8089bf1-8605-46ed-8c1a-60af0e521145",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "c945db00-3d0a-49e1-956f-c7cfd6998cd3",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "2a4594e0-7809-4ae3-a646-9554a867cf2e",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "804de185-09de-478a-a475-da1b1110bd0d",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "57aa4c80-32af-4293-b2d5-504242fc162b",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "5b453258-9c0d-4cbe-8a1d-4cc9f74a03c1",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "67d80596-9736-4056-8ba5-820777c03de5",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "36f931e4-622b-4598-b5c8-90ec4f54421f",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "c4bbb3a0-7e23-40b2-9bdb-4814ba78dabc",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "15c2f48e-3cc9-4280-b1d7-f7b399049262",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "22eea508-b1d1-4160-9206-bf1a0e189e06",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "774d7c93-db3b-42bb-884a-49c813a9deb6",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "42298636-8441-44db-a813-a8e393c1eefe",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "86520062-84a8-4e9a-b4af-ffb1ac25c66b",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "100fc407-9087-4be8-981f-ed231b49791b",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "f16163b1-b738-4836-988c-dc2151216f4e",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "31b40527-6843-4608-b563-50f09fd10009",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "e0468356-9241-467f-a82f-cb9e759ccfd3",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "8946b6a4-7e49-41e2-a974-22f391e1b81f",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "9ca5b951-6fb4-4fe6-8ea0-94f3b927f5a0",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "88c91d69-e6a6-4c59-90d2-81b355a852d1",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "59655463-4847-4cd0-937d-2f6f9d159c78",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "1f28795d-2517-4362-a7d7-0196d0c21ff2",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "105060b9-04ab-46d4-980a-11d100dacc76",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "9c90f3ca-784e-4d26-be11-1451ee30b8ca",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "7b648c8d-1a00-41f0-b382-9cdbe45057f2",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "8dfd44d9-10b2-4813-8881-9ae72c71ef8d",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "2daae396-dd34-4e78-8608-b509bd71f610",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "466bc3ae-833e-4687-b878-972b8df375cb",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "efb73e51-69bc-4be3-8403-0132cb9256e1",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "763871ad-eece-4ddd-bd14-f4954b28e618",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "3ea6a7e6-da29-422f-97e8-224330a9b81d",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "7cad5eec-2e33-4e69-8f4e-fcadad66f250",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "41116921-843e-4046-b002-88630c2b98c8",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "d68cb97f-2a00-42c8-a7df-87a22da58320",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "01749fa5-ffa9-4284-9c8c-a591360bb026",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "e459ff60-6758-4afe-8aa1-fa0a98efb7fb",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "4f2f402c-124d-4c70-8569-9c0a44a38fdc",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "57478df6-1f05-4516-8048-b25629f75403",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "e4d33149-394f-4be1-b261-aa6409c13dec",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "5c1cd917-6fc4-4ec4-a33c-81481a8c69ee",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "121e98e4-e13b-472d-a229-a3aa1c5b76aa",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "9da83fb9-1764-4668-b3a5-9bb48c983c69",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "c6fbf5c6-8b35-41ed-ad94-953e14f38fec",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "113e637c-0174-4964-816e-0cd381bde0cc",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "77a029f3-7b4e-4a7f-82c3-15dd5b2e2df7",
+        "estagio": {
+          "idJson": "25dd2981-084e-4b00-be77-b92052c25502"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        },
+        "posicao": 2,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "bd94ba16-5c56-4e54-938d-d45672a232b0",
+        "estagio": {
+          "idJson": "fcc3c63e-cb36-4966-9407-1b8bf30c3106"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        },
+        "posicao": 5,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "3138331e-2f9a-4ea8-a2dc-56708caa7036",
+        "estagio": {
+          "idJson": "bd3d834a-d83c-4ac0-b52a-04c2bdbd34a7"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        },
+        "posicao": 4,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "9faa3bf4-8f55-42f2-b85f-ef3c00b29875",
+        "estagio": {
+          "idJson": "8a1e2214-588c-465a-9e37-d838c56f2106"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        },
+        "posicao": 3,
+        "tempoVerde": 10,
+        "dispensavel": false
+      },
+      {
+        "idJson": "a82823bd-306e-4932-a132-2c17bcc6ce81",
+        "estagio": {
+          "idJson": "73d11d5b-7d01-455c-9764-2e222b01bc8b"
+        },
+        "plano": {
+          "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+        },
+        "posicao": 1,
+        "tempoVerde": 10,
+        "dispensavel": false
+      }
+    ],
     "cidades": [
       {
         "id": "66b66819-a1c4-11e6-970d-0401fa9c1b01",
@@ -2279,7 +5088,67 @@ var ControladorAtrasoGrupoAutomatico = {
         }
       }
     },
-    "versoesPlanos": [],
+    "versoesPlanos": [
+      {
+        "idJson": "8005179f-4974-454e-a900-cdcf3bd0c58f",
+        "anel": {
+          "idJson": "c6787208-ede2-4b5f-b857-efa5ad97f0ae"
+        },
+        "planos": [
+          {
+            "idJson": "d89e7a44-dfc5-47a7-bdde-11820f06749f"
+          },
+          {
+            "idJson": "bd7ba623-c2e7-49ee-a306-4353f5513a7c"
+          },
+          {
+            "idJson": "216d0496-f7b6-4038-95b7-1975218e050a"
+          },
+          {
+            "idJson": "986d4974-baad-4c9d-ad93-ec9a23a982ef"
+          },
+          {
+            "idJson": "f9ecbfed-2372-4a5c-a3bf-555dde6bdec5"
+          },
+          {
+            "idJson": "4e3c0565-954f-4586-bda1-7fc7a89dcdfd"
+          },
+          {
+            "idJson": "b80ebfe7-fee4-477f-be85-f7cdbf6b15c0"
+          },
+          {
+            "idJson": "179a236e-119f-4e47-95cf-1e8c8988c265"
+          },
+          {
+            "idJson": "aa49b13d-e7c0-4c65-8985-9f371dd53bfd"
+          },
+          {
+            "idJson": "0ef18b30-6185-4af9-be67-4382bb721c14"
+          },
+          {
+            "idJson": "3bb2b8b8-450f-40ae-a31b-096d327bade6"
+          },
+          {
+            "idJson": "9bd9461c-7792-4aa2-a8a6-805945607a8d"
+          },
+          {
+            "idJson": "9a13a395-cc26-4210-a84a-cc950a69ac4c"
+          },
+          {
+            "idJson": "75d979f9-9d31-4d8f-be82-cb92c36a360d"
+          },
+          {
+            "idJson": "26307aa2-23c7-4711-82b5-1cd3780c33d0"
+          },
+          {
+            "idJson": "106b7f1d-a993-43a1-bb65-57b743379fcd"
+          },
+          {
+            "idJson": "68ba2551-67fb-40fd-92df-b7a5ad5b053d"
+          }
+        ]
+      }
+    ],
     "tabelasHorarias": [],
     "eventos": []
   },
