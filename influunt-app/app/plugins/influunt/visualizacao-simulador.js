@@ -49,8 +49,9 @@ var influunt;
         var specBotoes = null;
         var estagios = {};
 
-        function decodeEstado(estado,ctx){
+        var modoManualAtivado = false;
 
+        function decodeEstado(estado,ctx) {
           switch(estado){
             case 'DESLIGADO':
               return '#3d3d3d';
@@ -87,6 +88,34 @@ var influunt;
           game.load.start();
         }
 
+        function desenhaPlanoAtual(planoSpec) {
+          plano.setText('Plano ' + planoSpec[1]);
+          planoSpec[2].forEach(function(modo,index){
+            modos[index].setText(getModo(modo));
+          });
+
+          var dataText = inicioSimulacao.clone().add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
+          data.setText(dataText);
+        }
+
+        function moveToLeft() {
+          tempo += (velocidade);
+          relogio.setText((tempo + 1) + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
+          game.camera.x+=(10 * velocidade);
+          atualizaEstadosGruposSemaforicos();
+          atualizaBotoesVisiveis();
+        }
+
+        function moveToRight() {
+          tempo = Math.max(0,tempo - velocidade);
+          relogio.setText((tempo + 1) + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
+          game.camera.x -= (velocidade * 10);
+          atualizaEstadosGruposSemaforicos();
+          atualizaBotoesVisiveis();
+        }
+
         function botaoOver(botao){
           if(botao.animations.name === 'ON'){
             botao.play('HOVER');
@@ -111,12 +140,9 @@ var influunt;
           }
         }
 
-        function botaoLog(){
-        }
+        // function botaoLog(){}
 
-        function botaoExport(){
-
-        }
+        // function botaoExport(){}
 
         function botaoBackward(){
           moveToRight();
@@ -156,12 +182,48 @@ var influunt;
           game.time.events.remove(repeater);
         }
 
+        function getPlanoAtual(tempo){
+          for(var i =  planos.length - 1; i >= 0 ; i--){
+            if(tempo >= planos[i][0]){
+              return planos[i];
+            }
+          }
+        }
+
+        function getAlturaDiagrama() {
+          var qtdeAneis = _.filter(config.aneis, function(a) { return a.tiposGruposSemaforicos.length > 0; }).length;
+          var qtdeGrupos = _.chain(config.aneis).map('tiposGruposSemaforicos').flatten().value().length;
+
+          return (qtdeAneis + qtdeGrupos) * ALTURA_GRUPO;
+        }
+
+        function showEstagioManual() {
+          return getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
+        }
+
+        function showEstagioManualWaiting() {
+          return modoManualAtivado && !getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
+        }
+
+        function botaoPlay(){
+          botoes.pause.play('ON');
+          botoes.play.inputEnabled = true;
+
+          _.each(botoes,function(value,key){
+            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
+              value.inputEnabled = false;
+              value.play('OFF');
+            }
+          });
+          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
+        }
+
         function botaoDetector(detector){
           if(config.detectoresHash[detector.name]){
             var d = config.detectoresHash[detector.name];
             var disparo = inicioSimulacao.clone();
             disparo.add(tempo,"seconds");
-            var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo }
+            var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo };
 
             loadingGroup.visible = true;
             intervalosGroup.children.forEach(function(c){c.destroy();});
@@ -177,8 +239,13 @@ var influunt;
 
         function toggleModoManual() {
           var disparo = inicioSimulacao.clone();
-          disparo.add(tempo, 'seconds')
-          var json = {disparo: (disparo.unix() + 1) * 1000}
+          disparo.add(tempo, 'seconds');
+          modoManualAtivado = !modoManualAtivado;
+
+          var json = {
+            disparo: (disparo.unix() + 1) * 1000,
+            ativarModoManual: modoManualAtivado
+          };
 
           loadingGroup.visible = true;
           intervalosGroup.children.forEach(function(c){c.destroy();});
@@ -193,8 +260,8 @@ var influunt;
 
         function trocarEstagioManual() {
           var disparo = inicioSimulacao.clone();
-          disparo.add(tempo, 'seconds')
-          var json = {disparo: (disparo.unix() + 1) * 1000}
+          disparo.add(tempo, 'seconds');
+          var json = {disparo: (disparo.unix() + 1) * 1000};
 
           loadingGroup.visible = true;
           intervalosGroup.children.forEach(function(c){c.destroy();});
@@ -267,31 +334,19 @@ var influunt;
           });
         }
 
-        function botaoPlay(){
-          botoes.pause.play('ON');
-          botoes.play.inputEnabled = true;
-
-          _.each(botoes,function(value,key){
-            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
-              value.inputEnabled = false;
-              value.play('OFF');
+        function atualizaBotoesVisiveis() {
+          _.each(specBotoes, function(spec) {
+            if (typeof spec.visivel === 'function') {
+              var botao = botoes[spec.nome];
+              botao.visible = spec.visivel.apply(this);
             }
           });
-          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
 
         function atualizaEstadosGruposSemaforicos(){
           for(var i = 0; i < totalGruposSemaforicos; i++){
             if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
               gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);
-            }
-          }
-        }
-
-        function getPlanoAtual(tempo){
-          for(var i =  planos.length - 1; i >= 0 ; i--){
-            if(tempo >= planos[i][0]){
-              return planos[i];
             }
           }
         }
@@ -305,33 +360,6 @@ var influunt;
             case 'INTERMITENTE': return 'INT';
             case 'MANUAL': return 'MAN';
           }
-        }
-
-        function desenhaPlanoAtual(planoSpec) {
-          plano.setText('Plano ' + planoSpec[1]);
-          planoSpec[2].forEach(function(modo,index){
-            modos[index].setText(getModo(modo));
-          })
-          var dataText = inicioSimulacao.clone().add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
-          data.setText(dataText);
-        }
-
-        function moveToLeft() {
-          tempo += (velocidade);
-          relogio.setText((tempo + 1) + 's');
-          desenhaPlanoAtual(getPlanoAtual(tempo));
-          game.camera.x+=(10 * velocidade);
-          atualizaEstadosGruposSemaforicos();
-          atualizaBotoesVisiveis();
-        }
-
-        function moveToRight() {
-          tempo = Math.max(0,tempo - velocidade);
-          relogio.setText((tempo + 1) + 's');
-          desenhaPlanoAtual(getPlanoAtual(tempo));
-          game.camera.x -= (velocidade * 10);
-          atualizaEstadosGruposSemaforicos();
-          atualizaBotoesVisiveis();
         }
 
         function loadMore() {
@@ -478,31 +506,32 @@ var influunt;
           });
 
           estagio.eventos.forEach(function(evento){
+            var x1, x2, y1, y2, color;
             if (evento[1] === 'ACIONAMENTO_DETECTOR_VEICULAR' || evento[1] === 'ACIONAMENTO_DETECTOR_PEDESTRE') {
               desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,'#082536',evento[1],evento[2]);
             } else if(evento[1] === 'TROCA_DE_PLANO_NO_ANEL') {
-              var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
-              var y1 = offsetDeAneis[evento[3]];
-              var y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
+              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+              y1 = offsetDeAneis[evento[3]];
+              y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
                                             config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
 
               desenhaAgendamento(x1,x2,y1,y2,'#2603339');
             } else if(evento[1] === 'ACIONAMENTO_PLANO_MANUAL') {
-              var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
 
-              var y1 = MARGEM_SUPERIOR;
-              var y2 = y1 + getAlturaDiagrama();
-              var color = '#2603339';
+              y1 = MARGEM_SUPERIOR;
+              y2 = y1 + getAlturaDiagrama();
+              color = '#2603339';
               desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
             } else if (evento[1] === 'TROCA_DE_ESTAGIO_MANUAL') {
-              var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
 
-              var y1 = MARGEM_SUPERIOR;
-              var y2 = y1 + getAlturaDiagrama();
-              var color = '#2603339';
+              y1 = MARGEM_SUPERIOR;
+              y2 = y1 + getAlturaDiagrama();
+              color = '#2603339';
               desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
               desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
             }
@@ -741,13 +770,6 @@ var influunt;
           eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd));
         }
 
-        function getAlturaDiagrama() {
-          var qtdeAneis = _.filter(config.aneis, function(a) {return a.tiposGruposSemaforicos.length > 0}).length;
-          var qtdeGrupos = _.chain(config.aneis).map('tiposGruposSemaforicos').flatten().value().length;
-
-          return (qtdeAneis + qtdeGrupos) * ALTURA_GRUPO;
-        }
-
         function processaPlanos(trocas){
           trocas.forEach(function(troca){
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
@@ -768,25 +790,6 @@ var influunt;
           loadingGroup.add(background);
           loadingGroup.add(loading);
           loadingGroup.fixedToCamera = true;
-        }
-
-        function atualizaBotoesVisiveis() {
-          _.each(specBotoes, function(spec) {
-            if (typeof spec.visivel === 'function') {
-              var botao = botoes[spec.nome];
-              botao.visible = spec.visivel.apply(this);
-            }
-          });
-        }
-
-        function showEstagioManual() {
-          console.log('showEstagioManual: ', getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL' }, true));
-          return getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL' }, true);
-        }
-
-        function showEstagioManualWaiting() {
-          console.log('showEstagioManualWaiting: ', !getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL' }, true));
-          return !getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL' }, true);
         }
 
         function create() {
