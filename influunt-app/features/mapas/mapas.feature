@@ -1,6 +1,6 @@
 # language: pt
 @mapas
-Funcionalidade: Vizualisar Controladores em um Mapa e intereções
+Funcionalidade: Vizualisar Controladores em um Mapa
 
   Cenário: Acessar o mapa dos meus controladores
     Dado que o sistema possui ao menos um controlador cadastrado

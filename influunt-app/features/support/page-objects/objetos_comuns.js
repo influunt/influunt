@@ -193,7 +193,9 @@ var ObjetosComuns = function () {
   };
 
   this.clicarEditarEmResumo = function(selectorText) {
-    return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
+    });
   };
 
   this.selecionarBySelect2Option = function(field, option) {

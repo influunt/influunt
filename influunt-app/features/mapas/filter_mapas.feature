@@ -3,6 +3,7 @@
 Funcionalidade: Realizar filtros no mapa
 
   Cenário: Exibir o menu para realizar os filtros
+    Dado o usuário logue no sistema com usuário "mobilab" e perfil administrador
     Dado que o sistema possua controladores cadastrados e configurados
     E que o usuário acesse a página de listagem de controladores
     E o usuário clicar no botão "Ver no mapa"

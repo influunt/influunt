@@ -12,7 +12,7 @@ var MapasPage = function () {
   };
 
   this.clicarAnelMapa = function(anel) {
-    return world.sleep(500).then(function(){
+    return world.sleep(1000).then(function(){
       return world.getElementByXpath('//img[contains(@src, "images/leaflet/influunt-icons/anel.svg")]['+anel+']').click();
     });
   };
