@@ -9,9 +9,9 @@
  */
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular', 'geraDadosDiagramaIntervalo',
-                                        'influuntAlert', 'influuntBlockui', 'filtrosMapa',
+                                        'influuntAlert', 'influuntBlockui', 'filtrosMapa', 'planoService',
     function ($scope, $filter, Restangular, geraDadosDiagramaIntervalo,
-              influuntAlert, influuntBlockui, filtrosMapa) {
+              influuntAlert, influuntBlockui, filtrosMapa, planoService) {
       var filtraDados, getMarkersControladores, getMarkersAneis,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores;
 
@@ -266,21 +266,31 @@ angular.module('influuntApp')
       $scope.showDiagramaIntervalos = function(plano) {
         $scope.comCheckBoxGrupo = false;
         $scope.currentPlano = plano;
-        $('#modalDiagramaIntervalos').modal('show');
 
-        var gruposSemaforicos = $scope.currentAnel.gruposSemaforicos.map(function(gs) {
-          return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
-        });
+        if ($scope.currentPlano.modoOperacao === 'ATUADO' || $scope.currentPlano.modoOperacao === 'MANUAL') {
+          influuntAlert.alert(
+            $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
+            $filter('translate')('planos.modoOperacaoSemDiagrama.textoAlert')
+          );
+        }
 
-        $scope.plano = geraDadosDiagramaIntervalo.gerar(
-          plano, $scope.currentAnel, gruposSemaforicos, $scope.currentControlador
+        var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.currentControlador, $scope.currentPlano);
+        var valoresMinimos = planoService.montaTabelaValoresMinimos($scope.currentControlador);
+
+        var gruposSemaforicos = _
+          .chain($scope.currentAnel.gruposSemaforicos)
+          .map(function(gs) {
+            return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
+          })
+          .orderBy('posicao')
+          .value();
+
+        $scope.dadosDiagrama = planoService.atualizaDiagramaIntervalos(
+          $scope.currentControlador, $scope.currentAnel, gruposSemaforicos,
+          estagiosPlanos, $scope.currentPlano, valoresMinimos
         );
-        var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
-        var result = diagramaBuilder.calcula();
-        _.each(result.gruposSemaforicos, function(g) {
-          g.ativo = true;
-        });
-        $scope.dadosDiagrama = result;
+
+        $('#modalDiagramaIntervalos').modal('show');
       };
 
       $scope.imporPlano = function() {

@@ -27,12 +27,12 @@ angular.module('influuntApp')
         var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
         var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
         var HULL_CONCAVITY = 0.0013;
-        var DISTANCE_BETWEEN_POINTS = 300;
+        var DISTANCE_BETWEEN_POINTS = 100;
 
         // private methods.
         var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
             getAreaTitle, getBoundingBox, getMiddlePoints, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
-            renderMarkers, setView, setViewForArea;
+            renderMarkers, setView, setViewForArea, orderPoints, getLatLng;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -118,14 +118,15 @@ angular.module('influuntApp')
             className: 'influunt-agrupamento'
           };
 
-          debugger
           options = _.merge(options, obj.options);
-          var points = getMiddlePoints(obj.points)
+
+          var points = getLatLng(obj.points);
+          points = orderPoints(points);
+          points = getMiddlePoints(points);
           points = getBoundingBox(points);
           points = getHullPoints(points);
-          var agrupamento = L.polygon(points, options);
 
-          return agrupamento;
+          return L.polygon(points, options);
         };
 
         addMarkers = function(markers) {
@@ -185,6 +186,28 @@ angular.module('influuntApp')
           return hull(points, hullConcavity, ['.lat', '.lng']);
         };
 
+        orderPoints = function(tail, head) {
+          tail = _.cloneDeep(tail);
+          head = _.cloneDeep(head);
+          if (!head) {
+            tail = _.orderBy(tail, ['lat', 'lng']);
+            head = tail.shift();
+          }
+
+          tail = tail.sort(function(a, b) { return head.distanceTo(a) - head.distanceTo(b); });
+          var nearest = tail.shift();
+
+          if (tail.length > 0) {
+            return _.concat([head], orderPoints(tail, nearest));
+          } else {
+            return [head, nearest];
+          }
+        };
+
+        getLatLng = function(points) {
+          return points.map(function(point) { return new L.LatLng(point.latitude, point.longitude); });
+        };
+
         /**
          * Cria pontos entre os pontos originais do agrupamento. O objetivo deste método é garantir que o contorno dos
          * agrupamentos fique sempre na mesma espessura, inclusive em espaços onde não há pontos desenhados.
@@ -192,11 +215,10 @@ angular.module('influuntApp')
          * @param      {<type>}  points  The points
          */
         getMiddlePoints = function(points) {
-          points = _.orderBy(points, ['latitude', 'longitude']);
           var middlePoints = [];
           for (var i = 0; i < points.length - 1; i++) {
-            var lat1 = new L.LatLng(points[i].latitude, points[i].longitude);
-            var lat2 = new L.LatLng(points[i + 1].latitude, points[i + 1].longitude);
+            var lat1 = points[i];
+            var lat2 = points[i + 1];
             middlePoints = _.concat(middlePoints, L.LatLng.getPointsBetween(lat1, lat2, DISTANCE_BETWEEN_POINTS));
             middlePoints.push(lat1);
             middlePoints.push(lat2);
@@ -247,7 +269,7 @@ angular.module('influuntApp')
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
-            agrupaAneis(markers);
+            // agrupaAneis(markers);
           }
         };
 
