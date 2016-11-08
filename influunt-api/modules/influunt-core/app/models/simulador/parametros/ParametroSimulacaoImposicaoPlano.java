@@ -17,17 +17,17 @@ import javax.validation.constraints.NotNull;
 public class ParametroSimulacaoImposicaoPlano {
 
     @NotNull(message = "não pode ficar em branco")
-    private int plano;
+    private Integer plano;
 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @NotNull(message = "não pode ficar em branco")
     private DateTime disparo;
 
-    public int getPlano() {
+    public Integer getPlano() {
         return plano;
     }
 
-    public void setPlano(int plano) {
+    public void setPlano(Integer plano) {
         this.plano = plano;
     }
 

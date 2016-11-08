@@ -38,7 +38,6 @@ public class ParametroSimulacaoFalha {
         return null;
     }
 
-
     public TipoEvento getFalha() {
         return falha;
     }

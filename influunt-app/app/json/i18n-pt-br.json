@@ -30,7 +30,7 @@
     "disparoFalhas": "Disparo de falhas",
     "detectorVeicular": "Detector Veicular",
     "detector": "Detector",
-    "tipoParametro": "Tipo Parâmetro",
+    "tipoParametro": "Parâmetro",
     "valorParametro": "Valor Parâmetro",
     "tipo": "Tipo",
     "plano": "Plano",
@@ -73,6 +73,11 @@
     "alarmeAlert": {
       "title": "Remover alarme do controlador?",
       "text": "Deseja remover este alarme da simulação?"
+    },
+    "datepicker": {
+      "fechar": "Fechar",
+      "limpar": "Limpar",
+      "hoje": "Hoje"
     }
   },
   "controladores": {

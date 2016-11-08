@@ -48,6 +48,32 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
                 new Erro("ParametroSimulacao", "não pode ficar em branco", "controlador"),
                 new Erro("ParametroSimulacao", "não pode ficar em branco", "velocidade")
         ));
+
+        request = new Http.RequestBuilder().method("POST")
+                .uri(controllers.simulacao.routes.SimuladorController.simular().url())
+                .bodyJson(Json.parse("{ \"disparoDetectores\": [{}], \"imposicaoPlanos\": [{}], \"falhasControlador\": [{}], \"alarmesControlador\": [{}] }"));
+        result = route(request);
+        assertEquals(422, result.status());
+
+        json = Json.parse(Helpers.contentAsString(result));
+        erros = parseErrors((ArrayNode) json);
+
+        assertEquals(13, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "inicioControlador"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "inicioSimulacao"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "fimSimulacao"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "controlador"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "velocidade"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "detectores[0].disparo"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "detectores[0].detector"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "imposicoes[0].disparo"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "imposicoes[0].plano"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "falhas[0].disparo"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "falhas[0].falha"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "alarmes[0].disparo"),
+                new Erro("ParametroSimulacao", "não pode ficar em branco", "alarmes[0].alarme")
+        ));
     }
 
     @Test

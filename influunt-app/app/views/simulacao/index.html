@@ -49,7 +49,9 @@
                              is-open="inicioControlador.opened"
                              datepicker-options="dateOptions"
                              ng-required="true"
-                             close-text="Close" />
+                             close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                             clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                             current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
                       <p class="help-block error-msg" data-ng-repeat="error in errors.inicioControlador">{{ error }}</p>
                     </div>
                     <div class="col-sm-12 m-t">
@@ -86,7 +88,9 @@
                              is-open="inicioSimulacao.opened"
                              datepicker-options="dateOptions"
                              ng-required="true"
-                             close-text="Close" />
+                             close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                             clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                             current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
                       <p class="help-block error-msg" data-ng-repeat="error in errors.inicioSimulacao">{{ error }}</p>
                     </div>
                     <div class="col-sm-12 m-t">
@@ -123,7 +127,9 @@
                              is-open="fimSimulacao.opened"
                              datepicker-options="dateOptions"
                              ng-required="true"
-                             close-text="Close" />
+                             close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                             clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                             current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
                       <p class="help-block error-msg" data-ng-repeat="error in errors.fimSimulacao">{{ error }}</p>
                     </div>
                     <div class="col-sm-12 m-t">
@@ -195,7 +201,7 @@
                           {{ 'simulacao.detector' | translate }} {{ disparoDetector.detector.tipo }}
                         </p>
                       </div>
-                      <div class='col-sm-3'>
+                      <div class='col-sm-3' data-ng-class="{ 'has-error': errors.detectores[$index].disparo }">
                         <input type="text"
                                class="form-control text-center"
                                uib-datepicker-popup="dd/MM/yyyy"
@@ -204,19 +210,23 @@
                                is-open="disparosDetectores.disparos[$index].opened"
                                datepicker-options="dateOptions"
                                ng-required="true"
-                               close-text="Close"/>
+                               close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                               clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                               current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
+                        <p class="help-block error-msg" data-ng-repeat="error in errors.detectores[$index].disparo">{{ error }}</p>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.detectores[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="disparosDetectores.disparos[$index].hora">
                           <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                         </select>
+                        <p class="help-block error-msg simulacao-horario-error" data-ng-repeat="error in errors.detectores[$index].disparo">{{ error }}</p>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.detectores[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="disparosDetectores.disparos[$index].minuto">
                           <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                         </select>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.detectores[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="disparosDetectores.disparos[$index].segundo">
                           <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                         </select>
@@ -273,7 +283,7 @@
                       <div class="col-sm-2">
                         {{ imposicaoPlano.plano.descricao }}
                       </div>
-                      <div class='col-sm-3'>
+                      <div class='col-sm-3' data-ng-class="{ 'has-error': errors.imposicoes[$index].disparo }">
                         <input type="text"
                                class="form-control text-center"
                                uib-datepicker-popup="dd/MM/yyyy"
@@ -282,21 +292,23 @@
                                is-open="imposicoesPlanos.imposicoes[$index].opened"
                                datepicker-options="dateOptions"
                                ng-required="true"
-                               close-text="Fechar"
-                               clear-text="Limpar"
-                               current-text="Hoje">
+                               close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                               clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                               current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
+                        <p class="help-block error-msg" data-ng-repeat="error in errors.imposicoes[$index].disparo">{{ error }}</p>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.imposicoes[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].hora">
                           <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                         </select>
+                        <p class="help-block error-msg simulacao-horario-error" data-ng-repeat="error in errors.imposicoes[$index].disparo">{{ error }}</p>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.imposicoes[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].minuto">
                           <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                         </select>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.imposicoes[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="imposicoesPlanos.imposicoes[$index].segundo">
                           <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                         </select>
@@ -314,7 +326,7 @@
             </div>
           </div>
 
-          <div class='ibox float-e-margins'>
+          <div class='ibox float-e-margins collapsed'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.progAlarmes' | translate }}</h5>
               <div class='ibox-tools'>
@@ -347,7 +359,7 @@
                               data-ng-model="alarmeControlador.alarme"></select>
                     </div>
                     <div data-ng-show="alarmeControlador.alarme">
-                      <div class='col-sm-3'>
+                      <div class='col-sm-3' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
                         <input type="text"
                                class="form-control text-center"
                                uib-datepicker-popup="dd/MM/yyyy"
@@ -356,21 +368,23 @@
                                is-open="alarmesControlador.alarmes[$index].opened"
                                datepicker-options="dateOptions"
                                ng-required="true"
-                               close-text="Fechar"
-                               clear-text="Limpar"
-                               current-text="Hoje">
+                               close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                               clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                               current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
+                        <p class="help-block error-msg" data-ng-repeat="error in errors.alarmes[$index].disparo">{{ error }}</p>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].hora">
                           <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                         </select>
+                        <p class="help-block error-msg simulacao-horario-error" data-ng-repeat="error in errors.alarmes[$index].disparo">{{ error }}</p>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].minuto">
                           <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                         </select>
                       </div>
-                      <div class='col-sm-1'>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
                         <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].segundo">
                           <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                         </select>
@@ -398,6 +412,7 @@
                 </a>
               </div>
             </div>
+
             <div class='ibox-content'>
               <div class='row'>
                 <div class='col-sm-12'>
@@ -405,17 +420,14 @@
                     <div class='col-sm-3'>
                       <h4>{{ 'simulacao.falha' | translate }}</h4>
                     </div>
+                    <div class='col-sm-3'>
+                      <h4>{{ 'simulacao.tipoParametro' | translate }}</h4>
+                    </div>
                     <div class='col-sm-2'>
                       <h4>{{ 'simulacao.dataFalha' | translate }}</h4>
                     </div>
                     <div class='col-sm-3'>
                       <h4>{{ 'simulacao.horarioFalha' | translate }}</h4>
-                    </div>
-                    <div class='col-sm-1'>
-                      <h4>{{ 'simulacao.tipoParametro' | translate }}</h4>
-                    </div>
-                    <div class='col-sm-2'>
-                      <h4>{{ 'simulacao.valorParametro' | translate }}</h4>
                     </div>
                   </div>
 
@@ -427,34 +439,6 @@
                               data-ng-model="falhaControlador.falha"></select>
                     </div>
                     <div data-ng-show="falhaControlador.falha">
-                      <div class='col-sm-2'>
-                        <input type="text"
-                               class="form-control text-center"
-                               uib-datepicker-popup="dd/MM/yyyy"
-                               ng-model="falhasControlador.falhas[$index].date"
-                               ng-click="falhasControlador.falhas[$index].opened = true"
-                               is-open="falhasControlador.falhas[$index].opened"
-                               datepicker-options="dateOptions"
-                               ng-required="true"
-                               close-text="Fechar"
-                               clear-text="Limpar"
-                               current-text="Hoje">
-                      </div>
-                      <div class='col-sm-1'>
-                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].hora">
-                          <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
-                        </select>
-                      </div>
-                      <div class='col-sm-1'>
-                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].minuto">
-                          <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
-                        </select>
-                      </div>
-                      <div class='col-sm-1'>
-                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].segundo">
-                          <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
-                        </select>
-                      </div>
                       <div class='col-sm-1'>
                           {{ falhaControlador.falha.descricaoParam }}
                       </div>
@@ -479,7 +463,36 @@
                               data-ng-options="anel as anel.posicao for anel in controlador.aneis"
                               data-ng-model="falhaControlador.parametro"></select>
                       </div>
-
+                      <div class='col-sm-2' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
+                        <input type="text"
+                               class="form-control text-center"
+                               uib-datepicker-popup="dd/MM/yyyy"
+                               ng-model="falhasControlador.falhas[$index].date"
+                               ng-click="falhasControlador.falhas[$index].opened = true"
+                               is-open="falhasControlador.falhas[$index].opened"
+                               datepicker-options="dateOptions"
+                               ng-required="true"
+                               close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+                               clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+                               current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
+                        <p class="help-block error-msg" data-ng-repeat="error in errors.falhas[$index].disparo">{{ error }}</p>
+                      </div>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
+                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].hora">
+                          <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+                        </select>
+                        <p class="help-block error-msg simulacao-horario-error" data-ng-repeat="error in errors.falhas[$index].disparo">{{ error }}</p>
+                      </div>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
+                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].minuto">
+                          <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+                        </select>
+                      </div>
+                      <div class='col-sm-1' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
+                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].segundo">
+                          <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+                        </select>
+                      </div>
                       <div class='col-sm-1'>
                         <a data-ng-click="removerFalhaControlador($index)">
                           <i class='fa fa-trash text-danger'></i>
@@ -502,9 +515,7 @@
           <button type='button'
                   class='btn btn-primary'
                   name='button'
-                  data-ng-click="submitForm()"
-                  data-toggle="modal"
-                  data-target="#modal-simulacao">
+                  data-ng-click="submitForm()">
             <i class='fa fa-play'></i> {{ 'simulacao.simular' | translate }}
           </button>
           <button type='button'

@@ -117,14 +117,15 @@ module.exports = function(config) {
       'PhantomJS'
     ],
 
-    reporters: ['progress', 'kjhtml', 'coverage'],
+    // reporters: ['progress', 'kjhtml', 'coverage'],
+    reporters: ['progress', 'kjhtml'],
 
     // plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
       'karma-jasmine',
       'karma-jasmine-html-reporter',
-      'karma-coverage'
+      // 'karma-coverage'
     ],
 
     // Continuous Integration mode
@@ -137,20 +138,20 @@ module.exports = function(config) {
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-    preprocessors: {
-      'app/scripts/**/*.js': ['coverage'],
-      'app/plugins/influunt/**/*.js': ['coverage']
-    },
+    // preprocessors: {
+    //   'app/scripts/**/*.js': ['coverage'],
+    //   'app/plugins/influunt/**/*.js': ['coverage']
+    // },
 
-    coverageReporter: {
-      reporters: [
-        {
-          type: 'lcov',
-          dir: 'coverage/',
-          subdir: '.'
-        }
-      ]
-    }
+    // coverageReporter: {
+    //   reporters: [
+    //     {
+    //       type: 'lcov',
+    //       dir: 'coverage/',
+    //       subdir: '.'
+    //     }
+    //   ]
+    // }
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

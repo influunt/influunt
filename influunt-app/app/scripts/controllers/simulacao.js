@@ -10,10 +10,12 @@
 
 angular.module('influuntApp')
 
-.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert', '$filter', 'handleValidations', '$stateParams', 'MQTT_ROOT',
-function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert, $filter, handleValidations, $stateParams, MQTT_ROOT) {
+.controller('SimulacaoCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'HorariosService', 'influuntAlert',
+                              '$filter', 'handleValidations', '$stateParams', 'MQTT_ROOT',
+function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert,
+          $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getMoment;
+  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao;
 
   $scope.init = function() {
     var controladorId = $stateParams.id;
@@ -28,12 +30,14 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       { value: 8 }
     ];
 
-    $scope.parametrosSimulacao = { idControlador: controladorId,
-                                   velocidade: 1,
-                                   disparoDetectores: [{}],
-                                   imposicaoPlanos: [{}],
-                                   falhasControlador: [{}],
-                                   alarmesControlador: [{}] };
+    $scope.parametrosSimulacao = {
+      idControlador: controladorId,
+      velocidade: 1,
+      disparoDetectores: [{}],
+      imposicaoPlanos: [{}],
+      falhasControlador: [{}],
+      alarmesControlador: [{}]
+    };
 
     $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
     $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
@@ -109,30 +113,36 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.$watch('parametrosSimulacao.disparoDetectores', function(parametro) {
     if (parametro) {
       var length = $scope.parametrosSimulacao.disparoDetectores.length;
-      var disparo = $scope.parametrosSimulacao.disparoDetectores[length - 1];
-      if (disparo && disparo.detector && disparo.disparo) {
-        $scope.parametrosSimulacao.disparoDetectores.push({});
+      if (length > 0) {
+        var disparo = $scope.parametrosSimulacao.disparoDetectores[length - 1];
+        if (disparo && disparo.detector && disparo.disparo) {
+          $scope.parametrosSimulacao.disparoDetectores.push({});
+        }
       }
-    }
+      }
   }, true);
 
   $scope.$watch('parametrosSimulacao.imposicaoPlanos', function(parametro) {
     if (parametro) {
       var length = $scope.parametrosSimulacao.imposicaoPlanos.length;
-      var imposicao = $scope.parametrosSimulacao.imposicaoPlanos[length - 1];
-      if (imposicao && imposicao.plano && imposicao.disparo) {
-        $scope.parametrosSimulacao.imposicaoPlanos.push({});
+      if (length > 0) {
+        var imposicao = $scope.parametrosSimulacao.imposicaoPlanos[length - 1];
+        if (imposicao && imposicao.plano && imposicao.disparo) {
+          $scope.parametrosSimulacao.imposicaoPlanos.push({});
+        }
       }
-    }
+      }
   }, true);
 
   $scope.$watch('parametrosSimulacao.falhasControlador', function(parametro) {
     if (parametro) {
       var length = $scope.parametrosSimulacao.falhasControlador.length;
-      var falha = $scope.parametrosSimulacao.falhasControlador[length - 1];
-      var possuiParam = falha.falha && ((falha.falha.tipoParam && falha.parametro) || !falha.falha.tipoParam);
-      if (falha && falha.falha && falha.disparo && possuiParam) {
-        $scope.parametrosSimulacao.falhasControlador.push({});
+      if (length > 0) {
+        var falha = $scope.parametrosSimulacao.falhasControlador[length - 1];
+        var possuiParam = falha.falha && ((falha.falha.tipoParam && falha.parametro) || !falha.falha.tipoParam);
+        if (falha && falha.falha && falha.disparo && possuiParam) {
+          $scope.parametrosSimulacao.falhasControlador.push({});
+        }
       }
     }
   }, true);
@@ -140,11 +150,13 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.$watch('parametrosSimulacao.alarmesControlador', function(parametro) {
     if (parametro) {
       var length = $scope.parametrosSimulacao.alarmesControlador.length;
-      var alarme = $scope.parametrosSimulacao.alarmesControlador[length - 1];
-      if (alarme && alarme.alarme && alarme.disparo) {
-        $scope.parametrosSimulacao.alarmesControlador.push({});
+      if (length > 0) {
+        var alarme = $scope.parametrosSimulacao.alarmesControlador[length - 1];
+        if (alarme && alarme.alarme && alarme.disparo) {
+          $scope.parametrosSimulacao.alarmesControlador.push({});
+        }
       }
-    }
+      }
   }, true);
 
 
@@ -298,27 +310,40 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     $scope.parametrosSimulacao.disparoDetectores = _.filter($scope.parametrosSimulacao.disparoDetectores, 'detector');
     $scope.parametrosSimulacao.imposicaoPlanos = _.filter($scope.parametrosSimulacao.imposicaoPlanos, 'plano');
     $scope.parametrosSimulacao.alarmesControlador = _.filter($scope.parametrosSimulacao.alarmesControlador, 'alarme');
-    $scope.parametrosSimulacao.falhasControlador = _.filter($scope.parametrosSimulacao.falhasControlador, 'falhas');
+    $scope.parametrosSimulacao.falhasControlador = _.filter($scope.parametrosSimulacao.falhasControlador, 'falha');
 
     return Restangular.all('simulacao').post($scope.parametrosSimulacao)
       .then(function(response) {
         $scope.errors = {};
+        abrirModalSimulacao();
         iniciarSimulacao($scope.parametrosSimulacao, response);
+        resetParametros();
       })
       .catch(function(response) {
         if (response.status === 422) {
           $scope.errors = handleValidations.buildValidationMessages(response.data);
-          if (_.isEmpty($scope.parametrosSimulacao.disparoDetectores)) {
-            $scope.parametrosSimulacao.disparoDetectores.push({});
-          }
-          if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
-            $scope.parametrosSimulacao.imposicaoPlanos.push({});
-          }
+          console.log('scope.errors: ', $scope.errors)
+          resetParametros();
         } else {
           console.error(response);
         }
       })
       .finally(influuntBlockui.unblock);
+  };
+
+  abrirModalSimulacao = function() {
+    $('#modal-simulacao').modal();
+  };
+
+  resetParametros = function() {
+    if (_.isEmpty($scope.parametrosSimulacao.disparoDetectores))
+      $scope.parametrosSimulacao.disparoDetectores = [{}];
+    if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos))
+      $scope.parametrosSimulacao.imposicaoPlanos = [{}];
+    if (_.isEmpty($scope.parametrosSimulacao.alarmesControlador))
+      $scope.parametrosSimulacao.alarmesControlador = [{}];
+    if (_.isEmpty($scope.parametrosSimulacao.falhasControlador))
+      $scope.parametrosSimulacao.falhasControlador = [{}];
   };
 
   iniciarSimulacao = function(params, config) {
