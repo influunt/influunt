@@ -179,6 +179,15 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         }
     }
 
+    //Métodos auxiliares de modo manual
+    protected void acionarModoManual() {
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_MODO_MANUAL));
+    }
+
+    protected void trocarEstagioModoManual() {
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.TROCA_ESTAGIO_MANUAL));
+    }
+
 
     public class GrupoCheck {
 
