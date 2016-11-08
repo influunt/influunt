@@ -1,6 +1,6 @@
 # language: pt
 @mapas
-Funcionalidade: Vizualisar Controladores em um Mapa
+Funcionalidade: Vizualisar Controladores em um Mapa e intereções
 
   Cenário: Acessar o mapa dos meus controladores
     Dado que o sistema possui ao menos um controlador cadastrado
@@ -66,10 +66,10 @@ Funcionalidade: Vizualisar Controladores em um Mapa
   Cenário: Enviar plano
     Dado o painel com opções esteja aberto
     Quando no painel clicar no botão "Enviar plano"
-    Então o sistema deve mostrar um alert para o usuário com a mensagem "Tem certeza que você deseja enviar o plano PLANO 1 para o anel da Alameda Campinas com Av. Paulista?"
+    Então o sistema deve mostrar um alert para o usuário com a mensagem "Tem certeza que você deseja enviar o PLANO 1 para o anel da Alameda Campinas com Av. Paulista?"
     E o usuário confirmar
-    Quando o usuário prenche o campo com "Plano Enviado para ativação"
+    Quando o usuário preencha o alert com "Plano Enviado para ativação"
     E o usuário confirmar
     Então o sistema deve mostrar um alert para o usuário com a mensagem "PLANO 1 enviado com sucesso ao anel Alameda Campinas com Av. Paulista"
-
-
+    Quando o usuário confirmar
+    Então o sistema deve redirecionar para o mapa

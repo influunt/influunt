@@ -12,15 +12,13 @@ var MapasPage = function () {
   };
 
   this.clicarAnelMapa = function(anel) {
-    var _this = this;
-    return _this.waitRender().then(function(){
+    return world.sleep(500).then(function(){
       return world.getElementByXpath('//img[contains(@src, "images/leaflet/influunt-icons/anel.svg")]['+anel+']').click();
     });
   };
 
   this.openPlanos = function() {
-    var _this = this;
-    return _this.waitRender().then(function(){
+    return world.sleep(500).then(function(){
       return world.getElementByXpath(''+opcaoPanel+'//h3[contains(text(), "5 Planos")]//i').click();
     });
   };
@@ -33,20 +31,44 @@ var MapasPage = function () {
     return world.getElementByXpath(''+opcaoPanel+'//a[contains(text(), "'+plano+'")]').click();
   };
 
+  this.clicarMenuFiltros = function() {
+    return world.sleep(500).then(function(){
+      return world.getElementByXpath('//i[contains(@class, "fa-map")]').click();
+    });
+  };
+
   this.acaoPanelOpened = function() {
     return world.waitForByXpath(opcaoPanel);
+  };
+
+  this.filterPanelOpened = function() {
+    return world.waitForByXpath('//div[contains(@class, "theme-config-box open")]');
   };
 
   this.checkValoresInPainel = function(valor) {
     return world.waitForByXpath(''+opcaoPanel+'//h3[contains(text(), "'+valor+'")]');
   };
 
-  this.waitRender = function(){
-    return world.sleep(800);
+  this.checkAgrupamentoMapa = function() {
+    return world.waitFor('path[class^="influunt-agrupamento"]');
+  };
+
+  this.clickOpcoesFiltro = function(text){
+    return world.sleep(500).then(function(){
+      return world.getElementByXpath('//*[ancestor::div[span[text()="'+text+'"]]][1]').click();
+    });
+  };
+
+  this.checkPointsOnMapa = function(tipoIcone, quantidade) {
+    return world.sleep(500).then(function(){
+      return world.calculateByXpath('//img[contains(@src, "images/leaflet/influunt-icons/'+tipoIcone+'.svg")]', quantidade);
+    });
   };
 
   this.alertEnviarPlano = function() {
-    return world.getTextInSweetAlert();
+    return world.sleep(500).then(function(){
+      return world.getTextInSweetAlert();
+    });
   };
 };
 

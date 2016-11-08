@@ -78,7 +78,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Dado que o usuário esteja na página de planos
     E que o usuário clicar em editar o "PLANO 1"
     Então o sistema exibe uma caixa para renomear o plano
-    E o usuário prenche o campo com "PLANO 77"
+    E o usuário preencha o alert com "PLANO 77"
     Quando o usuário confirmar
     Então o sistema deve alterar o nome para "PLANO 77"
 

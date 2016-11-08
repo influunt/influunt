@@ -10,6 +10,10 @@ module.exports = function() {
     return mapasPage.indexMapa();
   });
 
+  this.Given(/^usuário estiver na tela de mapa$/, function() {
+    return mapasPage.indexMapa();
+  });
+
   this.Given(/^o usuário clicar no anel "([^"]*)" no mapa$/, function(anel) {
     return mapasPage.clicarAnelMapa(anel);
   });
@@ -34,6 +38,10 @@ module.exports = function() {
     return mapasPage.clicarPlano(plano);
   });
 
+  this.Given(/^o usuário clicar na opção "([^"]*)" para filtrar$/, function(opcao) {
+    return mapasPage.clickOpcoesFiltro(opcao);
+  });
+
   this.Given(/^no painel clicar no botão "([^"]*)"$/, function(botao) {
     return mapasPage.clickButton(botao);
   });
@@ -42,5 +50,25 @@ module.exports = function() {
     return mapasPage.alertEnviarPlano().then(function(text) {
       expect(text).to.equal(msg);
     });
+  });
+
+  this.Given(/^o usuário clicar no menu filtros$/, function() {
+    return mapasPage.clicarMenuFiltros();
+  });
+
+  this.Given(/^o menu filtros deverá aparecer$/, function() {
+    return mapasPage.filterPanelOpened();
+  });
+
+  this.Given(/^o sistema deverá mostrar no mapa "([^"]*)" controladores$/, function(quantidade) {
+    return mapasPage.checkPointsOnMapa('controlador', quantidade);
+  });
+
+  this.Given(/^o sistema deverá mostrar no mapa "([^"]*)" aneis$/, function(quantidade) {
+    return mapasPage.checkPointsOnMapa('anel', quantidade);
+  });
+
+  this.Given(/^o sistema deverá marcar o agrupamento no mapa$/, function() {
+    return mapasPage.checkAgrupamentoMapa();
   });
 };
