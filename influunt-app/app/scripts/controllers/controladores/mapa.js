@@ -272,6 +272,8 @@ angular.module('influuntApp')
             $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
             $filter('translate')('planos.modoOperacaoSemDiagrama.textoAlert')
           );
+
+          return false;
         }
 
         var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.currentControlador, $scope.currentPlano);

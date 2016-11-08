@@ -25,7 +25,7 @@ angular.module('influuntApp')
         var DEFAULT_MAP_OPTIONS = {scrollWheelZoom: false};
         var DEFAULT_BG_COLORS = ['#FFC107', '#FF5722', '#009688', '#4CAF50', '#3F51B5', '#D32F2F'];
         var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
-        var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
+        var BOUNDING_BOX_VARIATION = 90;    // intervalo (em graus) da variacao do bounding box.
         var HULL_CONCAVITY = 0.0013;
         var DISTANCE_BETWEEN_POINTS = 100;
 
