@@ -4,6 +4,7 @@ import com.google.common.collect.RangeMap;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
 import engine.IntervaloEstagio;
+import models.Anel;
 import models.EstagioPlano;
 
 /**
@@ -18,7 +19,10 @@ public class TrocaEstagioManualHandle extends GerenciadorDeEventos{
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
-        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+        Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
+        if (anel.isAceitaModoManual()) {
+            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+        }
     }
 
     public TrocaEstagioManualHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {

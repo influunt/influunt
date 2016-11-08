@@ -63,4 +63,23 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(216)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(234)).getEstagio().getPosicao().intValue());
     }
+
+    @Test
+    public void repeticaoDeEstagioSemTroca() {
+        Anel anel = getAnel(2);
+        anel.setAceitaModoManual(true);
+        Plano plano = getPlano(anel, 11);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+
+        avancar(gerenciadorDeEstagios, 10);
+        acionarModoManual();
+        avancar(gerenciadorDeEstagios, 600);
+        plano.imprimirTabelaEntreVerde();
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(37)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(300)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(367).plus(100)).getEstagio().getPosicao().intValue());
+    }
 }
