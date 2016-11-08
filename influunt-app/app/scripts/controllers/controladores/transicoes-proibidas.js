@@ -204,7 +204,6 @@ angular.module('influuntApp')
           if ($scope.errors) {
             _.forEach($scope.currentAnel.estagios, function(estagio, indexEstagio) {
               var erros = [];
-              erros.push(_.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ indexEstagio +'].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'));
               erros.push(_.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ indexEstagio +'].estagioPossuiAoMenosUmaTransicaoOrigemValida'));
               erros.push(_.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].estagios['+ indexEstagio +'].estagioPossuiAoMenosUmaTransicaoDestinoValida'));
               $scope.errosEstagios[indexEstagio] = _.compact(erros);

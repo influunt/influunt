@@ -335,14 +335,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
         } else return true;
     }
 
-    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Um estágio de demanda prioritária não pode ter transição proibida.")
-    public boolean isNaoPossuiTransicaoProibidaCasoDemandaPrioritaria() {
-        if (isDemandaPrioritaria()) {
-            return getOrigemDeTransicoesProibidas().size() == 0 && getDestinoDeTransicoesProibidas().size() == 0 && getAlternativaDeTransicoesProibidas().size() == 0;
-        } else return true;
-    }
-
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
             message = "Esse estágio deve estar associado a pelo menos um detector.")
     public boolean isAssociadoDetectorCasoDemandaPrioritaria() {

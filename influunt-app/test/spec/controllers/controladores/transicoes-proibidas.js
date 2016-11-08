@@ -401,8 +401,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
           {idJson: 'TP1', origem: {idJson: 'E1A2'}, destino: {idJson: 'E2A2'}}
         ]
       };
-      var error = [{'root':'Controlador','message':'Um estágio de demanda prioritária não pode ter transição proibida.','path':'aneis[0].estagios[2].naoPossuiTransicaoProibidaCasoDemandaPrioritaria'},
-                   {'root':'Controlador','message':'Esse estágio deve possuir ao menos uma transição válida para outro estágio.','path':'aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoOrigemValida'},
+      var error = [{'root':'Controlador','message':'Esse estágio deve possuir ao menos uma transição válida para outro estágio.','path':'aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoOrigemValida'},
                    {'root':'Controlador','message':'Pelo menos um estágio deve ter uma transição válida para esse estágio.','path':'aneis[0].estagios[2].estagioPossuiAoMenosUmaTransicaoDestinoValida'},
                    {'root':'Controlador','message':'Outro erro qualquer.','path':'aneis[0].estagios[2].estagioPossuiOutroErroQualquer'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
@@ -422,7 +421,7 @@ describe('Controller: ControladoresTransicoesProibidasCtrl', function () {
     });
 
     it('Deve ter erro para o estágio 3', function() {
-      expect(scope.errosEstagios[2].length).toBe(3);
+      expect(scope.errosEstagios[2].length).toBe(2);
     });
 
     it('Não deve ter erro para o estágio 4', function() {
