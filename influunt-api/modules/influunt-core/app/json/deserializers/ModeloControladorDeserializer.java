@@ -57,6 +57,10 @@ public class ModeloControladorDeserializer extends JsonDeserializer<ModeloContro
             modeloControlador.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
         }
 
+        if (node.has("limitePlanos")) {
+            modeloControlador.setLimitePlanos(node.get("limitePlanos").asInt());
+        }
+
         return modeloControlador;
     }
 }

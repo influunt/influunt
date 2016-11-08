@@ -174,6 +174,7 @@ angular.module('influuntApp')
       };
 
       $scope.ativarProximoAnel = function() {
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, 'posicao');
         $scope.selecionaAnelLocal(_.findIndex($scope.objeto.aneis, { ativo: false }));
         $scope.currentAnel.ativo = true;
         inicializaEnderecos();
@@ -202,7 +203,7 @@ angular.module('influuntApp')
               var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
               $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
               $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
-              $scope.submitForm('aneis', 'app.wizard_controladores.aneis');
+              $scope.submitForm('aneis', 'app.wizard_controladores.aneis').then(atualizarAneisAtivos);
             }
             return deveApagarAnel;
           });

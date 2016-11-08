@@ -40,7 +40,7 @@ public class PlanosControllerTest extends WithInfluuntApplicationNoAuthenticatio
         gsPlano.setGrupoSemaforico(grupo);
         grupo.addGRupoSemaforicoPlano(gsPlano);
         gsPlano.setPlano(plano);
-        plano.addGruposSemaforicos(gsPlano);
+        plano.addGruposSemaforicoPlano(gsPlano);
         grupo.save();
         plano.save();
         gsPlano.save();

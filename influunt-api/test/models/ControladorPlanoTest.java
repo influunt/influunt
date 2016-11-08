@@ -164,7 +164,7 @@ public class ControladorPlanoTest extends ControladorTest {
             grupoPlano.setAtivado(true);
             grupoPlano.setPlano(plano1Anel2);
             grupoPlano.setGrupoSemaforico(grupoSemaforico);
-            plano1Anel2.addGruposSemaforicos(grupoPlano);
+            plano1Anel2.addGruposSemaforicoPlano(grupoPlano);
         }
 
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.ATUADO);
@@ -178,7 +178,7 @@ public class ControladorPlanoTest extends ControladorTest {
         grupoPlano.setAtivado(true);
         grupoPlano.setPlano(plano1Anel4);
         grupoPlano.setGrupoSemaforico(anelCom4Estagios.getGruposSemaforicos().get(0));
-        plano1Anel4.addGruposSemaforicos(grupoPlano);
+        plano1Anel4.addGruposSemaforicoPlano(grupoPlano);
 
         erros = getErros(controlador);
         assertEquals(6, erros.size());
@@ -845,7 +845,7 @@ public class ControladorPlanoTest extends ControladorTest {
     @Test
     public void testCancelaEdicaoPlano() {
         Controlador controlador = getControladorTabelaHorario();
-        controlador.ativar();
+        controlador.finalizar();
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
         VersaoPlano versaoPlano = anelCom2Estagios.getVersaoPlano();
@@ -853,6 +853,8 @@ public class ControladorPlanoTest extends ControladorTest {
 
         int totalPlanos = Plano.find.findRowCount();
         int totalVersoesPlanos = VersaoPlano.find.findRowCount();
+        int totalTabelasHorarias = TabelaHorario.find.findRowCount();
+        int totalVersoesTabelaHoraria = VersaoTabelaHoraria.find.findRowCount();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
@@ -862,6 +864,8 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals(200, result.status());
         assertEquals("Total Planos", totalPlanos * 2, Plano.find.findRowCount());
         assertEquals("Total Versões Planos", totalVersoesPlanos * 2, VersaoPlano.find.findRowCount());
+        assertEquals("Total Tabelas Horárias", totalTabelasHorarias * 2, TabelaHorario.find.findRowCount());
+        assertEquals("Total Versões Tabelas Horárias", totalVersoesTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
 
         request = new Http.RequestBuilder().method("DELETE")
                 .uri(routes.PlanosController.cancelarEdicao(plano.getId().toString()).url());
@@ -870,6 +874,8 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals(200, result.status());
         assertEquals("Total Planos", totalPlanos, Plano.find.findRowCount());
         assertEquals("Total Versões Planos", totalVersoesPlanos, VersaoPlano.find.findRowCount());
+        assertEquals("Total Tabelas Horárias", totalTabelasHorarias, TabelaHorario.find.findRowCount());
+        assertEquals("Total Versões Tabelas Horárias", totalVersoesTabelaHoraria, VersaoTabelaHoraria.find.findRowCount());
     }
 
     @Override

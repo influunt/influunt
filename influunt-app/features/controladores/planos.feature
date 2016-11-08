@@ -8,17 +8,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Quando o usuário clicar no botão "Planos"
     Então o sistema deverá redirecionar para a tela de planos
 
-  Cenário: Cancelar a edição de um plano
-    Dado que o usuário esteja na página de planos
-    Quando o usuário clicar em "Editar"
-    E o usuário clicar em "Cancelar Edição"
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário confirmar
-    Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
-
   Cenário: Editar os planos
-    Quando o usuário clicar no botão "Planos"
-    Dado que o usuário esteja na página de planos
     Quando o usuário clicar em "Editar"
     Então o "PLANO 1" deverá estar ativado
 

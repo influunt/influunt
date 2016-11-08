@@ -193,7 +193,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.tempoMaximoPermanencia = tempoMaximoPermanencia;
     }
 
-    public Boolean getTempoMaximoPermanenciaAtivado() {
+    public Boolean isTempoMaximoPermanenciaAtivado() {
         return tempoMaximoPermanenciaAtivado;
     }
 
@@ -335,14 +335,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
         } else return true;
     }
 
-    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Um estágio de demanda prioritária não pode ter transição proibida.")
-    public boolean isNaoPossuiTransicaoProibidaCasoDemandaPrioritaria() {
-        if (isDemandaPrioritaria()) {
-            return getOrigemDeTransicoesProibidas().size() == 0 && getDestinoDeTransicoesProibidas().size() == 0 && getAlternativaDeTransicoesProibidas().size() == 0;
-        } else return true;
-    }
-
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
             message = "Esse estágio deve estar associado a pelo menos um detector.")
     public boolean isAssociadoDetectorCasoDemandaPrioritaria() {
@@ -359,7 +351,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve estar entre {min} e {max}")
     public boolean isTempoMaximoPermanenciaOk() {
-        if (getTempoMaximoPermanenciaAtivado()) {
+        if (isTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
                     RangeUtils.getInstance().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
@@ -368,7 +360,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.")
     public boolean isTempoMaximoPermanenciaMaiorQueVerdeDeSeguranca() {
-        if (getTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
+        if (isTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
             return getTempoMaximoPermanencia() > getGruposSemaforicos()
                     .stream()
                     .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())

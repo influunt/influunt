@@ -10,8 +10,10 @@ var WizardControladorPage = function () {
   this.world = world;
 
   this.indexPage = function() {
-    world.visit(INDEX_PATH);
-    return this.isIndexPage();
+    var _this = this;
+    return world.visit(INDEX_PATH).then(function() {
+      return _this.isIndexPage();
+    });
   };
 
   this.isIndexPage = function() {
@@ -423,12 +425,12 @@ var WizardControladorPage = function () {
   };
 
   this.clicarBotao = function(text) {
-    return world.sleep(600).then(function(){
-      return world.findLinkByText(text).then(function(link) {
-        return link.click();
-      }).then(function() {
-        return world.waitForAJAX();
-      });
+    return world.waitForOverlayDisappear().then(function() {
+      return world.sleep(600);
+    }).then(function(){
+      return world.findLinkByText(text).click();
+    }).then(function() {
+      return world.waitForAJAX();
     });
   };
 
@@ -476,7 +478,7 @@ var WizardControladorPage = function () {
   };
 
   this.confirmaSemConfiguracao = function(){
-    var xpath = '//ins[contains(@class, "iCheck-helper")]';
+    var xpath = '//div[contains(@class, "icheckbox_square-green")]//ins[contains(@class, "iCheck-helper")]';
     return world.scrollToDown().then(function() {
       return world.getElementByXpath(xpath).click();
     });

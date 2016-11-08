@@ -52,6 +52,10 @@ angular.module('influuntApp')
         return defer.promise;
       };
 
+      var success = function(title, text){
+        SweetAlert.swal(title, text, 'success');
+      };
+
       var promptPopup = function(title, text) {
         var defer = $q.defer(),
             options = Objects.merge(defaultOptions, {
@@ -100,7 +104,8 @@ angular.module('influuntApp')
         confirm: confirmPopup,
         delete: deleteAlert,
         prompt: promptPopup,
-        ask: askPopup
+        ask: askPopup,
+        success: success
       };
 
     }]);

@@ -333,8 +333,12 @@ public class ControladorCustomSerializer {
         if (controlador.getVersaoControlador().getStatusVersao() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }
-
-        root.put("statusControladorReal", controlador.getStatusControladorReal());
+        if (controlador.getVersaoControlador().getUsuario() != null) {
+            ObjectNode usuarioNode = root.putObject("versaoControlador").putObject("usuario");
+            usuarioNode.put("id", controlador.getVersaoControlador().getUsuario().getId().toString());
+            usuarioNode.put("nome", controlador.getVersaoControlador().getUsuario().getNome());
+        }
+        root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
         Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
         if (anel != null) {
             root.put("planoConfigurado", anel.getVersaoPlano() != null);
@@ -411,12 +415,14 @@ public class ControladorCustomSerializer {
             root.put("nomeEndereco", controlador.getNomeEndereco());
         }
 
-
         root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
 
         root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
 
         root.put("CLC", controlador.getCLC());
+
+        root.put("bloqueado", controlador.isBloqueado());
+        root.put("planosBloqueado", controlador.isPlanosBloqueado());
 
         RangeUtils rangeUtils = RangeUtils.getInstance();
         root.put("verdeMin", rangeUtils.TEMPO_VERDE.getMin().toString());
@@ -458,7 +464,7 @@ public class ControladorCustomSerializer {
 
         if (controlador.getVersaoControlador() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
-            root.put("statusControladorReal", controlador.getStatusControladorReal());
+            root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
         }
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {
@@ -507,7 +513,7 @@ public class ControladorCustomSerializer {
         if (controlador.getVersaoControlador() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
         }
-        root.put("statusControladorReal", controlador.getStatusControladorReal());
+        root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
 
         ArrayNode aneisJson = root.putArray("aneis");
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
@@ -1132,8 +1138,8 @@ public class ControladorCustomSerializer {
         if (estagio.getTempoMaximoPermanencia() != null) {
             estagioJson.put("tempoMaximoPermanencia", estagio.getTempoMaximoPermanencia());
         }
-        if (estagio.getTempoMaximoPermanenciaAtivado() != null) {
-            estagioJson.put("tempoMaximoPermanenciaAtivado", estagio.getTempoMaximoPermanenciaAtivado());
+        if (estagio.isTempoMaximoPermanenciaAtivado() != null) {
+            estagioJson.put("tempoMaximoPermanenciaAtivado", estagio.isTempoMaximoPermanenciaAtivado());
         }
         if (estagio.getDemandaPrioritaria() != null) {
             estagioJson.put("demandaPrioritaria", estagio.getDemandaPrioritaria());
@@ -1326,6 +1332,8 @@ public class ControladorCustomSerializer {
             transicaoJson.put("tempoAtrasoGrupo", transicao.getTempoAtrasoGrupo().toString());
             refAtrasoDeGrupo("atrasoDeGrupo", transicao.getAtrasoDeGrupo(), transicaoJson);
         }
+
+        transicaoJson.put("modoIntermitenteOuApagado", transicao.isModoIntermitenteOuApagado());
 
         return transicaoJson;
     }

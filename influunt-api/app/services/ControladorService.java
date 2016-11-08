@@ -24,25 +24,25 @@ public class ControladorService {
     public Controlador criarCloneControlador(Controlador controlador, Usuario usuario) {
         Ebean.beginTransaction();
 
-        Controlador controladorEdicao = null;
+        Controlador controladorClonado = null;
 
         try {
-            controladorEdicao = new ControladorUtil().provider(provider).deepClone(controlador);
+            controladorClonado = new ControladorUtil().provider(provider).deepClone(controlador, usuario);
             ControladorFisico controladorFisico = controlador.getVersaoControlador().getControladorFisico();
 
-            VersaoControlador novaVersao = new VersaoControlador(controlador, controladorEdicao, usuario);
+            VersaoControlador novaVersao = new VersaoControlador(controlador, controladorClonado, usuario);
             novaVersao.setStatusVersao(StatusVersao.EDITANDO);
             novaVersao.setControladorFisico(controladorFisico);
             novaVersao.setDescricao("Controlador clonado pelo usuário: " + usuario.getNome());
             controladorFisico.addVersaoControlador(novaVersao);
             controladorFisico.update();
-            controladorEdicao.setVersaoControlador(novaVersao);
 
+            controladorClonado.setVersaoControlador(novaVersao);
             VersaoControlador versaoAntiga = controlador.getVersaoControlador();
             versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
             versaoAntiga.update();
             controlador.update();
-            controladorEdicao.update();
+            controladorClonado.update();
 
             Ebean.commitTransaction();
         } catch (Exception e) {
@@ -53,14 +53,11 @@ public class ControladorService {
             Ebean.endTransaction();
         }
 
-        return controladorEdicao;
+        return controladorClonado;
     }
 
-
-    @NotNull
-    public void cancelar(Controlador controlador) {
-
-        DBUtils.executeWithTransaction(() -> {
+    public boolean cancelar(Controlador controlador) {
+        return DBUtils.executeWithTransaction(() -> {
             VersaoControlador versaoControlador = controlador.getVersaoControlador();
             Controlador controladorOrigem = versaoControlador.getControladorOrigem();
             controladorOrigem.setStatusVersao(StatusVersao.CONFIGURADO);
@@ -70,11 +67,11 @@ public class ControladorService {
         });
     }
 
-    public void criarClonePlanos(Controlador controlador, Usuario usuario) {
-        DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepClonePlanos(controlador, usuario));
+    public boolean criarClonePlanos(Controlador controlador, Usuario usuario) {
+        return DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepClonePlanos(controlador, usuario));
     }
 
-    public void criarCloneTabelaHoraria(Controlador controlador, Usuario usuario) {
-        DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepCloneTabelaHoraria(controlador, usuario));
+    public boolean criarCloneTabelaHoraria(Controlador controlador, Usuario usuario) {
+        return DBUtils.executeWithTransaction(() -> new ControladorUtil().provider(provider).deepCloneTabelaHoraria(controlador, usuario));
     }
 }

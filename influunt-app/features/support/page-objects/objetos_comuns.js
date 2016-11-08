@@ -53,7 +53,7 @@ var ObjetosComuns = function () {
 
   this.trocarAnel = function(numeroAnel) {
     var xpath = ('//li[contains(@aria-selected, "false")]//a[contains(text(), "Anel '+numeroAnel+'")]');
-    return  world.sleep(300).then(function(){
+    return world.sleep(300).then(function(){
       return world.getElementByXpath(xpath).click();
     });
   };
@@ -67,7 +67,9 @@ var ObjetosComuns = function () {
   };
 
   this.textoSweetAlert = function() {
-    return world.getTextInSweetAlert();
+    return world.sleep(400).then(function(){
+      return world.getTextInSweetAlert();
+    });
   };
 
   this.botaoConfirmSweetAlert = function() {
@@ -180,7 +182,8 @@ var ObjetosComuns = function () {
 
   this.checarValoresNaTabela = function(valor) {
     return world.waitForOverlayDisappear().then(function() {
-      world.sleep(400);
+      return world.sleep(1000);
+    }).then(function() {
       return world.getElementByXpath('//td[contains(text(), "'+valor+'")]');
     });
   };

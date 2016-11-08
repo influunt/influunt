@@ -67,6 +67,31 @@ describe('Controller: PlanosCtrl', function () {
     });
   });
 
+  describe('init - controlador mínimo', function () {
+    beforeEach(function() { 
+      beforeEachFn(ControladorComVariosAneis); 
+    });
+    it('O plano 1 deve estar ativo e ser coordenado', function() {
+      var aneis = _.filter(scope.objeto.aneis, 'ativo');
+      aneis.forEach(function(anel) {
+        var plano = _.find(scope.objeto.planos, {anel: {idJson: anel.idJson}, posicao: 1});
+        expect(plano.configurado).toBeTruthy();
+        expect(plano.modoOperacao).toBe('TEMPO_FIXO_COORDENADO');
+      });
+    });
+    
+    it('Se o plano 2 estiver selecionado, ao trocar de anel o mesmo numero deve continuar selecionado e ser ativo', function() {
+      var planoAnel1 = _.cloneDeep(scope.currentPlano);
+      scope.selecionaAnelPlanos(1);
+      var planoAnel2 = _.cloneDeep(scope.currentPlano);
+      expect(planoAnel1.configurado).toBeTruthy();
+      expect(planoAnel1.posicao).toBe(1);
+      
+      expect(planoAnel2.configurado).toBeTruthy();
+      expect(planoAnel2.posicao).toBe(1);
+    });
+  });
+
   describe('init - controlador com planos cadastrados', function () {
     beforeEach(function() { beforeEachFn(ControladorComPlanos); });
 
@@ -158,6 +183,7 @@ describe('Controller: PlanosCtrl', function () {
         deferred.resolve(false);
         scope.$apply();
         expect(Restangular.one).not.toHaveBeenCalled();
+        expect(scope.$state.current.name).toBe('app.planos');
       });
 
       it('Deve excluir a copia local de plano se este não for sincronizado à API', function() {
@@ -644,6 +670,28 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.currentEstagioPlano).toEqual(estagioPlano);
         expect(_.map(scope.opcoesEstagiosDisponiveis, 'idJson')).toEqual(opcoesDisponiveis);
       });
+
+      it('Deve apresentar somente um estágio caso anterior e próximo ao atual dispensável sejam o mesmo', function() {
+        var primeiroEstagio = _.cloneDeep(scope.currentEstagiosPlanos[0]);
+        primeiroEstagio.id = UUID.generate();
+        primeiroEstagio.idJson = UUID.generate();
+        primeiroEstagio.posicao = 3;
+        scope.currentEstagiosPlanos.splice(2, 1, primeiroEstagio);
+
+        scope.selecionaEstagioPlano(scope.currentEstagiosPlanos[1], 1);
+        scope.$apply();
+
+        expect(scope.opcoesEstagiosDisponiveis.length).toBe(1);
+        expect(scope.opcoesEstagiosDisponiveis[0].posicaoEstagio).toBe(1);
+
+
+        scope.currentEstagiosPlanos.splice(2, 1);
+        scope.selecionaEstagioPlano(scope.currentEstagiosPlanos[1], 1);
+        scope.$apply();
+
+        expect(scope.opcoesEstagiosDisponiveis.length).toBe(1);
+        expect(scope.opcoesEstagiosDisponiveis[0].posicaoEstagio).toBe(1);
+      });
     });
 
     describe('leftEstagio', function () {
@@ -1024,7 +1072,7 @@ describe('Controller: PlanosCtrl', function () {
   describe('getErros', function () {
     beforeEach(inject(function($timeout, handleValidations) {
       beforeEachFn(ControladorComPlanos);
-      var error = [
+      var errors = [
         {
           "root": "Controlador",
           "message": "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.",
@@ -1072,7 +1120,9 @@ describe('Controller: PlanosCtrl', function () {
         }
       ];
 
-      scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
+      scope.submitForm();
+      $httpBackend.expectPOST('/planos').respond(422, errors);
+      $httpBackend.flush();
       scope.selecionaAnelPlanos(0);
       scope.$apply();
       $timeout.flush();
@@ -1099,16 +1149,17 @@ describe('Controller: PlanosCtrl', function () {
     it('Deve existir erros em estagios planos', function() {
       scope.selecionaPlano(scope.currentPlanos[0], 0);
       expect(scope.getErrosEstagiosPlanos(0)).toBeTruthy();
-      expect(scope.getErrosEstagiosPlanos(0).tempoVerdeMinimoFieldMenorMaximo[0]).toBe('O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.');
+      expect(scope.getErrosEstagiosPlanos(0).tempoVerdeIntermediarioFieldEntreMinimoMaximo[0]).toBe('O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.');
+      scope.selecionaPlano(scope.currentPlanos[1], 1);
       expect(scope.getErrosEstagiosPlanos(1)).toBeTruthy();
       expect(scope.getErrosEstagiosPlanos(1).estagioQueRecebeEstagioDispensavel[0]).toBe('O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.');
       expect(scope.getErrosEstagiosPlanos(1).tempoVerdeMinimoFieldMenorMaximo[0]).toBe('O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.');
       expect(scope.getErrosEstagiosPlanos(1).tempoVerdeIntermediarioFieldEntreMinimoMaximo[0]).toBe('O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.');
       expect(scope.getErrosEstagiosPlanos(2)).toBeFalsy();
     });
-    
+
     it('Deve existir erros no plano', function() {
-      scope.selecionaPlano(scope.currentPlanos[2], 2);
+      scope.selecionaPlano(scope.currentPlanos[3], 3);
       var erros = scope.errors.aneis[0].versoesPlanos[0];
       expect(scope.getErrosPlanos(erros).length).toBe(2);
       expect(scope.getErrosPlanos(erros)[0]).toBe('G4 - O tempo de verde está menor que o tempo de segurança configurado.');
@@ -1116,6 +1167,7 @@ describe('Controller: PlanosCtrl', function () {
 
       var estagioPlano = scope.currentEstagiosPlanos[0];
       estagioPlano.tempoEstagio = 15;
+      scope.currentPlano.tempoCiclo = 45;
       expect(scope.getErrosPlanos(erros)[1]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
     });
 

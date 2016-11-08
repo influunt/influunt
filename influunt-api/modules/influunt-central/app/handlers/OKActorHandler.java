@@ -9,7 +9,7 @@ import akka.event.LoggingAdapter;
  */
 public class OKActorHandler extends UntypedActor {
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object message) throws Exception {

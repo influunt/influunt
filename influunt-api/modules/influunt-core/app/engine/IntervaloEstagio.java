@@ -77,4 +77,5 @@ public class IntervaloEstagio {
         }
         this.eventos.get(contadorIntervalo).add(eventoMotor);
     }
+
 }

@@ -172,7 +172,7 @@ angular.module('influuntApp')
           $scope.beforeSubmitForm();
         }
 
-        Restangular
+        return Restangular
           .all('controladores')
           .all(stepResource)
           .post($scope.objeto)
@@ -308,6 +308,7 @@ angular.module('influuntApp')
         transicoesToSearchFor.forEach(function(t) {
           var transicao = _.find(transicoesToFindIn, { idJson: t.idJson });
           $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            transicao: transicao,
             origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
             destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
           };
@@ -533,8 +534,12 @@ angular.module('influuntApp')
           });
       };
 
-      $scope.podeEditarControlador = function() {
-        return planoService.podeEditarControlador($scope.objeto);
+      $scope.podeEditarControlador = function(controlador) {
+        return planoService.podeEditarControlador(controlador);
+      };
+
+      $scope.controladorBloqueadoParaEdicao = function() {
+        return _.get($scope.objeto, 'bloqueado');
       };
 
       $scope.podeAtivar = function(controlador) {
@@ -542,7 +547,11 @@ angular.module('influuntApp')
       };
 
       $scope.podeFinalizar = function(controlador) {
-        return (controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO') && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        var statusControladorOk = controlador.statusControladorReal === 'EM_CONFIGURACAO' || controlador.statusControladorReal === 'EDITANDO';
+        return statusControladorOk &&
+          controlador.controladorConfigurado &&
+          controlador.planoConfigurado &&
+          controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
@@ -550,7 +559,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeSimular = function(controlador) {
-        return controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        return controlador.controladorConfigurado;
       };
 
     }]);

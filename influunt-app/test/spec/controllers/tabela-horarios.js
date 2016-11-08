@@ -241,15 +241,17 @@ describe('Controller: TabelaHorariosCtrl', function () {
     }));
 
     it('Não deve executar nada se o usuário não confirmar o cancelamento', function() {
+      scope.currentTabelaHoraria = {};
       spyOn(Restangular, 'one');
       scope.cancelarEdicao();
       deferred.resolve(false);
       scope.$apply();
       expect(Restangular.one).not.toHaveBeenCalled();
+      expect(scope.$state.current.name).toBe('app.tabelas_horarias');
     });
 
     it('Deve excluir a copia local de plano se este não for sincronizado à API', function() {
-      scope.objeto.tabelasHorarias = [{}];
+      scope.currentTabelaHoraria = {};
       spyOn(Restangular, 'one');
       scope.cancelarEdicao();
       deferred.resolve(true);

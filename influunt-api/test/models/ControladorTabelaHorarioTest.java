@@ -59,7 +59,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
 
         Evento evento = new Evento();
         evento.setTabelaHorario(tabelaHoraria);
-        tabelaHoraria.addEventos(evento);
+        tabelaHoraria.addEvento(evento);
 
         erros = getErros(controlador);
         assertEquals(4, erros.size());
@@ -110,7 +110,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
 
         Evento evento2 = new Evento();
         evento2.setTabelaHorario(tabelaHoraria);
-        tabelaHoraria.addEventos(evento2);
+        tabelaHoraria.addEvento(evento2);
         evento2.setTipo(TipoEvento.NORMAL);
         evento2.setPosicao(2);
         evento2.setDiaDaSemana(DiaDaSemana.DOMINGO);

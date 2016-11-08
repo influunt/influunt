@@ -51,7 +51,7 @@ angular.module('influuntApp')
 
       criarPlano = function(controlador, anel, posicao, descricao, modoOperacao) {
         descricao = descricao || 'PLANO ' + posicao ;
-        modoOperacao = modoOperacao || 'TEMPO_FIXO_ISOLADO';
+        modoOperacao = modoOperacao || 'TEMPO_FIXO_COORDENADO';
         var plano = {
           idJson: UUID.generate(),
           anel: { idJson: anel.idJson },
@@ -319,17 +319,19 @@ angular.module('influuntApp')
       };
 
       podeEditarControlador = function(controlador) {
-        var usuario = PermissionsService.getUsuario();
-        var editor = _.get(controlador, 'versaoControlador.usuario');
-        var statusVersao = _.get(controlador, 'statusVersao');
-        return statusVersao !== 'EDITANDO' || !editor || usuario.id === editor.id;
+        if (controlador) {
+          var controladorConfigurado = controlador.statusControladorReal !== 'EM_CONFIGURACAO' && controlador.statusControladorReal !== 'EDITANDO';
+          var usuario = PermissionsService.getUsuario();
+          var editor = _.get(controlador, 'versaoControlador.usuario');
+          return controladorConfigurado || !editor || usuario.id === editor.id;
+        }
+        return false;
       };
 
       return {
         adicionar: adicionar,
         verdeMinimoDoEstagio: verdeMinimoDoEstagio,
         criarPlanoManualExclusivo: criarPlanoManualExclusivo,
-
         atualizaPlanos: atualizaPlanos,
         atualizaGruposSemaforicos: atualizaGruposSemaforicos,
         atualizaEstagios: atualizaEstagios,

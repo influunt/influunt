@@ -89,7 +89,16 @@
                          tooltip-template="{{ 'controladores.geral.finalizar' | translate }} {{ 'controladores.geral.configuracao' | translate }}"
                          type="button"
                          data-ng-click="finalizar(controlador.id)"
-                         data-ng-if="podeFinalizar(controlador)"
+                         data-ng-if="podeFinalizar(controlador) && podeEditarControlador(controlador)"
+                         permission permission-only="'criarControlador'">
+                        <i class="fa fa-check"></i> {{ 'controladores.geral.finalizar' | translate }}
+                      </a>
+                      <a class="btn btn-primary"
+                         type="button"
+                         disabled="disabled"
+                         tooltips tooltip-side="left"
+                         tooltip-template="{{ 'controladores.revisao.controladorEmEdicaoPor' | translate: { nomeUsuario: controlador.versaoControlador.usuario.nome } }}"
+                         data-ng-if="podeFinalizar(controlador) && !podeEditarControlador(controlador)"
                          permission permission-only="'criarControlador'">
                         <i class="fa fa-check"></i> {{ 'controladores.geral.finalizar' | translate }}
                       </a>

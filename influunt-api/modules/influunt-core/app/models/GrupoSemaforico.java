@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -290,7 +291,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve estar associado a pelo menos um estágio")
     public boolean isAssociadoAoMenosAUmEstágio() {
         if (this.getAnel() != null) {
-            boolean anyEstagioGrupoSemaforico =  this.getAnel().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.getEstagiosGruposSemaforicos() != null && grupoSemaforico.getEstagiosGruposSemaforicos().size() > 0);
+            boolean anyEstagioGrupoSemaforico = this.getAnel().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.getEstagiosGruposSemaforicos() != null && grupoSemaforico.getEstagiosGruposSemaforicos().size() > 0);
             return !anyEstagioGrupoSemaforico || this.getEstagiosGruposSemaforicos() != null && this.getEstagiosGruposSemaforicos().size() > 0;
         } else {
             return true;
@@ -338,12 +339,27 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
-    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.")
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entreverdes definido na configuração do controlador.")
     public boolean isNumeroCorretoTabelasEntreVerdes() {
         if (this.getAnel() != null && this.getAnel().isAtivo()) {
             int totalTabelasEntreVerdes = getTabelasEntreVerdes().stream().filter(tabelaEntreVerdes -> !tabelaEntreVerdes.isDestroy()).collect(Collectors.toList()).size();
             int limiteTabelasEntreVerdes = getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes();
             return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
+        }
+        return true;
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter selecionado qual entreverdes deverá ser utilizado caso ocorra um transição do estágio origem para o modo intermitente ou apagado.")
+    public boolean isAoMenosUmaTransicaoPorOrigemDeveSerModoIntermitente() {
+        if (!getTransicoesComPerdaDePassagem().isEmpty()) {
+            for (EstagioGrupoSemaforico estagioGrupoSemaforico : getEstagiosGruposSemaforicos()) {
+                Estagio origem = estagioGrupoSemaforico.getEstagio();
+                List<Transicao> transicoes = getTransicoes().stream().filter(transicao -> origem.equals(transicao.getOrigem())).collect(Collectors.toList());
+                if (!transicoes.isEmpty() && transicoes.stream().filter(Transicao::isModoIntermitenteOuApagado).count() != 1) {
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -482,6 +498,17 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
             setVerdesConflitantesOrigem(new ArrayList<VerdesConflitantes>());
         }
         getVerdesConflitantesOrigem().add(verdesConflitantes);
+    }
+
+    public Transicao findTransicaoByDestinoIntermitente(Estagio origem) {
+        List<Transicao> transicoes = getTransicoesComPerdaDePassagem().stream().filter(transicao -> origem.equals(transicao.getOrigem())).collect(Collectors.toList());
+        if (!transicoes.isEmpty()) {
+            return transicoes.stream().filter(Transicao::isModoIntermitenteOuApagado).findFirst().orElse(null);
+        } else {
+            //TODO: Caso não exista desse grupo semaforico para outro, pois existe transição proibida e o grupo roda nos dois estágios
+            //Devolvendo o primeiro marcado para usar modoIntermitenteOuApagado
+            return getTransicoesComPerdaDePassagem().stream().filter(Transicao::isModoIntermitenteOuApagado).findFirst().orElse(null);
+        }
     }
 
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {

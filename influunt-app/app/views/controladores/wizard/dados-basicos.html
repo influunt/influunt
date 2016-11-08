@@ -43,7 +43,7 @@
               <div class="form-group" data-ng-class="{'has-error': errors.area}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.area' | translate }}:</label>
                 <select name="area" class="form-control"
-                        data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas"
+                        data-ng-options="area.idJson as area.descricao for area in helpers.cidade.areas | orderBy: 'descricao'"
                         data-ng-model="objeto.area.idJson"
                         permission
                         permission-only="'visualizarTodasAreas'"
@@ -112,7 +112,7 @@
               <footer class="form-group">
                 <p><small>{{ 'geral.auditoria.dataCriacao' | translate }}: {{ objeto.dataCriacao | date:"short" }}</small></p>
                 <p><small>{{ 'geral.auditoria.dataAtualizacao' | translate }}: {{ objeto.dataAtualizacao | date:"short" }}</small></p>
-                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.atualizadoPor }}</small></p>
+                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.versaoControlador.usuario.nome }}</small></p>
               </footer>
             </div>
 

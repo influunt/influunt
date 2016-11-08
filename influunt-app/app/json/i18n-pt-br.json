@@ -237,7 +237,12 @@
       "demandaPrioritaria": "Demanda prioritária"
     },
     "entreVerdes": {
-      "titulo": "Tabela de Entreverdes"
+      "titulo": "Tabela de Entreverdes",
+      "tabelas": "TABELAS",
+      "tabela": "TABELA",
+      "novaTabela": "Nova Tabela",
+      "descricao": "Descrição",
+      "modoIntermitenteOuApagado": "Intermitente ou Apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -250,6 +255,8 @@
       "ausenciaMaxima": "Ausência de Detecção Máxima",
       "ausenciaMinima": "Ausência de Detecção Mínima",
       "controladorEmEdicaoPor": "Controlador em edição com o usuário: <span><b>{nomeUsuario}</span></b>",
+      "controladorBloqueado": "Controlador bloqueado para edição. Finalize a configuração de planos e tabelas horárias para desbloquear.",
+      "planosBloqueados": "Planos bloqueados para edição. Finalize a configuração da tabela horária para desbloquear.",
       "demandaPrioritaria": "Demanda Prioritaria",
       "desativacaoTempoMax": "Desativ. Tempo max",
       "descricao": "Descrição",
@@ -267,6 +274,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
+      "modoIntermitenteOuApagado": "Intermitente ou Apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
@@ -415,6 +423,8 @@
   },
   "planos": {
     "titulo": "Planos",
+    "estagioDispensavel": "Estágio dispensável",
+    "estagioQueRecebeTempoDeEstagioDispensavel": "Estágio que recebe tempo do estágio dispensável",
     "planoNaoConfigurado": {
       "tituloAlert": "Atenção",
       "textoAlert": "Este plano ainda não foi configurado"

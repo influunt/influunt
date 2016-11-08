@@ -5,9 +5,7 @@ import com.google.common.collect.RangeMap;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
 import engine.IntervaloEstagio;
-import models.Detector;
-import models.Estagio;
-import models.EstagioPlano;
+import models.*;
 
 import java.util.Map;
 
@@ -50,30 +48,26 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
     }
 
     private void reduzirTempoEstagioAtual(EstagioPlano estagioPlanoAnterior) {
-        final long contador;
-        Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
-        IntervaloEstagio intervalo = range.getValue();
-        if (intervalo.isEntreverde()) {
-            range = this.intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-            intervalo = range.getValue();
-            contador = 0L;
-        } else {
-            contador = contadorIntervalo - range.getKey().lowerEndpoint();
-        }
-        long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
-        intervalo.setDuracao(duracao);
-        this.intervalos.remove(range.getKey());
-        final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
-        this.intervalos.put(novoRange, intervalo);
+        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
     }
 
     private void adicionaEstagioDemandaPrioritaria(Estagio estagio) {
         if (!listaEstagioPlanos.stream().anyMatch(estagioPlano -> estagioPlano.getEstagio().equals(estagio))) {
             EstagioPlano estagioPlano = new EstagioPlano();
             estagioPlano.setEstagio(estagio);
-            estagioPlano.setPlano(plano);
             estagioPlano.setTempoVerde(estagio.getTempoVerdeDemandaPrioritaria());
-            listaEstagioPlanos.add(listaEstagioPlanos.indexOf(estagioPlanoAtual) + 1, estagioPlano);
+            if (plano.isModoOperacaoVerde()) {
+                estagioPlano.setPlano(plano);
+                listaEstagioPlanos.add(listaEstagioPlanos.indexOf(estagioPlanoAtual) + 1, estagioPlano);
+            } else {
+                Plano novoPlano = new Plano();
+                novoPlano.setEstagiosPlanos(plano.getEstagiosPlanos());
+                novoPlano.setGruposSemaforicosPlanos(plano.getGruposSemaforicosPlanos());
+                novoPlano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+                estagioPlano.setPlano(novoPlano);
+                final int index = listaEstagioPlanos.indexOf(estagioPlanoAtual);
+                listaEstagioPlanos.add(index + 1, estagioPlano);
+            }
         }
     }
 
@@ -95,11 +89,20 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
         final long tempoExtensao = ((long) (estagioPlano.getTempoExtensaoVerde() * 1000L));
         final long tempoMaximo = estagioPlano.getTempoVerdeMaximo() * 1000L;
 
-        IntervaloEstagio intervalo = range.getValue();
-        if ((intervalo.getDuracao() + tempoExtensao) <= tempoMaximo) {
+        final IntervaloEstagio intervalo = range.getValue();
+
+        final long tempoAdicionado = (contadorIntervalo + tempoExtensao) - range.getKey().upperEndpoint();
+
+        if (tempoAdicionado > 0) {
+            long novaDuracao = intervalo.getDuracao() + tempoAdicionado;
+            if (novaDuracao > tempoMaximo) {
+                novaDuracao = tempoMaximo;
+            }
+
             this.intervalos.remove(range.getKey());
-            intervalo.setDuracao(intervalo.getDuracao() + tempoExtensao);
-            this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + intervalo.getDuracao()), intervalo);
+            intervalo.setDuracao(novaDuracao);
+            this.intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + novaDuracao), intervalo);
         }
+
     }
 }

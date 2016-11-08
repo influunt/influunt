@@ -88,7 +88,7 @@ public class PlanosController extends Controller {
         boolean success = DBUtils.executeWithTransaction(() -> {
             plano.getAnel().getControlador().getAneis().forEach(anel -> {
                 VersaoPlano versaoAtual = anel.getVersaoPlanoEmEdicao();
-                if (versaoAtual != null && versaoAtual.getStatusVersao() == StatusVersao.EDITANDO) {
+                if (versaoAtual != null && StatusVersao.EDITANDO.equals(versaoAtual.getStatusVersao())) {
                     VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
                     if (versaoAnterior != null) {
                         versaoAnterior.setStatusVersao(StatusVersao.CONFIGURADO);
@@ -97,6 +97,9 @@ public class PlanosController extends Controller {
                     }
                 }
             });
+
+            TabelaHorario tabelaAtual = plano.getAnel().getControlador().getVersaoTabelaHoraria().getTabelaHoraria();
+            tabelaAtual.voltarVersaoAnterior();
         });
 
         if (success) {

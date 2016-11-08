@@ -916,6 +916,8 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
+        transicao.setModoIntermitenteOuApagado(node.get("modoIntermitenteOuApagado").asBoolean());
+
         return transicao;
     }
 
@@ -1481,14 +1483,22 @@ public class ControladorCustomDeserializer {
             }
         }
 
+        if (node.get("bloqueado") != null) {
+            controlador.setBloqueado(node.get("bloqueado").asBoolean());
+        }
+
+        if (node.get("planosBloqueado") != null) {
+            controlador.setPlanosBloqueado(node.get("planosBloqueado").asBoolean());
+        }
+
         controlador.setNumeroSMEE(node.get("numeroSMEE") != null ? node.get("numeroSMEE").asText() : null);
         controlador.setNumeroSMEEConjugado1(node.get("numeroSMEEConjugado1") != null ? node.get("numeroSMEEConjugado1").asText() : null);
         controlador.setNumeroSMEEConjugado2(node.get("numeroSMEEConjugado2") != null ? node.get("numeroSMEEConjugado2").asText() : null);
         controlador.setNumeroSMEEConjugado3(node.get("numeroSMEEConjugado3") != null ? node.get("numeroSMEEConjugado3").asText() : null);
         controlador.setFirmware(node.get("firmware") != null ? node.get("firmware").asText() : null);
         controlador.setSequencia(node.get("sequencia") != null ? node.get("sequencia").asInt() : null);
-
         controlador.setNomeEndereco(node.get("nomeEndereco") != null ? node.get("nomeEndereco").asText() : null);
+
         if (node.has("endereco")) {
             final String enderecoId = node.get("endereco").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {

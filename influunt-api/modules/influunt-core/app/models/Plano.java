@@ -279,7 +279,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
-            return !(this.getEstagiosPlanos().size() != this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count());
+            return this.getEstagiosPlanos().size() == this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count();
         }
         return true;
     }
@@ -321,7 +321,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             message = "A sequência de estágios não é válida.")
     public boolean isSequenciaInvalida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
-            return sequenciaDeEstagioValida(ordenarEstagiosPorPosicao());
+            return sequenciaDeEstagioValida(getEstagiosOrdenados());
         }
         return true;
     }
@@ -344,7 +344,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
 
-    public void addGruposSemaforicos(GrupoSemaforicoPlano grupoPlano) {
+    public void addGruposSemaforicoPlano(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
             setGruposSemaforicosPlanos(new ArrayList<GrupoSemaforicoPlano>());
         }
@@ -392,10 +392,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior) {
         Integer tempoEntreVerdes = 0;
         ArrayList<Integer> totalTempoEntreverdes = new ArrayList<Integer>();
-        if (!estagioAtual.equals(estagioAnterior)) {
+        if (!estagioAnterior.equals(estagioAtual)) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagioAnterior.getEstagiosGruposSemaforicos()) {
                 GrupoSemaforicoPlano grupoSemaforicoPlano = getGrupoSemaforicoPlano(estagioGrupoSemaforico.getGrupoSemaforico());
-                if (grupoSemaforicoPlano.isAtivado() && !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())) {
+                if (grupoSemaforicoPlano.isAtivado() && (estagioAtual == null || !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico()))) {
                     totalTempoEntreverdes.add(getTempoEntreVerdes(estagioAtual, estagioAnterior, estagioGrupoSemaforico));
                 } else {
                     totalTempoEntreverdes.add(0);
@@ -412,22 +412,26 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     private Integer getTempoEntreVerdes(Estagio estagio, Estagio estagioAnterior, EstagioGrupoSemaforico estagioGrupoSemaforico) {
-        TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
-        Transicao transicao = estagioGrupoSemaforico.getGrupoSemaforico().findTransicaoByOrigemDestino(estagioAnterior, estagio);
+        final TabelaEntreVerdes tabelaEntreVerdes = estagioGrupoSemaforico.getGrupoSemaforico().getTabelasEntreVerdes().stream().filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
+        final GrupoSemaforico grupoSemaforico = estagioGrupoSemaforico.getGrupoSemaforico();
+        final Transicao transicao;
+        if (estagio == null) {
+            transicao = grupoSemaforico.findTransicaoByDestinoIntermitente(estagioAnterior);
+        } else {
+            transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagio);
+        }
 
         if (Objects.nonNull(tabelaEntreVerdes) && Objects.nonNull(transicao)) {
             TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().stream().filter(tvt -> tvt.getTransicao().equals(transicao)).findFirst().orElse(null);
             if (Objects.nonNull(tabelaEntreVerdesTransicao)) {
-                return tabelaEntreVerdesTransicao.getTotalTempoEntreverdes(estagioGrupoSemaforico.getGrupoSemaforico().getTipo());
+                return tabelaEntreVerdesTransicao.getTotalTempoEntreverdes(grupoSemaforico.getTipo());
             }
         }
         return 0;
     }
 
-    public List<EstagioPlano> ordenarEstagiosPorPosicao() {
-        List<EstagioPlano> listaEstagioPlanos = this.getEstagiosPlanos();
-        listaEstagioPlanos.sort((anterior, proximo) -> anterior.getPosicao().compareTo(proximo.getPosicao()));
-        return listaEstagioPlanos;
+    public List<EstagioPlano> getEstagiosOrdenados() {
+        return getEstagiosPlanos().stream().sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).collect(Collectors.toList());
     }
 
     public List<EstagioPlano> ordenarEstagiosPorPosicaoSemEstagioDispensavel() {
@@ -477,16 +481,14 @@ public class Plano extends Model implements Cloneable, Serializable {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         if (this.isModoOperacaoVerde()) {
             preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicaoSemEstagioDispensavel());
-            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicao());
+            preencheTabelaEntreVerde(tabela, getEstagiosOrdenados());
             this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
                 preencheTabelaEntreVerde(tabela, e);
             });
         } else {
-            //TODO: Qual o entreverde do estagio de demanda prioritaria para o modo Intermitente
-            this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
-                preencheTabelaEntreVerde(tabela, e);
-                tabela.put(new Pair<Integer, Integer>(e.getPosicao(), null), 0L);
-                tabela.put(new Pair<Integer, Integer>(null, e.getPosicao()), 3000L);
+            this.getAnel().getEstagios().stream().forEach(e -> {
+                tabela.put(new Pair<Integer, Integer>(e.getPosicao(), null),
+                    this.getTempoEntreVerdeEntreEstagios(null, e) * 1000L);
             });
         }
         return tabela;
@@ -499,6 +501,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
                     this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
 
+            //Estagio duplo
             tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), atual.getPosicao()), 0L);
         });
     }
