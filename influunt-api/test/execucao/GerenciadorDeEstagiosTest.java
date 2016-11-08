@@ -81,7 +81,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
             }
 
-        });
+        }, null);
     }
 
     protected Plano getPlano(Anel anel, int posicao) {

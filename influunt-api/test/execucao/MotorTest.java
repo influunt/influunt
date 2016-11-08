@@ -4,10 +4,7 @@ package execucao;
 import config.WithInfluuntApplicationNoAuthentication;
 import engine.*;
 import integracao.ControladorHelper;
-import models.Controlador;
-import models.EstadoGrupoSemaforico;
-import models.Evento;
-import models.GrupoSemaforico;
+import models.*;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -126,6 +123,14 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     protected void verificaGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
         grupoCheck.check(listaEstagios, inicioExecucao.plusSeconds(offset));
+    }
+
+    protected Anel getAnel(int posicao) {
+        return controlador.getAneis()
+            .stream()
+            .filter(a -> a.getPosicao().equals(posicao))
+            .findFirst()
+            .get();
     }
 
     public class GrupoCheck {

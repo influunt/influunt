@@ -369,6 +369,9 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public Integer getTempoVerdeEstagio() {
         if (getPlano().isAtuado() && getTempoVerdeMinimo() != null) {
+            if (getEstagio().getDetector().isComFalha()) {
+                return getTempoVerdeIntermediario();
+            }
             return getTempoVerdeMinimo();
         } else if (getPlano().isManual() && !getEstagio().isDemandaPrioritaria()) {
             return getEstagio().getTempoMaximoPermanencia() + 1;

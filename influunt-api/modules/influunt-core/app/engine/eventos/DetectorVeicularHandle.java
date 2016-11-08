@@ -2,10 +2,10 @@ package engine.eventos;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
-import engine.EventoMotor;
-import engine.GerenciadorDeEstagios;
-import engine.IntervaloEstagio;
+import engine.*;
+import engine.TipoEvento;
 import models.*;
+import org.joda.time.DateTime;
 
 import java.util.Map;
 
@@ -24,6 +24,13 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Detector detector = (Detector) eventoMotor.getParams()[0];
+
+        if (detector.isComFalha()) {
+            engine.TipoEvento tipoEvento = detector.isVeicular() ? TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO : TipoEvento.FALHA_DETECTOR_PEDESTRE_REMOCAO;
+            final Motor motor = gerenciadorDeEstagios.getMotor();
+            motor.onEventoParcial(new EventoMotor(null, tipoEvento, detector));
+        }
+
         Estagio estagio = detector.getEstagio();
         if (estagio.isDemandaPrioritaria() && !estagioPlanoAtual.getEstagio().equals(estagio)) {
             boolean proximoEstagio = false;

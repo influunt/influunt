@@ -59,16 +59,20 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private AgendamentoTrocaPlano agendamento = null;
 
+    private final Motor motor;
+
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  DateTime inicioExecucao,
                                  Plano plano,
-                                 GerenciadorDeEstagiosCallback callback) {
+                                 GerenciadorDeEstagiosCallback callback,
+                                 Motor motor) {
 
         this.anel = anel;
         this.inicioControlador = inicioControlador;
         this.inicioExecucao = inicioExecucao;
         this.callback = callback;
+        this.motor = motor;
 
         reconhecePlano(plano, true);
 
@@ -304,6 +308,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public RangeMap<Long, IntervaloEstagio> getIntervalos() {
         return intervalos;
+    }
+
+    public Motor getMotor() {
+        return motor;
     }
 
     private class GetIntervaloGrupoSemaforico {

@@ -1,7 +1,10 @@
 package engine;
 
 import models.Anel;
+import models.Detector;
 import models.GrupoSemaforico;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +18,15 @@ public class MotorEventoHandler {
 
     private Map<Integer, EventoMotor> falhasFaseGrupoSemorofico = new HashMap<>();
 
-    public MotorEventoHandler(Motor motor){
+    private Map<Pair<Integer, TipoDetector>, EventoMotor> falhasDetector = new HashMap<>();
+
+    public MotorEventoHandler(Motor motor) {
         this.motor = motor;
     }
 
     public void handle(EventoMotor eventoMotor) {
 
-        switch (eventoMotor.getTipoEvento()){
+        switch (eventoMotor.getTipoEvento()) {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:
             case ACIONAMENTO_DETECTOR_PEDESTRE:
@@ -47,10 +52,18 @@ public class MotorEventoHandler {
                 break;
 
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
-            case FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO:
             case FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO:
+                handleFaltaAcionamentoDetector(eventoMotor);
+                break;
+
+            case FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO:
             case FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO:
-                handleFalhaDetector(eventoMotor);
+                handleAcionamentoDiretoDetector(eventoMotor);
+                break;
+
+            case FALHA_DETECTOR_VEICULAR_REMOCAO:
+            case FALHA_DETECTOR_PEDESTRE_REMOCAO:
+                handleRemocaoFalhaDetector(eventoMotor);
                 break;
 
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
@@ -69,12 +82,28 @@ public class MotorEventoHandler {
 
     }
 
+    private void handleRemocaoFalhaDetector(EventoMotor eventoMotor) {
+        Detector detector = (Detector) eventoMotor.getParams()[0];
+        detector.setComFalha(false);
+    }
+
     private void handleFalhaAnel(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[0];
         //TODO: Fazer o que tem que fazer
     }
 
-    private void handleFalhaDetector(EventoMotor eventoMotor) {
+    private void handleFaltaAcionamentoDetector(EventoMotor eventoMotor) {
+        Detector detector = (Detector) eventoMotor.getParams()[0];
+        if (eventoMotor.getTipoEvento().equals(TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO)) {
+            Pair<Integer, TipoDetector> key = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
+            if (!falhasDetector.containsKey(key)) {
+                falhasDetector.put(key, eventoMotor);
+                motor.getEstagios().get(detector.getAnel().getPosicao() - 1).onEvento(eventoMotor);
+            }
+        }
+    }
+
+    private void handleAcionamentoDiretoDetector(EventoMotor eventoMotor) {
         Integer detector = (Integer) eventoMotor.getParams()[0];
         //TODO: Fazer o que tem que fazer
     }
@@ -82,19 +111,19 @@ public class MotorEventoHandler {
 
     private void handleFaseVermelhaGrupoSemaforico(EventoMotor eventoMotor) {
         GrupoSemaforico grupoSemaforico = (GrupoSemaforico) eventoMotor.getParams()[0];
-        if(eventoMotor.getTipoEvento().equals(TipoEvento.FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA)){
-            if(!falhasFaseGrupoSemorofico.containsKey(grupoSemaforico.getPosicao())){
+        if (eventoMotor.getTipoEvento().equals(TipoEvento.FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA)) {
+            if (!falhasFaseGrupoSemorofico.containsKey(grupoSemaforico.getPosicao())) {
                 if (grupoSemaforico.isFaseVermelhaApagadaAmareloIntermitente()) {
                     falhasFaseGrupoSemorofico.put(grupoSemaforico.getPosicao(), eventoMotor);
                     motor.getEstagios().get(grupoSemaforico.getAnel().getPosicao() - 1).onEvento(eventoMotor);
                 }
             }
-        }else{
+        } else {
             if (grupoSemaforico.isFaseVermelhaApagadaAmareloIntermitente()) {
                 falhasFaseGrupoSemorofico.remove(grupoSemaforico.getPosicao());
                 Anel anel = grupoSemaforico.getAnel();
                 if (!anel.getGruposSemaforicos().stream().anyMatch(grupo -> falhasFaseGrupoSemorofico.containsKey(grupo.getPosicao()))) {
-                    eventoMotor.setParams(new Object[] {eventoMotor.getParams()[0], motor.getPlanoAtual(anel.getPosicao())});
+                    eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0], motor.getPlanoAtual(anel.getPosicao())});
                     motor.getEstagios().get(anel.getPosicao() - 1).onEvento(eventoMotor);
                 }
             }

@@ -81,6 +81,9 @@ public class Detector extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean comFalha;
+
     public Detector() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -267,5 +270,13 @@ public class Detector extends Model implements Cloneable, Serializable {
     @Transient
     public boolean isPedestre() {
         return TipoDetector.PEDESTRE.equals(this.getTipo());
+    }
+
+    public void setComFalha(boolean comFalha) {
+        this.comFalha = comFalha;
+    }
+
+    public boolean isComFalha() {
+        return comFalha;
     }
 }

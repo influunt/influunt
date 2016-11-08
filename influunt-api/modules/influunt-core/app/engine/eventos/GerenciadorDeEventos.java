@@ -50,6 +50,9 @@ public abstract class GerenciadorDeEventos {
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:
                 new RemoverAmareloIntermitenteHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
+            case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
+                new FalhaDetectorVeicularHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
             default:
                 break;
         }

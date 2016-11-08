@@ -24,13 +24,16 @@ public class EventoMotor {
         return tipoEvento;
     }
 
-
     public Object[] getParams() {
         return params;
     }
 
     public void setParams(Object[] params) {
         this.params = params;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public DateTime getTimestamp() {
