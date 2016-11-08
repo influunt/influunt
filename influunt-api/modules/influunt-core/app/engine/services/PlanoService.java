@@ -7,22 +7,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.UUID;
 
+import static javafx.scene.input.KeyCode.T;
+
 /**
  * Created by leonardo on 11/7/16.
  */
 public class PlanoService {
     public static Plano gerarPlanoManual(Plano plano) {
-        Plano novoPlano = copyPrimitiveFields(plano);
-
-        novoPlano.setVersaoPlano(plano.getVersaoPlano());
-        novoPlano.setModoOperacao(ModoOperacaoPlano.MANUAL);
-
-        plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-            GrupoSemaforicoPlano gspAux = copyPrimitiveFields(grupoSemaforicoPlano);
-            gspAux.setGrupoSemaforico(grupoSemaforicoPlano.getGrupoSemaforico());
-            gspAux.setPlano(novoPlano);
-            novoPlano.addGruposSemaforicoPlano(gspAux);
-        });
+        Plano novoPlano = gerarPlano(plano);
 
         plano.getEstagiosPlanos().forEach(estagioPlano -> {
             EstagioPlano estagioPlanoAux = copyPrimitiveFields(estagioPlano);
@@ -31,8 +23,33 @@ public class PlanoService {
             novoPlano.addEstagios(estagioPlanoAux);
         });
 
+        novoPlano.setModoOperacao(ModoOperacaoPlano.MANUAL);
         return novoPlano;
     }
+
+    public static Plano gerarPlanoIntermitentePorFalha(Plano plano) {
+        Plano novoPlano = gerarPlano(plano);
+        novoPlano.setModoOperacao(ModoOperacaoPlano.INTERMITENTE);
+        novoPlano.setImpostoPorFalha(true);
+        return novoPlano;
+    }
+
+    private static Plano gerarPlano(Plano plano) {
+        Plano novoPlano = copyPrimitiveFields(plano);
+
+        novoPlano.setVersaoPlano(plano.getVersaoPlano());
+
+
+        plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+            GrupoSemaforicoPlano gspAux = copyPrimitiveFields(grupoSemaforicoPlano);
+            gspAux.setGrupoSemaforico(grupoSemaforicoPlano.getGrupoSemaforico());
+            gspAux.setPlano(novoPlano);
+            novoPlano.addGruposSemaforicoPlano(gspAux);
+        });
+
+        return novoPlano;
+    }
+
 
     private static <T> T copyPrimitiveFields(T obj) {
         try {

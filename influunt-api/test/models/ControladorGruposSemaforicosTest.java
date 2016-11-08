@@ -144,8 +144,8 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         assertEquals("Grupo Veicular", TipoGrupoSemaforico.VEICULAR, grupoVeicular.getTipo());
         assertEquals("Grupo Pedestre", TipoGrupoSemaforico.PEDESTRE, grupoPedestre.getTipo());
 
-        assertTrue("Grupo Veicular com Fase apagada colocar em Amarelo Intermitente", grupoVeicular.getFaseVermelhaApagadaAmareloIntermitente());
-        assertFalse("Grupo Pedestre com Fase apagada não colocar em Amarelo Intermitente", grupoPedestre.getFaseVermelhaApagadaAmareloIntermitente());
+        assertTrue("Grupo Veicular com Fase apagada colocar em Amarelo Intermitente", grupoVeicular.isFaseVermelhaApagadaAmareloIntermitente());
+        assertFalse("Grupo Pedestre com Fase apagada não colocar em Amarelo Intermitente", grupoPedestre.isFaseVermelhaApagadaAmareloIntermitente());
     }
 
     @Override

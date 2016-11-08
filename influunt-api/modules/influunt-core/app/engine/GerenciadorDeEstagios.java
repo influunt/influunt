@@ -99,7 +99,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
         if (this.intervalos.get(contadorIntervalo) == null) {
             contadorIntervalo = 0L;
             contadorEstagio++;
-            if (contadorEstagio == listaEstagioPlanos.size()) {
+            if (this.agendamento != null && this.agendamento.isImpostoPorFalha()) {
+                contadorEstagio = 0;
+                contadorDeCiclos++;
+                callback.onCicloEnds(this.anel, contadorDeCiclos);
+                executaAgendamentoTrocaDePlano();
+            } else if (contadorEstagio == listaEstagioPlanos.size()) {
                 atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
                 contadorEstagio = 0;
                 verificaEAjustaIntermitenteCasoDemandaPrioritaria();
@@ -191,29 +196,29 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void reconhecePlano(Plano plano, boolean inicio) {
-        if (this.plano != null) {
-            modoAnterior = this.plano.getModoOperacao();
-        }
+        if (this.plano == null || !this.plano.isImpostoPorFalha()) {
+            if (this.plano != null) {
+                modoAnterior = this.plano.getModoOperacao();
+            }
 
-        this.plano = plano;
-        this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
-        this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
-        this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
-        contadorEstagio = 0;
-        contadorIntervalo = 0L;
-        contadorDeCiclos = 0L;
+            this.plano = plano;
+            this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
+            this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+            this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
+            contadorEstagio = 0;
+            contadorIntervalo = 0L;
+            contadorDeCiclos = 0L;
 
+            if (inicio && listaEstagioPlanos.size() > 0) {
+                this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
+            }
 
-        if (inicio && listaEstagioPlanos.size() > 0) {
-            this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
-        }
+            geraIntervalos(0);
 
-
-        geraIntervalos(0);
-
-        if (!inicio) {
-            EventoMotor eventoMotor = new EventoMotor(null, TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
-            this.intervalos.get(0L).addEvento(contadorIntervalo, eventoMotor);
+            if (!inicio) {
+                EventoMotor eventoMotor = new EventoMotor(null, TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
+                this.intervalos.get(0L).addEvento(contadorIntervalo, eventoMotor);
+            }
         }
     }
 

@@ -35,7 +35,15 @@ public class ParametroSimulacaoFalha {
     private DateTime disparo;
 
     public EventoMotor toEvento() {
-        return null;
+        Object params = null;
+        if (grupoSemaforico != null) {
+            params = grupoSemaforico;
+        } else if (anel != null) {
+            params = anel;
+        } else if (detector != null) {
+            params = detector;
+        }
+        return new EventoMotor(getDisparo(), getFalha(), params);
     }
 
     public TipoEvento getFalha() {

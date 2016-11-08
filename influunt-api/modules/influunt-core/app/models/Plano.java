@@ -95,6 +95,9 @@ public class Plano extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean impostoPorFalha = false;
+
     public Plano() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -202,6 +205,14 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public void setImpostoPorFalha(boolean impostoPorFalha) {
+        this.impostoPorFalha = impostoPorFalha;
+    }
+
+    public boolean isImpostoPorFalha() {
+        return this.impostoPorFalha;
     }
 
     @JsonIgnore
@@ -522,5 +533,4 @@ public class Plano extends Model implements Cloneable, Serializable {
             System.out.println("E" + key.getKey() + "-" + "E" + key.getValue() + ": " + value);
         });
     }
-
 }

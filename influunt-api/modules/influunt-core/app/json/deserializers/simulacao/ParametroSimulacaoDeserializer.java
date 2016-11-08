@@ -73,8 +73,8 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
 
         if (node.has("alarmesControlador")) {
             List<ParametroSimulacaoAlarme> alarmes = new ArrayList<>();
-            for (JsonNode falha : node.get("falhasControlador")) {
-                alarmes.add(Json.fromJson(falha, ParametroSimulacaoAlarme.class));
+            for (JsonNode alarme : node.get("alarmesControlador")) {
+                alarmes.add(Json.fromJson(alarme, ParametroSimulacaoAlarme.class));
             }
             params.setAlarmes(alarmes);
         }

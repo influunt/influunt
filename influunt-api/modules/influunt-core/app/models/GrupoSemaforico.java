@@ -209,7 +209,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         this.posicao = posicao;
     }
 
-    public Boolean getFaseVermelhaApagadaAmareloIntermitente() {
+    public Boolean isFaseVermelhaApagadaAmareloIntermitente() {
         return faseVermelhaApagadaAmareloIntermitente;
     }
 

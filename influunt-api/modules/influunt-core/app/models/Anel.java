@@ -380,6 +380,13 @@ public class Anel extends Model implements Cloneable, Serializable {
         return null;
     }
 
+    public Plano findPlanoByPosicao(Integer posicao) {
+        if (Objects.nonNull(posicao)) {
+            return getPlanos().stream().filter(plano -> posicao.equals(plano.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
     public boolean temDetectorVeicular() {
         return getDetectores().stream().filter(detector -> detector.isVeicular()).count() > 0;
     }

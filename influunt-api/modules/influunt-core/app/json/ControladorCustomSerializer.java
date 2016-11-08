@@ -1100,8 +1100,8 @@ public class ControladorCustomSerializer {
             grupoSemaforicoJson.put("descricao", grupoSemaforico.getDescricao());
         }
 
-        if (grupoSemaforico.getFaseVermelhaApagadaAmareloIntermitente() != null) {
-            grupoSemaforicoJson.put("faseVermelhaApagadaAmareloIntermitente", grupoSemaforico.getFaseVermelhaApagadaAmareloIntermitente());
+        if (grupoSemaforico.isFaseVermelhaApagadaAmareloIntermitente() != null) {
+            grupoSemaforicoJson.put("faseVermelhaApagadaAmareloIntermitente", grupoSemaforico.isFaseVermelhaApagadaAmareloIntermitente());
         }
 
         if (grupoSemaforico.getTempoVerdeSeguranca() != null) {

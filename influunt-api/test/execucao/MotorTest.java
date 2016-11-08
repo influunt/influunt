@@ -7,6 +7,7 @@ import integracao.ControladorHelper;
 import models.Controlador;
 import models.EstadoGrupoSemaforico;
 import models.Evento;
+import models.GrupoSemaforico;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -153,6 +154,17 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
             assertEquals("Fim", fim, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
             assertEquals("Estado", estado, intervalos.get(instante).get(anel).getEstados().get(this.grupo).get(this.inicio));
         }
+    }
+
+    protected GrupoSemaforico getGrupoSemaforico(int posicao) {
+        final GrupoSemaforico[] grupoSemaforico = new GrupoSemaforico[1];
+        controlador.getAneis().forEach(anel -> {
+            GrupoSemaforico grupo = anel.findGrupoSemaforicoByPosicao(posicao);
+            if (grupo != null) {
+                grupoSemaforico[0] = grupo;
+            }
+        });
+        return grupoSemaforico[0];
     }
 
 }

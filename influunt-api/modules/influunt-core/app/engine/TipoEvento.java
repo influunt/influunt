@@ -40,8 +40,8 @@ public enum TipoEvento {
     ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado",null),
 
     //Modo Manual
-    ACIONAMENTO_MODO_MANUAL(TipoEventoControlador.MODO_MANUAL, 1, "Acionamento de modo manual", "Modo manual foi acionado"),
-    TROCA_ESTAGIO_MANUAL(TipoEventoControlador.MODO_MANUAL, 2, "Troca de estágio no modo manual", "Troca estágio"),
+    ACIONAMENTO_MODO_MANUAL(TipoEventoControlador.MODO_MANUAL, 1, "Acionamento de modo manual", "Modo manual foi acionado", null),
+    TROCA_ESTAGIO_MANUAL(TipoEventoControlador.MODO_MANUAL, 2, "Troca de estágio no modo manual", "Troca estágio", null),
 
     //Imposicao de Planos
     IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto",null),

@@ -35,9 +35,10 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
         this.callback = callback;
         this.controlador = controlador;
         this.inicioControlador = inicioControlador;
-        gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
-        gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
+        this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
+        this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
         this.instante = inicioExecucao;
+        this.motorEventoHandler = new MotorEventoHandler(this);
     }
 
 
@@ -101,5 +102,9 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     public List<GerenciadorDeEstagios> getEstagios() {
         return estagios;
+    }
+
+    public Plano getPlanoAtual(Integer anel) {
+        return getPlanos(eventoAtual).get(anel - 1);
     }
 }

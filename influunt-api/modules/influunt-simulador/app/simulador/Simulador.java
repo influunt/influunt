@@ -34,11 +34,7 @@ public abstract class Simulador implements MotorCallback {
 
     private Map<DateTime, List<EventoMotor>> eventos = new HashMap<>();
 
-
-
     private Motor motor;
-
-
 
     private DateTime ponteiro;
 
