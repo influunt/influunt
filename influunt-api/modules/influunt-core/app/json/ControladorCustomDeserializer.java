@@ -494,8 +494,14 @@ public class ControladorCustomDeserializer {
         if (node.has("posicao")) {
             anel.setPosicao(node.get("posicao").asInt());
         }
+
         if (node.has("croqui") && node.get("croqui").get("id") != null) {
-            anel.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
+            final String imageId = node.get("croqui").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(IMAGENS);
+                anel.setCroqui((Imagem) map.get(imageId));
+            };
+            runLater(c);
         }
 
         if (node.has("versaoPlano") && node.get("versaoPlano").has("idJson")) {
@@ -1450,10 +1456,6 @@ public class ControladorCustomDeserializer {
             controlador.setId(UUID.fromString(id.asText()));
         }
 
-        if (node.has("area") && node.get("area").get("id") != null) {
-            controlador.setArea(Area.find.byId(UUID.fromString(node.get("area").get("id").asText())));
-        }
-
         if (node.has("area")) {
             final String areaId = node.get("area").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
@@ -1472,7 +1474,12 @@ public class ControladorCustomDeserializer {
         }
 
         if (node.has("croqui") && node.get("croqui").get("id") != null) {
-            controlador.setCroqui(Imagem.find.byId(UUID.fromString(node.get("croqui").get("id").asText())));
+            final String imageId = node.get("croqui").get("idJson").asText();
+            Consumer<Map<String, Map>> c = (caches) -> {
+                Map map = caches.get(IMAGENS);
+                controlador.setCroqui((Imagem) map.get(imageId));
+            };
+            runLater(c);
         }
 
         if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {
