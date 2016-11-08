@@ -9,6 +9,7 @@ import models.Controlador;
 import models.Detector;
 import models.simulador.SimulacaoConfig;
 import org.joda.time.DateTime;
+import org.joda.time.ReadWritableInstant;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class ParametroSimulacao {
     private List<ParametroFalha> falhas = new ArrayList<>();
 
     private UUID idControlador;
+
+    private List<ParametroSimulacaoManual> insercaoDePlugDeControleManual = new ArrayList<>();
 
 
     public ParametroSimulacao() {
@@ -180,5 +183,9 @@ public class ParametroSimulacao {
         getDetectores().stream().forEach(parametroSimulacaoDetector -> {
             parametroSimulacaoDetector.setDetector(Detector.find.byId(parametroSimulacaoDetector.getDetector().getId()));
         });
+    }
+
+    public List<ParametroSimulacaoManual> getInsercaoDePlugDeControleManual() {
+        return insercaoDePlugDeControleManual;
     }
 }

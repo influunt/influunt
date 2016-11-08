@@ -181,7 +181,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
     //Métodos auxiliares de modo manual
     protected void acionarModoManual() {
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_MODO_MANUAL));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL));
     }
 
     protected void trocarEstagioModoManual() {

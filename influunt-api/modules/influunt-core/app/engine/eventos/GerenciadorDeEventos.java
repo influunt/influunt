@@ -38,7 +38,7 @@ public abstract class GerenciadorDeEventos {
             case ACIONAMENTO_DETECTOR_VEICULAR:
                 new DetectorVeicularHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
-            case ACIONAMENTO_MODO_MANUAL:
+            case INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL:
                 new AtivaModoManualHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case TROCA_ESTAGIO_MANUAL:
