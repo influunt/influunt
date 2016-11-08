@@ -346,4 +346,7 @@ public class IntervaloGrupoSemaforico {
         fields.add(((Detector)eventoMotor.getParams()[0]).getPosicao());
     }
 
+    public Integer quantidadeGruposSemaforicos() {
+        return estados.keySet().size();
+    }
 }

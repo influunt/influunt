@@ -1,5 +1,13 @@
 package protocol;
 
+import com.google.common.collect.RangeMap;
+import engine.IntervaloGrupoSemaforico;
+import models.EstadoGrupoSemaforico;
+
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.HashMap;
+
 /**
  * Created by rodrigosol on 11/3/16.
  */
@@ -12,10 +20,19 @@ public class MensagemEstagio extends Mensagem {
         this.mensagemGrupo = new MensagemGrupo[quantidadeGrupos];
     }
 
+    public MensagemEstagio(byte[] contents){
+        super(contents);
+        mensagemGrupo = new MensagemGrupo[contents[4]];
+        for(int i = 0; i < mensagemGrupo.length; i++){
+            mensagemGrupo[i] = new MensagemGrupo(i,contents);
+        }
+    }
+
     @Override
-    protected int[] getBytes() {
-        int[] resp = new int[innerSize()];
+    protected byte[] getBytes() {
+        byte[] resp = new byte[innerSize()];
         resp[0] = getFlags();
+
         for(int i = 0; i < mensagemGrupo.length; i++){
             mensagemGrupo[i].fill(i,resp);
         }
@@ -24,20 +41,40 @@ public class MensagemEstagio extends Mensagem {
 
     @Override
     public int innerSize() {
-        return 1 + mensagemGrupo.length * 5;
+        return 1 + mensagemGrupo.length * 9;
     }
 
-    public int getFlags() {
-        return mensagemGrupo.length;
+    public byte getFlags() {
+        return (byte) mensagemGrupo.length;
     }
 
-    public void addGrupo(int index,int grupo, boolean flagAmareloOuVermelhoIntermitente, boolean flagVerdeOuVermelho,
-                         boolean flagPedestreVeicular, int tempoAtrasoDeGrupo, int tempoAmareloOuVermelhoIntermitente,
+    public void addGrupo(int index,int grupo, int tempoAtrasoDeGrupo, int tempoAmareloOuVermelhoIntermitente,
                          int tempoVermelhoLimpeza, int tempoVerdeOuVermelho){
 
-        mensagemGrupo[index] = new MensagemGrupo(grupo,flagAmareloOuVermelhoIntermitente,flagVerdeOuVermelho,
-                                                 flagPedestreVeicular,tempoAtrasoDeGrupo,
+        mensagemGrupo[index] = new MensagemGrupo(grupo,tempoAtrasoDeGrupo,
                                                  tempoAmareloOuVermelhoIntermitente,tempoVermelhoLimpeza,
                                                  tempoVerdeOuVermelho);
+    }
+
+
+
+    public void addIntervalos(IntervaloGrupoSemaforico intervalos) {
+        final HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados = intervalos.getEstados();
+        int i = 0;
+        for(Integer grupo : estados.keySet()){
+            MensagemGrupo msg = new MensagemGrupo(grupo,estados.get(grupo));
+            addGrupo(i++,msg);
+        }
+    }
+
+    private void addGrupo(int index, MensagemGrupo msg) {
+        mensagemGrupo[index] = msg;
+    }
+
+    public void print(){
+        System.out.println(new Formatter().format("|GR|P/V|FL|AT/VE|AM/VI|VL|VE/V/AI/D|"));
+        Arrays.stream(mensagemGrupo).forEach(m ->{
+            System.out.println(m);
+        });
     }
 }

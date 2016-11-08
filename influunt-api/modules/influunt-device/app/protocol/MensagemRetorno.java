@@ -15,10 +15,15 @@ public class MensagemRetorno extends Mensagem{
         this.retorno = retorno;
     }
 
+    public MensagemRetorno(byte[] contents){
+        super(contents);
+        this.retorno = Retorno.values()[contents[4]];
+    }
+
     @Override
-    protected int[] getBytes() {
-        int[] ret =  new int[1];
-        ret[0] = retorno.ordinal();
+    protected byte[] getBytes() {
+        byte[] ret =  new byte[1];
+        ret[0] = (byte)retorno.ordinal();
         return ret;
     }
 

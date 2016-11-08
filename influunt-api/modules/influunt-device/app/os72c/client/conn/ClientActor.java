@@ -5,6 +5,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import com.typesafe.config.ConfigFactory;
+import os72c.client.device.DeviceActor;
 import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
 
@@ -32,6 +33,9 @@ public class ClientActor extends UntypedActor {
 
     private final Storage storage;
 
+
+    private ActorRef device;
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtControlador;
@@ -41,7 +45,10 @@ public class ClientActor extends UntypedActor {
         this.host = host;
         this.port = port;
         this.storage = storage;
+        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage), "motor");
+
     }
+
 
     public static void main(String args[]) {
         ActorSystem system = ActorSystem.create("InfluuntControlador", ConfigFactory.load());
