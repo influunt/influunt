@@ -198,7 +198,6 @@ var World = function () {
   };
 
   this.calculateByXpath = function(xpathSelector, quantity) {
-    var _this = this;
     return driver.findElements(webdriver.By.xpath(xpathSelector)).then(function(elements){
     var sizeElements = elements.length.toString();
 
