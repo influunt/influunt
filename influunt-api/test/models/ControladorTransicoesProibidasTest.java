@@ -281,7 +281,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         Controlador controlador = getControladorTransicoesProibidas();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -317,7 +317,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -330,7 +330,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         Controlador controlador = getControladorTransicoesProibidas();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -391,7 +391,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 

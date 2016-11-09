@@ -137,7 +137,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         Controlador controlador = getControladorAtrasoDeGrupo();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -171,7 +171,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.atrasoDeGrupo().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.atrasoDeGrupo().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -187,7 +187,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.atrasoDeGrupo().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.atrasoDeGrupo().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));

@@ -42,7 +42,7 @@ public class PlanosController extends Controller {
             if (erros.isEmpty()) {
                 controlador.update();
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all())));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }

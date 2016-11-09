@@ -15,56 +15,54 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Created by rodrigosol on 7/29/16.
- */
+
 public class ControladorCustomSerializer {
 
-    private Map<String, Estagio> estagiosMap = new HashMap<String, Estagio>();
+    private Map<String, Estagio> estagiosMap = new HashMap<>();
 
-    private Map<String, GrupoSemaforico> gruposSemaforicosMap = new HashMap<String, GrupoSemaforico>();
+    private Map<String, GrupoSemaforico> gruposSemaforicosMap = new HashMap<>();
 
-    private Map<String, Detector> detectoresMap = new HashMap<String, Detector>();
+    private Map<String, Detector> detectoresMap = new HashMap<>();
 
-    private Map<String, Imagem> imagensMap = new HashMap<String, Imagem>();
+    private Map<String, Imagem> imagensMap = new HashMap<>();
 
-    private Map<String, TransicaoProibida> transicoesProibidasMap = new HashMap<String, TransicaoProibida>();
+    private Map<String, TransicaoProibida> transicoesProibidasMap = new HashMap<>();
 
-    private Map<String, EstagioGrupoSemaforico> estagiosGruposSemaforicosMap = new HashMap<String, EstagioGrupoSemaforico>();
+    private Map<String, EstagioGrupoSemaforico> estagiosGruposSemaforicosMap = new HashMap<>();
 
-    private Map<String, VerdesConflitantes> verdesConflitantesMap = new HashMap<String, VerdesConflitantes>();
+    private Map<String, VerdesConflitantes> verdesConflitantesMap = new HashMap<>();
 
-    private Map<String, Transicao> transicoesMap = new HashMap<String, Transicao>();
+    private Map<String, Transicao> transicoesMap = new HashMap<>();
 
-    private Map<String, Transicao> transicoesComPerdaDePassagemMap = new HashMap<String, Transicao>();
+    private Map<String, Transicao> transicoesComPerdaDePassagemMap = new HashMap<>();
 
-    private Map<String, TabelaEntreVerdes> entreVerdesMap = new HashMap<String, TabelaEntreVerdes>();
+    private Map<String, TabelaEntreVerdes> entreVerdesMap = new HashMap<>();
 
-    private Map<String, TabelaEntreVerdesTransicao> entreVerdesTransicoesMap = new HashMap<String, TabelaEntreVerdesTransicao>();
+    private Map<String, TabelaEntreVerdesTransicao> entreVerdesTransicoesMap = new HashMap<>();
 
-    private Map<String, VersaoPlano> versoesPlanosMap = new HashMap<String, VersaoPlano>();
+    private Map<String, VersaoPlano> versoesPlanosMap = new HashMap<>();
 
-    private Map<String, Plano> planosMap = new HashMap<String, Plano>();
+    private Map<String, Plano> planosMap = new HashMap<>();
 
-    private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<String, GrupoSemaforicoPlano>();
+    private Map<String, GrupoSemaforicoPlano> grupoSemaforicoPlanoMap = new HashMap<>();
 
-    private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<String, EstagioPlano>();
+    private Map<String, EstagioPlano> estagioPlanoMap = new HashMap<>();
 
-    private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasMap = new HashMap<String, VersaoTabelaHoraria>();
+    private Map<String, VersaoTabelaHoraria> versoesTabelasHorariasMap = new HashMap<>();
 
-    private Map<String, TabelaHorario> tabelasHorariasMap = new HashMap<String, TabelaHorario>();
+    private Map<String, TabelaHorario> tabelasHorariasMap = new HashMap<>();
 
-    private Map<String, Evento> eventosMap = new HashMap<String, Evento>();
+    private Map<String, Evento> eventosMap = new HashMap<>();
 
-    private Map<String, Endereco> enderecosMap = new HashMap<String, Endereco>();
+    private Map<String, Endereco> enderecosMap = new HashMap<>();
 
-    private Map<String, Area> areasMap = new HashMap<String, Area>();
+    private Map<String, Area> areasMap = new HashMap<>();
 
-    private Map<String, LimiteArea> limitesMap = new HashMap<String, LimiteArea>();
+    private Map<String, LimiteArea> limitesMap = new HashMap<>();
 
-    private Map<String, AtrasoDeGrupo> atrasosDeGrupoMap = new HashMap<String, AtrasoDeGrupo>();
+    private Map<String, AtrasoDeGrupo> atrasosDeGrupoMap = new HashMap<>();
 
-    public JsonNode getControladorJson(Controlador controlador) {
+    public JsonNode getControladorJson(Controlador controlador, List<Cidade> cidades) {
         ObjectNode root = Json.newObject();
 
         putControladorDadosBasicos(controlador, root);
@@ -87,7 +85,7 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
-        putControladorCidades(root);
+        putControladorCidades(root, cidades);
         putControladorAreas(root);
         putControladorLimites(root);
         putControladorEnderecos(root);
@@ -200,14 +198,14 @@ public class ControladorCustomSerializer {
         return root;
     }
 
-    public JsonNode getPacoteConfiguracaoJson(Controlador controlador) {
+    public JsonNode getPacoteConfiguracaoJson(Controlador controlador, List<Cidade> cidades) {
         controlador.setVersoesTabelasHorarias(null);
         controlador.setVersaoControlador(null);
-        controlador.getAneis().stream().filter(anel -> anel.isAtivo()).forEach(anel -> {
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
             anel.setVersoesPlanos(null);
             anel.setVersaoPlanoAtivo(new VersaoPlano());
         });
-        return getControladorJson(controlador);
+        return getControladorJson(controlador, cidades);
     }
 
     public JsonNode getPacotePlanosJson(Controlador controlador) {
@@ -280,7 +278,7 @@ public class ControladorCustomSerializer {
             versaoTabelaHorariaJson.put("id", versaoTabelaHoraria.getId().toString());
         }
         if (versaoTabelaHoraria.getIdJson() != null) {
-            versaoTabelaHorariaJson.put("idJson", versaoTabelaHoraria.getIdJson().toString());
+            versaoTabelaHorariaJson.put("idJson", versaoTabelaHoraria.getIdJson());
         }
         if (versaoTabelaHoraria.getStatusVersao() != null) {
             versaoTabelaHorariaJson.put("statusVersao", versaoTabelaHoraria.getStatusVersao().toString());
@@ -578,7 +576,7 @@ public class ControladorCustomSerializer {
         if (subarea.getIdJson() == null) {
             subareaJson.putNull("idJson");
         } else {
-            subareaJson.put("idJson", subarea.getIdJson().toString());
+            subareaJson.put("idJson", subarea.getIdJson());
         }
 
         if (subarea.getNome() != null) {
@@ -718,11 +716,11 @@ public class ControladorCustomSerializer {
         root.set("todosEnderecos", enderecosJson);
     }
 
-    private void putControladorCidades(ObjectNode root) {
+    private void putControladorCidades(ObjectNode root, List<Cidade> cidades) {
         ArrayNode cidadesJson = Json.newArray();
-        Cidade.find.all().stream().forEach(cidade -> {
-            cidadesJson.add(getCidadeJson(cidade));
-        });
+        if (cidades != null) {
+            cidades.forEach(cidade -> cidadesJson.add(getCidadeJson(cidade)));
+        }
         root.set("cidades", cidadesJson);
     }
 

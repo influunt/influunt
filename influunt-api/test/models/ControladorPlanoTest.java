@@ -663,7 +663,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
 
@@ -683,7 +683,7 @@ public class ControladorPlanoTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -699,7 +699,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -866,7 +866,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
             .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result result = route(request);
 
         assertEquals(200, result.status());

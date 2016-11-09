@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
+import models.Cidade;
 import models.Controlador;
 import models.StatusDevice;
 
@@ -62,7 +63,7 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControlador(Controlador controlador) {
-        this.controlador.put("atual", new ControladorCustomSerializer().getControladorJson(controlador).toString());
+        this.controlador.put("atual", new ControladorCustomSerializer().getControladorJson(controlador, null).toString());
         db.commit();
     }
 
@@ -73,7 +74,7 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControladorStaging(Controlador controlador) {
-        this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador).toString());
+        this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador, null).toString());
         db.commit();
     }
 

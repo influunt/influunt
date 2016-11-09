@@ -154,7 +154,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         Controlador controlador = getControladorGrupoSemaforicos();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson((new ControladorCustomSerializer().getControladorJson(controlador)));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson((new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all())));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -177,7 +177,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -194,7 +194,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

@@ -1,6 +1,7 @@
 package protocol;
 
 import json.ControladorCustomSerializer;
+import models.Cidade;
 import models.Controlador;
 import models.StatusVersao;
 
@@ -22,7 +23,7 @@ public class Configuracao {
                     envelope.getIdControlador(),
                     "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                     2,
-                    new ControladorCustomSerializer().getControladorJson(controlador).toString(),
+                    new ControladorCustomSerializer().getControladorJson(controlador, null).toString(),
                     envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
+import models.Cidade;
 import models.Controlador;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
         erros = getErros(controlador).stream().sorted((e1, e2) -> e1.path.compareTo(e2.path)).collect(Collectors.toList());
         assertThat(erros, org.hamcrest.Matchers.empty());
 
-        JsonNode configuracaoControladorJson = new ControladorCustomSerializer().getPacoteConfiguracaoJson(controlador);
+        JsonNode configuracaoControladorJson = new ControladorCustomSerializer().getPacoteConfiguracaoJson(controlador, Cidade.find.all());
         Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(configuracaoControladorJson);
 
         controlador.refresh();

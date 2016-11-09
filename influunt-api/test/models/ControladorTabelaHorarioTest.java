@@ -176,7 +176,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Controlador controlador = getControladorTabelaHorario();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
 
@@ -196,7 +196,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -212,7 +212,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Controlador controlador = getControladorTabelaHorario();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -246,7 +246,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals("Total de Erros", 0, erros.size());
 
-        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         controlador.update();
