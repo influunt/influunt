@@ -48,7 +48,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
                 iniciarGrupos = true;
             }else{
                 estagios.stream().forEach(gerenciadorDeEstagios -> {
-                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento,getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1),instante));
+                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento, getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1), instante));
                 });
             }
             eventoAtual = evento;
@@ -94,10 +94,13 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        if(eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR) ||
+        if (eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR) ||
            eventoMotor.getTipoEvento().equals(TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE)){
             Integer anel = (Integer) eventoMotor.getParams()[1];
             estagios.get(anel - 1).onEvento(eventoMotor);
+        } else if (eventoMotor.getTipoEvento().equals(TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL) ||
+            eventoMotor.getTipoEvento().equals(TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL)) {
+            estagios.forEach(estagio -> estagio.onEvento(eventoMotor));
         }
 
     }

@@ -1,4 +1,4 @@
-package execucao;
+package execucao.gerenciadorPlanos;
 
 
 import config.WithInfluuntApplicationNoAuthentication;
@@ -6,6 +6,7 @@ import engine.AgendamentoTrocaPlano;
 import engine.IntervaloGrupoSemaforico;
 import engine.Motor;
 import engine.MotorCallback;
+import execucao.MotorTest;
 import integracao.ControladorHelper;
 import models.Controlador;
 import models.EstadoGrupoSemaforico;
@@ -24,26 +25,7 @@ import static org.junit.Assert.*;
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication implements MotorCallback {
-
-    private Controlador controlador;
-    private DateTime inicioExecucao;
-    private DateTime inicioControlador;
-    private HashMap<DateTime, Evento> listaTrocaPlano;
-    private HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
-    private HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
-    private HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
-
-    @Before
-    public void setup() {
-        controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
-        controlador.save();
-        listaTrocaPlano = new HashMap<>();
-        listaTrocaPlanoEfetiva = new HashMap<>();
-        listaEstagios = new HashMap<>();
-        listaHistoricoEstagios = new HashMap<>();
-    }
-
+public class TrocaPlanosTest extends MotorTest {
     @Test
     public void entradaPlanoNormalTest() throws IOException {
         inicioControlador = new DateTime(2016, 11, 5, 18, 0, 0);
@@ -150,45 +132,4 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
         assertEquals("Total de trocas", 14, listaTrocaPlano.size());
     }
 
-    @Override
-    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-        listaTrocaPlano.put(timestamp, eventoAtual);
-    }
-
-    @Override
-    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        if(!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())){
-            listaTrocaPlanoEfetiva.put(agendamentoTrocaPlano.getMomentoDaTroca(), new HashMap<>());
-        }
-        listaTrocaPlanoEfetiva.get(agendamentoTrocaPlano.getMomentoDaTroca()).put(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getEvento());
-    }
-
-
-    @Override
-    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if(!listaEstagios.containsKey(timestamp)){
-            listaEstagios.put(timestamp, new HashMap<>());
-        }
-        listaEstagios.get(timestamp).put(anel, intervalos);
-    }
-
-    @Override
-    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if(!listaHistoricoEstagios.containsKey(timestamp)){
-            listaHistoricoEstagios.put(timestamp, new HashMap<>());
-        }
-        listaHistoricoEstagios.get(timestamp).put(anel, intervalos);
-    }
-
-    @Override
-    public void onCicloEnds(int anel, Long numeroCiclos) {
-
-    }
-
-    private void avancarHoras(Motor motor, long i) {
-        long quantidade = i * 36000;
-        while ((quantidade--) > 0) {
-            motor.tick();
-        }
-    }
 }

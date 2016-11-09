@@ -1,4 +1,4 @@
-package execucao;
+package execucao.gerenciadorTabelaHoraria;
 
 import engine.GerenciadorDeTabelaHoraria;
 import models.DiaDaSemana;

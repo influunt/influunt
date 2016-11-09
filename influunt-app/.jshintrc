@@ -21,6 +21,7 @@
     "moment": true,
     "humanizeDuration": true,
     "Phaser": true,
+    "PIXI": true,
     "Paho": true,
     "Blob": true,
     "saveAs": true,
@@ -40,7 +41,6 @@
     "inject": true,
     "it": true,
     "jasmine": true,
-    "Paho": true,
     "spyOn": true,
 
     // tests helpers

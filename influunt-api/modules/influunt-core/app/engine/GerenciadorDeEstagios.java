@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
+import models.Estagio;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
 import models.Plano;
@@ -88,8 +89,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         verificaETrocaEstagio(intervalo);
 
+
+
         contadorIntervalo += 100L;
         tempoDecorrido += 100L;
+
+        verificaTempoMaximoDePermanenciaDoEstagio();
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -103,7 +108,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 geraIntervalos(0);
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
-                if (this.agendamento != null) {
+                if (this.agendamento != null && !this.plano.isManual()) {
                     executaAgendamentoTrocaDePlano();
                 }
             } else {
@@ -138,6 +143,26 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
     }
 
+    private boolean verificaTempoMaximoDePermanenciaDoEstagio() {
+        Estagio estagio = estagioPlanoAtual.getEstagio();
+        if (estagio.isTempoMaximoPermanenciaAtivado()) {
+            long tempoMaximoEstagio = estagio.getTempoMaximoPermanencia() * 1000L;
+            if (intervaloGrupoSemaforicoAtual != null && intervaloGrupoSemaforicoAtual.getIntervaloEntreverde() != null) {
+                tempoMaximoEstagio += intervaloGrupoSemaforicoAtual.getIntervaloEntreverde().getDuracao();
+            }
+            if (contadorIntervalo >= tempoMaximoEstagio) {
+                if (plano.isManual()) {
+                    this.agendamento.setMomentoOriginal(DateTime.now());
+                    executaAgendamentoTrocaDePlano();
+                } else {
+                    //TODO: Deve gerar um erro de máximo permanencia
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean planoComEstagioUnico() {
         return this.plano.isModoOperacaoVerde() && this.listaEstagioPlanos.size() == 1 && contadorIntervalo == 0L;
     }
@@ -146,7 +171,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
         agendamento.setMomentoDaTroca(tempoDecorrido);
         callback.onTrocaDePlanoEfetiva(agendamento);
         reconhecePlano(this.agendamento.getPlano());
-        this.agendamento = null;
+        if (this.agendamento.getPlano().isManual()) {
+            this.agendamento = null;
+            agendarTrocaPlano(getEstagioPlanoAnterior().getPlano());
+        } else {
+            this.agendamento = null;
+        }
+
     }
 
     public void trocarPlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
@@ -157,6 +188,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void reconhecePlano(Plano plano) {
         reconhecePlano(plano, false);
+    }
+
+    private void agendarTrocaPlano(Plano plano){
+        trocarPlano(new AgendamentoTrocaPlano(null, plano, null));
     }
 
     private void reconhecePlano(Plano plano, boolean inicio) {

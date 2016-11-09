@@ -1132,8 +1132,8 @@ public class ControladorCustomSerializer {
         if (estagio.getTempoMaximoPermanencia() != null) {
             estagioJson.put("tempoMaximoPermanencia", estagio.getTempoMaximoPermanencia());
         }
-        if (estagio.getTempoMaximoPermanenciaAtivado() != null) {
-            estagioJson.put("tempoMaximoPermanenciaAtivado", estagio.getTempoMaximoPermanenciaAtivado());
+        if (estagio.isTempoMaximoPermanenciaAtivado() != null) {
+            estagioJson.put("tempoMaximoPermanenciaAtivado", estagio.isTempoMaximoPermanenciaAtivado());
         }
         if (estagio.getDemandaPrioritaria() != null) {
             estagioJson.put("demandaPrioritaria", estagio.getDemandaPrioritaria());

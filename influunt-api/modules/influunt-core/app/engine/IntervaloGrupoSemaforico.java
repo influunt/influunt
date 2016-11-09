@@ -324,12 +324,16 @@ public class IntervaloGrupoSemaforico {
             entry.getValue().stream().forEach(eventoMotor -> {
                 switch (eventoMotor.getTipoEvento()){
                     case ACIONAMENTO_DETECTOR_PEDESTRE:
+                        parseEventoDetector(eventoMotor,entry,eventos.addArray());
                         break;
                     case ACIONAMENTO_DETECTOR_VEICULAR:
                         parseEventoDetector(eventoMotor,entry,eventos.addArray());
                         break;
                     case TROCA_DE_PLANO_NO_ANEL:
                         parseEventoTrocaPlano(eventoMotor,entry,eventos.addArray());
+                        break;
+                    case INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL:
+                        parseEventoInsercaoPlug(eventoMotor,entry,eventos.addArray());
                         break;
                     default:
                         break;
@@ -341,7 +345,6 @@ public class IntervaloGrupoSemaforico {
     }
 
     private void parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
-
         fields.add(entry.getKey());
         fields.add(eventoMotor.getTipoEvento().toString());
         fields.add(eventoMotor.getParams()[0].toString());
@@ -354,6 +357,15 @@ public class IntervaloGrupoSemaforico {
         fields.add(entry.getKey());
         fields.add(eventoMotor.getTipoEvento().toString());
         fields.add(((Detector)eventoMotor.getParams()[0]).getPosicao());
+    }
+
+    private void parseEventoInsercaoPlug(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
+//        fields.add(entry.getKey());
+//        fields.add(eventoMotor.getTipoEvento().toString());
+//        fields.add(eventoMotor.getParams()[0].toString());
+//        fields.add(eventoMotor.getParams()[1].toString());
+//        fields.add(((DateTime)eventoMotor.getParams()[2]).getMillis());
+//        fields.add(((DateTime)eventoMotor.getParams()[3]).getMillis());
     }
 
 }

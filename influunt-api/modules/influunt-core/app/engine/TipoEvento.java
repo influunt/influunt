@@ -14,8 +14,8 @@ public enum TipoEvento {
     FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR(TipoEventoControlador.ALARME, 2, "Fechamento da porta principal do controlador", null),
     ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 3, "Abertura da porta do painel de facilidades do controlador", null),
     FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 4, "Fechamento da porta do painel de facilidades do controlador", null),
-    INSERCAO_DE_PLUG(TipoEventoControlador.ALARME, 5, "Inserção de plug", null),
-    RETIRADA_DO_PLUG(TipoEventoControlador.ALARME, 6, "Retirada de plug", null),
+    INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.ALARME, 5, "Inserção de plug", null),
+    RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.ALARME, 6, "Retirada de plug", null),
 
     //Falhas
     FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 1, "Fase vermelha do grupo semafórico apagada", "%s: Fase vermelha do grupo semafórico apagada"),
@@ -23,6 +23,9 @@ public enum TipoEvento {
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado"),
     ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado"),
+
+    //Modo Manual
+    TROCA_ESTAGIO_MANUAL(TipoEventoControlador.MODO_MANUAL, 2, "Troca de estágio no modo manual", "Troca estágio"),
 
     //Imposicao de Planos
     IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto"),

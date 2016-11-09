@@ -46,10 +46,12 @@ var influunt;
         var loadMoreRepeater;
         var started = false;
         var botoes = {};
+        var specBotoes = null;
         var estagios = {};
 
-        function decodeEstado(estado,ctx){
+        var modoManualAtivado = false;
 
+        function decodeEstado(estado,ctx) {
           switch(estado){
             case 'DESLIGADO':
               return '#3d3d3d';
@@ -86,17 +88,46 @@ var influunt;
           game.load.start();
         }
 
+        function desenhaPlanoAtual(planoSpec) {
+          plano.setText('Plano ' + planoSpec[1]);
+          planoSpec[2].forEach(function(modo,index){
+            modos[index].setText(getModo(modo));
+          });
+
+          var dataText = inicioSimulacao.clone().add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
+          data.setText(dataText);
+        }
+
+        function moveToLeft() {
+          tempo += (velocidade);
+          relogio.setText((tempo + 1) + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
+          game.camera.x+=(10 * velocidade);
+          atualizaEstadosGruposSemaforicos();
+          atualizaBotoesVisiveis();
+        }
+
+        function moveToRight() {
+          tempo = Math.max(0,tempo - velocidade);
+          relogio.setText((tempo + 1) + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
+          game.camera.x -= (velocidade * 10);
+          atualizaEstadosGruposSemaforicos();
+          atualizaBotoesVisiveis();
+        }
+
         function botaoOver(botao){
           if(botao.animations.name === 'ON'){
             botao.play('HOVER');
           }
-
         }
+
         function botaoOut(botao){
           if(botao.animations.name === 'HOVER'){
             botao.play('ON');
           }
         }
+
         function botaoFastBackward(){
           for(var i =0; i < 10; i++){
             moveToRight();
@@ -109,13 +140,9 @@ var influunt;
           }
         }
 
-        function botaoLog(){
+        // function botaoLog(){}
 
-        }
-
-        function botaoExport(){
-
-        }
+        // function botaoExport(){}
 
         function botaoBackward(){
           moveToRight();
@@ -144,7 +171,6 @@ var influunt;
         }
 
         function botaoPause(){
-
           _.each(botoes, function(value,key){
             if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
               value.inputEnabled = true;
@@ -156,12 +182,48 @@ var influunt;
           game.time.events.remove(repeater);
         }
 
+        function getPlanoAtual(tempo){
+          for(var i =  planos.length - 1; i >= 0 ; i--){
+            if(tempo >= planos[i][0]){
+              return planos[i];
+            }
+          }
+        }
+
+        function getAlturaDiagrama() {
+          var qtdeAneis = _.filter(config.aneis, function(a) { return a.tiposGruposSemaforicos.length > 0; }).length;
+          var qtdeGrupos = _.chain(config.aneis).map('tiposGruposSemaforicos').flatten().value().length;
+
+          return (qtdeAneis + qtdeGrupos) * ALTURA_GRUPO;
+        }
+
+        function showEstagioManual() {
+          return getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
+        }
+
+        function showEstagioManualWaiting() {
+          return modoManualAtivado && !getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
+        }
+
+        function botaoPlay(){
+          botoes.pause.play('ON');
+          botoes.play.inputEnabled = true;
+
+          _.each(botoes,function(value,key){
+            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
+              value.inputEnabled = false;
+              value.play('OFF');
+            }
+          });
+          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
+        }
+
         function botaoDetector(detector){
           if(config.detectoresHash[detector.name]){
             var d = config.detectoresHash[detector.name];
             var disparo = inicioSimulacao.clone();
             disparo.add(tempo,"seconds");
-            var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo }
+            var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo };
 
             loadingGroup.visible = true;
             intervalosGroup.children.forEach(function(c){c.destroy();});
@@ -175,9 +237,46 @@ var influunt;
           }
         }
 
+        function toggleModoManual() {
+          var disparo = inicioSimulacao.clone();
+          disparo.add(tempo, 'seconds');
+          modoManualAtivado = !modoManualAtivado;
+
+          var json = {
+            disparo: (disparo.unix() + 1) * 1000,
+            ativarModoManual: modoManualAtivado
+          };
+
+          loadingGroup.visible = true;
+          intervalosGroup.children.forEach(function(c){c.destroy();});
+          eventosGroup.children.forEach(function(c){c.destroy();});
+
+          var message = new Paho.MQTT.Message(JSON.stringify(json));
+          message.destinationName = 'simulador/' + config.simulacaoId + '/alternar_modo_manual';
+          client.send(message);
+
+          game.time.events.remove(loadMoreRepeater);
+        }
+
+        function trocarEstagioManual() {
+          var disparo = inicioSimulacao.clone();
+          disparo.add(tempo, 'seconds');
+          var json = {disparo: (disparo.unix() + 1) * 1000};
+
+          loadingGroup.visible = true;
+          intervalosGroup.children.forEach(function(c){c.destroy();});
+          eventosGroup.children.forEach(function(c){c.destroy();});
+
+          var message = new Paho.MQTT.Message(JSON.stringify(json));
+          message.destinationName = 'simulador/' + config.simulacaoId + '/trocar_estagio';
+          client.send(message);
+
+          game.time.events.remove(loadMoreRepeater);
+        }
+
         function criaControles(){
-          var inicio = 245, y = 10;
-          var _botoes = [
+          var inicio = 200, y = 10;
+          specBotoes = [
               {nome: 'fastBackward', action: botaoFastBackward},
               {nome: 'backward', action: botaoBackward},
               {nome: 'play', action: botaoPlay},
@@ -195,15 +294,28 @@ var influunt;
               {nome: 'DP1', action: botaoDetector},
               {nome: 'DP2', action: botaoDetector},
               {nome: 'DP3', action: botaoDetector},
-              {nome: 'DP4', action: botaoDetector}
+              {nome: 'DP4', action: botaoDetector, incremento: 39},
+
+              {nome: 'operacaoManual', action: toggleModoManual},
+              {nome: 'trocaEstagioManualWaiting', visivel: showEstagioManualWaiting, incremento: 0},
+              {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showEstagioManual}
           ];
 
-          _botoes.forEach(function(botaoSpec, index){
+          // valores de incremento do arquivo de sprite para os botões.
+          var INCREMENTO_SPRITE_BOTAO_DESATIVADO = 21;
+          var INCREMENTO_SPRITE_BOTAO_ATIVADO = INCREMENTO_SPRITE_BOTAO_DESATIVADO * 2;
+          var INCREMENTO_POSICAO_BOTAO = 31;
+          specBotoes.forEach(function(botaoSpec, index) {
+
+            var hoverIcon = index + (!!botaoSpec.action ? 0 : INCREMENTO_SPRITE_BOTAO_DESATIVADO);
+            var onIcon = index + (!!botaoSpec.action ? INCREMENTO_SPRITE_BOTAO_ATIVADO : INCREMENTO_SPRITE_BOTAO_DESATIVADO);
+            var offIcon = index + INCREMENTO_SPRITE_BOTAO_DESATIVADO;
+
             botoes[botaoSpec.nome] = game.add.sprite(inicio, y, 'controles');
             botoes[botaoSpec.nome].name = botaoSpec.nome;
-            botoes[botaoSpec.nome].animations.add('HOVER', [index]);
-            botoes[botaoSpec.nome].animations.add('OFF', [index + 18]);
-            botoes[botaoSpec.nome].animations.add('ON', [index + 36]);
+            botoes[botaoSpec.nome].animations.add('HOVER', [hoverIcon]);
+            botoes[botaoSpec.nome].animations.add('OFF', [offIcon]);
+            botoes[botaoSpec.nome].animations.add('ON', [onIcon]);
             botoes[botaoSpec.nome].animations.play('OFF');
             botoes[botaoSpec.nome].inputEnabled = false;
             botoes[botaoSpec.nome].events.onInputOver.add(botaoOver,this);
@@ -213,7 +325,7 @@ var influunt;
             }
 
             if (botaoSpec.incremento === undefined) {
-              inicio += 31;
+              inicio += INCREMENTO_POSICAO_BOTAO;
             } else {
               inicio += botaoSpec.incremento;
             }
@@ -222,18 +334,13 @@ var influunt;
           });
         }
 
-        function botaoPlay(){
-
-          botoes.pause.play('ON');
-          botoes.play.inputEnabled = true;
-
-          _.each(botoes,function(value,key){
-            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
-              value.inputEnabled = false;
-              value.play('OFF');
+        function atualizaBotoesVisiveis() {
+          _.each(specBotoes, function(spec) {
+            if (typeof spec.visivel === 'function') {
+              var botao = botoes[spec.nome];
+              botao.visible = spec.visivel.apply(this);
             }
           });
-          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
         }
 
         function atualizaEstadosGruposSemaforicos(){
@@ -244,15 +351,7 @@ var influunt;
           }
         }
 
-        function getPlanoAtual(tempo){
-          for(var i =  planos.length - 1; i >= 0 ; i--){
-            if(tempo >= planos[i][0]){
-              return planos[i];
-            }
-          }
-        }
-
-        function getModo(modo){
+        function getModo(modo) {
           switch(modo){
             case 'TEMPO_FIXO_ISOLADO': return 'TFI';
             case 'TEMPO_FIXO_COORDENADO': return 'TFC';
@@ -262,43 +361,19 @@ var influunt;
             case 'MANUAL': return 'MAN';
           }
         }
-        function desenhaPlanoAtual(planoSpec){
-          plano.setText('Plano ' + planoSpec[1]);
-          planoSpec[2].forEach(function(modo,index){
-            modos[index].setText(getModo(modo));
-          })
-          var dataText = inicioSimulacao.clone().add(tempo + 1,'s').format("DD/MM/YYYY - HH:mm:ss");
-          data.setText(dataText);
-        }
 
-        function moveToLeft(){
-          tempo += (velocidade);
-          relogio.setText((tempo + 1) + 's');
-          desenhaPlanoAtual(getPlanoAtual(tempo));
-          game.camera.x+=(10 * velocidade);
-          atualizaEstadosGruposSemaforicos();
-
-        }
-
-        function moveToRight(){
-          tempo = Math.max(0,tempo - velocidade);
-          relogio.setText((tempo + 1) + 's');
-          desenhaPlanoAtual(getPlanoAtual(tempo));
-          game.camera.x -= (velocidade * 10);
-          atualizaEstadosGruposSemaforicos();
-        }
-
-
-        function loadMore(){
+        function loadMore() {
             var message = new Paho.MQTT.Message('proxima');
             message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
             client.send(message);
         }
 
-        function desenhaAgendamento(x1,x2,y1,y2,color){
-
+        function desenhaAgendamento(x1, x2, y1, y2, color, hLabel) {
           var w  = x2 - x1;
           var h  = y2 - y1;
+
+          hLabel = hLabel || h/2;
+
           var bmd = game.add.bitmapData(w,h);
 
           bmd.ctx.lineWidth = '2';
@@ -312,21 +387,52 @@ var influunt;
           bmd.ctx.closePath();
 
           bmd.ctx.beginPath();
-           bmd.ctx.moveTo(10,h/2);
-           bmd.ctx.lineTo(w,h/2);
+           bmd.ctx.moveTo(10, hLabel);
+           bmd.ctx.lineTo(w, hLabel);
            bmd.ctx.stroke();
           bmd.ctx.closePath();
 
           bmd.ctx.fillStyle = color;
           bmd.ctx.font = '12px Open Sans';
-          bmd.ctx.fillText((w/10) - 1 + 's', w/2, h/2 - 3);
+          bmd.ctx.fillText((w/10) - 1 + 's', w/2, hLabel - 3);
 
 
           bmd.render();
           eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x1) - 10, y1 + ALTURA_GRUPO, bmd));
-
         }
 
+        function desenhaTrocaEstagioManual(x, color, label) {
+          var h = getAlturaDiagrama();
+
+          var hLabel = h/3;
+          var bmd = game.add.bitmapData(20,h);
+
+          bmd.ctx.closePath();
+          bmd.ctx.beginPath();
+            bmd.ctx.lineWidth = '2';
+            bmd.ctx.setLineDash([5, 5]);
+            bmd.ctx.strokeStyle = color;
+          bmd.ctx.closePath();
+
+          bmd.ctx.beginPath();
+            bmd.ctx.moveTo(10,0);
+            bmd.ctx.lineTo(10,h);
+            bmd.ctx.stroke();
+          bmd.ctx.closePath();
+
+          bmd.ctx.fillStyle = color;
+          bmd.ctx.arc(10, hLabel - 4, 8, 0, Math.PI*2, true);
+          bmd.ctx.fill();
+
+          bmd.ctx.fillStyle = '#fff';
+          bmd.ctx.font = '8px Open Sans';
+
+          bmd.ctx.fillText(label, 5,hLabel-1);
+
+          bmd.render();
+
+          eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR + ALTURA_GRUPO, bmd));
+        }
 
         function desenhaDetector(anel,x,color,tipo,label){
           var y1 = offsetDeAneis[anel + 1] + ALTURA_GRUPO;
@@ -365,7 +471,6 @@ var influunt;
 
           bmd.render();
           eventosGroup.add(game.add.sprite(x, y1, bmd));
-
         }
 
         function desenhaEstagio(y,estagio,anel){
@@ -401,15 +506,34 @@ var influunt;
           });
 
           estagio.eventos.forEach(function(evento){
-            if(evento[1] === 'ACIONAMENTO_DETECTOR_VEICULAR' || evento[1] === 'ACIONAMENTO_DETECTOR_PEDESTRE'){
+            var x1, x2, y1, y2, color;
+            if (evento[1] === 'ACIONAMENTO_DETECTOR_VEICULAR' || evento[1] === 'ACIONAMENTO_DETECTOR_PEDESTRE') {
               desenhaDetector(parseInt(anel) - 1,x + evento[0] / 100,'#082536',evento[1],evento[2]);
-            }else if(evento[1] === 'TROCA_DE_PLANO_NO_ANEL'){
-              var x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              var x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
-              var y1 = offsetDeAneis[evento[3]];
-              var y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
+            } else if(evento[1] === 'TROCA_DE_PLANO_NO_ANEL') {
+              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+              y1 = offsetDeAneis[evento[3]];
+              y2 = y1 + (config.aneis[anel - 1].tiposGruposSemaforicos.length * ALTURA_GRUPO) +
                                             config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
+
               desenhaAgendamento(x1,x2,y1,y2,'#2603339');
+            } else if(evento[1] === 'ACIONAMENTO_PLANO_MANUAL') {
+              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+
+              y1 = MARGEM_SUPERIOR;
+              y2 = y1 + getAlturaDiagrama();
+              color = '#2603339';
+              desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
+            } else if (evento[1] === 'TROCA_DE_ESTAGIO_MANUAL') {
+              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
+              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
+
+              y1 = MARGEM_SUPERIOR;
+              y2 = y1 + getAlturaDiagrama();
+              color = '#2603339';
+              desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
+              desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
             }
           });
 
@@ -520,7 +644,6 @@ var influunt;
           text.fixedToCamera = true;
           text.anchor.set(0,1);
           gruposSemaforicosGroup.add(text);
-
         }
 
         function inicializaGrupos(tipos,index,offset){
@@ -574,7 +697,6 @@ var influunt;
           modo.fixedToCamera = true;
           modo.anchor.setTo(0.5, 0.5);
           modos.push(modo);
-
         }
 
         function criaAnel(anel,index,indexAnel){
@@ -604,7 +726,6 @@ var influunt;
           index = indexAtual;
 
           return index;
-
         }
 
         function criaAneis(){
@@ -619,35 +740,34 @@ var influunt;
         }
 
         function desenhaPlano(x,color,label){
-            var h = ALTURA_INTERVALOS - 25;
-            var bmd = game.add.bitmapData(20,h);
+          var h = ALTURA_INTERVALOS - 25;
+          var bmd = game.add.bitmapData(20,h);
 
-            bmd.ctx.closePath();
-            bmd.ctx.beginPath();
-            bmd.ctx.lineWidth = '2';
-            bmd.ctx.setLineDash([5, 1]);
-            bmd.ctx.strokeStyle = color;
-            bmd.ctx.moveTo(10,0);
-            bmd.ctx.lineTo(10,h);
-            bmd.ctx.stroke();
-            bmd.ctx.closePath();
-            bmd.ctx.fillStyle = color;
-            bmd.ctx.fillRect(0,0,20,20);
+          bmd.ctx.closePath();
+          bmd.ctx.beginPath();
+          bmd.ctx.lineWidth = '2';
+          bmd.ctx.setLineDash([5, 1]);
+          bmd.ctx.strokeStyle = color;
+          bmd.ctx.moveTo(10,0);
+          bmd.ctx.lineTo(10,h);
+          bmd.ctx.stroke();
+          bmd.ctx.closePath();
+          bmd.ctx.fillStyle = color;
+          bmd.ctx.fillRect(0,0,20,20);
 
-            bmd.ctx.fillStyle = '#fff';
+          bmd.ctx.fillStyle = '#fff';
 
-            if(label.length > 1){
-              bmd.ctx.font = '8px Open Sans';
-              bmd.ctx.fillText(label, 5, 14);
-            }else{
-              bmd.ctx.font = '12px Open Sans';
-              bmd.ctx.fillText(label, 7, 15);
-            }
+          if(label.length > 1){
+            bmd.ctx.font = '8px Open Sans';
+            bmd.ctx.fillText(label, 5, 14);
+          }else{
+            bmd.ctx.font = '12px Open Sans';
+            bmd.ctx.fillText(label, 7, 15);
+          }
 
 
-            bmd.render();
-            eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd));
-
+          bmd.render();
+          eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd));
         }
 
         function processaPlanos(trocas){
@@ -673,7 +793,6 @@ var influunt;
         }
 
         function create() {
-
           game.stage.backgroundColor = '#cccccc';
           cursors = game.input.keyboard.createCursorKeys();
           game.world.setBounds(0, 0, 1000 + (duracaoSimulacao * 10 * Math.max(1,velocidade)), 800);
@@ -697,8 +816,8 @@ var influunt;
 
 
           var onConnect = function () {
-               // Once a connection has been made, make a subscription and send a message.
-               client.subscribe('simulador/' + config.simulacaoId + '/estado');
+            // Once a connection has been made, make a subscription and send a message.
+            client.subscribe('simulador/' + config.simulacaoId + '/estado');
           };
 
           // Create a client instance
@@ -707,6 +826,7 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
+console.log(JSON.stringify(json));
               processaEstagios(json.aneis);
               processaPlanos(json.trocas);
               loadingGroup.visible = false;

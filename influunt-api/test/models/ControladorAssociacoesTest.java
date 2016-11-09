@@ -14,7 +14,6 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -252,8 +251,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(anelCom2Estagios.getDetectores().size(), anelCom2EstagiosJson.getDetectores().size());
         assertEquals(anelCom2Estagios.getNumeroSMEE(), anelCom2EstagiosJson.getNumeroSMEE());
         assertEquals(anelCom2Estagios.getEstagios().size(), anelCom2EstagiosJson.getEstagios().size());
-        assertEquals(anelCom2Estagios.getEstagios().stream().filter(estagio -> estagio.getTempoMaximoPermanenciaAtivado()).count(),
-                anelCom2EstagiosJson.getEstagios().stream().filter(estagio -> estagio.getTempoMaximoPermanenciaAtivado()).count());
+        assertEquals(anelCom2Estagios.getEstagios().stream().filter(estagio -> estagio.isTempoMaximoPermanenciaAtivado()).count(),
+                anelCom2EstagiosJson.getEstagios().stream().filter(estagio -> estagio.isTempoMaximoPermanenciaAtivado()).count());
 
         assertEquals(anelCom4Estagios.getDescricao(), anelCom4EstagiosJson.getDescricao());
 

@@ -50,10 +50,6 @@ public class IntervaloEstagio {
         return this.estagioPlano.getEstagio();
     }
 
-    public void setEstagioPlanoAnterior(EstagioPlano estagioPlanoAnterior) {
-        this.estagioPlanoAnterior = estagioPlanoAnterior;
-    }
-
     public EstagioPlano getEstagioPlanoAnterior() {
         return estagioPlanoAnterior;
     }
