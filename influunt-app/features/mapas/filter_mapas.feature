@@ -16,7 +16,7 @@ Funcionalidade: Realizar filtros no mapa
     Então o sistema deverá mostrar no mapa "4" controladores
     E o sistema deverá mostrar no mapa "8" aneis
 
-  Cenário: Quero visulizar apenas os controladores
+  Cenário: Quero visualizar apenas os controladores
     Dado usuário estiver na tela de mapa
     E o usuário clicar na opção "Anéis" para filtrar
     Então o sistema deverá mostrar no mapa "4" controladores
