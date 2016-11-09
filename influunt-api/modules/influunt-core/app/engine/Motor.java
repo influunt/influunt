@@ -51,7 +51,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
                 iniciarGrupos = true;
             }else{
                 estagios.stream().forEach(gerenciadorDeEstagios -> {
-                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento,getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1),instante));
+                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento, getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1), instante));
                 });
             }
             eventoAtual = evento;
@@ -108,6 +108,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
     public List<GerenciadorDeEstagios> getEstagios() {
         return estagios;
     }
+
 
     public Plano getPlanoAtual(Integer anel) {
         return getPlanos(eventoAtual).get(anel - 1);

@@ -154,6 +154,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel.setDescricao("Av. Paulista com Rua Augusta");
         anel.setPosicao(2);
         anel.setAtivo(true);
+        anel.setAceitaModoManual(false);
         List<Estagio> estagios2 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3));
         estagios2.forEach(estagio -> {
             Imagem imagem = criarImagem();

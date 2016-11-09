@@ -243,6 +243,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
     @Test
     public void repeticaoDeEstagioManualComDemandaPrioritariaComExecucao() {
         Anel anel = getAnel(2);
+        anel.setAceitaModoManual(true);
         Plano plano = getPlanoDemandaPrioritaria(anel);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
         Detector detector = getDetector(anel, 1);

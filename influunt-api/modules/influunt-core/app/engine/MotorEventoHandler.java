@@ -37,8 +37,11 @@ public class MotorEventoHandler {
             case ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR:
             case ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR:
             case ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR:
-            case ALARME_INSERCAO_DE_PLUG:
-            case ALARME_RETIRADA_DO_PLUG:
+                break;
+
+            case INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL:
+            case RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL:
+                handleAlternarModoManual(eventoMotor);
                 break;
 
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
@@ -134,5 +137,9 @@ public class MotorEventoHandler {
     private void handleAcionamentoDetector(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[1];
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+    }
+
+    private void handleAlternarModoManual(EventoMotor eventoMotor) {
+        motor.getEstagios().forEach(estagio -> estagio.onEvento(eventoMotor));
     }
 }

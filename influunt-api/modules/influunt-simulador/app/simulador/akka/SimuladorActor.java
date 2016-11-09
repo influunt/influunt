@@ -72,6 +72,14 @@ public class SimuladorActor extends UntypedActor {
                 detectorAcionador(anel,td,disparo,posicao);
             });
 
+            client.subscribe("simulador/" + id + "/alternar_modo_manual", 1, (topic, message) -> {
+                JsonNode root = Json.parse(message.getPayload());
+                DateTime disparo = new DateTime(root.get("disparo").asLong());
+                boolean ativar = root.get("ativarModoManual").asBoolean();
+
+                alternarModoManual(disparo, ativar);
+            });
+
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             proximaPagina();
 
@@ -80,6 +88,14 @@ public class SimuladorActor extends UntypedActor {
         }
 
 
+    }
+
+    private void alternarModoManual(DateTime disparo, boolean ativar) {
+        simulador.alternarModoManual(disparo, ativar);
+        pagina = 0;
+        trocasDePlanos.clear();
+        estagios.clear();
+        proximaPagina();
     }
 
     private void detectorAcionador(int anel,TipoDetector tipoDetector, DateTime disparo, int detector) {

@@ -20,6 +20,7 @@ public class PlanoService {
             EstagioPlano estagioPlanoAux = copyPrimitiveFields(estagioPlano);
             estagioPlanoAux.setEstagio(estagioPlano.getEstagio());
             estagioPlanoAux.setPlano(novoPlano);
+            estagioPlanoAux.setDispensavel(false);
             novoPlano.addEstagios(estagioPlanoAux);
         });
 
@@ -38,7 +39,6 @@ public class PlanoService {
         Plano novoPlano = copyPrimitiveFields(plano);
 
         novoPlano.setVersaoPlano(plano.getVersaoPlano());
-
 
         plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
             GrupoSemaforicoPlano gspAux = copyPrimitiveFields(grupoSemaforicoPlano);

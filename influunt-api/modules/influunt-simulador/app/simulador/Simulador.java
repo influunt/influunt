@@ -9,6 +9,7 @@ import models.Plano;
 import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
+import models.simulador.parametros.ParametroSimulacaoManual;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public abstract class Simulador implements MotorCallback {
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getInsercaoDePlugDeControleManual().stream().forEach(param -> addEvento(param.toEvento()));
         this.ponteiro = parametros.getInicioSimulacao();
     }
 
@@ -112,5 +114,11 @@ public abstract class Simulador implements MotorCallback {
         param.setDisparo(disparo);
         this.parametros.getDetectores().add(param);
         setup(dataInicioControlador, controlador, parametros);
-    };
+    }
+
+    public void alternarModoManual(DateTime disparo, boolean ativar) {
+        ParametroSimulacaoManual param = new ParametroSimulacaoManual(disparo, ativar);
+        this.parametros.getInsercaoDePlugDeControleManual().add(param);
+        setup(dataInicioControlador, controlador, parametros);
+    }
 }
