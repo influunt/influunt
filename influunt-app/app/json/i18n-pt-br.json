@@ -446,7 +446,11 @@
       "APAGADO": "Apagado",
       "MANUAL": "Manual"
     },
-    "estagioSequencia": "Estágio da Sequência"
+    "estagioSequencia": "Estágio da Sequência",
+    "grupoNaoAssociado": {
+      "titulo": "Grupo não associado",
+      "texto": "Este grupo não está associado a nenhum estágio do plano, e portanto está apagado. Para habilitá-lo, associe este grupo a pelo menos um estágio da sequencia."
+    }
   },
   "diagramaIntervalos": {
     "titulo": "Diagrama de Intervalos"
@@ -507,7 +511,8 @@
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
-      "sim": "Sim"
+      "sim": "Sim",
+      "ok": "Ok"
     },
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",

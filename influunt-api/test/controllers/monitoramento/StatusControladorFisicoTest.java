@@ -95,7 +95,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     public void testStatusControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.StatusControladorFisicoController.findOne("1").url());
+            .uri(routes.StatusControladorFisicoController.findOne("1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -112,7 +112,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     public void testUltimoStatusDeTodosControladoresApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.StatusControladorFisicoController.ultimoStatusDosControladores().url());
+            .uri(routes.StatusControladorFisicoController.ultimoStatusDosControladores().url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -130,7 +130,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     public void testUltimoStatusDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.StatusControladorFisicoController.ultimoStatus("2").url());
+            .uri(routes.StatusControladorFisicoController.ultimoStatus("2").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -144,7 +144,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.StatusControladorFisicoController.historico("1", "0", "1").url());
+            .uri(routes.StatusControladorFisicoController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -155,7 +155,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.StatusControladorFisicoController.historico("1", "1", "1").url());
+            .uri(routes.StatusControladorFisicoController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

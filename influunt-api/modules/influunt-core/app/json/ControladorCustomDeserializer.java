@@ -595,6 +595,9 @@ public class ControladorCustomDeserializer {
         parseCollection("estagiosGruposSemaforicos", node, estagiosGrupoSemaforicos, ESTAGIO_GRUPO_SEMAFORICO, ESTAGIOS);
         estagio.setEstagiosGruposSemaforicos(estagiosGrupoSemaforicos);
 
+        List<EstagioPlano> estagiosPlanos = new ArrayList<>();
+        parseCollection("estagiosPlanos", node, estagiosPlanos, ESTAGIOS_PLANOS, ESTAGIOS);
+        estagio.setEstagiosPlanos(estagiosPlanos);
 
         List<TransicaoProibida> origens = new ArrayList<>();
         parseCollection("origemDeTransicoesProibidas", node, origens, TRANSICAO_PROIBIDA, ESTAGIOS);
@@ -1510,7 +1513,6 @@ public class ControladorCustomDeserializer {
     }
 
     private void parseCollection(String collection, JsonNode node, List list, final String cacheContainer, final String callie) {
-
         if (node.has(collection)) {
             for (JsonNode innerNode : node.get(collection)) {
                 if (innerNode.has("idJson")) {

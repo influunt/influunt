@@ -88,8 +88,8 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].destino"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].alternativo")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].destino"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].alternativo")
         ));
 
         estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(null);
@@ -107,10 +107,10 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
         assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do estágio de destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoDiferentes"),
-                new Erro(CONTROLADOR, "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[1].estagios[0].aoMesmoTempoDestinoEAlternativo"),
-                new Erro(CONTROLADOR, "O Estágio alternativo deve ser diferente do destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].estagioAlternativoDiferenteOrigemEDestino"),
-                new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo")
+            new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do estágio de destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoDiferentes"),
+            new Erro(CONTROLADOR, "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[1].estagios[0].aoMesmoTempoDestinoEAlternativo"),
+            new Erro(CONTROLADOR, "O Estágio alternativo deve ser diferente do destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].estagioAlternativoDiferenteOrigemEDestino"),
+            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo")
         ));
 
         estagio1AnelCom2Estagios.setDestinoDeTransicoesProibidas(null);
@@ -128,7 +128,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio só pode ser proibido com estágios do mesmo anel.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoPertencemAoMesmoAnel")
+            new Erro(CONTROLADOR, "Esse estágio só pode ser proibido com estágios do mesmo anel.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoPertencemAoMesmoAnel")
         ));
 
 
@@ -159,12 +159,12 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
         assertEquals(6, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[0].estagios[3].aoMesmoTempoDestinoEAlternativo"),
-                new Erro(CONTROLADOR, "O Estágio alternativo deve ser diferente do destino.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].estagioAlternativoDiferenteOrigemEDestino"),
-                new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[1].origemNaoPossuiTransicaoProibidaParaAlternativo"),
-                new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].origemNaoPossuiTransicaoProibidaParaAlternativo"),
-                new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo"),
-                new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[0].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida")
+            new Erro(CONTROLADOR, "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[0].estagios[3].aoMesmoTempoDestinoEAlternativo"),
+            new Erro(CONTROLADOR, "O Estágio alternativo deve ser diferente do destino.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].estagioAlternativoDiferenteOrigemEDestino"),
+            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[1].origemNaoPossuiTransicaoProibidaParaAlternativo"),
+            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[2].origemNaoPossuiTransicaoProibidaParaAlternativo"),
+            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo"),
+            new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[0].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida")
         ));
 
 
@@ -217,9 +217,9 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[1].origemNaoPossuiTransicaoProibidaParaAlternativo"),
-                new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida"),
-                new Erro(CONTROLADOR, "Pelo menos um estágio deve ter uma transição válida para esse estágio.", "aneis[1].estagios[1].estagioPossuiAoMenosUmaTransicaoDestinoValida")
+            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[0].estagios[0].origemDeTransicoesProibidas[1].origemNaoPossuiTransicaoProibidaParaAlternativo"),
+            new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida"),
+            new Erro(CONTROLADOR, "Pelo menos um estágio deve ter uma transição válida para esse estágio.", "aneis[1].estagios[1].estagioPossuiAoMenosUmaTransicaoDestinoValida")
         ));
 
         transicaoProibidaEstagio1ComEstagio4.setAlternativo(estagio2AnelCom4Estagios);
@@ -229,8 +229,8 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida"),
-                new Erro(CONTROLADOR, "Pelo menos um estágio deve ter uma transição válida para esse estágio.", "aneis[1].estagios[1].estagioPossuiAoMenosUmaTransicaoDestinoValida")
+            new Erro(CONTROLADOR, "Esse estágio deve possuir ao menos uma transição válida para outro estágio.", "aneis[1].estagios[0].estagioPossuiAoMenosUmaTransicaoOrigemValida"),
+            new Erro(CONTROLADOR, "Pelo menos um estágio deve ter uma transição válida para esse estágio.", "aneis[1].estagios[1].estagioPossuiAoMenosUmaTransicaoDestinoValida")
         ));
 
 
@@ -317,7 +317,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -330,7 +330,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         Controlador controlador = getControladorTransicoesProibidas();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -354,9 +354,9 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
-                ControladorTransicoesProibidasCheck.class);
+            Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+            ControladorTransicoesProibidasCheck.class);
     }
 
     @Test
@@ -391,7 +391,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.transicoesProibidas().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 

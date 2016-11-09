@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import javax.validation.groups.Default;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +26,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
         List<Erro> erros;
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
 
-        erros = getErros(controlador);
+        erros = getErros(controlador).stream().sorted((e1, e2) -> e1.path.compareTo(e2.path)).collect(Collectors.toList());
         assertThat(erros, org.hamcrest.Matchers.empty());
 
         JsonNode configuracaoControladorJson = new ControladorCustomSerializer().getPacoteConfiguracaoJson(controlador);
@@ -49,9 +50,9 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
     }
 }

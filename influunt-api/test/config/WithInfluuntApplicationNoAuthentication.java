@@ -27,12 +27,12 @@ public class WithInfluuntApplicationNoAuthentication extends WithInfluuntApplica
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected Application createApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
-                .overrides(bind(HandlerCache.class).to(TestDeadboltHandlerCache.class).in(Singleton.class))
-                .overrides(bind(DeviceConfig.class).to(TestDeviceConfig.class).in(Singleton.class))
-                .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
-                .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
-                .in(Mode.TEST).build();
+            .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
+            .overrides(bind(HandlerCache.class).to(TestDeadboltHandlerCache.class).in(Singleton.class))
+            .overrides(bind(DeviceConfig.class).to(TestDeviceConfig.class).in(Singleton.class))
+            .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
+            .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
+            .in(Mode.TEST).build();
     }
 
 }

@@ -251,23 +251,23 @@ public class Plano extends Model implements Cloneable, Serializable {
         if (isManual()) {
             final int totalEstagios = getEstagiosPlanos().size();
             return getAnel().getControlador().getAneis().stream()
-                    .filter(anel -> anel.isAtivo() && anel.isAceitaModoManual())
-                    .map(Anel::getPlanos)
-                    .flatMap(Collection::stream)
-                    .filter(plano -> plano != null && plano.isManual())
-                    .allMatch(plano -> plano.getEstagiosPlanos().size() == totalEstagios);
+                .filter(anel -> anel.isAtivo() && anel.isAceitaModoManual())
+                .map(Anel::getPlanos)
+                .flatMap(Collection::stream)
+                .filter(plano -> plano != null && plano.isManual())
+                .allMatch(plano -> plano.getEstagiosPlanos().size() == totalEstagios);
         }
         return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.")
+        message = "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.")
     public boolean isQuantidadeGrupoSemaforicoIgualQuantidadeAnel() {
         return !(this.getGruposSemaforicosPlanos().isEmpty() || this.getAnel().getGruposSemaforicos().size() != this.getGruposSemaforicosPlanos().size());
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "Deve possuir pelo menos 2 estágios configurados.")
+        message = "Deve possuir pelo menos 2 estágios configurados.")
     public boolean isQuantidadeEstagioIgualQuantidadeAnel() {
         if (isModoOperacaoVerde()) {
             return !(this.getEstagiosPlanos().isEmpty() || this.getEstagiosPlanos().size() < 2);
@@ -276,7 +276,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "A sequência de estágios não é válida.")
+        message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
             return this.getEstagiosPlanos().size() == this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count();
@@ -312,13 +312,13 @@ public class Plano extends Model implements Cloneable, Serializable {
     public boolean isUltrapassaTempoCiclo() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaInvalida() && (isTempoFixoIsolado() || isTempoFixoCoordenado()) && Range.between(30, 255).contains(getTempoCiclo())) {
             getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
-            return getTempoCiclo() == getEstagiosPlanos().stream().mapToInt(estagioPlano -> getTempoEstagio(estagioPlano)).sum();
+            return getTempoCiclo() == getEstagiosPlanos().stream().mapToInt(this::getTempoEstagio).sum();
         }
         return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "A sequência de estágios não é válida.")
+        message = "A sequência de estágios não é válida.")
     public boolean isSequenciaInvalida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
             return sequenciaDeEstagioValida(getEstagiosOrdenados());
@@ -335,14 +335,13 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "Configure um detector veicular para cada estágio no modo atuado.")
+        message = "Configure um detector veicular para cada estágio no modo atuado.")
     public boolean isModoOperacaoValido() {
         if (this.isAtuado()) {
             return !CollectionUtils.isEmpty(this.getEstagiosPlanos()) && this.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().isAssociadoAGrupoSemaforicoVeicular()).allMatch(estagioPlano -> estagioPlano.getEstagio().temDetectorVeicular());
         }
         return true;
     }
-
 
     public void addGruposSemaforicoPlano(GrupoSemaforicoPlano grupoPlano) {
         if (getGruposSemaforicosPlanos() == null) {
@@ -465,16 +464,16 @@ public class Plano extends Model implements Cloneable, Serializable {
     @Override
     public String toString() {
         return "Plano{"
-                + "id=" + id
-                + ", idJson='" + idJson + '\''
-                + ", posicao=" + posicao
-                + ", tempoCiclo=" + tempoCiclo
-                + ", defasagem=" + defasagem
-                + ", versaoPlano=" + versaoPlano
-                + ", posicaoTabelaEntreVerde=" + posicaoTabelaEntreVerde
-                + ", dataCriacao=" + dataCriacao
-                + ", dataAtualizacao=" + dataAtualizacao
-                + '}';
+            + "id=" + id
+            + ", idJson='" + idJson + '\''
+            + ", posicao=" + posicao
+            + ", tempoCiclo=" + tempoCiclo
+            + ", defasagem=" + defasagem
+            + ", versaoPlano=" + versaoPlano
+            + ", posicaoTabelaEntreVerde=" + posicaoTabelaEntreVerde
+            + ", dataCriacao=" + dataCriacao
+            + ", dataAtualizacao=" + dataAtualizacao
+            + '}';
     }
 
     public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
@@ -499,7 +498,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             Estagio atual = ep.getEstagio();
             Estagio anterior = this.getEstagioAnterior(ep, lista);
             tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
-                    this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
+                this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
 
             //Estagio duplo
             tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), atual.getPosicao()), 0L);
@@ -510,9 +509,9 @@ public class Plano extends Model implements Cloneable, Serializable {
         getEstagiosPlanos().stream().forEach(ep -> {
             Estagio atual = ep.getEstagio();
             tabela.put(new Pair<Integer, Integer>(estagio.getPosicao(), atual.getPosicao()),
-                    this.getTempoEntreVerdeEntreEstagios(atual, estagio) * 1000L);
+                this.getTempoEntreVerdeEntreEstagios(atual, estagio) * 1000L);
             tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), estagio.getPosicao()),
-                    this.getTempoEntreVerdeEntreEstagios(estagio, atual) * 1000L);
+                this.getTempoEntreVerdeEntreEstagios(estagio, atual) * 1000L);
         });
     }
 

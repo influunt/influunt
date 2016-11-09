@@ -46,7 +46,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         Perfil perfil = getPerfil();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.PerfisController.create().url()).bodyJson(Json.toJson(perfil));
+            .uri(routes.PerfisController.create().url()).bodyJson(Json.toJson(perfil));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Perfil perfilRetornado = Json.fromJson(json, Perfil.class);
@@ -65,8 +65,8 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         Perfil perfil = getPerfil();
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.PerfisController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(perfil));
+            .uri(routes.PerfisController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(perfil));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -81,8 +81,8 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         novoPerfil.setPermissoes(null);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.PerfisController.update(perfil.getId().toString()).url())
-                .bodyJson(Json.toJson(novoPerfil));
+            .uri(routes.PerfisController.update(perfil.getId().toString()).url())
+            .bodyJson(Json.toJson(novoPerfil));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -110,8 +110,8 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         novoPerfil.getPermissoes().add(permissao1);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.PerfisController.update(perfil.getId().toString()).url())
-                .bodyJson(Json.toJson(novoPerfil));
+            .uri(routes.PerfisController.update(perfil.getId().toString()).url())
+            .bodyJson(Json.toJson(novoPerfil));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -133,7 +133,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         perfil.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PerfisController.delete(perfil.getId().toString()).url());
+            .uri(routes.PerfisController.delete(perfil.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -143,7 +143,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
     @Test
     public void testApagarPerfilNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PerfisController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.PerfisController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -154,7 +154,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         getPerfil().save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.PerfisController.findAll().url());
+            .uri(routes.PerfisController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Perfil> perfis = Json.fromJson(json.get("data"), List.class);
@@ -171,7 +171,7 @@ public class PerfisControllerTest extends WithInfluuntApplicationNoAuthenticatio
         UUID permissaoId = perfil.getPermissoes().get(0).getId();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.PerfisController.findOne(perfil.getId().toString()).url());
+            .uri(routes.PerfisController.findOne(perfil.getId().toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Perfil perfilRetornado = Json.fromJson(json, Perfil.class);
