@@ -71,12 +71,15 @@ public class MotorEventoHandler {
 
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
             case FALHA_VERDES_CONFLITANTES:
+            case FALHA_SEQUENCIA_DE_CORES:
                 handleFalhaAnel(eventoMotor);
                 break;
             case FALHA_AMARELO_INTERMITENTE:
             case FALHA_SEMAFORO_APAGADO:
             case FALHA_ACERTO_RELOGIO_GPS:
-                break;
+
+
+
 
             case IMPOSICAO_PLANO:
                 break;
@@ -92,7 +95,7 @@ public class MotorEventoHandler {
 
     private void handleFalhaAnel(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[0];
-        //TODO: Fazer o que tem que fazer
+        motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
     }
 
     private void handleFaltaAcionamentoDetector(EventoMotor eventoMotor) {
