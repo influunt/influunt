@@ -89,10 +89,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         verificaETrocaEstagio(intervalo);
 
-        verificaTempoMaximoDePermanenciaDoEstagio();
+
 
         contadorIntervalo += 100L;
         tempoDecorrido += 100L;
+
+        verificaTempoMaximoDePermanenciaDoEstagio();
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -141,7 +143,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
     }
 
-    private void verificaTempoMaximoDePermanenciaDoEstagio() {
+    private boolean verificaTempoMaximoDePermanenciaDoEstagio() {
         Estagio estagio = estagioPlanoAtual.getEstagio();
         if (estagio.isTempoMaximoPermanenciaAtivado()) {
             long tempoMaximoEstagio = estagio.getTempoMaximoPermanencia() * 1000L;
@@ -155,8 +157,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 } else {
                     //TODO: Deve gerar um erro de máximo permanencia
                 }
+                return true;
             }
         }
+        return false;
     }
 
     private boolean planoComEstagioUnico() {
