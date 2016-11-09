@@ -142,7 +142,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
     }
 
 }

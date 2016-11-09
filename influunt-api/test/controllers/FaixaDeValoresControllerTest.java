@@ -24,7 +24,7 @@ public class FaixaDeValoresControllerTest extends WithInfluuntApplicationNoAuthe
         FaixasDeValores faixasDeValores = FaixasDeValores.getInstance();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
+            .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         FaixasDeValores faixaRetornada = Json.fromJson(json, FaixasDeValores.class);
@@ -39,7 +39,7 @@ public class FaixaDeValoresControllerTest extends WithInfluuntApplicationNoAuthe
         faixasDeValores.setDefaultTempoMaximoPermanenciaEstagioVeicular(20);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
+            .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
         Result postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
     }
@@ -50,7 +50,7 @@ public class FaixaDeValoresControllerTest extends WithInfluuntApplicationNoAuthe
         faixasDeValores.setDefaultTempoMaximoPermanenciaEstagioVeicular(2000);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
+            .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
         Result postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
     }

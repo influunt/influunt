@@ -952,15 +952,15 @@ public class ControladorCustomSerializer {
             grupoSemaforicoPlanoJson.put("id", grupoSemaforicoPlano.getId().toString());
         }
         if (grupoSemaforicoPlano.getIdJson() != null) {
-            grupoSemaforicoPlanoJson.put("idJson", grupoSemaforicoPlano.getIdJson().toString());
+            grupoSemaforicoPlanoJson.put("idJson", grupoSemaforicoPlano.getIdJson());
         }
 
         if (grupoSemaforicoPlano.getPlano() != null && grupoSemaforicoPlano.getPlano().getIdJson() != null) {
-            grupoSemaforicoPlanoJson.putObject("plano").put("idJson", grupoSemaforicoPlano.getPlano().getIdJson().toString());
+            grupoSemaforicoPlanoJson.putObject("plano").put("idJson", grupoSemaforicoPlano.getPlano().getIdJson());
         }
 
         if (grupoSemaforicoPlano.getGrupoSemaforico() != null && grupoSemaforicoPlano.getGrupoSemaforico().getIdJson() != null) {
-            grupoSemaforicoPlanoJson.putObject("grupoSemaforico").put("idJson", grupoSemaforicoPlano.getGrupoSemaforico().getIdJson().toString());
+            grupoSemaforicoPlanoJson.putObject("grupoSemaforico").put("idJson", grupoSemaforicoPlano.getGrupoSemaforico().getIdJson());
         }
 
         grupoSemaforicoPlanoJson.put("ativado", grupoSemaforicoPlano.isAtivado());
@@ -1146,21 +1146,24 @@ public class ControladorCustomSerializer {
         }
 
         if (estagio.getAnel() != null && estagio.getAnel().getIdJson() != null) {
-            estagioJson.putObject("anel").put("idJson", estagio.getAnel().getIdJson().toString());
+            estagioJson.putObject("anel").put("idJson", estagio.getAnel().getIdJson());
         }
 
         if (estagio.getImagem() != null) {
-            estagioJson.putObject("imagem").put("idJson", estagio.getImagem().getIdJson().toString());
-            imagensMap.put(estagio.getImagem().getIdJson().toString(), estagio.getImagem());
+            estagioJson.putObject("imagem").put("idJson", estagio.getImagem().getIdJson());
+            imagensMap.put(estagio.getImagem().getIdJson(), estagio.getImagem());
         }
+
+        if (estagio.getDetector() != null && estagio.getDetector().getIdJson() != null) {
+            estagioJson.putObject("detector").put("idJson", estagio.getDetector().getIdJson());
+            detectoresMap.put(estagio.getDetector().getIdJson(), estagio.getDetector());
+        }
+
         refTransicoesProibidas("origemDeTransicoesProibidas", estagio.getOrigemDeTransicoesProibidas(), estagioJson);
         refTransicoesProibidas("destinoDeTransicoesProibidas", estagio.getDestinoDeTransicoesProibidas(), estagioJson);
         refTransicoesProibidas("alternativaDeTransicoesProibidas", estagio.getAlternativaDeTransicoesProibidas(), estagioJson);
         refEstagiosGruposSemaforicos("estagiosGruposSemaforicos", estagio.getEstagiosGruposSemaforicos(), estagioJson);
-        if (estagio.getDetector() != null && estagio.getDetector().getIdJson() != null) {
-            estagioJson.putObject("detector").put("idJson", estagio.getDetector().getIdJson().toString());
-            detectoresMap.put(estagio.getDetector().getIdJson().toString(), estagio.getDetector());
-        }
+        refEstagiosPlanos("estagiosPlanos", estagio.getEstagiosPlanos(), estagioJson);
 
         return estagioJson;
     }

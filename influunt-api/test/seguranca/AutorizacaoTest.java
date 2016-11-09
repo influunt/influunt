@@ -81,13 +81,13 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         JsonNode jsonUsuarioSemAcesso = Json.parse("{\"login\":\"admin1\",\"senha\":\"1234\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioComAcesso);
+            .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioComAcesso);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         tokenComAcesso = postResult.header(SecurityController.AUTH_TOKEN);
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioSemAcesso);
+            .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuarioSemAcesso);
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         tokenSemAcesso = postResult.header(SecurityController.AUTH_TOKEN);
@@ -105,12 +105,12 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
     @Test
     public void testAutorizacao() {
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findOne(UUID.randomUUID().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.CidadesController.findOne(UUID.randomUUID().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(404, result.status());
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url()).header(SecurityController.AUTH_TOKEN, tokenSemAcesso.get());
+            .uri(routes.CidadesController.findAll().url()).header(SecurityController.AUTH_TOKEN, tokenSemAcesso.get());
         result = route(request);
         assertEquals(403, result.status());
     }
@@ -174,15 +174,15 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
         // delete
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ControladoresController.delete(controlador2.getId().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.delete(controlador2.getId().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(403, result.status());
 
         try {
             request = new Http.RequestBuilder().method("DELETE")
-                    .uri(routes.ControladoresController.delete(controlador1.getId().toString()).url())
-                    .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+                .uri(routes.ControladoresController.delete(controlador1.getId().toString()).url())
+                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
             result = route(request);
             assertEquals(200, result.status());
         } catch (PersistenceException ex) {
@@ -231,8 +231,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.HelpersController.controladorHelper().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.HelpersController.controladorHelper().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(OK, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -248,8 +248,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.HelpersController.controladorHelper().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.HelpersController.controladorHelper().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(OK, result.status());
         json = Json.parse(Helpers.contentAsString(result));
@@ -263,8 +263,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         addPermissaoVerAreas();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.HelpersController.controladorHelper().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.HelpersController.controladorHelper().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(OK, result.status());
         json = Json.parse(Helpers.contentAsString(result));
@@ -324,8 +324,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(200, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -336,8 +336,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(200, result.status());
         json = Json.parse(Helpers.contentAsString(result));
@@ -346,8 +346,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         addPermissaoVerAreas();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(200, result.status());
         json = Json.parse(Helpers.contentAsString(result));
@@ -394,8 +394,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.SubareasController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.SubareasController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
 
         assertEquals(OK, result.status());
@@ -408,8 +408,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.SubareasController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.SubareasController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
 
         assertEquals(OK, result.status());
@@ -421,8 +421,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.SubareasController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.SubareasController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
 
         assertEquals(OK, result.status());
@@ -456,8 +456,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.CidadesController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
 
         assertEquals(OK, result.status());
@@ -470,8 +470,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.CidadesController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
 
         assertEquals(OK, result.status());
@@ -484,8 +484,8 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         usuarioComAcesso.update();
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.CidadesController.findAll().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
 
         assertEquals(OK, result.status());
@@ -507,28 +507,28 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         perfilComAcesso.update();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.UsuariosController.findOne(usuarioComAcesso.getId().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.UsuariosController.findOne(usuarioComAcesso.getId().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(200, result.status());
 
         request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.UsuariosController.update(usuarioComAcesso.getId().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.toJson(usuarioComAcesso));
+            .uri(routes.UsuariosController.update(usuarioComAcesso.getId().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.toJson(usuarioComAcesso));
         result = route(request);
         assertEquals(200, result.status());
 
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.UsuariosController.findOne(UUID.randomUUID().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.UsuariosController.findOne(UUID.randomUUID().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(403, result.status());
 
         request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.UsuariosController.update(UUID.randomUUID().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.toJson(usuarioComAcesso));
+            .uri(routes.UsuariosController.update(UUID.randomUUID().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.toJson(usuarioComAcesso));
         result = route(request);
         assertEquals(403, result.status());
     }
@@ -536,58 +536,58 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
     private void testRequestsCrudControlador(Controlador controlador, int expectedResult) {
         // findOne
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.findOne(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.findOne(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         Result result = route(request);
         assertEquals(expectedResult, result.status());
 
         // edit
         controlador.setStatusVersao(StatusVersao.ATIVO);
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // timeline
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.timeline(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.timeline(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // pode_editar
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.podeEditar(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.podeEditar(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // ativar
         request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // editar_planos
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // editar_tabela_horaria
         request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // atualizar_descricao
         request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.atualizarDescricao(controlador.getId().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"descricao\": \"Teste descricao\"}"));
+            .uri(routes.ControladoresController.atualizarDescricao(controlador.getId().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"descricao\": \"Teste descricao\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // cancelar_edicao
         request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ControladoresController.cancelarEdicao(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+            .uri(routes.ControladoresController.cancelarEdicao(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         if (expectedResult == 200) {
             assertNotEquals(403, result.status());
@@ -599,73 +599,73 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
     private void testRequestsWizardControlador(Controlador controlador, int expectedResult, String requestAreaId) {
         // dados básicos
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.dadosBasicos().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"area\": {\"idJson\": \"1234\"}, \"areas\": [{\"idJson\": \"1234\", \"id\": \"" + requestAreaId + "\"}]}"));
+            .uri(routes.ControladoresController.dadosBasicos().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"area\": {\"idJson\": \"1234\"}, \"areas\": [{\"idJson\": \"1234\", \"id\": \"" + requestAreaId + "\"}]}"));
         Result result = route(request);
         assertEquals(expectedResult, result.status());
 
         // aneis
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.aneis().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.aneis().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // grupos semafóricos
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.gruposSemaforicos().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.gruposSemaforicos().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // associação grupos semafóricos
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // verdes conflitantes
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.verdesConflitantes().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.verdesConflitantes().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // transições proibidas
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.transicoesProibidas().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.transicoesProibidas().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // atraso de grupo
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.atrasoDeGrupo().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.atrasoDeGrupo().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // entreverdes
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.entreVerdes().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.entreVerdes().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
 
         // associação detectores
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
-                .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
+            .uri(routes.ControladoresController.associacaoDetectores().url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get())
+            .bodyJson(Json.parse("{\"id\": \"" + controlador.getId().toString() + "\"}"));
         result = route(request);
         assertEquals(expectedResult, result.status());
     }

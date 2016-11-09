@@ -49,7 +49,7 @@ public class EstagiosControllerTest extends WithInfluuntApplicationNoAuthenticat
         estagio.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.EstagiosController.delete(estagio.getId().toString()).url());
+            .uri(routes.EstagiosController.delete(estagio.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -59,7 +59,7 @@ public class EstagiosControllerTest extends WithInfluuntApplicationNoAuthenticat
     @Test
     public void testApagarEstagioNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.EstagiosController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.EstagiosController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }

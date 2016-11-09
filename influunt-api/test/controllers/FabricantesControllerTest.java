@@ -26,7 +26,7 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         Fabricante fabricante = new Fabricante();
         fabricante.setNome("Teste");
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.FabricantesController.create().url()).bodyJson(Json.toJson(fabricante));
+            .uri(routes.FabricantesController.create().url()).bodyJson(Json.toJson(fabricante));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Fabricante fabricanteRetornado = Json.fromJson(json, Fabricante.class);
@@ -48,7 +48,7 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         fabricante1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.FabricantesController.findAll().url());
+            .uri(routes.FabricantesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Fabricante> fabricantes = Json.fromJson(json.get("data"), List.class);
@@ -71,8 +71,8 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         fabricante1.setNome("Teste atualizar");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.FabricantesController.update(fabricanteId.toString()).url())
-                .bodyJson(Json.toJson(fabricante1));
+            .uri(routes.FabricantesController.update(fabricanteId.toString()).url())
+            .bodyJson(Json.toJson(fabricante1));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Fabricante fabricanteRetornado = Json.fromJson(json, Fabricante.class);
@@ -88,8 +88,8 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         fabricante.setNome("Teste");
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.FabricantesController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(fabricante));
+            .uri(routes.FabricantesController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(fabricante));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -101,7 +101,7 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         fabricante.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.FabricantesController.delete(fabricante.getId().toString()).url());
+            .uri(routes.FabricantesController.delete(fabricante.getId().toString()).url());
         Result result = route(deleteRequest);
 
         assertEquals(200, result.status());
@@ -111,7 +111,7 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
     @Test
     public void testApagarFabricanteNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.FabricantesController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.FabricantesController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -125,7 +125,7 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         Assert.assertNotNull(fabricanteId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.FabricantesController.findOne(fabricanteId.toString()).url());
+            .uri(routes.FabricantesController.findOne(fabricanteId.toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Fabricante fabricanteRetornado = Json.fromJson(json, Fabricante.class);

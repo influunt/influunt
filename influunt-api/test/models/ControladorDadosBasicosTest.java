@@ -38,8 +38,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         List<Erro> erros = getErros(getControlador());
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "modelo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "area")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "modelo"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "area")
         ));
 
     }
@@ -143,7 +143,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         Controlador controlador = getControlador();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -154,9 +154,9 @@ public class ControladorDadosBasicosTest extends ControladorTest {
 
         assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro("Controlador", "não pode ficar em branco", "modelo"),
-                new Erro("Controlador", "não pode ficar em branco", "area"),
-                new Erro("Controlador", "não pode ficar em branco", "nomeEndereco")
+            new Erro("Controlador", "não pode ficar em branco", "modelo"),
+            new Erro("Controlador", "não pode ficar em branco", "area"),
+            new Erro("Controlador", "não pode ficar em branco", "nomeEndereco")
         ));
     }
 
@@ -166,7 +166,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         Controlador controlador = getControladorDadosBasicos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

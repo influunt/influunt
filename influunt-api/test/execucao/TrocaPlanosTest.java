@@ -8,7 +8,6 @@ import engine.Motor;
 import engine.MotorCallback;
 import integracao.ControladorHelper;
 import models.Controlador;
-import models.EstadoGrupoSemaforico;
 import models.Evento;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -18,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -157,7 +156,7 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
 
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        if(!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())){
+        if (!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())) {
             listaTrocaPlanoEfetiva.put(agendamentoTrocaPlano.getMomentoDaTroca(), new HashMap<>());
         }
         listaTrocaPlanoEfetiva.get(agendamentoTrocaPlano.getMomentoDaTroca()).put(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getEvento());
@@ -166,7 +165,7 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
 
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if(!listaEstagios.containsKey(timestamp)){
+        if (!listaEstagios.containsKey(timestamp)) {
             listaEstagios.put(timestamp, new HashMap<>());
         }
         listaEstagios.get(timestamp).put(anel, intervalos);
@@ -174,7 +173,7 @@ public class TrocaPlanosTest extends WithInfluuntApplicationNoAuthentication imp
 
     @Override
     public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if(!listaHistoricoEstagios.containsKey(timestamp)){
+        if (!listaHistoricoEstagios.containsKey(timestamp)) {
             listaHistoricoEstagios.put(timestamp, new HashMap<>());
         }
         listaHistoricoEstagios.get(timestamp).put(anel, intervalos);
