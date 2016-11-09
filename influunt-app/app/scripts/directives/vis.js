@@ -31,7 +31,7 @@ angular.module('influuntApp')
             });
           };
 
-          var handleCheckboxChange = function(e) {
+          var handleCheckboxChange = function() {
             var checkbox = $(this);
             var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
             var grupoAtivado = checkbox.is(':checked');

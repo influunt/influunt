@@ -59,7 +59,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         assertEquals(17, anelAtivo.getGruposSemaforicos().size());
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-            new Erro(CONTROLADOR, "Numero total de grupos semáforicos informado individualmente nos aneis excede o limite do controlador", "")
+            new Erro(CONTROLADOR, "Número total de grupos semáforicos informado individualmente nos anéis excede o limite do controlador", "")
         ));
 
         anelAtivo.setGruposSemaforicos(null);

@@ -449,7 +449,7 @@
     "estagioSequencia": "Estágio da Sequência",
     "grupoNaoAssociado": {
       "titulo": "Grupo não associado",
-      "texto": "Este grupo não está associado a nenhum estágio do plano, e portanto está apagado. Para habilitá-lo, associe este grupo a pelo menos um estágio."
+      "texto": "Este grupo não está associado a nenhum estágio do plano, e portanto está apagado. Para habilitá-lo, associe este grupo a pelo menos um estágio da sequencia."
     }
   },
   "diagramaIntervalos": {

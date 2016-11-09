@@ -176,7 +176,7 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.beforeChangeCheckboxGrupo = function(grupo, isAtivo) {
+      $scope.beforeChangeCheckboxGrupo = function(grupo) {
         var posicaoOriginal = parseInt(grupo.labelPosicao.substring(1));
         var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, { anel: { idJson: $scope.currentAnel.idJson }, posicao: posicaoOriginal });
         var nemAssociadoNemDemandaPrioritaria = planoService.isGrupoNemAssociadoNemDemandaPrioritaria($scope.objeto, $scope.currentAnel, $scope.currentPlano, grupoSemaforico);

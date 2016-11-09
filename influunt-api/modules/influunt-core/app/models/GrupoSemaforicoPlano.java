@@ -140,10 +140,8 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         boolean isDemandaPrioritaria = estagios.stream().anyMatch(Estagio::isDemandaPrioritaria);
         if (!isDemandaPrioritaria) {
             List<EstagioPlano> eps = estagios.stream().map(Estagio::getEstagiosPlanos).flatMap(Collection::stream).collect(Collectors.toList());
-            if (eps.size() == 0) {
-                if (isAtivado()) {
-                    return false;
-                }
+            if (eps.isEmpty() && isAtivado()) {
+                return false;
             }
         }
         return true;
