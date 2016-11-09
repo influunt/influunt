@@ -67,7 +67,7 @@ var influunt;
               return ctx.createPattern(imgAI,'repeat');
             case 'VERMELHO_LIMPEZA':
               return '#a31100';
-            }
+          }
         }
 
         function preload () {
@@ -395,7 +395,6 @@ var influunt;
           bmd.ctx.fillStyle = color;
           bmd.ctx.font = '12px Open Sans';
           bmd.ctx.fillText((w/10) - 1 + 's', w/2, hLabel - 3);
-
 
           bmd.render();
           eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x1) - 10, y1 + ALTURA_GRUPO, bmd));
@@ -739,7 +738,7 @@ var influunt;
           totalGruposSemaforicos = i;
         }
 
-        function desenhaPlano(x,color,label){
+        function desenhaEventoDoControlador(x,color,label, tooltip) {
           var h = ALTURA_INTERVALOS - 25;
           var bmd = game.add.bitmapData(20,h);
 
@@ -765,16 +764,34 @@ var influunt;
             bmd.ctx.fillText(label, 7, 15);
           }
 
-
           bmd.render();
-          eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd));
+
+          var sprite = game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd);
+
+          sprite.inputEnabled = true;
+          eventosGroup.add(sprite);
+
+          if (tooltip) {
+            return new Phasetips(game, {
+              targetObject: sprite,
+              context: tooltip,
+              position: 'top',
+              positionOffset: 0,
+              position: 'left',
+            });
+          }
         }
+
+        function desenhaPlano(x,color,label) { return desenhaEventoDoControlador(x, color, label); }
+
+        function desenhaFalha(x,color,label, tooltip) { return desenhaEventoDoControlador(x, color, label, tooltip); }
 
         function processaPlanos(trocas){
           trocas.forEach(function(troca){
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
             planos.push([x / 10,troca[2],troca[3]]);
             desenhaPlano(x,'#260339',troca[2]);
+            desenhaPlano(405, 'orangered', 'F1', 'O controlador deu um probleminha ai.');
           });
         }
 
@@ -814,7 +831,6 @@ var influunt;
 
           criaControles();
 
-
           var onConnect = function () {
             // Once a connection has been made, make a subscription and send a message.
             client.subscribe('simulador/' + config.simulacaoId + '/estado');
@@ -826,7 +842,6 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
-console.log(JSON.stringify(json));
               processaEstagios(json.aneis);
               processaPlanos(json.trocas);
               loadingGroup.visible = false;
