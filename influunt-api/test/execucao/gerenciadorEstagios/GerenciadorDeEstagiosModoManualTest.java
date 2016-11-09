@@ -1,13 +1,14 @@
 package execucao.gerenciadorEstagios;
 
-import engine.*;
-import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
 import integracao.ControladorHelper;
-import models.*;
+import models.Anel;
+import models.EstagioPlano;
+import models.ModoOperacaoPlano;
+import models.Plano;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**

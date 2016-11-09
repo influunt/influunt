@@ -32,7 +32,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"
     E o usuário preencher o campo "Descrição" com "Agrupamento 1"
     E o usuário selecionar o valor "Corredor" no campo "Tipo"
-    E o usuário selecionar o valor "Av. Paulista com R. Bela Cintra" no campo Controladores
+    E o usuário selecionar o valor "Av. Paulista com R. Bela Cintra" para o campo "controladores"
     E o usuário selecionar o valor "Domingo" no campo "Dia"
     E o usuário selecionar o valor "12" no campo "Hora"
     E o usuário selecionar o valor "10" no campo "Minuto"

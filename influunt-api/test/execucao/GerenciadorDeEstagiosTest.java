@@ -10,14 +10,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 
 /**
@@ -50,7 +47,7 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     }
 
     protected void verificaHistoricoGruposSemaforicos(int offset, int offset2, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaHistoricoEstagios,inicioExecucao.plusSeconds(offset).plus(offset2));
+        grupoCheck.check(listaHistoricoEstagios, inicioExecucao.plusSeconds(offset).plus(offset2));
     }
 
     protected void verificaGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
@@ -86,10 +83,10 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
     protected Plano getPlano(Anel anel, int posicao) {
         return anel.getPlanos()
-                .stream()
-                .filter(p -> p.getPosicao().equals(posicao))
-                .findFirst()
-                .get();
+            .stream()
+            .filter(p -> p.getPosicao().equals(posicao))
+            .findFirst()
+            .get();
     }
 
     protected Plano getPlanoDemandaPrioritaria(Anel anel) {
@@ -140,10 +137,10 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
 
     protected Anel getAnel(int posicao) {
         return controlador.getAneis()
-                .stream()
-                .filter(a -> a.getPosicao().equals(posicao))
-                .findFirst()
-                .get();
+            .stream()
+            .filter(a -> a.getPosicao().equals(posicao))
+            .findFirst()
+            .get();
     }
 
     protected Detector getDetector(Anel anel, int posicao) {
@@ -161,8 +158,8 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
     protected void imprimirListaEstagios(HashMap<DateTime, IntervaloGrupoSemaforico> listaEstagios) {
         DateTimeFormatter sdf = DateTimeFormat.forPattern("dd/MM/YYYY - EEE - HH:mm:ss:S");
         listaEstagios.entrySet().stream()
-                .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
-                .forEach(entry -> System.out.println(sdf.print(entry.getKey()) + " - " + entry.getValue().getEstagio().getPosicao()));
+            .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
+            .forEach(entry -> System.out.println(sdf.print(entry.getKey()) + " - " + entry.getValue().getEstagio().getPosicao()));
     }
 
     protected void avancar(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {

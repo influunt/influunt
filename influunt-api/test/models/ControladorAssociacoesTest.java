@@ -39,12 +39,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         assertEquals(6, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico")
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico")
         ));
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -71,12 +71,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(6, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Existem grupos semafóricos conflitantes associados a esse estágio.", "aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico")
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Existem grupos semafóricos conflitantes associados a esse estágio.", "aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico")
         ));
 
         estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
@@ -118,7 +118,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[1].estagios[0].tempoVerdeDemandaPrioritaria")
+            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[1].estagios[0].tempoVerdeDemandaPrioritaria")
         ));
 
         estagioNovo.setTempoVerdeDemandaPrioritaria(10);
@@ -129,12 +129,12 @@ public class ControladorAssociacoesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(6, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "O anel ativo deve ter somente um estágio de demanda prioritária.", "aneis[0].somenteUmEstagioDeDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[0].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
-                new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
-                new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoVerdeDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoVerdeDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.", "aneis[0].estagios[0].umGrupoSemaforicoVeicularEmDemandaPrioritaria")
+            new Erro(CONTROLADOR, "O anel ativo deve ter somente um estágio de demanda prioritária.", "aneis[0].somenteUmEstagioDeDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[0].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
+            new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
+            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoVerdeDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoVerdeDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.", "aneis[0].estagios[0].umGrupoSemaforicoVeicularEmDemandaPrioritaria")
         ));
 
         estagio1.setDemandaPrioritaria(false);
@@ -161,8 +161,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.", "aneis[0].estagios[1].somenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria"),
-                new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio")
+            new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.", "aneis[0].estagios[1].somenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio")
         ));
 
         estagio2.setEstagiosGruposSemaforicos(null);
@@ -175,7 +175,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.", "aneis[0].estagios[1].umGrupoSemaforicoVeicularEmDemandaPrioritaria")
+            new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.", "aneis[0].estagios[1].umGrupoSemaforicoVeicularEmDemandaPrioritaria")
         ));
 
         grupoSemaforico2.setTipo(TipoGrupoSemaforico.VEICULAR);
@@ -251,8 +251,9 @@ public class ControladorAssociacoesTest extends ControladorTest {
         assertEquals(anelCom2Estagios.getDetectores().size(), anelCom2EstagiosJson.getDetectores().size());
         assertEquals(anelCom2Estagios.getNumeroSMEE(), anelCom2EstagiosJson.getNumeroSMEE());
         assertEquals(anelCom2Estagios.getEstagios().size(), anelCom2EstagiosJson.getEstagios().size());
+
         assertEquals(anelCom2Estagios.getEstagios().stream().filter(estagio -> estagio.isTempoMaximoPermanenciaAtivado()).count(),
-                anelCom2EstagiosJson.getEstagios().stream().filter(estagio -> estagio.isTempoMaximoPermanenciaAtivado()).count());
+            anelCom2EstagiosJson.getEstagios().stream().filter(estagio -> estagio.isTempoMaximoPermanenciaAtivado()).count());
 
         assertEquals(anelCom4Estagios.getDescricao(), anelCom4EstagiosJson.getDescricao());
 
@@ -276,7 +277,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -292,7 +293,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorAssociacao();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -356,7 +357,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico42);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -420,13 +421,13 @@ public class ControladorAssociacoesTest extends ControladorTest {
 
         assertEquals(7, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
-                new Erro(CONTROLADOR, "Esse grupo semafórico deve estar associado a pelo menos um estágio", "aneis[0].gruposSemaforicos[1].associadoAoMenosAUmEstágio"),
-                new Erro(CONTROLADOR, "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.", "aneis[0].estagios[0].tempoMaximoPermanenciaMaiorQueVerdeDeSeguranca")
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Esse grupo semafórico deve estar associado a pelo menos um estágio", "aneis[0].gruposSemaforicos[1].associadoAoMenosAUmEstágio"),
+            new Erro(CONTROLADOR, "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.", "aneis[0].estagios[0].tempoMaximoPermanenciaMaiorQueVerdeDeSeguranca")
         ));
 
     }
@@ -434,8 +435,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
+            Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class);
     }
 
 }

@@ -24,6 +24,10 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/controladores.sql');
   };
 
+  this.variosControladoresConfigurados = function() {
+    return world.execSqlScript('features/support/scripts/controladores/controladores_finalizados.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
@@ -189,13 +193,24 @@ var ObjetosComuns = function () {
   };
 
   this.clicarEditarEmResumo = function(selectorText) {
-    return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
+    });
+  };
+
+  this.selecionarBySelect2Option = function(field, option) {
+    return world.select2OptionByXpath(field, option);
+  };
+
+  this.removeSelect2Option = function(option, field) {
+    return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
+      return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+    });
   };
 
   this.visitarListagem = function(local) {
     return world.visit('/app/'+local+'');
   };
 };
-
 
 module.exports = ObjetosComuns;

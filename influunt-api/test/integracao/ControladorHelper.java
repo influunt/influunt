@@ -6,7 +6,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -737,8 +736,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
 
-        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016,12,25,0,0,0), LocalTime.parse("08:00:00"), "Natal", 11);
-        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017,03,15,0,0,0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
 
         controlador.save();
     }
@@ -763,6 +762,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             estagioPlano.setPosicao(posicoes[i]);
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
+            estagio.addEstagioPlano(estagioPlano);
             estagioPlano.setTempoVerde(tempos[estagioPlano.getPosicao() - 1]);
             plano.addEstagios(estagioPlano);
             i++;
@@ -773,7 +773,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setPosicao(posicao);
         estagioPlano.setPlano(plano);
-        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        Estagio estagio = anel.findEstagioByPosicao(posicaoEstagio);
+        estagioPlano.setEstagio(estagio);
+        estagio.addEstagioPlano(estagioPlano);
         estagioPlano.setTempoVerdeMinimo(tempos[0]);
         estagioPlano.setTempoVerdeIntermediario(tempos[1]);
         estagioPlano.setTempoVerdeMaximo(tempos[2]);
@@ -787,7 +789,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setPosicao(posicao);
         estagioPlano.setPlano(plano);
-        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        Estagio estagio = anel.findEstagioByPosicao(posicaoEstagio);
+        estagioPlano.setEstagio(estagio);
+        estagio.addEstagioPlano(estagioPlano);
         estagioPlano.setTempoVerde(tempo);
         estagioPlano.setDispensavel(dispensavel);
         plano.addEstagios(estagioPlano);

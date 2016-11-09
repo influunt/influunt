@@ -152,10 +152,10 @@ public class GerenteProgramacaoTest {
 
         g.addEventos(eventoList);
         assertFalse(g.getIntervalos().asMapOfRanges()
-                .values()
-                .stream()
-                .mapToInt(e -> e.getPosicaoPlano())
-                .anyMatch(value -> value < 5));
+            .values()
+            .stream()
+            .mapToInt(e -> e.getPosicaoPlano())
+            .anyMatch(value -> value < 5));
 
         eventoList = new ArrayList<>();
 
@@ -176,10 +176,10 @@ public class GerenteProgramacaoTest {
 
         g.addEventos(eventoList);
         assertFalse(g.getIntervalos().asMapOfRanges()
-                .values()
-                .stream()
-                .mapToInt(e -> e.getPosicaoPlano())
-                .anyMatch(value -> value < 5));
+            .values()
+            .stream()
+            .mapToInt(e -> e.getPosicaoPlano())
+            .anyMatch(value -> value < 5));
 
     }
 
@@ -204,10 +204,10 @@ public class GerenteProgramacaoTest {
 
         g.addEventos(eventoList);
         assertFalse(g.getIntervalos().asMapOfRanges()
-                .values()
-                .stream()
-                .mapToInt(e -> e.getPosicaoPlano())
-                .anyMatch(value -> value < 5));
+            .values()
+            .stream()
+            .mapToInt(e -> e.getPosicaoPlano())
+            .anyMatch(value -> value < 5));
 
         eventoList = new ArrayList<>();
 
@@ -228,10 +228,10 @@ public class GerenteProgramacaoTest {
 
         g.addEventos(eventoList);
         assertFalse(g.getIntervalos().asMapOfRanges()
-                .values()
-                .stream()
-                .mapToInt(e -> e.getPosicaoPlano())
-                .anyMatch(value -> value < 5));
+            .values()
+            .stream()
+            .mapToInt(e -> e.getPosicaoPlano())
+            .anyMatch(value -> value < 5));
 
     }
 
@@ -852,11 +852,11 @@ public class GerenteProgramacaoTest {
         Calendar instante = data.toCalendar(Locale.forLanguageTag("pt-BR"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY - EEE - HH:mm:ss");
         System.out.println("O plano " + i + " e o retornado em:" + sdf.format(instante.getTime()) + " -- "
-                + ((
-                ((instante.get(Calendar.DAY_OF_WEEK) - 1) * 84600) +
-                        (instante.get(Calendar.HOUR_OF_DAY) * 3600) +
-                        (instante.get(Calendar.MINUTE) * 60) +
-                        instante.get(Calendar.SECOND) + instante.get(Calendar.MILLISECOND)
+            + ((
+            ((instante.get(Calendar.DAY_OF_WEEK) - 1) * 84600) +
+                (instante.get(Calendar.HOUR_OF_DAY) * 3600) +
+                (instante.get(Calendar.MINUTE) * 60) +
+                instante.get(Calendar.SECOND) + instante.get(Calendar.MILLISECOND)
         )) * 1000);
     }
 

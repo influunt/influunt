@@ -84,7 +84,7 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
     public void testErrosControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ErrosControladorController.findOne("1").url());
+            .uri(routes.ErrosControladorController.findOne("1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -101,7 +101,7 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
     public void testUltimoErrosDeTodosControladoresApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ErrosControladorController.ultimosErrosDosControladores().url());
+            .uri(routes.ErrosControladorController.ultimosErrosDosControladores().url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -119,7 +119,7 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
     public void testUltimoErroDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ErrosControladorController.ultimoErroControlador("2").url());
+            .uri(routes.ErrosControladorController.ultimoErroControlador("2").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -133,7 +133,7 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
     public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ErrosControladorController.historico("1", "0", "1").url());
+            .uri(routes.ErrosControladorController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -144,7 +144,7 @@ public class ErrosControladorTest extends WithInfluuntApplicationNoAuthenticatio
 
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ErrosControladorController.historico("1", "1", "1").url());
+            .uri(routes.ErrosControladorController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

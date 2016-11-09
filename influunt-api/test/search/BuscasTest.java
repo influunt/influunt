@@ -65,7 +65,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(4);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url().concat("?nome=Teste&dataCriacao_start=07%2F09%2F2016%2011:34:55&sort=nome&sort_type=desc"));
+            .uri(routes.CidadesController.findAll().url().concat("?nome=Teste&dataCriacao_start=07%2F09%2F2016%2011:34:55&sort=nome&sort_type=desc"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get(DATA), List.class);
@@ -77,7 +77,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(15);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url() + "?nome=Teste1");
+            .uri(routes.CidadesController.findAll().url() + "?nome=Teste1");
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get(DATA), List.class);
@@ -85,7 +85,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
 
 
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url() + "?nome_eq=Teste1");
+            .uri(routes.CidadesController.findAll().url() + "?nome_eq=Teste1");
         result = route(request);
         json = Json.parse(contentAsString(result));
         cidades = Json.fromJson(json.get(DATA), List.class);
@@ -97,7 +97,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url());
+            .uri(routes.CidadesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get(DATA), List.class);
@@ -109,7 +109,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url().concat("?page=1"));
+            .uri(routes.CidadesController.findAll().url().concat("?page=1"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get(DATA), List.class);
@@ -121,7 +121,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url().concat("?per_page=20"));
+            .uri(routes.CidadesController.findAll().url().concat("?per_page=20"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get(DATA), List.class);
@@ -133,7 +133,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url().concat("?per_page=15&sort=nome&sort_type=asc"));
+            .uri(routes.CidadesController.findAll().url().concat("?per_page=15&sort=nome&sort_type=asc"));
         Result result = route(request);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -164,7 +164,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url().concat("?per_page=15&sort=nome&sort_type=desc"));
+            .uri(routes.CidadesController.findAll().url().concat("?per_page=15&sort=nome&sort_type=desc"));
         Result result = route(request);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -196,7 +196,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(76);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.CidadesController.findAll().url().concat("?per_page=100&sort_type=asc"));
+            .uri(routes.CidadesController.findAll().url().concat("?per_page=100&sort_type=asc"));
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(contentAsString(result));
@@ -212,7 +212,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarFabricanteModeloControlador();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.ModelosControladoresController.findAll().url());
+            .uri(routes.ModelosControladoresController.findAll().url());
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(contentAsString(result));
@@ -243,7 +243,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarFabricanteModeloControlador();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.ModelosControladoresController.findAll().url().concat("?fabricante.nome=Raro"));
+            .uri(routes.ModelosControladoresController.findAll().url().concat("?fabricante.nome=Raro"));
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(contentAsString(result));
@@ -262,7 +262,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidadeArea("São Paulo");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo"));
+            .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo"));
         Result result = route(request);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = Json.parse(contentAsString(result));
@@ -272,7 +272,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(10, areas.size());
 
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Horizonte"));
+            .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Horizonte"));
         result = route(request);
         json = Json.parse(contentAsString(result));
         areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
@@ -283,7 +283,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         }
 
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Vale"));
+            .uri(routes.AreasController.findAll().url().concat("?cidade.nome=Belo%20Vale"));
         result = route(request);
         json = Json.parse(contentAsString(result));
         areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
@@ -294,7 +294,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         }
 
         request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AreasController.findAll().url().concat("?cidade.nome=São"));
+            .uri(routes.AreasController.findAll().url().concat("?cidade.nome=São"));
         result = route(request);
         json = Json.parse(contentAsString(result));
         areas = mapper.readValue(json.get(DATA).toString(), new TypeReference<List<Area>>() {
@@ -310,7 +310,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(5);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
+            .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -323,7 +323,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(5);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=teste"));
+            .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=teste"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -336,7 +336,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
+            .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -348,7 +348,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?page=1"));
+            .uri(routes.AuditoriaController.findAll().url().concat("?page=1"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
@@ -360,7 +360,7 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         criarCidades(50);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-                .uri(routes.AuditoriaController.findAll().url().concat("?timestamp_start=12%2F09%2F2016%2011:34:55"));
+            .uri(routes.AuditoriaController.findAll().url().concat("?timestamp_start=12%2F09%2F2016%2011:34:55"));
         Result result = route(request);
         JsonNode json = Json.parse(contentAsString(result));
         List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
