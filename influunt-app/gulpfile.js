@@ -98,7 +98,8 @@ var paths = {
 
     // influunt app plugins.
     yeoman.app + '/plugins/influunt/diagrama-intervalos.js',
-    yeoman.app + '/plugins/influunt/quadro-tabela-horaria.js'
+    yeoman.app + '/plugins/influunt/quadro-tabela-horaria.js',
+    yeoman.app + '/plugins/phasertips/Phasetips.js',
 
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'

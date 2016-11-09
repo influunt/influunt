@@ -21,6 +21,7 @@
     "moment": true,
     "humanizeDuration": true,
     "Phaser": true,
+    "Phasetips": true,
     "PIXI": true,
     "Paho": true,
     "Blob": true,
