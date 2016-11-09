@@ -125,7 +125,7 @@ angular.module('influuntApp')
           popupText: '<strong>CLC: </strong>' + controlador.CLC,
           options: {
             id: controlador.id,
-            idJson: controlador.idJson,
+            idJson: controlador.idJson || UUID.generate(),
             tipo: 'CONTROLADOR',
             draggable: false,
             icon: 'images/leaflet/influunt-icons/controlador.svg',
@@ -137,13 +137,18 @@ angular.module('influuntApp')
       };
 
       getMarkersAneis = function(controlador) {
-        if (!$scope.filtro.exibirAneis) {
-          return [];
-        }
-
         return _.chain(controlador.aneis)
           .filter('ativo')
           .orderBy('posicao')
+          .filter(function(anel) {
+            // Se o filtro de "exibirAneis" estiver desativado, somente o primeiro
+            // anel deverá ser selecionado.
+            if (!$scope.filtro.exibirAneis) {
+              return anel.posicao === 1;
+            }
+
+            return true;
+          })
           .map(function(anel) {
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             return {

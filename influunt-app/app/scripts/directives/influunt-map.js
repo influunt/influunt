@@ -134,7 +134,15 @@ angular.module('influuntApp')
             map.removeLayer(markersLayer);
           }
 
-          markersLayer = new L.FeatureGroup();
+          // Remove o primeiro anel do mapa, caso o controlador de mesmo endereço seja exibido.
+          markers = _
+            .chain(markers)
+            .orderBy('options.tipo', ['desc'])
+            .uniqBy(function(m) { return m.latitude + '' + m.longitude })
+            .value();
+
+          markersLayer = new L.markerClusterGroup();
+          // markersLayer = new L.FeatureGroup();
           markers.forEach(function(marker) {
             var m = createMarker(marker);
             markersLayer.addLayer(m);
