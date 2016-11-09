@@ -480,8 +480,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         if (this.isModoOperacaoVerde()) {
-            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicaoSemEstagioDispensavel());
-            preencheTabelaEntreVerde(tabela, getEstagiosOrdenados());
+            preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
             this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
                 preencheTabelaEntreVerde(tabela, e);
             });
@@ -495,14 +494,26 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, List<EstagioPlano> lista) {
-        lista.stream().forEach(ep -> {
-            Estagio atual = ep.getEstagio();
-            Estagio anterior = this.getEstagioAnterior(ep, lista);
-            tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
-                    this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
+        lista.stream().forEach(origem -> {
+            final Estagio anterior = origem.getEstagio();
+            lista.stream().forEach(destino -> {
+                final Estagio atual = destino.getEstagio();
+                if (!anterior.temTransicaoProibidaParaEstagio(atual)) {
+                    final long tempo;
+                    if (anterior.equals(atual)) {
+                        //Estagio duplo
+                        tempo = 0L;
+                    } else {
+                        tempo = this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L;
+                    }
+                    tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()), tempo);
+                }
+            });
 
-            //Estagio duplo
-            tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), atual.getPosicao()), 0L);
+
+
+
+
         });
     }
 
