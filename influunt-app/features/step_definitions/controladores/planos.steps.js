@@ -103,10 +103,6 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o usuário prenche o campo com "([^"]*)"$/, function (valor) {
-    return planosPage.preencherCampoEditarPlano(valor);
-  });
-
   this.Given(/^o usuário selecionar o "([^"]*)"$/, function (valor) {
     return planosPage.selecionarPlano(valor);
   });

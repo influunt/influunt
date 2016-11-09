@@ -551,9 +551,6 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 
-
-
-
 -- # CRUD controladores
 
 Set @PermissaoId = UUID();
