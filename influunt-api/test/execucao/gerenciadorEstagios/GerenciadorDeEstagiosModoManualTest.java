@@ -3,6 +3,7 @@ package execucao.gerenciadorEstagios;
 import engine.*;
 import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
+import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
 
@@ -62,5 +63,56 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(198)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(216)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(234)).getEstagio().getPosicao().intValue());
+    }
+
+
+    @Test
+    public void comPlanoExclusivo() {
+        Anel anel = getAnel(1);
+        Plano plano = getPlanoExclusivo(anel);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+
+        avancar(gerenciadorDeEstagios, 10);
+        acionarModoManual();
+        avancar(gerenciadorDeEstagios, 100);
+        trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 200);
+
+        plano.imprimirTabelaEntreVerde();
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(36)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(58)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(110)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(176).plus(100)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(198)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(216)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(234)).getEstagio().getPosicao().intValue());
+    }
+
+    private Plano getPlanoExclusivo(Anel anel) {
+        Plano plano = new ControladorHelper().criarPlano(anel, 0, ModoOperacaoPlano.MANUAL, null);
+
+        plano.setEstagiosPlanos(null);
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(1);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(3));
+        plano.addEstagios(estagioPlano);
+
+        estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(2);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(1));
+        plano.addEstagios(estagioPlano);
+
+        estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(3);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(2));
+        plano.addEstagios(estagioPlano);
+
+        return plano;
     }
 }

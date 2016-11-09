@@ -28,6 +28,7 @@ public class PlanoService {
             EstagioPlano estagioPlanoAux = copyPrimitiveFields(estagioPlano);
             estagioPlanoAux.setEstagio(estagioPlano.getEstagio());
             estagioPlanoAux.setPlano(novoPlano);
+            estagioPlanoAux.setDispensavel(false);
             novoPlano.addEstagios(estagioPlanoAux);
         });
 
