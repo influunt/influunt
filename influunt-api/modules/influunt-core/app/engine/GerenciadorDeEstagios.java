@@ -105,7 +105,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         if (this.intervalos.get(contadorIntervalo) == null) {
             contadorIntervalo = 0L;
             contadorEstagio++;
-            if (this.agendamento != null && this.agendamento.isImpostoPorFalha()) {
+            if (this.agendamento != null && temQueExecutarOAgendamento()) {
                 contadorEstagio = 0;
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
@@ -126,6 +126,17 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo = this.intervalos.get(contadorIntervalo);
         }
         return intervalo;
+    }
+
+    private boolean temQueExecutarOAgendamento() {
+        if (this.agendamento.isImpostoPorFalha()) {
+            //Colocar o controlador em falha
+            return true;
+        } else if (this.agendamento.isSaidaDoModoManual()) {
+            //Saída do modo manual
+            return true;
+        }
+        return false;
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {

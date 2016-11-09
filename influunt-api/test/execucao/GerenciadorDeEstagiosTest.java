@@ -184,6 +184,12 @@ public class GerenciadorDeEstagiosTest extends WithInfluuntApplicationNoAuthenti
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL));
     }
 
+    protected void desativarModoManual(Integer anel, Plano plano) {
+        EventoMotor eventoMotor = new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL);
+        eventoMotor.setParams(new Object[]{anel, plano});
+        gerenciadorDeEstagios.onEvento(eventoMotor);
+    }
+
     protected void trocarEstagioModoManual() {
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.TROCA_ESTAGIO_MANUAL));
     }

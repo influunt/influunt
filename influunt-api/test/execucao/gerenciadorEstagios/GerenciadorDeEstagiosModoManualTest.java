@@ -147,6 +147,59 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(216)).getEstagio().getPosicao().intValue());
     }
 
+    @Test
+    public void saidaDoModoManual() {
+        Anel anel = getAnel(1);
+        Plano plano = getPlano(anel, 7);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+
+        avancar(gerenciadorDeEstagios, 10);
+        acionarModoManual();
+        avancar(gerenciadorDeEstagios, 100);
+        trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 5);
+        desativarModoManual(1, plano);
+        avancar(gerenciadorDeEstagios, 200);
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(36)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(58)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(110)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(120)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(142)).getEstagio().getPosicao().intValue());
+    }
+
+    @Test
+    public void saidaModoManualComDispensavel() {
+        Anel anel = getAnel(2);
+        anel.setAceitaModoManual(true);
+        Plano plano = getPlano(anel, 11);
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+
+        avancar(gerenciadorDeEstagios, 10);
+        acionarModoManual();
+        trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 85);
+        trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 5);
+        desativarModoManual(2, plano);
+        avancar(gerenciadorDeEstagios, 48);
+        trocarEstagioModoManual();
+        avancar(gerenciadorDeEstagios, 100);
+
+        plano.imprimirTabelaEntreVerde();
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(37)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(95)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(108)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(128)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(147)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(165)).getEstagio().getPosicao().intValue());
+    }
+
     private void geraPlanoExclusivo(Anel anel) {
         Plano plano = new ControladorHelper().criarPlano(anel, 0, ModoOperacaoPlano.MANUAL, null);
 
