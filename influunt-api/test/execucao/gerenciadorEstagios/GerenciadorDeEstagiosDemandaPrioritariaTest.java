@@ -277,6 +277,6 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(176)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(193)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(211)).getEstagio().getPosicao().intValue());
-//        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(250)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(250)).getEstagio().getPosicao().intValue());
     }
 }
