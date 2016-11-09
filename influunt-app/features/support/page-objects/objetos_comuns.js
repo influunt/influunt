@@ -202,8 +202,10 @@ var ObjetosComuns = function () {
     return world.select2OptionByXpath(field, option);
   };
 
-  this.removeSelect2Option = function(option) {
-    return  world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click();
+  this.removeSelect2Option = function(option, field) {
+    return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
+      return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+    });
   };
 
   this.visitarListagem = function(local) {

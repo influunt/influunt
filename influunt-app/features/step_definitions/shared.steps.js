@@ -139,8 +139,8 @@ module.exports = function() {
     return sharedSteps.selecionarBySelect2Option(campo, valor);
   });
 
-  this.Given(/^o usuário remover o "([^"]*)" selecionado$/, function (opcao) {
-    return sharedSteps.removeSelect2Option(opcao);
+  this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
+    return sharedSteps.removeSelect2Option(opcao, campo);
   });
 
 };
