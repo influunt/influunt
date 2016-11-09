@@ -140,6 +140,9 @@ public class MotorEventoHandler {
     }
 
     private void handleAlternarModoManual(EventoMotor eventoMotor) {
-        motor.getEstagios().forEach(estagio -> estagio.onEvento(eventoMotor));
+        motor.getEstagios().forEach(estagio -> {
+            eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0], motor.getPlanoAtual(estagio.getAnel())});
+            estagio.onEvento(eventoMotor);
+        });
     }
 }
