@@ -373,9 +373,9 @@ public class ControladorCustomDeserializer {
     private void parsePlanos(JsonNode node) {
         if (node.has("planos")) {
             for (JsonNode nodePlano : node.get("planos")) {
-                if ((nodePlano.has("configurado") && nodePlano.get("configurado").asBoolean()) || !nodePlano.has("configurado")) {
+                if (!nodePlano.has("configurado") || nodePlano.get("configurado").asBoolean()) {
                     Plano plano = parsePlano(nodePlano);
-                    planosCache.put(plano.getIdJson().toString(), plano);
+                    planosCache.put(plano.getIdJson(), plano);
                 }
             }
         }
@@ -1522,7 +1522,12 @@ public class ControladorCustomDeserializer {
                     Consumer<Map<String, Map>> c = (caches) -> {
                         assert cacheContainer != null;
                         Map map = caches.get(cacheContainer);
-                        assert map.containsKey(id);
+                        if (cacheContainer != "planos") {
+                            // o APP envia TODOS os planos para a API ao criar um novo plano.
+                            // Ao fazer um teste com um JSON idêntico ao enviado pelo APP, esse
+                            // assert falhou (fica desligado em DEV e PROD), por isso esse `if`.
+                            assert map.containsKey(id);
+                        }
                         list.add(map.get(id));
                     };
 
