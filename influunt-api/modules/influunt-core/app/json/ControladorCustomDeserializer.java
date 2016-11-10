@@ -1172,7 +1172,9 @@ public class ControladorCustomDeserializer {
             final String estagioId = node.get("estagio").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS);
-                estagioPlano.setEstagio((Estagio) map.get(estagioId));
+                Estagio estagio = (Estagio) map.get(estagioId);
+                estagioPlano.setEstagio(estagio);
+                estagio.addEstagioPlano(estagioPlano);
             };
 
             runLater(c);
