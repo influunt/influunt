@@ -424,7 +424,7 @@ public class ControladorCustomSerializer {
         root.put("bloqueado", controlador.isBloqueado());
         root.put("planosBloqueado", controlador.isPlanosBloqueado());
 
-        RangeUtils rangeUtils = RangeUtils.getInstance(null);
+        RangeUtils rangeUtils = controlador.getRangeUtils();
         root.put("verdeMin", rangeUtils.TEMPO_VERDE.getMin().toString());
         root.put("verdeMax", rangeUtils.TEMPO_VERDE.getMax().toString());
         root.put("verdeMinimoMin", rangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
