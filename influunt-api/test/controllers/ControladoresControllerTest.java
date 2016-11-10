@@ -49,7 +49,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -57,7 +57,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         postResult = route(postRequest);
         json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
@@ -69,8 +69,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         versao.update();
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
         postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -98,8 +98,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
         assertEquals(200, postResult.status());
 
@@ -183,9 +183,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getEstagiosGruposSemaforicos().forEach(egs -> {
                     EstagioGrupoSemaforico egsClonado = destino.getEstagiosGruposSemaforicos().stream().filter(aux ->
-                            aux.getEstagio().getPosicao().equals(egs.getEstagio().getPosicao()) &&
-                                    aux.getGrupoSemaforico().getTipo().equals(egs.getGrupoSemaforico().getTipo()) &&
-                                    aux.getGrupoSemaforico().getPosicao().equals(egs.getGrupoSemaforico().getPosicao())
+                        aux.getEstagio().getPosicao().equals(egs.getEstagio().getPosicao()) &&
+                            aux.getGrupoSemaforico().getTipo().equals(egs.getGrupoSemaforico().getTipo()) &&
+                            aux.getGrupoSemaforico().getPosicao().equals(egs.getGrupoSemaforico().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Estagio Grupo Smaforico | Estagio: ", egs.getEstagio().getPosicao(), egsClonado.getEstagio().getPosicao());
                     assertEquals("Teste Anel | Estagio Grupo Smaforico | Grupo Semaforico: (tipo)", egs.getGrupoSemaforico().getTipo(), egsClonado.getGrupoSemaforico().getTipo());
@@ -195,9 +195,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> {
                     TransicaoProibida tpClonada = destino.getAlternativaDeTransicoesProibidas().stream().filter(aux ->
-                            aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
-                                    aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
-                                    aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
+                        aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
+                            aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
+                            aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
                     ).findFirst().orElse(null);
 
                     assertEquals("Teste Anel | Transicao Proibida | Alternativo: ", transicaoProibida.getAlternativo().getPosicao(), tpClonada.getAlternativo().getPosicao());
@@ -206,9 +206,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getDestinoDeTransicoesProibidas().forEach(transicaoProibida -> {
                     TransicaoProibida tpClonada = destino.getDestinoDeTransicoesProibidas().stream().filter(aux ->
-                            aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
-                                    aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
-                                    aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
+                        aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
+                            aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
+                            aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Transicao Proibida | Destino: ", transicaoProibida.getDestino().getPosicao(), tpClonada.getDestino().getPosicao());
                     assertFields(transicaoProibida, tpClonada);
@@ -216,9 +216,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getOrigemDeTransicoesProibidas().forEach(transicaoProibida -> {
                     TransicaoProibida tpClonada = destino.getOrigemDeTransicoesProibidas().stream().filter(aux ->
-                            aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
-                                    aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
-                                    aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
+                        aux.getOrigem().getPosicao().equals(transicaoProibida.getOrigem().getPosicao()) &&
+                            aux.getDestino().getPosicao().equals(transicaoProibida.getDestino().getPosicao()) &&
+                            aux.getAlternativo().getPosicao().equals(transicaoProibida.getAlternativo().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Transicao Proibida | Origem: ", transicaoProibida.getOrigem().getPosicao(), tpClonada.getOrigem().getPosicao());
                     assertFields(transicaoProibida, tpClonada);
@@ -227,7 +227,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
             anel.getDetectores().forEach(origem -> {
                 Detector destino = anelClonado.getDetectores().stream().filter(aux ->
-                        aux.getTipo().equals(origem.getTipo()) && aux.getPosicao().equals(origem.getPosicao())
+                    aux.getTipo().equals(origem.getTipo()) && aux.getPosicao().equals(origem.getPosicao())
                 ).findFirst().orElse(null);
                 assertEquals("Teste Anel | Detector | Anel: ", origem.getAnel().getIdJson(), destino.getAnel().getIdJson());
                 assertEquals("Teste Anel | Detector | Estagio: ", origem.getEstagio().getPosicao(), destino.getEstagio().getPosicao());
@@ -247,8 +247,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getVerdesConflitantesOrigem().forEach(vc -> {
                     VerdesConflitantes vcClonado = destino.getVerdesConflitantesOrigem().stream().filter(aux ->
-                            aux.getOrigem().getPosicao().equals(vc.getOrigem().getPosicao()) &&
-                                    aux.getDestino().getPosicao().equals(vc.getDestino().getPosicao())
+                        aux.getOrigem().getPosicao().equals(vc.getOrigem().getPosicao()) &&
+                            aux.getDestino().getPosicao().equals(vc.getDestino().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem | Grupo Semaforico: (tipo)", vc.getOrigem().getTipo(), vcClonado.getOrigem().getTipo());
                     assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem | Grupo Semaforico: (posição)", vc.getOrigem().getPosicao(), vcClonado.getOrigem().getPosicao());
@@ -259,8 +259,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getVerdesConflitantesDestino().forEach(vc -> {
                     VerdesConflitantes vcClonado = destino.getVerdesConflitantesDestino().stream().filter(aux ->
-                            aux.getOrigem().getPosicao().equals(vc.getOrigem().getPosicao()) &&
-                                    aux.getDestino().getPosicao().equals(vc.getDestino().getPosicao())
+                        aux.getOrigem().getPosicao().equals(vc.getOrigem().getPosicao()) &&
+                            aux.getDestino().getPosicao().equals(vc.getDestino().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem | Grupo Semaforico: (tipo)", vc.getOrigem().getTipo(), vcClonado.getOrigem().getTipo());
                     assertEquals("Teste Anel | Grupo Semaforico | Verdes Conflitantes Origem | Grupo Semaforico: (posição)", vc.getOrigem().getPosicao(), vcClonado.getOrigem().getPosicao());
@@ -277,8 +277,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                     tev.getTabelaEntreVerdesTransicoes().forEach(tevt -> {
                         TabelaEntreVerdesTransicao tevtClonada = tevClonada.getTabelaEntreVerdesTransicoes().stream().filter(aux ->
-                                aux.getTransicao().getOrigem().getPosicao().equals(tevt.getTransicao().getOrigem().getPosicao()) &&
-                                        aux.getTransicao().getDestino().getPosicao().equals(tevt.getTransicao().getDestino().getPosicao())
+                            aux.getTransicao().getOrigem().getPosicao().equals(tevt.getTransicao().getOrigem().getPosicao()) &&
+                                aux.getTransicao().getDestino().getPosicao().equals(tevt.getTransicao().getDestino().getPosicao())
                         ).findFirst().orElse(null);
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (posição)", tevt.getTabelaEntreVerdes().getPosicao(), tevtClonada.getTabelaEntreVerdes().getPosicao());
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (grupo semaforico)", tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao(), tevtClonada.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao());
@@ -290,8 +290,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                 origem.getTransicoes().forEach(transicao -> {
                     Transicao transicaoClonada = destino.getTransicoes().stream().filter(aux ->
-                            aux.getOrigem().getPosicao().equals(transicao.getOrigem().getPosicao()) &&
-                                    aux.getDestino().getPosicao().equals(transicao.getDestino().getPosicao())
+                        aux.getOrigem().getPosicao().equals(transicao.getOrigem().getPosicao()) &&
+                            aux.getDestino().getPosicao().equals(transicao.getDestino().getPosicao())
                     ).findFirst().orElse(null);
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Grupo Semaforico: ", transicao.getGrupoSemaforico().getPosicao(), transicaoClonada.getGrupoSemaforico().getPosicao());
                     assertEquals("Teste Anel | Grupo Smaforico | Transicoes |  Estagio Origem: ", transicao.getOrigem().getPosicao(), transicaoClonada.getOrigem().getPosicao());
@@ -301,8 +301,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
                     transicao.getTabelaEntreVerdesTransicoes().forEach(tevt -> {
                         TabelaEntreVerdesTransicao tevtClonada = transicaoClonada.getTabelaEntreVerdesTransicoes().stream().filter(aux ->
-                                aux.getTabelaEntreVerdes().getPosicao().equals(tevt.getTabelaEntreVerdes().getPosicao()) &&
-                                        aux.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao().equals(tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao())
+                            aux.getTabelaEntreVerdes().getPosicao().equals(tevt.getTabelaEntreVerdes().getPosicao()) &&
+                                aux.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao().equals(tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao())
                         ).findFirst().orElse(null);
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (posição)", tevt.getTabelaEntreVerdes().getPosicao(), tevtClonada.getTabelaEntreVerdes().getPosicao());
                         assertEquals("Teste Anel | Grupo Smaforico | Tabela Entre Verdes | Tabela Entre Verde Transicao | Tabela Entre Verde: (grupo semaforico)", tevt.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao(), tevtClonada.getTabelaEntreVerdes().getGrupoSemaforico().getPosicao());
@@ -320,7 +320,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
+            .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
 
         Result postResult = route(postRequest);
 
@@ -358,8 +358,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalImagens = 0;
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
         assertEquals(200, postResult.status());
@@ -397,7 +397,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ControladoresController.cancelarEdicao(controladorClonado.getId().toString()).url());
+            .uri(routes.ControladoresController.cancelarEdicao(controladorClonado.getId().toString()).url());
         Result deleteResult = route(deleteRequest);
         assertEquals(200, deleteResult.status());
 
@@ -440,8 +440,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertFalse(controlador.isBloqueado());
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
@@ -510,8 +510,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         for (int i = 2; i < 7; i++) {
             Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                    .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
             Result result = route(request);
             JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -524,8 +524,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             assertEquals("Total de Versão Tabela Horária", totalVersoesTabelaHoraria * i, VersaoTabelaHoraria.find.findRowCount());
 
             request = new Http.RequestBuilder().method("POST")
-                    .uri(routes.PlanosController.create().url())
-                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+                .uri(routes.PlanosController.create().url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
             result = route(request);
             json = Json.parse(Helpers.contentAsString(result));
@@ -557,8 +557,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertFalse(controlador.isPlanosBloqueado());
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -588,8 +588,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
 
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.TabelaHorariosController.create().url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            .uri(routes.TabelaHorariosController.create().url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
         result = route(request);
         assertEquals(OK, result.status());
@@ -620,8 +620,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         for (int i = 2; i < 7; i++) {
             Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                    .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
-                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
             Result result = route(request);
             assertEquals(OK, result.status());
@@ -637,8 +637,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             assertEquals("Total de Eventos", totalEventos * i, Evento.find.findRowCount());
 
             request = new Http.RequestBuilder().method("POST")
-                    .uri(routes.TabelaHorariosController.create().url())
-                    .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+                .uri(routes.TabelaHorariosController.create().url())
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
             result = route(request);
             json = Json.parse(Helpers.contentAsString(result));
@@ -682,8 +682,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalEventos = Evento.find.findRowCount();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -696,8 +696,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         plano.setDescricao("Nova Descricao");
 
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.PlanosController.create().url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            .uri(routes.PlanosController.create().url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
 
         result = route(request);
         assertEquals(OK, result.status());
@@ -718,8 +718,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         int totalVersoesTabelasHorarias = Ebean.find(VersaoTabelaHoraria.class).findRowCount();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -734,7 +734,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         TabelaHorario tabela = controladorClonado.getTabelaHoraria();
         request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.TabelaHorariosController.cancelarEdicao(tabela.getId().toString()).url());
+            .uri(routes.TabelaHorariosController.cancelarEdicao(tabela.getId().toString()).url());
         result = route(request);
         assertEquals(200, result.status());
 
@@ -753,14 +753,14 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         // primeira ativação
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
+            .uri(routes.ControladoresController.ativar(controlador.getId().toString()).url());
         Result result = route(request);
         assertEquals(200, result.status());
 
         // criar nova versão do controlador
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         result = route(request);
         assertEquals(200, result.status());
 
@@ -771,16 +771,16 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             agrupamento.getAneis().forEach(anelAgrupamento -> {
 
                 Anel anelControlador = controlador.getAneis().stream()
-                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
-                        .findFirst()
-                        .orElse(null);
+                    .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                    .findFirst()
+                    .orElse(null);
                 // anel antigo deve continuar associado ao controlador
                 assertNotNull(anelControlador);
 
                 Anel anelClonado = controladorClonado.getAneis().stream()
-                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
-                        .findFirst()
-                        .orElse(null);
+                    .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                    .findFirst()
+                    .orElse(null);
                 // anel clonado NÃO deve estar associado ao controlador
                 // após o clone
                 assertNull(anelClonado);
@@ -790,7 +790,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         // ativar nova versão
         request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ControladoresController.ativar(controladorClonado.getId().toString()).url());
+            .uri(routes.ControladoresController.ativar(controladorClonado.getId().toString()).url());
         result = route(request);
         assertEquals(200, result.status());
 
@@ -800,17 +800,17 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             agrupamento.getAneis().forEach(anelAgrupamento -> {
 
                 Anel anelControlador = controlador.getAneis().stream()
-                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
-                        .findFirst()
-                        .orElse(null);
+                    .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                    .findFirst()
+                    .orElse(null);
                 // anel antigo deve ser removido do agrupamento
                 // ao ativar o controlador
                 assertNull(anelControlador);
 
                 Anel anelClonado = controladorAtivo.getAneis().stream()
-                        .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
-                        .findFirst()
-                        .orElse(null);
+                    .filter(anel -> anel.getId().equals(anelAgrupamento.getId()))
+                    .findFirst()
+                    .orElse(null);
                 // anel clonado deve estar associado ao controlador
                 // após a ativação
                 assertNotNull(anelClonado);
@@ -824,13 +824,13 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
             field.setAccessible(true);
             try {
                 if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
-                        || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
-                        || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
+                    || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
+                    || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
                     continue;
                 }
                 if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
                     if (field.getType().isPrimitive() || field.getType().isEnum() ||
-                            field.getType().equals(String.class)) {
+                        field.getType().equals(String.class)) {
 
                         Logger.debug("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
                         assertEquals("Teste de " + field.getName().toString(), field.get(origem), field.get(destino));

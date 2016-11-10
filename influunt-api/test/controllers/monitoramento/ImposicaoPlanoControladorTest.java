@@ -85,7 +85,7 @@ public class ImposicaoPlanoControladorTest extends WithInfluuntApplicationNoAuth
     public void testStatusPlanoImpostoControladorApi() {
         System.out.println(controllers.monitoramento.routes.ImposicaoPlanosControladorController.findOne("1").url());
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.findOne("1").url());
+            .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.findOne("1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -103,7 +103,7 @@ public class ImposicaoPlanoControladorTest extends WithInfluuntApplicationNoAuth
     public void testUltimoStatusPlanoImpostoDeTodosControladoresApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.ultimoStatusPlanoImpostoDosControladores().url());
+            .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.ultimoStatusPlanoImpostoDosControladores().url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -121,7 +121,7 @@ public class ImposicaoPlanoControladorTest extends WithInfluuntApplicationNoAuth
     public void testUltimoStatusPlanoImpostoDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto("2").url());
+            .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto("2").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -136,7 +136,7 @@ public class ImposicaoPlanoControladorTest extends WithInfluuntApplicationNoAuth
     public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.historico("1", "0", "1").url());
+            .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -146,7 +146,7 @@ public class ImposicaoPlanoControladorTest extends WithInfluuntApplicationNoAuth
         assertFalse(json.get(0).get("planoImposto").asBoolean());
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.historico("1", "1", "1").url());
+            .uri(controllers.monitoramento.routes.ImposicaoPlanosControladorController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

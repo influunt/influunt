@@ -35,6 +35,7 @@ public enum TipoEvento {
     FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 28, "Amarelo Intermitente", "Amarelo Intermitente", null),
     FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 29, "Semáforo apagado", "Semafóro apagado", null),
     FALHA_ACERTO_RELOGIO_GPS(TipoEventoControlador.FALHA, 52, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
+    FALHA_SEQUENCIA_DE_CORES(TipoEventoControlador.FALHA, 53, "Falha sequencia de cores", "Falha sequencia de cores", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado",null),

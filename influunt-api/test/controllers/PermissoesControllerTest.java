@@ -32,7 +32,7 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
         Permissao permissao = getPermissao();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.PermissoesController.create().url()).bodyJson(Json.toJson(permissao));
+            .uri(routes.PermissoesController.create().url()).bodyJson(Json.toJson(permissao));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Permissao permissaoRetornada = Json.fromJson(json, Permissao.class);
@@ -51,8 +51,8 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
         Permissao permissao = getPermissao();
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.PermissoesController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(permissao));
+            .uri(routes.PermissoesController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(permissao));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -66,8 +66,8 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
         novaPermissao.setDescricao("God");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.PermissoesController.update(permissao.getId().toString()).url())
-                .bodyJson(Json.toJson(novaPermissao));
+            .uri(routes.PermissoesController.update(permissao.getId().toString()).url())
+            .bodyJson(Json.toJson(novaPermissao));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -87,7 +87,7 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
         permissao.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PermissoesController.delete(permissao.getId().toString()).url());
+            .uri(routes.PermissoesController.delete(permissao.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -97,7 +97,7 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
     @Test
     public void testApagarPermissaoNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PermissoesController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.PermissoesController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -108,7 +108,7 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
         getPermissao().save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.PermissoesController.findAll().url());
+            .uri(routes.PermissoesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Permissao> permissoes = Json.fromJson(json.get("data"), List.class);
@@ -125,7 +125,7 @@ public class PermissoesControllerTest extends WithInfluuntApplicationNoAuthentic
 
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.PermissoesController.findOne(permissao.getId().toString()).url());
+            .uri(routes.PermissoesController.findOne(permissao.getId().toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Permissao permissaoRetornada = Json.fromJson(json, Permissao.class);

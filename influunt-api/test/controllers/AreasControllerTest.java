@@ -37,7 +37,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         area.setDescricao(1);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
+            .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Area areaRetornada = Json.fromJson(json, Area.class);
@@ -54,8 +54,8 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         area.setDescricao(1);
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AreasController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(area));
+            .uri(routes.AreasController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(area));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -75,8 +75,8 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         novaArea.setDescricao(1);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AreasController.update(areaId.toString()).url())
-                .bodyJson(Json.toJson(novaArea));
+            .uri(routes.AreasController.update(areaId.toString()).url())
+            .bodyJson(Json.toJson(novaArea));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -96,7 +96,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         area.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.AreasController.delete(area.getId().toString()).url());
+            .uri(routes.AreasController.delete(area.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -106,7 +106,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
     @Test
     public void testApagarAreaNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.AreasController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.AreasController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -124,7 +124,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         area1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.AreasController.findAll().url());
+            .uri(routes.AreasController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Area> areas = Json.fromJson(json.get("data"), List.class);
@@ -143,7 +143,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         assertNotNull(areaId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.AreasController.findOne(areaId.toString()).url());
+            .uri(routes.AreasController.findOne(areaId.toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Area areaRetornada = Json.fromJson(json, Area.class);
@@ -159,7 +159,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         area.setCidade(cidade);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
+            .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Area areaRetornada = Json.fromJson(json, Area.class);
@@ -173,7 +173,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         areaDuplicada.setDescricao(1);
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(areaDuplicada));
+            .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(areaDuplicada));
         postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
@@ -186,7 +186,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         area.setCidade(cidade);
         area.setDescricao(1);
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
+            .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(area));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Area areaRetornada = Json.fromJson(json, Area.class);
@@ -198,7 +198,7 @@ public class AreasControllerTest extends WithInfluuntApplicationNoAuthentication
         areaRetornada.setDescricao(1);
 
         postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AreasController.update(areaRetornada.getId().toString()).url()).bodyJson(Json.toJson(areaRetornada));
+            .uri(routes.AreasController.update(areaRetornada.getId().toString()).url()).bodyJson(Json.toJson(areaRetornada));
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         assertEquals("1", areaRetornada.getDescricao().toString());

@@ -218,7 +218,7 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> getControladoresForMapa() {
         Usuario u = getUsuario();
         List<ControladorFisico> controladoresFisicos = null;
-        if (u.isRoot()) {
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
         } else if (u.getArea() != null) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();

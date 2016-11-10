@@ -87,7 +87,25 @@ angular.module('influuntApp')
             options = Objects.merge(defaultOptions, {
               title: title,
               text: text,
-              cancelButtonText: $filter('translate')('geral.mensagens.nao'),
+              cancelButtonText: $filter('translate')('geral.mensagens.nao')
+            });
+
+        SweetAlert.swal(options, function (confirmado) {
+          setTimeout(function() {
+            defer.resolve(confirmado);
+          }, 100);
+        });
+
+        return defer.promise;
+      };
+
+      var errorPopup = function(title, text) {
+        var defer = $q.defer(),
+            options = Objects.merge(defaultOptions, {
+              title: title,
+              text: text,
+              showConfirmButton: false,
+              cancelButtonText: $filter('translate')('geral.mensagens.ok')
             });
 
         SweetAlert.swal(options, function (confirmado) {
@@ -105,7 +123,8 @@ angular.module('influuntApp')
         delete: deleteAlert,
         prompt: promptPopup,
         ask: askPopup,
-        success: success
+        success: success,
+        error: errorPopup
       };
 
     }]);

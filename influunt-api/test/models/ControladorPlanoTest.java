@@ -39,8 +39,8 @@ public class ControladorPlanoTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[0].aoMenosUmPlanoConfigurado"),
-                new Erro(CONTROLADOR, "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[1].aoMenosUmPlanoConfigurado")
+            new Erro(CONTROLADOR, "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[0].aoMenosUmPlanoConfigurado"),
+            new Erro(CONTROLADOR, "O anel ativo deve ter pelo menos 1 plano configurado.", "aneis[1].aoMenosUmPlanoConfigurado")
         ));
 
         Anel anelCom2Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 2).findFirst().get();
@@ -66,16 +66,16 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(10, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].modoOperacao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].modoOperacao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.ATUADO);
@@ -83,17 +83,17 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(11, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
-                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[1].versoesPlanos[0].planos[0].modoOperacaoValido"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
+            new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[1].versoesPlanos[0].planos[0].modoOperacaoValido"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
 
         ));
 
@@ -102,15 +102,15 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(9, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
@@ -118,17 +118,17 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(11, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
         plano1Anel2.setTempoCiclo(60);
@@ -137,17 +137,17 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(11, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Defasagem deve estar entre {min} e o tempo de ciclo", "aneis[1].versoesPlanos[0].planos[0].defasagem"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "Defasagem deve estar entre {min} e o tempo de ciclo", "aneis[1].versoesPlanos[0].planos[0].defasagem"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].modoOperacao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].descricao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco.", "aneis[1].versoesPlanos[0].planos[0].posicaoTabelaEntreVerde"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
         ));
 
         plano1Anel2.setTempoCiclo(null);
@@ -181,26 +181,33 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel4.addGruposSemaforicoPlano(grupoPlano);
 
         erros = getErros(controlador);
-        assertEquals(6, erros.size());
+        assertEquals(10, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[0].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.", "aneis[1].versoesPlanos[0].planos[0].quantidadeGrupoSemaforicoIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[2].grupoApagadoSeNaoAssociado"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado")
         ));
 
         criarGrupoSemaforicoPlano(anelCom2Estagios, plano1Anel2);
         criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
 
         erros = getErros(controlador);
-        assertEquals(4, erros.size());
+        assertEquals(7, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-                new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel")
+            new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versoesPlanos[0].planos[0].quantidadeEstagioIgualQuantidadeAnel"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado"),
+            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 1});
@@ -209,28 +216,28 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(22, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
+            new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versoesPlanos[0].planos[0].modoOperacaoValido"),
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         Estagio estagio = anelCom4Estagios.getEstagios().stream().filter(estagio1 -> estagio1.getPosicao().equals(4)).findFirst().get();
@@ -243,27 +250,27 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         EstagioPlano estagioPlano1Anel2 = plano1Anel2.getEstagiosPlanos().get(0);
@@ -302,27 +309,27 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(21, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         estagioPlano1Anel2.setTempoVerde(0);
@@ -353,31 +360,31 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(25, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
-                new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
-                new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
-                new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
-                new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].tempoCiclo"),
+            new Erro(CONTROLADOR, "Tempo de verde deve estar entre {min} e {max}", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "Tempo de verde mínimo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMinimo"),
+            new Erro(CONTROLADOR, "Tempo de verde máximo deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeMaximo"),
+            new Erro(CONTROLADOR, "Tempo de verde intermediário deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoVerdeIntermediario"),
+            new Erro(CONTROLADOR, "Tempo de extensão de verde deve estar entre {min} e {max}", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[3].tempoExtensaoVerde"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[1].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca"),
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[1].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 2});
@@ -414,11 +421,11 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"),
-                new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
-                new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+            new Erro(CONTROLADOR, "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"),
+            new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
+            new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
+            new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[1].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
         ));
 
         estagioPlano1Anel2.setTempoVerde(21);
@@ -432,7 +439,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio")
         ));
 
         estagioPlano1Anel4.setTempoVerdeMinimo(20);
@@ -474,7 +481,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
@@ -516,7 +523,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
@@ -574,14 +581,14 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavel")
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavel")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano1Anel4);
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano2Anel4);
@@ -592,7 +599,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
@@ -602,9 +609,10 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.MANUAL);
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.MANUAL);
         erros = getErros(controlador);
+        assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[0].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk"),
-                new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[1].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk")
+            new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[0].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk"),
+            new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[1].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk")
         ));
 
         plano1Anel4.getEstagiosPlanos().remove(0);
@@ -675,7 +683,7 @@ public class ControladorPlanoTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -691,7 +699,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -750,8 +758,8 @@ public class ControladorPlanoTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
         ));
 
         //3 - 1 - 4 - 2
@@ -763,7 +771,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+            new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
         ));
 
         //3 - 2 - 1 - 4
@@ -775,8 +783,8 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
-                new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[0].respeitaVerdesDeSeguranca"),
+            new Erro(CONTROLADOR, "O tempo de verde está menor que o tempo de segurança configurado.", "aneis[0].versoesPlanos[0].planos[0].gruposSemaforicosPlanos[1].respeitaVerdesDeSeguranca")
         ));
 
         //2 - 3 - 1 - 4
@@ -788,7 +796,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
+            new Erro(CONTROLADOR, "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).", "aneis[0].versoesPlanos[0].planos[0].ultrapassaTempoCiclo")
         ));
     }
 
@@ -816,7 +824,7 @@ public class ControladorPlanoTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
         ));
 
         criarEstagioPlano(anel, plano, new int[]{1, 4, 3, 2});
@@ -838,7 +846,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalidaSeExisteEstagioDispensavel")
         ));
     }
 
@@ -857,8 +865,8 @@ public class ControladorPlanoTest extends ControladorTest {
         int totalVersoesTabelaHoraria = VersaoTabelaHoraria.find.findRowCount();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -868,7 +876,7 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals("Total Versões Tabelas Horárias", totalVersoesTabelaHoraria * 2, VersaoTabelaHoraria.find.findRowCount());
 
         request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PlanosController.cancelarEdicao(plano.getId().toString()).url());
+            .uri(routes.PlanosController.cancelarEdicao(plano.getId().toString()).url());
         result = route(request);
 
         assertEquals(200, result.status());

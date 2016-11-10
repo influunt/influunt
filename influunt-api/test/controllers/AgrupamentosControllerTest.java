@@ -81,7 +81,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamento.setPosicaoPlano(2);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
         assertEquals(422, result.status());
         assertEquals(0, Agrupamento.find.findRowCount());
@@ -92,7 +92,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamento.setAneis(new ArrayList<Anel>());
 
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         result = route(request);
         assertEquals(422, result.status());
         assertEquals(0, Agrupamento.find.findRowCount());
@@ -105,7 +105,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(agrupamento::addAnel);
         controlador2.getAneis().stream().filter(Anel::isAtivo).forEach(agrupamento::addAnel);
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         result = route(request);
         assertEquals(422, result.status());
         assertEquals(0, Agrupamento.find.findRowCount());
@@ -114,7 +114,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamento.setAneis(aneis);
 
         request = new Http.RequestBuilder().method("POST")
-                .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         result = route(request);
         assertEquals(200, result.status());
         assertEquals(1, Agrupamento.find.findRowCount());
@@ -137,7 +137,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         Agrupamento agrupamento = getAgrupamento();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-                .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
         assertEquals(200, result.status());
         assertEquals(1, Agrupamento.find.findRowCount());
@@ -167,8 +167,8 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         Agrupamento agrupamento = new Agrupamento();
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AgrupamentosController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(agrupamento));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -190,8 +190,8 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamento.setNome("Teste 2");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AgrupamentosController.update(agrupamentoId.toString()).url())
-                .bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.update(agrupamentoId.toString()).url())
+            .bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
         assertEquals(200, result.status());
 
@@ -211,7 +211,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         Agrupamento agrupamento = getAgrupamento();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-                .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
         assertEquals(200, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -229,8 +229,8 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamentoRetornado.setHorario(LocalTime.parse("13:00:00"));
 
         request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AgrupamentosController.update(agrupamentoRetornado.getId().toString()).url() + "?criarEventos=true")
-                .bodyJson(Json.toJson(agrupamentoRetornado));
+            .uri(routes.AgrupamentosController.update(agrupamentoRetornado.getId().toString()).url() + "?criarEventos=true")
+            .bodyJson(Json.toJson(agrupamentoRetornado));
         result = route(request);
         assertEquals(200, result.status());
         json = Json.parse(Helpers.contentAsString(result));
@@ -253,7 +253,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         assertNotNull(agrupamento.getId());
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.AgrupamentosController.delete(agrupamento.getId().toString()).url());
+            .uri(routes.AgrupamentosController.delete(agrupamento.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -263,7 +263,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
     @Test
     public void testApagarAgrupamentoNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.AgrupamentosController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.AgrupamentosController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -279,7 +279,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamento1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.AgrupamentosController.findAll().url());
+            .uri(routes.AgrupamentosController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Agrupamento> agrupamentos = Json.fromJson(json.get("data"), List.class);
@@ -296,7 +296,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         assertNotNull(agrupamentoId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.AgrupamentosController.findOne(agrupamentoId.toString()).url());
+            .uri(routes.AgrupamentosController.findOne(agrupamentoId.toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);

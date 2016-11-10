@@ -119,9 +119,9 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class);
+            Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class);
     }
 }

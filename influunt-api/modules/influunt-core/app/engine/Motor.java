@@ -21,6 +21,8 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     private final MotorCallback callback;
 
+    private final MonitorDeFalhas monitor;
+
     private DateTime instante;
 
     private GerenciadorDeTabelaHoraria gerenciadorDeTabelaHoraria;
@@ -32,6 +34,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
     private MotorEventoHandler motorEventoHandler;
 
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
+
         this.callback = callback;
         this.controlador = controlador;
         this.inicioControlador = inicioControlador;
@@ -39,6 +42,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
         this.instante = inicioExecucao;
         this.motorEventoHandler = new MotorEventoHandler(this);
+        this.monitor = new MonitorDeFalhas(this.motorEventoHandler);
     }
 
 
@@ -71,6 +75,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         callback.onEstagioChange(anel, numeroCiclos, tempoDecorrido, timestamp, intervalos);
+        monitor.onEstagioChange(anel, numeroCiclos, tempoDecorrido, timestamp, intervalos);
     }
 
     @Override

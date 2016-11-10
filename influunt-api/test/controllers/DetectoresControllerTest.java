@@ -32,7 +32,7 @@ public class DetectoresControllerTest extends WithInfluuntApplicationNoAuthentic
         detector.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.DetectoresController.delete(detector.getId().toString()).url());
+            .uri(routes.DetectoresController.delete(detector.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -44,7 +44,7 @@ public class DetectoresControllerTest extends WithInfluuntApplicationNoAuthentic
     @Test
     public void testApagarDetectorNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.DetectoresController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.DetectoresController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }

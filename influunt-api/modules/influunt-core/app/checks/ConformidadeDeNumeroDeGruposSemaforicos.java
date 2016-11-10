@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface ConformidadeDeNumeroDeGruposSemaforicos {
 
-    String message() default "Numero total de grupos semáforicos informado individualmente nos aneis excede o limite do controlador";
+    String message() default "Número total de grupos semáforicos informado individualmente nos anéis excede o limite do controlador";
 
     Class<?>[] groups() default {};
 

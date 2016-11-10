@@ -36,7 +36,7 @@ public class EventosControllerTest extends AbstractInfluuntControladorTest {
 
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.EventosController.delete(idEvento).url());
+            .uri(routes.EventosController.delete(idEvento).url());
 
         Result deleteResult = route(deleteRequest);
         assertEquals(OK, deleteResult.status());

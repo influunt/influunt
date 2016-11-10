@@ -17,7 +17,9 @@ public class AgendamentoTrocaPlano {
 
     private long momentoPedidoTroca = 0L;
 
-    private boolean impostoPorFalha;
+    private boolean impostoPorFalha = false;
+
+    private boolean saidaDoModoManual = false;
 
     public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal) {
         this.evento = evento;
@@ -84,5 +86,13 @@ public class AgendamentoTrocaPlano {
 
     public boolean isImpostoPorFalha() {
         return impostoPorFalha;
+    }
+
+    public void setSaidaDoModoManual(boolean saidaDoModoManual) {
+        this.saidaDoModoManual = saidaDoModoManual;
+    }
+
+    public boolean isSaidaDoModoManual() {
+        return this.saidaDoModoManual;
     }
 }
