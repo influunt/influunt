@@ -3,9 +3,7 @@ package execucao.gerenciadorPlanos;
 
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
-import execucao.MotorTest;
 import models.EstadoGrupoSemaforico;
-import models.Plano;
 import org.joda.time.DateTime;
 import org.junit.Test;
 

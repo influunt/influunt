@@ -48,7 +48,7 @@ public class ModoOperacaoControladorController extends Controller {
 
     public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
         List<ModoOperacaoControlador> modoOperacaoControlador = ModoOperacaoControlador.historico(id, Integer.valueOf(pagina),
-                Integer.valueOf(tamanho));
+            Integer.valueOf(tamanho));
         if (modoOperacaoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {

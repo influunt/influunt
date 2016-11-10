@@ -172,7 +172,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 if (plano.isManual()) {
                     motor.onEvento(new EventoMotor(inicioExecucao.plus(tempoDecorrido), TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
                 } else {
-                    //TODO: Deve gerar um erro de máximo permanencia
+                    motor.onEvento(new EventoMotor(inicioExecucao.plus(tempoDecorrido), TipoEvento.FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO, getAnel()));
                 }
                 return true;
             }

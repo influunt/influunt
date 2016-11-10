@@ -5,12 +5,10 @@ import config.WithInfluuntApplicationNoAuthentication;
 import engine.*;
 import integracao.ControladorHelper;
 import models.*;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,8 +22,11 @@ import static org.junit.Assert.assertNotNull;
 public class MotorTest extends WithInfluuntApplicationNoAuthentication implements MotorCallback {
 
     protected Controlador controlador;
+
     protected DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
+
     protected DateTime inicioExecucao = new DateTime(2016, 10, 10, 0, 0, 0);
+
     protected DateTime instante = new DateTime(2016, 10, 10, 0, 0, 0);
 
     //Métodos auxiliares de modo manual
@@ -147,48 +148,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
             .forEach(entry -> System.out.println(sdf.print(entry.getKey()) + " - " + entry.getValue().getEstagio().getPosicao()));
     }
 
-    public class GrupoCheck {
-
-        private int anel;
-
-        private final int grupo;
-
-        private final long inicio;
-
-        private final long fim;
-
-        private final EstadoGrupoSemaforico estado;
-
-        public GrupoCheck(int anel, int grupo, int inicio, int fim, EstadoGrupoSemaforico estadoGrupoSemaforico) {
-            this.grupo = grupo;
-            this.anel = anel;
-            this.inicio = inicio;
-            this.fim = fim;
-            this.estado = estadoGrupoSemaforico;
-        }
-
-        public GrupoCheck(int grupo, int inicio, int fim, EstadoGrupoSemaforico estadoGrupoSemaforico) {
-            this.grupo = grupo;
-            this.inicio = inicio;
-            this.fim = fim;
-            this.estado = estadoGrupoSemaforico;
-        }
-
-        public void checkAnel(HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> intervalos, DateTime instante) {
-            assertNotNull("Mudanca", intervalos.get(instante));
-            assertEquals("Comeco", inicio, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
-            assertEquals("Fim", fim, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
-            assertEquals("Estado", estado, intervalos.get(instante).get(anel).getEstados().get(this.grupo).get(this.inicio));
-        }
-
-        public void check(HashMap<DateTime, IntervaloGrupoSemaforico> intervalos, DateTime instante) {
-            assertNotNull("Mudanca", intervalos.get(instante));
-            assertEquals("Comeco", inicio, intervalos.get(instante).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
-            assertEquals("Fim", fim, intervalos.get(instante).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
-            assertEquals("Estado", estado, intervalos.get(instante).getEstados().get(this.grupo).get(this.inicio));
-        }
-    }
-
     protected void avancarSegundos(Motor motor, long i) {
         long quantidade = i * 10L;
         instante = instante.plus(quantidade * 100L);
@@ -253,7 +212,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
     }
 
-
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
     }
@@ -265,5 +223,47 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     @Override
     public void onCicloEnds(int anel, Long numeroCiclos) {
 
+    }
+
+    public class GrupoCheck {
+
+        private final int grupo;
+
+        private final long inicio;
+
+        private final long fim;
+
+        private final EstadoGrupoSemaforico estado;
+
+        private int anel;
+
+        public GrupoCheck(int anel, int grupo, int inicio, int fim, EstadoGrupoSemaforico estadoGrupoSemaforico) {
+            this.grupo = grupo;
+            this.anel = anel;
+            this.inicio = inicio;
+            this.fim = fim;
+            this.estado = estadoGrupoSemaforico;
+        }
+
+        public GrupoCheck(int grupo, int inicio, int fim, EstadoGrupoSemaforico estadoGrupoSemaforico) {
+            this.grupo = grupo;
+            this.inicio = inicio;
+            this.fim = fim;
+            this.estado = estadoGrupoSemaforico;
+        }
+
+        public void checkAnel(HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> intervalos, DateTime instante) {
+            assertNotNull("Mudanca", intervalos.get(instante));
+            assertEquals("Comeco", inicio, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
+            assertEquals("Fim", fim, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
+            assertEquals("Estado", estado, intervalos.get(instante).get(anel).getEstados().get(this.grupo).get(this.inicio));
+        }
+
+        public void check(HashMap<DateTime, IntervaloGrupoSemaforico> intervalos, DateTime instante) {
+            assertNotNull("Mudanca", intervalos.get(instante));
+            assertEquals("Comeco", inicio, intervalos.get(instante).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
+            assertEquals("Fim", fim, intervalos.get(instante).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
+            assertEquals("Estado", estado, intervalos.get(instante).getEstados().get(this.grupo).get(this.inicio));
+        }
     }
 }

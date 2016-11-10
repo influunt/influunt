@@ -3,7 +3,6 @@ package execucao.gerenciadorPlanos;
 
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
-import execucao.MotorTest;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -18,11 +17,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     @Test
-    public void entradaPlanoNormalTest() throws IOException {
+    public void xentradaPlanoNormalTest() throws IOException {
         inicioControlador = new DateTime(2016, 11, 5, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 5, 18, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 48);
+        avancarHoras(motor, 25);
 
         assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
 
@@ -30,7 +29,7 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
         inicioControlador = new DateTime(2016, 11, 6, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 6, 18, 0, 0);
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 48);
+        avancarHoras(motor, 25);
 
         assertEquals("Plano Atual", 6, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
 
@@ -38,7 +37,7 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
         inicioControlador = new DateTime(2016, 11, 7, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 7, 18, 0, 0);
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 48);
+        avancarHoras(motor, 25);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
 

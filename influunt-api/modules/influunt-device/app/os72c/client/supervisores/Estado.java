@@ -34,6 +34,6 @@ public class Estado {
     public void agendar(UntypedActorContext context, ActorRef controlador, EstadoGrupo[] estadoGrupos, int duracao) {
 
         setCancellable(context.system().scheduler().scheduleOnce(Duration.create(duracao, TimeUnit.MILLISECONDS),
-                controlador, new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, estadoGrupos), context.dispatcher(), null));
+            controlador, new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, estadoGrupos), context.dispatcher(), null));
     }
 }

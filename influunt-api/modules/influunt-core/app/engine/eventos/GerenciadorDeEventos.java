@@ -49,6 +49,7 @@ public abstract class GerenciadorDeEventos {
                 break;
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case FALHA_SEQUENCIA_DE_CORES:
+            case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
                 new ImporAmareloIntermitenteHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:

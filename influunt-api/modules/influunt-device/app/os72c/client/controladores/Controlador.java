@@ -43,8 +43,8 @@ public abstract class Controlador extends UntypedActor {
             switch (mensagemControladorSupervisor.tipoEvento) {
                 case MUDANCA_GRUPO:
                     MensagemControladorSupervisor msg = new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, mensagemControladorSupervisor.estadoDosGrupos,
-                            String.valueOf(new Date().getTime() - Long.valueOf(mensagemControladorSupervisor.argumentos[0])),
-                            mensagemControladorSupervisor.argumentos[1]);
+                        String.valueOf(new Date().getTime() - Long.valueOf(mensagemControladorSupervisor.argumentos[0])),
+                        mensagemControladorSupervisor.argumentos[1]);
                     getContext().actorFor("akka://InfluuntSystem/user/cliente/ControladorMQTT").tell(msg, getSelf());
                     onChange(mensagemControladorSupervisor.estadoDosGrupos, Integer.valueOf(mensagemControladorSupervisor.argumentos[1]));
 

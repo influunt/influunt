@@ -74,15 +74,15 @@ public abstract class Simulador implements MotorCallback {
 
     public Detector getDetector(int anel, TipoDetector tipoDetector, int detector) {
         return controlador.getAneis().stream()
-                .filter(a -> a.getPosicao().equals(anel)).findFirst()
-                .get().getDetectores().stream().filter(detector1 -> detector1.getTipo().equals(tipoDetector) && detector1.getPosicao().equals(detector))
-                .findFirst().orElse(null);
+            .filter(a -> a.getPosicao().equals(anel)).findFirst()
+            .get().getDetectores().stream().filter(detector1 -> detector1.getTipo().equals(tipoDetector) && detector1.getPosicao().equals(detector))
+            .findFirst().orElse(null);
     }
 
     public List<Plano> getPlano(int plano) {
         return controlador.getAneis().stream()
-                .flatMap(anel -> anel.getPlanos().stream()).filter(plano1 -> plano1.getPosicao().equals(plano))
-                .collect(Collectors.toList());
+            .flatMap(anel -> anel.getPlanos().stream()).filter(plano1 -> plano1.getPosicao().equals(plano))
+            .collect(Collectors.toList());
     }
 
     public void simular(DateTime inicio, DateTime fim) {
@@ -108,9 +108,9 @@ public abstract class Simulador implements MotorCallback {
     }
 
 
-    public void detectorAcionador(int anel,TipoDetector tipoDetector,DateTime disparo,int detector) {
+    public void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) {
         ParametroSimulacaoDetector param = new ParametroSimulacaoDetector();
-        param.setDetector(getDetector(anel,tipoDetector,detector));
+        param.setDetector(getDetector(anel, tipoDetector, detector));
         param.setDisparo(disparo);
         this.parametros.getDetectores().add(param);
         setup(dataInicioControlador, controlador, parametros);

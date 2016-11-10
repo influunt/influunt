@@ -136,9 +136,9 @@ public class Supervisor extends UntypedActor {
 
     private void registraControlador(MensagemControladorSupervisor mensagemControladorSupervisor) {
         ImmutableList<Troca> trocas = ImmutableList.of(
-                new Troca(6000, 0, EstadoGrupo.VERMELHO),
-                new Troca(6000, 1, EstadoGrupo.AMARELO),
-                new Troca(6000, 2, EstadoGrupo.VERMELHO)
+            new Troca(6000, 0, EstadoGrupo.VERMELHO),
+            new Troca(6000, 1, EstadoGrupo.AMARELO),
+            new Troca(6000, 2, EstadoGrupo.VERMELHO)
         );
 
 

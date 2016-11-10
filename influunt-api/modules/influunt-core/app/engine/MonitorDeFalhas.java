@@ -38,7 +38,7 @@ public class MonitorDeFalhas {
         ticks += 100L;
         for (Map.Entry<Integer, Long> entry : retiraVerdeConflitantes.entrySet()) {
             if (entry.getValue().equals(ticks)) {
-                motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(),planos.get(entry.getKey() - 1)));
+                motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
                 retiraVerdeConflitantes.remove(entry.getKey());
             }
         }

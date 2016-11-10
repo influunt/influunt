@@ -24,6 +24,6 @@ public class MensagemControladorSupervisor extends Mensagem {
     @Override
     public String toString() {
         return "@id=" + id + ",@timestamp=" + timestamp + ",@datetime=" + new Date(timestamp) +
-                ",@tipoEvento=" + tipoEvento + ",@args:" + argumentos;
+            ",@tipoEvento=" + tipoEvento + ",@args:" + argumentos;
     }
 }

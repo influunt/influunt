@@ -47,7 +47,7 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-        simuladorActor.storeTrocaDePlano(timestamp,eventoAnterior,eventoAtual,modos);
+        simuladorActor.storeTrocaDePlano(timestamp, eventoAnterior, eventoAtual, modos);
     }
 
 }
