@@ -145,7 +145,7 @@ module.exports = function() {
 
   this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
     var campo = '#estagio-alternativo-'+transicao+'';
-    var selectSelector = 'select[name="alternativa"]';
+    var selectSelector = 'select[name="alternativos"]';
     var optionAtribute = 'label';
     var value = ''+alternativa+'';
 
