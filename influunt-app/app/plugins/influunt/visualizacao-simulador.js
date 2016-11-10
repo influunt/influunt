@@ -777,7 +777,7 @@ var influunt;
               context: tooltip,
               position: 'top',
               positionOffset: 0,
-              position: 'left',
+              position: 'left'
             });
           }
         }
@@ -791,7 +791,7 @@ var influunt;
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
             planos.push([x / 10,troca[2],troca[3]]);
             desenhaPlano(x,'#260339',troca[2]);
-            desenhaPlano(405, 'orangered', 'F1', 'O controlador deu um probleminha ai.');
+            desenhaFalha(405, 'orangered', 'F1', 'O controlador deu um probleminha ai.');
           });
         }
 
