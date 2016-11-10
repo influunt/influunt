@@ -7,6 +7,11 @@
           <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
             <div class="right">
               <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
+              <a class="btn btn-primary btn-outline btn-footer right m-r-sm"
+                  data-ng-click="legendaAgrupamentos()"
+                  data-toggle="modal" data-target="#modal-legenda-agrupamentos" aria-hidden="true">
+                {{ 'controladores.mapaControladores.legenda' | translate }}
+              </a>
             </div>
           </div>
         </div>
@@ -29,6 +34,43 @@
 
       <ng-include src="'views/controladores/mapa/acoes-anel.html'"></ng-include>
     </section>
+  </div>
+</div>
+
+<!-- modal para legenda -->
+<div class="modal inmodal" id="modal-legenda-agrupamentos" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h3>{{ 'controladores.mapaControladores.legenda' | translate }}</h3>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-2">{{ 'agrupamentos.options.subArea' | translate | uppercase }}</div>
+            <div class="col-md-4">
+              <div class="agrupamento-sample subarea"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">{{ 'agrupamentos.options.corredor' | translate | uppercase }}</div>
+            <div class="col-md-4">
+              <div class="agrupamento-sample corredor"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">{{ 'agrupamentos.options.rota' | translate | uppercase }}</div>
+            <div class="col-md-4">
+              <div class="agrupamento-sample rota"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          {{ 'crud.fechar' | translate }}
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -69,7 +111,7 @@
 </div>
 
 <!-- modal para selecionar planos para imposição. -->
-<div class="modal inmodal" id="modal-imposicao-plaos" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="modal-imposicao-planos" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content animated bounceInRight">
       <div class="modal-header">

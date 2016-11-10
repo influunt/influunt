@@ -126,6 +126,11 @@ public class ControladorCustomSerializer {
             ObjectNode root = Json.newObject();
             putControladorMapa(controlador, root);
 
+            RangeUtils rangeUtils = RangeUtils.getInstance();
+            root.put("verdeMin", rangeUtils.TEMPO_VERDE.getMin().toString());
+            root.put("verdeMax", rangeUtils.TEMPO_VERDE.getMax().toString());
+            root.put("verdeMinimoMin", rangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
+
             List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
             putControladorAneis(aneis, root);
             putControladorEnderecos(root);
@@ -454,7 +459,6 @@ public class ControladorCustomSerializer {
         root.put("ausenciaDeteccaoMax", rangeUtils.TEMPO_AUSENCIA_DETECCAO.getMax().toString());
         root.put("deteccaoPermanenteMin", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMin().toString());
         root.put("deteccaoPermanenteMax", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
-
 
         if (controlador.getVersaoControlador() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());

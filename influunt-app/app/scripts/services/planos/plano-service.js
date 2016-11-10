@@ -320,8 +320,8 @@ angular.module('influuntApp')
 
       montaTabelaValoresMinimos = function(controlador) {
         return {
-          verdeMin: controlador.verdeMin,
-          verdeMinimoMin: controlador.verdeMinimoMin
+          verdeMin: parseInt(controlador.verdeMin),
+          verdeMinimoMin: parseInt(controlador.verdeMinimoMin)
         };
       };
 
