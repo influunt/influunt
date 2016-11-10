@@ -142,7 +142,6 @@ angular.module('influuntApp')
             .value();
 
           markersLayer = new L.markerClusterGroup();
-          // markersLayer = new L.FeatureGroup();
           markers.forEach(function(marker) {
             var m = createMarker(marker);
             markersLayer.addLayer(m);
