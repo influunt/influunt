@@ -188,6 +188,9 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.afterSubmitForm = function() {
+        $scope.inicializaTransicoesProibidas($scope.currentAnelIndex);
+      };
 
 
       $scope.$watch('errors', function(erros) {

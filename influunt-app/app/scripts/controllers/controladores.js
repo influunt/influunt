@@ -186,6 +186,10 @@ angular.module('influuntApp')
               toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
             }
 
+            if (angular.isFunction($scope.afterSubmitForm)) {
+              $scope.afterSubmitForm();
+            }
+
             $state.go(nextStep, {id: $scope.objeto.id});
           })
           .catch(function(res) {

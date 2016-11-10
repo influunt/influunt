@@ -426,7 +426,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public TransicaoProibida getTransicaoProibidaPara(final Estagio destino) {
         return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> {
-            return destino.equals(transicaoProibida.getDestino());
+            return !transicaoProibida.isDestroy() && destino.equals(transicaoProibida.getDestino());
         }).findFirst().orElse(null);
     }
 
