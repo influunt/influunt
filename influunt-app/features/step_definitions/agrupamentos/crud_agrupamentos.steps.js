@@ -40,10 +40,6 @@ module.exports = function() {
     return agrupamentosPage.newPage();
   });
 
-  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
-    return agrupamentosPage.selecionarControlador(valor);
-  });
-
   this.Given(/^o registro do agrupamento deverá ser salvo com nome igual a "([^"]*)"$/, function(nome) {
     return agrupamentosPage.textoExisteNaTabela(nome);
   });

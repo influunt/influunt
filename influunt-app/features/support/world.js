@@ -197,6 +197,20 @@ var World = function () {
     });
   };
 
+  this.calculateByXpath = function(xpathSelector, quantity) {
+    return driver.findElements(webdriver.By.xpath(xpathSelector)).then(function(elements){
+    var sizeElements = elements.length.toString();
+
+      return new Promise(function(resolve, reject) {
+        if (sizeElements === quantity) {
+          resolve(true);
+        } else {
+          reject('Espera que retorne "'+quantity+'" mas o valor retornado é "'+sizeElements+'"');
+        }
+      });
+    });
+  };
+
   this.checkIsElementPresent = function(xpath, campo, dado) {
     return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
       return new Promise(function(resolve, reject) {
@@ -269,6 +283,11 @@ var World = function () {
         }, 500);
       });
     });
+  };
+
+  this.select2OptionByXpath = function(campo, valueToSelector) {
+    var _this = this;
+    return _this.getElementByXpath('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]').click();
   };
 
   this.selectSelect2Option = function(selectSelector, optionText) {

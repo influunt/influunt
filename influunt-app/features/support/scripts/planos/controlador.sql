@@ -25,6 +25,7 @@ DELETE FROM `controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `limite_area`;
 UPDATE usuarios SET area_id=NULL WHERE login='mobilab';
+DELETE FROM `subareas`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;
@@ -75,9 +76,9 @@ VALUES
 
 INSERT INTO `enderecos` (`id`, `id_json`, `controlador_id`, `anel_id`, `localizacao`, `latitude`, `longitude`, `localizacao2`, `altura_numerica`, `referencia`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('17e77589-b5fd-4503-b40d-54c07ab2684e','0bca10bf-3e4c-4246-a073-a3a07eb5ccb0',NULL,'e4aea91d-790d-496f-b70e-887060734fd7','Av. Amazonas',-19.9305234,-43.97207830000002,'Av. Contorno',NULL,NULL,'2016-09-29 13:26:35.706000','2016-09-29 13:30:42.714000'),
-  ('2c31b9e1-15b5-4181-a750-4a230865d552','76a14e10-9eaa-43d3-8c7a-6b877d969f80','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,'2016-09-29 13:25:30.461000','2016-09-29 13:30:42.649000'),
-  ('d2e14ef2-577d-4a1a-8ba9-fb94e74d4196','64c02bdc-e7b1-4b0d-8089-191819f5e47c',NULL,'287415c8-1d96-4ab1-a04f-377b19cd9238','Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,'2016-09-29 13:26:35.693000','2016-09-29 13:30:42.650000');
+  ('17e77589-b5fd-4503-b40d-54c07ab2684e','0bca10bf-3e4c-4246-a073-a3a07eb5ccb0',NULL,'e4aea91d-790d-496f-b70e-887060734fd7','Alameda Campinas',-23.5681006,-46.65531850000002 ,'Av. Paulista',NULL,NULL,NOW(),NOW()),
+  ('2c31b9e1-15b5-4181-a750-4a230865d552','76a14e10-9eaa-43d3-8c7a-6b877d969f80','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,NOW(),NOW()),
+  ('d2e14ef2-577d-4a1a-8ba9-fb94e74d4196','64c02bdc-e7b1-4b0d-8089-191819f5e47c',NULL,'287415c8-1d96-4ab1-a04f-377b19cd9238','Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,NOW(),NOW());
 
 INSERT INTO `controladores_fisicos` (`id`, `id_json`, `area_id`, `data_criacao`, `data_atualizacao`)
 VALUES

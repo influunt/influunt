@@ -2,20 +2,20 @@ package execucao;
 
 
 import config.WithInfluuntApplicationNoAuthentication;
-import engine.*;
+import engine.AgendamentoTrocaPlano;
+import engine.IntervaloGrupoSemaforico;
+import engine.Motor;
+import engine.MotorCallback;
 import integracao.ControladorHelper;
 import models.*;
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 
 /**
@@ -41,7 +41,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         listaHistoricoEstagios = new HashMap<>();
     }
 
-
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
         listaTrocaPlano.put(timestamp, eventoAtual);
@@ -49,7 +48,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        if(!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())){
+        if (!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())) {
             listaTrocaPlanoEfetiva.put(agendamentoTrocaPlano.getMomentoDaTroca(), new HashMap<>());
         }
         listaTrocaPlanoEfetiva.get(agendamentoTrocaPlano.getMomentoDaTroca()).put(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getEvento());
@@ -58,7 +57,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if(!listaEstagios.containsKey(timestamp)){
+        if (!listaEstagios.containsKey(timestamp)) {
             listaEstagios.put(timestamp, new HashMap<>());
         }
         listaEstagios.get(timestamp).put(anel, intervalos);
@@ -66,7 +65,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     @Override
     public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if(!listaHistoricoEstagios.containsKey(timestamp)){
+        if (!listaHistoricoEstagios.containsKey(timestamp)) {
             listaHistoricoEstagios.put(timestamp, new HashMap<>());
         }
         listaHistoricoEstagios.get(timestamp).put(anel, intervalos);
@@ -118,7 +117,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     protected void verificaHistoricoGruposSemaforicos(int offset, int offset2, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaHistoricoEstagios,inicioExecucao.plusSeconds(offset).plus(offset2));
+        grupoCheck.check(listaHistoricoEstagios, inicioExecucao.plusSeconds(offset).plus(offset2));
     }
 
     protected void verificaGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
@@ -131,6 +130,17 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
             .filter(a -> a.getPosicao().equals(posicao))
             .findFirst()
             .get();
+    }
+
+    protected GrupoSemaforico getGrupoSemaforico(int posicao) {
+        final GrupoSemaforico[] grupoSemaforico = new GrupoSemaforico[1];
+        controlador.getAneis().forEach(anel -> {
+            GrupoSemaforico grupo = anel.findGrupoSemaforicoByPosicao(posicao);
+            if (grupo != null) {
+                grupoSemaforico[0] = grupo;
+            }
+        });
+        return grupoSemaforico[0];
     }
 
     public class GrupoCheck {
@@ -159,17 +169,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
             assertEquals("Fim", fim, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
             assertEquals("Estado", estado, intervalos.get(instante).get(anel).getEstados().get(this.grupo).get(this.inicio));
         }
-    }
-
-    protected GrupoSemaforico getGrupoSemaforico(int posicao) {
-        final GrupoSemaforico[] grupoSemaforico = new GrupoSemaforico[1];
-        controlador.getAneis().forEach(anel -> {
-            GrupoSemaforico grupo = anel.findGrupoSemaforicoByPosicao(posicao);
-            if (grupo != null) {
-                grupoSemaforico[0] = grupo;
-            }
-        });
-        return grupoSemaforico[0];
     }
 
 }

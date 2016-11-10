@@ -34,7 +34,7 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
         criarModeloComFabricante("Modelo Avançado", true);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModelosControladoresController.findAll().url());
+            .uri(routes.ModelosControladoresController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<ModeloControlador> modelosControladores = Json.fromJson(json.get("data"), List.class);
@@ -48,7 +48,7 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
         ModeloControlador modeloControlador = criarModeloComFabricante("Modelo Básico", false);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modeloControlador));
+            .uri(routes.ModelosControladoresController.create().url()).bodyJson(Json.toJson(modeloControlador));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         ModeloControlador modeloControladorRetornado = Json.fromJson(json, ModeloControlador.class);
@@ -63,8 +63,8 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
         ModeloControlador modeloControlador = criarModeloComFabricante("Básico", false);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ModelosControladoresController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(modeloControlador));
+            .uri(routes.ModelosControladoresController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(modeloControlador));
         Result result = route(request);
         assertEquals(404, result.status());
     }
@@ -80,8 +80,8 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
         novoModeloControlador.setDescricao("Teste atualizar");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.ModelosControladoresController.update(modeloControladorId.toString()).url())
-                .bodyJson(Json.toJson(novoModeloControlador));
+            .uri(routes.ModelosControladoresController.update(modeloControladorId.toString()).url())
+            .bodyJson(Json.toJson(novoModeloControlador));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         ModeloControlador modeloControladorRetornado = Json.fromJson(json, ModeloControlador.class);
@@ -99,7 +99,7 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
         assertNotNull(modeloControladorId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModelosControladoresController.findOne(modeloControladorId.toString()).url());
+            .uri(routes.ModelosControladoresController.findOne(modeloControladorId.toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         ModeloControlador modeloControladorRetornado = Json.fromJson(json, ModeloControlador.class);
@@ -114,7 +114,7 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
         int totalModelos = ModeloControlador.find.findRowCount();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ModelosControladoresController.delete(modelo.getId().toString()).url());
+            .uri(routes.ModelosControladoresController.delete(modelo.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -125,7 +125,7 @@ public class ModelosControladoresControllerTest extends WithInfluuntApplicationN
     @Test
     public void testApagarModeloControladorNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ModelosControladoresController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.ModelosControladoresController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }

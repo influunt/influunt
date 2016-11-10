@@ -96,9 +96,9 @@
       "imporPlano": "Impor Plano",
       "trocarTabela": "Trocar tabela horária",
       "enviarPlano": "Enviar plano",
-      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o plano {PLANO} para o anel da {ANEL}?",
+      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o {PLANO} para o anel da {ANEL}?",
       "descrevaEnvioPlano": "Descreva aqui as circunstâncias para o envio deste plano",
-      "sucessoEnvioPlano": "Plano {PLANO} enviado com sucesso ao anel {ANEL}",
+      "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "enviarTabela": "Enviar tabela horária",
       "imposicaoPlano": {
         "mensagem": "Selecione abaixo um plano para ser imposto"
@@ -469,7 +469,11 @@
       "APAGADO": "Apagado",
       "MANUAL": "Manual"
     },
-    "estagioSequencia": "Estágio da Sequência"
+    "estagioSequencia": "Estágio da Sequência",
+    "grupoNaoAssociado": {
+      "titulo": "Grupo não associado",
+      "texto": "Este grupo não está associado a nenhum estágio do plano, e portanto está apagado. Para habilitá-lo, associe este grupo a pelo menos um estágio da sequencia."
+    }
   },
   "diagramaIntervalos": {
     "titulo": "Diagrama de Intervalos"
@@ -530,7 +534,8 @@
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
-      "sim": "Sim"
+      "sim": "Sim",
+      "ok": "Ok"
     },
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",

@@ -14,6 +14,10 @@ module.exports = function() {
     return sharedSteps.variosControladores();
   });
 
+  this.Given(/^que o sistema possua controladores cadastrados e configurados$/, function() {
+    return sharedSteps.variosControladoresConfigurados();
+  });
+
   this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
     return sharedSteps.cadastrarPlanoParaControlador();
   });
@@ -130,4 +134,13 @@ module.exports = function() {
   this.Given(/^o usuário acesse a listagem de "([^"]*)"$/, function (localizacao) {
     return sharedSteps.visitarListagem(localizacao);
   });
+
+  this.Given(/^o usuário selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.selecionarBySelect2Option(campo, valor);
+  });
+
+  this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
+    return sharedSteps.removeSelect2Option(opcao, campo);
+  });
+
 };

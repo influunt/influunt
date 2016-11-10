@@ -1,25 +1,15 @@
 package execucao.gerenciadorPlanos;
 
 
-import config.WithInfluuntApplicationNoAuthentication;
-import engine.AgendamentoTrocaPlano;
-import engine.IntervaloGrupoSemaforico;
 import engine.Motor;
-import engine.MotorCallback;
 import execucao.MotorTest;
-import integracao.ControladorHelper;
-import models.Controlador;
-import models.EstadoGrupoSemaforico;
-import models.Evento;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -131,5 +121,4 @@ public class TrocaPlanosTest extends MotorTest {
 
         assertEquals("Total de trocas", 14, listaTrocaPlano.size());
     }
-
 }

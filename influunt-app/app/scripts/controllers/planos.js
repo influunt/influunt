@@ -8,14 +8,14 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter',
-                             'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
-                             'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs', 'SimulacaoService',
-    function ($controller, $scope, $state, $timeout, Restangular, $filter,
-              validaTransicao, utilEstagios, toast, modoOperacaoService,
-              influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, utilControladores, planoService, breadcrumbs, SimulacaoService) {
+  .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'validaTransicao',
+                             'utilEstagios', 'toast', 'modoOperacaoService', 'influuntAlert', 'influuntBlockui',
+                             'geraDadosDiagramaIntervalo', 'handleValidations', 'utilControladores', 'planoService',
+                             'breadcrumbs', 'SimulacaoService', '$q',
+    function ($controller, $scope, $state, $timeout, Restangular, $filter, validaTransicao,
+              utilEstagios, toast, modoOperacaoService, influuntAlert, influuntBlockui,
+              geraDadosDiagramaIntervalo, handleValidations, utilControladores, planoService,
+              breadcrumbs, SimulacaoService, $q) {
 
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('planos');
@@ -176,10 +176,23 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.beforeChangeCheckboxGrupo = function(grupo) {
+        var posicaoOriginal = parseInt(grupo.labelPosicao.substring(1));
+        var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, { anel: { idJson: $scope.currentAnel.idJson }, posicao: posicaoOriginal });
+        var nemAssociadoNemDemandaPrioritaria = planoService.isGrupoNemAssociadoNemDemandaPrioritaria($scope.objeto, $scope.currentAnel, $scope.currentPlano, grupoSemaforico);
+        if (nemAssociadoNemDemandaPrioritaria) {
+          var title = $filter('translate')('planos.grupoNaoAssociado.titulo'),
+              text = $filter('translate')('planos.grupoNaoAssociado.texto');
+          return influuntAlert.error(title, text).then(function() { return $q.reject(); });
+        } else {
+          return $q.resolve();
+        }
+      };
+
       $scope.onChangeCheckboxGrupo = function(grupo, isAtivo) {
         var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-          .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
-          .orderBy(['posicao'])
+          .filter({ anel: { idJson: $scope.currentAnel.idJson } })
+          .orderBy('posicao')
           .value();
 
         var grupoSemaforico = gruposSemaforicos[grupo.posicao-1];
@@ -391,7 +404,7 @@ angular.module('influuntApp')
 
 
       /**
-       * Reenderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
+       * Renderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
        * Faz um debounce de 500ms, para evitar chamadas excessivas à "calculadora" do diagrama.
        *
        * Caso o modo de operação do plano for "amarelo intermitente" ou "desligado", o diagrama deverá ser gerado

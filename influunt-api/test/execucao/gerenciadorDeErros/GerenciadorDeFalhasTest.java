@@ -3,15 +3,16 @@ package execucao.gerenciadorDeErros;
 import engine.EventoMotor;
 import engine.Motor;
 import engine.TipoEvento;
-import execucao.GerenciadorDeEstagiosTest;
 import execucao.MotorTest;
-import models.*;
+import models.Anel;
+import models.Detector;
+import models.EstadoGrupoSemaforico;
+import models.TipoDetector;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -38,38 +39,38 @@ public class GerenciadorDeFalhasTest extends MotorTest {
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(52)).get(1).getEstagio().getPosicao().intValue());
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(68)).get(1).getEstagio().getPosicao());
 
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 0, 3000,EstadoGrupoSemaforico.AMARELO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 3000, 8000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 8000, 11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 11000, 255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 3000, 8000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 1, 11000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 2, 0, 8000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 2, 8000, 11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 2, 11000, 255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 2, 0, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 2, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 2, 11000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 3, 0, 8000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 3, 8000, 11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 3, 11000, 255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 3, 0, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 3, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 3, 11000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 4, 0, 8000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 4, 8000, 11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 4, 11000, 255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 4, 0, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 4, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 4, 11000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 0, 5000,EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 5000, 8000,EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 8000, 11000,EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 11000, 255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 0, 5000, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(68, new GrupoCheck(1, 5, 11000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
         //Novo Ciclo
-        verificaGruposSemaforicos(323, new GrupoCheck(1, 1, 0, 255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(323, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
-        verificaGruposSemaforicos(323, new GrupoCheck(1, 2, 0, 255000,EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(323, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
-        verificaGruposSemaforicos(323, new GrupoCheck(1, 3, 0, 255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(323, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        verificaGruposSemaforicos(323, new GrupoCheck(1, 4, 0, 255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(323, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        verificaGruposSemaforicos(323, new GrupoCheck(1, 5, 0, 255000,EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(323, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
         //Recuperando da Falha
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(660)).get(1).getEstagio().getPosicao().intValue());

@@ -35,7 +35,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
     @Test
     public void testUnauthorizedLogin() throws InterruptedException, ExecutionException {
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.login().url());
+            .uri(routes.SecurityController.login().url());
         Result postResult = route(postRequest);
         assertEquals(UNAUTHORIZED, postResult.status());
     }
@@ -45,7 +45,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         JsonNode jsonUsuario = Json.parse("{\"login\":\"admin\",\"senha\":\"1234\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuario);
+            .uri(routes.SecurityController.login().url()).bodyJson(jsonUsuario);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -65,7 +65,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         JsonNode jsonRecuperarSenha = Json.parse("{\"email\":\"root@influunt.com.br\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
+            .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -83,7 +83,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         JsonNode jsonRecuperarSenha = Json.parse("{\"email\":\"teste@teste.com.br\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
+            .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
         Result postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
@@ -101,7 +101,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         JsonNode jsonRecuperarSenha = Json.parse("{\"email\":\"root@influunt.com.br\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
+            .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -110,7 +110,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         assertNotNull(usuario.getPasswordTokenExpiration());
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.SecurityController.checkResetPasswordToken(usuario.getResetPasswordToken()).url());
+            .uri(routes.SecurityController.checkResetPasswordToken(usuario.getResetPasswordToken()).url());
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
     }
@@ -118,7 +118,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
     @Test
     public void naoDeveriaValidarTokenRedefinirSenha() throws InterruptedException, ExecutionException {
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.SecurityController.checkResetPasswordToken(UUID.randomUUID().toString()).url());
+            .uri(routes.SecurityController.checkResetPasswordToken(UUID.randomUUID().toString()).url());
         Result postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
     }
@@ -131,7 +131,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         JsonNode jsonRecuperarSenha = Json.parse("{\"email\":\"root@influunt.com.br\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
+            .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -141,7 +141,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
 
         JsonNode jsonRedefinirSenha = Json.parse("{\"token\":\"" + usuario.getResetPasswordToken() + "\",\"senha\":\"abc\",\"novaSenha\":\"abc\"}");
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.redefinirSenha().url()).bodyJson(jsonRedefinirSenha);
+            .uri(routes.SecurityController.redefinirSenha().url()).bodyJson(jsonRedefinirSenha);
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -158,7 +158,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
         JsonNode jsonRecuperarSenha = Json.parse("{\"email\":\"root@influunt.com.br\"}");
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
+            .uri(routes.SecurityController.recuperarSenha().url()).bodyJson(jsonRecuperarSenha);
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
@@ -168,7 +168,7 @@ public class SecurityControllerTest extends WithInfluuntApplicationAuthenticated
 
         JsonNode jsonRedefinirSenha = Json.parse("{\"token\":\"" + usuario.getResetPasswordToken() + "\",\"senha\":\"teste\",\"novaSenha\":\"mundo\"}");
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SecurityController.redefinirSenha().url()).bodyJson(jsonRedefinirSenha);
+            .uri(routes.SecurityController.redefinirSenha().url()).bodyJson(jsonRedefinirSenha);
         postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 

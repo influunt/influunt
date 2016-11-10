@@ -497,9 +497,9 @@ public class ControladorTestUtil {
         agrupamento.setHorario(LocalTime.MIDNIGHT);
         agrupamento.setPosicaoPlano(1);
         controlador.getAneis()
-                .stream()
-                .filter(Anel::isAtivo)
-                .forEach(agrupamento::addAnel);
+            .stream()
+            .filter(Anel::isAtivo)
+            .forEach(agrupamento::addAnel);
         agrupamento.save();
 
         return controlador;
@@ -527,6 +527,7 @@ public class ControladorTestUtil {
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
             plano.addEstagios(estagioPlano);
+            estagio.addEstagioPlano(estagioPlano);
             i++;
         }
     }
