@@ -3,6 +3,7 @@ package engine;
 import models.Controlador;
 import models.Evento;
 import models.Plano;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -43,6 +44,17 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         this.instante = inicioExecucao;
         this.motorEventoHandler = new MotorEventoHandler(this);
         this.monitor = new MonitorDeFalhas(this.motorEventoHandler);
+
+
+        this.controlador.getAneis().stream().forEach(anel ->
+            anel.getGruposSemaforicos().forEach(grupoSemaforico ->
+                grupoSemaforico.getVerdesConflitantes().forEach(verdesConflitantes ->
+                    monitor.addVerdesConflitantes(verdesConflitantes.getOrigem().getPosicao(),
+                                                  verdesConflitantes.getDestino().getPosicao())
+
+                )
+            )
+        );
     }
 
 
@@ -87,6 +99,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     @Override
     public void onCicloEnds(int anel, Long numeroCiclos) {
         callback.onCicloEnds(anel, numeroCiclos);
+        monitor.onClicloEnds(anel, numeroCiclos);
     }
 
     @Override
