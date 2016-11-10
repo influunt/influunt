@@ -98,7 +98,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorIntervalo += 100L;
         tempoDecorrido += 100L;
 
-        verificaTempoMaximoDePermanenciaDoEstagio();
+        monitoraTempoMaximoDePermanenciaDoEstagio();
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -130,10 +130,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean temQueExecutarOAgendamento() {
         if (this.agendamento.isImpostoPorFalha()) {
-            //Colocar o controlador em falha
             return true;
         } else if (this.agendamento.isSaidaDoModoManual()) {
-            //Saída do modo manual
             return true;
         }
         return false;
@@ -163,7 +161,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
     }
 
-    private boolean verificaTempoMaximoDePermanenciaDoEstagio() {
+    private boolean monitoraTempoMaximoDePermanenciaDoEstagio() {
         Estagio estagio = estagioPlanoAtual.getEstagio();
         if (estagio.isTempoMaximoPermanenciaAtivado()) {
             long tempoMaximoEstagio = estagio.getTempoMaximoPermanencia() * 1000L;
