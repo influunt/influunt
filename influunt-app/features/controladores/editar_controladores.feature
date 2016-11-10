@@ -11,7 +11,7 @@ Funcionalidade: Editar um controlador
     Quando o usuário desmarcar a transição de "E4" para "E3" como proibida
     E o usuário desmarcar a transição de "E3" para "E4" como proibida
     E o usuário marcar a transição de "E1" para "E2" como proibida
-    E o usuário selecionar o valor "E3" no campo "Alternativa"
+    E o usuário na transição proibida "E1-E2" selecionar a alternativa "E3"
     E o usuário selecionar o anel 2
     E que o usuário confirme que não há configurações a serem feitas nesse anel
     E o usuário clicar em "Salvar"
@@ -19,6 +19,6 @@ Funcionalidade: Editar um controlador
     Dado o usuário selecionar o anel 1
     Quando o usuário desmarcar a transição de "E1" para "E2" como proibida
     E o usuário marcar a transição de "E1" para "E3" como proibida
-    E o usuário selecionar o valor "E2" no campo "Alternativa"
+    E o usuário na transição proibida "E1-E3" selecionar a alternativa "E2"
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
