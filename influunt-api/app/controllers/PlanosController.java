@@ -15,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class PlanosController extends Controller {
             if (erros.isEmpty()) {
                 controlador.update();
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all())));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
             }

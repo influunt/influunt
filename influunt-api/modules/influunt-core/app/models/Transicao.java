@@ -205,7 +205,7 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "O tempo de atraso de grupo deve estar entre {min} e {max}.")
     public boolean isTempoAtrasoDeGrupoDentroDaFaixa() {
-        return getAtrasoDeGrupo() != null && RangeUtils.getInstance().TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
+        return getAtrasoDeGrupo() != null && RangeUtils.getInstance(null).TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
     }
 
     public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {

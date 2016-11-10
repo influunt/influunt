@@ -65,14 +65,14 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     @Test
     public void testJSON() {
         Controlador controlador = getControladorDadosBasicos();
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControlador(controlador, controladorJson);
 
         controlador.save();
 
-        controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
+        controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControlador(controlador, controladorJson);
@@ -85,8 +85,8 @@ public class ControladorDadosBasicosTest extends ControladorTest {
     }
 
     private void assertFaixaValores(Controlador controlador) {
-        JsonNode controladorJSON = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all());
-        RangeUtils rangeUtils = RangeUtils.getInstance();
+        JsonNode controladorJSON = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
+        RangeUtils rangeUtils = RangeUtils.getInstance(null);
 
         assertEquals("verdeMinimoMin", controladorJSON.get("verdeMinimoMin").asText(), rangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
         assertEquals("verdeMinimoMax", controladorJSON.get("verdeMinimoMax").asText(), rangeUtils.TEMPO_VERDE_MINIMO.getMax().toString());
@@ -143,7 +143,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         Controlador controlador = getControlador();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
+            .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -166,7 +166,7 @@ public class ControladorDadosBasicosTest extends ControladorTest {
         Controlador controlador = getControladorDadosBasicos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all()));
+            .uri(routes.ControladoresController.dadosBasicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

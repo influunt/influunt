@@ -62,9 +62,12 @@ public class ControladorCustomSerializer {
 
     private Map<String, AtrasoDeGrupo> atrasosDeGrupoMap = new HashMap<>();
 
-    public JsonNode getControladorJson(Controlador controlador, List<Cidade> cidades) {
-        ObjectNode root = Json.newObject();
+    public JsonNode getControladorJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
+        if (rangeUtils != null) {
+            controlador.setRangeUtils(rangeUtils);
+        }
 
+        ObjectNode root = Json.newObject();
         putControladorDadosBasicos(controlador, root);
         putControladorModelo(controlador.getModelo(), root);
         putControladorSubarea(controlador.getSubarea(), root);
@@ -198,14 +201,14 @@ public class ControladorCustomSerializer {
         return root;
     }
 
-    public JsonNode getPacoteConfiguracaoJson(Controlador controlador, List<Cidade> cidades) {
+    public JsonNode getPacoteConfiguracaoJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
         controlador.setVersoesTabelasHorarias(null);
         controlador.setVersaoControlador(null);
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
             anel.setVersoesPlanos(null);
             anel.setVersaoPlanoAtivo(new VersaoPlano());
         });
-        return getControladorJson(controlador, cidades);
+        return getControladorJson(controlador, cidades, rangeUtils);
     }
 
     public JsonNode getPacotePlanosJson(Controlador controlador) {
@@ -421,7 +424,7 @@ public class ControladorCustomSerializer {
         root.put("bloqueado", controlador.isBloqueado());
         root.put("planosBloqueado", controlador.isPlanosBloqueado());
 
-        RangeUtils rangeUtils = RangeUtils.getInstance();
+        RangeUtils rangeUtils = RangeUtils.getInstance(null);
         root.put("verdeMin", rangeUtils.TEMPO_VERDE.getMin().toString());
         root.put("verdeMax", rangeUtils.TEMPO_VERDE.getMax().toString());
         root.put("verdeMinimoMin", rangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());

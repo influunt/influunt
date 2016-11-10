@@ -17,6 +17,7 @@ import security.Secured;
 import services.ControladorService;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
+import utils.RangeUtils;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -103,7 +104,7 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all())));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
     }
 
@@ -129,7 +130,7 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, usuario);
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao, Cidade.find.all())));
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao, Cidade.find.all(), RangeUtils.getInstance(null))));
     }
 
     @Transactional
@@ -155,7 +156,7 @@ public class ControladoresController extends Controller {
 
         if (controladorService.criarClonePlanos(controlador, usuario)) {
             controlador.refresh();
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all())));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "erro ao clonar planos", "")))));
@@ -184,7 +185,7 @@ public class ControladoresController extends Controller {
 
         if (controladorService.criarCloneTabelaHoraria(controlador, getUsuario())) {
             controlador.refresh();
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all())));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "erro ao clonar tabela horária", "")))));
@@ -434,7 +435,7 @@ public class ControladoresController extends Controller {
                 }
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all())));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
             }
         }
     }

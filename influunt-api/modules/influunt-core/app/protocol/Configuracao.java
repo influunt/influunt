@@ -1,9 +1,9 @@
 package protocol;
 
 import json.ControladorCustomSerializer;
-import models.Cidade;
 import models.Controlador;
 import models.StatusVersao;
+import utils.RangeUtils;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class Configuracao {
                     envelope.getIdControlador(),
                     "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                     2,
-                    new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade())).toString(),
+                    new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), controlador.getRangeUtils()).toString(),
                     envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,

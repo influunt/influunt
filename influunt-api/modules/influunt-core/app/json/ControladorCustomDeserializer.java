@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import org.joda.time.LocalTime;
+import utils.RangeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,8 +47,6 @@ public class ControladorCustomDeserializer {
     public static final String PLANOS = "planos";
 
     public static final String GRUPOS_SEMAFORICOS_PLANOS = "gruposSemaforicosPlanos";
-
-    public static final String INTERVALOS = "intervalos";
 
     public static final String ESTAGIOS_PLANOS = "estagiosPlanos";
 
@@ -113,76 +112,76 @@ public class ControladorCustomDeserializer {
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    private List<Consumer<Map<String, Map>>> consumers = new ArrayList<Consumer<Map<String, Map>>>();
+    private List<Consumer<Map<String, Map>>> consumers = new ArrayList<>();
 
-    private Map<String, Map> caches = new HashMap<String, Map>();
+    private Map<String, Map> caches = new HashMap<>();
 
 
     public ControladorCustomDeserializer() {
-        aneisCache = new HashMap<String, Anel>();
+        aneisCache = new HashMap<>();
         caches.put(ANEIS, aneisCache);
 
-        estagiosCache = new HashMap<String, Estagio>();
+        estagiosCache = new HashMap<>();
         caches.put(ESTAGIOS, estagiosCache);
 
-        gruposSemaforicosCache = new HashMap<String, GrupoSemaforico>();
+        gruposSemaforicosCache = new HashMap<>();
         caches.put(GRUPOS_SEMAFORICOS, gruposSemaforicosCache);
 
-        detectoresCache = new HashMap<String, Detector>();
+        detectoresCache = new HashMap<>();
         caches.put(DETECTORES, detectoresCache);
 
-        transicaoProibidaCache = new HashMap<String, TransicaoProibida>();
+        transicaoProibidaCache = new HashMap<>();
         caches.put(TRANSICAO_PROIBIDA, transicaoProibidaCache);
 
-        estagioGrupoSemaforicoCache = new HashMap<String, EstagioGrupoSemaforico>();
+        estagioGrupoSemaforicoCache = new HashMap<>();
         caches.put(ESTAGIO_GRUPO_SEMAFORICO, estagioGrupoSemaforicoCache);
 
-        verdesConflitantesCache = new HashMap<String, VerdesConflitantes>();
+        verdesConflitantesCache = new HashMap<>();
         caches.put(VERDES_CONFLITANTES, verdesConflitantesCache);
 
-        transicaoCache = new HashMap<String, Transicao>();
+        transicaoCache = new HashMap<>();
         caches.put(TRANSICAO, transicaoCache);
 
-        tabelasEntreVerdesCache = new HashMap<String, TabelaEntreVerdes>();
+        tabelasEntreVerdesCache = new HashMap<>();
         caches.put(TABELAS_ENTRE_VERDES, tabelasEntreVerdesCache);
 
-        tabelaEntreVerdesTransicaoCache = new HashMap<String, TabelaEntreVerdesTransicao>();
+        tabelaEntreVerdesTransicaoCache = new HashMap<>();
         caches.put(TABELA_ENTRE_VERDES_TRANSICAO, tabelaEntreVerdesTransicaoCache);
 
-        versoesPlanosCache = new HashMap<String, VersaoPlano>();
+        versoesPlanosCache = new HashMap<>();
         caches.put(VERSOES_PLANOS, versoesPlanosCache);
 
-        versoesTabelasHorariasCache = new HashMap<String, VersaoTabelaHoraria>();
+        versoesTabelasHorariasCache = new HashMap<>();
         caches.put(VERSOES_TABELAS_HORARIAS, versoesTabelasHorariasCache);
 
-        planosCache = new HashMap<String, Plano>();
+        planosCache = new HashMap<>();
         caches.put(PLANOS, planosCache);
 
-        gruposSemaforicosPlanosCache = new HashMap<String, GrupoSemaforicoPlano>();
+        gruposSemaforicosPlanosCache = new HashMap<>();
         caches.put(GRUPOS_SEMAFORICOS_PLANOS, gruposSemaforicosPlanosCache);
 
-        estagiosPlanosCache = new HashMap<String, EstagioPlano>();
+        estagiosPlanosCache = new HashMap<>();
         caches.put(ESTAGIOS_PLANOS, estagiosPlanosCache);
 
-        tabelasHorariasCache = new HashMap<String, TabelaHorario>();
+        tabelasHorariasCache = new HashMap<>();
         caches.put(TABELAS_HORARIAS, tabelasHorariasCache);
 
-        eventosCache = new HashMap<String, Evento>();
+        eventosCache = new HashMap<>();
         caches.put(EVENTOS, eventosCache);
 
-        areasCache = new HashMap<String, Area>();
+        areasCache = new HashMap<>();
         caches.put(AREAS, areasCache);
 
-        cidadesCache = new HashMap<String, Cidade>();
+        cidadesCache = new HashMap<>();
         caches.put(CIDADES, cidadesCache);
 
-        enderecosCache = new HashMap<String, Endereco>();
+        enderecosCache = new HashMap<>();
         caches.put(ENDERECOS, enderecosCache);
 
-        imagensCache = new HashMap<String, Imagem>();
+        imagensCache = new HashMap<>();
         caches.put(IMAGENS, imagensCache);
 
-        atrasoDeGrupoCache = new HashMap<String, AtrasoDeGrupo>();
+        atrasoDeGrupoCache = new HashMap<>();
         caches.put(ATRASO_DE_GRUPO, atrasoDeGrupoCache);
     }
 
@@ -1465,10 +1464,11 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
-        if (node.has("subarea") && node.get("subarea").get("id") != null) {
+        if (node.has("subarea") && !node.get("subarea").get("id").isNull()) {
             JsonNode subareaNode = node.get("subarea");
             Subarea subarea = new Subarea();
             subarea.setId(UUID.fromString(subareaNode.get("id").asText()));
+
             if (subareaNode.has("idJson")) {
                 subarea.setIdJson(subareaNode.get("idJson").asText());
             }
@@ -1513,27 +1513,49 @@ public class ControladorCustomDeserializer {
                 modelo.setFabricante(fabricante);
             }
 
-            if (node.has("limiteEstagio")) {
-                modelo.setLimiteEstagio(node.get("limiteEstagio").asInt());
-            }
-            if (node.has("limiteGrupoSemaforico")) {
-                modelo.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico").asInt());
-            }
             if (node.has("limiteAnel")) {
                 modelo.setLimiteAnel(node.get("limiteAnel").asInt());
+            } else if (modeloNode.has("limiteAnel")) {
+                modelo.setLimiteAnel(modeloNode.get("limiteAnel").asInt());
             }
+
             if (node.has("limiteDetectorPedestre")) {
                 modelo.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre").asInt());
+            } else if (modeloNode.has("limiteDetectorPedestre")) {
+                modelo.setLimiteDetectorPedestre(modeloNode.get("limiteDetectorPedestre").asInt());
             }
+
             if (node.has("limiteDetectorVeicular")) {
                 modelo.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular").asInt());
+            } else if (modeloNode.has("limiteDetectorVeicular")) {
+                modelo.setLimiteDetectorVeicular(modeloNode.get("limiteDetectorVeicular").asInt());
             }
-            if (node.has("limiteTabelasEntreVerdes")) {
-                modelo.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
+
+            if (node.has("limiteEstagio")) {
+                modelo.setLimiteEstagio(node.get("limiteEstagio").asInt());
+            } else if (modeloNode.has("limiteEstagio")) {
+                modelo.setLimiteEstagio(modeloNode.get("limiteEstagio").asInt());
             }
+
+            if (node.has("limiteGrupoSemaforico")) {
+                modelo.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico").asInt());
+            } else if (modeloNode.has("limiteGrupoSemaforico")) {
+                modelo.setLimiteGrupoSemaforico(modeloNode.get("limiteGrupoSemaforico").asInt());
+            }
+
             if (node.has("limitePlanos")) {
                 modelo.setLimitePlanos(node.get("limitePlanos").asInt());
+            } else if (modeloNode.has("limitePlanos")) {
+                modelo.setLimitePlanos(modeloNode.get("limitePlanos").asInt());
             }
+
+            if (node.has("limiteTabelasEntreVerdes")) {
+                modelo.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
+            } else if (modeloNode.has("limiteTabelasEntreVerdes")) {
+                modelo.setLimiteTabelasEntreVerdes(modeloNode.get("limiteTabelasEntreVerdes").asInt());
+            }
+
+
 
             controlador.setModelo(modelo);
         }
@@ -1635,6 +1657,120 @@ public class ControladorCustomDeserializer {
             };
             runLater(c);
         }
+
+        FaixasDeValores valores = parseFaixasDeValores(node);
+        controlador.setRangeUtils(RangeUtils.getInstance(valores));
+    }
+
+    private FaixasDeValores parseFaixasDeValores(JsonNode node) {
+        FaixasDeValores valores = new FaixasDeValores();
+
+        if (node.has("verdeMin")) {
+            valores.setTempoVerdeMin(node.get("verdeMin").asInt());
+        }
+        if (node.has("verdeMax")) {
+            valores.setTempoVerdeMax(node.get("verdeMax").asInt());
+        }
+        if (node.has("verdeMinimoMin")) {
+            valores.setTempoVerdeMinimoMin(node.get("verdeMinimoMin").asInt());
+        }
+        if (node.has("verdeMinimoMax")) {
+            valores.setTempoVerdeMinimoMax(node.get("verdeMinimoMax").asInt());
+        }
+        if (node.has("verdeMaximoMin")) {
+            valores.setTempoVerdeMaximoMin(node.get("verdeMaximoMin").asInt());
+        }
+        if (node.has("verdeMaximoMax")) {
+            valores.setTempoVerdeMaximoMax(node.get("verdeMaximoMax").asInt());
+        }
+        if (node.has("extensaoVerdeMin")) {
+            valores.setTempoExtensaoVerdeMin(node.get("extensaoVerdeMin").asDouble());
+        }
+        if (node.has("extensaoVerdeMax")) {
+            valores.setTempoExtensaoVerdeMax(node.get("extensaoVerdeMax").asDouble());
+        }
+        if (node.has("verdeIntermediarioMin")) {
+            valores.setTempoVerdeIntermediarioMin(node.get("verdeIntermediarioMin").asInt());
+        }
+        if (node.has("verdeIntermediarioMax")) {
+            valores.setTempoVerdeIntermediarioMax(node.get("verdeIntermediarioMax").asInt());
+        }
+        if (node.has("defasagemMin")) {
+            valores.setTempoDefasagemMin(node.get("defasagemMin").asInt());
+        }
+        if (node.has("defasagemMax")) {
+            valores.setTempoDefasagemMax(node.get("defasagemMax").asInt());
+        }
+        if (node.has("amareloMin")) {
+            valores.setTempoAmareloMin(node.get("amareloMin").asInt());
+        }
+        if (node.has("amareloMax")) {
+            valores.setTempoAmareloMax(node.get("amareloMax").asInt());
+        }
+        if (node.has("vermelhoIntermitenteMin")) {
+            valores.setTempoVermelhoIntermitenteMin(node.get("vermelhoIntermitenteMin").asInt());
+        }
+        if (node.has("vermelhoIntermitenteMax")) {
+            valores.setTempoVermelhoIntermitenteMax(node.get("vermelhoIntermitenteMax").asInt());
+        }
+        if (node.has("vermelhoLimpezaVeicularMin")) {
+            valores.setTempoVermelhoLimpezaVeicularMin(node.get("vermelhoLimpezaVeicularMin").asInt());
+        }
+        if (node.has("vermelhoLimpezaVeicularMax")) {
+            valores.setTempoVermelhoLimpezaVeicularMax(node.get("vermelhoLimpezaVeicularMax").asInt());
+        }
+        if (node.has("vermelhoLimpezaPedestreMin")) {
+            valores.setTempoVermelhoLimpezaPedestreMin(node.get("vermelhoLimpezaPedestreMin").asInt());
+        }
+        if (node.has("vermelhoLimpezaPedestreMax")) {
+            valores.setTempoVermelhoLimpezaPedestreMax(node.get("vermelhoLimpezaPedestreMax").asInt());
+        }
+        if (node.has("atrasoGrupoMin")) {
+            valores.setTempoAtrasoGrupoMin(node.get("atrasoGrupoMin").asInt());
+        }
+        if (node.has("atrasoGrupoMax")) {
+            valores.setTempoAtrasoGrupoMax(node.get("atrasoGrupoMax").asInt());
+        }
+        if (node.has("verdeSegurancaVeicularMin")) {
+            valores.setTempoVerdeSegurancaVeicularMin(node.get("verdeSegurancaVeicularMin").asInt());
+        }
+        if (node.has("verdeSegurancaVeicularMax")) {
+            valores.setTempoVerdeSegurancaVeicularMax(node.get("verdeSegurancaVeicularMax").asInt());
+        }
+        if (node.has("verdeSegurancaPedestreMin")) {
+            valores.setTempoVerdeSegurancaPedestreMin(node.get("verdeSegurancaPedestreMin").asInt());
+        }
+        if (node.has("verdeSegurancaPedestreMax")) {
+            valores.setTempoVerdeSegurancaPedestreMax(node.get("verdeSegurancaPedestreMax").asInt());
+        }
+        if (node.has("maximoPermanenciaEstagioMin")) {
+            valores.setTempoMaximoPermanenciaEstagioMin(node.get("maximoPermanenciaEstagioMin").asInt());
+        }
+        if (node.has("maximoPermanenciaEstagioMax")) {
+            valores.setTempoMaximoPermanenciaEstagioMax(node.get("maximoPermanenciaEstagioMax").asInt());
+        }
+        if (node.has("defaultMaximoPermanenciaEstagioVeicular")) {
+            valores.setDefaultTempoMaximoPermanenciaEstagioVeicular(node.get("defaultMaximoPermanenciaEstagioVeicular").asInt());
+        }
+        if (node.has("cicloMin")) {
+            valores.setTempoCicloMin(node.get("cicloMin").asInt());
+        }
+        if (node.has("cicloMax")) {
+            valores.setTempoCicloMax(node.get("cicloMax").asInt());
+        }
+        if (node.has("ausenciaDeteccaoMin")) {
+            valores.setTempoAusenciaDeteccaoMin(node.get("ausenciaDeteccaoMin").asInt());
+        }
+        if (node.has("ausenciaDeteccaoMax")) {
+            valores.setTempoAusenciaDeteccaoMax(node.get("ausenciaDeteccaoMax").asInt());
+        }
+        if (node.has("deteccaoPermanenteMin")) {
+            valores.setTempoDeteccaoPermanenteMin(node.get("deteccaoPermanenteMin").asInt());
+        }
+        if (node.has("deteccaoPermanenteMax")) {
+            valores.setTempoDeteccaoPermanenteMax(node.get("deteccaoPermanenteMax").asInt());
+        }
+        return valores;
     }
 
     private void parseCollection(String collection, JsonNode node, List list, final String cacheContainer, final String callie) {

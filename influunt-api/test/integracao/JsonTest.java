@@ -8,6 +8,7 @@ import json.ControladorCustomSerializer;
 import models.Cidade;
 import models.Controlador;
 import org.junit.Test;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.List;
@@ -30,7 +31,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
         erros = getErros(controlador).stream().sorted((e1, e2) -> e1.path.compareTo(e2.path)).collect(Collectors.toList());
         assertThat(erros, org.hamcrest.Matchers.empty());
 
-        JsonNode configuracaoControladorJson = new ControladorCustomSerializer().getPacoteConfiguracaoJson(controlador, Cidade.find.all());
+        JsonNode configuracaoControladorJson = new ControladorCustomSerializer().getPacoteConfiguracaoJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
         Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(configuracaoControladorJson);
 
         controlador.refresh();
