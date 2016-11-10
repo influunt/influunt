@@ -114,7 +114,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
-        assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
+        versaoControlador = VersaoControlador.find.byId(controladorClonado.getVersaoControlador().getId());
+        assertNotEquals(versaoControlador, null);
+        assertEquals("Total de Versoes", 2, versaoControlador.getControladorFisico().getVersoes().size());
 
         // tabela horária
         VersaoTabelaHoraria versaoAntiga = controlador.getVersoesTabelasHorarias().get(0);

@@ -1466,11 +1466,76 @@ public class ControladorCustomDeserializer {
         }
 
         if (node.has("subarea") && node.get("subarea").get("id") != null) {
-            controlador.setSubarea(Subarea.find.byId(UUID.fromString(node.get("subarea").get("id").asText())));
+            JsonNode subareaNode = node.get("subarea");
+            Subarea subarea = new Subarea();
+            subarea.setId(UUID.fromString(subareaNode.get("id").asText()));
+            if (subareaNode.has("idJson")) {
+                subarea.setIdJson(subareaNode.get("idJson").asText());
+            }
+            if (subareaNode.has("nome")) {
+                subarea.setNome(subareaNode.get("nome").asText());
+            }
+            if (subareaNode.has("numero")) {
+                subarea.setNumero(subareaNode.get("numero").asInt());
+            }
+            if (subareaNode.has("area") && subareaNode.get("area").get("idJson") != null) {
+                final String areaIdJson = subareaNode.get("area").get("idJson").asText();
+                Consumer<Map<String, Map>> c = (caches) -> {
+                    Map map = caches.get(AREAS);
+                    subarea.setArea((Area) map.get(areaIdJson));
+                };
+                runLater(c);
+            }
+            controlador.setSubarea(subarea);
         }
 
         if (node.has("modelo") && node.get("modelo").get("id") != null) {
-            controlador.setModelo(ModeloControlador.find.byId(UUID.fromString(node.get("modelo").get("id").asText())));
+            JsonNode modeloNode = node.get("modelo");
+            ModeloControlador modelo = new ModeloControlador();
+            modelo.setId(UUID.fromString(modeloNode.get("id").asText()));
+
+            if (modeloNode.has("idJson")) {
+                modelo.setIdJson(modeloNode.get("idJson").asText());
+            }
+
+            if (modeloNode.has("descricao")) {
+                modelo.setDescricao(modeloNode.get("descricao").asText());
+            }
+
+            if (modeloNode.has("fabricante") && modeloNode.get("fabricante").has("id")) {
+                JsonNode fabricanteNode = modeloNode.get("fabricante");
+                Fabricante fabricante = new Fabricante();
+                fabricante.setId(UUID.fromString(fabricanteNode.get("id").asText()));
+
+                if (fabricanteNode.has("nome")) {
+                    fabricante.setNome(fabricanteNode.get("nome").asText());
+                }
+                modelo.setFabricante(fabricante);
+            }
+
+            if (node.has("limiteEstagio")) {
+                modelo.setLimiteEstagio(node.get("limiteEstagio").asInt());
+            }
+            if (node.has("limiteGrupoSemaforico")) {
+                modelo.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico").asInt());
+            }
+            if (node.has("limiteAnel")) {
+                modelo.setLimiteAnel(node.get("limiteAnel").asInt());
+            }
+            if (node.has("limiteDetectorPedestre")) {
+                modelo.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre").asInt());
+            }
+            if (node.has("limiteDetectorVeicular")) {
+                modelo.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular").asInt());
+            }
+            if (node.has("limiteTabelasEntreVerdes")) {
+                modelo.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
+            }
+            if (node.has("limitePlanos")) {
+                modelo.setLimitePlanos(node.get("limitePlanos").asInt());
+            }
+
+            controlador.setModelo(modelo);
         }
 
         if (node.has("croqui") && node.get("croqui").get("id") != null) {
@@ -1482,17 +1547,68 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
-        if (node.has("versaoControlador") && node.get("versaoControlador").get("id") != null) {
-            VersaoControlador versao = VersaoControlador.find.byId(UUID.fromString(node.get("versaoControlador").get("id").asText()));
-            if (versao != null) {
-                if (node.get("versaoControlador").get("descricao") != null) {
-                    versao.setDescricao(node.get("versaoControlador").get("descricao").asText());
-                }
-                if (node.get("statusControlador") != null) {
-                    versao.setStatusVersao(StatusVersao.valueOf(node.get("statusControlador").asText()));
-                }
-                controlador.setVersaoControlador(versao);
+        if (node.has("versaoControlador") && !node.get("versaoControlador").get("id").isNull()) {
+            VersaoControlador versao = new VersaoControlador();
+            JsonNode versaoNode = node.get("versaoControlador");
+            versao.setId(UUID.fromString(versaoNode.get("id").asText()));
+
+            if (versaoNode.has("idJson") && !versaoNode.get("idJson").isNull()) {
+                versao.setIdJson(versaoNode.get("idJson").asText());
             }
+
+            if (versaoNode.has("descricao")) {
+                versao.setDescricao(versaoNode.get("descricao").asText());
+            }
+
+            if (versaoNode.has("statusVersao")) {
+                versao.setStatusVersao(StatusVersao.valueOf(versaoNode.get("statusVersao").asText()));
+            }
+
+            if (versaoNode.has("usuario")) {
+                JsonNode usuarioNode = versaoNode.get("usuario");
+                Usuario usuario = new Usuario();
+
+                if (usuarioNode.has("id") && !usuarioNode.get("id").isNull()) {
+                    usuario.setId(UUID.fromString(usuarioNode.get("id").asText()));
+                }
+
+                if (usuarioNode.has("nome")) {
+                    usuario.setNome(usuarioNode.get("nome").asText());
+                }
+
+                if (usuarioNode.has("login")) {
+                    usuario.setLogin(usuarioNode.get("login").asText());
+                }
+
+                if (usuarioNode.has("email")) {
+                    usuario.setEmail(usuarioNode.get("email").asText());
+                }
+
+                if (usuarioNode.has("area") && !usuarioNode.get("area").get("idJson").isNull()) {
+                    final String areaIdJson = usuarioNode.get("area").get("idJson").asText();
+                    Consumer<Map<String, Map>> c = (caches) -> {
+                        Map map = caches.get(AREAS);
+                        usuario.setArea((Area) map.get(areaIdJson));
+                    };
+                    runLater(c);
+                }
+
+                versao.setUsuario(usuario);
+            }
+
+            if (versaoNode.has("controladorOrigem") && versaoNode.get("controladorOrigem").get("id") != null) {
+                Controlador controladorOrigem = new Controlador();
+                controladorOrigem.setId(UUID.fromString(versaoNode.get("controladorOrigem").get("id").asText()));
+                versao.setOrigem(controladorOrigem);
+            }
+
+            if (versaoNode.has("controladorFisico") && versaoNode.get("controladorFisico").get("id") != null) {
+                ControladorFisico controladorFisico = new ControladorFisico();
+                controladorFisico.setId(UUID.fromString(versaoNode.get("controladorFisico").get("id").asText()));
+                versao.setControladorFisico(controladorFisico);
+            }
+            versao.setControlador(controlador);
+            controlador.setVersaoControlador(versao);
         }
 
         if (node.get("bloqueado") != null) {

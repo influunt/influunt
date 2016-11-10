@@ -526,7 +526,7 @@ public class ControladorCustomSerializer {
         if (modeloControlador == null) {
             return;
         }
-        ObjectNode modeloJson = Json.newObject();
+        ObjectNode modeloJson = root.putObject("modelo");
         if (modeloControlador.getId() == null) {
             modeloJson.putNull("id");
         } else {
@@ -538,13 +538,13 @@ public class ControladorCustomSerializer {
         } else {
             modeloJson.put("idJson", modeloControlador.getIdJson().toString());
         }
+
         if (modeloControlador.getDescricao() != null) {
             modeloJson.put("descricao", modeloControlador.getDescricao());
         }
 
         if (modeloControlador.getFabricante() != null) {
-
-            ObjectNode fabricanteJson = Json.newObject();
+            ObjectNode fabricanteJson = modeloJson.putObject("fabricante");
             Fabricante fabricante = modeloControlador.getFabricante();
 
             if (fabricante.getId() == null) {
@@ -556,10 +556,7 @@ public class ControladorCustomSerializer {
             if (fabricante.getNome() != null) {
                 fabricanteJson.put("nome", fabricante.getNome());
             }
-            modeloJson.set("fabricante", fabricanteJson);
-
         }
-        root.set("modelo", modeloJson);
     }
 
     private void putControladorSubarea(Subarea subarea, ObjectNode root) {
@@ -587,6 +584,10 @@ public class ControladorCustomSerializer {
             subareaJson.put("numero", subarea.getNumero());
         }
 
+        if (subarea.getArea() != null) {
+            subareaJson.putObject("area").put("idJson", subarea.getArea().getIdJson());
+        }
+
         root.set("subarea", subareaJson);
     }
 
@@ -594,7 +595,8 @@ public class ControladorCustomSerializer {
         if (versaoControlador == null) {
             return;
         }
-        ObjectNode versaoJson = Json.newObject();
+
+        ObjectNode versaoJson = root.putObject("versaoControlador");
         if (versaoControlador.getId() == null) {
             versaoJson.putNull("id");
         } else {
@@ -606,29 +608,30 @@ public class ControladorCustomSerializer {
         } else {
             versaoJson.put("idJson", versaoControlador.getIdJson());
         }
+
         if (versaoControlador.getDescricao() != null) {
             versaoJson.put("descricao", versaoControlador.getDescricao());
         }
 
         if (versaoControlador.getStatusVersao() != null) {
+            versaoJson.put("statusVersao", versaoControlador.getStatusVersao().toString());
             root.put("statusVersao", versaoControlador.getStatusVersao().toString());
         }
 
-        if (versaoControlador.getControladorOrigem() != null && versaoControlador.getControladorOrigem().getIdJson() != null) {
-            versaoJson.putObject("controladorOrigem").put("idJson", versaoControlador.getControladorOrigem().getIdJson());
+        if (versaoControlador.getControladorOrigem() != null && versaoControlador.getControladorOrigem().getId() != null) {
+            versaoJson.putObject("controladorOrigem").put("id", versaoControlador.getControladorOrigem().getId().toString());
         }
 
-        if (versaoControlador.getControlador() != null && versaoControlador.getControlador().getIdJson() != null) {
-            versaoJson.putObject("controlador").put("idJson", versaoControlador.getControlador().getIdJson());
+        if (versaoControlador.getControlador() != null && versaoControlador.getControlador().getId() != null) {
+            versaoJson.putObject("controlador").put("id", versaoControlador.getControlador().getId().toString());
         }
 
-        if (versaoControlador.getControladorFisico() != null && versaoControlador.getControladorFisico().getIdJson() != null) {
-            versaoJson.putObject("controladorFisico").put("idJson", versaoControlador.getControladorFisico().getIdJson());
+        if (versaoControlador.getControladorFisico() != null && versaoControlador.getControladorFisico().getId() != null) {
+            versaoJson.putObject("controladorFisico").put("id", versaoControlador.getControladorFisico().getId().toString());
         }
 
         if (versaoControlador.getUsuario() != null) {
-
-            ObjectNode usuarioJson = Json.newObject();
+            ObjectNode usuarioJson = versaoJson.putObject("usuario");
             Usuario usuario = versaoControlador.getUsuario();
 
             if (usuario.getId() == null) {
@@ -652,11 +655,7 @@ public class ControladorCustomSerializer {
             if (usuario.getArea() != null && usuario.getArea().getIdJson() != null) {
                 usuarioJson.putObject("area").put("idJson", usuario.getArea().getIdJson());
             }
-
-            versaoJson.set("usuario", usuarioJson);
         }
-
-        root.set("versaoControlador", versaoJson);
     }
 
     private JsonNode getAreaJson(Area area) {
@@ -937,7 +936,7 @@ public class ControladorCustomSerializer {
             planoJson.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(plano.getDataAtualizacao()));
         }
         if (plano.getAnel() != null && plano.getAnel().getIdJson() != null) {
-            planoJson.putObject("anel").put("idJson", plano.getAnel().getIdJson().toString());
+            planoJson.putObject("anel").put("idJson", plano.getAnel().getIdJson());
         }
 
         refVersoesPlanos("versaoPlano", plano.getVersaoPlano(), planoJson);
@@ -1042,7 +1041,7 @@ public class ControladorCustomSerializer {
             eventoJson.put("id", evento.getId().toString());
         }
         if (evento.getIdJson() != null) {
-            eventoJson.put("idJson", evento.getIdJson().toString());
+            eventoJson.put("idJson", evento.getIdJson());
         }
         if (evento.getPosicao() != null) {
             eventoJson.put("posicao", evento.getPosicao().toString());
@@ -1054,7 +1053,7 @@ public class ControladorCustomSerializer {
             eventoJson.put("diaDaSemana", evento.getDiaDaSemana().toString());
         }
         if (evento.getNome() != null) {
-            eventoJson.put("nome", evento.getNome().toString());
+            eventoJson.put("nome", evento.getNome());
         }
         if (evento.getData() != null) {
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -1067,7 +1066,7 @@ public class ControladorCustomSerializer {
             eventoJson.put("posicaoPlano", evento.getPosicaoPlano().toString());
         }
         if (evento.getTabelaHorario() != null && evento.getTabelaHorario().getIdJson() != null) {
-            eventoJson.putObject("tabelaHoraria").put("idJson", evento.getTabelaHorario().getIdJson().toString());
+            eventoJson.putObject("tabelaHoraria").put("idJson", evento.getTabelaHorario().getIdJson());
         }
 
         return eventoJson;
