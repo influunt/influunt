@@ -138,7 +138,7 @@ angular.module('influuntApp')
           markers = _
             .chain(markers)
             .orderBy('options.tipo', ['desc'])
-            .uniqBy(function(m) { return m.latitude + '' + m.longitude })
+            .uniqBy(function(m) { return m.latitude + '' + m.longitude; })
             .value();
 
           markersLayer = new L.markerClusterGroup();
