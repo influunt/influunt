@@ -12,6 +12,8 @@ import models.Cidade;
 import models.Controlador;
 import models.StatusDevice;
 
+import java.util.Collections;
+
 /**
  * Created by leonardo on 9/13/16.
  */
@@ -63,7 +65,7 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControlador(Controlador controlador) {
-        this.controlador.put("atual", new ControladorCustomSerializer().getControladorJson(controlador, null).toString());
+        this.controlador.put("atual", new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade())).toString());
         db.commit();
     }
 
@@ -74,7 +76,7 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControladorStaging(Controlador controlador) {
-        this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador, null).toString());
+        this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade())).toString());
         db.commit();
     }
 

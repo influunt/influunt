@@ -5,6 +5,7 @@ import models.Cidade;
 import models.Controlador;
 import models.StatusVersao;
 
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -23,7 +24,7 @@ public class Configuracao {
                     envelope.getIdControlador(),
                     "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                     2,
-                    new ControladorCustomSerializer().getControladorJson(controlador, null).toString(),
+                    new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade())).toString(),
                     envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,
