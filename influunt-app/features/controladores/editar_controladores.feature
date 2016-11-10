@@ -21,4 +21,5 @@ Funcionalidade: Editar um controlador
     E o usuário marcar a transição de "E1" para "E3" como proibida
     E o usuário na transição proibida "E1-E3" selecionar a alternativa "E2"
     Quando clicar no botão para ir pro próximo passo
-    Então o sistema irá avançar para o passo "Tabela Entre Verdes"
+    #TESTE AGUARDANDO A SOLUÇÃO DA ISSUE #1393
+    # Então o sistema irá avançar para o passo "Tabela Entre Verdes"
