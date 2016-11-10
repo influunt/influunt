@@ -1,0 +1,36 @@
+package engine.eventos;
+
+import com.google.common.collect.RangeMap;
+import com.google.common.collect.TreeRangeMap;
+import engine.AgendamentoTrocaPlano;
+import engine.EventoMotor;
+import engine.GerenciadorDeEstagios;
+import engine.IntervaloEstagio;
+import engine.services.PlanoService;
+import models.EstagioPlano;
+import models.Plano;
+
+/**
+ * Created by rodrigosol on 11/8/16.
+ */
+public class VerdeConflitanteHandle extends GerenciadorDeEventos {
+    private final long contadorIntervalo;
+
+    private final EstagioPlano estagioPlanoAnterior;
+
+    private RangeMap<Long, IntervaloEstagio> intervalos;
+
+    public VerdeConflitanteHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
+        super(gerenciadorDeEstagios);
+        this.contadorIntervalo = gerenciadorDeEstagios.getContadorIntervalo();
+        this.estagioPlanoAnterior = gerenciadorDeEstagios.getEstagioPlanoAnterior();
+        this.intervalos = gerenciadorDeEstagios.getIntervalos();
+    }
+
+    @Override
+    protected void processar(EventoMotor eventoMotor) {
+        Plano plano = PlanoService.gerarPlanoIntermitentePorFalha(gerenciadorDeEstagios.getPlano());
+        terminaTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+        gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp(), true));
+    }
+}
