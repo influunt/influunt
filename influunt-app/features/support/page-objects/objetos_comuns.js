@@ -202,6 +202,10 @@ var ObjetosComuns = function () {
     return world.select2OptionByXpath(field, option);
   };
 
+  this.selectBySelectOptionAtribute = function(campo, selectSelector, optionAtribute, value) {
+    return world.selectByOptionAtribute(campo, selectSelector, optionAtribute, value);
+  };
+
   this.removeSelect2Option = function(option, field) {
     return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
       return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();

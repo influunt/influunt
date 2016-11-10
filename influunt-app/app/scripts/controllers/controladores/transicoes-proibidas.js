@@ -59,7 +59,7 @@ angular.module('influuntApp')
             $scope.inicializaConfirmacaoNadaHaPreencher();
             $scope.selecionaAnel(anelEscolhido);
             $scope.atualizaEstagios();
-            $scope.atualizaTransicoesProibidas();
+            $scope.atualizaTransicoesProibidas(anelEscolhido);
           }
         });
       };
@@ -215,11 +215,11 @@ angular.module('influuntApp')
       $scope.selecionaAnelTransicoesProibidas = function(index) {
         $scope.selecionaAnel(index);
         $scope.atualizaEstagios();
-        $scope.atualizaTransicoesProibidas();
+        $scope.atualizaTransicoesProibidas(index);
       };
 
-      $scope.atualizaTransicoesProibidas = function() {
-        $scope.currentTransicoesProibidas = $scope.currentAnel.transicoesProibidas;
+      $scope.atualizaTransicoesProibidas = function(anelIndex) {
+        $scope.currentTransicoesProibidas = $scope.aneis[anelIndex].transicoesProibidas;
         return $scope.currentTransicoesProibidas;
       };
 
