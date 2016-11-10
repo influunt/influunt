@@ -21,8 +21,7 @@ angular.module('influuntApp')
 
         scope.mapOptions = {
           componentRestrictions: {
-            country: ['br'],
-            // administrativeArea: ['São Paulo'],
+            country: ['br']
           }
         };
 

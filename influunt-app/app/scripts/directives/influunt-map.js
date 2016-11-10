@@ -238,7 +238,6 @@ angular.module('influuntApp')
         getBoundingBox = function(points) {
           var boxedPoints = [];
           _.each(points, function(point) {
-            // var point = new L.LatLng(point.latitude, point.longitude);
             boxedPoints.push(point);
             for (var i = 0; i < 360; i += BOUNDING_BOX_VARIATION) {
               boxedPoints.push(point.destinationPoint(i, BOUNDING_BOX_SIZE));
@@ -277,7 +276,6 @@ angular.module('influuntApp')
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
-            // agrupaAneis(markers);
           }
         };
 
