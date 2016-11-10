@@ -412,7 +412,9 @@ var WizardControladorPage = function () {
     var tr = parseInt(e1.substring(1));
     var td = parseInt(e2.substring(1)) + 1;
     return world.scrollToDown().then(function() {
-      return world.getElement('tbody tr:nth-child('+tr+') td:nth-child('+td+')').click();
+      return world.waitForOverlayDisappear().then(function(){
+        return world.getElement('tbody tr:nth-child('+tr+') td:nth-child('+td+')').click();
+      });
     });
   };
 

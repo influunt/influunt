@@ -142,5 +142,4 @@ module.exports = function() {
   this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
     return sharedSteps.removeSelect2Option(opcao, campo);
   });
-
 };
