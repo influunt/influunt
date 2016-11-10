@@ -20,7 +20,7 @@ public class TrocaEstagioManualHandle extends GerenciadorDeEventos{
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
-        if (anel.isAceitaModoManual()) {
+        if (anel.isAceitaModoManual() && !estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
             reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
         }
     }

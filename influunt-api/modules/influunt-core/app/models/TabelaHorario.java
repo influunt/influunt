@@ -185,4 +185,8 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
             }
         }
     }
+
+    public Anel findAnelByPosicao(Integer posicao) {
+        return getControlador().findAnelByPosicao(posicao);
+    }
 }

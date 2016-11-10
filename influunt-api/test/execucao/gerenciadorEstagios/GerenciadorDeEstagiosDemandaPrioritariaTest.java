@@ -7,6 +7,7 @@ import models.Anel;
 import models.Detector;
 import models.EstadoGrupoSemaforico;
 import models.Plano;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -244,24 +245,31 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         Anel anel = getAnel(2);
         anel.setAceitaModoManual(true);
         Plano plano = getPlanoDemandaPrioritaria(anel);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
         Detector detector = getDetector(anel, 1);
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, new DateTime(2016, 10, 10, 0, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 90);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 5);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 55);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 20);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 20);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        avancar(gerenciadorDeEstagios, 20);
+        trocarEstagioModoManual(gerenciadorDeEstagios);
+        avancar(gerenciadorDeEstagios, 50);
+        trocarEstagioModoManual(gerenciadorDeEstagios);
+        avancar(gerenciadorDeEstagios, 30);
+        trocarEstagioModoManual(gerenciadorDeEstagios);
+        avancar(gerenciadorDeEstagios, 40);
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 200);
 
         imprimirListaEstagios(listaEstagios);
@@ -277,5 +285,8 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(193)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(211)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(250)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(270)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(300)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(340)).getEstagio().getPosicao().intValue());
     }
 }

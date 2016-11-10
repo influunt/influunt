@@ -6,6 +6,7 @@ import models.Anel;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
 import models.Plano;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -20,16 +21,16 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     public void repeticaoDeEstagio() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 7);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 5);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 15);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 200);
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
@@ -45,12 +46,12 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     public void limitePermanenciaEstagio() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 7);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 200);
 
         plano.imprimirTabelaEntreVerde();
@@ -71,14 +72,14 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         Anel anel = getAnel(1);
         geraPlanoExclusivo(anel);
         Plano plano = getPlano(anel, 7);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
 
         avancar(gerenciadorDeEstagios, 100);
-        trocarEstagioModoManual();
-        avancar(gerenciadorDeEstagios, 200);
+        trocarEstagioModoManual(gerenciadorDeEstagios);
+        avancar(gerenciadorDeEstagios, 140);
 
         plano.imprimirTabelaEntreVerde();
 
@@ -100,10 +101,10 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         anel.setAceitaModoManual(true);
         Plano plano = getPlano(anel, 11);
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, new DateTime(2016, 10, 10, 8, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 600);
 
         plano.imprimirTabelaEntreVerde();
@@ -120,20 +121,20 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         Anel anel = getAnel(2);
         anel.setAceitaModoManual(true);
         Plano plano = getPlano(anel, 11);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, new DateTime(2016, 10, 10, 8, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 85);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 5);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 48);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 5);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 63);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
 
         plano.imprimirTabelaEntreVerde();
@@ -155,11 +156,11 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 5);
-        desativarModoManual(1, plano);
+        desativarModoManual(gerenciadorDeEstagios, plano);
         avancar(gerenciadorDeEstagios, 200);
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
@@ -179,14 +180,14 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 10);
-        acionarModoManual();
-        trocarEstagioModoManual();
+        acionarModoManual(gerenciadorDeEstagios);
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 85);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 5);
-        desativarModoManual(2, plano);
+        desativarModoManual(gerenciadorDeEstagios, plano);
         avancar(gerenciadorDeEstagios, 48);
-        trocarEstagioModoManual();
+        trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
 
         plano.imprimirTabelaEntreVerde();

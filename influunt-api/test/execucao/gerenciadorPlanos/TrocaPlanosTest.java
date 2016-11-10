@@ -2,6 +2,7 @@ package execucao.gerenciadorPlanos;
 
 
 import engine.Motor;
+import execucao.GerenciadorDeTrocasTest;
 import execucao.MotorTest;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class TrocaPlanosTest extends MotorTest {
+public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     @Test
     public void entradaPlanoNormalTest() throws IOException {
         inicioControlador = new DateTime(2016, 11, 5, 18, 0, 0);
@@ -47,7 +48,7 @@ public class TrocaPlanosTest extends MotorTest {
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 14, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 18, listaTrocaPlano.size());
     }
 
     @Test
@@ -75,7 +76,7 @@ public class TrocaPlanosTest extends MotorTest {
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 3, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 5, listaTrocaPlano.size());
 
         listaTrocaPlano = new HashMap<>();
         inicioControlador = new DateTime(2017, 12, 25, 0, 0, 0);
@@ -83,7 +84,7 @@ public class TrocaPlanosTest extends MotorTest {
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 3, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 5, listaTrocaPlano.size());
     }
 
     @Test
@@ -111,7 +112,7 @@ public class TrocaPlanosTest extends MotorTest {
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 3, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 5, listaTrocaPlano.size());
 
         listaTrocaPlano = new HashMap<>();
         inicioControlador = new DateTime(2018, 3, 15, 0, 0, 0);
@@ -119,6 +120,6 @@ public class TrocaPlanosTest extends MotorTest {
         motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 14, listaTrocaPlano.size());
+        assertEquals("Total de trocas", 18, listaTrocaPlano.size());
     }
 }

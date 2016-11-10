@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by rodrigosol on 9/26/16.
  */
-public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
+public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private final DateTime inicioControlador;
 
@@ -50,10 +50,10 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
         Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {
-            callback.onTrocaDePlano(instante,eventoAtual,evento,getPlanos(evento).stream().map(p -> p.getModoOperacao().toString()).collect(Collectors.toList()));
-            if(eventoAtual == null){
+            callback.onTrocaDePlano(instante, eventoAtual, evento, getPlanos(evento).stream().map(p -> p.getModoOperacao().toString()).collect(Collectors.toList()));
+            if (eventoAtual == null) {
                 iniciarGrupos = true;
-            }else{
+            } else {
                 estagios.stream().forEach(gerenciadorDeEstagios -> {
                     gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento, getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1), instante));
                 });
@@ -63,6 +63,7 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
         if (iniciarGrupos) {
             List<Plano> planos = getPlanos(eventoAtual);
+            estagios = new ArrayList<>();
             for (int i = 1; i <= planos.size(); i++) {
                 estagios.add(new GerenciadorDeEstagios(i, inicioControlador, instante, planos.get(i - 1), this, this));
             }
@@ -95,9 +96,9 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
 
     private List<Plano> getPlanos(Evento evento) {
         return controlador.getAneis().stream().sorted((a1, a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
-                .flatMap(anel -> anel.getPlanos().stream())
-                .filter(plano -> plano.getPosicao() == evento.getPosicaoPlano())
-                .collect(Collectors.toList());
+            .flatMap(anel -> anel.getPlanos().stream())
+            .filter(plano -> plano.getPosicao().equals(evento.getPosicaoPlano()))
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -114,6 +115,9 @@ public class Motor implements  EventoCallback, GerenciadorDeEstagiosCallback {
         return estagios;
     }
 
+    public void setEstagios(List<GerenciadorDeEstagios> estagios) {
+        this.estagios = estagios;
+    }
 
     public Plano getPlanoAtual(Integer anel) {
         return getPlanos(eventoAtual).get(anel - 1);

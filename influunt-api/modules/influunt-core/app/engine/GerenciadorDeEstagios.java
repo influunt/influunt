@@ -61,6 +61,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private final Motor motor;
 
+
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  DateTime inicioExecucao,
@@ -82,7 +83,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
         //TODO: Se o intermitente sair antes de terminar o entreverde do estágio anterior o que deve acontecer?
-        if (this.agendamento != null && (this.plano.isIntermitente() || this.plano.isApagada()) && !intervalo.isEntreverde()) {
+        if (this.agendamento != null && intervalo != null && (this.plano.isIntermitente() || this.plano.isApagada()) && !intervalo.isEntreverde()) {
             Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
@@ -102,17 +103,17 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
-        if (this.intervalos.get(contadorIntervalo) == null) {
+        if (intervalo == null) {
             contadorIntervalo = 0L;
             contadorEstagio++;
             if (this.agendamento != null && temQueExecutarOAgendamento()) {
-                contadorEstagio = 0;
+                reiniciaContadorEstagio();
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
                 executaAgendamentoTrocaDePlano();
             } else if (contadorEstagio == listaEstagioPlanos.size()) {
                 atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
-                contadorEstagio = 0;
+                reiniciaContadorEstagio();
                 verificaEAjustaIntermitenteCasoDemandaPrioritaria();
                 geraIntervalos(0);
                 contadorDeCiclos++;
@@ -172,8 +173,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
             if (contadorIntervalo >= tempoMaximoEstagio) {
                 if (plano.isManual()) {
-                    this.agendamento.setMomentoOriginal(DateTime.now());
-                    executaAgendamentoTrocaDePlano();
+                    motor.onEvento(new EventoMotor(inicioExecucao.plus(tempoDecorrido), TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
                 } else {
                     //TODO: Deve gerar um erro de máximo permanencia
                 }
@@ -188,13 +188,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void executaAgendamentoTrocaDePlano() {
-        agendamento.setMomentoDaTroca(tempoDecorrido);
-        callback.onTrocaDePlanoEfetiva(agendamento);
-        reconhecePlano(this.agendamento.getPlano());
-        if (this.agendamento.getPlano().isManual()) {
+        if (this.plano.isManual() && !this.agendamento.isSaidaDoModoManual()) {
             this.agendamento = null;
-            agendarTrocaPlano(getEstagioPlanoAnterior().getPlano());
+            trocarPlano(new AgendamentoTrocaPlano(null, getEstagioPlanoAnterior().getPlano(), null));
         } else {
+            agendamento.setMomentoDaTroca(tempoDecorrido);
+            callback.onTrocaDePlanoEfetiva(agendamento);
+            reconhecePlano(this.agendamento.getPlano());
             this.agendamento = null;
         }
 
@@ -210,10 +210,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
         reconhecePlano(plano, false);
     }
 
-    private void agendarTrocaPlano(Plano plano){
-        trocarPlano(new AgendamentoTrocaPlano(null, plano, null));
-    }
-
     private void reconhecePlano(Plano plano, boolean inicio) {
         if (this.plano == null || !this.plano.isImpostoPorFalha()) {
             if (this.plano != null) {
@@ -224,7 +220,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
             this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
-            contadorEstagio = 0;
+            reiniciaContadorEstagio();
             contadorIntervalo = 0L;
             contadorDeCiclos = 0L;
 
@@ -327,6 +323,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public Motor getMotor() {
         return motor;
+    }
+
+    public void reiniciaContadorEstagio() {
+        contadorEstagio = 0;
     }
 
     private class GetIntervaloGrupoSemaforico {

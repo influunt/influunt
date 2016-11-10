@@ -3,6 +3,7 @@ package execucao.gerenciadorDeErros;
 import engine.EventoMotor;
 import engine.Motor;
 import engine.TipoEvento;
+import execucao.GerenciadorDeTrocasTest;
 import execucao.MotorTest;
 import models.Anel;
 import models.Detector;
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class GerenciadorDeFalhasTest extends MotorTest {
+public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void faseVermelhoGrupoSemaforicoApagado() {

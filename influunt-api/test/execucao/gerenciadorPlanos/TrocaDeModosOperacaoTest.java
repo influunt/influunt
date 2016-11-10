@@ -2,8 +2,10 @@ package execucao.gerenciadorPlanos;
 
 
 import engine.Motor;
+import execucao.GerenciadorDeTrocasTest;
 import execucao.MotorTest;
 import models.EstadoGrupoSemaforico;
+import models.Plano;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -16,7 +18,7 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by rodrigosol on 9/8/16.
  */
-public class TrocaDeModosOperacaoTest extends MotorTest {
+public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void motorTest() throws IOException {
@@ -24,7 +26,6 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         inicioExecucao = new DateTime(2016, 10, 20, 18, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        //Avancar
         avancarSegundos(motor, 210);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -38,7 +39,8 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(70)).get(1).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(86)).get(1).getEstagio().getPosicao().intValue());
 
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(104)).get(1).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(1, 104).getPosicao().intValue());
+
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(104)).get(1).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(114)).get(1).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(134)).get(1).getEstagio().getPosicao().intValue());
@@ -54,7 +56,8 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(77)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(98)).get(2).getEstagio().getPosicao().intValue());
 
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(118)).get(2).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(2, 118).getPosicao().intValue());
+
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(118)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(136)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(158)).get(2).getEstagio().getPosicao().intValue());
@@ -64,10 +67,10 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(38)).get(3).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 4, listaEstagios.get(inicioExecucao.plusSeconds(56)).get(3).getEstagio().getPosicao().intValue());
 
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(75)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(3, 75).getPosicao().intValue());
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(75)).get(3).getEstagio().getPosicao());
 
-        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(120)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 1, getPlanoTrocaEfetiva(3, 120).getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(3).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(133)).get(3).getEstagio().getPosicao().intValue());
     }
@@ -81,7 +84,7 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         //Avancar
         avancarSegundos(motor, 210);
 
-        assertEquals("Plano Atual", 6, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(75)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 6, getPlanoTrocaEfetiva(3, 75).getPosicao().intValue());
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(75)).get(3).getEstagio().getPosicao());
         verificaGruposSemaforicos(75, new GrupoCheck(3, 11, 0, 11000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 11, 11000, 14000, EstadoGrupoSemaforico.VERMELHO));
@@ -109,7 +112,7 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 11000, 14000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 14000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(120)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 1, getPlanoTrocaEfetiva(3, 120).getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(3).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
         verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
@@ -147,7 +150,7 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         //Avancar
         avancarSegundos(motor, 210);
 
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(75)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(3, 75).getPosicao().intValue());
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(75)).get(3).getEstagio().getPosicao());
         verificaGruposSemaforicos(75, new GrupoCheck(3, 11, 0, 11000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 11, 11000, 14000, EstadoGrupoSemaforico.VERMELHO));
@@ -175,7 +178,7 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 11000, 14000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(75, new GrupoCheck(3, 16, 14000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
-        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(120)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 1, getPlanoTrocaEfetiva(3, 120).getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(3).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(120, new GrupoCheck(3, 11, 3000, 13000, EstadoGrupoSemaforico.VERDE));
@@ -206,9 +209,9 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
 
         avancarSegundos(motor, 210);
 
-        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(1).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(80)).get(2).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 16, getPlanoTrocaEfetiva(1, 58).getPosicao().intValue());
+        assertEquals("Plano Atual", 16, getPlanoTrocaEfetiva(2, 80).getPosicao().intValue());
+        assertEquals("Plano Atual", 16, getPlanoTrocaEfetiva(3, 58).getPosicao().intValue());
     }
 
     @Test
@@ -219,11 +222,11 @@ public class TrocaDeModosOperacaoTest extends MotorTest {
 
         avancarSegundos(motor, 210);
 
-        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(1).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(80)).get(2).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 16, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(58)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 16, getPlanoTrocaEfetiva(1, 58).getPosicao().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(2, 80).getPosicao().intValue());
+        assertEquals("Plano Atual", 16, getPlanoTrocaEfetiva(3, 58).getPosicao().intValue());
 
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(69)).get(1).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 10, listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(60)).get(3).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(1, 69).getPosicao().intValue());
+        assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(3, 60).getPosicao().intValue());
     }
 }

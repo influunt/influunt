@@ -646,6 +646,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 6, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
+        plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
         //Plano com estágio 3 dispensavel no fim
         plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 63);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 15, 12});
@@ -679,6 +682,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
+        criarPlano(anel, 7, ModoOperacaoPlano.APAGADO, null);
         criarPlano(anel, 10, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 11, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 12, ModoOperacaoPlano.INTERMITENTE, null);
@@ -718,6 +722,11 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
         criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("02:00:00"), 7);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("03:00:00"), 1);
+
         criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 11);
         criarEvento(tabelaHoraria, 3, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
         criarEvento(tabelaHoraria, 4, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
@@ -733,6 +742,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 9, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:00"), 10);
         criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:58"), 16);
         criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:01:00"), 10);
+
+        criarEvento(tabelaHoraria, 9, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("22:00:00"), 1);
+        criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("22:02:00"), 6);
 
         criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
 

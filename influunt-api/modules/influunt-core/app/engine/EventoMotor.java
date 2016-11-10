@@ -17,7 +17,6 @@ public class EventoMotor {
         this.tipoEvento = tipoEvento;
         this.params = params;
         this.timestamp = timestamp;
-
     }
 
     public TipoEvento getTipoEvento() {

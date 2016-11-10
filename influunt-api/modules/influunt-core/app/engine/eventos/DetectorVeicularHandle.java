@@ -65,13 +65,20 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
             estagioPlano.setTempoVerde(estagio.getTempoVerdeDemandaPrioritaria());
             if (plano.isModoOperacaoVerde()) {
                 estagioPlano.setPlano(plano);
-                listaEstagioPlanos.add(listaEstagioPlanos.indexOf(estagioPlanoAtual) + 1, estagioPlano);
             } else {
                 Plano novoPlano = new Plano();
                 novoPlano.setEstagiosPlanos(plano.getEstagiosPlanos());
                 novoPlano.setGruposSemaforicosPlanos(plano.getGruposSemaforicosPlanos());
                 novoPlano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
                 estagioPlano.setPlano(novoPlano);
+            }
+
+            if (plano.isManual()) {
+                listaEstagioPlanos.clear();
+                listaEstagioPlanos.add(estagioPlanoAtual);
+                listaEstagioPlanos.add(estagioPlano);
+                gerenciadorDeEstagios.reiniciaContadorEstagio();
+            } else {
                 final int index = listaEstagioPlanos.indexOf(estagioPlanoAtual);
                 listaEstagioPlanos.add(index + 1, estagioPlano);
             }

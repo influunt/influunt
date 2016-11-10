@@ -21,10 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -805,5 +802,12 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setPlanosBloqueado(boolean planosBloqueado) {
         this.planosBloqueado = planosBloqueado;
+    }
+
+    public Anel findAnelByPosicao(Integer posicao) {
+        if (Objects.nonNull(posicao)) {
+            return getAneis().stream().filter(anel -> posicao.equals(anel.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
     }
 }

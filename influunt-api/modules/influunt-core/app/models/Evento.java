@@ -354,4 +354,8 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     public void setDestroy(boolean destroy) {
         isDestroy = destroy;
     }
+
+    public Plano getPlano(Integer posicaoAnel) {
+        return getTabelaHorario().findAnelByPosicao(posicaoAnel).findPlanoByPosicao(getPosicaoPlano());
+    }
 }

@@ -2,15 +2,15 @@ package execucao;
 
 
 import config.WithInfluuntApplicationNoAuthentication;
-import engine.AgendamentoTrocaPlano;
-import engine.IntervaloGrupoSemaforico;
-import engine.Motor;
-import engine.MotorCallback;
+import engine.*;
 import integracao.ControladorHelper;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import org.junit.Before;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,110 +24,49 @@ import static org.junit.Assert.assertNotNull;
 public class MotorTest extends WithInfluuntApplicationNoAuthentication implements MotorCallback {
 
     protected Controlador controlador;
-    protected DateTime inicioExecucao;
-    protected DateTime inicioControlador;
-    protected HashMap<DateTime, Evento> listaTrocaPlano;
-    protected HashMap<DateTime, HashMap<Integer, Evento>> listaTrocaPlanoEfetiva;
-    protected HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
-    protected HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
+    protected DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
+    protected DateTime inicioExecucao = new DateTime(2016, 10, 10, 0, 0, 0);
+    protected DateTime instante = new DateTime(2016, 10, 10, 0, 0, 0);
 
-    @Before
-    public void setup() {
-        controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
-        controlador.save();
-        listaTrocaPlano = new HashMap<>();
-        listaTrocaPlanoEfetiva = new HashMap<>();
-        listaEstagios = new HashMap<>();
-        listaHistoricoEstagios = new HashMap<>();
+    //Métodos auxiliares de modo manual
+    protected void acionarModoManual(Motor motor) {
+        motor.onEvento(new EventoMotor(instante, engine.TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL));
     }
 
-    @Override
-    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-        listaTrocaPlano.put(timestamp, eventoAtual);
+    protected void acionarModoManual(GerenciadorDeEstagios gerenciadorDeEstagios) {
+        gerenciadorDeEstagios.onEvento(new EventoMotor(instante, engine.TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL));
     }
 
-    @Override
-    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        if (!listaTrocaPlanoEfetiva.containsKey(agendamentoTrocaPlano.getMomentoDaTroca())) {
-            listaTrocaPlanoEfetiva.put(agendamentoTrocaPlano.getMomentoDaTroca(), new HashMap<>());
-        }
-        listaTrocaPlanoEfetiva.get(agendamentoTrocaPlano.getMomentoDaTroca()).put(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getEvento());
+    protected void desativarModoManual(Motor motor) {
+        motor.onEvento(new EventoMotor(instante, engine.TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
     }
 
-
-    @Override
-    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if (!listaEstagios.containsKey(timestamp)) {
-            listaEstagios.put(timestamp, new HashMap<>());
-        }
-        listaEstagios.get(timestamp).put(anel, intervalos);
+    protected void desativarModoManual(GerenciadorDeEstagios gerenciadorDeEstagios, Plano plano) {
+        EventoMotor eventoMotor = new EventoMotor(instante, engine.TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL);
+        eventoMotor.setParams(new Object[]{plano});
+        gerenciadorDeEstagios.onEvento(eventoMotor);
     }
 
-    @Override
-    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        if (!listaHistoricoEstagios.containsKey(timestamp)) {
-            listaHistoricoEstagios.put(timestamp, new HashMap<>());
-        }
-        listaHistoricoEstagios.get(timestamp).put(anel, intervalos);
+    protected void trocarEstagioModoManual(Motor motor) {
+        motor.onEvento(new EventoMotor(instante, engine.TipoEvento.TROCA_ESTAGIO_MANUAL));
     }
 
-    @Override
-    public void onCicloEnds(int anel, Long numeroCiclos) {
-
-    }
-
-
-    protected void avancarSegundos(Motor motor, long i) {
-        long quantidade = i * 10L;
-        while ((quantidade--) > 0) {
-            motor.tick();
-        }
-    }
-
-    protected void avancarMilis(Motor motor, long i) {
-        long quantidade = i;
-        while (quantidade-- > 0) {
-            motor.tick();
-        }
-    }
-
-    protected void avancarHoras(Motor motor, long i) {
-        long quantidade = i * 36000L;
-        while ((quantidade--) > 0) {
-            motor.tick();
-        }
-    }
-
-    protected void avancarMinutos(Motor motor, long i) {
-        long quantidade = i * 600L;
-        while ((quantidade--) > 0) {
-            motor.tick();
-        }
-    }
-
-    protected void avancarDias(Motor motor, long i) {
-        long quantidade = i * 864000L;
-        while ((quantidade--) > 0) {
-            motor.tick();
-        }
-    }
-
-    protected void verificaHistoricoGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaHistoricoEstagios, inicioExecucao.plusSeconds(offset));
-    }
-
-    protected void verificaHistoricoGruposSemaforicos(int offset, int offset2, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaHistoricoEstagios, inicioExecucao.plusSeconds(offset).plus(offset2));
-    }
-
-    protected void verificaGruposSemaforicos(int offset, GrupoCheck grupoCheck) {
-        grupoCheck.check(listaEstagios, inicioExecucao.plusSeconds(offset));
+    protected void trocarEstagioModoManual(GerenciadorDeEstagios gerenciadorDeEstagios) {
+        gerenciadorDeEstagios.onEvento(new EventoMotor(instante, engine.TipoEvento.TROCA_ESTAGIO_MANUAL));
     }
 
     protected Anel getAnel(int posicao) {
         return controlador.getAneis()
             .stream()
             .filter(a -> a.getPosicao().equals(posicao))
+            .findFirst()
+            .get();
+    }
+
+    protected Plano getPlano(Anel anel, int posicao) {
+        return anel.getPlanos()
+            .stream()
+            .filter(p -> p.getPosicao().equals(posicao))
             .findFirst()
             .get();
     }
@@ -143,9 +82,74 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         return grupoSemaforico[0];
     }
 
+    protected Detector getDetector(Anel anel, int posicao) {
+        return anel.getDetectores().stream().filter(det -> det.getPosicao().equals(posicao)).findFirst().get();
+    }
+
+    protected EstagioPlano getEstagioPlano(Plano plano, int posicao) {
+        return plano.getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().getPosicao().equals(posicao)).findFirst().get();
+    }
+
+    protected GrupoSemaforicoPlano getGrupoSemaforicoPlano(Plano plano, int posicao) {
+        return plano.getGruposSemaforicosPlanos().stream().filter(ep -> ep.getGrupoSemaforico().getPosicao().equals(posicao)).findFirst().get();
+    }
+
+    protected Plano getPlanoDemandaPrioritaria(Anel anel) {
+        Plano plano = new ControladorHelper().criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 32);
+
+        plano.setEstagiosPlanos(null);
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(1);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(1));
+        estagioPlano.setTempoVerde(20);
+        plano.addEstagios(estagioPlano);
+
+        estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(2);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(2));
+        estagioPlano.setTempoVerde(15);
+        plano.addEstagios(estagioPlano);
+
+        Detector detector = anel.getDetectores().get(0);
+        detector.setTipo(TipoDetector.VEICULAR);
+        detector.setPosicao(1);
+        detector.getEstagio().setDemandaPrioritaria(true);
+        detector.getEstagio().setTempoVerdeDemandaPrioritaria(30);
+        return plano;
+    }
+
+    protected Plano getPlanoDemandaPrioritariaEDispensavel(Anel anel) {
+        Plano plano = getPlanoDemandaPrioritaria(anel);
+        EstagioPlano estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(3);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(1));
+        estagioPlano.setTempoVerde(10);
+        estagioPlano.setDispensavel(true);
+        plano.addEstagios(estagioPlano);
+
+        estagioPlano = new EstagioPlano();
+        estagioPlano.setPosicao(4);
+        estagioPlano.setPlano(plano);
+        estagioPlano.setEstagio(anel.findEstagioByPosicao(2));
+        estagioPlano.setTempoVerde(18);
+        plano.addEstagios(estagioPlano);
+
+        return plano;
+    }
+
+    protected void imprimirListaEstagios(HashMap<DateTime, IntervaloGrupoSemaforico> listaEstagios) {
+        DateTimeFormatter sdf = DateTimeFormat.forPattern("dd/MM/YYYY - EEE - HH:mm:ss:S");
+        listaEstagios.entrySet().stream()
+            .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
+            .forEach(entry -> System.out.println(sdf.print(entry.getKey()) + " - " + entry.getValue().getEstagio().getPosicao()));
+    }
+
     public class GrupoCheck {
 
-        private final int anel;
+        private int anel;
 
         private final int grupo;
 
@@ -163,12 +167,103 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
             this.estado = estadoGrupoSemaforico;
         }
 
-        public void check(HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> intervalos, DateTime instante) {
+        public GrupoCheck(int grupo, int inicio, int fim, EstadoGrupoSemaforico estadoGrupoSemaforico) {
+            this.grupo = grupo;
+            this.inicio = inicio;
+            this.fim = fim;
+            this.estado = estadoGrupoSemaforico;
+        }
+
+        public void checkAnel(HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> intervalos, DateTime instante) {
             assertNotNull("Mudanca", intervalos.get(instante));
             assertEquals("Comeco", inicio, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
             assertEquals("Fim", fim, intervalos.get(instante).get(anel).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
             assertEquals("Estado", estado, intervalos.get(instante).get(anel).getEstados().get(this.grupo).get(this.inicio));
         }
+
+        public void check(HashMap<DateTime, IntervaloGrupoSemaforico> intervalos, DateTime instante) {
+            assertNotNull("Mudanca", intervalos.get(instante));
+            assertEquals("Comeco", inicio, intervalos.get(instante).getEstados().get(this.grupo).getEntry(this.inicio).getKey().lowerEndpoint().longValue());
+            assertEquals("Fim", fim, intervalos.get(instante).getEstados().get(this.grupo).getEntry(this.inicio).getKey().upperEndpoint().longValue());
+            assertEquals("Estado", estado, intervalos.get(instante).getEstados().get(this.grupo).get(this.inicio));
+        }
     }
 
+    protected void avancarSegundos(Motor motor, long i) {
+        long quantidade = i * 10L;
+        instante = instante.plus(quantidade * 100L);
+        while ((quantidade--) > 0) {
+            motor.tick();
+        }
+    }
+
+    protected void avancarMilis(Motor motor, long i) {
+        long quantidade = i;
+        instante = instante.plus(quantidade * 100L);
+        while (quantidade-- > 0) {
+            motor.tick();
+        }
+    }
+
+    protected void avancarHoras(Motor motor, long i) {
+        long quantidade = i * 36000L;
+        instante = instante.plus(quantidade * 100L);
+        while ((quantidade--) > 0) {
+            motor.tick();
+        }
+    }
+
+    protected void avancarMinutos(Motor motor, long i) {
+        long quantidade = i * 600L;
+        instante = instante.plus(quantidade * 100L);
+        while ((quantidade--) > 0) {
+            motor.tick();
+        }
+    }
+
+    protected void avancarDias(Motor motor, long i) {
+        long quantidade = i * 864000L;
+        instante = instante.plus(quantidade * 100L);
+        while ((quantidade--) > 0) {
+            motor.tick();
+        }
+    }
+
+    protected void avancar(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
+        long quantidade = i * 10L;
+        instante = instante.plus(quantidade * 100L);
+        while ((quantidade--) > 0) {
+            gerenciadorDeEstagios.tick();
+        }
+    }
+
+    protected void avancarAtuado(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
+        long quantidade = i;
+        instante = instante.plus(quantidade * 100L);
+        while ((quantidade--) > 0) {
+            gerenciadorDeEstagios.getMotor().tick();
+        }
+    }
+
+    @Override
+    public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
+    }
+
+    @Override
+    public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+    }
+
+
+    @Override
+    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    }
+
+    @Override
+    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    }
+
+    @Override
+    public void onCicloEnds(int anel, Long numeroCiclos) {
+
+    }
 }

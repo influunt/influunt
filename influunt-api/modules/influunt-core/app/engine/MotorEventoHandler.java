@@ -44,6 +44,10 @@ public class MotorEventoHandler {
                 handleAlternarModoManual(eventoMotor);
                 break;
 
+            case TROCA_ESTAGIO_MANUAL:
+                handleTrocaEstagioManual(eventoMotor);
+                break;
+
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:
                 handleFaseVermelhaGrupoSemaforico(eventoMotor);
@@ -74,12 +78,11 @@ public class MotorEventoHandler {
             case FALHA_SEQUENCIA_DE_CORES:
                 handleFalhaAnel(eventoMotor);
                 break;
+
             case FALHA_AMARELO_INTERMITENTE:
             case FALHA_SEMAFORO_APAGADO:
             case FALHA_ACERTO_RELOGIO_GPS:
-
-
-
+                break;
 
             case IMPOSICAO_PLANO:
                 break;
@@ -144,7 +147,13 @@ public class MotorEventoHandler {
 
     private void handleAlternarModoManual(EventoMotor eventoMotor) {
         motor.getEstagios().forEach(estagio -> {
-            eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0], motor.getPlanoAtual(estagio.getAnel())});
+            eventoMotor.setParams(new Object[]{motor.getPlanoAtual(estagio.getAnel())});
+            estagio.onEvento(eventoMotor);
+        });
+    }
+
+    private void handleTrocaEstagioManual(EventoMotor eventoMotor) {
+        motor.getEstagios().forEach(estagio -> {
             estagio.onEvento(eventoMotor);
         });
     }

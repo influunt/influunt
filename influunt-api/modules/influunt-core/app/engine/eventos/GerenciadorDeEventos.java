@@ -66,19 +66,21 @@ public abstract class GerenciadorDeEventos {
                                        RangeMap<Long, IntervaloEstagio> intervalos,
                                        long contadorIntervalo) {
         final long contador;
-        Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
-        IntervaloEstagio intervalo = range.getValue();
-        if (intervalo.isEntreverde()) {
-            range = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-            intervalo = range.getValue();
-            contador = 0L;
-        } else {
-            contador = contadorIntervalo - range.getKey().lowerEndpoint();
+        if (intervalos.get(contadorIntervalo) != null) {
+            Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
+            IntervaloEstagio intervalo = range.getValue();
+            if (intervalo.isEntreverde()) {
+                range = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
+                intervalo = range.getValue();
+                contador = 0L;
+            } else {
+                contador = contadorIntervalo - range.getKey().lowerEndpoint();
+            }
+            long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
+            intervalo.setDuracao(duracao);
+            intervalos.remove(range.getKey());
+            final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
+            intervalos.put(novoRange, intervalo);
         }
-        long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
-        intervalo.setDuracao(duracao);
-        intervalos.remove(range.getKey());
-        final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
-        intervalos.put(novoRange, intervalo);
     }
 }
