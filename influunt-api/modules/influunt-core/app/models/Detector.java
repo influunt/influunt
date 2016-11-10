@@ -196,7 +196,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O tempo de ausência de detecção deve estar entre {min} e {max}.")
+        message = "O tempo de ausência de detecção deve estar entre {min} e {max}.")
     public boolean isTempoAusenciaDeteccaoEstaDentroDaFaixa() {
         if (isMonitorado()) {
             return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
@@ -206,7 +206,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O tempo de detecção permanente deve estar entre {min} e {max}.")
+        message = "O tempo de detecção permanente deve estar entre {min} e {max}.")
     public boolean isTempoDeteccaoPermanenteEstaDentroDaFaixa() {
         if (isMonitorado()) {
             return getTempoDeteccaoPermanente() != null && RangeUtils.getInstance().TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
@@ -216,7 +216,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.")
+        message = "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.")
     public boolean isAssociadoAoMenosUmEstagioVeicular() {
         if (this.isAssociadoAoMenosUmEstagio() && this.isVeicular()) {
             return getEstagio().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isVeicular());
@@ -226,7 +226,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.")
+        message = "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.")
     public boolean isAssociadoAoMenosUmEstagioPedestre() {
         if (this.isAssociadoAoMenosUmEstagio() && this.isPedestre()) {
             return getEstagio().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isPedestre());
@@ -236,7 +236,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O detector deve estar associado a pelo menos um estágio.")
+        message = "O detector deve estar associado a pelo menos um estágio.")
     public boolean isAssociadoAoMenosUmEstagio() {
         return !Objects.isNull(getEstagio());
     }
@@ -272,11 +272,11 @@ public class Detector extends Model implements Cloneable, Serializable {
         return TipoDetector.PEDESTRE.equals(this.getTipo());
     }
 
-    public void setComFalha(boolean comFalha) {
-        this.comFalha = comFalha;
-    }
-
     public boolean isComFalha() {
         return comFalha;
+    }
+
+    public void setComFalha(boolean comFalha) {
+        this.comFalha = comFalha;
     }
 }

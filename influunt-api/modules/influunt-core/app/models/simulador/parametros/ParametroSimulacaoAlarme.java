@@ -5,16 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import json.deserializers.simulacao.ParametroSimulacaoAlarmeDeserializer;
-import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
-import json.deserializers.simulacao.ParametroSimulacaoFalhaDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import models.Anel;
-import models.Detector;
-import models.GrupoSemaforico;
 import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 /**
  * Created by rodrigosol on 10/4/16.

@@ -80,19 +80,19 @@ public class AgendamentoTrocaPlano {
         this.anel = anel;
     }
 
-    public void setImpostoPorFalha(boolean impostoPorFalha) {
-        this.impostoPorFalha = impostoPorFalha;
-    }
-
     public boolean isImpostoPorFalha() {
         return impostoPorFalha;
     }
 
-    public void setSaidaDoModoManual(boolean saidaDoModoManual) {
-        this.saidaDoModoManual = saidaDoModoManual;
+    public void setImpostoPorFalha(boolean impostoPorFalha) {
+        this.impostoPorFalha = impostoPorFalha;
     }
 
     public boolean isSaidaDoModoManual() {
         return this.saidaDoModoManual;
+    }
+
+    public void setSaidaDoModoManual(boolean saidaDoModoManual) {
+        this.saidaDoModoManual = saidaDoModoManual;
     }
 }

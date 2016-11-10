@@ -5,14 +5,13 @@ import com.google.common.collect.RangeMap;
 import engine.*;
 import engine.TipoEvento;
 import models.*;
-import org.joda.time.DateTime;
 
 import java.util.Map;
 
 /**
  * Created by rodrigosol on 10/24/16.
  */
-public class DetectorVeicularHandle extends GerenciadorDeEventos{
+public class DetectorVeicularHandle extends GerenciadorDeEventos {
     private final int contadorEstagio;
 
     private final EstagioPlano estagioPlanoAnterior;
@@ -20,6 +19,14 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
     private final RangeMap<Long, IntervaloEstagio> intervalos;
 
     private final long contadorIntervalo;
+
+    public DetectorVeicularHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
+        super(gerenciadorDeEstagios);
+        this.contadorEstagio = gerenciadorDeEstagios.getContadorEstagio();
+        this.contadorIntervalo = gerenciadorDeEstagios.getContadorIntervalo();
+        this.estagioPlanoAnterior = gerenciadorDeEstagios.getEstagioPlanoAnterior();
+        this.intervalos = gerenciadorDeEstagios.getIntervalos();
+    }
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
@@ -44,14 +51,6 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
         } else if (plano.isAtuado()) {
             atualizaEstagiosAtuado(estagio);
         }
-    }
-
-    public DetectorVeicularHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
-        super(gerenciadorDeEstagios);
-        this.contadorEstagio = gerenciadorDeEstagios.getContadorEstagio();
-        this.contadorIntervalo = gerenciadorDeEstagios.getContadorIntervalo();
-        this.estagioPlanoAnterior = gerenciadorDeEstagios.getEstagioPlanoAnterior();
-        this.intervalos = gerenciadorDeEstagios.getIntervalos();
     }
 
     private void reduzirTempoEstagioAtual(EstagioPlano estagioPlanoAnterior) {
@@ -87,10 +86,10 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
 
     private void atualizaEstagiosAtuado(Estagio estagio) {
         EstagioPlano estagioPlano = plano.getEstagiosPlanos()
-                .stream()
-                .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(estagio))
-                .findFirst()
-                .orElse(null);
+            .stream()
+            .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(estagio))
+            .findFirst()
+            .orElse(null);
 
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
         if (!intervalo.isEntreverde() && estagioPlanoAtual.equals(estagioPlano)) {

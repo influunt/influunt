@@ -22,11 +22,11 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
     protected void processar(EventoMotor eventoMotor) {
         Detector detector = (Detector) eventoMotor.getParams()[0];
         EstagioPlano estagioPlano = plano.getEstagiosPlanos()
-                .stream()
-                .filter(EstagioPlano::isDispensavel)
-                .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
-                .findFirst()
-                .orElse(null);
+            .stream()
+            .filter(EstagioPlano::isDispensavel)
+            .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
+            .findFirst()
+            .orElse(null);
         int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
         if (compare < 0) {
             if (!estagiosProximoCiclo.contains(estagioPlano)) {

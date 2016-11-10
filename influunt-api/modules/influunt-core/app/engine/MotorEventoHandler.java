@@ -74,6 +74,7 @@ public class MotorEventoHandler {
                 break;
 
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
+            case FALHA_VERDES_CONFLITANTES_REMOCAO:
             case FALHA_VERDES_CONFLITANTES:
             case FALHA_SEQUENCIA_DE_CORES:
                 handleFalhaAnel(eventoMotor);

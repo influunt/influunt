@@ -61,35 +61,35 @@ public enum DiaDaSemana {
                 return new int[]{SABADO.inicio() + horaNoDia};
             case SABADO_A_DOMINGO:
                 return new int[]{
-                        SABADO.inicio() + horaNoDia,
-                        DOMINGO.inicio() + horaNoDia
+                    SABADO.inicio() + horaNoDia,
+                    DOMINGO.inicio() + horaNoDia
                 };
             case SEGUNDA_A_SEXTA:
                 return new int[]{
-                        SEGUNDA.inicio() + horaNoDia,
-                        TERCA.inicio() + horaNoDia,
-                        QUARTA.inicio() + horaNoDia,
-                        QUINTA.inicio() + horaNoDia,
-                        SEXTA.inicio() + horaNoDia
+                    SEGUNDA.inicio() + horaNoDia,
+                    TERCA.inicio() + horaNoDia,
+                    QUARTA.inicio() + horaNoDia,
+                    QUINTA.inicio() + horaNoDia,
+                    SEXTA.inicio() + horaNoDia
                 };
             case SEGUNDA_A_SABADO:
                 return new int[]{
-                        SEGUNDA.inicio() + horaNoDia,
-                        TERCA.inicio() + horaNoDia,
-                        QUARTA.inicio() + horaNoDia,
-                        QUINTA.inicio() + horaNoDia,
-                        SEXTA.inicio() + horaNoDia,
-                        SABADO.inicio() + horaNoDia
+                    SEGUNDA.inicio() + horaNoDia,
+                    TERCA.inicio() + horaNoDia,
+                    QUARTA.inicio() + horaNoDia,
+                    QUINTA.inicio() + horaNoDia,
+                    SEXTA.inicio() + horaNoDia,
+                    SABADO.inicio() + horaNoDia
                 };
             case TODOS_OS_DIAS:
                 return new int[]{
-                        DOMINGO.inicio() + horaNoDia,
-                        SEGUNDA.inicio() + horaNoDia,
-                        TERCA.inicio() + horaNoDia,
-                        QUARTA.inicio() + horaNoDia,
-                        QUINTA.inicio() + horaNoDia,
-                        SEXTA.inicio() + horaNoDia,
-                        SABADO.inicio() + horaNoDia
+                    DOMINGO.inicio() + horaNoDia,
+                    SEGUNDA.inicio() + horaNoDia,
+                    TERCA.inicio() + horaNoDia,
+                    QUARTA.inicio() + horaNoDia,
+                    QUINTA.inicio() + horaNoDia,
+                    SEXTA.inicio() + horaNoDia,
+                    SABADO.inicio() + horaNoDia
                 };
 
             default:

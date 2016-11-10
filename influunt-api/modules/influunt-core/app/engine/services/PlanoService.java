@@ -7,8 +7,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.UUID;
 
-import static javafx.scene.input.KeyCode.T;
-
 /**
  * Created by leonardo on 11/7/16.
  */

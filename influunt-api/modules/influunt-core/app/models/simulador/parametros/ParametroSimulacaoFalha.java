@@ -67,7 +67,7 @@ public class ParametroSimulacaoFalha {
     }
 
     public void setParametro(String id) {
-        switch(TipoEvento.getFalha(falha.getCodigo())) {
+        switch (TipoEvento.getFalha(falha.getCodigo())) {
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:
             case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:

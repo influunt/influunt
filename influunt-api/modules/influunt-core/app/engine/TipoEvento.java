@@ -2,7 +2,6 @@ package engine;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.serializers.AreaSerializer;
 import json.serializers.TipoEventoSerializer;
 import models.TipoDetector;
 
@@ -13,10 +12,10 @@ import java.util.Formatter;
 public enum TipoEvento {
 
     //Alarmes
-    ALARME_ABERTURA_DA_PORTA_PRINCIPAL_DO_CONTROLADOR(TipoEventoControlador.ALARME, 1, "Abertura da porta principal do controlador", null,null),
-    ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR(TipoEventoControlador.ALARME, 2, "Fechamento da porta principal do controlador", null,null),
-    ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 3, "Abertura da porta do painel de facilidades do controlador", null,null),
-    ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 4, "Fechamento da porta do painel de facilidades do controlador", null,null),
+    ALARME_ABERTURA_DA_PORTA_PRINCIPAL_DO_CONTROLADOR(TipoEventoControlador.ALARME, 1, "Abertura da porta principal do controlador", null, null),
+    ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR(TipoEventoControlador.ALARME, 2, "Fechamento da porta principal do controlador", null, null),
+    ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 3, "Abertura da porta do painel de facilidades do controlador", null, null),
+    ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 4, "Fechamento da porta do painel de facilidades do controlador", null, null),
 
 
     //Falhas
@@ -31,26 +30,27 @@ public enum TipoEvento {
     FALHA_DETECTOR_VEICULAR_REMOCAO(TipoEventoControlador.FALHA, 17, "Falha detector veicular removida", "%s: Falha detector veicular removida", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
     FALHA_DETECTOR_PEDESTRE_REMOCAO(TipoEventoControlador.FALHA, 18, "Falha detector pedestre removida", "%s: Falha detector pedestre removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
     FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO(TipoEventoControlador.FALHA, 26, "Desrespeito ao tempo máximo de permanencia no estágio", "%s: Desrespeito ao tempo máximo de permanencia no estágio", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
-    FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 27, "Verdes conflitantes", "Verdes conflitantes", null),
+    FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 27, "Verdes conflitantes", "Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_VERDES_CONFLITANTES_REMOCAO(TipoEventoControlador.FALHA, 27, "Verdes conflitantes removido", "Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
     FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 28, "Amarelo Intermitente", "Amarelo Intermitente", null),
     FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 29, "Semáforo apagado", "Semafóro apagado", null),
     FALHA_ACERTO_RELOGIO_GPS(TipoEventoControlador.FALHA, 52, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
     FALHA_SEQUENCIA_DE_CORES(TipoEventoControlador.FALHA, 53, "Falha sequencia de cores", "Falha sequencia de cores", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
     //Detector
-    ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado",null),
-    ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado",null),
+    ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado", null),
+    ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado", null),
 
     //Modo Manual
-    INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 1, "Inserção de plug", null,null),
-    RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 2, "Retirada de plug", null,null),
+    INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 1, "Inserção de plug", null, null),
+    RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 2, "Retirada de plug", null, null),
     TROCA_ESTAGIO_MANUAL(TipoEventoControlador.MODO_MANUAL, 3, "Troca de estágio no modo manual", "Troca estágio", null),
 
     //Imposicao de Planos
-    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto",null),
+    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto", null),
 
     //Troca de PLanos
-    TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO,1,"Troca de Plano no Anel", "Plano %s está ativo",null);
+    TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO, 1, "Troca de Plano no Anel", "Plano %s está ativo", null);
 
     private static Formatter formatter = new Formatter();
 

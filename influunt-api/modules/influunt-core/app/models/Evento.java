@@ -189,17 +189,17 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "Existem eventos configurados no mesmo dia e horário.")
+        message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
         if (!this.getTabelaHorario().getEventos().isEmpty() && this.getHorario() != null && this.getDiaDaSemana() != null) {
             return this.getTabelaHorario().getEventos().stream().filter(
-                    evento -> this.getDiaDaSemana().equals(evento.getDiaDaSemana()) && this.getHorario().equals(evento.getHorario())).count() <= 1;
+                evento -> this.getDiaDaSemana().equals(evento.getDiaDaSemana()) && this.getHorario().equals(evento.getHorario())).count() <= 1;
         }
         return true;
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "não pode ficar em branco")
+        message = "não pode ficar em branco")
     public boolean isDiaDaSemana() {
         if (this.isEventoNormal()) {
             return this.getDiaDaSemana() != null;
@@ -212,7 +212,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "não pode ficar em branco")
+        message = "não pode ficar em branco")
     public boolean isData() {
         if (this.isEventoEspecialRecorrente() || this.isEventoEspecialNaoRecorrente()) {
             return this.getData() != null;
@@ -221,14 +221,14 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "O plano selecionado não está configurado em todos os anéis.")
+        message = "O plano selecionado não está configurado em todos os anéis.")
     public boolean isPlanosConfigurados() {
         if (getPosicaoPlano() != null) {
             return getTabelaHorario().getControlador()
-                    .getAneis()
-                    .stream()
-                    .filter(Anel::isAtivo)
-                    .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
+                .getAneis()
+                .stream()
+                .filter(Anel::isAtivo)
+                .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
         }
         return true;
     }
@@ -287,11 +287,11 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @Override
     public String toString() {
         return "EventoMotor{" +
-                "posicaoPlano=" + posicaoPlano +
-                ", data=" + data +
-                ", diaDaSemana=" + diaDaSemana +
-                ", tipo=" + tipo +
-                '}';
+            "posicaoPlano=" + posicaoPlano +
+            ", data=" + data +
+            ", diaDaSemana=" + diaDaSemana +
+            ", tipo=" + tipo +
+            '}';
     }
 
     public boolean tenhoPrioridade(Evento evento, boolean euSouPetrio, boolean outroEPetrio) {

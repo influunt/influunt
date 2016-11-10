@@ -25,6 +25,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private final DateTime inicioExecucao;
 
+    private final GerenciadorDeEstagiosCallback callback;
+
+    private final int anel;
+
+    private final List<EstagioPlano> estagiosProximoCiclo = new ArrayList<>();
+
+    private final Motor motor;
+
     private HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
 
     private List<EstagioPlano> listaOriginalEstagioPlanos;
@@ -32,10 +40,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private Plano plano;
 
     private ModoOperacaoPlano modoAnterior;
-
-    private final GerenciadorDeEstagiosCallback callback;
-
-    private final int anel;
 
     private RangeMap<Long, IntervaloEstagio> intervalos;
 
@@ -47,8 +51,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private EstagioPlano estagioPlanoAnterior;
 
-    private final List<EstagioPlano> estagiosProximoCiclo = new ArrayList<>();
-
     private long contadorIntervalo = 0L;
 
     private int contadorEstagio = 0;
@@ -58,8 +60,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private GetIntervaloGrupoSemaforico intervaloGrupoSemaforicoAtual = null;
 
     private AgendamentoTrocaPlano agendamento = null;
-
-    private final Motor motor;
 
 
     public GerenciadorDeEstagios(int anel,
@@ -93,7 +93,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
 
         verificaETrocaEstagio(intervalo);
-
 
 
         contadorIntervalo += 100L;
@@ -139,7 +138,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
-        if(!this.plano.isModoOperacaoVerde() &&
+        if (!this.plano.isModoOperacaoVerde() &&
             estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
             this.modoAnterior = ModoOperacaoPlano.TEMPO_FIXO_ISOLADO;
         }
@@ -155,7 +154,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
             callback.onEstagioChange(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
-                    new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
+                new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
 
             estagioPlanoAnterior = estagioPlanoAtual;
             estagioPlanoAtual = estagioPlano;
@@ -237,9 +236,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void geraIntervalos(Integer index) {
         GeradorDeIntervalos gerador = GeradorDeIntervalos.getInstance(this.intervalos, this.plano,
-                this.modoAnterior, this.listaEstagioPlanos,
-                this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
-                index);
+            this.modoAnterior, this.listaEstagioPlanos,
+            this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
+            index);
 
         Pair<Integer, RangeMap<Long, IntervaloEstagio>> resultado = gerador.gerar(index);
 

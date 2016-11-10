@@ -176,10 +176,6 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
-        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
-    }
-
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde deve estar entre {min} e {max}")
     public boolean isTempoVerde() {
         if (getPlano().isTempoFixoIsolado() || getPlano().isTempoFixoCoordenado()) {
@@ -282,6 +278,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             return getEstagioQueRecebeEstagioDispensavel() != null;
         }
         return true;
+    }
+
+    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
+        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")

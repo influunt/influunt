@@ -15,6 +15,12 @@ import java.util.List;
  * Created by rodrigosol on 10/24/16.
  */
 public class GeradorModosVerde extends GeradorDeIntervalos {
+    public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
+                             ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
+                             EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde) {
+        super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+    }
+
     @Override
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
         EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
@@ -37,12 +43,6 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde);
 
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(listaEstagioPlanos.indexOf(estagioPlano) - index, this.intervalos);
-    }
-
-    public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
-                             ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
-                             EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde) {
-        super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
     }
 
     private EstagioPlano atualizaListaEstagiosComTransicoesProibidas(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlano) {

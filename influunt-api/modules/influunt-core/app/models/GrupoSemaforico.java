@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Entidade que representa o {@link GrupoSemaforico} no sistema
@@ -330,7 +329,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.")
+        message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.")
     public boolean isNaoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio() {
         if (getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())) {
             return getEstagiosGruposSemaforicos().size() <= 1;
@@ -404,18 +403,18 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         getTransicoes().forEach(transicao -> transicao.setDestroy(true));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
-                this.getAnel().getEstagios().stream()
-                        .filter(estagio ->
-                                !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
-                        .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.PERDA_DE_PASSAGEM))));
+            this.getAnel().getEstagios().stream()
+                .filter(estagio ->
+                    !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
+                .forEach(estagio ->
+                    this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
-                this.getAnel().getEstagios().stream()
-                        .filter(estagio ->
-                                !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
-                        .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.GANHO_DE_PASSAGEM))));
+            this.getAnel().getEstagios().stream()
+                .filter(estagio ->
+                    !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
+                .forEach(estagio ->
+                    this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.GANHO_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
             if (transicao.isDestroy()) {
@@ -435,12 +434,12 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
             setTransicoes(new ArrayList<Transicao>());
         }
         Transicao transicaoAux = getTransicoes().stream()
-                .filter(t ->
-                        t.getOrigem().equals(transicao.getOrigem()) &&
-                                t.getDestino().equals(transicao.getDestino()) &&
-                                ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
-                                        (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
-                .findFirst().orElse(null);
+            .filter(t ->
+                t.getOrigem().equals(transicao.getOrigem()) &&
+                    t.getDestino().equals(transicao.getDestino()) &&
+                    ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
+                        (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
+            .findFirst().orElse(null);
 
         if (transicaoAux != null) {
             transicaoAux.setDestroy(false);

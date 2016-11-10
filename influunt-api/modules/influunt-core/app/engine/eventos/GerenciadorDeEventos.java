@@ -16,12 +16,12 @@ import java.util.Map;
  */
 public abstract class GerenciadorDeEventos {
     protected final Plano plano;
+
     protected final EstagioPlano estagioPlanoAtual;
+
     protected final List<EstagioPlano> listaEstagioPlanos;
 
     protected final GerenciadorDeEstagios gerenciadorDeEstagios;
-
-    protected abstract void processar(EventoMotor eventoMotor);
 
     public GerenciadorDeEventos(GerenciadorDeEstagios gerenciadorDeEstagios) {
         this.gerenciadorDeEstagios = gerenciadorDeEstagios;
@@ -52,15 +52,22 @@ public abstract class GerenciadorDeEventos {
                 new ImporAmareloIntermitenteHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:
+            case FALHA_VERDES_CONFLITANTES_REMOCAO:
                 new RemoverAmareloIntermitenteHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
                 new FalhaDetectorVeicularHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
+            case FALHA_VERDES_CONFLITANTES:
+                new VerdeConflitanteHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
+
             default:
                 break;
         }
     }
+
+    protected abstract void processar(EventoMotor eventoMotor);
 
     protected void reduzirTempoEstagio(EstagioPlano estagioPlanoAnterior,
                                        RangeMap<Long, IntervaloEstagio> intervalos,
@@ -80,6 +87,26 @@ public abstract class GerenciadorDeEventos {
             intervalo.setDuracao(duracao);
             intervalos.remove(range.getKey());
             final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
+            intervalos.put(novoRange, intervalo);
+        }
+    }
+
+    protected void terminaTempoEstagio(EstagioPlano estagioPlanoAnterior,
+                                       RangeMap<Long, IntervaloEstagio> intervalos,
+                                       long contadorIntervalo) {
+        if (intervalos.get(contadorIntervalo) != null) {
+            Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
+            IntervaloEstagio intervalo = range.getValue();
+
+            if (intervalo.isEntreverde()) {
+                intervalos.remove(range.getKey());
+                range = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
+                intervalo = intervalos.get(range.getKey().lowerEndpoint());
+            }
+
+            intervalo.setDuracao(0);
+            intervalos.remove(range.getKey());
+            final Range<Long> novoRange = Range.closedOpen(0L, 100L);
             intervalos.put(novoRange, intervalo);
         }
     }

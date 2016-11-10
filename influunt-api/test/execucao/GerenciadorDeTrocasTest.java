@@ -90,5 +90,9 @@ public class GerenciadorDeTrocasTest extends MotorTest {
         grupoCheck.checkAnel(listaEstagios, inicioExecucao.plusSeconds(offset));
     }
 
+    protected void verificaGruposSemaforicos(int offset, int offset2, GrupoCheck grupoCheck) {
+        grupoCheck.checkAnel(listaEstagios, inicioExecucao.plusSeconds(offset).plus(offset2));
+    }
+
 
 }

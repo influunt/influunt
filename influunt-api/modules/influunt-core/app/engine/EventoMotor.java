@@ -3,14 +3,15 @@ package engine;
 import org.joda.time.DateTime;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Created by rodrigosol on 9/28/16.
  */
 public class EventoMotor {
     private TipoEvento tipoEvento;
+
     private Object[] params;
+
     private DateTime timestamp;
 
     public EventoMotor(DateTime timestamp, TipoEvento tipoEvento, Object... params) {
@@ -31,14 +32,13 @@ public class EventoMotor {
         this.params = params;
     }
 
-    public void setTimestamp(DateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public DateTime getTimestamp() {
         return timestamp;
     }
 
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -125,9 +125,9 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
             return !this.getPlano().getEstagiosPlanos().stream()
-                    .filter(estagioPlano -> estagioPlano.getEstagio().getGruposSemaforicos()
-                            .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
-                    .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
+                .filter(estagioPlano -> estagioPlano.getEstagio().getGruposSemaforicos()
+                    .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
+                .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
         }
         return true;
     }

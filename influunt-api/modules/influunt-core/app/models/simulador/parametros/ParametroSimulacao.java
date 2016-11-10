@@ -9,7 +9,6 @@ import models.Controlador;
 import models.Detector;
 import models.simulador.SimulacaoConfig;
 import org.joda.time.DateTime;
-import org.joda.time.ReadWritableInstant;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -96,7 +95,7 @@ public class ParametroSimulacao {
     }
 
     public void setInicioControlador(DateTime inicioControlador) {
-        this.inicioControlador =  inicioControlador;
+        this.inicioControlador = inicioControlador;
     }
 
     public DateTime getInicioSimulacao() {
@@ -164,22 +163,22 @@ public class ParametroSimulacao {
         List<SimulacaoConfig.DetectorSimulacaoConfig> detectores = new ArrayList<>();
 
         getControlador().getAneis().stream()
-                .sorted((o1, o2) -> o1.getPosicao()
-                        .compareTo(o2.getPosicao())).forEach(anel -> {
+            .sorted((o1, o2) -> o1.getPosicao()
+                .compareTo(o2.getPosicao())).forEach(anel -> {
             SimulacaoConfig.AnelSimulacaoConfig anelSimulacaoConfig = new SimulacaoConfig.AnelSimulacaoConfig();
             anelSimulacaoConfig.setNumero(anel.getPosicao());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
-                    .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
+                .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
             anel.getEstagios().forEach(estagio -> {
                 anelSimulacaoConfig.getEstagios().add(new SimulacaoConfig.EstagioSimulacaoConfig(estagio.getPosicao(),
-                        "api/v1/imagens/" + estagio.getImagem().getId() + "/thumb"));
+                    "api/v1/imagens/" + estagio.getImagem().getId() + "/thumb"));
             });
             aneis.add(anelSimulacaoConfig);
 
             List<SimulacaoConfig.DetectorSimulacaoConfig> detectoresConfig = anel.getDetectores().stream().map(detector ->
-                    new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
-                            anel.getPosicao(),
-                            detector.getPosicao())).collect(Collectors.toList());
+                new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
+                    anel.getPosicao(),
+                    detector.getPosicao())).collect(Collectors.toList());
 
             detectores.addAll(detectoresConfig);
 

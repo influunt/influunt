@@ -3,7 +3,6 @@ package engine;
 import models.Controlador;
 import models.Evento;
 import models.Plano;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             anel.getGruposSemaforicos().forEach(grupoSemaforico ->
                 grupoSemaforico.getVerdesConflitantes().forEach(verdesConflitantes ->
                     monitor.addVerdesConflitantes(verdesConflitantes.getOrigem().getPosicao(),
-                                                  verdesConflitantes.getDestino().getPosicao())
+                        verdesConflitantes.getDestino().getPosicao())
 
                 )
             )
@@ -73,14 +72,16 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             eventoAtual = evento;
         }
 
+        List<Plano> planos = getPlanos(eventoAtual);
+
         if (iniciarGrupos) {
-            List<Plano> planos = getPlanos(eventoAtual);
             estagios = new ArrayList<>();
             for (int i = 1; i <= planos.size(); i++) {
                 estagios.add(new GerenciadorDeEstagios(i, inicioControlador, instante, planos.get(i - 1), this, this));
             }
         }
 
+        monitor.tick(instante,planos);
         estagios.forEach(e -> e.tick());
         instante = instante.plus(100);
     }
@@ -99,7 +100,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     @Override
     public void onCicloEnds(int anel, Long numeroCiclos) {
         callback.onCicloEnds(anel, numeroCiclos);
-        monitor.onClicloEnds(anel, numeroCiclos);
+        monitor.onClicloEnds(anel);
     }
 
     @Override

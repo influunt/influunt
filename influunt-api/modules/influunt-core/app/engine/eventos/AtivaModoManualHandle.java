@@ -7,12 +7,14 @@ import engine.services.PlanoService;
 import models.Anel;
 import models.Plano;
 
-import java.util.stream.Collectors;
-
 /**
  * Created by leonardo on 11/7/16.
  */
-public class AtivaModoManualHandle extends GerenciadorDeEventos{
+public class AtivaModoManualHandle extends GerenciadorDeEventos {
+    public AtivaModoManualHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
+        super(gerenciadorDeEstagios);
+    }
+
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
@@ -23,9 +25,5 @@ public class AtivaModoManualHandle extends GerenciadorDeEventos{
             }
             gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp()));
         }
-    }
-
-    public AtivaModoManualHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
-        super(gerenciadorDeEstagios);
     }
 }

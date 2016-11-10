@@ -207,12 +207,12 @@ public class Plano extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public void setImpostoPorFalha(boolean impostoPorFalha) {
-        this.impostoPorFalha = impostoPorFalha;
-    }
-
     public boolean isImpostoPorFalha() {
         return this.impostoPorFalha;
+    }
+
+    public void setImpostoPorFalha(boolean impostoPorFalha) {
+        this.impostoPorFalha = impostoPorFalha;
     }
 
     @JsonIgnore

@@ -165,7 +165,7 @@ public class Area extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = AreasCheck.class,
-            message = "Já existe uma Área cadastrada com essa descrição.")
+        message = "Já existe uma Área cadastrada com essa descrição.")
     public boolean isDescricaoUnique() {
         if (Objects.nonNull(getDescricao())) {
             Area areaAux = Area.find.where().eq("cidade_id", getCidade().getId().toString()).ieq("descricao", getDescricao().toString()).findUnique();
