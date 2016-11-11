@@ -2,16 +2,12 @@ package execucao;
 
 import engine.*;
 import integracao.ControladorHelper;
-import models.*;
-import org.jetbrains.annotations.NotNull;
+import models.Plano;
 import org.joda.time.DateTime;
 import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 
 /**
@@ -48,6 +44,7 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
     protected GerenciadorDeEstagios getGerenciadorDeEstagios(int anel, Plano plano) {
         return getGerenciadorDeEstagios(anel, plano, null);
     }
+
     protected GerenciadorDeEstagios getGerenciadorDeEstagios(int anel, Plano plano, Motor motor) {
         return new GerenciadorDeEstagios(anel, inicioControlador, inicioExecucao, plano, new GerenciadorDeEstagiosCallback() {
 

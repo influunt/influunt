@@ -27,10 +27,10 @@ public class MapStorage implements Storage {
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
         this.status = this.db.hashMap("status")
-                .keySerializer(Serializer.STRING)
-                .valueSerializer(Serializer.STRING)
-                .layout(1, 1, 1)
-                .createOrOpen();
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 1, 1)
+            .createOrOpen();
 
         if (!this.status.containsKey("status")) {
             this.status.put("status", StatusDevice.NOVO.toString());
@@ -38,10 +38,10 @@ public class MapStorage implements Storage {
         }
 
         this.controlador = this.db.hashMap("controladores")
-                .keySerializer(Serializer.STRING)
-                .valueSerializer(Serializer.STRING)
-                .layout(1, 2, 1)
-                .createOrOpen();
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 2, 1)
+            .createOrOpen();
     }
 
     @Override

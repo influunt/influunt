@@ -44,9 +44,9 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
 
         String chave = ctxManager.getChave(ctx);
         boolean acessandoStatus = "GET /api/v1/monitoramento/status_controladores".equals(chave) ||
-                "GET /api/v1/monitoramento/controladores_onlines".equals(chave) ||
-                "GET /api/v1/monitoramento/controladores_offlines".equals(chave) ||
-                "GET /api/v1/monitoramento/detalhe_controlador/$id<[^/]+>".equals(chave);
+            "GET /api/v1/monitoramento/controladores_onlines".equals(chave) ||
+            "GET /api/v1/monitoramento/controladores_offlines".equals(chave) ||
+            "GET /api/v1/monitoramento/detalhe_controlador/$id<[^/]+>".equals(chave);
         if (acessandoStatus) {
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }

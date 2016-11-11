@@ -4,7 +4,6 @@ import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.Gson;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
 import models.TipoDetector;
@@ -69,7 +68,7 @@ public class SimuladorActor extends UntypedActor {
                 int posicao = root.get("posicao").asInt();
                 int anel = root.get("anel").asInt();
                 DateTime disparo = new DateTime(root.get("disparo").asLong());
-                detectorAcionador(anel,td,disparo,posicao);
+                detectorAcionador(anel, td, disparo, posicao);
             });
 
             client.subscribe("simulador/" + id + "/alternar_modo_manual", 1, (topic, message) -> {
@@ -98,8 +97,8 @@ public class SimuladorActor extends UntypedActor {
         proximaPagina();
     }
 
-    private void detectorAcionador(int anel,TipoDetector tipoDetector, DateTime disparo, int detector) {
-        simulador.detectorAcionador(anel,tipoDetector,disparo,detector);
+    private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) {
+        simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
         pagina = 0;
         trocasDePlanos.clear();
         estagios.clear();
@@ -146,7 +145,7 @@ public class SimuladorActor extends UntypedActor {
         estagios.keySet().stream().forEach(key -> {
             ArrayNode anelArray = aneis.putArray(key.toString());
             estagios.get(key).stream().forEach(e -> {
-                 anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
+                anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
             });
         });
         ArrayNode trocas = root.putArray("trocas");
@@ -162,9 +161,9 @@ public class SimuladorActor extends UntypedActor {
 
         troca.add(timestamp.getMillis());
 
-        if(eventoAnterior!=null) {
+        if (eventoAnterior != null) {
             troca.add(eventoAnterior.getPosicaoPlano());
-        }else{
+        } else {
             troca.add("null");
         }
         troca.add(eventoAtual.getPosicaoPlano());

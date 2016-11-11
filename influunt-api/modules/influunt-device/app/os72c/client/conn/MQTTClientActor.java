@@ -127,7 +127,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
             tick.cancel();
         } else {
             tick = getContext().system().scheduler().schedule(Duration.Zero(),
-                    Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
+                Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
         client.subscribe("controlador/" + id + "/+", 1, (topic, message) -> {

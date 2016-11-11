@@ -81,7 +81,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             }
         }
 
-        monitor.tick(instante,planos);
+        monitor.tick(instante, planos);
         estagios.forEach(e -> e.tick());
         instante = instante.plus(100);
     }

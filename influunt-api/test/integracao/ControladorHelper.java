@@ -405,7 +405,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         Anel anel = getAnel(1);
         setAtrasoDeGrupo(anel, 2, 3, 1, 2);
-        setAtrasoDeGrupo(anel, 1, 3, 1, 2);
+//        setAtrasoDeGrupo(anel, 1, 3, 1, 2);
 
         controlador.save();
     }

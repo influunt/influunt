@@ -48,7 +48,7 @@ public class ImposicaoPlanosControladorController extends Controller {
 
     public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
         List<ImposicaoPlanosControlador> imposicaoPlanosControladores = ImposicaoPlanosControlador.historico(id, Integer.valueOf(pagina),
-                Integer.valueOf(tamanho));
+            Integer.valueOf(tamanho));
         if (imposicaoPlanosControladores == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {

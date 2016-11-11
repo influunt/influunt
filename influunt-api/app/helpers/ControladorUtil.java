@@ -442,9 +442,9 @@ public class ControladorUtil {
 
                 //Create thumbnail
                 Thumbnails.of(imagemClone.getPath(appRootPath))
-                        .forceSize(150, 150)
-                        .outputFormat("jpg")
-                        .toFile(imagemClone.getPath(appRootPath, "thumb"));
+                    .forceSize(150, 150)
+                    .outputFormat("jpg")
+                    .toFile(imagemClone.getPath(appRootPath, "thumb"));
             }
         } catch (IOException e) {
             imagemClone.delete();
@@ -466,8 +466,8 @@ public class ControladorUtil {
                     field.set(clone, Enum.valueOf((Class<Enum>) field.getType(), field.get(obj).toString()));
                 }
                 if (field.getType().isPrimitive() || field.getType().equals(String.class)
-                        || (field.getType().getSuperclass() != null && field.getType().getSuperclass().equals(Number.class))
-                        || field.getType().equals(Boolean.class)) {
+                    || (field.getType().getSuperclass() != null && field.getType().getSuperclass().equals(Number.class))
+                    || field.getType().equals(Boolean.class)) {
                     field.set(clone, field.get(obj));
                 }
             }

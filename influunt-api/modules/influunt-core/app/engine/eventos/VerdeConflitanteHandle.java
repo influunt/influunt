@@ -1,7 +1,6 @@
 package engine.eventos;
 
 import com.google.common.collect.RangeMap;
-import com.google.common.collect.TreeRangeMap;
 import engine.AgendamentoTrocaPlano;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;

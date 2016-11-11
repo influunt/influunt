@@ -17,7 +17,7 @@ public class MensagemInterrupcao extends Mensagem {
     @Override
     public String toString() {
         return "MensagemInterrupcao{" +
-                "interrupcoes=" + interrupcoes +
-                '}';
+            "interrupcoes=" + interrupcoes +
+            '}';
     }
 }

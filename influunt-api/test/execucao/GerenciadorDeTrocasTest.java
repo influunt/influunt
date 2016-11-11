@@ -1,22 +1,16 @@
 package execucao;
 
-import config.WithInfluuntApplicationNoAuthentication;
-import engine.*;
-import engine.TipoEvento;
+import engine.AgendamentoTrocaPlano;
+import engine.IntervaloGrupoSemaforico;
 import integracao.ControladorHelper;
-import models.*;
+import models.Evento;
+import models.Plano;
 import org.apache.commons.math3.util.Pair;
-import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 
 /**
@@ -25,8 +19,11 @@ import static org.junit.Assert.assertNotNull;
 public class GerenciadorDeTrocasTest extends MotorTest {
 
     protected HashMap<DateTime, Evento> listaTrocaPlano;
+
     protected HashMap<DateTime, HashMap<Integer, Pair<Evento, Plano>>> listaTrocaPlanoEfetiva;
+
     protected HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaEstagios;
+
     protected HashMap<DateTime, HashMap<Integer, IntervaloGrupoSemaforico>> listaHistoricoEstagios;
 
     @Before

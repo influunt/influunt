@@ -81,11 +81,11 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
         // Write the CSV file header
         buffer.append("Status").append(COMMA_DELIMITER)
-                .append("Total").append(NEW_LINE_SEPARATOR);
+            .append("Total").append(NEW_LINE_SEPARATOR);
 
         for (ControladorStatusVO controladorStatusVO : getControladoresPorStatus()) {
             buffer.append(StringUtils.defaultIfBlank(controladorStatusVO.getStatus(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                    .append(StringUtils.defaultIfBlank(controladorStatusVO.getTotal().toString(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
+                .append(StringUtils.defaultIfBlank(controladorStatusVO.getTotal().toString(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
         }
 
 
@@ -129,13 +129,13 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
         // Write the CSV file header
         buffer.append("Status").append(COMMA_DELIMITER)
-                .append("Total").append(NEW_LINE_SEPARATOR);
+            .append("Total").append(NEW_LINE_SEPARATOR);
 
         for (ControladorFalhasVO controladorFalhasVO : getControladoresPorFalhas()) {
             buffer.append(StringUtils.defaultIfBlank(controladorFalhasVO.getNomeFabricante(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
             for (FalhaPorFabricanteVO falha : controladorFalhasVO.getFalhas()) {
                 buffer.append(StringUtils.defaultIfBlank(falha.getFalha(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                        .append(StringUtils.defaultIfBlank(falha.getTotal().toString(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
+                    .append(StringUtils.defaultIfBlank(falha.getTotal().toString(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
             }
 
         }

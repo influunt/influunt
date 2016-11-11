@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
 public class ClientActor extends UntypedActor {
 
     private static SupervisorStrategy strategy =
-            new OneForOneStrategy(-1, Duration.Undefined(),
-                    new Function<Throwable, SupervisorStrategy.Directive>() {
-                        @Override
-                        public SupervisorStrategy.Directive apply(Throwable t) {
-                            return SupervisorStrategy.stop();
-                        }
-                    }, false);
+        new OneForOneStrategy(-1, Duration.Undefined(),
+            new Function<Throwable, SupervisorStrategy.Directive>() {
+                @Override
+                public SupervisorStrategy.Directive apply(Throwable t) {
+                    return SupervisorStrategy.stop();
+                }
+            }, false);
 
     private final String id;
 
