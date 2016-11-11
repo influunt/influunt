@@ -30,6 +30,7 @@ public class MotorEventoHandler {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:
             case ACIONAMENTO_DETECTOR_PEDESTRE:
+                motor.getMonitor().registraAcionamentoDetector((Detector) eventoMotor.getParams()[0]);
                 handleAcionamentoDetector(eventoMotor);
                 break;
 
@@ -53,19 +54,16 @@ public class MotorEventoHandler {
                 handleFaseVermelhaGrupoSemaforico(eventoMotor);
                 break;
 
-            case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
-            case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO:
+            case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
+            case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO:
                 //TODO: Qual a diferenca para FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA
                 break;
 
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
             case FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO:
-                handleFaltaAcionamentoDetector(eventoMotor);
-                break;
-
             case FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO:
             case FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO:
-                handleAcionamentoDiretoDetector(eventoMotor);
+                handleFalhaDetector(eventoMotor);
                 break;
 
             case FALHA_DETECTOR_VEICULAR_REMOCAO:
@@ -85,9 +83,9 @@ public class MotorEventoHandler {
                 handleFalhaAnel(eventoMotor);
                 break;
 
-            case FALHA_AMARELO_INTERMITENTE:
-            case FALHA_SEMAFORO_APAGADO:
-            case FALHA_ACERTO_RELOGIO_GPS:
+            case ALARME_AMARELO_INTERMITENTE:
+            case ALARME_SEMAFORO_APAGADO:
+            case ALARME_ACERTO_RELOGIO_GPS:
                 break;
 
             case IMPOSICAO_PLANO:
@@ -99,7 +97,7 @@ public class MotorEventoHandler {
 
     private void handleRemocaoFalhaDetector(EventoMotor eventoMotor) {
         Detector detector = (Detector) eventoMotor.getParams()[0];
-        detector.setComFalha(false);
+        motor.getEstagios().get(detector.getAnel().getPosicao() - 1).onEvento(eventoMotor);
     }
 
     private void handleFalhaAnel(EventoMotor eventoMotor) {
@@ -107,20 +105,16 @@ public class MotorEventoHandler {
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
     }
 
-    private void handleFaltaAcionamentoDetector(EventoMotor eventoMotor) {
-        Detector detector = (Detector) eventoMotor.getParams()[0];
-        if (eventoMotor.getTipoEvento().equals(TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO)) {
-            Pair<Integer, TipoDetector> key = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
-            if (!falhasDetector.containsKey(key)) {
-                falhasDetector.put(key, eventoMotor);
-                motor.getEstagios().get(detector.getAnel().getPosicao() - 1).onEvento(eventoMotor);
-            }
-        }
-    }
+    private void handleFalhaDetector(EventoMotor eventoMotor) {
+        Detector detector = getMotor().getControlador().getDetector((Detector) eventoMotor.getParams()[0]);
 
-    private void handleAcionamentoDiretoDetector(EventoMotor eventoMotor) {
-        Integer detector = (Integer) eventoMotor.getParams()[0];
-        //TODO: Fazer o que tem que fazer
+
+        Pair<Integer, TipoDetector> key = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
+        if (!falhasDetector.containsKey(key)) {
+            falhasDetector.put(key, eventoMotor);
+            motor.getEstagios().get(detector.getAnel().getPosicao() - 1).onEvento(eventoMotor);
+        }
+
     }
 
 
@@ -147,8 +141,14 @@ public class MotorEventoHandler {
 
 
     private void handleAcionamentoDetector(EventoMotor eventoMotor) {
+        Detector detector = (Detector) eventoMotor.getParams()[0];
         Integer anel = (Integer) eventoMotor.getParams()[1];
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+
+        Pair<Integer, TipoDetector> key = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
+        if (falhasDetector.containsKey(key)) {
+            falhasDetector.remove(key);
+        }
     }
 
     private void handleAlternarModoManual(EventoMotor eventoMotor) {

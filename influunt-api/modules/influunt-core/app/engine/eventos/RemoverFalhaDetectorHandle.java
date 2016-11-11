@@ -7,14 +7,14 @@ import models.Detector;
 /**
  * Created by rodrigosol on 11/8/16.
  */
-public class FalhaDetectorVeicularHandle extends GerenciadorDeEventos {
-    public FalhaDetectorVeicularHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
+public class RemoverFalhaDetectorHandle extends GerenciadorDeEventos {
+    public RemoverFalhaDetectorHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
         super(gerenciadorDeEstagios);
     }
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Detector detector = (Detector) eventoMotor.getParams()[0];
-        detector.setComFalha(true);
+        detector.setComFalha(false);
     }
 }

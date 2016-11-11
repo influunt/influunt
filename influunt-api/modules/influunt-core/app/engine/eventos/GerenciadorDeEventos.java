@@ -57,12 +57,17 @@ public abstract class GerenciadorDeEventos {
                 new RemoverAmareloIntermitenteHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
-                new FalhaDetectorVeicularHandle(gerenciadorDeEstagios).processar(eventoMotor);
+            case FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO:
+            case FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO:
+            case FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO:
+                new FalhaDetectorHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_VERDES_CONFLITANTES:
                 new VerdeConflitanteHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
-
+            case FALHA_DETECTOR_PEDESTRE_REMOCAO:
+            case FALHA_DETECTOR_VEICULAR_REMOCAO:
+                new RemoverFalhaDetectorHandle(gerenciadorDeEstagios).processar(eventoMotor);
             default:
                 break;
         }

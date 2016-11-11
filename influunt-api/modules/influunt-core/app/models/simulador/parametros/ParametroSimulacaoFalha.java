@@ -70,8 +70,8 @@ public class ParametroSimulacaoFalha {
         switch (TipoEvento.getFalha(falha.getCodigo())) {
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:
-            case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
-            case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO:
+            case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
+            case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO:
                 grupoSemaforico = GrupoSemaforico.find.byId(UUID.fromString(id));
                 break;
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
@@ -83,6 +83,7 @@ public class ParametroSimulacaoFalha {
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
             case FALHA_VERDES_CONFLITANTES:
             case FALHA_VERDES_CONFLITANTES_REMOCAO:
+            case FALHA_SEQUENCIA_DE_CORES:
                 anel = Anel.find.byId(UUID.fromString(id));
                 break;
         }

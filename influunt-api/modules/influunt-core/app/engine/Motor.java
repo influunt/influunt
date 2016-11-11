@@ -1,11 +1,13 @@
 package engine;
 
+import models.Anel;
 import models.Controlador;
 import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +48,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
         this.instante = inicioExecucao;
         this.motorEventoHandler = new MotorEventoHandler(this);
-        this.monitor = new MonitorDeFalhas(this.motorEventoHandler);
+        this.monitor = new MonitorDeFalhas(this.motorEventoHandler,controlador.getAneis().stream().map(Anel::getDetectores)
+                                                                              .flatMap(Collection::stream)
+                                                                              .collect(Collectors.toList()));
 
 
         this.controlador.getAneis().stream().forEach(anel ->
@@ -125,11 +129,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         motorEventoHandler.handle(eventoMotor);
     }
 
-    public void onEventoParcial(EventoMotor eventoMotor) {
-        eventoMotor.setTimestamp(instante);
-        onEvento(eventoMotor);
-    }
-
     public List<GerenciadorDeEstagios> getEstagios() {
         return estagios;
     }
@@ -141,8 +140,12 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public Plano getPlanoAtual(Integer anel) {
         return getPlanos(eventoAtual).get(anel - 1);
     }
-    
+
     public MonitorDeFalhas getMonitor() {
         return monitor;
+    }
+
+    public Controlador getControlador() {
+        return controlador;
     }
 }

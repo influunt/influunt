@@ -33,9 +33,7 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
         Detector detector = (Detector) eventoMotor.getParams()[0];
 
         if (detector.isComFalha()) {
-            engine.TipoEvento tipoEvento = detector.isVeicular() ? TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO : TipoEvento.FALHA_DETECTOR_PEDESTRE_REMOCAO;
-            final Motor motor = gerenciadorDeEstagios.getMotor();
-            motor.onEventoParcial(new EventoMotor(null, tipoEvento, detector));
+            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO, detector));
         }
 
         Estagio estagio = detector.getEstagio();

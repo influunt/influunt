@@ -93,7 +93,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         verificaETrocaEstagio(intervalo);
 
-
         contadorIntervalo += 100L;
         tempoDecorrido += 100L;
 
@@ -285,9 +284,16 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void atualizaListaEstagiosNovoCiclo(List<EstagioPlano> lista) {
         this.listaEstagioPlanos = new ArrayList<>(lista);
+
+        this.plano.getEstagiosPlanos().stream()
+            .filter(EstagioPlano::isDispensavel)
+            .filter(estagioPlano -> estagioPlano.getEstagio().getDetector().isComFalha())
+            .forEach(estagioPlano -> estagiosProximoCiclo.add(estagioPlano));
+
         estagiosProximoCiclo.forEach(estagioPlano -> {
             atualizaEstagiosCicloAtual(estagioPlano);
         });
+
         estagiosProximoCiclo.clear();
     }
 

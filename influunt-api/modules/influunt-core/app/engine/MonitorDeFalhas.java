@@ -1,8 +1,10 @@
 package engine;
 
 import com.google.common.collect.RangeMap;
+import models.Detector;
 import models.EstadoGrupoSemaforico;
 import models.Plano;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
@@ -30,18 +32,52 @@ public class MonitorDeFalhas {
 
     private Map<Integer, Long> retiraVerdeConflitantes = new HashMap<>();
 
-    public MonitorDeFalhas(MotorEventoHandler motorEventoHandler) {
+    private Map<Detector, Pair<Long, Long>> ausenciaDeteccao = new HashMap<>();
+
+    public MonitorDeFalhas(MotorEventoHandler motorEventoHandler, List<Detector> detectors) {
         this.motorEventoHandler = motorEventoHandler;
+        registraMonitoramentoDetectores(detectors);
     }
+
 
     public void tick(DateTime timestamp, List<Plano> planos) {
         ticks += 100L;
+
+        monitoraDetectores(timestamp);
+
         for (Map.Entry<Integer, Long> entry : retiraVerdeConflitantes.entrySet()) {
             if (entry.getValue().equals(ticks)) {
                 motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
                 retiraVerdeConflitantes.put(entry.getKey(),Long.MIN_VALUE);
             }
         }
+    }
+
+    private void monitoraDetectores(DateTime timestamp) {
+        ausenciaDeteccao.entrySet().stream().forEach(entry ->{
+            Pair<Long, Long> newValue = new Pair<Long, Long>(entry.getValue().getFirst(), entry.getValue().getSecond() + 100L);
+            if(newValue.getSecond().equals(newValue.getFirst())){
+                TipoEvento tv = entry.getKey().isPedestre() ? TipoEvento.FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO :
+                                                              TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO;
+                motorEventoHandler.handle(new EventoMotor(timestamp, tv, entry.getKey(),entry.getKey()));
+                newValue = new Pair<Long, Long>(entry.getValue().getFirst(), 0L);
+            }
+            ausenciaDeteccao.put(entry.getKey(),newValue);
+        });
+    }
+
+    public void registraAcionamentoDetector(Detector detector){
+        if(ausenciaDeteccao.containsKey(detector)){
+            ausenciaDeteccao.put(detector,new Pair<Long, Long>(detector.getTempoAusenciaDeteccao() * 60000L,0L));
+        }
+    }
+
+    private void registraMonitoramentoDetectores(List<Detector> detectores) {
+        detectores.stream().filter(detector -> detector.isMonitorado()).forEach(detector -> registraMonitoramentoDetector(detector));
+    }
+
+    private void registraMonitoramentoDetector(Detector detector) {
+        ausenciaDeteccao.put(detector,new Pair<Long,Long>(detector.getTempoAusenciaDeteccao() * 60000L,0L));
     }
 
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {

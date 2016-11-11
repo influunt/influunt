@@ -7,6 +7,7 @@ import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
 
+import static engine.TipoEventoParamsTipoDeDado.tipo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -556,6 +557,16 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
 
         EstagioPlano estagioPlano = getEstagioPlano(plano, 3);
         estagioPlano.setDispensavel(true);
+        Detector detector = new Detector();
+        detector.setAnel(anel);
+        detector.setControlador(anel.getControlador());
+        detector.setTipo(TipoDetector.PEDESTRE);
+        detector.setPosicao(1);
+        detector.setMonitorado(false);
+        Estagio estagio = estagioPlano.getEstagio();
+        detector.setEstagio(estagio);
+        estagio.setDetector(detector);
+
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 105);

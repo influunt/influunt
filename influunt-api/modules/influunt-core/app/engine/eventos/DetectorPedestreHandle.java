@@ -2,6 +2,8 @@ package engine.eventos;
 
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
+import engine.Motor;
+import engine.TipoEvento;
 import models.Detector;
 import models.EstagioPlano;
 
@@ -21,6 +23,11 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Detector detector = (Detector) eventoMotor.getParams()[0];
+
+        if (detector.isComFalha()) {
+            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_PEDESTRE_REMOCAO, detector));
+        }
+
         EstagioPlano estagioPlano = plano.getEstagiosPlanos()
             .stream()
             .filter(EstagioPlano::isDispensavel)
