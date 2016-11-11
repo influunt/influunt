@@ -282,26 +282,26 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public List<GrupoSemaforico> getGruposSemaforicos() {
         return getEstagiosGruposSemaforicos().stream()
-                .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
-                .map(EstagioGrupoSemaforico::getGrupoSemaforico).collect(Collectors.toList());
+            .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
+            .map(EstagioGrupoSemaforico::getGrupoSemaforico).collect(Collectors.toList());
     }
 
     private boolean isEstagiosGrupoSemaforicosNotEmpty() {
         return getEstagiosGruposSemaforicos() != null
-                && !getEstagiosGruposSemaforicos().isEmpty()
-                && !getEstagiosGruposSemaforicos().stream()
-                .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
-                .collect(Collectors.toList()).isEmpty();
+            && !getEstagiosGruposSemaforicos().isEmpty()
+            && !getEstagiosGruposSemaforicos().stream()
+            .filter(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy())
+            .collect(Collectors.toList()).isEmpty();
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
+        message = "Este estágio deve ser associado a pelo menos 1 grupo semafórico")
     public boolean isAoMenosUmEstagioGrupoSemaforico() {
         return isEstagiosGrupoSemaforicosNotEmpty();
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.")
+        message = "Estágio de demanda prioritária deve ser associado a somente 1 grupo semafórico.")
     public boolean isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria() {
         if (isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria()) {
             return getEstagiosGruposSemaforicos().size() <= 1;
@@ -310,7 +310,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.")
+        message = "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.")
     public boolean isUmGrupoSemaforicoVeicularEmDemandaPrioritaria() {
         if (isEstagiosGrupoSemaforicosNotEmpty() && isDemandaPrioritaria() && isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria()) {
             return getEstagiosGruposSemaforicos().get(0).getGrupoSemaforico().isVeicular();
@@ -319,7 +319,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
+        message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
         if (isEstagiosGrupoSemaforicosNotEmpty()) {
             return !getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> !estagioGrupoSemaforico.isDestroy() && estagioGrupoSemaforico.getGrupoSemaforico().conflitaCom(this.getGruposSemaforicos()));
@@ -328,7 +328,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
+        message = "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.")
     public boolean isAoMesmoTempoDestinoEAlternativo() {
         if (!getDestinoDeTransicoesProibidas().isEmpty() && !getAlternativaDeTransicoesProibidas().isEmpty()) {
             return getDestinoDeTransicoesProibidas().stream().filter(estagio -> getAlternativaDeTransicoesProibidas().contains(estagio)).count() == 0;
@@ -336,7 +336,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "Esse estágio deve estar associado a pelo menos um detector.")
+        message = "Esse estágio deve estar associado a pelo menos um detector.")
     public boolean isAssociadoDetectorCasoDemandaPrioritaria() {
         if (Boolean.TRUE.equals(getDemandaPrioritaria())) {
             return Objects.nonNull(getDetector());
@@ -353,7 +353,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoMaximoPermanenciaOk() {
         if (getTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
-                    RangeUtils.getInstance(null).TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
+                RangeUtils.getInstance(null).TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
         return true;
     }
@@ -362,10 +362,10 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoMaximoPermanenciaMaiorQueVerdeDeSeguranca() {
         if (getTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
             return getTempoMaximoPermanencia() > getGruposSemaforicos()
-                    .stream()
-                    .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
-                    .min()
-                    .orElse(0);
+                .stream()
+                .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
+                .min()
+                .orElse(0);
         }
         return true;
     }
@@ -374,7 +374,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoVerdeDemandaPrioritaria() {
         if (isDemandaPrioritaria()) {
             return getTempoVerdeDemandaPrioritaria() != null &&
-                    RangeUtils.getInstance(null).TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
+                RangeUtils.getInstance(null).TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
         }
         return true;
     }
@@ -384,7 +384,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Esse estágio deve possuir ao menos uma transição válida para outro estágio.")
+        message = "Esse estágio deve possuir ao menos uma transição válida para outro estágio.")
     public boolean isEstagioPossuiAoMenosUmaTransicaoOrigemValida() {
         for (Estagio estagio : getAnel().getEstagios()) {
             if (!Objects.equals(getIdJson(), estagio.getIdJson()) && !temTransicaoProibidaParaEstagio(estagio)) {
@@ -395,7 +395,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Pelo menos um estágio deve ter uma transição válida para esse estágio.")
+        message = "Pelo menos um estágio deve ter uma transição válida para esse estágio.")
     public boolean isEstagioPossuiAoMenosUmaTransicaoDestinoValida() {
         for (Estagio estagio : getAnel().getEstagios()) {
             if (!Objects.equals(getIdJson(), estagio.getIdJson()) && !estagio.temTransicaoProibidaParaEstagio(this)) {
