@@ -25,7 +25,7 @@ angular.module('influuntApp')
 
         Restangular.all('login').post($scope.credenciais)
           .then(function(res) {
-            saveUsuario(res);
+            PermissionsService.setUsuario(res);
             PermissionsService.loadPermissions()
               .then(function() {
                 $state.go('app.main');

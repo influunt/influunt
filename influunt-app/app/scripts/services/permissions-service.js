@@ -11,7 +11,8 @@ angular.module('influuntApp')
   .factory('PermissionsService', ['Restangular', 'PermRoleStore', 'PermPermissionStore', '$q',
     function (Restangular, PermRoleStore, PermPermissionStore, $q) {
 
-      var getPermissions, loadPermissions, checkPermission, resetPermissions, getUsuario, podeVisualizarTodasAreas, isUsuarioRoot;
+      var getPermissions, loadPermissions, checkPermission, resetPermissions, getUsuario, podeVisualizarTodasAreas,
+          isUsuarioRoot, setUsuario, refreshUsuario;
 
       getPermissions = function() {
         return Restangular.all('permissoes').customGET('roles');
@@ -59,6 +60,23 @@ angular.module('influuntApp')
         return usuarioLogado;
       };
 
+      setUsuario = function(usuarioJson) {
+        var usuario = _.pick(usuarioJson, ['id', 'login', 'email', 'root', 'permissoes']);
+        if (usuarioJson.area) {
+          usuario.area = { idJson: usuarioJson.area.idJson };
+        }
+        usuarioLogado = usuario;
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+      }
+
+      refreshUsuario = function() {
+        var usuario = getUsuario(true);
+        return Restangular.one('usuarios', usuario.id).get()
+          .then(function(response) {
+            setUsuario(response);
+          });
+      };
+
       podeVisualizarTodasAreas = function() {
         return checkPermission('visualizarTodasAreas');
       };
@@ -81,6 +99,8 @@ angular.module('influuntApp')
         getPermissions: getPermissions,
         podeVisualizarTodasAreas: podeVisualizarTodasAreas,
         getUsuario: getUsuario,
+        setUsuario: setUsuario,
+        refreshUsuario: refreshUsuario,
         isUsuarioRoot: isUsuarioRoot,
         checkRole: checkRole
       };

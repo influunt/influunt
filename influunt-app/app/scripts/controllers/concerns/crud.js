@@ -153,13 +153,15 @@ angular.module('influuntApp')
       var promise = $scope.objeto.id ? $scope.update() : $scope.create();
       return promise
         .then(function() {
+          if (angular.isFunction($scope.afterSave)) {
+            $scope.afterSave();
+          }
           $scope.submited = false;
           $state.go('app.' + resourceName);
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })
         .catch(function(err) {
           if (err.status === 422) {
-            // $scope.errors = err.data;
             $scope.errors = handleValidations.handle(err.data);
           } else {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
