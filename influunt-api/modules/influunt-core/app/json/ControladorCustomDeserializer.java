@@ -1511,46 +1511,46 @@ public class ControladorCustomDeserializer {
                 modelo.setFabricante(fabricante);
             }
 
-            if (node.has("limiteAnel")) {
-                modelo.setLimiteAnel(node.get("limiteAnel").asInt());
-            } else if (modeloNode.has("limiteAnel")) {
+            if (modeloNode.has("limiteAnel")) {
                 modelo.setLimiteAnel(modeloNode.get("limiteAnel").asInt());
+            } else if (node.has("limiteAnel")) {
+                modelo.setLimiteAnel(node.get("limiteAnel").asInt());
             }
 
-            if (node.has("limiteDetectorPedestre")) {
-                modelo.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre").asInt());
-            } else if (modeloNode.has("limiteDetectorPedestre")) {
+            if (modeloNode.has("limiteDetectorPedestre")) {
                 modelo.setLimiteDetectorPedestre(modeloNode.get("limiteDetectorPedestre").asInt());
+            } else if (node.has("limiteDetectorPedestre")) {
+                modelo.setLimiteDetectorPedestre(node.get("limiteDetectorPedestre").asInt());
             }
 
-            if (node.has("limiteDetectorVeicular")) {
-                modelo.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular").asInt());
-            } else if (modeloNode.has("limiteDetectorVeicular")) {
+            if (modeloNode.has("limiteDetectorVeicular")) {
                 modelo.setLimiteDetectorVeicular(modeloNode.get("limiteDetectorVeicular").asInt());
+            } else if (node.has("limiteDetectorVeicular")) {
+                modelo.setLimiteDetectorVeicular(node.get("limiteDetectorVeicular").asInt());
             }
 
-            if (node.has("limiteEstagio")) {
-                modelo.setLimiteEstagio(node.get("limiteEstagio").asInt());
-            } else if (modeloNode.has("limiteEstagio")) {
+            if (modeloNode.has("limiteEstagio")) {
                 modelo.setLimiteEstagio(modeloNode.get("limiteEstagio").asInt());
+            } else if (node.has("limiteEstagio")) {
+                modelo.setLimiteEstagio(node.get("limiteEstagio").asInt());
             }
 
-            if (node.has("limiteGrupoSemaforico")) {
-                modelo.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico").asInt());
-            } else if (modeloNode.has("limiteGrupoSemaforico")) {
+            if (modeloNode.has("limiteGrupoSemaforico")) {
                 modelo.setLimiteGrupoSemaforico(modeloNode.get("limiteGrupoSemaforico").asInt());
+            } else if (node.has("limiteGrupoSemaforico")) {
+                modelo.setLimiteGrupoSemaforico(node.get("limiteGrupoSemaforico").asInt());
             }
 
-            if (node.has("limitePlanos")) {
-                modelo.setLimitePlanos(node.get("limitePlanos").asInt());
-            } else if (modeloNode.has("limitePlanos")) {
+            if (modeloNode.has("limitePlanos")) {
                 modelo.setLimitePlanos(modeloNode.get("limitePlanos").asInt());
+            } else if (node.has("limitePlanos")) {
+                modelo.setLimitePlanos(node.get("limitePlanos").asInt());
             }
 
-            if (node.has("limiteTabelasEntreVerdes")) {
-                modelo.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
-            } else if (modeloNode.has("limiteTabelasEntreVerdes")) {
+            if (modeloNode.has("limiteTabelasEntreVerdes")) {
                 modelo.setLimiteTabelasEntreVerdes(modeloNode.get("limiteTabelasEntreVerdes").asInt());
+            } else if (node.has("limiteTabelasEntreVerdes")) {
+                modelo.setLimiteTabelasEntreVerdes(node.get("limiteTabelasEntreVerdes").asInt());
             }
 
 

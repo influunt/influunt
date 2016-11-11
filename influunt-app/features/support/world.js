@@ -1,5 +1,4 @@
 'use strict';
-
 var fs = require('fs');
 var webdriver = require('selenium-webdriver');
 var platform = process.env.PLATFORM || 'PHANTOMJS';
