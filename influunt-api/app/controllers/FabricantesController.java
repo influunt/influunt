@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Controlador;
 import models.Fabricante;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -15,6 +16,7 @@ import security.Secured;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -91,8 +93,17 @@ public class FabricantesController extends Controller {
         if (fabricante == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            fabricante.delete();
-            return CompletableFuture.completedFuture(ok());
+
+            boolean podeDeletarFabricante = !(fabricante.getModelos().stream().filter(modelo -> modelo.getControladores().size() > 0).count() > 0);
+            if (podeDeletarFabricante) {
+                fabricante.delete();
+                return CompletableFuture.completedFuture(ok());
+            } else {
+                Erro erro= new Erro("Fabricante", "Este fabricante possui modelos utilizados em controladores", "");
+                return CompletableFuture.completedFuture(
+                    status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
+                );
+            }
         }
     }
 

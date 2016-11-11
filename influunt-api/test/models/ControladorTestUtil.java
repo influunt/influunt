@@ -29,6 +29,13 @@ public class ControladorTestUtil {
         this.modeloControlador = modeloControlador;
     }
 
+    public ControladorTestUtil(Area area, Fabricante fabricante, ModeloControlador modeloControlador) {
+        this.area = area;
+        this.subarea = null;
+        this.fabricante = fabricante;
+        this.modeloControlador = modeloControlador;
+    }
+
     public Controlador getControlador() {
         return new Controlador();
     }

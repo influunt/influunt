@@ -2,7 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
-import models.Fabricante;
+import models.*;
 import org.junit.Assert;
 import org.junit.Test;
 import play.libs.Json;
@@ -106,6 +106,13 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
 
         assertEquals(200, result.status());
         assertNull(Fabricante.find.byId(fabricante.getId()));
+
+
+        deleteRequest = new Http.RequestBuilder().method("DELETE")
+            .uri(routes.FabricantesController.delete(getFabricanteComDependenciasEmControladores().getId().toString()).url());
+        result = route(deleteRequest);
+
+        assertEquals(422, result.status());
     }
 
     @Test
@@ -134,4 +141,28 @@ public class FabricantesControllerTest extends WithInfluuntApplicationNoAuthenti
         assertEquals(fabricanteId, fabricanteRetornado.getId());
     }
 
+    private Fabricante getFabricanteComDependenciasEmControladores() {
+        Cidade cidade = new Cidade();
+        cidade.setNome("Teste");
+        cidade.save();
+
+        Area area = new Area();
+        area.setDescricao(1);
+        area.setCidade(cidade);
+        area.save();
+
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("teste");
+        fabricante.save();
+
+        ModeloControlador modelo = new ModeloControlador();
+        modelo.setDescricao("teste");
+        modelo.setFabricante(fabricante);
+        modelo.save();
+
+        Controlador controlador = new ControladorTestUtil(area, fabricante, modelo).getControladorDadosBasicos();
+        controlador.save();
+
+        return fabricante;
+    }
 }

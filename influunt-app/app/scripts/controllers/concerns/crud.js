@@ -198,8 +198,12 @@ angular.module('influuntApp')
             toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
             return $scope.index();
           })
-          .catch(function() {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
+          .catch(function(err) {
+            if (err.status === 422) {
+              _.map(handleValidations.handle(err.data).general, function(error) { toast.warn(error); });
+            } else {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+            }
           })
           .finally(influuntBlockui.unblock);
       });
