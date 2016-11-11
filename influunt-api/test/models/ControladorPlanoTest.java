@@ -3,7 +3,6 @@ package models;
 import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
-import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.routes;
@@ -905,7 +904,6 @@ public class ControladorPlanoTest extends ControladorTest {
 
         Anel anel1 = controlador.getAneis().stream().filter(Anel::isAtivo).sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).findFirst().orElse(null);
         VersaoPlano versao1 = anel1.getVersoesPlanos().get(0);
-        System.out.println("opa");
         Plano plano1 = versao1.getPlanos().stream().sorted((p1, p2) -> p1.getPosicao().compareTo(p2.getPosicao())).findFirst().orElse(null);
         int totalEstagiosPlanos = plano1.getEstagiosPlanos().size();
 
