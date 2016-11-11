@@ -3,6 +3,7 @@ package execucao.gerenciadorEstagios;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
+import integracao.ControladorHelper;
 import models.Anel;
 import models.Detector;
 import models.EstadoGrupoSemaforico;
@@ -44,14 +45,16 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         Detector detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 210);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(220), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 20);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(240), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 44);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        avancar(gerenciadorDeEstagios, 500);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(284), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        avancar(gerenciadorDeEstagios, 42);
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(326), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        avancar(gerenciadorDeEstagios, 100);
         imprimirListaEstagios(listaEstagios);
         plano.imprimirTabelaEntreVerde();
 
@@ -67,39 +70,30 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(227)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(266)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(286)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(325)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(345)).getEstagio().getPosicao().intValue());
     }
 
     @Test
     public void repeticaoDeEstagioComDemandaPrioritariaComTransicaoProibida() {
+        ControladorHelper controladorHelper = new ControladorHelper(controlador);
         Anel anel = getAnel(2);
+        controladorHelper.criarTransicaoProibida(anel, 1, 3, 2);
+        controlador = controladorHelper.getControlador();
+
         Plano plano = getPlanoDemandaPrioritaria(anel);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
         Detector detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
         avancar(gerenciadorDeEstagios, 210);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        avancar(gerenciadorDeEstagios, 20);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        avancar(gerenciadorDeEstagios, 44);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        avancar(gerenciadorDeEstagios, 500);
-        imprimirListaEstagios(listaEstagios);
+
         plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(57)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(82)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(110)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(132)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(160)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(182)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(210)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(227)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(266)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(286)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(40)).getEstagio().getPosicao().intValue());
     }
 
     @Test

@@ -1,3 +1,7 @@
+"use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 /**
  * PHASETIPS is a tooltip plugin for Phaser.io HTML5 game framework
  *
@@ -6,17 +10,17 @@
  *
  **/
 
-var Phasetips = function(localGame, options) {
+var Phasetips = function Phasetips(localGame, options) {
 
     var _this = this;
     var _options = options || {};
     var game = localGame || game; // it looks for a game object or falls back to the global one
 
-    this.printOptions = function() {
+    this.printOptions = function () {
         window.console.log(_options);
     };
 
-    this.onHoverOver = function() {
+    this.onHoverOver = function () {
         if (_this.tweenObj) {
             _this.tweenObj.stop();
         }
@@ -24,9 +28,7 @@ var Phasetips = function(localGame, options) {
             _this.tweenObj = game.add.tween(_this.mainGroup).to({
                 alpha: 1
             }, _options.animationSpeedShow, Phaser.Easing.Linear.None, true, _options.animationDelay, 0, false);
-        } else if (_options.animation === "slide") {
-
-        } else if (_options.animation === "grow") {
+        } else if (_options.animation === "slide") {} else if (_options.animation === "grow") {
 
             _this.mainGroup.pivot.setTo(_this.mainGroup.width / 2, _this.mainGroup.height);
             _this.mainGroup.pivot.setTo(_this.mainGroup.width / 2, _this.mainGroup.height);
@@ -48,7 +50,7 @@ var Phasetips = function(localGame, options) {
         }
     };
 
-    this.onHoverOut = function() {
+    this.onHoverOut = function () {
         if (_this.tweenObj) {
             _this.tweenObj.stop();
         }
@@ -66,7 +68,7 @@ var Phasetips = function(localGame, options) {
         }
     };
 
-    this.createTooltips = function() {
+    this.createTooltips = function () {
 
         // layout
         var _width = _options.width || "auto";
@@ -99,8 +101,8 @@ var Phasetips = function(localGame, options) {
         var _object = _options.targetObject || game; // any object
         var _animationSpeedShow = _options.animationSpeedShow || 300;
         var _animationSpeedHide = _options.animationSpeedHide || 200;
-        var _onHoverCallback = _options.onHoverCallback || function() {};
-        var _onOutCallback = _options.onOutCallback || function() {};
+        var _onHoverCallback = _options.onHoverCallback || function () {};
+        var _onOutCallback = _options.onOutCallback || function () {};
 
         _options.animation = _animation;
         _options.animationDelay = _animationDelay;
@@ -118,7 +120,7 @@ var Phasetips = function(localGame, options) {
         var mainGroup = _this.mainGroup;
 
         // add content first to calculate width & height in case of auto
-        var type = typeof _content;
+        var type = typeof _content === "undefined" ? "undefined" : _typeof(_content);
 
         if (type === "string") {
             tooltipContent = new Phaser.Text(game, _padding / 2, _padding / 2, _content, _textStyle);
@@ -162,7 +164,7 @@ var Phasetips = function(localGame, options) {
         mainGroup.alpha = 0;
         //////////////////////
         function updatePosition() {
-            let _origPosition = _position;
+            var _origPosition = _position;
             if (_x !== "auto" && _y !== "auto") {
                 mainGroup.x = _x;
                 mainGroup.y = _y;
@@ -177,7 +179,7 @@ var Phasetips = function(localGame, options) {
 
                 // sanity check
                 if (_position === "bottom") {
-                    if (Math.round(objectY + _object.height + (_positionOffset)) + mainGroup._height > game.height) {
+                    if (Math.round(objectY + _object.height + _positionOffset) + mainGroup._height > game.height) {
                         _position = "top";
                     }
                 } else if (_position === "top") {
@@ -187,18 +189,18 @@ var Phasetips = function(localGame, options) {
                 }
 
                 if (_position === "top") {
-                    mainGroup.x = Math.round(objectX + ((_object.width / 2) - (mainGroup._width / 2)));
+                    mainGroup.x = Math.round(objectX + (_object.width / 2 - mainGroup._width / 2));
                     mainGroup.y = Math.round(objectY - (_positionOffset + mainGroup._height));
                 } else if (_position === "bottom") {
-                    mainGroup.x = Math.round(objectX + ((_object.width / 2) - (mainGroup._width) / 2));
-                    mainGroup.y = Math.round(objectY + _object.height + (_positionOffset));
+                    mainGroup.x = Math.round(objectX + (_object.width / 2 - mainGroup._width / 2));
+                    mainGroup.y = Math.round(objectY + _object.height + _positionOffset);
                 } else if (_position === "left") {
                     mainGroup.x = Math.round(objectX - (_positionOffset + mainGroup._width));
-                    mainGroup.y = Math.round((objectY + _object.height / 2) - (mainGroup._height / 2));
+                    mainGroup.y = Math.round(objectY + _object.height / 2 - mainGroup._height / 2);
                     // mainGroup.scale.x = -1;
                 } else if (_position === "right") {
                     mainGroup.x = Math.round(objectX + _object.width + _positionOffset);
-                    mainGroup.y = Math.round((objectY + _object.height / 2) - (mainGroup._height / 2));
+                    mainGroup.y = Math.round(objectY + _object.height / 2 - mainGroup._height / 2);
                 }
 
                 if (_fixedToCamera == true) {
@@ -222,7 +224,6 @@ var Phasetips = function(localGame, options) {
         updatePosition();
 
         ///////////////////////////////////////////////////////////////////////////////////
-
 
 
         if (_customBackground === false) {
@@ -253,39 +254,39 @@ var Phasetips = function(localGame, options) {
         _object.events.onInputOut.add(_this.onHoverOut, this);
         _object.events.onInputUp.add(_this.onHoverOut, this);
 
-        mainGroup.update = function() {
+        mainGroup.update = function () {
             var worldPos = _options.targetObject ? _options.targetObject.world : game.world;
             if (worldPos.x !== mainGroup.initialWorldX) {
                 updatePosition();
             }
-        }
+        };
     };
 
     this.createTooltips();
 
     return {
-        printOptions: function() {
+        printOptions: function printOptions() {
             _this.printOptions();
         },
-        updatePosition: function(x, y) {
+        updatePosition: function updatePosition(x, y) {
             _this.mainGroup.x = x;
             _this.mainGroup.y = y;
         },
-        destroy: function() {
+        destroy: function destroy() {
             _this.mainGroup.removeChildren();
             _this.mainGroup.destroy();
         },
-        hideTooltip: function() {
+        hideTooltip: function hideTooltip() {
             _this.mainGroup.visible = false;
             _this.mainGroup.alpha = 0;
         },
-        showTooltip: function() {
+        showTooltip: function showTooltip() {
             _this.mainGroup.visible = true;
             _this.mainGroup.alpha = 1;
         }
     };
 };
 
-if (typeof module === "object" && typeof module.exports === "object") {
+if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === "object" && _typeof(module.exports) === "object") {
     module.exports = Phasetips;
 }
