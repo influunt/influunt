@@ -117,7 +117,11 @@
                                   data-ng-class="{active: $index === currentPlanoIndex}"
                                   class="item-menu",
                                   id="plano_{{plano.posicao}}">
-                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="plano.posicao === 1 || somenteVisualizacao" data-if-changed="selecionaPlano(plano, $index)">
+                                    <input type="checkbox"
+                                        ichecks data-ng-model="plano.configurado"
+                                        data-if-unchecked="resetarPlano(plano, $index)"
+                                        data-is-disabled="plano.posicao === 1 || (plano.modoOperacao === 'MANUAL' && obrigaModoManualExclusivo) || somenteVisualizacao"
+                                        data-if-changed="selecionaPlano(plano, $index)">
 
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
                                       {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : plano.posicao }}

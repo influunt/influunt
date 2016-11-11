@@ -64,10 +64,21 @@ angular.module('influuntApp')
               }
             });
 
+            $scope.configuraModoManualExclusivo();
             $scope.selecionaAnelPlanos(0);
             return atualizaDiagramaIntervalos();
           })
           .finally(influuntBlockui.unblock);
+      };
+
+      $scope.configuraModoManualExclusivo = function() {
+        $scope.obrigaModoManualExclusivo = _.filter($scope.objeto.aneis, {ativo: true, aceitaModoManual: true}).length > 1;
+        _
+          .chain($scope.objeto.planos)
+          .filter({modoOperacao: 'MANUAL'})
+          .each(function(p) {
+            p.configurado = p.configurado || $scope.obrigaModoManualExclusivo;
+          }).value();
       };
 
       $scope.clonarPlanos = function(controladorId) {
@@ -293,13 +304,16 @@ angular.module('influuntApp')
         selecionaAnel(index);
 
         var indexPlano = 0;
+        var deveAtivarPlano = false;
         if (angular.isDefined($scope.currentPlano)) {
           indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
+          deveAtivarPlano = $scope.currentPlano.configurado;
         }
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
-        $scope.currentPlano.configurado = true;
+        // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
+        $scope.currentPlano.configurado = $scope.currentPlano.configurado || deveAtivarPlano;
       };
 
       $scope.selecionaPlano = function(plano, index) {
