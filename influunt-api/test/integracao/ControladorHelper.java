@@ -44,10 +44,12 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setDadosBasicos();
         setDadosAneis();
         setDadosGruposSemaforicos();
-        setDadosVerdesConflitantes(comVerdeConflitante);
+        setDadosVerdesConflitantes();
         setDadosAssociacaoEstagioGrupoSemaforico();
         setDadosTransicoesProibidas();
-        setDadosAtrasoDeGrupo();
+
+        setDadosAtrasoDeGrupo(comVerdeConflitante);
+
         setDadosTabelaEntreVerdes();
         setDadosAssociacaoDetectores();
 
@@ -253,17 +255,11 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     }
 
     private void setDadosVerdesConflitantes() {
-        setDadosVerdesConflitantes(false);
-    }
-
-    private void setDadosVerdesConflitantes(boolean comVerdeConflitante) {
         Anel anel = getAnel(1);
 
         criarVerdeConflitante(anel, 1, 3);
-        if (comVerdeConflitante) {
-            criarVerdeConflitante(anel, 1, 2);
-            criarVerdeConflitante(anel, 1, 4);
-        }
+        criarVerdeConflitante(anel, 1, 2);
+        criarVerdeConflitante(anel, 1, 4);
         criarVerdeConflitante(anel, 2, 3);
         criarVerdeConflitante(anel, 2, 5);
 
@@ -406,7 +402,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         }
     }
 
-    private void setAtrasoDeGrupo(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAtrasoGrupo) {
+    public void setAtrasoDeGrupo(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAtrasoGrupo) {
         GrupoSemaforico grupoSemaforico = anel.findGrupoSemaforicoByPosicao(posicaoGrupo);
         Estagio origem = anel.findEstagioByPosicao(posicaoOrigem);
         Estagio destino = anel.findEstagioByPosicao(posicaoDestino);
@@ -417,12 +413,19 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     }
 
     private void setDadosAtrasoDeGrupo() {
+        setDadosAtrasoDeGrupo(false);
+    }
+
+    private void setDadosAtrasoDeGrupo(boolean gerarVerdeConflitante) {
         criarAtrasoDeGrupo();
         controlador.save();
 
         Anel anel = getAnel(1);
         setAtrasoDeGrupo(anel, 2, 3, 1, 2);
-        setAtrasoDeGrupo(anel, 1, 3, 1, 2);
+
+        if (gerarVerdeConflitante) {
+            setAtrasoDeGrupo(anel, 1, 3, 1, 2);
+        }
 
         controlador.save();
     }
@@ -759,6 +762,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("03:00:00"), 1);
 
         criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 11);
+
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("13:00:00"), 1);
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("14:00:00"), 1);
+
         criarEvento(tabelaHoraria, 3, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
         criarEvento(tabelaHoraria, 4, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
         criarEvento(tabelaHoraria, 5, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:02:00"), 1);
