@@ -39,7 +39,7 @@ public class ParametroSimulacaoFalha {
         if (grupoSemaforico != null) {
             params = grupoSemaforico;
         } else if (anel != null) {
-            params = anel;
+            params = anel.getPosicao();
         } else if (detector != null) {
             params = detector;
         }
@@ -81,6 +81,8 @@ public class ParametroSimulacaoFalha {
                 detector = Detector.find.byId(UUID.fromString(id));
                 break;
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
+            case FALHA_VERDES_CONFLITANTES:
+            case FALHA_VERDES_CONFLITANTES_REMOCAO:
                 anel = Anel.find.byId(UUID.fromString(id));
                 break;
         }

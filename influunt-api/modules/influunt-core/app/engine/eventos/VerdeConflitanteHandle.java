@@ -15,21 +15,18 @@ import models.Plano;
 public class VerdeConflitanteHandle extends GerenciadorDeEventos {
     private final long contadorIntervalo;
 
-    private final EstagioPlano estagioPlanoAnterior;
-
     private RangeMap<Long, IntervaloEstagio> intervalos;
 
     public VerdeConflitanteHandle(GerenciadorDeEstagios gerenciadorDeEstagios) {
         super(gerenciadorDeEstagios);
         this.contadorIntervalo = gerenciadorDeEstagios.getContadorIntervalo();
-        this.estagioPlanoAnterior = gerenciadorDeEstagios.getEstagioPlanoAnterior();
         this.intervalos = gerenciadorDeEstagios.getIntervalos();
     }
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Plano plano = PlanoService.gerarPlanoIntermitentePorFalha(gerenciadorDeEstagios.getPlano());
-        terminaTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+        terminaTempoEstagio(this.intervalos, contadorIntervalo);
         gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp(), true));
     }
 }

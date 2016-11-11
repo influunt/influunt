@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static tyrex.util.Configuration.console;
+
 
 /**
  * Created by rodrigosol on 9/26/16.
@@ -32,6 +34,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     private Evento eventoAtual;
 
     private MotorEventoHandler motorEventoHandler;
+
+    private int step = 0;
 
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
 
@@ -57,7 +61,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
 
-    public void tick() {
+    public void tick() throws Exception{
         Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {
@@ -84,6 +88,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         monitor.tick(instante, planos);
         estagios.forEach(e -> e.tick());
         instante = instante.plus(100);
+        step++;
     }
 
     @Override
@@ -137,4 +142,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         return getPlanos(eventoAtual).get(anel - 1);
     }
 
+    public void reportaInterrupcaoAbruptaDeEstagio(Integer anel) {
+        onEstagioEnds(anel,0l,0l,instante,getEstagios().get(anel - 1).getIntervalosGruposSemaforicos());
+
+    }
 }

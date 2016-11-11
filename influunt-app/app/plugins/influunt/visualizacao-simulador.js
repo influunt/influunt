@@ -363,9 +363,9 @@ var influunt;
         }
 
         function loadMore() {
-            var message = new Paho.MQTT.Message('proxima');
-            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
-            client.send(message);
+            // var message = new Paho.MQTT.Message('proxima');
+            // message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
+            // client.send(message);
         }
 
         function desenhaAgendamento(x1, x2, y1, y2, color, hLabel) {
@@ -775,16 +775,16 @@ var influunt;
           sprite.inputEnabled = true;
           eventosGroup.add(sprite);
 
-          if (tooltip) {
-            return new Phasetips(game, {
-              targetObject: sprite,
-              context: tooltip,
-              positionOffset: 0,
-              position: 'left',
-              backgroundColor: 'red',
-              enableCursor: true
-            });
-          }
+          // if (tooltip) {
+          //   return new Phasetips(game, {
+          //     targetObject: sprite,
+          //     context: tooltip,
+          //     positionOffset: 0,
+          //     position: 'left',
+          //     backgroundColor: 'red',
+          //     enableCursor: true
+          //   });
+          // }
         }
 
         function desenhaPlano(x,color,label) { return desenhaEventoDoControlador(x, color, label); }
@@ -846,8 +846,13 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
-              processaEstagios(json.aneis);
-              processaPlanos(json.trocas);
+            
+              try{
+                processaEstagios(json.aneis);
+                processaPlanos(json.trocas);
+              }catch(err){
+                console.log(err);
+              }
               loadingGroup.visible = false;
               if(!loadMoreRepeater){
                 loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);

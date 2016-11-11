@@ -80,7 +80,13 @@ public class SimuladorActor extends UntypedActor {
             });
 
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
-            proximaPagina();
+            try {
+                proximaPagina();
+            }catch (Exception e){
+                e.printStackTrace();
+                send();
+            }
+
 
         } catch (MqttException e) {
             e.printStackTrace();
@@ -89,7 +95,7 @@ public class SimuladorActor extends UntypedActor {
 
     }
 
-    private void alternarModoManual(DateTime disparo, boolean ativar) {
+    private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
         simulador.alternarModoManual(disparo, ativar);
         pagina = 0;
         trocasDePlanos.clear();
@@ -97,7 +103,7 @@ public class SimuladorActor extends UntypedActor {
         proximaPagina();
     }
 
-    private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) {
+    private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
         pagina = 0;
         trocasDePlanos.clear();
@@ -105,7 +111,7 @@ public class SimuladorActor extends UntypedActor {
         proximaPagina();
     }
 
-    private void proximaPagina() {
+    private void proximaPagina() throws Exception {
         DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);

@@ -92,22 +92,21 @@ public abstract class GerenciadorDeEventos {
         }
     }
 
-    protected void terminaTempoEstagio(EstagioPlano estagioPlanoAnterior,
-                                       RangeMap<Long, IntervaloEstagio> intervalos,
+    protected void terminaTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
                                        long contadorIntervalo) {
         if (intervalos.get(contadorIntervalo) != null) {
             Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
             IntervaloEstagio intervalo = range.getValue();
 
             if (intervalo.isEntreverde()) {
-                intervalos.remove(range.getKey());
-                range = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-                intervalo = intervalos.get(range.getKey().lowerEndpoint());
+                final Map.Entry<Range<Long>, IntervaloEstagio> rangeVerde = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
+                intervalos.remove(rangeVerde.getKey());
             }
 
-            intervalo.setDuracao(0);
+            final long duracao = contadorIntervalo - range.getKey().lowerEndpoint();
+            intervalo.setDuracao(duracao);
             intervalos.remove(range.getKey());
-            final Range<Long> novoRange = Range.closedOpen(0L, 100L);
+            final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
             intervalos.put(novoRange, intervalo);
         }
     }

@@ -152,7 +152,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         long quantidade = i * 10L;
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
-            motor.tick();
+            try {
+                motor.tick();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -160,7 +164,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         long quantidade = i;
         instante = instante.plus(quantidade * 100L);
         while (quantidade-- > 0) {
-            motor.tick();
+            try {
+                motor.tick();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -168,7 +176,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         long quantidade = i * 36000L;
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
-            motor.tick();
+            try {
+                motor.tick();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -176,7 +188,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         long quantidade = i * 600L;
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
-            motor.tick();
+            try {
+                motor.tick();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -184,7 +200,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         long quantidade = i * 864000L;
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
-            motor.tick();
+            try {
+                motor.tick();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -200,7 +220,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         long quantidade = i;
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
-            gerenciadorDeEstagios.getMotor().tick();
+            try {
+                gerenciadorDeEstagios.getMotor().tick();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
