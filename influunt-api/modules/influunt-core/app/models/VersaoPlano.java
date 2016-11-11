@@ -97,14 +97,18 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     private static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
-        if (versaoPlano != null) {
-            VersaoPlano versao = findByVersaoAnterior(versaoPlano);
-            if (versao != null) {
-                versoes.add(versao);
-                if (versao.getVersaoAnterior() != null) {
-                    getElement(versoes, versao.getVersaoAnterior());
-                }
-            }
+        if (versaoPlano == null) {
+            return;
+        }
+
+        VersaoPlano versao = findByVersaoAnterior(versaoPlano);
+        if (versao == null) {
+            return;
+        }
+
+        versoes.add(versao);
+        if (versao.getVersaoAnterior() != null) {
+            getElement(versoes, versao.getVersaoAnterior());
         }
     }
 

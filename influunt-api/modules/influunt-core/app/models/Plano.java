@@ -287,7 +287,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de ciclo deve estar entre {min} e {max}")
     public boolean isTempoCiclo() {
         if (isTempoFixoIsolado() || isTempoFixoCoordenado()) {
-            return getTempoCiclo() != null && RangeUtils.getInstance().TEMPO_CICLO.contains(getTempoCiclo());
+            return getTempoCiclo() != null && RangeUtils.getInstance(null).TEMPO_CICLO.contains(getTempoCiclo());
         }
         return true;
     }
@@ -299,7 +299,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Defasagem deve estar entre {min} e o tempo de ciclo")
     public boolean isDefasagem() {
         if (isTempoFixoCoordenado() && getTempoCiclo() != null) {
-            return getDefasagem() != null && RangeUtils.getInstance().TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
+            return getDefasagem() != null && RangeUtils.getInstance(null).TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
         }
         return true;
     }

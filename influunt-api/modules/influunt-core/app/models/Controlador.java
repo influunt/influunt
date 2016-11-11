@@ -15,6 +15,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -141,6 +142,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
+
+    @JsonIgnore
+    @Transient
+    private RangeUtils rangeUtils;
 
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
@@ -805,5 +810,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setPlanosBloqueado(boolean planosBloqueado) {
         this.planosBloqueado = planosBloqueado;
+    }
+
+    public RangeUtils getRangeUtils() {
+        return rangeUtils;
+    }
+
+    public void setRangeUtils(RangeUtils rangeUtils) {
+        this.rangeUtils = rangeUtils;
     }
 }
