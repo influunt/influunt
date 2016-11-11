@@ -551,5 +551,10 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         }
         return Math.max(0, getTempoVerdeSeguranca() - tempoDecorrido);
     }
+
+    @Override
+    public String toString() {
+        return "G" + getPosicao();
+    }
 }
 

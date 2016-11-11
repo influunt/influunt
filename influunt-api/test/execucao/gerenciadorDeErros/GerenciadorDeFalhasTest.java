@@ -348,6 +348,26 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void acertoDeRelogio() {
+        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
+        inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        //Avancar
+        long start = System.currentTimeMillis();
+        avancarSegundos(motor, 500);
+        System.out.println(System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        avancarSegundos(motor, 500);
+        System.out.println(System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        avancarSegundos(motor, 500);
+        System.out.println(System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        avancarSegundos(motor, 500);
+        System.out.println(System.currentTimeMillis() - start);
 
     }
 

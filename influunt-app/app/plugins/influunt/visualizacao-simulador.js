@@ -533,6 +533,10 @@ var influunt;
               color = '#2603339';
               desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
               desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
+            }else{
+              var xFalha = (x  + (evento[0] / 100)) - MARGEM_LATERAL;
+              var cor = evento[3] == "FALHA" ? "#C51162" : "#F57F17";
+              desenhaFalha(xFalha,cor,evento[2],evento[4]);
             }
           });
 
@@ -777,7 +781,9 @@ var influunt;
               context: tooltip,
               position: 'top',
               positionOffset: 0,
-              position: 'left'
+              position: 'left',
+              backgroundColor: 'red',
+              enableCursor: true
             });
           }
         }
@@ -791,7 +797,6 @@ var influunt;
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
             planos.push([x / 10,troca[2],troca[3]]);
             desenhaPlano(x,'#260339',troca[2]);
-            desenhaFalha(405, 'orangered', 'F1', 'O controlador deu um probleminha ai.');
           });
         }
 
