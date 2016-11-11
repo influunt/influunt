@@ -3,7 +3,10 @@ package execucao.gerenciadorPlanos;
 
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
+import integracao.ControladorHelper;
 import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,109 +19,125 @@ import static org.junit.Assert.assertEquals;
  * Created by rodrigosol on 9/8/16.
  */
 public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
-    @Test
-    public void xentradaPlanoNormalTest() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 5, 18, 0, 0);
-        inicioExecucao = new DateTime(2016, 11, 5, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
 
-        assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
-
+    @Before
+    @Override
+    public void setup() {
+        controlador = new ControladorHelper().setPlanosComTabelaHorariaMicro(new ControladorHelper().getControlador());
+        controlador.save();
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 11, 6, 18, 0, 0);
-        inicioExecucao = new DateTime(2016, 11, 6, 18, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
-
-        assertEquals("Plano Atual", 6, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
-
-        listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 11, 7, 18, 0, 0);
-        inicioExecucao = new DateTime(2016, 11, 7, 18, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
-
-        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
-
-        listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 11, 3, 0, 0, 0);
-        inicioExecucao = new DateTime(2016, 11, 3, 0, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
-
-        assertEquals("Total de trocas", 18, listaTrocaPlano.size());
+        listaTrocaPlanoEfetiva = new HashMap<>();
+        listaEstagios = new HashMap<>();
+        listaHistoricoEstagios = new HashMap<>();
     }
 
     @Test
-    public void entradaPlanoEspecialRecorrenteTest() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 25, 7, 0, 0);
-        inicioExecucao = new DateTime(2016, 12, 25, 7, 0, 0);
+    public void entradaPlanoNormalSabadoTest() throws IOException {
+        inicioControlador = new DateTime(2016, 11, 5, 18, 0, 0);
+        inicioExecucao = new DateTime(2016, 11, 5, 18, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 24);
+        avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao.plusHours(1)).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao.plusHours(17)).getPosicaoPlano().intValue());
+    }
 
+    @Test
+    public void entradaPlanoNormalDomingoTest() throws IOException {
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 12, 25, 19, 0, 0);
-        inicioExecucao = new DateTime(2016, 12, 25, 19, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 24);
+        inicioControlador = new DateTime(2016, 11, 6, 18, 0, 0);
+        inicioExecucao = new DateTime(2016, 11, 6, 18, 0, 0);
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
+
+        assertEquals("Plano Atual", 7, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+    }
+
+    @Test
+    public void entradaPlanoNormalSegundaTest() throws IOException {
+        listaTrocaPlano = new HashMap<>();
+        inicioControlador = new DateTime(2016, 11, 7, 18, 0, 0);
+        inicioExecucao = new DateTime(2016, 11, 7, 18, 0, 0);
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
+
+        assertEquals("Plano Atual", 6, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+    }
+
+    @Test
+    public void entradaPlanoEspecialRecorrenteNaDataTest() throws IOException {
+        inicioControlador = new DateTime(2016, 12, 25, 7, 59, 59);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
+
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
+    }
+
+    @Test
+    public void saidaPlanoEspecialRecorrenteNaDataTest() throws IOException {
+        inicioControlador = new DateTime(2016, 12, 25, 23, 59, 59);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
+    }
 
-        listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 12, 25, 0, 0, 0);
-        inicioExecucao = new DateTime(2016, 12, 25, 0, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
+    @Test
+    public void planoEspecialRecorrenteNaDataEmOutroAnoTest() throws IOException {
+        inicioControlador = new DateTime(2017, 12, 25, 7, 59, 59);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
 
-        assertEquals("Total de trocas", 5, listaTrocaPlano.size());
-
-        listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2017, 12, 25, 0, 0, 0);
-        inicioExecucao = new DateTime(2017, 12, 25, 0, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
-
-        assertEquals("Total de trocas", 5, listaTrocaPlano.size());
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
     }
 
     @Test
     public void entradaPlanoEspecialNaoRecorrenteTest() throws IOException {
-        inicioControlador = new DateTime(2017, 3, 15, 7, 0, 0);
-        inicioExecucao = new DateTime(2017, 3, 15, 7, 0, 0);
+        inicioControlador = new DateTime(2017, 3, 15, 7, 59, 59);
+        inicioExecucao = inicioControlador;
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 24);
+        avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 12, listaTrocaPlano.get(inicioExecucao.plusHours(1)).getPosicaoPlano().intValue());
-        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao.plusHours(17)).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 12, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
+    }
 
-        listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2017, 3, 15, 19, 0, 0);
-        inicioExecucao = new DateTime(2017, 3, 15, 19, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 24);
+    @Test
+    public void saidaPlanoEspecialNaoRecorrenteTest() throws IOException {
+        inicioControlador = new DateTime(2017, 3, 15, 23, 59, 59);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 12, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
+    }
 
+    @Test
+    public void planoEspecialNaoRecorrenteNaoDeveEntrarEmOutroAnoTest() throws IOException {
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2017, 3, 15, 0, 0, 0);
-        inicioExecucao = new DateTime(2017, 3, 15, 0, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioControlador = new DateTime(2018, 3, 15, 7, 59, 59);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarMinutos(motor, 1);
+
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 5, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
+    }
+
+    @Test
+    @Ignore
+    public void testPerfomanceDiaInteiro() throws IOException {
+        inicioControlador = new DateTime(2017, 11, 11, 0, 0, 0);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
-        assertEquals("Total de trocas", 5, listaTrocaPlano.size());
-
-        listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2018, 3, 15, 0, 0, 0);
-        inicioExecucao = new DateTime(2018, 3, 15, 0, 0, 0);
-        motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
-        avancarHoras(motor, 25);
-
-        assertEquals("Total de trocas", 18, listaTrocaPlano.size());
+        //Leonardo: 11/11 -> 6m 28s 964ms
     }
 }

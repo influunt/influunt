@@ -58,7 +58,8 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
     }
 
     private void adicionaEstagioDemandaPrioritaria(Estagio estagio) {
-        if (!listaEstagioPlanos.stream().anyMatch(estagioPlano -> estagioPlano.getEstagio().equals(estagio))) {
+        final EstagioPlano estagioPlanoExistente = listaEstagioPlanos.stream().filter(estagioPlano -> estagioPlano.getEstagio().equals(estagio)).findFirst().orElse(null);
+        if (estagioPlanoExistente == null || (listaEstagioPlanos.indexOf(estagioPlanoExistente) < contadorEstagio)) {
             EstagioPlano estagioPlano = new EstagioPlano();
             estagioPlano.setEstagio(estagio);
             estagioPlano.setTempoVerde(estagio.getTempoVerdeDemandaPrioritaria());
@@ -72,15 +73,26 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
                 estagioPlano.setPlano(novoPlano);
             }
 
+            final EstagioPlano estagioPlanoAnterior = proximoEstagioPlanoNaoProibido(estagio, estagioPlanoAtual);
+
             if (plano.isManual()) {
                 listaEstagioPlanos.clear();
-                listaEstagioPlanos.add(estagioPlanoAtual);
+                listaEstagioPlanos.add(estagioPlanoAnterior);
                 listaEstagioPlanos.add(estagioPlano);
                 gerenciadorDeEstagios.reiniciaContadorEstagio();
             } else {
-                final int index = listaEstagioPlanos.indexOf(estagioPlanoAtual);
+                final int index = listaEstagioPlanos.indexOf(estagioPlanoAnterior);
                 listaEstagioPlanos.add(index + 1, estagioPlano);
             }
+        }
+    }
+
+    private EstagioPlano proximoEstagioPlanoNaoProibido(Estagio estagioPrioritario, EstagioPlano estagioPlanoAtual) {
+        if (estagioPlanoAtual.getEstagio().temTransicaoProibidaParaEstagio(estagioPrioritario)) {
+            final EstagioPlano proximoEstagioPlano = estagioPlanoAtual.getEstagioPlanoProximo(listaEstagioPlanos);
+            return proximoEstagioPlanoNaoProibido(estagioPrioritario, proximoEstagioPlano);
+        } else {
+            return estagioPlanoAtual;
         }
     }
 

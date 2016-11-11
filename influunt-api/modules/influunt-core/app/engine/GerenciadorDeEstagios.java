@@ -82,7 +82,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public void tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
-        //TODO: Se o intermitente sair antes de terminar o entreverde do estágio anterior o que deve acontecer?
         if (this.agendamento != null && intervalo != null && (this.plano.isIntermitente() || this.plano.isApagada()) && !intervalo.isEntreverde()) {
             Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
@@ -111,15 +110,19 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
                 executaAgendamentoTrocaDePlano();
             } else if (contadorEstagio == listaEstagioPlanos.size()) {
-                atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
                 reiniciaContadorEstagio();
                 verificaEAjustaIntermitenteCasoDemandaPrioritaria();
-                geraIntervalos(0);
+
+                if (this.agendamento != null && !this.plano.isManual()) {
+                    geraIntervalos(0);
+                    executaAgendamentoTrocaDePlano();
+                } else {
+                    atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
+                    geraIntervalos(0);
+                }
+
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
-                if (this.agendamento != null && !this.plano.isManual()) {
-                    executaAgendamentoTrocaDePlano();
-                }
             } else {
                 geraIntervalos(contadorEstagio);
             }
@@ -216,7 +219,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.plano = plano;
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
-            this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
+
+            if (this.plano.isTempoFixoIsolado() || this.plano.isAtuado()) {
+                atualizaListaEstagiosNovoPlano(listaOriginalEstagioPlanos);
+            } else {
+                this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
+            }
+
             reiniciaContadorEstagio();
             contadorIntervalo = 0L;
             contadorDeCiclos = 0L;
@@ -278,6 +287,22 @@ public class GerenciadorDeEstagios implements EventoCallback {
         this.listaEstagioPlanos = new ArrayList<>(lista);
         estagiosProximoCiclo.forEach(estagioPlano -> {
             atualizaEstagiosCicloAtual(estagioPlano);
+        });
+        estagiosProximoCiclo.clear();
+    }
+
+    private void atualizaListaEstagiosNovoPlano(List<EstagioPlano> lista) {
+        this.listaEstagioPlanos = new ArrayList<>(lista);
+        estagiosProximoCiclo.forEach(estagioPlano -> {
+            EstagioPlano novoEstagioPlano = this.plano.getEstagiosPlanos()
+                .stream()
+                .filter(estagioPlano1 -> {
+                    return estagioPlano1.isDispensavel() && estagioPlano.getEstagio().equals(estagioPlano1.getEstagio());
+                }).findFirst().orElse(null);
+
+            if (novoEstagioPlano != null) {
+                atualizaEstagiosCicloAtual(novoEstagioPlano);
+            }
         });
         estagiosProximoCiclo.clear();
     }

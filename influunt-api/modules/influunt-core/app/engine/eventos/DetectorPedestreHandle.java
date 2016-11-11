@@ -27,14 +27,16 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
             .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
             .findFirst()
             .orElse(null);
-        int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
-        if (compare < 0) {
-            if (!estagiosProximoCiclo.contains(estagioPlano)) {
-                gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
-            }
-        } else if (compare > 0) {
-            if (!listaEstagioPlanos.contains(estagioPlano)) {
-                gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+        if (estagioPlano != null) {
+            int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
+            if (compare < 0) {
+                if (!estagiosProximoCiclo.contains(estagioPlano)) {
+                    gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+                }
+            } else if (compare > 0) {
+                if (!listaEstagioPlanos.contains(estagioPlano)) {
+                    gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+                }
             }
         }
     }
