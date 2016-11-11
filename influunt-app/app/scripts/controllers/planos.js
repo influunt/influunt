@@ -220,9 +220,16 @@ angular.module('influuntApp')
             //Remover do plano
             var estagioPlanoIndex = _.findIndex($scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson});
             $scope.currentPlano.estagiosPlanos.splice(estagioPlanoIndex, 1);
+
             //Remover do objeto
             var index = _.findIndex($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
             $scope.objeto.estagiosPlanos.splice(index, 1);
+
+            //Remover do estagio
+            var estagio = _.find($scope.objeto.estagios, {idJson: estagioPlano.estagio.idJson});
+            index = _.findIndex(estagio.estagiosPlanos, {idJson: estagioPlano.idJson});
+            estagio.estagiosPlanos.splice(index, 1);
+
             $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
           }
         });
@@ -459,7 +466,7 @@ angular.module('influuntApp')
           var errosGruposSemaforicosPlanos = _.get(listaErros, 'planos['+ currentPlanoIndex +'].gruposSemaforicosPlanos');
           if (errosGruposSemaforicosPlanos) {
             _.each(errosGruposSemaforicosPlanos, function(erro, index) {
-              if(erro) {
+              if(erro && angular.isArray(erro.respeitaVerdesDeSeguranca)) {
                 var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
                 var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
                 var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
@@ -560,6 +567,7 @@ angular.module('influuntApp')
         };
 
         $scope.objeto.estagiosPlanos.push(novoEstagioPlano);
+        estagio.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
         $scope.currentPlano.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
       };
 
