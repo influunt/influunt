@@ -253,9 +253,9 @@ public class IntervaloGrupoSemaforico {
             if (modoIntermitenteOuApagado) {
                 intervalos.put(Range.closedOpen(duracaoEntreverde - tempoVermelhoIntegral, duracaoEntreverde), EstadoGrupoSemaforico.VERMELHO);
                 if (plano.isIntermitente() && grupoSemaforico.isVeicular()) {
-                    intervalos.put(Range.closedOpen(duracaoEntreverde, 255000L), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
+                    intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
                 } else {
-                    intervalos.put(Range.closedOpen(duracaoEntreverde, 255000L), EstadoGrupoSemaforico.DESLIGADO);
+                    intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.DESLIGADO);
                 }
             } else {
                 intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.VERMELHO);
