@@ -68,8 +68,8 @@ describe('Controller: PlanosCtrl', function () {
   });
 
   describe('init - controlador mínimo', function () {
-    beforeEach(function() { 
-      beforeEachFn(ControladorComVariosAneis); 
+    beforeEach(function() {
+      beforeEachFn(ControladorComVariosAneis);
     });
     it('O plano 1 deve estar ativo e ser coordenado', function() {
       var aneis = _.filter(scope.objeto.aneis, 'ativo');
@@ -79,14 +79,14 @@ describe('Controller: PlanosCtrl', function () {
         expect(plano.modoOperacao).toBe('TEMPO_FIXO_COORDENADO');
       });
     });
-    
+
     it('Se o plano 2 estiver selecionado, ao trocar de anel o mesmo numero deve continuar selecionado e ser ativo', function() {
       var planoAnel1 = _.cloneDeep(scope.currentPlano);
       scope.selecionaAnelPlanos(1);
       var planoAnel2 = _.cloneDeep(scope.currentPlano);
       expect(planoAnel1.configurado).toBeTruthy();
       expect(planoAnel1.posicao).toBe(1);
-      
+
       expect(planoAnel2.configurado).toBeTruthy();
       expect(planoAnel2.posicao).toBe(1);
     });
@@ -1170,6 +1170,28 @@ describe('Controller: PlanosCtrl', function () {
       scope.currentPlano.tempoCiclo = 45;
       expect(scope.getErrosPlanos(erros)[1]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
     });
-
   });
+
+  describe('Troca de aneis', function () {
+    beforeEach(function() { beforeEachFn(ControladorComVariosAneisEPlanos); });
+
+    describe('Modo manual obrigatório', function () {
+      it('um controlador com um anel que aceite modo manual deverá permitir que o usuário desative o plano exclusivo manual', function() {
+        _.filter(scope.objeto.aneis, 'ativo').forEach(function(anel, index) { anel.aceitaModoManual = index === 0; });
+        scope.configuraModoManualExclusivo();
+        scope.$apply();
+
+        expect(scope.obrigaModoManualExclusivo).toBeFalsy();
+      });
+
+      it('um controlador com mais que um anel não deverá permitir que o usuário desative o plano exclusivo manual', function() {
+        _.filter(scope.objeto.aneis, 'ativo').forEach(function(anel, index) { anel.aceitaModoManual = true; });
+        scope.configuraModoManualExclusivo();
+        scope.$apply();
+
+        expect(scope.obrigaModoManualExclusivo).toBeTruthy();
+      });
+    });
+  });
+
 });
