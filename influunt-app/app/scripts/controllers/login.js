@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .controller('LoginCtrl', ['$scope', 'Restangular', '$state', '$filter', 'influuntAlert', 'toast', '$location', 'influuntBlockui', 'PermissionsService',
     function LoginCtrl ($scope, Restangular, $state, $filter, influuntAlert, toast, $location, influuntBlockui, PermissionsService) {
 
-      var getTokenFromLocation, saveUsuario;
+      var getTokenFromLocation;
 
       $scope.credenciais = {};
       $scope.browsersRequired = [{chrome: '51'}];
@@ -103,13 +103,4 @@ angular.module('influuntApp')
         }
         return token;
       };
-
-      saveUsuario = function(res) {
-        var usuario = _.pick(res, ['id', 'login', 'email', 'root', 'permissoes']);
-        if (res.area) {
-          usuario.area = { idJson: res.area.idJson };
-        }
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-      };
-
     }]);
