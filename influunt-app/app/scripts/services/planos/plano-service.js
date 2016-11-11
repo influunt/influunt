@@ -125,6 +125,7 @@ angular.module('influuntApp')
 
             controlador.estagiosPlanos.push(estagioPlano);
             plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            estagio.estagiosPlanos.push({idJson: estagioPlano.idJson});
           }
         });
 
@@ -342,7 +343,7 @@ angular.module('influuntApp')
                               .map('idJson')
                               .value();
         var estagiosAssociadosIdJson = _.chain(controlador.estagiosPlanos)
-                                        .filter(function(ep) { return estagiosIdJson.indexOf(ep.estagio.idJson) > -1 && ep.plano.idJson === plano.idJson })
+                                        .filter(function(ep) { return estagiosIdJson.indexOf(ep.estagio.idJson) > -1 && ep.plano.idJson === plano.idJson; })
                                         .map('estagio.idJson')
                                         .value();
         var estagiosNaoAssociadosIdJson = _.difference(estagiosIdJson, estagiosAssociadosIdJson);

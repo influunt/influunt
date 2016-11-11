@@ -322,7 +322,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       .catch(function(response) {
         if (response.status === 422) {
           $scope.errors = handleValidations.buildValidationMessages(response.data);
-          console.log('scope.errors: ', $scope.errors)
+          console.log('scope.errors: ', $scope.errors);
           resetParametros();
         } else {
           console.error(response);
@@ -336,14 +336,21 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   resetParametros = function() {
-    if (_.isEmpty($scope.parametrosSimulacao.disparoDetectores))
+    if (_.isEmpty($scope.parametrosSimulacao.disparoDetectores)) {
       $scope.parametrosSimulacao.disparoDetectores = [{}];
-    if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos))
+    }
+
+    if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
       $scope.parametrosSimulacao.imposicaoPlanos = [{}];
-    if (_.isEmpty($scope.parametrosSimulacao.alarmesControlador))
+    }
+
+    if (_.isEmpty($scope.parametrosSimulacao.alarmesControlador)) {
       $scope.parametrosSimulacao.alarmesControlador = [{}];
-    if (_.isEmpty($scope.parametrosSimulacao.falhasControlador))
+    }
+
+    if (_.isEmpty($scope.parametrosSimulacao.falhasControlador)) {
       $scope.parametrosSimulacao.falhasControlador = [{}];
+    }
   };
 
   iniciarSimulacao = function(params, config) {

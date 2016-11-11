@@ -46,19 +46,21 @@ var influunt;
         var diasDaSemana = this.diasDaSemana;
         var intervaloHora = this.intervaloHora;
         var horaDia = this.horaDia;
-        for(var minuto = 0; minuto < intervaloHora; minuto++){
-          for(var hora = 0; hora < horaDia; hora++ ){
-            diasDaSemana.forEach(function(dia){
+        _.times(intervaloHora, function(minuto) {
+          _.times(horaDia, function(hora) {
+            diasDaSemana.forEach(function(dia) {
               if(typeof agenda[dia] === 'undefined'){
                 agenda[dia] =  new Array(horaDia);
                 for(var i = 0; i < horaDia; i++){
                   agenda[dia][i] = new Array(intervaloHora);
                 }
               }
+
               agenda[dia][hora][minuto] = {state: 'unset'};
             });
-          }
-        }
+          });
+        });
+
         return agenda;
       };
       QuadroTabelaHorario.prototype.getTrocas = function (programas) {
