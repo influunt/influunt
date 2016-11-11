@@ -64,8 +64,6 @@ public class ControladorCustomDeserializer {
 
     private Controlador controlador = new Controlador();
 
-    private Map<String, Map<String, Object>> models;
-
     private Map<String, Anel> aneisCache;
 
     private Map<String, Estagio> estagiosCache;

@@ -19,12 +19,13 @@ public class Configuracao {
 
     public static Envelope getMensagem(Envelope envelope) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()));
+        RangeUtils rangeUtils = RangeUtils.getInstance(null);
         if (controlador != null && !controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
             return new Envelope(TipoMensagem.CONFIGURACAO,
                     envelope.getIdControlador(),
                     "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                     2,
-                    new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), controlador.getRangeUtils()).toString(),
+                    new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), rangeUtils).toString(),
                     envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,

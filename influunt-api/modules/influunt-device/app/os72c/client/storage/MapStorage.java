@@ -10,7 +10,6 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
-import utils.RangeUtils;
 
 import java.util.Collections;
 
