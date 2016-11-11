@@ -52,7 +52,7 @@ public class TrocaPlanosComEstagioDispensavelTest extends GerenciadorDeTrocasTes
 
     @Test
     public void trocaParaPlanoIsoladoSemDispensavel() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 11, 17, 59, 30);
+        inicioControlador = new DateTime(2016, 11, 11, 12, 59, 30);
         inicioExecucao = inicioControlador;
         instante = inicioControlador;
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
@@ -72,11 +72,11 @@ public class TrocaPlanosComEstagioDispensavelTest extends GerenciadorDeTrocasTes
 
         assertEquals("Plano Atual", 1, getPlanoTrocaEfetiva(2, 37).getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(37)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(55)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(77)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(98)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(118)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(140)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(55)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(76)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(96)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(114)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(135)).get(2).getEstagio().getPosicao().intValue());
 
     }
 

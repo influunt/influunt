@@ -48,8 +48,7 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
-        verificaGruposSemaforicos(0, new GrupoCheck(1, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(0, new GrupoCheck(1, 6000, 8000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(0, new GrupoCheck(1, 0, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(0, new GrupoCheck(1, 8000, 18000, EstadoGrupoSemaforico.VERDE));
 
         verificaGruposSemaforicos(0, new GrupoCheck(2, 0, 2000, EstadoGrupoSemaforico.VERDE));
@@ -460,6 +459,9 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
     public void planoComAtrasoDeGrupoGanhoEPerdaDePassagem() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 1);
+        ControladorHelper controladorHelper = new ControladorHelper(controlador);
+        controladorHelper.setAtrasoDeGrupo(anel, 1, 3, 1, 2);
+
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 105);
