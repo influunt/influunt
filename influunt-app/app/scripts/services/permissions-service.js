@@ -67,7 +67,7 @@ angular.module('influuntApp')
         }
         usuarioLogado = usuario;
         localStorage.setItem('usuario', JSON.stringify(usuario));
-      }
+      };
 
       refreshUsuario = function() {
         var usuario = getUsuario(true);
