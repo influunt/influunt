@@ -72,6 +72,10 @@ public class IntervaloEstagio {
     }
 
     public void addEvento(long contadorIntervalo, EventoMotor eventoMotor) {
+
+        if(eventoMotor.getTipoEvento().equals(TipoEvento.FALHA_VERDES_CONFLITANTES) && eventoMotor.getParams().length == 1){
+            contadorIntervalo = 0;
+        }
         if (!this.eventos.containsKey(contadorIntervalo)) {
             this.eventos.put(contadorIntervalo, new ArrayList<>());
         }

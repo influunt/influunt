@@ -351,6 +351,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorEstagio = 0;
     }
 
+    public IntervaloGrupoSemaforico getIntervalosGruposSemaforicos() {
+        return new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
+    }
+
     private class GetIntervaloGrupoSemaforico {
         private IntervaloEstagio intervaloEntreverde;
 

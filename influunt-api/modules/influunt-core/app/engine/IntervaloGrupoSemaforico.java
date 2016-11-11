@@ -9,10 +9,7 @@ import models.*;
 import org.joda.time.DateTime;
 import play.libs.Json;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IntervaloGrupoSemaforico {
 
@@ -336,12 +333,21 @@ public class IntervaloGrupoSemaforico {
                         parseEventoInsercaoPlug(eventoMotor, entry, eventos.addArray());
                         break;
                     default:
+                        parseEventoGenerico(eventoMotor,entry,eventos.addArray());
                         break;
 
                 }
             });
         });
 
+    }
+
+    private void parseEventoGenerico(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
+        fields.add(entry.getKey());
+        fields.add(eventoMotor.getTipoEvento().toString());
+        fields.add(eventoMotor.getTipoEvento().getCodigo());
+        fields.add(eventoMotor.getTipoEvento().getTipoEventoControlador().toString());
+        fields.add(eventoMotor.getTipoEvento().getMessage(Arrays.toString(eventoMotor.getParams())));
     }
 
     private void parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {

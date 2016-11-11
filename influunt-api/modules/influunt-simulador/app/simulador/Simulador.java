@@ -85,13 +85,14 @@ public abstract class Simulador implements MotorCallback {
             .collect(Collectors.toList());
     }
 
-    public void simular(DateTime inicio, DateTime fim) {
+    public void simular(DateTime inicio, DateTime fim) throws Exception {
         DateTime inicioSimulacao = inicio;
+
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
-            processaEventos(inicioSimulacao);
-            motor.tick();
-            tempoSimulacao += 100;
-            inicioSimulacao = inicioSimulacao.plus(100);
+               processaEventos(inicioSimulacao);
+               motor.tick();
+               tempoSimulacao += 100;
+               inicioSimulacao = inicioSimulacao.plus(100);
         }
     }
 
@@ -101,11 +102,7 @@ public abstract class Simulador implements MotorCallback {
         }
     }
 
-    public void avancar(long millis) {
-        DateTime fim = ponteiro.plus(millis);
-        simular(ponteiro, fim);
-        ponteiro = fim;
-    }
+
 
 
     public void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) {

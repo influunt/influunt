@@ -74,7 +74,11 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
     protected GerenciadorDeEstagios getGerenciadorDeEstagiosComMotor(int anel, Plano plano, DateTime data) {
         gerenciadorDeEstagios = getGerenciadorDeEstagios(anel, plano, new Motor(controlador, data, data, this));
 
-        gerenciadorDeEstagios.getMotor().tick();
+        try {
+            gerenciadorDeEstagios.getMotor().tick();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         gerenciadorDeEstagios.getMotor().setEstagios(new ArrayList<>());
         gerenciadorDeEstagios.getMotor().getEstagios().add(gerenciadorDeEstagios);
 

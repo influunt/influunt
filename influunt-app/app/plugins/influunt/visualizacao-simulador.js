@@ -363,9 +363,9 @@ var influunt;
         }
 
         function loadMore() {
-            var message = new Paho.MQTT.Message('proxima');
-            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
-            client.send(message);
+            // var message = new Paho.MQTT.Message('proxima');
+            // message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
+            // client.send(message);
         }
 
         function desenhaAgendamento(x1, x2, y1, y2, color, hLabel) {
@@ -533,6 +533,10 @@ var influunt;
               color = '#2603339';
               desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
               desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
+            }else{
+              var xFalha = (x  + (evento[0] / 100)) - MARGEM_LATERAL;
+              var cor = evento[3] == "FALHA" ? "#C51162" : "#F57F17";
+              desenhaFalha(xFalha,cor,evento[2],evento[4]);
             }
           });
 
@@ -771,14 +775,16 @@ var influunt;
           sprite.inputEnabled = true;
           eventosGroup.add(sprite);
 
-          if (tooltip) {
-            return new Phasetips(game, {
-              targetObject: sprite,
-              context: tooltip,
-              positionOffset: 0,
-              position: 'left'
-            });
-          }
+          // if (tooltip) {
+          //   return new Phasetips(game, {
+          //     targetObject: sprite,
+          //     context: tooltip,
+          //     positionOffset: 0,
+          //     position: 'left',
+          //     backgroundColor: 'red',
+          //     enableCursor: true
+          //   });
+          // }
         }
 
         function desenhaPlano(x,color,label) { return desenhaEventoDoControlador(x, color, label); }
@@ -790,7 +796,6 @@ var influunt;
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
             planos.push([x / 10,troca[2],troca[3]]);
             desenhaPlano(x,'#260339',troca[2]);
-            desenhaFalha(405, 'orangered', 'F1', 'O controlador deu um probleminha ai.');
           });
         }
 
@@ -841,8 +846,13 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
-              processaEstagios(json.aneis);
-              processaPlanos(json.trocas);
+            
+              try{
+                processaEstagios(json.aneis);
+                processaPlanos(json.trocas);
+              }catch(err){
+                console.log(err);
+              }
               loadingGroup.visible = false;
               if(!loadMoreRepeater){
                 loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);

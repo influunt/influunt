@@ -34,7 +34,8 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
         }
 
         this.intervalos = TreeRangeMap.create();
-        if (isModoAnteriorVerde(modoAnterior) && entreverde != null && entreverde.getValue().isEntreverde()) {
+        if (isModoAnteriorVerde(modoAnterior) && entreverde != null &&
+            entreverde.getValue().isEntreverde()) {
             final IntervaloEstagio intervalo = entreverde.getValue();
             final Estagio estagio;
             if (intervalo.getEstagioPlanoAnterior().getEstagio().getId() != null) {

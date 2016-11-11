@@ -45,8 +45,9 @@ public class MonitorDeFalhas {
     }
 
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+
         if (!sequenciaCoresValida(intervalos)) {
-            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel));
+            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel,false));
         }
 
         if (verdesConflitantes(intervalos)) {
@@ -54,7 +55,7 @@ public class MonitorDeFalhas {
                 cicloDoVerdeConflitante.put(anel, 3);
                 retiraVerdeConflitantes.put(anel, ticks + 10000L);
             }
-            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES, anel));
+            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES, anel,false));
         }
     }
 
@@ -93,9 +94,6 @@ public class MonitorDeFalhas {
                 .map(estado -> String.valueOf(estado.ordinal()))
                 .collect(Collectors.joining());
         }).allMatch(s -> {
-            if (!sequenciaDeCores.matcher(s).matches()) {
-                System.out.println(s);
-            }
             return sequenciaDeCores.matcher(s).matches();
         });
 

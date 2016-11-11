@@ -73,10 +73,14 @@ public class MotorEventoHandler {
                 handleRemocaoFalhaDetector(eventoMotor);
                 break;
 
-            case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
+            case FALHA_SEQUENCIA_DE_CORES:
             case FALHA_VERDES_CONFLITANTES_REMOCAO:
             case FALHA_VERDES_CONFLITANTES:
-            case FALHA_SEQUENCIA_DE_CORES:
+                //motor.reportaInterrupcaoAbruptaDeEstagio((Integer) eventoMotor.getParams()[0]);
+                handleFalhaAnel(eventoMotor);
+
+                break;
+            case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
                 handleFalhaAnel(eventoMotor);
                 break;
 
@@ -157,5 +161,9 @@ public class MotorEventoHandler {
         motor.getEstagios().forEach(estagio -> {
             estagio.onEvento(eventoMotor);
         });
+    }
+
+    public Motor getMotor() {
+        return motor;
     }
 }
