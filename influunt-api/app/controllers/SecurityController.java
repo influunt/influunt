@@ -17,6 +17,7 @@ import utils.InfluuntEmailService;
 
 import javax.inject.Inject;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -48,9 +49,9 @@ public class SecurityController extends Controller {
                 response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario, request().remoteAddress()));
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("login", "usuário ou senha inválidos", "")))));
         } else {
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("login", "usuário ou senha inválidos", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("login", "usuário ou senha inválidos", "")))));
         }
     }
 
