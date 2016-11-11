@@ -58,3 +58,11 @@ Funcionalidade: tela de cadastro de fabricantes
     Quando o usuário confirmar
     Então o fabricante deverá ser excluido
 
+  Cenário: Exclusão de fabricantes com modelos e controladores associados
+    Dado que o sistema possui ao menos um controlador cadastrado
+    Quando o usuário acessar a tela de listagem de fabricantes
+    E clicar no botão de excluir um fabricante
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o fabricante
+    Quando o usuário confirmar
+    Então nenhum fabricante deve ser excluído
+    E o sistema deverá apresentar a mensagem "Este fabricante possui modelos utilizados em controladores"
