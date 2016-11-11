@@ -6,6 +6,7 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
@@ -64,6 +65,12 @@ public class VersaoPlano extends Model implements Serializable {
     @CreatedTimestamp
     private DateTime dataCriacao;
 
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
+
     public VersaoPlano() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -86,30 +93,16 @@ public class VersaoPlano extends Model implements Serializable {
      * @param anel
      * @return
      */
+
     public static List<VersaoPlano> versoes(Anel anel) {
-        ArrayList<VersaoPlano> versoes = new ArrayList<VersaoPlano>();
-        getElement(versoes, anel.getVersaoPlano());
-        return versoes;
+        return findOrderByAnel(anel);
     }
 
-    public static VersaoPlano findByVersaoAnterior(VersaoPlano versaoAnterior) {
-        return VersaoPlano.find.where().eq("versao_plano_id", versaoAnterior.getId()).findUnique();
-    }
-
-    private static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
-        if (versaoPlano == null) {
-            return;
-        }
-
-        VersaoPlano versao = findByVersaoAnterior(versaoPlano);
-        if (versao == null) {
-            return;
-        }
-
-        versoes.add(versao);
-        if (versao.getVersaoAnterior() != null) {
-            getElement(versoes, versao.getVersaoAnterior());
-        }
+    public static List<VersaoPlano> findOrderByAnel(Anel anel) {
+        return VersaoPlano.find.where()
+            .eq("anel_id", anel.getId())
+            .orderBy("t0.data_atualizacao desc")
+            .findList();
     }
 
     public UUID getId() {
@@ -178,6 +171,14 @@ public class VersaoPlano extends Model implements Serializable {
 
     public DateTime getDataCriacao() {
         return dataCriacao;
+    }
+
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 
     public void setDataCriacao(DateTime dataCriacao) {
