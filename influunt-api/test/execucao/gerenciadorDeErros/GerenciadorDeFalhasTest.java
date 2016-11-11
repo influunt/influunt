@@ -299,9 +299,7 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
         //Avancar
         avancarSegundos(motor, 10);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10), TipoEvento.FALHA_VERDES_CONFLITANTES, 1));
-        avancarSegundos(motor, 21);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(31), TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, 1, getPlano(getAnel(1), 1)));
-        avancarSegundos(motor, 7);
+        avancarSegundos(motor, 28);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(38), TipoEvento.FALHA_VERDES_CONFLITANTES, 1));
         avancarSegundos(motor, 300);
 

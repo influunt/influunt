@@ -374,4 +374,7 @@ public class IntervaloGrupoSemaforico {
 //        fields.add(((DateTime)eventoMotor.getParams()[3]).getMillis());
     }
 
+    public IntervaloEstagio getEntreverde() {
+        return entreverde;
+    }
 }

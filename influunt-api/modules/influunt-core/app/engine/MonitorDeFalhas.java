@@ -39,25 +39,32 @@ public class MonitorDeFalhas {
         for (Map.Entry<Integer, Long> entry : retiraVerdeConflitantes.entrySet()) {
             if (entry.getValue().equals(ticks)) {
                 motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
-                retiraVerdeConflitantes.remove(entry.getKey());
+                retiraVerdeConflitantes.put(entry.getKey(),Long.MIN_VALUE);
             }
         }
     }
 
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
+        if(cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel)){
+            retiraVerdeConflitantes.put(anel, ticks + intervalos.getEntreverde().getDuracao() + 10000L);
+        }
         if (!sequenciaCoresValida(intervalos)) {
             motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel,false));
         }
 
         if (verdesConflitantes(intervalos)) {
-            if (!cicloDoVerdeConflitante.containsKey(anel)) {
-                cicloDoVerdeConflitante.put(anel, 3);
-                retiraVerdeConflitantes.put(anel, ticks + 10000L);
-            }
             motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES, anel,false));
         }
     }
+
+    public void monitoraRepeticaoVerdesConflitantes(int anel) {
+        if (!cicloDoVerdeConflitante.containsKey(anel)) {
+            cicloDoVerdeConflitante.put(anel, 3);
+        }
+    }
+
+
 
     private boolean verdesConflitantes(IntervaloGrupoSemaforico intervalos) {
         return intervalos.getEstados().entrySet().stream().map(integerRangeMapEntry -> {
@@ -114,6 +121,7 @@ public class MonitorDeFalhas {
                 cicloDoVerdeConflitante.put(anel, ciclo);
             } else {
                 cicloDoVerdeConflitante.remove(anel);
+                retiraVerdeConflitantes.remove(anel);
             }
 
         }

@@ -73,13 +73,14 @@ public class MotorEventoHandler {
                 handleRemocaoFalhaDetector(eventoMotor);
                 break;
 
+
+            case FALHA_VERDES_CONFLITANTES:
+                getMotor().getMonitor().monitoraRepeticaoVerdesConflitantes((Integer) eventoMotor.getParams()[0]);
+                handleFalhaAnel(eventoMotor);
+                break;
+
             case FALHA_SEQUENCIA_DE_CORES:
             case FALHA_VERDES_CONFLITANTES_REMOCAO:
-            case FALHA_VERDES_CONFLITANTES:
-                //motor.reportaInterrupcaoAbruptaDeEstagio((Integer) eventoMotor.getParams()[0]);
-                handleFalhaAnel(eventoMotor);
-
-                break;
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
                 handleFalhaAnel(eventoMotor);
                 break;

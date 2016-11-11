@@ -141,9 +141,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public Plano getPlanoAtual(Integer anel) {
         return getPlanos(eventoAtual).get(anel - 1);
     }
-
-    public void reportaInterrupcaoAbruptaDeEstagio(Integer anel) {
-        onEstagioEnds(anel,0l,0l,instante,getEstagios().get(anel - 1).getIntervalosGruposSemaforicos());
-
+    
+    public MonitorDeFalhas getMonitor() {
+        return monitor;
     }
 }

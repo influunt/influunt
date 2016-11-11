@@ -31,9 +31,9 @@ public enum TipoEvento {
     FALHA_DETECTOR_PEDESTRE_REMOCAO(TipoEventoControlador.FALHA, 18, "Falha detector pedestre removida", "%s: Falha detector pedestre removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
     FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO(TipoEventoControlador.FALHA, 26, "Desrespeito ao tempo máximo de permanencia no estágio", "%s: Desrespeito ao tempo máximo de permanencia no estágio", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
     FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 27, "Verdes conflitantes", "Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
-    FALHA_VERDES_CONFLITANTES_REMOCAO(TipoEventoControlador.FALHA, 27, "Verdes conflitantes removido", "Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
-    FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 28, "Amarelo Intermitente", "Amarelo Intermitente", null),
-    FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 29, "Semáforo apagado", "Semafóro apagado", null),
+    FALHA_VERDES_CONFLITANTES_REMOCAO(TipoEventoControlador.FALHA, 28, "Verdes conflitantes removido", "Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 29, "Amarelo Intermitente", "Amarelo Intermitente", null),
+    FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 30, "Semáforo apagado", "Semafóro apagado", null),
     FALHA_ACERTO_RELOGIO_GPS(TipoEventoControlador.FALHA, 52, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
     FALHA_SEQUENCIA_DE_CORES(TipoEventoControlador.FALHA, 53, "Falha sequencia de cores", "Falha sequencia de cores", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
