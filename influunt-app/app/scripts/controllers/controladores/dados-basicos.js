@@ -33,7 +33,14 @@ angular.module('influuntApp')
         $scope.currentSubareas = [];
         if ($scope.objeto && $scope.helpers && $scope.objeto.area && $scope.objeto.area.idJson){
           var area = _.find($scope.helpers.cidade.areas, {idJson: $scope.objeto.area.idJson});
-          $scope.currentSubareas = area.subareas;
+          $scope.currentSubareas = area.subareas.map(function(s) {
+            s.area = {idJson: area.idJson};
+            return s;
+          });
+
+          if ($scope.objeto.subarea) {
+            $scope.objeto.subarea = _.find($scope.currentSubareas, {idJson: $scope.objeto.subarea.idJson});
+          }
         }
         return $scope.currentSubareas;
       }, true);
