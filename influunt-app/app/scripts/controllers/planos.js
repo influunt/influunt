@@ -228,12 +228,8 @@ angular.module('influuntApp')
       $scope.removerEstagioPlano = function(estagioPlano) {
         influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            //Remover do plano
-            var estagioPlanoIndex = _.findIndex($scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson});
-            $scope.currentPlano.estagiosPlanos.splice(estagioPlanoIndex, 1);
-            //Remover do objeto
-            var index = _.findIndex($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-            $scope.objeto.estagiosPlanos.splice(index, 1);
+            var ep = _.find($scope.objeto.estagiosPlanos, { idJson: estagioPlano.idJson });
+            ep.destroy = true;
             $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
           }
         });
@@ -526,7 +522,7 @@ angular.module('influuntApp')
       getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
         var erros = [];
         var errosSequencia;
-        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalida');
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaValida');
         if (errosSequencia) {
           erros.push(errosSequencia[0]);
         }
@@ -689,7 +685,9 @@ angular.module('influuntApp')
           tempoEstagiosPlanos[anelIndex] = [];
           tempoCiclo[anelIndex] = [];
           _.forEach(anel.planos, function(plano, planoIndex) {
-            var estagiosPlanos = _.filter($scope.objeto.estagiosPlanos, { plano: { idJson: plano.idJson } });
+            var estagiosPlanos = _.filter($scope.objeto.estagiosPlanos, function(ep) {
+              return !ep.destroy && ep.plano.idJson === plano.idJson;
+            });
             tempoEstagiosPlanos[anelIndex][planoIndex] = _.sumBy(estagiosPlanos, 'tempoEstagio') || 0;
 
             plano = _.find($scope.objeto.planos, { idJson: plano.idJson });

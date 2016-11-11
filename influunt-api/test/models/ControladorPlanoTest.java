@@ -3,7 +3,9 @@ package models;
 import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
+import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
@@ -482,7 +484,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaValida")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
@@ -524,7 +526,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaValida")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{2, 1});
@@ -825,7 +827,7 @@ public class ControladorPlanoTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaInvalida")
+            new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].sequenciaValida")
         ));
 
         criarEstagioPlano(anel, plano, new int[]{1, 4, 3, 2});
@@ -895,6 +897,40 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(Json.parse(payload));
         List<Erro> erros = getErros(controlador);
         assertThat(erros, empty());
+    }
+
+    @Test
+    public void testControlerDestroyEstagioPlano() {
+        Controlador controlador = getControladorPlanos();
+
+        Anel anel1 = controlador.getAneis().stream().filter(Anel::isAtivo).sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).findFirst().orElse(null);
+        VersaoPlano versao1 = anel1.getVersoesPlanos().get(0);
+        System.out.println("opa");
+        Plano plano1 = versao1.getPlanos().stream().sorted((p1, p2) -> p1.getPosicao().compareTo(p2.getPosicao())).findFirst().orElse(null);
+        int totalEstagiosPlanos = plano1.getEstagiosPlanos().size();
+
+        EstagioPlano ep = plano1.getEstagiosPlanos().get(1);
+
+        JsonNode controladorJson = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
+        for (JsonNode epNode : controladorJson.get("estagiosPlanos")) {
+            if (epNode.get("idJson").asText() == ep.getIdJson()) {
+                ((ObjectNode) epNode).put("destroy", true);
+            }
+        }
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.PlanosController.create().url())
+            .bodyJson(controladorJson);
+        Result result = route(request);
+        assertEquals(200, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
+        Anel anel2 = controladorRetornado.getAneis().stream().filter(Anel::isAtivo).sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).findFirst().orElse(null);
+        VersaoPlano versao2 = anel2.getVersoesPlanos().get(0);
+        Plano plano2 = versao2.getPlanos().stream().sorted((p1, p2) -> p1.getPosicao().compareTo(p2.getPosicao())).findFirst().orElse(null);
+
+        assertEquals(totalEstagiosPlanos - 1, plano2.getEstagiosPlanos().size());
     }
 
     @Override

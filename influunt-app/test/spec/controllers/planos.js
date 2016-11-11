@@ -651,8 +651,9 @@ describe('Controller: PlanosCtrl', function () {
         scope.$apply();
         expect(scope.currentEstagiosPlanos.length).toBe(sequenciaOriginal.length - 1);
         expect(_.find(scope.currentEstagiosPlanos, {idJson: estagioPlano.idJson})).not.toBeDefined();
-        expect(_.find(scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson})).not.toBeDefined();
-        expect(_.find(scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson})).not.toBeDefined();
+        expect(_.find(scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson})).toBeDefined();
+        expect(_.find(scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson}).destroy).toBe(true);
+        expect(_.find(scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson})).toBeDefined();
         expect(sequenciaOriginal[1].posicao).toBe(1);
       });
     });
@@ -804,12 +805,14 @@ describe('Controller: PlanosCtrl', function () {
       scope.removerEstagioPlano(estagioPlano);
       deferred.resolve(true);
       scope.$apply();
-      expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
+      expect(scope.currentPlano.estagiosPlanos.length).toBe(4);
+      expect(_.find(scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson}).destroy).toBe(true);
 
       scope.currentPlano.modoOperacao = 'ATUADO';
       scope.onChangeModoOperacao();
 
-      expect(scope.currentPlano.estagiosPlanos.length).toBe(3);
+      expect(scope.currentPlano.estagiosPlanos.length).toBe(4);
+      expect(_.find(scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson}).destroy).toBe(true);
     });
 
     describe('erros ao salvar', function () {

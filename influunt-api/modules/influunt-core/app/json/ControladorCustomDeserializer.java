@@ -392,7 +392,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagiosPlanos")) {
             for (JsonNode nodeEstagioPlano : node.get("estagiosPlanos")) {
                 EstagioPlano estagioPlano = parseEstagiosPlano(nodeEstagioPlano);
-                estagiosPlanosCache.put(estagioPlano.getIdJson().toString(), estagioPlano);
+                estagiosPlanosCache.put(estagioPlano.getIdJson(), estagioPlano);
             }
         }
     }
@@ -1152,6 +1152,9 @@ public class ControladorCustomDeserializer {
         }
         if (node.has("dispensavel")) {
             estagioPlano.setDispensavel(node.get("dispensavel").asBoolean());
+        }
+        if (node.has("destroy")) {
+            estagioPlano.setDestroy(node.get("destroy").asBoolean());
         }
         if (node.has("estagioQueRecebeEstagioDispensavel")) {
             final String estagioPlanoId = node.get("estagioQueRecebeEstagioDispensavel").get("idJson").asText();

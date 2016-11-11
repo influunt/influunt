@@ -213,6 +213,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteTransicoesProibidas(this);
         deleteTabelasEntreVerdes(this);
         deleteEventos(this);
+        deleteEstagiosPlanos(this);
         this.criarPossiveisTransicoes();
     }
 
@@ -301,6 +302,26 @@ public class Controlador extends Model implements Cloneable, Serializable {
                     });
                 });
             });
+        }
+    }
+
+    private void deleteEstagiosPlanos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            for (Anel anel : controlador.getAneis()) {
+                if (anel.isAtivo()) {
+                    for (VersaoPlano versaoPlano : anel.getVersoesPlanos()) {
+                        for (Plano plano : versaoPlano.getPlanos()) {
+                            if (plano != null) {
+                                for (EstagioPlano estagioPlano : plano.getEstagiosPlanos()) {
+                                    if (estagioPlano.isDestroy()) {
+                                        estagioPlano.delete();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
