@@ -6,6 +6,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.SubareasCheck;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Controlador;
 import models.Subarea;
 import models.Usuario;
 import play.db.ebean.Transactional;
@@ -51,6 +52,7 @@ public class SubareasController extends Controller {
     @Transactional
     public CompletionStage<Result> findOne(String id) {
         Subarea subarea = Subarea.find.fetch("area").fetch("area.cidade").where().eq("id", id).findUnique();
+        List<Controlador> controladores = subarea.getControladores();
         if (subarea == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {

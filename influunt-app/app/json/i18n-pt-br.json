@@ -300,11 +300,12 @@
   },
   "subareas": {
     "area": "Área",
-    "nome": "Nome",
-    "numero": "Número",
-    "novo": "Nova Subárea",
-    "mostrar": "Visualizar Subárea",
+    "controladores": "Controladores",
     "editar": "Editar Subárea",
+    "mostrar": "Visualizar Subárea",
+    "nome": "Nome",
+    "novo": "Nova Subárea",
+    "numero": "Número",
     "titulo": "Subáreas"
   },
   "cidades": {
