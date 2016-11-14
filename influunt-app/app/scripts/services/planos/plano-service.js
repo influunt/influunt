@@ -109,6 +109,7 @@ angular.module('influuntApp')
         controlador.estagiosPlanos = controlador.estagiosPlanos || [];
         anel.estagios.forEach(function (e){
           var estagio =  _.find(controlador.estagios, {idJson: e.idJson});
+
           if(!estagio.demandaPrioritaria){
             var estagioPlano = {
               idJson: UUID.generate(),
@@ -122,6 +123,10 @@ angular.module('influuntApp')
               tempoVerde: verdeMinimoDoEstagio(controlador, controlador.verdeMin, estagio),
               dispensavel: false
             };
+
+            controlador.estagiosPlanos = controlador.estagiosPlanos || [];
+            plano.estagiosPlanos = plano.estagiosPlanos || [];
+            estagio.estagiosPlanos = estagio.estagiosPlanos || [];
 
             controlador.estagiosPlanos.push(estagioPlano);
             plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
