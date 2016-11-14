@@ -799,6 +799,13 @@ var influunt;
           });
         }
 
+        function processaAlarmes(alarmes){
+          alarmes.forEach(function(alarme){
+            var x = (alarme[0] - (inicioSimulacao.unix() * 1000)) / 100;
+            desenhaPlano(x,'#F9A825',alarme[1],alarme[3]);
+          });
+        }
+
         function criaLoading(){
           var background  = game.add.graphics( 0, 0 );
           background.beginFill(0xCCCCCC, 1);
@@ -850,6 +857,7 @@ var influunt;
               try{
                 processaEstagios(json.aneis);
                 processaPlanos(json.trocas);
+                processaAlarmes(json.alarmes);
               }catch(err){
                 console.log(err);
               }

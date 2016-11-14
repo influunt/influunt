@@ -126,7 +126,11 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        motorEventoHandler.handle(eventoMotor);
+        if(eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)){
+            callback.onAlarme(instante,eventoMotor);
+        }else {
+            motorEventoHandler.handle(eventoMotor);
+        }
     }
 
     public List<GerenciadorDeEstagios> getEstagios() {

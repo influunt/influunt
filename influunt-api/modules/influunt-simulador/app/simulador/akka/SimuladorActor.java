@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
 import models.TipoDetector;
@@ -16,6 +17,7 @@ import org.joda.time.DateTime;
 import play.libs.Json;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class SimuladorActor extends UntypedActor {
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
     private List<ArrayNode> trocasDePlanos = new ArrayList<>();
+    private List<ArrayNode> alarmes = new ArrayList<>();
 
     private String jsonTrocas;
 
@@ -99,6 +102,7 @@ public class SimuladorActor extends UntypedActor {
         simulador.alternarModoManual(disparo, ativar);
         pagina = 0;
         trocasDePlanos.clear();
+        alarmes.clear();
         estagios.clear();
         proximaPagina();
     }
@@ -107,6 +111,7 @@ public class SimuladorActor extends UntypedActor {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
         pagina = 0;
         trocasDePlanos.clear();
+        alarmes.clear();
         estagios.clear();
         proximaPagina();
     }
@@ -137,6 +142,7 @@ public class SimuladorActor extends UntypedActor {
             client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
             estagios.clear();
             trocasDePlanos.clear();
+            alarmes.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -156,6 +162,8 @@ public class SimuladorActor extends UntypedActor {
         ArrayNode trocas = root.putArray("trocas");
         trocasDePlanos.forEach(troca -> trocas.add(troca));
 
+        ArrayNode ala = root.putArray("alarmes");
+        alarmes.forEach(alarme -> ala.add(alarme));
 
         return root.toString();
     }
@@ -177,6 +185,17 @@ public class SimuladorActor extends UntypedActor {
         troca.add(modosJson);
 
         trocasDePlanos.add(troca);
+
+    }
+
+    public void storeAlarme(DateTime timestamp,EventoMotor eventoMotor) {
+        ArrayNode alarme = Json.newArray();
+
+        alarme.add(timestamp.getMillis());
+        alarme.add(eventoMotor.getTipoEvento().getCodigo());
+        alarme.add(eventoMotor.getTipoEvento().toString());
+        alarme.add(eventoMotor.getTipoEvento().getMessage(Arrays.toString(eventoMotor.getParams())));
+        alarmes.add(alarme);
 
     }
 }
