@@ -150,18 +150,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
             .forEach(entry -> System.out.println(sdf.print(entry.getKey()) + " - " + entry.getValue().getEstagio().getPosicao()));
     }
 
-    protected void avancarSegundos(Motor motor, long i) {
-        long quantidade = i * 10L;
-        instante = instante.plus(quantidade * 100L);
-        while ((quantidade--) > 0) {
-            try {
-                motor.tick();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     protected void avancarMilis(Motor motor, long i) {
         long quantidade = i;
         instante = instante.plus(quantidade * 100L);
@@ -174,40 +162,20 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         }
     }
 
-    protected void avancarHoras(Motor motor, long i) {
-        long quantidade = i * 36000L;
-        instante = instante.plus(quantidade * 100L);
-        while ((quantidade--) > 0) {
-            try {
-                motor.tick();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    protected void avancarSegundos(Motor motor, long i) {
+        avancarMilis(motor, i * 10L);
     }
 
     protected void avancarMinutos(Motor motor, long i) {
-        long quantidade = i * 600L;
-        instante = instante.plus(quantidade * 100L);
-        while ((quantidade--) > 0) {
-            try {
-                motor.tick();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        avancarMilis(motor, i * 600L);
+    }
+
+    protected void avancarHoras(Motor motor, long i) {
+        avancarMilis(motor, i * 36000L);
     }
 
     protected void avancarDias(Motor motor, long i) {
-        long quantidade = i * 864000L;
-        instante = instante.plus(quantidade * 100L);
-        while ((quantidade--) > 0) {
-            try {
-                motor.tick();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        avancarMilis(motor, i * 864000L);
     }
 
     protected void avancar(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
@@ -215,18 +183,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
             gerenciadorDeEstagios.tick();
-        }
-    }
-
-    protected void avancarAtuado(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
-        long quantidade = i;
-        instante = instante.plus(quantidade * 100L);
-        while ((quantidade--) > 0) {
-            try {
-                gerenciadorDeEstagios.getMotor().tick();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 

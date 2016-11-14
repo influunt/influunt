@@ -836,16 +836,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return null;
     }
 
-    public Detector getDetector(Detector detector) {
-
-        return aneis.stream().map(Anel::getDetectores).collect(Collectors.toSet()).stream()
-            .flatMap(Collection::stream)
-            .collect(Collectors.toSet())
-            .stream()
-            .filter(detector1 -> detector1.equals(detector))
-            .findFirst().orElse(null);
-    }
-
     public RangeUtils getRangeUtils() {
         return rangeUtils;
     }

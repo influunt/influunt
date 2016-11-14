@@ -1,5 +1,6 @@
 package engine.services;
 
+import helpers.CloneHelper;
 import models.*;
 import play.Logger;
 
@@ -15,7 +16,7 @@ public class PlanoService {
         Plano novoPlano = gerarPlano(plano);
 
         plano.getEstagiosPlanos().forEach(estagioPlano -> {
-            EstagioPlano estagioPlanoAux = copyPrimitiveFields(estagioPlano);
+            EstagioPlano estagioPlanoAux = CloneHelper.copyPrimitiveFields(estagioPlano);
             estagioPlanoAux.setEstagio(estagioPlano.getEstagio());
             estagioPlanoAux.setPlano(novoPlano);
             estagioPlanoAux.setDispensavel(false);
@@ -34,43 +35,17 @@ public class PlanoService {
     }
 
     private static Plano gerarPlano(Plano plano) {
-        Plano novoPlano = copyPrimitiveFields(plano);
+        Plano novoPlano = CloneHelper.copyPrimitiveFields(plano);
 
         novoPlano.setVersaoPlano(plano.getVersaoPlano());
 
         plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
-            GrupoSemaforicoPlano gspAux = copyPrimitiveFields(grupoSemaforicoPlano);
+            GrupoSemaforicoPlano gspAux = CloneHelper.copyPrimitiveFields(grupoSemaforicoPlano);
             gspAux.setGrupoSemaforico(grupoSemaforicoPlano.getGrupoSemaforico());
             gspAux.setPlano(novoPlano);
             novoPlano.addGruposSemaforicoPlano(gspAux);
         });
 
         return novoPlano;
-    }
-
-
-    private static <T> T copyPrimitiveFields(T obj) {
-        try {
-            T clone = (T) obj.getClass().newInstance();
-            for (Field field : obj.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-                if (field.get(obj) == null || Modifier.isFinal(field.getModifiers()) || field.getClass().equals(UUID.class) || field.getType().equals(DiaDaSemana.class)) {
-                    continue;
-                }
-                if (field.getType().isEnum()) {
-                    field.set(clone, Enum.valueOf((Class<Enum>) field.getType(), field.get(obj).toString()));
-                }
-                if (field.getType().isPrimitive() || field.getType().equals(String.class)
-                    || (field.getType().getSuperclass() != null && field.getType().getSuperclass().equals(Number.class))
-                    || field.getType().equals(Boolean.class)) {
-                    field.set(clone, field.get(obj));
-                }
-            }
-
-            return (T) clone;
-        } catch (Exception e) {
-            Logger.error(e.getMessage(), e);
-            return null;
-        }
     }
 }
