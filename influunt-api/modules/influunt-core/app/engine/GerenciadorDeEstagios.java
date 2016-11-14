@@ -4,10 +4,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
-import models.Estagio;
-import models.EstagioPlano;
-import models.ModoOperacaoPlano;
-import models.Plano;
+import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -359,6 +356,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public IntervaloGrupoSemaforico getIntervalosGruposSemaforicos() {
         return new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
+    }
+
+    public Detector getDetector(Integer posicao, TipoDetector tipoDetector) {
+        return getPlano().getAnel().getDetectores().stream().filter(detector -> {
+            return posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo());
+        }).findFirst().orElse(null);
     }
 
     private class GetIntervaloGrupoSemaforico {

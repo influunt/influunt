@@ -559,7 +559,7 @@ angular.module('influuntApp')
       };
 
       $scope.podeSimular = function(controlador) {
-        return controlador.controladorConfigurado;
+        return $scope.podeFinalizar(controlador);
       };
 
     }]);

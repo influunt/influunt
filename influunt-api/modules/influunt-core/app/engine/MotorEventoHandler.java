@@ -30,7 +30,6 @@ public class MotorEventoHandler {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:
             case ACIONAMENTO_DETECTOR_PEDESTRE:
-                motor.getMonitor().registraAcionamentoDetector((Detector) eventoMotor.getParams()[0]);
                 handleAcionamentoDetector(eventoMotor);
                 break;
 
@@ -95,28 +94,10 @@ public class MotorEventoHandler {
 
     }
 
-    private void handleRemocaoFalhaDetector(EventoMotor eventoMotor) {
-        Detector detector = (Detector) eventoMotor.getParams()[0];
-        motor.getEstagios().get(detector.getAnel().getPosicao() - 1).onEvento(eventoMotor);
-    }
-
     private void handleFalhaAnel(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[0];
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
     }
-
-    private void handleFalhaDetector(EventoMotor eventoMotor) {
-        Detector detector = getMotor().getControlador().getDetector((Detector) eventoMotor.getParams()[0]);
-
-
-        Pair<Integer, TipoDetector> key = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
-        if (!falhasDetector.containsKey(key)) {
-            falhasDetector.put(key, eventoMotor);
-            motor.getEstagios().get(detector.getAnel().getPosicao() - 1).onEvento(eventoMotor);
-        }
-
-    }
-
 
     private void handleFaseVermelhaGrupoSemaforico(EventoMotor eventoMotor) {
         GrupoSemaforico grupoSemaforico = (GrupoSemaforico) eventoMotor.getParams()[0];
@@ -139,13 +120,30 @@ public class MotorEventoHandler {
         }
     }
 
+    private void handleFalhaDetector(EventoMotor eventoMotor) {
+        Pair<Integer, TipoDetector> key = (Pair<Integer, TipoDetector>) eventoMotor.getParams()[0];
+        Integer anel = (Integer) eventoMotor.getParams()[1];
 
-    private void handleAcionamentoDetector(EventoMotor eventoMotor) {
-        Detector detector = (Detector) eventoMotor.getParams()[0];
+        if (!falhasDetector.containsKey(key)) {
+            falhasDetector.put(key, eventoMotor);
+            motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+        }
+    }
+
+    private void handleRemocaoFalhaDetector(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[1];
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+    }
 
-        Pair<Integer, TipoDetector> key = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
+
+    private void handleAcionamentoDetector(EventoMotor eventoMotor) {
+        Pair<Integer, TipoDetector> key = (Pair<Integer, TipoDetector>) eventoMotor.getParams()[0];
+        Integer anel = (Integer) eventoMotor.getParams()[1];
+
+        GerenciadorDeEstagios gerenciador = motor.getEstagios().get(anel - 1);
+
+        motor.getMonitor().registraAcionamentoDetector(gerenciador.getDetector(key.getFirst(), key.getSecond()));
+        gerenciador.onEvento(eventoMotor);
         if (falhasDetector.containsKey(key)) {
             falhasDetector.remove(key);
         }

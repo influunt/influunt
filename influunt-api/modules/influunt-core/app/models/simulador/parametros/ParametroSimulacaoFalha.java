@@ -9,6 +9,8 @@ import json.serializers.InfluuntDateTimeSerializer;
 import models.Anel;
 import models.Detector;
 import models.GrupoSemaforico;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import javax.validation.constraints.AssertTrue;
@@ -26,7 +28,7 @@ public class ParametroSimulacaoFalha {
 
     private GrupoSemaforico grupoSemaforico;
 
-    private Detector detector;
+    private Pair<Integer, TipoDetector> detector;
 
     private Anel anel;
 
@@ -35,15 +37,15 @@ public class ParametroSimulacaoFalha {
     private DateTime disparo;
 
     public EventoMotor toEvento() {
-        Object params = null;
         if (grupoSemaforico != null) {
-            params = grupoSemaforico;
-        } else if (anel != null) {
-            params = anel.getPosicao();
+            return new EventoMotor(getDisparo(), getFalha(), grupoSemaforico);
         } else if (detector != null) {
-            params = detector;
+            return new EventoMotor(getDisparo(), getFalha(), detector, anel.getPosicao());
+        } else if (anel != null) {
+            return new EventoMotor(getDisparo(), getFalha(), anel.getPosicao());
+        } else {
+            return new EventoMotor(getDisparo(), getFalha());
         }
-        return new EventoMotor(getDisparo(), getFalha(), params);
     }
 
     public TipoEvento getFalha() {
@@ -58,7 +60,7 @@ public class ParametroSimulacaoFalha {
         return grupoSemaforico;
     }
 
-    public Detector getDetector() {
+    public Pair<Integer, TipoDetector> getDetector() {
         return detector;
     }
 
@@ -78,7 +80,9 @@ public class ParametroSimulacaoFalha {
             case FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO:
             case FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO:
             case FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO:
-                detector = Detector.find.byId(UUID.fromString(id));
+                Detector detector = Detector.find.byId(UUID.fromString(id));
+                this.detector = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
+                this.anel = detector.getAnel();
                 break;
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
             case FALHA_VERDES_CONFLITANTES:

@@ -10,6 +10,7 @@ import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
 import models.simulador.parametros.ParametroSimulacaoManual;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -72,13 +73,6 @@ public abstract class Simulador implements MotorCallback {
         this.eventos.get(eventoMotor.getTimestamp()).add(eventoMotor);
     }
 
-    public Detector getDetector(int anel, TipoDetector tipoDetector, int detector) {
-        return controlador.getAneis().stream()
-            .filter(a -> a.getPosicao().equals(anel)).findFirst()
-            .get().getDetectores().stream().filter(detector1 -> detector1.getTipo().equals(tipoDetector) && detector1.getPosicao().equals(detector))
-            .findFirst().orElse(null);
-    }
-
     public List<Plano> getPlano(int plano) {
         return controlador.getAneis().stream()
             .flatMap(anel -> anel.getPlanos().stream()).filter(plano1 -> plano1.getPosicao().equals(plano))
@@ -107,7 +101,8 @@ public abstract class Simulador implements MotorCallback {
 
     public void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) {
         ParametroSimulacaoDetector param = new ParametroSimulacaoDetector();
-        param.setDetector(getDetector(anel, tipoDetector, detector));
+        param.setDetector(new Pair<Integer, TipoDetector>(detector, tipoDetector));
+        param.setAnel(anel);
         param.setDisparo(disparo);
         this.parametros.getDetectores().add(param);
         setup(dataInicioControlador, controlador, parametros);

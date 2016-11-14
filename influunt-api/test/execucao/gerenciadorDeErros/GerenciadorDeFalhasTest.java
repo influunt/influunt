@@ -6,6 +6,7 @@ import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
 import integracao.ControladorHelper;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -103,11 +104,12 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
         Anel anel = getAnel(3);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(1)).findFirst().get();
 
+        Pair<Integer, TipoDetector> dadosDetector = new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
         //Avancar
         avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO, detector));
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO, dadosDetector, 3));
         avancarSegundos(motor, 100);
-        motor.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, 3));
+        motor.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, dadosDetector, 3));
         avancarSegundos(motor, 200);
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(3).getEstagio().getPosicao().intValue());
@@ -223,19 +225,19 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
         //Avancar
         avancarSegundos(motor, 300);
 
-//        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());
-//        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plus(100)).get(1).getEstagio().getPosicao());
-//        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(10)).get(1).getEstagio().getPosicao().intValue());
-//        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(57).plus(100)).get(1).getEstagio().getPosicao());
-//        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-//
-//        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-//
-//        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
-//
-//        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
-//
-//        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plus(100)).get(1).getEstagio().getPosicao());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(10)).get(1).getEstagio().getPosicao().intValue());
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(57).plus(100)).get(1).getEstagio().getPosicao());
+        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
     }
 
     @Test

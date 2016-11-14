@@ -6,6 +6,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import play.libs.Json;
 
@@ -362,7 +363,7 @@ public class IntervaloGrupoSemaforico {
     private void parseEventoDetector(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
         fields.add(entry.getKey());
         fields.add(eventoMotor.getTipoEvento().toString());
-        fields.add(((Detector) eventoMotor.getParams()[0]).getPosicao());
+        fields.add(((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]).getFirst());
     }
 
     private void parseEventoInsercaoPlug(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {

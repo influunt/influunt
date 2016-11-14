@@ -5,6 +5,7 @@ import com.google.common.collect.RangeMap;
 import engine.*;
 import engine.TipoEvento;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 
 import java.util.Map;
 
@@ -30,10 +31,12 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
-        Detector detector = (Detector) eventoMotor.getParams()[0];
+        Pair<Integer, TipoDetector> key = (Pair<Integer, TipoDetector>) eventoMotor.getParams()[0];
+
+        Detector detector = gerenciadorDeEstagios.getDetector(key.getFirst(), key.getSecond());
 
         if (detector.isComFalha()) {
-            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO, detector));
+            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO, key));
         }
 
         Estagio estagio = detector.getEstagio();

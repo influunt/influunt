@@ -195,7 +195,7 @@ public class ParametroSimulacao {
 
     public void associa() {
         getDetectores().stream().forEach(parametroSimulacaoDetector -> {
-            parametroSimulacaoDetector.setDetector(Detector.find.byId(parametroSimulacaoDetector.getDetector().getId()));
+            parametroSimulacaoDetector.setDetector(parametroSimulacaoDetector.getDetector());
         });
     }
 
