@@ -31,7 +31,10 @@ var influunt;
         var i = 0;
         var j = 0;
         var t = 0;
-        var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao, tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao;
+        var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao,
+            tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza,
+            tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao;
+
         for(i = 0; i < diagrama.length; i++){
           for(j = 0; j < diagrama[i].length; j++){
             diagrama[i][j] = -1;

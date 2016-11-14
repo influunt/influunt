@@ -392,7 +392,7 @@ public class ControladoresController extends Controller {
         if (controladorService.cancelar(controlador)) {
             return CompletableFuture.completedFuture(ok());
         }
-        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("Controlador", "Erro ao cancelar edição de controlador", "controlador")))));
     }
 
     @Transactional

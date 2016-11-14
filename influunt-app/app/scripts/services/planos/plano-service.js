@@ -192,7 +192,7 @@ angular.module('influuntApp')
         var currentEstagiosPlanos = _
           .chain(controlador.estagiosPlanos)
           .filter(function(ep) {
-            return ids.indexOf(ep.idJson) >= 0;
+            return !ep.destroy && ids.indexOf(ep.idJson) >= 0;
           })
           .orderBy('posicao')
           .value();
@@ -245,7 +245,9 @@ angular.module('influuntApp')
           var result = diagramaBuilder.calcula();
 
           var estagiosPlanos = _.chain(controlador.estagiosPlanos)
-            .filter({ plano: { idJson: plano.idJson } })
+            .filter(function(ep) {
+              return !ep.destroy && ep.plano.idJson === plano.idJson;
+            })
             .orderBy('posicao')
             .value();
 

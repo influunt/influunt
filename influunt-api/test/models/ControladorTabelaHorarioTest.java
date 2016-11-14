@@ -330,5 +330,4 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasEstagio, TransicaoProibida.find.findRowCount());
         assertEquals("Quantidade de detectores", totalDetectores - totalDetectoresEstagio, Detector.find.findRowCount());
     }
-
 }
