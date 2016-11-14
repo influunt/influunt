@@ -290,7 +290,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         message = "A sequência de estágios não é válida.")
     public boolean isPosicaoUnicaEstagio() {
         if (!this.getEstagiosPlanos().isEmpty()) {
-            return this.getEstagiosPlanos().size() == this.getEstagiosPlanos().stream().map(EstagioPlano::getPosicao).distinct().count();
+            List<EstagioPlano> thisEstagiosPlanos = this.estagiosPlanos.stream().filter(ep -> !ep.isDestroy()).collect(Collectors.toList());
+            return thisEstagiosPlanos.size() == thisEstagiosPlanos.stream().map(EstagioPlano::getPosicao).distinct().count();
         }
         return true;
     }
@@ -298,7 +299,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de ciclo deve estar entre {min} e {max}")
     public boolean isTempoCiclo() {
         if (isTempoFixoIsolado() || isTempoFixoCoordenado()) {
-            return getTempoCiclo() != null && RangeUtils.getInstance().TEMPO_CICLO.contains(getTempoCiclo());
+            return getTempoCiclo() != null && RangeUtils.getInstance(null).TEMPO_CICLO.contains(getTempoCiclo());
         }
         return true;
     }
@@ -310,7 +311,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Defasagem deve estar entre {min} e o tempo de ciclo")
     public boolean isDefasagem() {
         if (isTempoFixoCoordenado() && getTempoCiclo() != null) {
-            return getDefasagem() != null && RangeUtils.getInstance().TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
+            return getDefasagem() != null && RangeUtils.getInstance(null).TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
         }
         return true;
     }
@@ -321,16 +322,18 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).")
     public boolean isUltrapassaTempoCiclo() {
-        if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaInvalida() && (isTempoFixoIsolado() || isTempoFixoCoordenado()) && Range.between(30, 255).contains(getTempoCiclo())) {
-            getEstagiosPlanos().sort((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao()));
-            return getTempoCiclo() == getEstagiosPlanos().stream().mapToInt(this::getTempoEstagio).sum();
+        boolean estagiosValidos = !this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaValida();
+        boolean isoladoOuCoordenado = isTempoFixoIsolado() || isTempoFixoCoordenado();
+        if (estagiosValidos && isoladoOuCoordenado && RangeUtils.getInstance(null).TEMPO_CICLO.contains(getTempoCiclo())) {
+            int tempoEstagios = getEstagiosPlanos().stream().filter(ep -> !ep.isDestroy()).mapToInt(this::getTempoEstagio).sum();
+            return getTempoCiclo() == tempoEstagios;
         }
         return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
         message = "A sequência de estágios não é válida.")
-    public boolean isSequenciaInvalida() {
+    public boolean isSequenciaValida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
             return sequenciaDeEstagioValida(getEstagiosOrdenados());
         }
@@ -382,7 +385,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
-        return getTempoEstagio(estagioPlano, getEstagiosPlanos());
+        return getTempoEstagio(estagioPlano, getEstagiosOrdenados());
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos) {

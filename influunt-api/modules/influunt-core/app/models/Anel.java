@@ -117,7 +117,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     private DateTime dataAtualizacao;
 
     @Transient
-    private boolean isDestroy = false;
+    private boolean isDestroy;
 
     public Anel(Controlador controlador, int posicao) {
         super();

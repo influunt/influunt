@@ -6,8 +6,6 @@ import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
 import models.Anel;
 import models.Detector;
-import models.ModoOperacaoPlano;
-import models.Plano;
 import org.joda.time.DateTime;
 import org.junit.Test;
 

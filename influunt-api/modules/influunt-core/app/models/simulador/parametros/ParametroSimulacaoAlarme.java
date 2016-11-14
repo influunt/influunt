@@ -24,7 +24,7 @@ public class ParametroSimulacaoAlarme {
     private DateTime disparo;
 
     public EventoMotor toEvento() {
-        return new EventoMotor(disparo,alarme);
+        return new EventoMotor(disparo, alarme);
     }
 
     public DateTime getDisparo() {

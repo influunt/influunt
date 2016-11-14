@@ -2,7 +2,9 @@ package engine.eventos;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
-import engine.*;
+import engine.EventoMotor;
+import engine.GerenciadorDeEstagios;
+import engine.IntervaloEstagio;
 import engine.TipoEvento;
 import models.*;
 import org.apache.commons.math3.util.Pair;
@@ -36,7 +38,7 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
         Detector detector = gerenciadorDeEstagios.getDetector(key.getFirst(), key.getSecond());
 
         if (detector.isComFalha()) {
-            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO, key,detector.getAnel().getPosicao()));
+            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_VEICULAR_REMOCAO, key, detector.getAnel().getPosicao()));
         }
 
         Estagio estagio = detector.getEstagio();

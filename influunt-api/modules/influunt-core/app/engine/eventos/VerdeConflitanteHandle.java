@@ -6,7 +6,6 @@ import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
 import engine.IntervaloEstagio;
 import engine.services.PlanoService;
-import models.EstagioPlano;
 import models.Plano;
 
 /**

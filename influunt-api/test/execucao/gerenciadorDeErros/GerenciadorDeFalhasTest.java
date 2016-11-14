@@ -10,7 +10,6 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import static com.sun.tools.doclint.Entity.ge;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

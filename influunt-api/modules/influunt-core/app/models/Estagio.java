@@ -353,7 +353,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoMaximoPermanenciaOk() {
         if (isTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
-                RangeUtils.getInstance().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
+                RangeUtils.getInstance(null).TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
         return true;
     }
@@ -374,7 +374,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoVerdeDemandaPrioritaria() {
         if (isDemandaPrioritaria()) {
             return getTempoVerdeDemandaPrioritaria() != null &&
-                RangeUtils.getInstance().TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
+                RangeUtils.getInstance(null).TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
         }
         return true;
     }
@@ -426,7 +426,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public TransicaoProibida getTransicaoProibidaPara(final Estagio destino) {
         return getOrigemDeTransicoesProibidas().stream().filter(transicaoProibida -> {
-            return destino.equals(transicaoProibida.getDestino());
+            return !transicaoProibida.isDestroy() && destino.equals(transicaoProibida.getDestino());
         }).findFirst().orElse(null);
     }
 

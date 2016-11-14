@@ -1,7 +1,6 @@
 package engine;
 
 import models.Anel;
-import models.Detector;
 import models.GrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;

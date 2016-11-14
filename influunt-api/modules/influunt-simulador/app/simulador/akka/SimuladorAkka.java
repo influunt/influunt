@@ -52,8 +52,8 @@ public class SimuladorAkka extends Simulador {
     }
 
     @Override
-    public void onAlarme(DateTime timestamp,EventoMotor eventoMotor) {
-        simuladorActor.storeAlarme(timestamp,eventoMotor);
+    public void onAlarme(DateTime timestamp, EventoMotor eventoMotor) {
+        simuladorActor.storeAlarme(timestamp, eventoMotor);
     }
 
 }

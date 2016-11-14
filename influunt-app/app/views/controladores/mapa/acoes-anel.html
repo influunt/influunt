@@ -16,7 +16,6 @@
             data-ng-click="exibirTabelasHorarias(currentControlador)">
           {{ 'controladores.mapaControladores.tabelasHorarias' | translate }}
         </button>
-
       </div>
 
       <div class="ibox-content" ng-init="openPlanos()">
@@ -35,7 +34,7 @@
         <button
             class="btn btn-primary"
             data-ng-disabled="!(currentAnel.planos.length > 0)"
-            data-toggle="modal" data-target="#modal-imposicao-plaos" aria-hidden="true">
+            data-toggle="modal" data-target="#modal-imposicao-planos" aria-hidden="true">
           {{ 'controladores.mapaControladores.imporPlanos' | translate }}
         </button>
         <button

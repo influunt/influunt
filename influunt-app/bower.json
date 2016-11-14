@@ -39,7 +39,8 @@
     "humanize-duration": "^3.9.1",
     "phaser": "~2.6.2",
     "angular-permission": "~4.0.6",
-    "file-saver": "^1.3.3"
+    "file-saver": "^1.3.3",
+    "leaflet.markercluster": "0.5.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
@@ -65,10 +66,10 @@
         "min/locales.min.js"
       ]
     },
-    "jquery.slimscroll" : {
+    "jquery.slimscroll": {
       "main": [
-         "jquery.slimscroll.js"
-       ]
+        "jquery.slimscroll.js"
+      ]
     }
   },
   "resolutions": {

@@ -2,7 +2,6 @@ package reports;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import models.Controlador;
 import models.Fabricante;
@@ -147,7 +146,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
     private List<ControladorFalhasVO> getControladoresPorFalhas() {
         List<String> errosPorFabricantes = ErrosControlador.errosPorFabricante();
         Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
         ArrayList<ControladorStatusVO> controladores = new ArrayList<>();
         for (String erro : errosPorFabricantes) {
             JsonObject jobj = gson.fromJson(erro, JsonObject.class);

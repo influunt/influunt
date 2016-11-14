@@ -39,10 +39,10 @@ public class SimuladorActor extends UntypedActor {
     private MqttClient client;
 
 
-
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
     private List<ArrayNode> trocasDePlanos = new ArrayList<>();
+
     private List<ArrayNode> alarmes = new ArrayList<>();
 
     private String jsonTrocas;
@@ -86,7 +86,7 @@ public class SimuladorActor extends UntypedActor {
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             try {
                 proximaPagina(0);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 send();
             }
@@ -187,7 +187,7 @@ public class SimuladorActor extends UntypedActor {
 
     }
 
-    public void storeAlarme(DateTime timestamp,EventoMotor eventoMotor) {
+    public void storeAlarme(DateTime timestamp, EventoMotor eventoMotor) {
         ArrayNode alarme = Json.newArray();
 
         alarme.add(timestamp.getMillis());

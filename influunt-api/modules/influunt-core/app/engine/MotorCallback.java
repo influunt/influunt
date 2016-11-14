@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface MotorCallback extends GerenciadorDeEstagiosCallback {
     void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos);
-    void onAlarme(DateTime timestamp,EventoMotor eventoMotor);
+
+    void onAlarme(DateTime timestamp, EventoMotor eventoMotor);
 }

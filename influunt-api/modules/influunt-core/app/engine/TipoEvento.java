@@ -48,7 +48,6 @@ public enum TipoEvento {
     FALHA_MEMORIA(TipoEventoControlador.FALHA, 14, "Falha Memoria", "Falha Memoria", null),
 
 
-
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado", null),
     ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado", null),

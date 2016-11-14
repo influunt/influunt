@@ -7,7 +7,6 @@ import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
 
-import static engine.TipoEventoParamsTipoDeDado.tipo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

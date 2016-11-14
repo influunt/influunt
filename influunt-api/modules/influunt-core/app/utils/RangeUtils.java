@@ -43,14 +43,16 @@ public class RangeUtils {
 
     private Integer defaultMaximoPermanenciaEstagioVeicular;
 
-    private RangeUtils() {
-        FaixasDeValores valores = FaixasDeValores.getInstance();
+    private RangeUtils(FaixasDeValores valores) {
+        if (valores == null) {
+            valores = FaixasDeValores.getInstance();
+        }
         TEMPO_DEFASAGEM = new InfluuntRange<>(valores.getTempoDefasagemMin(), valores.getTempoDefasagemMax());
         TEMPO_AMARELO = new InfluuntRange<>(valores.getTempoAmareloMin(), valores.getTempoAmareloMax());
         TEMPO_VERMELHO_INTERMITENTE = new InfluuntRange<>(valores.getTempoVermelhoIntermitenteMin(), valores.getTempoVermelhoIntermitenteMax());
         TEMPO_VERMELHO_LIMPEZA_VEICULAR = new InfluuntRange<>(valores.getTempoVermelhoLimpezaVeicularMin(), valores.getTempoVermelhoLimpezaVeicularMax());
         TEMPO_VERMELHO_LIMPEZA_PEDESTRE = new InfluuntRange<>(valores.getTempoVermelhoLimpezaPedestreMin(), valores.getTempoVermelhoLimpezaPedestreMax());
-        TEMPO_ATRASO_GRUPO = new InfluuntRange<Integer>(valores.getTempoAtrasoGrupoMin(), valores.getTempoAtrasoGrupoMax());
+        TEMPO_ATRASO_GRUPO = new InfluuntRange<>(valores.getTempoAtrasoGrupoMin(), valores.getTempoAtrasoGrupoMax());
         TEMPO_VERDE_SEGURANCA_VEICULAR = new InfluuntRange<>(valores.getTempoVerdeSegurancaVeicularMin(), valores.getTempoVerdeSegurancaVeicularMax());
         TEMPO_VERDE_SEGURANCA_PEDESTRE = new InfluuntRange<>(valores.getTempoVerdeSegurancaPedestreMin(), valores.getTempoVerdeSegurancaPedestreMax());
         TEMPO_MAXIMO_PERMANENCIA_ESTAGIO = new InfluuntRange<>(valores.getTempoMaximoPermanenciaEstagioMin(), valores.getTempoMaximoPermanenciaEstagioMax());
@@ -65,8 +67,8 @@ public class RangeUtils {
         TEMPO_DETECCAO_PERMANENTE = new InfluuntRange<>(valores.getTempoDeteccaoPermanenteMin(), valores.getTempoDeteccaoPermanenteMax());
     }
 
-    public static RangeUtils getInstance() {
-        return new RangeUtils();
+    public static RangeUtils getInstance(FaixasDeValores valores) {
+        return new RangeUtils(valores);
     }
 
     public Integer getDefaultMaximoPermanenciaEstagioVeicular() {

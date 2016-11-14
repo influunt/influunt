@@ -335,7 +335,7 @@ public class IntervaloGrupoSemaforico {
                         parseEventoInsercaoPlug(eventoMotor, entry, eventos.addArray());
                         break;
                     default:
-                        parseEventoGenerico(eventoMotor,entry,eventos.addArray());
+                        parseEventoGenerico(eventoMotor, entry, eventos.addArray());
                         break;
 
                 }

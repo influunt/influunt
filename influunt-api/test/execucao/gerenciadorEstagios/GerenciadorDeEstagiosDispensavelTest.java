@@ -3,7 +3,6 @@ package execucao.gerenciadorEstagios;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
-import integracao.ControladorHelper;
 import models.*;
 import org.junit.Test;
 

@@ -49,30 +49,30 @@ public class MonitorDeFalhas {
         for (Map.Entry<Integer, Long> entry : retiraVerdeConflitantes.entrySet()) {
             if (entry.getValue().equals(ticks)) {
                 motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
-                retiraVerdeConflitantes.put(entry.getKey(),Long.MIN_VALUE);
+                retiraVerdeConflitantes.put(entry.getKey(), Long.MIN_VALUE);
             }
         }
     }
 
     private void monitoraDetectores(DateTime timestamp) {
-        ausenciaDeteccao.entrySet().stream().forEach(entry ->{
+        ausenciaDeteccao.entrySet().stream().forEach(entry -> {
             Pair<Long, Long> newValue = new Pair<Long, Long>(entry.getValue().getFirst(), entry.getValue().getSecond() + 100L);
-            if(newValue.getSecond().equals(newValue.getFirst())){
+            if (newValue.getSecond().equals(newValue.getFirst())) {
                 TipoEvento tv = entry.getKey().isPedestre() ? TipoEvento.FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO :
-                                                              TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO;
+                    TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO;
                 motorEventoHandler.handle(new EventoMotor(timestamp, tv,
-                    new Pair<Integer, TipoDetector>(entry.getKey().getPosicao(),entry.getKey().getTipo()),
+                    new Pair<Integer, TipoDetector>(entry.getKey().getPosicao(), entry.getKey().getTipo()),
                     entry.getKey().getAnel().getPosicao()));
 
                 newValue = new Pair<Long, Long>(entry.getValue().getFirst(), 0L);
             }
-            ausenciaDeteccao.put(entry.getKey(),newValue);
+            ausenciaDeteccao.put(entry.getKey(), newValue);
         });
     }
 
-    public void registraAcionamentoDetector(Detector detector){
-        if(ausenciaDeteccao.containsKey(detector)){
-            ausenciaDeteccao.put(detector,new Pair<Long, Long>(detector.getTempoAusenciaDeteccao() * 60000L,0L));
+    public void registraAcionamentoDetector(Detector detector) {
+        if (ausenciaDeteccao.containsKey(detector)) {
+            ausenciaDeteccao.put(detector, new Pair<Long, Long>(detector.getTempoAusenciaDeteccao() * 60000L, 0L));
         }
     }
 
@@ -81,20 +81,20 @@ public class MonitorDeFalhas {
     }
 
     private void registraMonitoramentoDetector(Detector detector) {
-        ausenciaDeteccao.put(detector,new Pair<Long,Long>(detector.getTempoAusenciaDeteccao() * 60000L,0L));
+        ausenciaDeteccao.put(detector, new Pair<Long, Long>(detector.getTempoAusenciaDeteccao() * 60000L, 0L));
     }
 
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
-        if(cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel)){
+        if (cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel)) {
             retiraVerdeConflitantes.put(anel, ticks + intervalos.getEntreverde().getDuracao() + 10000L);
         }
         if (!sequenciaCoresValida(intervalos)) {
-            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel,false));
+            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel, false));
         }
 
         if (verdesConflitantes(intervalos)) {
-            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES, anel,false));
+            motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES, anel, false));
         }
     }
 
@@ -103,7 +103,6 @@ public class MonitorDeFalhas {
             cicloDoVerdeConflitante.put(anel, 3);
         }
     }
-
 
 
     private boolean verdesConflitantes(IntervaloGrupoSemaforico intervalos) {

@@ -4,7 +4,6 @@ import engine.EventoMotor;
 import engine.Motor;
 import engine.MotorCallback;
 import models.Controlador;
-import models.Detector;
 import models.Plano;
 import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
@@ -84,22 +83,20 @@ public abstract class Simulador implements MotorCallback {
         DateTime inicioSimulacao = inicio;
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
-               processaEventos(inicioSimulacao);
-               motor.tick();
-               tempoSimulacao += 100;
-               inicioSimulacao = inicioSimulacao.plus(100);
+            processaEventos(inicioSimulacao);
+            motor.tick();
+            tempoSimulacao += 100;
+            inicioSimulacao = inicioSimulacao.plus(100);
         }
 
 
     }
 
-    private void processaEventos(DateTime inicio) throws Exception{
+    private void processaEventos(DateTime inicio) throws Exception {
         if (eventos.containsKey(inicio)) {
             eventos.get(inicio).stream().forEach(eventoMotor -> motor.onEvento(eventoMotor));
         }
     }
-
-
 
 
     public void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) {
