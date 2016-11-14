@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNull;
  */
 public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
+
     @Test
     public void faseVermelhoGrupoSemaforicoApagado() {
         inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);

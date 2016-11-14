@@ -38,7 +38,7 @@ public class SimuladorActor extends UntypedActor {
 
     private MqttClient client;
 
-    private int pagina = 0;
+
 
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
@@ -63,7 +63,8 @@ public class SimuladorActor extends UntypedActor {
             opts.setWill("simulador/" + id + "/morreu", "1".getBytes(), 1, true);
             client.connect(opts);
             client.subscribe("simulador/" + id + "/proxima_pagina", 1, (topic, message) -> {
-                proximaPagina();
+                JsonNode root = Json.parse(message.getPayload());
+                proximaPagina(root.get("pagina").asInt());
             });
             client.subscribe("simulador/" + id + "/detector", 1, (topic, message) -> {
                 JsonNode root = Json.parse(message.getPayload());
@@ -84,7 +85,7 @@ public class SimuladorActor extends UntypedActor {
 
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             try {
-                proximaPagina();
+                proximaPagina(0);
             }catch (Exception e){
                 e.printStackTrace();
                 send();
@@ -100,23 +101,21 @@ public class SimuladorActor extends UntypedActor {
 
     private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
         simulador.alternarModoManual(disparo, ativar);
-        pagina = 0;
         trocasDePlanos.clear();
         alarmes.clear();
         estagios.clear();
-        proximaPagina();
+        proximaPagina(0);
     }
 
     private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
-        pagina = 0;
         trocasDePlanos.clear();
         alarmes.clear();
         estagios.clear();
-        proximaPagina();
+        proximaPagina(0);
     }
 
-    private void proximaPagina() throws Exception {
+    private void proximaPagina(int pagina) throws Exception {
         DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);

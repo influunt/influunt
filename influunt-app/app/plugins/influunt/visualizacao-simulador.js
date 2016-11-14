@@ -13,7 +13,6 @@ var influunt;
         config.detectores.forEach(function(d) {config.detectoresHash["D" + d.tipo[0] + d.posicao] = d;});
 
         var quantidadeDeAneis = _.filter(config.aneis,function(a){return a.tiposGruposSemaforicos.length > 0;}).length;
-        var duracaoSimulacao = (fimSimulacao.unix() - inicioSimulacao.unix()) / velocidade;
         var imgVI = document.getElementById('modo_vi');
         var imgAI = document.getElementById('modo_ai');
 
@@ -21,6 +20,8 @@ var influunt;
         var MARGEM_LATERAL = 956 ;
         var MARGEM_SUPERIOR = 70;
         var ALTURA_INTERVALOS = 0;
+        var pagina = 0;
+        var limite = 256;
         var planos = [];
         var modos = [];
         var cursors;
@@ -43,7 +44,6 @@ var influunt;
         var aneis = {};
         var client;
         var repeater;
-        var loadMoreRepeater;
         var started = false;
         var botoes = {};
         var specBotoes = null;
@@ -99,12 +99,14 @@ var influunt;
         }
 
         function moveToLeft() {
-          tempo += (velocidade);
-          relogio.setText((tempo + 1) + 's');
-          desenhaPlanoAtual(getPlanoAtual(tempo));
-          game.camera.x+=(10 * velocidade);
-          atualizaEstadosGruposSemaforicos();
-          atualizaBotoesVisiveis();
+          if(tempo + 1 < limite){
+            tempo += (velocidade);
+            relogio.setText((tempo + 1) + 's');
+            desenhaPlanoAtual(getPlanoAtual(tempo));
+            game.camera.x+=(10 * velocidade);
+            atualizaEstadosGruposSemaforicos();
+            atualizaBotoesVisiveis();
+          }
         }
 
         function moveToRight() {
@@ -135,8 +137,17 @@ var influunt;
         }
 
         function botaoFastFoward(){
-          for(var i =0; i < 10; i++){
-            moveToLeft();
+          if(tempo + 1 >= limite){
+            loadingGroup.visible = true;
+            console.log("Carregar mais 256?");
+            pagina++;
+            limite+=256;
+            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
+            loadMore();
+          }else{
+            for(var i =0; i < 10; i++){
+              moveToLeft();
+            }
           }
         }
 
@@ -145,11 +156,19 @@ var influunt;
         // function botaoExport(){}
 
         function botaoBackward(){
-          moveToRight();
+            moveToRight();
         }
 
         function botaoFoward(){
-          moveToLeft();
+          if(tempo + 1 >= limite){
+            loadingGroup.visible = true;
+            console.log("Carregar mais 256?");
+            pagina++;
+            limite+=256;
+            loadMore();
+          }else{
+            moveToLeft();
+          }
         }
 
         function estagioOut(estagio){
@@ -215,7 +234,7 @@ var influunt;
               value.play('OFF');
             }
           });
-          repeater = game.time.events.repeat(1000, duracaoSimulacao - descolamentoMaximo, moveToLeft, this);
+          repeater = game.time.events.repeat(1000, 1000, moveToLeft, this);
         }
 
         function botaoDetector(detector){
@@ -233,7 +252,6 @@ var influunt;
             message.destinationName = 'simulador/' + config.simulacaoId + '/detector';
             client.send(message);
 
-            game.time.events.remove(loadMoreRepeater);
           }
         }
 
@@ -255,7 +273,6 @@ var influunt;
           message.destinationName = 'simulador/' + config.simulacaoId + '/alternar_modo_manual';
           client.send(message);
 
-          game.time.events.remove(loadMoreRepeater);
         }
 
         function trocarEstagioManual() {
@@ -271,7 +288,6 @@ var influunt;
           message.destinationName = 'simulador/' + config.simulacaoId + '/trocar_estagio';
           client.send(message);
 
-          game.time.events.remove(loadMoreRepeater);
         }
 
         function criaControles(){
@@ -363,9 +379,9 @@ var influunt;
         }
 
         function loadMore() {
-            // var message = new Paho.MQTT.Message('proxima');
-            // message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
-            // client.send(message);
+            var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
+            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
+            client.send(message);
         }
 
         function desenhaAgendamento(x1, x2, y1, y2, color, hLabel) {
@@ -775,16 +791,16 @@ var influunt;
           sprite.inputEnabled = true;
           eventosGroup.add(sprite);
 
-          // if (tooltip) {
-          //   return new Phasetips(game, {
-          //     targetObject: sprite,
-          //     context: tooltip,
-          //     positionOffset: 0,
-          //     position: 'left',
-          //     backgroundColor: 'red',
-          //     enableCursor: true
-          //   });
-          // }
+          if (tooltip) {
+            return new Phasetips(game, {
+              targetObject: sprite,
+              context: tooltip,
+              positionOffset: 0,
+              position: 'left',
+              backgroundColor: 'red',
+              enableCursor: true
+            });
+          }
         }
 
         function desenhaPlano(x,color,label) { return desenhaEventoDoControlador(x, color, label); }
@@ -802,7 +818,7 @@ var influunt;
         function processaAlarmes(alarmes){
           alarmes.forEach(function(alarme){
             var x = (alarme[0] - (inicioSimulacao.unix() * 1000)) / 100;
-            desenhaPlano(x,'#F9A825',alarme[1],alarme[3]);
+            desenhaEventoDoControlador(x,'#F9A825',alarme[1],alarme[3]);
           });
         }
 
@@ -823,7 +839,7 @@ var influunt;
         function create() {
           game.stage.backgroundColor = '#cccccc';
           cursors = game.input.keyboard.createCursorKeys();
-          game.world.setBounds(0, 0, 1000 + (duracaoSimulacao * 10 * Math.max(1,velocidade)), 800);
+          game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
 
           intervalosGroup = game.add.group();
           eventosGroup = game.add.group();
@@ -862,9 +878,6 @@ var influunt;
                 console.log(err);
               }
               loadingGroup.visible = false;
-              if(!loadMoreRepeater){
-                loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
-              }
             }
           };
 
@@ -895,15 +908,13 @@ var influunt;
           data.fixedToCamera = true;
           data.anchor.set(0,1);
 
-
-          loadMoreRepeater = game.time.events.repeat(8000 / velocidade, Math.ceil(duracaoSimulacao / 120) + 1, loadMore, this);
           loadingGroup = game.add.group();
           criaLoading();
         }
 
         function render() {
           if(!started && intervalosGroup.children.length > 0){
-            repeater = game.time.events.repeat(1000, duracaoSimulacao, moveToLeft, this);
+            repeater = game.time.events.repeat(1000, 10000, moveToLeft, this);
             started = true;
             botoes.pause.play('ON');
             botoes.pause.inputEnabled = true;

@@ -279,4 +279,9 @@ public class Detector extends Model implements Cloneable, Serializable {
     public void setComFalha(boolean comFalha) {
         this.comFalha = comFalha;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{0}{1}",getTipo().toString().charAt(0),getPosicao());
+    }
 }
