@@ -192,12 +192,6 @@ public class ParametroSimulacao {
         return sc;
     }
 
-    public void associa() {
-        getDetectores().stream().forEach(parametroSimulacaoDetector -> {
-            parametroSimulacaoDetector.setDetector(parametroSimulacaoDetector.getDetector());
-        });
-    }
-
     public List<ParametroSimulacaoManual> getInsercaoDePlugDeControleManual() {
         return insercaoDePlugDeControleManual;
     }

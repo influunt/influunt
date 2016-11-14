@@ -42,7 +42,6 @@ public class SimuladorController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
         params.setControlador(Controlador.find.byId(params.getIdControlador()));
-        params.associa();
         simulacoes.iniciarSimulacao(params);
         return CompletableFuture.completedFuture(ok(Json.toJson(params.getSimulacaoConfig())));
     }

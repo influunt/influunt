@@ -87,7 +87,8 @@ public class MonitorDeFalhas {
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
         if (cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel)) {
-            retiraVerdeConflitantes.put(anel, ticks + intervalos.getEntreverde().getDuracao() + 10000L);
+            final long duracao = intervalos.getEntreverde() != null ? intervalos.getEntreverde().getDuracao() : 0L;
+            retiraVerdeConflitantes.put(anel, ticks + duracao + 10000L);
         }
         if (!sequenciaCoresValida(intervalos)) {
             motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel, false));

@@ -4,8 +4,10 @@ import engine.EventoMotor;
 import engine.Motor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
+import models.*;
 import models.Anel;
 import models.Detector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -27,7 +29,7 @@ public class TrocaPlanosComEstagioDispensavelTest extends GerenciadorDeTrocasTes
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
         Anel anel = getAnel(2);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancarSegundos(motor, 20);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(20), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
@@ -56,7 +58,7 @@ public class TrocaPlanosComEstagioDispensavelTest extends GerenciadorDeTrocasTes
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
         Anel anel = getAnel(2);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancarSegundos(motor, 20);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(20), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));

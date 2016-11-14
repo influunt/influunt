@@ -4,10 +4,8 @@ import engine.EventoMotor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
 import integracao.ControladorHelper;
-import models.Anel;
-import models.Detector;
-import models.EstadoGrupoSemaforico;
-import models.Plano;
+import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -42,7 +40,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         Anel anel = getAnel(2);
         Plano plano = getPlanoDemandaPrioritaria(anel);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
@@ -83,7 +81,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
 
         Plano plano = getPlanoDemandaPrioritaria(anel);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
@@ -102,7 +100,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         Plano plano = getPlano(anel, 5);
 
         gerenciadorDeEstagios = getGerenciadorDeEstagios(3, plano);
-        Detector detector = getDetector(anel, 4);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 4);
 
         avancar(gerenciadorDeEstagios, 100);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
@@ -165,7 +163,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         Anel anel = getAnel(3);
         Plano plano = getPlano(anel, 6);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(3, plano);
-        Detector detector = getDetector(anel, 4);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 4);
 
         avancar(gerenciadorDeEstagios, 100);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
@@ -239,7 +237,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         Anel anel = getAnel(2);
         anel.setAceitaModoManual(true);
         Plano plano = getPlanoDemandaPrioritaria(anel);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, new DateTime(2016, 10, 10, 0, 0, 0));
 

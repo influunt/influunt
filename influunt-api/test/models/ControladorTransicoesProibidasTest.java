@@ -15,6 +15,7 @@ import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
@@ -377,18 +378,19 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertNotNull("Transição proibida 1 existe", e1e2e4);
         assertNotNull("Transição proibida 2 existe", e1e3e4);
 
-        e1e2e4.setOrigem(estagio3AnelCom4Estagios); // e1e2e4 -> e3e2e4
-        List<TransicaoProibida> tps = new ArrayList<TransicaoProibida>();
-        tps.addAll(estagio1AnelCom4Estagios.getOrigemDeTransicoesProibidas());
-        Iterator<TransicaoProibida> it = tps.iterator();
-        while (it.hasNext()) {
-            TransicaoProibida t = it.next();
-            if (t.getOrigem().getId().equals(estagio1AnelCom4Estagios.getId()) && t.getDestino().getId().equals(estagio2AnelCom4Estagios.getId()) && t.getAlternativo().getId().equals(estagio4AnelCom4Estagios.getId())) {
-                it.remove();
-            }
-        }
-        tps.add(e1e2e4);
-        estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(tps);
+        e1e2e4.setOrigem(estagio3AnelCom4Estagios);
+        e1e2e4.setDestino(estagio2AnelCom4Estagios);
+        e1e2e4.setAlternativo(estagio4AnelCom4Estagios);
+
+
+        estagio3AnelCom4Estagios.setOrigemDeTransicoesProibidas(Arrays.asList(e1e2e4));
+        estagio2AnelCom4Estagios.setDestinoDeTransicoesProibidas(Arrays.asList(e1e2e4));
+
+
+        estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(Arrays.asList(e1e3e4));
+        estagio3AnelCom4Estagios.setDestinoDeTransicoesProibidas(Arrays.asList(e1e3e4));
+
+        estagio4AnelCom4Estagios.setAlternativaDeTransicoesProibidas(Arrays.asList(e1e2e4, e1e3e4));
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -397,14 +399,11 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         assertEquals(OK, postResult.status());
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
-        Controlador controladorRetornado = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-//        e1e2e4 = TransicaoProibida.find.where().eq("origem_id", estagio1AnelCom4Estagios.getId()).eq("destino_id", estagio2AnelCom4Estagios.getId()).eq("alternativo_id", estagio4AnelCom4Estagios.getId()).findUnique();
-//        assertNull("TP não deve existir", e1e2e4);
+        e1e2e4 = TransicaoProibida.find.where().eq("origem_id", estagio1AnelCom4Estagios.getId()).eq("destino_id", estagio2AnelCom4Estagios.getId()).eq("alternativo_id", estagio4AnelCom4Estagios.getId()).findUnique();
+        assertNull("TP não deve existir", e1e2e4);
 
-
-        // TODO Estes testes estão falhando, mas na interface está ok. Issue #678
-//        TransicaoProibida e3e2e4 = TransicaoProibida.find.where().eq("origem_id", estagio3AnelCom4Estagios.getId()).eq("destino_id", estagio2AnelCom4Estagios.getId()).eq("alternativo_id", estagio4AnelCom4Estagios.getId()).findUnique();
-//        assertNotNull("Transição proibida deve existir", e3e2e4);
+        TransicaoProibida e3e2e4 = TransicaoProibida.find.where().eq("origem_id", estagio3AnelCom4Estagios.getId()).eq("destino_id", estagio2AnelCom4Estagios.getId()).eq("alternativo_id", estagio4AnelCom4Estagios.getId()).findUnique();
+        assertNotNull("Transição proibida deve existir", e3e2e4);
     }
 }

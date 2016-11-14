@@ -4,6 +4,7 @@ import engine.EventoMotor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +37,7 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Anel anel = getAnel(2);
         Plano plano = getPlano(anel, 11);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
@@ -68,7 +69,7 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Anel anel = getAnel(2);
         Plano plano = getPlano(anel, 11);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         //Dois chamadas ignora uma
         avancar(gerenciadorDeEstagios, 10);
@@ -108,7 +109,7 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Anel anel = getAnel(2);
         Plano plano = getPlano(anel, 10);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
@@ -135,7 +136,7 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Anel anel = getAnel(2);
         Plano plano = getPlano(anel, 12);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
@@ -167,7 +168,7 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
 
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
@@ -383,7 +384,7 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
 
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
-        Detector detector = getDetector(anel, 1);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
@@ -415,7 +416,10 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 2);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L),
+            TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE,
+            new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo()),
+            1));
         avancar(gerenciadorDeEstagios, 100);
 
         plano.imprimirTabelaEntreVerde();
