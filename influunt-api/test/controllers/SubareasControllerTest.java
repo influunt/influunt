@@ -1,10 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import config.WithInfluuntApplicationNoAuthentication;
-import models.Area;
-import models.Cidade;
-import models.Subarea;
+import models.*;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
@@ -12,6 +13,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -216,6 +218,41 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         assertEquals(OK, postResult.status());
         assertEquals(254, subareaRetornada.getNumero().longValue());
 
+    }
+
+    @Test
+    public void testAssociarControladoresASubarea() {
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("teste");
+        fabricante.save();
+
+        ModeloControlador modelo = new ModeloControlador();
+        modelo.setDescricao("teste");
+        modelo.setFabricante(fabricante);
+        modelo.save();
+
+
+        Controlador controlador = new ControladorTestUtil(area, fabricante, modelo).getControladorDadosBasicos();
+        controlador.save();
+        assertNull(controlador.getSubarea());
+
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNome("Consolação");
+        subarea.setNumero(255);
+
+        JsonNode json = Json.toJson(subarea);
+        ArrayNode controladoresJson = new ObjectMapper().createArrayNode();
+        ObjectNode controladorJson = new ObjectMapper().createObjectNode().put("id", String.valueOf(controlador.getId()));
+        controladoresJson.add(controladorJson);
+        ((ObjectNode)json).put("controladoresAssociados", controladoresJson);
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST").uri(routes.SubareasController.create().url()).bodyJson(json);
+        Result postResult = route(postRequest);
+
+        assertEquals(OK, postResult.status());
+        controlador.refresh();
+        assertNotNull(controlador.getSubarea());
     }
 
 }

@@ -14,6 +14,8 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('subareas');
 
+      var getHelpersControlador, carregaControladoresDaSubarea, carregaControladoresSemSubarea, carregaAreas;
+
       $scope.pesquisa = {
         campos: [
           {
@@ -41,32 +43,59 @@ angular.module('influuntApp')
         ]
       };
 
-      var getHelpersControlador;
       /**
        * Recupera a lista de cidades que podem ser relacionadas à área.
        */
       $scope.beforeShow = function() {
+        if ($scope.$state.current.name === 'app.subareas_show') {
+          carregaControladoresDaSubarea();
+        } else {
+          carregaControladoresSemSubarea();
+        }
+
+        carregaAreas();
+      };
+
+      $scope.afterShow = function() {
+        getHelpersControlador();
+      };
+
+      $scope.onSubmit = function() {
+        $scope.objeto.controladoresAssociados = $scope.objeto.controladoresAssociados.map(function(i) {
+          return {id: i.id};
+        });
+
+        return $scope.save();
+      };
+
+      carregaControladoresDaSubarea = function() {
         var filtroControladores = {
           'page': 0,
           'per_page': 300,
           'subarea.id_eq': $scope.$state.params.id
         };
 
-        Restangular.all('controladores').get('', filtroControladores)
+        return Restangular.all('controladores').get('', filtroControladores)
           .then(function(res) {
             $scope.controladores = res.data;
           })
           .finally(influuntBlockui.unblock);
+      };
 
-        Restangular.all('areas').customGET()
+      carregaControladoresSemSubarea = function() {
+        return Restangular.all('controladores').customGET('sem_subarea')
           .then(function(res) {
-            $scope.areas = res.data;
+            $scope.controladores = res;
           })
           .finally(influuntBlockui.unblock);
       };
 
-      $scope.afterShow = function() {
-        getHelpersControlador();
+      carregaAreas = function() {
+        return Restangular.all('areas').customGET()
+          .then(function(res) {
+            $scope.areas = res.data;
+          })
+          .finally(influuntBlockui.unblock);
       };
 
       getHelpersControlador = function() {

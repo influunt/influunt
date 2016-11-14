@@ -3,7 +3,7 @@
       method="post"
       name="formSubAreas"
       novalidate="novalidate"
-      data-ng-submit="save()">
+      data-ng-submit="onSubmit()">
 
     <div class="form-group">
       <label class="control-label col-sm-2 control-label">{{ 'controladores.cidade' | translate }}:</label>
@@ -13,7 +13,7 @@
           data-ng-options="cidade as cidade.nome for cidade in data.cidades track by cidade.id"></select>
       </div>
     </div>
-    
+
     <div class="form-group" data-ng-class="{'has-error': errors.cidade}">
       <label class="control-label col-sm-2 control-label">{{ 'subareas.area' | translate }}</label>
       <div class="col-sm-9">
@@ -37,6 +37,18 @@
       <div class="col-sm-9">
         <input class="string optional form-control" name="subarea" type="number" data-ng-model="objeto.numero">
         <p class="help-block error-msg" data-ng-repeat="error in errors.numeroUnique">{{ error }}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2 control-label">{{ 'subareas.associarControladores' | translate }}</label>
+      <div class="col-sm-9">
+        <select select2 name="controladores"
+                multiple="multiple"
+                class="form-control"
+                data-ng-options="option.nomeEndereco for option in controladores track by option.id"
+                data-ng-model="objeto.controladoresAssociados">
+        </select>
       </div>
     </div>
 

@@ -300,7 +300,7 @@
   },
   "subareas": {
     "area": "Área",
-    "controladores": "Controladores",
+    "associarControladores": "Associar controladores",
     "editar": "Editar Subárea",
     "mostrar": "Visualizar Subárea",
     "nome": "Nome",
