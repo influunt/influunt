@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
 import models.TipoDetector;
@@ -16,6 +17,7 @@ import org.joda.time.DateTime;
 import play.libs.Json;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,11 +38,12 @@ public class SimuladorActor extends UntypedActor {
 
     private MqttClient client;
 
-    private int pagina = 0;
 
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
     private List<ArrayNode> trocasDePlanos = new ArrayList<>();
+
+    private List<ArrayNode> alarmes = new ArrayList<>();
 
     private String jsonTrocas;
 
@@ -60,7 +63,8 @@ public class SimuladorActor extends UntypedActor {
             opts.setWill("simulador/" + id + "/morreu", "1".getBytes(), 1, true);
             client.connect(opts);
             client.subscribe("simulador/" + id + "/proxima_pagina", 1, (topic, message) -> {
-                proximaPagina();
+                JsonNode root = Json.parse(message.getPayload());
+                proximaPagina(root.get("pagina").asInt());
             });
             client.subscribe("simulador/" + id + "/detector", 1, (topic, message) -> {
                 JsonNode root = Json.parse(message.getPayload());
@@ -81,8 +85,8 @@ public class SimuladorActor extends UntypedActor {
 
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             try {
-                proximaPagina();
-            }catch (Exception e){
+                proximaPagina(0);
+            } catch (Exception e) {
                 e.printStackTrace();
                 send();
             }
@@ -97,25 +101,24 @@ public class SimuladorActor extends UntypedActor {
 
     private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
         simulador.alternarModoManual(disparo, ativar);
-        pagina = 0;
         trocasDePlanos.clear();
+        alarmes.clear();
         estagios.clear();
-        proximaPagina();
+        proximaPagina(0);
     }
 
     private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
-        pagina = 0;
         trocasDePlanos.clear();
+        alarmes.clear();
         estagios.clear();
-        proximaPagina();
+        proximaPagina(0);
     }
 
-    private void proximaPagina() throws Exception {
+    private void proximaPagina(int pagina) throws Exception {
         DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);
-        pagina++;
         send();
     }
 
@@ -138,6 +141,7 @@ public class SimuladorActor extends UntypedActor {
             client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
             estagios.clear();
             trocasDePlanos.clear();
+            alarmes.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -157,6 +161,8 @@ public class SimuladorActor extends UntypedActor {
         ArrayNode trocas = root.putArray("trocas");
         trocasDePlanos.forEach(troca -> trocas.add(troca));
 
+        ArrayNode ala = root.putArray("alarmes");
+        alarmes.forEach(alarme -> ala.add(alarme));
 
         return root.toString();
     }
@@ -178,6 +184,17 @@ public class SimuladorActor extends UntypedActor {
         troca.add(modosJson);
 
         trocasDePlanos.add(troca);
+
+    }
+
+    public void storeAlarme(DateTime timestamp, EventoMotor eventoMotor) {
+        ArrayNode alarme = Json.newArray();
+
+        alarme.add(timestamp.getMillis());
+        alarme.add(eventoMotor.getTipoEvento().getCodigo());
+        alarme.add(eventoMotor.getTipoEvento().toString());
+        alarme.add(eventoMotor.getTipoEvento().getMessage(Arrays.toString(eventoMotor.getParams())));
+        alarmes.add(alarme);
 
     }
 }

@@ -6,7 +6,6 @@ import engine.EventoMotor;
 import engine.TipoEvento;
 import json.deserializers.simulacao.ParametroSimulacaoDetectorDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import models.Detector;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;

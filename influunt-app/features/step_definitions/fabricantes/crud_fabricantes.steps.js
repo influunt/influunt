@@ -94,6 +94,12 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^o sistema deverá apresentar a mensagem "([^"]*)"$/, function (mensagem) {
+    return fabricantesPage.toastMessage().then(function(text) {
+      expect(text).to.match(new RegExp(mensagem));
+    });
+  });
+
   this.Given(/^o fabricante deverá ser excluido$/, function() {
     return fabricantesPage.toastMessage().then(function(text) {
       expect(text).to.match(/Removido com sucesso/);

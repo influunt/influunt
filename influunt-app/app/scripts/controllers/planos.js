@@ -64,10 +64,21 @@ angular.module('influuntApp')
               }
             });
 
+            $scope.configuraModoManualExclusivo();
             $scope.selecionaAnelPlanos(0);
             return atualizaDiagramaIntervalos();
           })
           .finally(influuntBlockui.unblock);
+      };
+
+      $scope.configuraModoManualExclusivo = function() {
+        $scope.obrigaModoManualExclusivo = _.filter($scope.objeto.aneis, {ativo: true, aceitaModoManual: true}).length > 1;
+        _
+          .chain($scope.objeto.planos)
+          .filter({modoOperacao: 'MANUAL'})
+          .each(function(p) {
+            p.configurado = p.configurado || $scope.obrigaModoManualExclusivo;
+          }).value();
       };
 
       $scope.clonarPlanos = function(controladorId) {
@@ -217,19 +228,8 @@ angular.module('influuntApp')
       $scope.removerEstagioPlano = function(estagioPlano) {
         influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            //Remover do plano
-            var estagioPlanoIndex = _.findIndex($scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson});
-            $scope.currentPlano.estagiosPlanos.splice(estagioPlanoIndex, 1);
-
-            //Remover do objeto
-            var index = _.findIndex($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-            $scope.objeto.estagiosPlanos.splice(index, 1);
-
-            //Remover do estagio
-            var estagio = _.find($scope.objeto.estagios, {idJson: estagioPlano.estagio.idJson});
-            index = _.findIndex(estagio.estagiosPlanos, {idJson: estagioPlano.idJson});
-            estagio.estagiosPlanos.splice(index, 1);
-
+            var ep = _.find($scope.objeto.estagiosPlanos, { idJson: estagioPlano.idJson });
+            ep.destroy = true;
             $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
           }
         });
@@ -300,13 +300,16 @@ angular.module('influuntApp')
         selecionaAnel(index);
 
         var indexPlano = 0;
+        var deveAtivarPlano = false;
         if (angular.isDefined($scope.currentPlano)) {
           indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
+          deveAtivarPlano = $scope.currentPlano.configurado;
         }
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
-        $scope.currentPlano.configurado = true;
+        // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
+        $scope.currentPlano.configurado = $scope.currentPlano.configurado || deveAtivarPlano;
       };
 
       $scope.selecionaPlano = function(plano, index) {
@@ -519,7 +522,7 @@ angular.module('influuntApp')
       getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
         var erros = [];
         var errosSequencia;
-        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalida');
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaValida');
         if (errosSequencia) {
           erros.push(errosSequencia[0]);
         }
@@ -683,7 +686,9 @@ angular.module('influuntApp')
           tempoEstagiosPlanos[anelIndex] = [];
           tempoCiclo[anelIndex] = [];
           _.forEach(anel.planos, function(plano, planoIndex) {
-            var estagiosPlanos = _.filter($scope.objeto.estagiosPlanos, { plano: { idJson: plano.idJson } });
+            var estagiosPlanos = _.filter($scope.objeto.estagiosPlanos, function(ep) {
+              return !ep.destroy && ep.plano.idJson === plano.idJson;
+            });
             tempoEstagiosPlanos[anelIndex][planoIndex] = _.sumBy(estagiosPlanos, 'tempoEstagio') || 0;
 
             plano = _.find($scope.objeto.planos, { idJson: plano.idJson });

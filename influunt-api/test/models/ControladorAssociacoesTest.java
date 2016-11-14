@@ -12,6 +12,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.List;
@@ -219,7 +220,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorAssociacao();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControladorAnelAssociacao(controlador, controladorJson);
@@ -277,7 +278,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -293,7 +294,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorAssociacao();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -357,7 +358,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico42);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoGruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 

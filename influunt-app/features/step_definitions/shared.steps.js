@@ -143,4 +143,12 @@ module.exports = function() {
     return sharedSteps.removeSelect2Option(opcao, campo);
   });
 
+  this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
+    var campo = '#estagio-alternativo-'+transicao+'';
+    var selectSelector = 'select[name="alternativos"]';
+    var optionAtribute = 'label';
+    var value = ''+alternativa+'';
+
+    return sharedSteps.selectBySelectOptionAtribute(campo, selectSelector, optionAtribute, value);
+  });
 };

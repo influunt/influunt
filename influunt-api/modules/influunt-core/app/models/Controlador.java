@@ -15,6 +15,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -140,6 +141,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
 
+    @JsonIgnore
+    @Transient
+    private RangeUtils rangeUtils;
+
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
@@ -206,6 +211,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteTransicoesProibidas(this);
         deleteTabelasEntreVerdes(this);
         deleteEventos(this);
+        deleteEstagiosPlanos(this);
         this.criarPossiveisTransicoes();
     }
 
@@ -290,6 +296,22 @@ public class Controlador extends Model implements Cloneable, Serializable {
                     estagio.getAlternativaDeTransicoesProibidas().forEach(transicaoProibida -> {
                         if (transicaoProibida.isDestroy()) {
                             transicaoProibida.delete();
+                        }
+                    });
+                });
+            });
+        }
+    }
+
+    private void deleteEstagiosPlanos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+                anel.getVersoesPlanos().forEach(versaoPlano -> {
+                    versaoPlano.getPlanos().forEach(plano -> {
+                        if (plano != null) {
+                            plano.getEstagiosPlanos().stream()
+                                .filter(EstagioPlano::isDestroy)
+                                .forEach(EstagioPlano::delete);
                         }
                     });
                 });
@@ -817,10 +839,18 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public Detector getDetector(Detector detector) {
 
         return aneis.stream().map(Anel::getDetectores).collect(Collectors.toSet()).stream()
-                    .flatMap(Collection::stream)
-                    .collect(Collectors.toSet())
-                    .stream()
-                    .filter(detector1 -> detector1.equals(detector))
-                    .findFirst().orElse(null);
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet())
+            .stream()
+            .filter(detector1 -> detector1.equals(detector))
+            .findFirst().orElse(null);
+    }
+
+    public RangeUtils getRangeUtils() {
+        return rangeUtils;
+    }
+
+    public void setRangeUtils(RangeUtils rangeUtils) {
+        this.rangeUtils = rangeUtils;
     }
 }

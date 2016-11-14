@@ -180,8 +180,8 @@ var Phasetips = function Phasetips(localGame, options) {
                 }
             } else {
                 var worldPos = _options.targetObject ? _options.targetObject.world : game.world;
-                objectX = worldPos.x || _options.targetObject.x;
-                objectY = worldPos.y || _options.targetObject.y;
+                var objectX = worldPos.x || _options.targetObject.x;
+                var objectY = worldPos.y || _options.targetObject.y;
 
                 // sanity check
                 if (_position === "bottom") {

@@ -8,7 +8,6 @@ import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
 
-import static engine.TipoEventoParamsTipoDeDado.tipo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

@@ -16,6 +16,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -49,7 +50,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -57,7 +58,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
 
         postRequest = new Http.RequestBuilder().method("POST")
-            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         postResult = route(postRequest);
         json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorClonado = new ControladorCustomDeserializer().getControladorFromJson(json);
@@ -70,7 +71,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         postRequest = new Http.RequestBuilder().method("POST")
             .uri(routes.ControladoresController.edit(controladorClonado.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado, Cidade.find.all(), RangeUtils.getInstance(null)));
         postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -99,7 +100,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
             .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
         assertEquals(200, postResult.status());
 
@@ -114,7 +115,9 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
-        assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
+        versaoControlador = VersaoControlador.find.byId(controladorClonado.getVersaoControlador().getId());
+        assertNotEquals(versaoControlador, null);
+        assertEquals("Total de Versoes", 2, versaoControlador.getControladorFisico().getVersoes().size());
 
         // tabela horária
         VersaoTabelaHoraria versaoAntiga = controlador.getVersoesTabelasHorarias().get(0);
@@ -359,7 +362,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
             .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         Result postResult = route(postRequest);
         assertEquals(200, postResult.status());
@@ -441,7 +444,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
             .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
@@ -511,7 +514,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         for (int i = 2; i < 7; i++) {
             Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
             Result result = route(request);
             JsonNode json = Json.parse(Helpers.contentAsString(result));
@@ -525,7 +528,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
             request = new Http.RequestBuilder().method("POST")
                 .uri(routes.PlanosController.create().url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado, Cidade.find.all(), RangeUtils.getInstance(null)));
 
             result = route(request);
             json = Json.parse(Helpers.contentAsString(result));
@@ -558,7 +561,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
             .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -589,7 +592,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         request = new Http.RequestBuilder().method("POST")
             .uri(routes.TabelaHorariosController.create().url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         result = route(request);
         assertEquals(OK, result.status());
@@ -621,7 +624,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         for (int i = 2; i < 7; i++) {
             Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
                 .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
             Result result = route(request);
             assertEquals(OK, result.status());
@@ -638,7 +641,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
             request = new Http.RequestBuilder().method("POST")
                 .uri(routes.TabelaHorariosController.create().url())
-                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+                .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado, Cidade.find.all(), RangeUtils.getInstance(null)));
 
             result = route(request);
             json = Json.parse(Helpers.contentAsString(result));
@@ -683,7 +686,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
             .uri(routes.ControladoresController.editarPlanos(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -697,7 +700,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         request = new Http.RequestBuilder().method("POST")
             .uri(routes.PlanosController.create().url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controladorClonado, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         result = route(request);
         assertEquals(OK, result.status());
@@ -719,7 +722,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
             .uri(routes.ControladoresController.editarTabelaHoraria(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -760,7 +763,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         // criar nova versão do controlador
         request = new Http.RequestBuilder().method("POST")
             .uri(routes.ControladoresController.edit(controlador.getId().toString()).url())
-            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         result = route(request);
         assertEquals(200, result.status());
 

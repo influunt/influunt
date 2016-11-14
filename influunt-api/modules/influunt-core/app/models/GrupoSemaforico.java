@@ -378,7 +378,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança veicular deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldVeicular() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.VEICULAR)) {
-            return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
+            return RangeUtils.getInstance(null).TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
         }
         return true;
     }
@@ -386,7 +386,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança pedestre deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldPedestre() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)) {
-            return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
+            return RangeUtils.getInstance(null).TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
         }
         return true;
     }

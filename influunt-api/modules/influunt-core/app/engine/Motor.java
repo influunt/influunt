@@ -11,8 +11,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static tyrex.util.Configuration.console;
-
 
 /**
  * Created by rodrigosol on 9/26/16.
@@ -48,9 +46,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
         this.instante = inicioExecucao;
         this.motorEventoHandler = new MotorEventoHandler(this);
-        this.monitor = new MonitorDeFalhas(this.motorEventoHandler,controlador.getAneis().stream().map(Anel::getDetectores)
-                                                                              .flatMap(Collection::stream)
-                                                                              .collect(Collectors.toList()));
+        this.monitor = new MonitorDeFalhas(this.motorEventoHandler, controlador.getAneis().stream().map(Anel::getDetectores)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList()));
 
 
         this.controlador.getAneis().stream().forEach(anel ->
@@ -65,7 +63,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
 
-    public void tick() throws Exception{
+    public void tick() throws Exception {
         Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {
@@ -126,7 +124,11 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        motorEventoHandler.handle(eventoMotor);
+        if (eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
+            callback.onAlarme(instante, eventoMotor);
+        } else {
+            motorEventoHandler.handle(eventoMotor);
+        }
     }
 
     public List<GerenciadorDeEstagios> getEstagios() {

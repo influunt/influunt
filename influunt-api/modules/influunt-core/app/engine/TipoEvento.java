@@ -44,6 +44,8 @@ public enum TipoEvento {
     FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 11, "Verdes conflitantes", "Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
     FALHA_VERDES_CONFLITANTES_REMOCAO(TipoEventoControlador.FALHA, 12, "Verdes conflitantes removido", "Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
+    FALHA_WATCH_DOG(TipoEventoControlador.FALHA, 13, "Falha CPU", "Falha CPU", null),
+    FALHA_MEMORIA(TipoEventoControlador.FALHA, 14, "Falha Memoria", "Falha Memoria", null),
 
 
     //Detector

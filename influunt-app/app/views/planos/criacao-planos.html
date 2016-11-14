@@ -117,7 +117,11 @@
                                   data-ng-class="{active: $index === currentPlanoIndex}"
                                   class="item-menu",
                                   id="plano_{{plano.posicao}}">
-                                    <input type="checkbox" ichecks data-ng-model="plano.configurado" data-if-unchecked="resetarPlano(plano, $index)" data-is-disabled="plano.posicao === 1 || somenteVisualizacao" data-if-changed="selecionaPlano(plano, $index)">
+                                    <input type="checkbox"
+                                        ichecks data-ng-model="plano.configurado"
+                                        data-if-unchecked="resetarPlano(plano, $index)"
+                                        data-is-disabled="plano.posicao === 1 || (plano.modoOperacao === 'MANUAL' && obrigaModoManualExclusivo) || somenteVisualizacao"
+                                        data-if-changed="selecionaPlano(plano, $index)">
 
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
                                       {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : plano.posicao }}
@@ -204,10 +208,11 @@
                                     </uib-alert>
 
                                     <ul class="ui-sortable planos">
-                                      <!-- elementos para adicionar novos estágios à sequencia -->
+                                      <!-- elementos para adicionar novos estágios à sequência -->
                                       <li class="ui-state-default card-estagio add-card-estagio"
                                           data-ng-repeat="estagio in currentEstagios | estagioForaSequencia:currentEstagiosPlanos"
-                                          data-ng-click="adicionarEstagio(estagio)">
+                                          data-ng-click="adicionarEstagio(estagio)"
+                                          data-ng-if="!somenteVisualizacao">
                                         <div class="add-card-container">
                                           <p>+E{{ estagio.posicao }}</p>
                                         </div>
@@ -221,16 +226,16 @@
                                             data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}"
                                             ng-init="$$cacheEstagio = getEstagio(estagioPlano)">
                                           <div class="sortable">
-                                              <h4 class="ng-binding" id="E{{ $$cacheEstagio.posicao }}">
-                                                <span class="badge badge-danger"
-                                                  data-ng-if="getErrosEstagiosPlanos($index)"
-                                                  inf-tooltip messages="getErrosEstagiosPlanos($index)">
-                                                  <i class="fa fa-exclamation"></i>
-                                                </span>
-                                                E{{ $$cacheEstagio.posicao }}
-                                                <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="(currentEstagiosPlanos.length > 2) && !somenteVisualizacao"></i>
-                                                <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagio(estagioPlano.estagio)" aria-hidden="true" ng-if="!somenteVisualizacao"></i>
-                                              </h4>
+                                            <h4 class="ng-binding" id="E{{ $$cacheEstagio.posicao }}">
+                                              <span class="badge badge-danger"
+                                                data-ng-if="getErrosEstagiosPlanos($index)"
+                                                inf-tooltip messages="getErrosEstagiosPlanos($index)">
+                                                <i class="fa fa-exclamation"></i>
+                                              </span>
+                                              E{{ $$cacheEstagio.posicao }}
+                                              <i class="fa fa-trash pull-right opcoes-plano-estagio" data-ng-click="removerEstagioPlano(estagioPlano, $index)" data-ng-if="(currentEstagiosPlanos.length > 2) && !somenteVisualizacao"></i>
+                                              <i class="fa fa-files-o pull-right opcoes-plano-estagio" data-ng-click="adicionarEstagio(estagioPlano.estagio)" aria-hidden="true" ng-if="!somenteVisualizacao"></i>
+                                            </h4>
                                             <figure>
                                               <img ng-src="{{ $$cacheEstagio.imagem.id | imageSource }}" width="100%">
                                             </figure>

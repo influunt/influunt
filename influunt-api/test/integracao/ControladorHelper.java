@@ -644,6 +644,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         Plano plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 10, 10});
 
+        plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
+
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
@@ -669,6 +672,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel = getAnel(2);
         criaVersaoPlanos(anel);
         plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
@@ -710,6 +716,13 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 12, 14, 11}, false);
+
+        plano = criarPlano(anel, 2, ModoOperacaoPlano.ATUADO, null);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 10, 11, 11}, true);
+
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
@@ -785,6 +798,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("22:02:00"), 6);
 
         criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
+
+        criarEvento(tabelaHoraria, 12, DiaDaSemana.SEGUNDA, LocalTime.parse("23:00:00"), 2);
 
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);

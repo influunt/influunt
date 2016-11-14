@@ -140,3 +140,21 @@
 .mapa-container .acoes .btn {
   min-width: 180px;
 }
+
+.agrupamento-sample {
+  border: 0.3em dashed;
+  width: 50px;
+  height: 12px;
+}
+
+.agrupamento-sample.rota {
+  border-color: #555;
+}
+
+.agrupamento-sample.corredor {
+  border-color: #2196f3;
+}
+
+.agrupamento-sample.subarea {
+  border-color: #4caf50;
+}

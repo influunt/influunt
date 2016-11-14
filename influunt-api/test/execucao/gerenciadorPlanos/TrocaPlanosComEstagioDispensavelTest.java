@@ -5,6 +5,8 @@ import engine.Motor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
 import models.*;
+import models.Anel;
+import models.Detector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;

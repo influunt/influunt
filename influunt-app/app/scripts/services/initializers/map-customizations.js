@@ -19,12 +19,12 @@ angular.module('influuntApp')
       dist = dist / 6371;
       brng = brng.toRad();
 
-      var lat1 = this.lat.toRad(), lon1 = this.lng.toRad();
+      var lat1 = this.lat.toRad(), lng1 = this.lng.toRad();
 
       var lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) +
                  Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
 
-      var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) *
+      var lon2 = lng1 + Math.atan2(Math.sin(brng) * Math.sin(dist) *
                         Math.cos(lat1),
                         Math.cos(dist) - Math.sin(lat1) *
                         Math.sin(lat2));
@@ -37,6 +37,31 @@ angular.module('influuntApp')
     };
 
     /**
+     * http://stackoverflow.com/questions/4656802/midpoint-between-two-latitude-and-longitude
+     *
+     * @param      {<type>}  latLng  The lat lng
+     */
+    L.LatLng.prototype.getMidPointTo = function(latLng) {
+      var lng = (latLng.lng - this.lng).toRad();
+
+      var lat1 = this.lat.toRad();
+      var lng1 = this.lng.toRad();
+      var lat2 = latLng.lat.toRad();
+      var lng2 = latLng.lng.toRad();
+
+      var bx = Math.cos(lat2) * Math.cos(lng);
+      var by = Math.cos(lat2) * Math.sin(lng);
+
+      var lat3 = Math.atan2(
+        Math.sin(lat1) + Math.sin(lat2),
+        Math.sqrt((Math.cos(lat1) + bx) * (Math.cos(lat1) + bx) + by * by)
+      );
+      var lng3 = lng1 + Math.atan2(by, Math.cos(lat1) + bx);
+
+      return new L.LatLng(lat3.toDeg(), lng3.toDeg());
+    };
+
+    /**
      * retorna a centroide do poligono. Formula utilizada disponivel em:
      * http://dan-scientia.blogspot.com.br/2009/10/centroide-de-um-poligono.html
      */
@@ -45,6 +70,20 @@ angular.module('influuntApp')
       latLngList.push(latLngList[0]);
       var area = getArea(latLngList);
       return new L.LatLng(getXCentroid(latLngList, area), getYCentroid(latLngList, area));
+    };
+
+    L.LatLng.getPointsBetween = function(lat1, lat2, maxDistance) {
+      var points = [];
+
+      var midPoint = lat1.getMidPointTo(lat2);
+      if (lat1.distanceTo(lat2) > maxDistance) {
+        points.push(L.LatLng.getPointsBetween(lat1, midPoint, maxDistance));
+        points.push(L.LatLng.getPointsBetween(midPoint, lat2, maxDistance));
+      } else {
+        points.push(midPoint);
+      }
+
+      return _.flatten(points);
     };
 
     L.LabelOverlay = L.Class.extend({

@@ -1,7 +1,6 @@
 package engine;
 
 import models.Anel;
-import models.Detector;
 import models.GrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
@@ -77,9 +76,17 @@ public class MotorEventoHandler {
                 break;
 
             case FALHA_SEQUENCIA_DE_CORES:
-            case FALHA_VERDES_CONFLITANTES_REMOCAO:
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
                 handleFalhaAnel(eventoMotor);
+                break;
+
+            case FALHA_VERDES_CONFLITANTES_REMOCAO:
+                handleRemoveFalhaAnel(eventoMotor);
+                break;
+
+            case FALHA_WATCH_DOG:
+            case FALHA_MEMORIA:
+                handleFalhaControlador(eventoMotor);
                 break;
 
             case ALARME_AMARELO_INTERMITENTE:
@@ -92,6 +99,18 @@ public class MotorEventoHandler {
 
         }
 
+    }
+
+    private void handleRemoveFalhaAnel(EventoMotor eventoMotor) {
+        Integer anel = (Integer) eventoMotor.getParams()[0];
+        eventoMotor.setParams(new Object[]{anel, getMotor().getPlanoAtual(anel)});
+        motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+    }
+
+    private void handleFalhaControlador(EventoMotor eventoMotor) {
+        motor.getEstagios().forEach(gerenciadorDeEstagios -> {
+            gerenciadorDeEstagios.onEvento(eventoMotor);
+        });
     }
 
     private void handleFalhaAnel(EventoMotor eventoMotor) {

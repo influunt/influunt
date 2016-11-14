@@ -120,3 +120,13 @@
     }
   }
 }
+
+.agrupamento-sample {
+  border: 0.3em dashed;
+  width: 50px;
+  height: 12px;
+
+  &.rota { border-color: #555; }
+  &.corredor { border-color: #2196f3; }
+  &.subarea { border-color: #4caf50; }
+}
