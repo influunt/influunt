@@ -65,6 +65,19 @@ var MapasPage = function () {
     });
   };
 
+  this.checkAgrupamentoMapa = function(numAgrupamento) {
+    return world.waitForOverlayDisappear();
+    return world.sleep(500).then(function(){
+      return world.waitForByXpath('//div[contains(@class, "marker-cluster")]//span[contains(text(), "'+numAgrupamento+'")]');
+    });
+  };
+
+  this.clicarAgrupamentoMapa = function(numAgrupamento) {
+    return world.sleep(500).then(function(){
+      return world.getElementByXpath('//div[contains(@class, "marker-cluster")]//span[contains(text(), "'+numAgrupamento+'")]').click();
+    });
+  };
+
   this.alertEnviarPlano = function() {
     return world.sleep(500).then(function(){
       return world.getTextInSweetAlert();
