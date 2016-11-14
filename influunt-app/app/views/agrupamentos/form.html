@@ -20,7 +20,7 @@
 
       <div class="form-group" data-ng-class="{ 'has-error': errors.numero }">
         <label class="control-label">{{ 'agrupamentos.numero' | translate }}</label>
-        <input class="number form-control" name="numero" type="number" data-ng-model="objeto.numero">
+        <input class="number form-control" name="numero" type="number" min="1" data-ng-model="objeto.numero">
         <p class="help-block error-msg" data-ng-repeat="error in errors.numero">{{ error }}</p>
       </div>
 

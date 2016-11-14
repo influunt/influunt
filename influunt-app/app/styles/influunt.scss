@@ -1638,6 +1638,12 @@ header .nav-secon li a {
         color: white;
     }
 
+    span.badge.empty-badge {
+      padding-left: 1em;
+      padding-top: 1em;
+      margin-right: 1em;
+    }
+
     tr td span.badge.badge-danger.badge-notification {
         margin-top: -5px;
     }
