@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
+import engine.GerenciadorDeEstagiosHelper;
 import engine.IntervaloEstagio;
 import models.EstagioPlano;
 import models.Plano;
@@ -15,6 +16,8 @@ import java.util.Map;
  * Created by rodrigosol on 10/24/16.
  */
 public abstract class GerenciadorDeEventos {
+    protected abstract void processar(EventoMotor eventoMotor);
+
     protected final Plano plano;
 
     protected final EstagioPlano estagioPlanoAtual;
@@ -75,46 +78,14 @@ public abstract class GerenciadorDeEventos {
         }
     }
 
-    protected abstract void processar(EventoMotor eventoMotor);
-
     protected void reduzirTempoEstagio(EstagioPlano estagioPlanoAnterior,
-                                       RangeMap<Long, IntervaloEstagio> intervalos,
-                                       long contadorIntervalo) {
-        final long contador;
-        if (intervalos.get(contadorIntervalo) != null) {
-            Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
-            IntervaloEstagio intervalo = range.getValue();
-            if (intervalo.isEntreverde()) {
-                range = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-                intervalo = range.getValue();
-                contador = 0L;
-            } else {
-                contador = contadorIntervalo - range.getKey().lowerEndpoint();
-            }
-            long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
-            intervalo.setDuracao(duracao);
-            intervalos.remove(range.getKey());
-            final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
-            intervalos.put(novoRange, intervalo);
-        }
+                                           RangeMap<Long, IntervaloEstagio> intervalos,
+                                           long contadorIntervalo) {
+        GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
     }
 
     protected void terminaTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
                                        long contadorIntervalo) {
-        if (intervalos.get(contadorIntervalo) != null) {
-            Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
-            IntervaloEstagio intervalo = range.getValue();
-
-            if (intervalo.isEntreverde()) {
-                final Map.Entry<Range<Long>, IntervaloEstagio> rangeVerde = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-                intervalos.remove(rangeVerde.getKey());
-            }
-
-            final long duracao = contadorIntervalo - range.getKey().lowerEndpoint();
-            intervalo.setDuracao(duracao);
-            intervalos.remove(range.getKey());
-            final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
-            intervalos.put(novoRange, intervalo);
-        }
+        GerenciadorDeEstagiosHelper.terminaTempoEstagio(intervalos, contadorIntervalo);
     }
 }

@@ -24,4 +24,9 @@ public class GeradorSequenciaPartida extends GeradorDeIntervalos {
         geraIntervaloEstagio(estagioPlano, 8000L, estagioPlano.getTempoVerdeEstagio() * 1000L);
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
     }
+
+    @Override
+    public Long getTempoAbatimentoCoordenado() {
+        return null;
+    }
 }

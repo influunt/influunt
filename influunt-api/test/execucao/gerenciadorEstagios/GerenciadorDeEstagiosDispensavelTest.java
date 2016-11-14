@@ -5,6 +5,7 @@ import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
 import models.*;
 import org.apache.commons.math3.util.Pair;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -167,7 +168,8 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         EstagioPlano estagioPlano3 = plano.getEstagiosPlanos().stream().filter(ep -> ep.getEstagio().getPosicao().equals(1)).findFirst().get();
         estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, new DateTime(2016, 10, 10, 0, 0, 0));
+
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
@@ -383,7 +385,8 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         EstagioPlano estagioPlano3 = getEstagioPlano(plano, 2);
         estagioPlano.setEstagioQueRecebeEstagioDispensavel(estagioPlano3);
 
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, new DateTime(2016, 11, 15, 23, 0, 0));
+
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);

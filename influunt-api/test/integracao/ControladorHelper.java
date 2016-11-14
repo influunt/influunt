@@ -647,6 +647,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
+
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
@@ -676,6 +679,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        plano.setDefasagem(10);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 11, 10});
 
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
@@ -800,6 +807,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
 
         criarEvento(tabelaHoraria, 12, DiaDaSemana.SEGUNDA, LocalTime.parse("23:00:00"), 2);
+
+        criarEvento(tabelaHoraria, 13, DiaDaSemana.TERCA, LocalTime.parse("23:00:00"), 3);
 
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);

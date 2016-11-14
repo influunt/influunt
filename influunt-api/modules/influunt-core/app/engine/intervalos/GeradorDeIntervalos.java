@@ -12,10 +12,15 @@ import org.apache.commons.math3.util.Pair;
 import java.util.HashMap;
 import java.util.List;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 /**
  * Created by rodrigosol on 10/24/16.
  */
 public abstract class GeradorDeIntervalos {
+    public abstract Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(final int index);
+    public abstract Long getTempoAbatimentoCoordenado();
+
     protected final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
 
     protected final ModoOperacaoPlano modoAnterior;
@@ -42,7 +47,7 @@ public abstract class GeradorDeIntervalos {
     public static GeradorDeIntervalos getInstance(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                                                   ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                                                   EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
-                                                  int index) {
+                                                  int index, Long tempoAbatimentoCoordenado) {
         if (!plano.isModoOperacaoVerde() && (index == 0 || (!listaEstagioPlanos.isEmpty() && !listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()))) {
             return new GeradorIntermitente(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else if (!isModoAnteriorVerde(modoAnterior)) {
@@ -51,15 +56,13 @@ public abstract class GeradorDeIntervalos {
             }
             return new GeradorSequenciaPartida(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else {
-            return new GeradorModosVerde(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+            return new GeradorModosVerde(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde, tempoAbatimentoCoordenado);
         }
     }
 
     protected static boolean isModoAnteriorVerde(ModoOperacaoPlano modoAnterior) {
         return !ModoOperacaoPlano.APAGADO.equals(modoAnterior) && !ModoOperacaoPlano.INTERMITENTE.equals(modoAnterior);
     }
-
-    public abstract Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(final int index);
 
     protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde) {
         this.intervalos = TreeRangeMap.create();

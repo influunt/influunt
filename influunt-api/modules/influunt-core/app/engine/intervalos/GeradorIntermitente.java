@@ -63,6 +63,11 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
     }
 
+    @Override
+    public Long getTempoAbatimentoCoordenado() {
+        return null;
+    }
+
     private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio) {
         Estagio estagio = new Estagio();
         estagio.setTempoMaximoPermanenciaAtivado(false);

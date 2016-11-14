@@ -58,6 +58,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private AgendamentoTrocaPlano agendamento = null;
 
+    private Long tempoAbatimentoCoordenado = null;
+
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -84,6 +86,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
+        } else if (this.agendamento != null && this.agendamento.getPlano().isTempoFixoCoordenado()){
+            tempoAbatimentoCoordenado = verificarETrocaCoordenado(intervalo);
         } else {
             intervalo = verificaETrocaIntervalo(intervalo);
         }
@@ -94,6 +98,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
         tempoDecorrido += 100L;
 
         monitoraTempoMaximoDePermanenciaDoEstagio();
+    }
+
+    private Long verificarETrocaCoordenado(IntervaloEstagio intervalo) {
+        return GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -218,6 +226,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             if (this.plano.isTempoFixoIsolado() || this.plano.isAtuado()) {
                 atualizaListaEstagiosNovoPlano(listaOriginalEstagioPlanos);
+            } else if (this.plano.isTempoFixoCoordenado()) {
+                final Evento evento = motor.getEventoAtual();
+                this.listaEstagioPlanos = listaEstagioPlanosSincronizada(this.plano.getEstagiosOrdenados(), evento.getMomentoEntrada(getAnel()));
             } else {
                 this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
             }
@@ -239,13 +250,30 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
     }
 
+    private List<EstagioPlano> listaEstagioPlanosSincronizada(List<EstagioPlano> estagiosOrdenados, Long momentoEntrada) {
+        List<EstagioPlano> novaLista = new ArrayList<>();
+        final long[] tempoRestante = {momentoEntrada};
+        estagiosOrdenados.stream().forEach(estagioPlano -> {
+            final long duracaoEstagio = estagioPlano.getDuracaoEstagio() * 1000L;
+            if (tempoRestante[0] >= duracaoEstagio) {
+                tempoRestante[0] -= duracaoEstagio;
+            } else {
+                novaLista.add(estagioPlano);
+            }
+        });
+        tempoAbatimentoCoordenado += tempoRestante[0];
+        return novaLista;
+    }
+
     private void geraIntervalos(Integer index) {
         GeradorDeIntervalos gerador = GeradorDeIntervalos.getInstance(this.intervalos, this.plano,
             this.modoAnterior, this.listaEstagioPlanos,
             this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
-            index);
+            index, tempoAbatimentoCoordenado);
 
         Pair<Integer, RangeMap<Long, IntervaloEstagio>> resultado = gerador.gerar(index);
+
+        this.tempoAbatimentoCoordenado = gerador.getTempoAbatimentoCoordenado();
 
         this.contadorEstagio += resultado.getFirst();
         this.intervalos = resultado.getSecond();

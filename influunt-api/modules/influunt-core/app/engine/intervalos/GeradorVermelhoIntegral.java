@@ -26,4 +26,9 @@ public class GeradorVermelhoIntegral extends GeradorDeIntervalos {
         geraIntervaloEstagio(estagioPlano, 3000L, estagioPlano.getTempoVerdeEstagio() * 1000L);
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
     }
+
+    @Override
+    public Long getTempoAbatimentoCoordenado() {
+        return null;
+    }
 }
