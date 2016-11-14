@@ -127,9 +127,6 @@ public class SubareasController extends Controller {
                     controlador.save();
                 }
             });
-//            controladoresJson.elements().forEachRemaining(controladorJson -> {
-//
-//            });
         }
     }
 
