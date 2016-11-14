@@ -227,17 +227,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plus(100)).get(1).getEstagio().getPosicao());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(10)).get(1).getEstagio().getPosicao().intValue());
-        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(57).plus(100)).get(1).getEstagio().getPosicao());
-        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-
-        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-
-        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
-
-        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
-
-        verificaGruposSemaforicos(57, 100, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(10).plus(100)).get(1).getEstagio().getPosicao().intValue());
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(57).plus(200)).get(1).getEstagio().getPosicao());
     }
 
     @Test
