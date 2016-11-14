@@ -29,7 +29,7 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
         Detector detector = gerenciadorDeEstagios.getDetector(key.getFirst(), key.getSecond());
 
         if (detector.isComFalha()) {
-            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_PEDESTRE_REMOCAO, detector));
+            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.FALHA_DETECTOR_PEDESTRE_REMOCAO, key,detector.getAnel().getPosicao()));
         }
 
         EstagioPlano estagioPlano = plano.getEstagiosPlanos()

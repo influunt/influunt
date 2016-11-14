@@ -4,6 +4,7 @@ import com.google.common.collect.RangeMap;
 import models.Detector;
 import models.EstadoGrupoSemaforico;
 import models.Plano;
+import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -59,7 +60,10 @@ public class MonitorDeFalhas {
             if(newValue.getSecond().equals(newValue.getFirst())){
                 TipoEvento tv = entry.getKey().isPedestre() ? TipoEvento.FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO :
                                                               TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO;
-                motorEventoHandler.handle(new EventoMotor(timestamp, tv, entry.getKey(),entry.getKey()));
+                motorEventoHandler.handle(new EventoMotor(timestamp, tv,
+                    new Pair<Integer, TipoDetector>(entry.getKey().getPosicao(),entry.getKey().getTipo()),
+                    entry.getKey().getAnel().getPosicao()));
+
                 newValue = new Pair<Long, Long>(entry.getValue().getFirst(), 0L);
             }
             ausenciaDeteccao.put(entry.getKey(),newValue);

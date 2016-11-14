@@ -88,9 +88,11 @@ public abstract class Simulador implements MotorCallback {
                tempoSimulacao += 100;
                inicioSimulacao = inicioSimulacao.plus(100);
         }
+
+
     }
 
-    private void processaEventos(DateTime inicio) {
+    private void processaEventos(DateTime inicio) throws Exception{
         if (eventos.containsKey(inicio)) {
             eventos.get(inicio).stream().forEach(eventoMotor -> motor.onEvento(eventoMotor));
         }

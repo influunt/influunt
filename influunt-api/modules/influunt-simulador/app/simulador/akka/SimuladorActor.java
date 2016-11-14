@@ -115,7 +115,6 @@ public class SimuladorActor extends UntypedActor {
         DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);
-        pagina++;
         send();
     }
 
