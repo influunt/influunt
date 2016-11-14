@@ -323,11 +323,12 @@
   },
   "subareas": {
     "area": "Área",
-    "nome": "Nome",
-    "numero": "Número",
-    "novo": "Nova Subárea",
-    "mostrar": "Visualizar Subárea",
+    "associarControladores": "Associar controladores",
     "editar": "Editar Subárea",
+    "mostrar": "Visualizar Subárea",
+    "nome": "Nome",
+    "novo": "Nova Subárea",
+    "numero": "Número",
     "titulo": "Subáreas"
   },
   "cidades": {

@@ -143,7 +143,6 @@ angular.module('influuntApp')
      * @return     {boolean}  { description_of_the_return_value }
      */
     $scope.save = function(formValido) {
-
       // Não deve tentar enviar os dados se há informações de formulário invalido.
       $scope.submited = true;
       if (angular.isDefined(formValido) && !formValido) {

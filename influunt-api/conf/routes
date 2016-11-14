@@ -30,6 +30,7 @@ DELETE    /api/v1/subareas/:id                                        controller
 GET       /api/v1/controladores                                       controllers.ControladoresController.findAll()
 GET       /api/v1/controladores/mapas                                 controllers.ControladoresController.getControladoresForMapa
 GET       /api/v1/controladores/agrupamentos                          controllers.ControladoresController.getControladoresForAgrupamentos
+GET       /api/v1/controladores/sem_subarea                           controllers.ControladoresController.getControladoresSemSubareas
 POST      /api/v1/controladores/dados_basicos                         controllers.ControladoresController.dadosBasicos()
 POST      /api/v1/controladores/aneis                                 controllers.ControladoresController.aneis()
 POST      /api/v1/controladores/grupos_semaforicos                    controllers.ControladoresController.gruposSemaforicos()

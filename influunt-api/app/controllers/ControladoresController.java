@@ -241,6 +241,34 @@ public class ControladoresController extends Controller {
 
     @Transactional
     @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresSemSubareas() {
+        Usuario u = getUsuario();
+        List<ControladorFisico> controladoresFisicos = null;
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        } else if (u.getArea() != null) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
+        }
+
+        if (controladoresFisicos != null) {
+            List<Controlador> controladores = new ArrayList<Controlador>();
+            controladoresFisicos.forEach(controladorFisico -> {
+                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
+
+                // Somente controladores sem subarea.
+                if (controlador != null && controlador.getSubarea() == null) {
+                    controladores.add(controlador);
+                }
+            });
+
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresAgrupamentos(controladores)));
+        }
+
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+    @Transactional
+    @Dynamic(value = "Influunt")
     public CompletionStage<Result> getControladoresForAgrupamentos() {
         Usuario u = getUsuario();
         Map<String, String[]> params = new HashMap<>();
