@@ -5,6 +5,7 @@ import config.WithInfluuntApplicationNoAuthentication;
 import engine.*;
 import integracao.ControladorHelper;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -83,8 +84,9 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         return grupoSemaforico[0];
     }
 
-    protected Detector getDetector(Anel anel, int posicao) {
-        return anel.getDetectores().stream().filter(det -> det.getPosicao().equals(posicao)).findFirst().get();
+    protected Pair<Integer, TipoDetector> getDetector(Anel anel, int posicao) {
+        Detector detector = anel.getDetectores().stream().filter(det -> det.getPosicao().equals(posicao)).findFirst().get();
+        return new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo());
     }
 
     protected EstagioPlano getEstagioPlano(Plano plano, int posicao) {
