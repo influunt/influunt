@@ -242,10 +242,8 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.setNumero(255);
 
         JsonNode json = Json.toJson(subarea);
-        ArrayNode controladoresJson = new ObjectMapper().createArrayNode();
-        ObjectNode controladorJson = new ObjectMapper().createObjectNode().put("id", String.valueOf(controlador.getId()));
-        controladoresJson.add(controladorJson);
-        ((ObjectNode)json).put("controladoresAssociados", controladoresJson);
+        ArrayNode controladoresJson = ((ObjectNode)json).putArray("controladoresAssociados");
+        controladoresJson.addObject().put("id", controlador.getId().toString());
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST").uri(routes.SubareasController.create().url()).bodyJson(json);
         Result postResult = route(postRequest);
