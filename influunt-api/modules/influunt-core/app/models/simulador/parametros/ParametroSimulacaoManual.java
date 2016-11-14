@@ -31,11 +31,10 @@ public class ParametroSimulacaoManual {
     }
 
     public EventoMotor toEvento() {
-        if (ativar) {
-            return new EventoMotor(disparo, TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL);
-        } else {
-            return new EventoMotor(disparo, TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL);
-        }
+        final TipoEvento tipoEvento = ativar ?
+            TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL : TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL;
+
+        return new EventoMotor(disparo, tipoEvento);
     }
 
     public boolean isAtivar() {
