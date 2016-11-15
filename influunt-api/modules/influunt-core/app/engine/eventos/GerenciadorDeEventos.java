@@ -1,6 +1,5 @@
 package engine.eventos;
 
-import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
@@ -10,20 +9,14 @@ import models.EstagioPlano;
 import models.Plano;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by rodrigosol on 10/24/16.
  */
 public abstract class GerenciadorDeEventos {
-    protected abstract void processar(EventoMotor eventoMotor);
-
     protected final Plano plano;
-
     protected final EstagioPlano estagioPlanoAtual;
-
     protected final List<EstagioPlano> listaEstagioPlanos;
-
     protected final GerenciadorDeEstagios gerenciadorDeEstagios;
 
     public GerenciadorDeEventos(GerenciadorDeEstagios gerenciadorDeEstagios) {
@@ -78,9 +71,11 @@ public abstract class GerenciadorDeEventos {
         }
     }
 
+    protected abstract void processar(EventoMotor eventoMotor);
+
     protected void reduzirTempoEstagio(EstagioPlano estagioPlanoAnterior,
-                                           RangeMap<Long, IntervaloEstagio> intervalos,
-                                           long contadorIntervalo) {
+                                       RangeMap<Long, IntervaloEstagio> intervalos,
+                                       long contadorIntervalo) {
         GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
     }
 

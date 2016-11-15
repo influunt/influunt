@@ -17,6 +17,7 @@ import java.util.List;
 public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private Long tempoAbatimentoCoordenado = 0L;
+
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                              EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,

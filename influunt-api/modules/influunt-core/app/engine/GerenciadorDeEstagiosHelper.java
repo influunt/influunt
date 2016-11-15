@@ -37,7 +37,7 @@ public class GerenciadorDeEstagiosHelper {
     }
 
     public static void terminaTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
-                                       long contadorIntervalo) {
+                                           long contadorIntervalo) {
         if (intervalos.get(contadorIntervalo) != null) {
             Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
             IntervaloEstagio intervalo = range.getValue();

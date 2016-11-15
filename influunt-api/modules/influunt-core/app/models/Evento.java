@@ -191,11 +191,11 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @AssertTrue(groups = TabelaHorariosCheck.class, message = "Existem eventos configurados no mesmo dia e horário.")
     public boolean isEventosMesmoDiaEHora() {
         if (!this.getTabelaHorario().getEventos().isEmpty() && this.getHorario() != null && this.getDiaDaSemana() != null && this.getTabelaHorario().getVersaoTabelaHoraria().getStatusVersao() == StatusVersao.EDITANDO) {
-            return this.getTabelaHorario().getEventos().stream().filter( evento ->
+            return this.getTabelaHorario().getEventos().stream().filter(evento ->
                 evento != this &&
-                !evento.isDestroy() &&
-                this.getDiaDaSemana().equals(evento.getDiaDaSemana()) &&
-                this.getHorario().equals(evento.getHorario())
+                    !evento.isDestroy() &&
+                    this.getDiaDaSemana().equals(evento.getDiaDaSemana()) &&
+                    this.getHorario().equals(evento.getHorario())
             ).count() == 0;
         }
         return true;

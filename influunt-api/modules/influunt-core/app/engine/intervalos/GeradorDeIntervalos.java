@@ -12,25 +12,15 @@ import org.apache.commons.math3.util.Pair;
 import java.util.HashMap;
 import java.util.List;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
-
 /**
  * Created by rodrigosol on 10/24/16.
  */
 public abstract class GeradorDeIntervalos {
-    public abstract Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(final int index);
-    public abstract Long getTempoAbatimentoCoordenado();
-
     protected final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
-
     protected final ModoOperacaoPlano modoAnterior;
-
     protected final Plano plano;
-
     protected final EstagioPlano estagioPlanoAtual;
-
     protected final List<EstagioPlano> listaEstagioPlanos;
-
     protected RangeMap<Long, IntervaloEstagio> intervalos;
 
     public GeradorDeIntervalos(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
@@ -63,6 +53,10 @@ public abstract class GeradorDeIntervalos {
     protected static boolean isModoAnteriorVerde(ModoOperacaoPlano modoAnterior) {
         return !ModoOperacaoPlano.APAGADO.equals(modoAnterior) && !ModoOperacaoPlano.INTERMITENTE.equals(modoAnterior);
     }
+
+    public abstract Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(final int index);
+
+    public abstract Long getTempoAbatimentoCoordenado();
 
     protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde) {
         this.intervalos = TreeRangeMap.create();

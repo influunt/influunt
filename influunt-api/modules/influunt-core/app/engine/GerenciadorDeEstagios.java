@@ -86,7 +86,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
-        } else if (this.agendamento != null && this.agendamento.isPlanoCoordenado() && !this.agendamento.isTempoDeEntradaCalculado()){
+        } else if (this.agendamento != null && this.agendamento.isPlanoCoordenado() && !this.agendamento.isTempoDeEntradaCalculado()) {
             tempoAbatimentoCoordenado = verificarETrocaCoordenado();
             this.agendamento.setTempoDeEntradaCalculado(true);
             intervalo = verificaETrocaIntervalo(intervalo);
@@ -227,7 +227,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 atualizaListaEstagiosNovoPlano(listaOriginalEstagioPlanos);
             } else if (this.plano.isTempoFixoCoordenado()) {
                 final Evento evento = motor.getEventoAtual();
-                this.listaEstagioPlanos = listaEstagioPlanosSincronizada(this.plano.getEstagiosOrdenados(), evento.getMomentoEntrada(getAnel(), this.agendamento.getMomentoOriginal()));
+                DateTime momentoEntrada = this.agendamento != null ? this.agendamento.getMomentoOriginal() : inicioExecucao.plus(tempoDecorrido);
+                this.listaEstagioPlanos = listaEstagioPlanosSincronizada(this.plano.getEstagiosOrdenados(), evento.getMomentoEntrada(getAnel(), momentoEntrada));
             } else {
                 this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
             }
