@@ -373,7 +373,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Estagio getEstagioAnterior(EstagioPlano estagioPlano) {
-        return getEstagioAnterior(estagioPlano, getEstagiosPlanos());
+        return getEstagioAnterior(estagioPlano, getEstagiosOrdenados());
     }
 
     public Estagio getEstagioAnterior(EstagioPlano estagioPlano, List<EstagioPlano> lista) {
