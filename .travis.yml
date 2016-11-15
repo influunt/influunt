@@ -23,6 +23,9 @@ before_script:
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sudo rm -f /etc/localtime
   - sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+  - echo '----------------'
+  - date
+  - echo '----------------'
 # script: cd influunt-app && npm test && cd ../influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover && cd ..
 script: cd influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover && cd ..
 after_success:
