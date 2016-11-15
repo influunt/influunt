@@ -9,7 +9,7 @@
 angular.module('influuntApp')
   .directive('helperEndereco', function () {
     return {
-      template: '<input type="text" autocomplete="off" placeholder="{{\'controladores.endereco\' | translate }}" class="form-control" data-ng-model="result" options="mapOptions" g-places-autocomplete>',
+      templateUrl: 'views/directives/helper-endereco.html',
       restrict: 'E',
       scope: {
         latitude: '=',
@@ -20,6 +20,9 @@ angular.module('influuntApp')
       link: function postLink(scope) {
 
         scope.mapOptions = {
+          language: 'pt',
+          location: new google.maps.LatLng(-23.6659, -46.6973),
+          radius: 39239,
           componentRestrictions: {
             country: ['br']
           }
@@ -46,6 +49,16 @@ angular.module('influuntApp')
             scope.localizacao = '';
           }
         });
+
+        scope.filterCityPoints = function(predictions) {
+          var requiredTerms = ['São Paulo', 'SP'];
+          return predictions.filter(function(prediction) {
+            var predictionTerms = _.map(prediction.terms, 'value');
+            return requiredTerms.every(function(term) {
+              return predictionTerms.indexOf(term) >= 0;
+            });
+          });
+        };
 
         /**
          * Testa se houve alguma variavel de retorno da API. Caso positivo, deve atualizar o

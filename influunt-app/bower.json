@@ -70,6 +70,11 @@
       "main": [
         "jquery.slimscroll.js"
       ]
+    },
+    "angular-google-places-autocomplete": {
+      "main": [
+        "./src/autocomplete.css"
+      ]
     }
   },
   "resolutions": {
