@@ -22,7 +22,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
         Evento evento = controlador.getTabelaHoraria().getEventos().stream().filter(evento1 -> evento1.getPosicao().equals(13)).findFirst().get();
 
         //Rever os testes passando uma data e hora desejada
-        DateTime dataHora = new DateTime(2016, 11, 15, 8, 0, 0);
+        DateTime dataHora = new DateTime(2016, 11, 15, 8, 0, 0, 0);
 
         assertEquals(14000L, evento.getMomentoEntrada(1, dataHora).longValue());
         assertEquals(4000L, evento.getMomentoEntrada(2, dataHora).longValue());
@@ -35,7 +35,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaCorretaDePlanos() {
-        inicioControlador = new DateTime(2016, 11, 15, 22, 59, 30);
+        inicioControlador = new DateTime(2016, 11, 15, 22, 59, 30, 0);
         inicioExecucao = inicioControlador;
         instante = inicioControlador;
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
