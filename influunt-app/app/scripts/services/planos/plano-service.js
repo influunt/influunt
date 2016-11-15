@@ -268,9 +268,6 @@ angular.module('influuntApp')
             .value();
 
           _.each(result.gruposSemaforicos, function(g) {
-            if (g.posicao === 3) {
-              debugger
-            }
             var grupo = gruposSemaforicos[g.posicao-1];
             var grupoPlano = _.find(fakenPlano.gruposSemaforicosPlanos, {grupoSemaforico: {idJson: grupo.idJson}, plano: {idJson: fakenPlano.idJson}});
             var nemAssociadoNemDemandaPrioritaria = isGrupoNemAssociadoNemDemandaPrioritaria(controlador, anel, fakenPlano, grupo);
