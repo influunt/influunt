@@ -23,7 +23,6 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -834,16 +833,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             return getAneis().stream().filter(anel -> posicao.equals(anel.getPosicao())).findFirst().orElse(null);
         }
         return null;
-    }
-
-    public Detector getDetector(Detector detector) {
-
-        return aneis.stream().map(Anel::getDetectores).collect(Collectors.toSet()).stream()
-            .flatMap(Collection::stream)
-            .collect(Collectors.toSet())
-            .stream()
-            .filter(detector1 -> detector1.equals(detector))
-            .findFirst().orElse(null);
     }
 
     public RangeUtils getRangeUtils() {

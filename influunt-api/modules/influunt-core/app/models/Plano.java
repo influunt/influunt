@@ -335,7 +335,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         message = "A sequência de estágios não é válida.")
     public boolean isSequenciaValida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
-            return sequenciaDeEstagioValida(getEstagiosOrdenados());
+            List<EstagioPlano> estagiosOrdenados = getEstagiosOrdenados().stream().filter(ep -> !ep.isDestroy()).collect(Collectors.toList());
+            return sequenciaDeEstagioValida(estagiosOrdenados);
         }
         return true;
     }

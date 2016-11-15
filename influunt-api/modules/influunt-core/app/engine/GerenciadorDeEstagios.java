@@ -138,12 +138,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private boolean temQueExecutarOAgendamento() {
-        if (this.agendamento.isImpostoPorFalha()) {
-            return true;
-        } else if (this.agendamento.isSaidaDoModoManual()) {
-            return true;
-        }
-        return false;
+        return this.agendamento.isImpostoPorFalha() || this.agendamento.isSaidaDoModoManual();
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {

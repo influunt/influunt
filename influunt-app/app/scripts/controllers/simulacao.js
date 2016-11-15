@@ -322,7 +322,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       .catch(function(response) {
         if (response.status === 422) {
           $scope.errors = handleValidations.buildValidationMessages(response.data);
-          console.log('scope.errors: ', $scope.errors);
           resetParametros();
         } else {
           console.error(response);
