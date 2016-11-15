@@ -177,12 +177,12 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @Override
     public String toString() {
         return "VersaoTabelaHoraria{"
-                + "id=" + id
-                + ", idJson='" + idJson + '\''
-                + ", descricao='" + descricao + '\''
-                + ", statusVersao=" + statusVersao
-                + ", dataCriacao=" + dataCriacao
-                + '}';
+            + "id=" + id
+            + ", idJson='" + idJson + '\''
+            + ", descricao='" + descricao + '\''
+            + ", statusVersao=" + statusVersao
+            + ", dataCriacao=" + dataCriacao
+            + '}';
     }
 
     @JsonIgnore

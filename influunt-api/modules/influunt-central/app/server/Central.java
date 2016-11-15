@@ -28,8 +28,8 @@ public class Central {
         this.system = system;
         mqttSettings = configuration.getConfig("central").getConfig("mqtt");
         servidor = system.actorOf(Props.create(ServerActor.class,
-                mqttSettings.getString("host"),
-                mqttSettings.getString("port")), "servidor");
+            mqttSettings.getString("host"),
+            mqttSettings.getString("port")), "servidor");
 
     }
 

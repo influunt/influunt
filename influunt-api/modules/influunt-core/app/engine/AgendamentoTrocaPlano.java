@@ -17,11 +17,19 @@ public class AgendamentoTrocaPlano {
 
     private long momentoPedidoTroca = 0L;
 
+    private boolean impostoPorFalha = false;
+
+    private boolean saidaDoModoManual = false;
 
     public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal) {
         this.evento = evento;
         this.plano = plano;
         this.momentoOriginal = momentoOriginal;
+    }
+
+    public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal, boolean impostoPorFalha) {
+        this(evento, plano, momentoOriginal);
+        this.impostoPorFalha = impostoPorFalha;
     }
 
     public Evento getEvento() {
@@ -70,5 +78,21 @@ public class AgendamentoTrocaPlano {
 
     public void setAnel(Integer anel) {
         this.anel = anel;
+    }
+
+    public boolean isImpostoPorFalha() {
+        return impostoPorFalha;
+    }
+
+    public void setImpostoPorFalha(boolean impostoPorFalha) {
+        this.impostoPorFalha = impostoPorFalha;
+    }
+
+    public boolean isSaidaDoModoManual() {
+        return this.saidaDoModoManual;
+    }
+
+    public void setSaidaDoModoManual(boolean saidaDoModoManual) {
+        this.saidaDoModoManual = saidaDoModoManual;
     }
 }

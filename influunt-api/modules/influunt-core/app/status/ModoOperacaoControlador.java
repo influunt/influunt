@@ -56,8 +56,8 @@ public class ModoOperacaoControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, ModoOperacaoPlano> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                modos().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'modoOperacao': {$first:'$modoOperacao'}}}").
-                        as(Map.class);
+            modos().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'modoOperacao': {$first:'$modoOperacao'}}}").
+                as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), ModoOperacaoPlano.valueOf(m.get("modoOperacao").toString()));
         }

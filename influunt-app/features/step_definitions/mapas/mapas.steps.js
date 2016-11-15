@@ -71,4 +71,12 @@ module.exports = function() {
   this.Given(/^o sistema deverá marcar o agrupamento no mapa$/, function() {
     return mapasPage.checkAgrupamentoMapa();
   });
+
+  this.Given(/^o sistema deverá mostrar "([^"]*)" controladores agrupados$/, function(numAgrupamento) {
+    return mapasPage.checkAgrupamentoMapa(numAgrupamento);
+  });
+
+  this.Given(/^o usuário clicar no grupo de aneis "([^"]*)"$/, function(numAgrupamento) {
+    return mapasPage.clicarAgrupamentoMapa(numAgrupamento);
+  });
 };

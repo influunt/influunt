@@ -5,7 +5,6 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Controlador;
 import models.Fabricante;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -99,7 +98,7 @@ public class FabricantesController extends Controller {
                 fabricante.delete();
                 return CompletableFuture.completedFuture(ok());
             } else {
-                Erro erro= new Erro("Fabricante", "Este fabricante possui modelos utilizados em controladores", "");
+                Erro erro = new Erro("Fabricante", "Este fabricante possui modelos utilizados em controladores", "");
                 return CompletableFuture.completedFuture(
                     status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
                 );

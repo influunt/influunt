@@ -469,7 +469,7 @@ angular.module('influuntApp')
           var errosGruposSemaforicosPlanos = _.get(listaErros, 'planos['+ currentPlanoIndex +'].gruposSemaforicosPlanos');
           if (errosGruposSemaforicosPlanos) {
             _.each(errosGruposSemaforicosPlanos, function(erro, index) {
-              if(erro) {
+              if(erro && angular.isArray(erro.respeitaVerdesDeSeguranca)) {
                 var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
                 var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
                 var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
@@ -570,6 +570,7 @@ angular.module('influuntApp')
         };
 
         $scope.objeto.estagiosPlanos.push(novoEstagioPlano);
+        estagio.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
         $scope.currentPlano.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
       };
 

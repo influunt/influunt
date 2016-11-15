@@ -220,9 +220,9 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     public boolean isPlanoConfiguradoEmTodosOsAneis() {
         if (getPosicaoPlano() != null) {
             return getAneis()
-                    .stream()
-                    .filter(Anel::isAtivo)
-                    .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
+                .stream()
+                .filter(Anel::isAtivo)
+                .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
         }
         return true;
     }
@@ -249,12 +249,12 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     // Retorna o tempo de ciclo do plano do primeiro anel
     private Integer getTempoCiclo() {
         Plano p = getAneis()
-                .stream()
-                .map(Anel::getPlanos)
-                .flatMap(Collection::stream)
-                .filter(plano -> plano.getPosicao().equals(this.getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado()))
-                .findFirst()
-                .orElse(null);
+            .stream()
+            .map(Anel::getPlanos)
+            .flatMap(Collection::stream)
+            .filter(plano -> plano.getPosicao().equals(this.getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado()))
+            .findFirst()
+            .orElse(null);
 
         if (p != null) {
             return p.getTempoCiclo();

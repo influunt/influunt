@@ -19,4 +19,12 @@ public class MensagemControladorSupervisor extends Mensagem {
         this.argumentos = args;
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public String toString() {
+        return "@id=" + id + ",@timestamp=" + timestamp + ",@datetime=" + new Date(timestamp) +
+            ",@tipoEvento=" + tipoEvento + ",@args:" + argumentos;
+    }
+>>>>>>> staging
 }

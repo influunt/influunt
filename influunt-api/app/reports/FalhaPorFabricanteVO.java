@@ -2,6 +2,7 @@ package reports;
 
 public class FalhaPorFabricanteVO {
     private String falha;
+
     private Integer total;
 
     public FalhaPorFabricanteVO() {

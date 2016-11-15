@@ -84,6 +84,7 @@ module.exports = function(config) {
       'app/plugins/uiTabs/ui.tabs.overflowResize.js',
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
+      'app/plugins/phasertips/Phasetips.js',
 
       // influunt app plugins.
       'app/plugins/influunt/**/*.js',
@@ -119,6 +120,7 @@ module.exports = function(config) {
     ],
 
     reporters: ['progress', 'kjhtml', 'coverage'],
+    // reporters: ['progress', 'kjhtml'],
 
     // plugins to enable
     plugins: [

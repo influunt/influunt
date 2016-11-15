@@ -50,10 +50,6 @@ public class IntervaloEstagio {
         return this.estagioPlano.getEstagio();
     }
 
-    public void setEstagioPlanoAnterior(EstagioPlano estagioPlanoAnterior) {
-        this.estagioPlanoAnterior = estagioPlanoAnterior;
-    }
-
     public EstagioPlano getEstagioPlanoAnterior() {
         return estagioPlanoAnterior;
     }
@@ -69,15 +65,16 @@ public class IntervaloEstagio {
     @Override
     public String toString() {
         return "IntervaloEstagio{" +
-                "duracao=" + duracao +
-                ", entreverde=" + entreverde +
-                ", estagioPlano=" + estagioPlano +
-                '}';
+            "duracao=" + duracao +
+            ", entreverde=" + entreverde +
+            ", estagioPlano=" + estagioPlano +
+            '}';
     }
 
     public void addEvento(long contadorIntervalo, EventoMotor eventoMotor) {
-        if(!this.eventos.containsKey(contadorIntervalo)){
-            this.eventos.put(contadorIntervalo,new ArrayList<>());
+
+        if (!this.eventos.containsKey(contadorIntervalo)) {
+            this.eventos.put(contadorIntervalo, new ArrayList<>());
         }
         this.eventos.get(contadorIntervalo).add(eventoMotor);
     }

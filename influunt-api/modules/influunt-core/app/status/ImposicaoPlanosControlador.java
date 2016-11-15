@@ -62,8 +62,8 @@ public class ImposicaoPlanosControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Boolean> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'planoImposto': {$first:'$planoImposto'}}}").
-                        as(Map.class);
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'planoImposto': {$first:'$planoImposto'}}}").
+                as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), (boolean) m.get("planoImposto"));
         }
@@ -108,8 +108,8 @@ public class ImposicaoPlanosControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Boolean> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'planoImposto': " + planoImposto + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'planoImposto': {$first: '$planoImposto'}}}").
-                        as(Map.class);
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'planoImposto': " + planoImposto + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'planoImposto': {$first: '$planoImposto'}}}").
+                as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), (boolean) m.get("planoImposto"));
         }

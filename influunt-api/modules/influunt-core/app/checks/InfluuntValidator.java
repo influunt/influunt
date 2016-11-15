@@ -31,7 +31,7 @@ public class InfluuntValidator<T> {
 
     private List<Erro> parse(Set<ConstraintViolation<T>> violations) {
         return violations.stream().map(v ->
-                new Erro(v.getRootBeanClass().getSimpleName(), v.getMessage(), v.getPropertyPath().toString())
+            new Erro(v.getRootBeanClass().getSimpleName(), v.getMessage(), v.getPropertyPath().toString())
         ).collect(Collectors.toList());
     }
 

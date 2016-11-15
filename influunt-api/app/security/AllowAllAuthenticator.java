@@ -66,7 +66,7 @@ public class AllowAllAuthenticator implements Authenticator {
     @Override
     public Collection<Sessao> listSessions(Subject subject) {
         return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 
 }

@@ -95,6 +95,9 @@ public class Plano extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    private boolean impostoPorFalha = false;
+
     public Plano() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -202,6 +205,14 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public boolean isImpostoPorFalha() {
+        return this.impostoPorFalha;
+    }
+
+    public void setImpostoPorFalha(boolean impostoPorFalha) {
+        this.impostoPorFalha = impostoPorFalha;
     }
 
     @JsonIgnore
@@ -324,7 +335,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         message = "A sequência de estágios não é válida.")
     public boolean isSequenciaValida() {
         if (!this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio()) {
-            return sequenciaDeEstagioValida(getEstagiosOrdenados());
+            List<EstagioPlano> estagiosOrdenados = getEstagiosOrdenados().stream().filter(ep -> !ep.isDestroy()).collect(Collectors.toList());
+            return sequenciaDeEstagioValida(estagiosOrdenados);
         }
         return true;
     }
@@ -482,8 +494,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     public HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde() {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         if (this.isModoOperacaoVerde()) {
-            preencheTabelaEntreVerde(tabela, ordenarEstagiosPorPosicaoSemEstagioDispensavel());
-            preencheTabelaEntreVerde(tabela, getEstagiosOrdenados());
+            preencheTabelaEntreVerde(tabela, getEstagiosPlanos());
             this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
                 preencheTabelaEntreVerde(tabela, e);
             });
@@ -497,14 +508,21 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, List<EstagioPlano> lista) {
-        lista.stream().forEach(ep -> {
-            Estagio atual = ep.getEstagio();
-            Estagio anterior = this.getEstagioAnterior(ep, lista);
-            tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()),
-                this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L);
-
-            //Estagio duplo
-            tabela.put(new Pair<Integer, Integer>(atual.getPosicao(), atual.getPosicao()), 0L);
+        lista.stream().forEach(origem -> {
+            final Estagio anterior = origem.getEstagio();
+            lista.stream().forEach(destino -> {
+                final Estagio atual = destino.getEstagio();
+                if (!anterior.temTransicaoProibidaParaEstagio(atual)) {
+                    final long tempo;
+                    if (anterior.equals(atual)) {
+                        //Estagio duplo
+                        tempo = 0L;
+                    } else {
+                        tempo = this.getTempoEntreVerdeEntreEstagios(atual, anterior) * 1000L;
+                    }
+                    tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()), tempo);
+                }
+            });
         });
     }
 
@@ -524,5 +542,4 @@ public class Plano extends Model implements Cloneable, Serializable {
             System.out.println("E" + key.getKey() + "-" + "E" + key.getValue() + ": " + value);
         });
     }
-
 }

@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
@@ -15,6 +16,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
+import services.FalhasEAlertasService;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 import utils.RangeUtils;
@@ -295,8 +297,12 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }
+        ObjectNode response = Json.newObject();
+        response.set("controlador", new ControladorCustomSerializer().getControladorSimulacao(controlador));
+        response.set("falhas", Json.toJson(FalhasEAlertasService.getFalhas()));
+        response.set("alarmes", Json.toJson(FalhasEAlertasService.getAlarmes()));
 
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorSimulacao(controlador)));
+        return CompletableFuture.completedFuture(ok(response));
     }
 
     @Transactional

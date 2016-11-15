@@ -3,27 +3,26 @@ package engine;
 import org.joda.time.DateTime;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Created by rodrigosol on 9/28/16.
  */
 public class EventoMotor {
     private TipoEvento tipoEvento;
+
     private Object[] params;
+
     private DateTime timestamp;
 
     public EventoMotor(DateTime timestamp, TipoEvento tipoEvento, Object... params) {
         this.tipoEvento = tipoEvento;
         this.params = params;
         this.timestamp = timestamp;
-
     }
 
     public TipoEvento getTipoEvento() {
         return tipoEvento;
     }
-
 
     public Object[] getParams() {
         return params;
@@ -37,6 +36,9 @@ public class EventoMotor {
         return timestamp;
     }
 
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public boolean equals(Object o) {

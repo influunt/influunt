@@ -21,10 +21,10 @@ public class ConformidadeDeNumeroDeGruposSemaforicosValidator implements Constra
             return false;
         }
         Integer total = controlador.getAneis()
-                .stream()
-                .filter(anel -> anel.isAtivo())
-                .mapToInt(anel -> anel.getGruposSemaforicos().size())
-                .sum();
+            .stream()
+            .filter(anel -> anel.isAtivo())
+            .mapToInt(anel -> anel.getGruposSemaforicos().size())
+            .sum();
 
         return total <= controlador.getModelo().getLimiteGrupoSemaforico();
     }

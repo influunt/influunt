@@ -60,8 +60,8 @@ public class ErrosControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, MotivoFalhaControlador> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoErro =
-                erros().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'motivoFalhaControlador': {$first:'$motivoFalhaControlador'}}}").
-                        as(Map.class);
+            erros().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'motivoFalhaControlador': {$first:'$motivoFalhaControlador'}}}").
+                as(Map.class);
         for (Map m : ultimoErro) {
             hash.put(m.get("_id").toString(), MotivoFalhaControlador.valueOf(m.get("motivoFalhaControlador").toString()));
         }
@@ -119,6 +119,17 @@ public class ErrosControlador {
 
     }
 
+    public static List<String> errosPorFabricante() {
+        ArrayList<String> resultado = new ArrayList<>();
+        Aggregate query = erros().aggregate("{ $group: { _id: { idFabricante: '$idFabricante', 'status': '$motivoFalhaControlador' }, total: { $sum:1 } } }, { $sort: { 'total': -1 } }");
+        Aggregate.ResultsIterator<Map> ultimoErro = query.as(Map.class);
+        Gson gson = new Gson();
+        for (Map m : ultimoErro) {
+            resultado.add(gson.toJson(m));
+        }
+        return resultado;
+    }
+
     public MotivoFalhaControlador getMotivoFalhaControlador() {
         return motivoFalhaControlador;
     }
@@ -129,17 +140,5 @@ public class ErrosControlador {
 
     private void save() {
         insert();
-    }
-
-
-    public static List<String> errosPorFabricante() {
-        ArrayList<String> resultado = new ArrayList<>();
-        Aggregate query = erros().aggregate("{ $group: { _id: { idFabricante: '$idFabricante', 'status': '$motivoFalhaControlador' }, total: { $sum:1 } } }, { $sort: { 'total': -1 } }");
-        Aggregate.ResultsIterator<Map> ultimoErro = query.as(Map.class);
-        Gson gson = new Gson();
-        for (Map m : ultimoErro) {
-            resultado.add(gson.toJson(m));
-        }
-        return resultado;
     }
 }

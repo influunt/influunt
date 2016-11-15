@@ -21,8 +21,8 @@ public class AoMenosUmAnelAtivoValidator implements ConstraintValidator<AoMenosU
             return false;
         } else {
             return controlador.getAneis()
-                    .stream()
-                    .filter(anel -> anel.isAtivo()).count() >= 1;
+                .stream()
+                .filter(anel -> anel.isAtivo()).count() >= 1;
         }
     }
 }

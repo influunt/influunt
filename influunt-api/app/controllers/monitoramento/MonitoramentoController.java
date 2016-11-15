@@ -69,7 +69,7 @@ public class MonitoramentoController extends Controller {
         Long percentual = (totalOnline != 0) ? (totalOnline * 100) / (totalOnline + totalOffline) * 1L : 0L;
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.put("percentualOnline", percentual).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco())
-                .put("totalOnline", totalOnline).put("totalOffline", totalOffline).putPOJO("historico", status);
+            .put("totalOnline", totalOnline).put("totalOffline", totalOffline).putPOJO("historico", status);
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }
 

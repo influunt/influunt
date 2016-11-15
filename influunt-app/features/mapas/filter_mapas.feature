@@ -13,13 +13,20 @@ Funcionalidade: Realizar filtros no mapa
 
   Cenário: Exibir todos os controladores e aneis configurados
     Dado usuário estiver na tela de mapa
-    Então o sistema deverá mostrar no mapa "4" controladores
-    E o sistema deverá mostrar no mapa "8" aneis
+    Então o sistema deverá mostrar no mapa "2" controladores
+    E o sistema deverá mostrar no mapa "0" aneis
+    E o sistema deverá mostrar "2" controladores agrupados
+
+  Cenário: Vizualizar aneis agrupados no mapa
+    Dado usuário estiver na tela de mapa
+    Quando o usuário clicar no grupo de aneis "2"
+    Então o sistema deverá mostrar no mapa "2" controladores
+    E o sistema deverá mostrar no mapa "4" aneis
 
   Cenário: Quero visualizar apenas os controladores
     Dado usuário estiver na tela de mapa
     E o usuário clicar na opção "Anéis" para filtrar
-    Então o sistema deverá mostrar no mapa "4" controladores
+    Então o sistema deverá mostrar no mapa "2" controladores
     E o sistema deverá mostrar no mapa "0" aneis
 
   Cenário: Quero filtar no mapa pelo o número do controlador 2.000.0001

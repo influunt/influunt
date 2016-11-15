@@ -21,7 +21,7 @@ public class CustomCalendar {
 
     public static Calendar getCalendar() {
         Calendar calendar = new GregorianCalendar(INITIAL_YEAR, INITIAL_MONTH, INITIAL_DAY,
-                INITIAL_HOUR, INITIAL_MINUTE, INITIAL_SECOND);
+            INITIAL_HOUR, INITIAL_MINUTE, INITIAL_SECOND);
         return calendar;
     }
 

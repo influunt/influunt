@@ -16,7 +16,6 @@ import security.Authenticator;
 import utils.InfluuntEmailService;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;

@@ -125,7 +125,7 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "A tabela horária deve ter pelo menos 1 evento configurado.")
+        message = "A tabela horária deve ter pelo menos 1 evento configurado.")
     public boolean isAoMenosUmEvento() {
         return !this.getEventos().stream().filter(ev -> !ev.isDestroy()).collect(Collectors.toList()).isEmpty();
     }
@@ -161,13 +161,13 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
     @Override
     public String toString() {
         return "TabelaHorario{" +
-                "id=" + id +
-                ", idJson='" + idJson + '\'' +
-                ", controlador=" + controlador +
-                ", eventos=" + eventos +
-                ", dataCriacao=" + dataCriacao +
-                ", dataAtualizacao=" + dataAtualizacao +
-                '}';
+            "id=" + id +
+            ", idJson='" + idJson + '\'' +
+            ", controlador=" + controlador +
+            ", eventos=" + eventos +
+            ", dataCriacao=" + dataCriacao +
+            ", dataAtualizacao=" + dataAtualizacao +
+            '}';
     }
 
     public void voltarVersaoAnterior() {
@@ -184,5 +184,9 @@ public class TabelaHorario extends Model implements Cloneable, Serializable {
                 versaoAtual.delete();
             }
         }
+    }
+
+    public Anel findAnelByPosicao(Integer posicao) {
+        return getControlador().findAnelByPosicao(posicao);
     }
 }
