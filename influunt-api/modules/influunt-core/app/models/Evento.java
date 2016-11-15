@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 
 import javax.persistence.*;
@@ -337,7 +336,8 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
             dataHora = new DateTime(this.data);
 
         } else {
-            dataHora = new DateTime(2016, 9, 18, 0, 0, 0, 0);
+            DateTime dateNow = DateTime.now();
+            dataHora = new DateTime(dateNow.year().get(), dateNow.monthOfYear().get(), dateNow.dayOfMonth().get(), 0, 0, 0);
         }
 
         return dataHora.withMillisOfDay(0).plusMillis(this.horario.getMillisOfDay());
@@ -363,12 +363,12 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         return getTabelaHorario().findAnelByPosicao(posicaoAnel).findPlanoByPosicao(getPosicaoPlano());
     }
 
-    public Long getMomentoEntrada(Integer posicaoAnel) {
+    public Long getMomentoEntrada(Integer posicaoAnel, DateTime momentoOriginal) {
         Plano plano = getPlano(posicaoAnel);
         if (ModoOperacaoPlano.TEMPO_FIXO_COORDENADO.equals(plano.getModoOperacao())) {
             final long tempoCiclo = plano.getTempoCiclo() * 1000L;
             final long tempoDefasagem = plano.getDefasagem() * 1000L;
-            final long tempoDecorrido = getDataHora().getMillis();
+            final long tempoDecorrido = momentoOriginal.getMillis();
             final long momentoEntrada = (tempoDecorrido % tempoCiclo) - tempoDefasagem;
             if (momentoEntrada < 0L) {
                 return tempoCiclo - Math.abs(momentoEntrada);

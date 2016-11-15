@@ -106,4 +106,7 @@ public class AgendamentoTrocaPlano {
         this.tempoDeEntradaCalculado = tempoDeEntradaCalculado;
     }
 
+    public boolean isPlanoCoordenado() {
+        return getPlano().isTempoFixoCoordenado();
+    }
 }

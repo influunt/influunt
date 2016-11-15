@@ -20,13 +20,14 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
         controlador.getTabelaHoraria();
         Evento evento = controlador.getTabelaHoraria().getEventos().stream().filter(evento1 -> evento1.getPosicao().equals(13)).findFirst().get();
 
-        assertEquals(20000L, evento.getMomentoEntrada(1).longValue());
-        assertEquals(10000L, evento.getMomentoEntrada(2).longValue());
+        //Rever os testes passando uma data e hora desejada
+        assertEquals(20000L, evento.getMomentoEntrada(1, evento.getDataHora()).longValue());
+        assertEquals(10000L, evento.getMomentoEntrada(2, evento.getDataHora()).longValue());
 
         evento.setHorario(new LocalTime(23, 0, 40));
 
-        assertEquals(2000L, evento.getMomentoEntrada(1).longValue());
-        assertEquals(50000L, evento.getMomentoEntrada(2).longValue());
+        assertEquals(2000L, evento.getMomentoEntrada(1, evento.getDataHora()).longValue());
+        assertEquals(50000L, evento.getMomentoEntrada(2, evento.getDataHora()).longValue());
     }
 
     @Test
@@ -43,6 +44,21 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
         assertEquals("Plano Atual", 3, getPlanoTrocaEfetiva(1, 47).getPosicao().intValue());
         assertEquals("Plano Atual", 3, getPlanoTrocaEfetiva(2, 31).getPosicao().intValue());
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(47)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(65)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(75)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(93)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(111)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(130)).get(1).getEstagio().getPosicao().intValue());
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(31)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(51)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(64)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(84)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(102)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(140)).get(2).getEstagio().getPosicao().intValue());
     }
 
 }
