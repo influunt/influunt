@@ -86,8 +86,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
-        } else if (this.agendamento != null && this.agendamento.getPlano().isTempoFixoCoordenado()){
+        } else if (this.agendamento != null && this.agendamento.getPlano().isTempoFixoCoordenado() && !this.agendamento.isTempoDeEntradaCalculado()){
             tempoAbatimentoCoordenado = verificarETrocaCoordenado(intervalo);
+            this.agendamento.setTempoDeEntradaCalculado(true);
+            intervalo = verificaETrocaIntervalo(intervalo);
         } else {
             intervalo = verificaETrocaIntervalo(intervalo);
         }

@@ -347,7 +347,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 7);
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 9);
 
-        estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
+        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
 
         anel = getAnel(3);
 

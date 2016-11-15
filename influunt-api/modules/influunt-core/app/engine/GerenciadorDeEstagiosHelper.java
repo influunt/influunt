@@ -14,9 +14,9 @@ public class GerenciadorDeEstagiosHelper {
                                            RangeMap<Long, IntervaloEstagio> intervalos,
                                            long contadorIntervalo,
                                            EstagioPlano estagioPlanoAtual) {
-        final long contador;
-        long tempoReduzido = 0L;
+        long upperEndpoint = 0L;
         if (intervalos.get(contadorIntervalo) != null) {
+            final long contador;
             Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
             IntervaloEstagio intervalo = range.getValue();
             if (intervalo.isEntreverde()) {
@@ -27,13 +27,13 @@ public class GerenciadorDeEstagiosHelper {
                 contador = contadorIntervalo - range.getKey().lowerEndpoint();
             }
             long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
-            tempoReduzido = intervalo.getDuracao() - duracao;
             intervalo.setDuracao(duracao);
             intervalos.remove(range.getKey());
-            final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
+            upperEndpoint = range.getKey().lowerEndpoint() + duracao;
+            final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), upperEndpoint);
             intervalos.put(novoRange, intervalo);
         }
-        return tempoReduzido;
+        return upperEndpoint - contadorIntervalo;
     }
 
     public static void terminaTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
