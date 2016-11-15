@@ -56,7 +56,6 @@ public class TabelaHorariosController extends Controller {
     @Dynamic("Influunt")
     public CompletionStage<Result> timeline(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }

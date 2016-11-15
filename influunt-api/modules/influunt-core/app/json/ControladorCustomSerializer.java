@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
+import org.joda.time.format.DateTimeFormat;
 import play.libs.Json;
 import utils.RangeUtils;
 
@@ -304,6 +305,9 @@ public class ControladorCustomSerializer {
         if (versaoTabelaHoraria.getTabelaHoraria() != null && versaoTabelaHoraria.getTabelaHoraria().getIdJson() != null) {
             versaoTabelaHorariaJson.putObject("tabelaHoraria").put(ID_JSON, versaoTabelaHoraria.getTabelaHoraria().getIdJson());
             tabelasHorariasMap.put(versaoTabelaHoraria.getTabelaHoraria().getIdJson(), versaoTabelaHoraria.getTabelaHoraria());
+        }
+        if (versaoTabelaHoraria.getDataCriacao() != null) {
+            versaoTabelaHorariaJson.put("dataCriacao", DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").print(versaoTabelaHoraria.getDataCriacao()));
         }
 
         return versaoTabelaHorariaJson;

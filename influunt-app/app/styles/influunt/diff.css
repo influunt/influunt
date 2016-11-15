@@ -1,0 +1,7 @@
+tr[influunt-evento].removido {
+  background-color: lightgrey;
+}
+
+tr[influunt-evento].adicionado {
+  background-color: lightgreen;
+}

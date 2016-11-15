@@ -42,7 +42,7 @@
   </span>
   <span data-ng-if="readOnly">Plano {{ evento.posicaoPlano }}</span>
 </td>
-<td>
+<td data-ng-if="podeVisualizarPlano">
   <div class="ibox-tools">
     <a class="close-link"
         data-ng-click="abrirPlano()"
