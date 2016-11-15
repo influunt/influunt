@@ -36,19 +36,18 @@ public class MensagemGrupo {
     }
 
 
-
     private void parseEstadoGrupos(RangeMap<Long, EstadoGrupoSemaforico> estadoGrupos) {
         boolean first = true;
-        for(Map.Entry<Range<Long>, EstadoGrupoSemaforico> entry : estadoGrupos.asMapOfRanges().entrySet()){
-            switch (entry.getValue()){
+        for (Map.Entry<Range<Long>, EstadoGrupoSemaforico> entry : estadoGrupos.asMapOfRanges().entrySet()) {
+            switch (entry.getValue()) {
                 case DESLIGADO:
                     tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
                     flagUltimoTempo = FlagUltimoTempo.DESLIGADO;
                     break;
                 case VERDE:
-                    if(first){
+                    if (first && !EstadoGrupoSemaforico.VERDE.equals(estadoGrupos.get(entry.getKey().upperEndpoint() + 1)) && estadoGrupos.asMapOfRanges().size() > 1) {
                         tempoAtrasoDeGrupo += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
-                    }else{
+                    } else {
                         tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
                         flagUltimoTempo = FlagUltimoTempo.VERDE;
                     }
@@ -62,9 +61,9 @@ public class MensagemGrupo {
                     flagPedestreVeicular = true;
                     break;
                 case VERMELHO:
-                    if(first){
+                    if (first && estadoGrupos.asMapOfRanges().size() > 1) {
                         tempoAtrasoDeGrupo += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
-                    }else {
+                    } else {
                         tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
                         flagUltimoTempo = FlagUltimoTempo.VERMELHO;
                     }
@@ -85,16 +84,16 @@ public class MensagemGrupo {
 
         int index = (i * 9) + 1;
         resp[index] = getFlags();
-        resp[++index] = (byte) (tempoAtrasoDeGrupo >> 8 );
+        resp[++index] = (byte) (tempoAtrasoDeGrupo >> 8);
         resp[++index] = (byte) (tempoAtrasoDeGrupo & 0x00FF);
 
-        resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente >> 8 );
+        resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente >> 8);
         resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente & 0x00FF);
 
-        resp[++index] = (byte) (tempoVermelhoLimpeza >> 8 );
+        resp[++index] = (byte) (tempoVermelhoLimpeza >> 8);
         resp[++index] = (byte) (tempoVermelhoLimpeza & 0x00FF);
 
-        resp[++index] = (byte) (tempoVerdeOuVermelho >> 8 );
+        resp[++index] = (byte) (tempoVerdeOuVermelho >> 8);
         resp[++index] = (byte) (tempoVerdeOuVermelho & 0x00FF);
 
     }
@@ -103,16 +102,16 @@ public class MensagemGrupo {
         int index = (i * 9) + 5;
         setFlags(contents[index]);
 
-        tempoAtrasoDeGrupo  = (contents[++index] & 0xff) << 8;
+        tempoAtrasoDeGrupo = (contents[++index] & 0xff) << 8;
         tempoAtrasoDeGrupo |= (contents[++index] & 0xff);
 
-        tempoAmareloOuVermelhoIntermitente  = (contents[++index] & 0xff) << 8;
+        tempoAmareloOuVermelhoIntermitente = (contents[++index] & 0xff) << 8;
         tempoAmareloOuVermelhoIntermitente |= (contents[++index] & 0xff);
 
-        tempoVermelhoLimpeza  = (contents[++index] & 0xff) << 8;
+        tempoVermelhoLimpeza = (contents[++index] & 0xff) << 8;
         tempoVermelhoLimpeza |= (contents[++index] & 0xff);
 
-        tempoVerdeOuVermelho  = (contents[++index] & 0xff) << 8;
+        tempoVerdeOuVermelho = (contents[++index] & 0xff) << 8;
         tempoVerdeOuVermelho |= (contents[++index] & 0xff);
 
     }
@@ -183,7 +182,8 @@ public class MensagemGrupo {
     @Override
     public String toString() {
         String pv = (flagPedestreVeicular ? "P" : "V");
-        return new Formatter().format("|%2d|%1s|%1d|%6d|%6d|%6d|%6d|",grupo,pv,flagUltimoTempo.ordinal(),
-            tempoAtrasoDeGrupo,tempoAmareloOuVermelhoIntermitente,tempoVermelhoLimpeza,tempoVerdeOuVermelho).toString();
+
+        return new Formatter().format("|%2d|%1s|%1d|%6d|%6d|%6d|%6d|", grupo, pv, flagUltimoTempo.ordinal(),
+            tempoAtrasoDeGrupo, tempoAmareloOuVermelhoIntermitente, tempoVermelhoLimpeza, tempoVerdeOuVermelho).toString();
     }
 }

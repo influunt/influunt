@@ -116,7 +116,7 @@ public class ConversaoDeIntervalosTest extends WithInfluuntApplicationNoAuthenti
 
             }
 
-        });
+        }, null);
     }
 
     private Plano getPlano(Anel anel, int posicao) {

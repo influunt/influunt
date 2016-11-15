@@ -24,7 +24,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private SerialPort serialPort;
 
-    private String porta = "/dev/tty.usbmodem1421";
+    private String porta = "/dev/tty.usbmodemFD131";
 
     private Integer baudrate  = 115200;
 
@@ -118,6 +118,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         MensagemEstagio mensagem = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO,getSequencia(),
            intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         mensagem.addIntervalos(intervaloGrupoSemaforico);
+        mensagem.print();
         send(mensagem);
     }
 

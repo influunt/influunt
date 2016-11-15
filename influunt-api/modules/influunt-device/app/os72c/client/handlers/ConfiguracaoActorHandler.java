@@ -48,8 +48,9 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
-                    envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
+
+                    envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
 
                     //Se OK, avisa o motor para colocar o controlador no ar
                     if(envelopeSinal.getTipoMensagem().equals(TipoMensagem.OK)){
