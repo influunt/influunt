@@ -730,6 +730,12 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 10, 11, 11}, true);
 
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.ATUADO, null);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 10, 11, 11}, true);
+
 
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);

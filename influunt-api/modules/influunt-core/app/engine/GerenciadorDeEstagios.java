@@ -261,7 +261,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 novaLista.add(estagioPlano);
             }
         });
-        tempoAbatimentoCoordenado += tempoRestante[0];
+        if (tempoAbatimentoCoordenado != null) {
+            tempoAbatimentoCoordenado += tempoRestante[0];
+        } else {
+            tempoAbatimentoCoordenado = tempoRestante[0];
+        }
         return novaLista;
     }
 
