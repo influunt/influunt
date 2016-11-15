@@ -27,6 +27,7 @@
                                     <div class="col-sm-6">
 
                                       <div class="no-padding-left col-sm-12">
+                                        Versão criada por: {{ versaoOrigem.usuario.nome }}
                                         <table class="table table-hover text-center">
                                           <thead class="uppercase">
                                             <tr>
@@ -42,7 +43,7 @@
                                             </tr>
                                           </thead>
                                           <tbody>
-                                            <tr data-ng-repeat="evento in eventos1"
+                                            <tr data-ng-repeat="evento in eventosOrigem"
                                               class="{{ evento.status }}"
                                               influunt-evento
                                               data-evento="evento"
@@ -63,6 +64,7 @@
                                     <div class="col-sm-6">
 
                                       <div class="no-padding-left col-sm-12">
+                                        Versão criada por: {{ versaoBase.usuario.nome }}
                                         <table class="table table-hover text-center">
                                           <thead class="uppercase">
                                             <tr>
@@ -78,7 +80,7 @@
                                             </tr>
                                           </thead>
                                           <tbody>
-                                            <tr data-ng-repeat="evento in eventos2"
+                                            <tr data-ng-repeat="evento in eventosBase"
                                               class="{{ evento.status }}"
                                               influunt-evento
                                               data-evento="evento"

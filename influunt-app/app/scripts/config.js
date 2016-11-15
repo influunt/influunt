@@ -642,7 +642,7 @@ angular
         })
 
         .state('app.tabelas_horarias_diff', {
-          url: '/tabela_horarios/:id/diff',
+          url: '/tabela_horarios/:id/diff/:versaoIdJson',
           templateUrl: 'views/tabela_horarios/diff.html',
           controller: 'TabelaHorariosDiffCtrl',
           data: {

@@ -8,10 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('TabelaHorariosDiffCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
+  .controller('TabelaHorariosDiffCtrl', ['$controller', '$scope', '$stateParams', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
                            'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService', 'SimulacaoService',
-    function ($controller, $scope, $state, $timeout, Restangular, $filter, toast,
+    function ($controller, $scope, $stateParams, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
               handleValidations, TabelaHorariaService, HorariosService, planoService, SimulacaoService) {
 
@@ -19,9 +19,12 @@ angular.module('influuntApp')
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('tabelas_horarias');
 
-      var adicionaTabelaHorario, adicionaEvento, atualizaDiagramaIntervalo, atualizaEventos, atualizaEventosNormais,
-          atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
-          removerEventoRemoto, atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
+      // var adicionaTabelaHorario, adicionaEvento, atualizaDiagramaIntervalo, atualizaEventos, atualizaEventosNormais,
+      //     atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
+      //     removerEventoRemoto, atualizaQuadroTabelaHoraria, atualizaErrosEventos, getErrosEvento;
+
+      var getTabela, findEvento, removeEvento, findEventoNormal, removeEventoNormal, findEventoRecorrente,
+          removeEventoRecorrente, findEventoNaoRecorrente, removeEventoNaoRecorrente, makeDiff;
 
       var qtdEventos, qtdEventosRecorrentes, qtdEventosNaoRecorrentes;
       var NORMAL = 'NORMAL';
@@ -47,8 +50,9 @@ angular.module('influuntApp')
        * Inicializa a tela de tabela horario.
        */
       $scope.init = function() {
-        var id = $state.params.id;
-        console.log('diff!')
+        var id = $stateParams.id;
+        $scope.versaoBaseIdJson = $stateParams.versaoIdJson;
+
         Restangular.one('controladores', id).get()
           .then(function(res) {
             $scope.objeto = res;
@@ -99,8 +103,8 @@ angular.module('influuntApp')
 
 
             // var versao1 = _.find($scope.objeto.versoesTabelasHorarias, { idJson: '96122f94-d82c-442e-9118-ccd3bfc1fc7f' });
-            $scope.versao1IdJson = 'b7a1efab-c606-483a-b06a-24f485c201c3';
-            $scope.versao2IdJson = 'e41e36e9-0b83-4676-a213-7fa526650d7a';
+            // $scope.versao1IdJson = $scope.versaoBaseIdJson;
+            // $scope.versao2IdJson = 'e41e36e9-0b83-4676-a213-7fa526650d7a';
 
 
 
@@ -142,9 +146,9 @@ angular.module('influuntApp')
         // atualizaEventos();
 
         // diff
-        var versao1 = _.find($scope.objeto.versoesTabelasHorarias, { idJson: $scope.versao1IdJson });
-        var versao2 = _.find($scope.objeto.versoesTabelasHorarias, { idJson: $scope.versao2IdJson });
-        makeDiff(versao1.tabelaHoraria.idJson, versao2.tabelaHoraria.idJson);
+        // $scope.versaoBase = _.find($scope.objeto.versoesTabelasHorarias, { idJson: $scope.versaoBaseIdJson });
+        // $scope.versaoOrigem = _.find($scope.objeto.versoesTabelasHorarias, { idJson: $scope.versaoBase.tabelaHorariaOrigem.idJson });
+        makeDiff();
       };
 
       // $scope.selecionaAnel = function (index){
@@ -452,9 +456,6 @@ angular.module('influuntApp')
 
 
 
-      var getTabela, findEvento, removeEvento, findEventoNormal, removeEventoNormal, findEventoRecorrente,
-          removeEventoRecorrente, findEventoNaoRecorrente, removeEventoNaoRecorrente, makeDiff;
-
       getTabela = function(tabelaIdJson) {
         var tabela = _.cloneDeep(_.find($scope.objeto.tabelasHorarias, { idJson: tabelaIdJson }));
         tabela.eventos = _
@@ -570,45 +571,39 @@ angular.module('influuntApp')
         }
       };
 
-      // tabela1: tabela base
-      // tabela2: tabela a ser comparada
-      makeDiff = function(tabela1IdJson, tabela2IdJson) {
-        $scope.tabela1 = getTabela(tabela1IdJson);
-        console.log('tabela1: ', $scope.tabela1)
-        $scope.tabela2 = getTabela(tabela2IdJson);
-        console.log('tabela2: ', $scope.tabela2)
-        $scope.removidos = _.cloneDeep(_.filter($scope.tabela1.eventos, { tipo: $scope.currentTipoEvento }));
-        $scope.adicionados = _.cloneDeep(_.filter($scope.tabela2.eventos, { tipo: $scope.currentTipoEvento }));
+
+      makeDiff = function() {
+        $scope.versaoBase = _.find($scope.objeto.versoesTabelasHorarias, { idJson: $scope.versaoBaseIdJson });
+        $scope.tabelaBase = getTabela($scope.versaoBase.tabelaHoraria.idJson);
+        $scope.tabelaOrigem = getTabela($scope.versaoBase.tabelaHorariaOrigem.idJson);
+        $scope.versaoOrigem = _.find($scope.objeto.versoesTabelasHorarias, { idJson: $scope.tabelaOrigem.idJson });
+
+        console.log('tabelaOrigem: ', $scope.tabelaOrigem)
+        console.log('tabelaBase: ', $scope.tabelaBase)
+
+        $scope.removidos = _.cloneDeep(_.filter($scope.tabelaOrigem.eventos, { tipo: $scope.currentTipoEvento }));
+        $scope.adicionados = _.cloneDeep(_.filter($scope.tabelaBase.eventos, { tipo: $scope.currentTipoEvento }));
 
 
-        _.each($scope.tabela1.eventos, function(e1) {
-          if (!!findEvento(e1, $scope.tabela2.eventos)) {
+        _.each($scope.tabelaOrigem.eventos, function(e1) {
+          if (!!findEvento(e1, $scope.tabelaBase.eventos)) {
             removeEvento(e1, $scope.removidos);
             removeEvento(e1, $scope.adicionados);
           }
         });
 
-        $scope.eventos1 = [];
-        $scope.eventos2 = [];
+        $scope.eventosOrigem = [];
+        $scope.eventosBase = [];
 
-        _.each($scope.tabela1.eventos, function(e) {
-          if (!!findEvento(e, $scope.removidos)) {
-            e.status = 'removido';
-          } else {
-            e.status = 'inalterado';
-          }
-          $scope.eventos1.push(e);
+        _.each($scope.tabelaOrigem.eventos, function(e) {
+          e.status = !!findEvento(e, $scope.removidos) ? 'removido' : 'inalterado';
+          $scope.eventosOrigem.push(e);
         });
 
-        _.each($scope.tabela2.eventos, function(e) {
-          if (!!findEvento(e, $scope.adicionados)) {
-            e.status = 'adicionado';
-          } else {
-            e.status = 'inalterado';
-          }
-          $scope.eventos2.push(e);
+        _.each($scope.tabelaBase.eventos, function(e) {
+          e.status = !!findEvento(e, $scope.adicionados) ? 'adicionado' : 'inalterado';
+          $scope.eventosBase.push(e);
         });
 
-        // debugger
       };
     }]);

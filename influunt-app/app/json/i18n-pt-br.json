@@ -610,7 +610,9 @@
     "sair": "Sair"
   },
   "timeline": {
-    "titulo": "Histórico de alterações"
+    "titulo": "Histórico de alterações",
+    "verAlteracoes": "Ver alterações",
+    "vazio": "O histórico está vazio."
   },
   "perfis": {
     "definir_permissoes": "Definir permissões",
@@ -728,9 +730,6 @@
   "sistema": {
     "mensagem_erro_502": "Erro ao comunicar com a API.",
     "mensagem_erro_404": "Não encontrado."
-  },
-  "historico": {
-    "vazio": "O histórico está vazio."
   },
   "diagrama_intervalo": {
     "erros": {
