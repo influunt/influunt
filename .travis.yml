@@ -21,7 +21,8 @@ before_script:
   - unzip -q typesafe-activator-1.3.10-minimal.zip
   - echo 'America/Sao_Paulo' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
-script: cd influunt-app && npm test && cd ../influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover && cd ..
+# script: cd influunt-app && npm test && cd ../influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover && cd ..
+script: cd influunt-api && ../activator-1.3.10-minimal/bin/activator jacoco:cover && cd ..
 after_success:
   - curl -k https://www.jpm4j.org/install/script | sudo sh
   - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
