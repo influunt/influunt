@@ -48,6 +48,7 @@ lazy val influuntDevice = (project in file(".")).enablePlugins(PlayJava, PlayEbe
       "com.novocode" % "junit-interface" % "0.11" % "test",
       "net.sf.bluecove" % "bluecove" % "2.1.0",
       "com.typesafe" % "config" % "1.3.0",
+      "com.googlecode.lanterna" % "lanterna" % "3.0.0-beta3",
       //      "io.kamon" % "sigar-loader" % "1.6.6-rev002",
       "org.scream3r" % "jssc" % "2.8.0",
       "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",

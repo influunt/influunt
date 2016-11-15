@@ -24,7 +24,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private SerialPort serialPort;
 
-    private String porta = "/dev/tty.usbmodemFD131";
+    private String porta = "/dev/tty.usbmodem1411";
 
     private Integer baudrate  = 115200;
 
@@ -38,6 +38,8 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private Mensagem lastReturn = null;
 
+    private long ultima = 0l;
+
     public SerialDevice(){
         this.executor = Executors.newScheduledThreadPool(1);
 
@@ -47,8 +49,9 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
             serialPort.openPort();//Open serial port
             serialPort.addEventListener(this);
             serialPort.setParams(baudrate, databits, stopbits, parity);
-
+            Thread.sleep(2000);
             serialPort.readBytes();
+
         } catch (SerialPortException spe) {
             spe.printStackTrace();
             throw new HardwareFailureException(spe.getMessage());
@@ -60,9 +63,14 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
     }
 
     private  void send(Mensagem mensagem)  {
+
         System.out.println("Enviado mensagem:" + mensagem.getSequencia());
+        System.out.println("Tempo Decorrido:" + (System.currentTimeMillis() - ultima));
+
         try {
+
             serialPort.writeBytes(mensagem.toByteArray());
+            ultima = System.currentTimeMillis();
 //            Callable<Mensagem> run = new Callable<Mensagem>()
 //            {
 //                @Override
