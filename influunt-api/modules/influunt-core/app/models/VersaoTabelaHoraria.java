@@ -202,7 +202,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     public static List<VersaoTabelaHoraria> findByControladorOrdered(Controlador controlador) {
         return VersaoTabelaHoraria.find.where()
             .eq("controlador_id", controlador.getId())
-            .orderBy("t0.data_atualizacao desc")
+            .orderBy("dataAtualizacao desc")
             .findList();
     }
 

@@ -101,7 +101,7 @@ public class VersaoPlano extends Model implements Serializable {
     public static List<VersaoPlano> findOrderByAnel(Anel anel) {
         return VersaoPlano.find.where()
             .eq("anel_id", anel.getId())
-            .orderBy("t0.data_atualizacao desc")
+            .orderBy("dataAtualizacao desc")
             .findList();
     }
 
