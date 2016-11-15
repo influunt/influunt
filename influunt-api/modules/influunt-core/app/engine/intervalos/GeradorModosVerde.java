@@ -15,10 +15,15 @@ import java.util.List;
  * Created by rodrigosol on 10/24/16.
  */
 public class GeradorModosVerde extends GeradorDeIntervalos {
+
+    private Long tempoAbatimentoCoordenado = 0L;
+
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
-                             EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde) {
+                             EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
+                             Long tempoAbatimentoCoordenado) {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+        this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
     }
 
     @Override
@@ -32,9 +37,25 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         final Estagio estagioAtual = estagioPlano.getEstagio();
         final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
 
-        final long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+        final Long tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
         final int verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos);
-        final long tempoVerde = verde * 1000L;
+        long tempoVerde = verde * 1000L;
+
+        if (tempoAbatimentoCoordenado != null && tempoAbatimentoCoordenado > 0L) {
+            //Compensação de diferença entre entreverdes
+            final Long tempoEntreVerdeDoPlano = tabelaDeTemposEntreVerde.get(
+                new Pair<Integer, Integer>(this.plano.getEstagioAnterior(estagioPlano).getPosicao(), estagioAtual.getPosicao()));
+
+            tempoAbatimentoCoordenado += (tempoEntreVerde - tempoEntreVerdeDoPlano);
+
+
+            final long verdeSeguranca = estagioPlano.getTempoVerdeSegurancaFaltante(estagioPlanoAtual);
+            final long abatimento = Math.min(tempoVerde - verdeSeguranca, tempoAbatimentoCoordenado);
+
+            tempoVerde -= abatimento;
+
+            tempoAbatimentoCoordenado -= abatimento;
+        }
 
         if (estagioPlano.getPlano().isManual()) {
             estagioPlano.setTempoVerde(verde);
@@ -52,5 +73,10 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             estagioPlano = listaEstagioPlanos.stream().filter(ep -> ep.getEstagio().equals(estagioAtual)).findFirst().orElse(null);
         }
         return estagioPlano;
+    }
+
+    @Override
+    public Long getTempoAbatimentoCoordenado() {
+        return tempoAbatimentoCoordenado;
     }
 }

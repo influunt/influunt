@@ -347,7 +347,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 7);
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 9);
 
-        estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
+        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
 
         anel = getAnel(3);
 
@@ -647,6 +647,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
+
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
 
@@ -676,6 +679,10 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        plano.setDefasagem(10);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 11, 10});
 
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
@@ -718,6 +725,12 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 12, 14, 11}, false);
 
         plano = criarPlano(anel, 2, ModoOperacaoPlano.ATUADO, null);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 10, 11, 11}, true);
+
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.ATUADO, null);
         criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
@@ -800,6 +813,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
 
         criarEvento(tabelaHoraria, 12, DiaDaSemana.SEGUNDA, LocalTime.parse("23:00:00"), 2);
+
+        criarEvento(tabelaHoraria, 13, DiaDaSemana.TERCA, LocalTime.parse("23:00:00"), 3);
 
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);

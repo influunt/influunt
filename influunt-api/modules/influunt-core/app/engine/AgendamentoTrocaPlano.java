@@ -21,6 +21,8 @@ public class AgendamentoTrocaPlano {
 
     private boolean saidaDoModoManual = false;
 
+    private boolean tempoDeEntradaCalculado = false;
+
     public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal) {
         this.evento = evento;
         this.plano = plano;
@@ -94,5 +96,17 @@ public class AgendamentoTrocaPlano {
 
     public void setSaidaDoModoManual(boolean saidaDoModoManual) {
         this.saidaDoModoManual = saidaDoModoManual;
+    }
+
+    public boolean isTempoDeEntradaCalculado() {
+        return tempoDeEntradaCalculado;
+    }
+
+    public void setTempoDeEntradaCalculado(boolean tempoDeEntradaCalculado) {
+        this.tempoDeEntradaCalculado = tempoDeEntradaCalculado;
+    }
+
+    public boolean isPlanoCoordenado() {
+        return getPlano().isTempoFixoCoordenado();
     }
 }

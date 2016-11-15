@@ -58,6 +58,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private AgendamentoTrocaPlano agendamento = null;
 
+    private Long tempoAbatimentoCoordenado = null;
+
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -84,6 +86,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
+        } else if (this.agendamento != null && this.agendamento.isPlanoCoordenado() && !this.agendamento.isTempoDeEntradaCalculado()) {
+            tempoAbatimentoCoordenado = verificarETrocaCoordenado();
+            this.agendamento.setTempoDeEntradaCalculado(true);
+            intervalo = verificaETrocaIntervalo(intervalo);
         } else {
             intervalo = verificaETrocaIntervalo(intervalo);
         }
@@ -94,6 +100,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
         tempoDecorrido += 100L;
 
         monitoraTempoMaximoDePermanenciaDoEstagio();
+    }
+
+    private Long verificarETrocaCoordenado() {
+        return GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -128,7 +138,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private boolean temQueExecutarOAgendamento() {
-        return this.agendamento.isImpostoPorFalha() || this.agendamento.isSaidaDoModoManual();
+        return this.agendamento.isImpostoPorFalha() ||
+            this.agendamento.isSaidaDoModoManual() ||
+            this.agendamento.isPlanoCoordenado();
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
@@ -213,6 +225,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             if (this.plano.isTempoFixoIsolado() || this.plano.isAtuado()) {
                 atualizaListaEstagiosNovoPlano(listaOriginalEstagioPlanos);
+            } else if (this.plano.isTempoFixoCoordenado()) {
+                final Evento evento = motor.getEventoAtual();
+                DateTime momentoEntrada = this.agendamento != null ? this.agendamento.getMomentoOriginal() : inicioExecucao.plus(tempoDecorrido);
+                this.listaEstagioPlanos = listaEstagioPlanosSincronizada(this.plano.getEstagiosOrdenados(), evento.getMomentoEntrada(getAnel(), momentoEntrada));
             } else {
                 this.listaEstagioPlanos = new ArrayList<>(listaOriginalEstagioPlanos);
             }
@@ -228,19 +244,47 @@ public class GerenciadorDeEstagios implements EventoCallback {
             geraIntervalos(0);
 
             if (!inicio) {
+                IntervaloEstagio intervalo = this.intervalos.get(0L);
                 EventoMotor eventoMotor = new EventoMotor(null, TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
+
+                if (intervalo == null) {
+                    this.agendamento = null;
+                    verificaETrocaIntervalo(intervalo);
+                }
+
                 this.intervalos.get(0L).addEvento(contadorIntervalo, eventoMotor);
             }
         }
+    }
+
+    private List<EstagioPlano> listaEstagioPlanosSincronizada(List<EstagioPlano> estagiosOrdenados, Long momentoEntrada) {
+        List<EstagioPlano> novaLista = new ArrayList<>();
+        final long[] tempoRestante = {momentoEntrada};
+        estagiosOrdenados.stream().forEach(estagioPlano -> {
+            final long duracaoEstagio = estagioPlano.getDuracaoEstagio() * 1000L;
+            if (tempoRestante[0] >= duracaoEstagio) {
+                tempoRestante[0] -= duracaoEstagio;
+            } else {
+                novaLista.add(estagioPlano);
+            }
+        });
+        if (tempoAbatimentoCoordenado != null) {
+            tempoAbatimentoCoordenado += tempoRestante[0];
+        } else {
+            tempoAbatimentoCoordenado = tempoRestante[0];
+        }
+        return novaLista;
     }
 
     private void geraIntervalos(Integer index) {
         GeradorDeIntervalos gerador = GeradorDeIntervalos.getInstance(this.intervalos, this.plano,
             this.modoAnterior, this.listaEstagioPlanos,
             this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
-            index);
+            index, tempoAbatimentoCoordenado);
 
         Pair<Integer, RangeMap<Long, IntervaloEstagio>> resultado = gerador.gerar(index);
+
+        this.tempoAbatimentoCoordenado = gerador.getTempoAbatimentoCoordenado();
 
         this.contadorEstagio += resultado.getFirst();
         this.intervalos = resultado.getSecond();
