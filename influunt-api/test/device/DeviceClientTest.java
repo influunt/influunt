@@ -2,6 +2,7 @@ package device;
 
 import config.WithInfluuntApplicationNoAuthentication;
 import config.WithLocalInfluuntApplicationNoAuthentication;
+import org.junit.Ignore;
 import org.junit.Test;
 import os72c.client.Client;
 
@@ -15,6 +16,7 @@ import static org.awaitility.Awaitility.await;
 public class DeviceClientTest extends WithLocalInfluuntApplicationNoAuthentication{
 
     @Test
+    @Ignore
     public void execucao() throws InterruptedException {
 
         Client client = provideApp.injector().instanceOf(Client.class);

@@ -13,6 +13,10 @@ public class DestinoCentral {
         return "central/configuracao";
     }
 
+    public final static String alarmeFalhaConfiguracao(String idControlador) {
+        return "central/alarmes_falhas/" + idControlador;
+    }
+
     public static String transacao(String idTransacao) {
         return "central/transacoes/".concat(idTransacao);
     }

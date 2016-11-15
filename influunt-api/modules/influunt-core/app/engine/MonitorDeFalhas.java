@@ -48,7 +48,7 @@ public class MonitorDeFalhas {
 
         for (Map.Entry<Integer, Long> entry : retiraVerdeConflitantes.entrySet()) {
             if (entry.getValue().equals(ticks)) {
-                motorEventoHandler.handle(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
+                motorEventoHandler.getMotor().onEvento(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
                 retiraVerdeConflitantes.put(entry.getKey(), Long.MIN_VALUE);
             }
         }
@@ -60,7 +60,7 @@ public class MonitorDeFalhas {
             if (newValue.getSecond().equals(newValue.getFirst())) {
                 TipoEvento tv = entry.getKey().isPedestre() ? TipoEvento.FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO :
                     TipoEvento.FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO;
-                motorEventoHandler.handle(new EventoMotor(timestamp, tv,
+                motorEventoHandler.getMotor().onEvento(new EventoMotor(timestamp, tv,
                     new Pair<Integer, TipoDetector>(entry.getKey().getPosicao(), entry.getKey().getTipo()),
                     entry.getKey().getAnel().getPosicao()));
 

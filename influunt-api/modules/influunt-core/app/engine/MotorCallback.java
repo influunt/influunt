@@ -12,4 +12,5 @@ public interface MotorCallback extends GerenciadorDeEstagiosCallback {
     void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos);
 
     void onAlarme(DateTime timestamp, EventoMotor eventoMotor);
+    void onFalha(DateTime timestamp, EventoMotor eventoMotor);
 }

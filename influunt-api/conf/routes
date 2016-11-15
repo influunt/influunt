@@ -161,11 +161,11 @@ GET       /api/v1/monitoramento/modo_operacoes_controladores                    
 GET       /api/v1/monitoramento/modo_operacoes_controladores/:id/ultimo_modo_operacao          controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoControlador(id)
 GET       /api/v1/monitoramento/modo_operacoes_controladores/:id/historico/:pagina/:tamanho    controllers.monitoramento.ModoOperacaoControladorController.historico(id,pagina,tamanho)
 
-# Erros Controladores
-GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.ErrosControladorController.findOne(id)
-GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.ErrosControladorController.ultimosErrosDosControladores()
-GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.ErrosControladorController.ultimoErroControlador(id)
-GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.ErrosControladorController.historico(id,pagina,tamanho)
+# Alarmes e Falhas Controladores
+GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.AlarmesEFalhasControladorController.findOne(id)
+GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimosAlarmesEFalhasDosControladores()
+GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimoAlarmeFalhaControlador(id)
+GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.AlarmesEFalhasControladorController.historico(id,pagina,tamanho)
 
 # ImposicaoPlanos Controlador
 GET       /api/v1/monitoramento/imposicoes_planos/:id                                           controllers.monitoramento.ImposicaoPlanosControladorController.findOne(id)

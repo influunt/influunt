@@ -127,6 +127,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         if (eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
             callback.onAlarme(instante, eventoMotor);
         } else {
+            callback.onFalha(instante,eventoMotor);
             motorEventoHandler.handle(eventoMotor);
         }
     }

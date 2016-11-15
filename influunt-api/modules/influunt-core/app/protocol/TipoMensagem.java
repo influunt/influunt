@@ -13,5 +13,6 @@ public enum TipoMensagem {
     ERRO,
     MUDANCA_STATUS_CONTROLADOR,
     TRANSACAO,
-    ENVIO_PLANOS;
+    ENVIO_PLANOS,
+    ALARME_FALHA;
 }

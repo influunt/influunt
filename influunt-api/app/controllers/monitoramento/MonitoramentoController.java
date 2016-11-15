@@ -36,7 +36,7 @@ public class MonitoramentoController extends Controller {
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
         HashMap<String, ModoOperacaoPlano> modos = ModoOperacaoControlador.ultimoModoOperacaoDosControladores();
-        HashMap<String, Object> erros = ErrosControlador.ultimosErrosDosControladoresPorErro(10);
+        HashMap<String, Object> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(10);
         HashMap<String, Boolean> imposicaoPlanos = ImposicaoPlanosControlador.ultimoStatusPlanoImpostoDosControladoresOn();
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
