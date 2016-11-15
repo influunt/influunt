@@ -4,8 +4,11 @@ import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import models.Evento;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.junit.Test;
+
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,7 +25,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
         Evento evento = controlador.getTabelaHoraria().getEventos().stream().filter(evento1 -> evento1.getPosicao().equals(13)).findFirst().get();
 
         //Rever os testes passando uma data e hora desejada
-        DateTime dataHora = new DateTime(2016, 11, 15, 8, 0, 0, 0);
+        DateTime dataHora =  new DateTime(2016, 11, 15, 8, 0, 0, 0, DateTimeZone.forTimeZone(TimeZone.getTimeZone("America/Sao_Paulo")));
 
         System.out.println("DATA SERVIDOR **************************** " + dataHora + " *************** " + dataHora.getMillis());
 
@@ -37,7 +40,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaCorretaDePlanos() {
-        inicioControlador = new DateTime(2016, 11, 15, 22, 59, 30, 0);
+        inicioControlador = new DateTime(2016, 11, 15, 22, 59, 30, 0, DateTimeZone.forTimeZone(TimeZone.getTimeZone("America/Sao_Paulo")));
         inicioExecucao = inicioControlador;
         instante = inicioControlador;
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
