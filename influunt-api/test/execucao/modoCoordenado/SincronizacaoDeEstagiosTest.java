@@ -24,7 +24,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
         //Rever os testes passando uma data e hora desejada
         DateTime dataHora = new DateTime(2016, 11, 15, 8, 0, 0, 0);
 
-        System.out.println("DATA SERVIDOR **************************** " + dataHora);
+        System.out.println("DATA SERVIDOR **************************** " + dataHora + " *************** " + dataHora.getMillis());
 
         assertEquals(14000L, evento.getMomentoEntrada(1, dataHora).longValue());
         assertEquals(4000L, evento.getMomentoEntrada(2, dataHora).longValue());
