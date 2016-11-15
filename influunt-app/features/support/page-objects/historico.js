@@ -7,7 +7,7 @@ var HistoricoPage = function () {
 
   this.isModalHistorico = function() {
     return world.waitForOverlayDisappear().then(function() {
-      return world.getElementByXpath('//div[contains(@class, "modal")][contains(@id, "modal-timeline")][contains(@style, "display: block;")]');
+      return world.getElementByXpath('//div[contains(@id, "modal-timeline")][contains(@style, "display: block;")]');
     });
   };
 };

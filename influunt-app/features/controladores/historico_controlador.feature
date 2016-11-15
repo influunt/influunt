@@ -12,5 +12,6 @@ Funcionalidade: Visualizar histórico do controlador
     E o sistema deverá mostrar na "1" posição com a data "13 de Novembro de 2016"
     E o sistema deverá mostrar na "2" posição com a data "12 de Novembro de 2016"
     E o sistema deverá mostrar na "3" posição com a data "8 de Novembro de 2016"
+    Então o usuário clicar em fechar o modal
 
 

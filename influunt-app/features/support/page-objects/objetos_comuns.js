@@ -221,6 +221,12 @@ var ObjetosComuns = function () {
     return world.visit('/app/'+local+'');
   };
 
+  this.fecharModal = function() {
+    return world.sleep(500).then(function(){
+      return world.getElementByXpath('//button[contains(text(), "Fechar")]').click();
+    });
+  };
+
   this.checkPosicaoHistorico = function(posicao, data) {
     return world.waitForOverlayDisappear().then(function() {
       return world.waitForByXpath('(//div[contains(@class, "vertical-timeline-content")])['+posicao+']//small[contains(text(), "'+data+'")]');

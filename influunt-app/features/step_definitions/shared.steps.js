@@ -160,4 +160,7 @@ module.exports = function() {
     return sharedSteps.checkPosicaoHistorico(posicao, data);
   });
 
+  this.Given(/^o usuário clicar em fechar o modal$/, function () {
+    return sharedSteps.fecharModal();
+  });
 };
