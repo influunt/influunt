@@ -150,4 +150,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public Controlador getControlador() {
         return controlador;
     }
+
+    public Evento getEventoAtual() {
+        return eventoAtual;
+    }
 }

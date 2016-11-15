@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import config.WithInfluuntApplicationNoAuthentication;
@@ -13,7 +12,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -242,7 +240,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.setNumero(255);
 
         JsonNode json = Json.toJson(subarea);
-        ArrayNode controladoresJson = ((ObjectNode)json).putArray("controladoresAssociados");
+        ArrayNode controladoresJson = ((ObjectNode) json).putArray("controladoresAssociados");
         controladoresJson.addObject().put("id", controlador.getId().toString());
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST").uri(routes.SubareasController.create().url()).bodyJson(json);

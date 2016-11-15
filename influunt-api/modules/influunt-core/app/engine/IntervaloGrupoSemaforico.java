@@ -195,7 +195,7 @@ public class IntervaloGrupoSemaforico {
                 final Transicao transicao = grupoSemaforico.findTransicaoComGanhoDePassagemByOrigemDestino(estagioAnterior, estagioAtual);
                 final long tempoAtraso = transicao.getTempoAtrasoGrupo() * 1000L;
 
-                if(duracaoEntreverde > tempoAtraso) {
+                if (duracaoEntreverde > tempoAtraso) {
                     intervalos.put(Range.closedOpen(0L, duracaoEntreverde - tempoAtraso), EstadoGrupoSemaforico.VERMELHO);
                     intervalos.put(Range.closedOpen(duracaoEntreverde - tempoAtraso, duracaoEntreverde), EstadoGrupoSemaforico.VERDE);
                 } else {

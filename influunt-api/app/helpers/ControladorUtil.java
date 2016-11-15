@@ -10,8 +10,6 @@ import play.Logger;
 import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
