@@ -174,6 +174,7 @@ angular.module('influuntApp')
       };
 
       $scope.ativarProximoAnel = function() {
+        $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, 'posicao');
         $scope.selecionaAnelLocal(_.findIndex($scope.objeto.aneis, { ativo: false }));
         $scope.currentAnel.ativo = true;
         inicializaEnderecos();
@@ -192,21 +193,18 @@ angular.module('influuntApp')
 
       $scope.deletarUltimoAnelAtivo = function(data) {
         var tabWasAdded = !!$(data.tab).data('newtab');
-        if (tabWasAdded) {
-          return $q.resolve(true);
-        } else {
-          var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
-              text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
-          return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
-            if (deveApagarAnel) {
-              var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
-              $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
-              $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
-              $scope.submitForm('aneis', 'app.wizard_controladores.aneis');
-            }
-            return deveApagarAnel;
-          });
-        }
+        var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
+            text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
+        return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
+          if (deveApagarAnel && !tabWasAdded) {
+            var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
+            $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
+            $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
+            $scope.submitForm('aneis', 'app.wizard_controladores.aneis').then(atualizarAneisAtivos);
+          }
+
+          return deveApagarAnel;
+        });
       };
 
       deletarCroquiNoServidor = function(imagemIdJson) {

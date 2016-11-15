@@ -11,7 +11,7 @@ import status.StatusConexaoControlador;
  * Created by rodrigosol on 9/6/16.
  */
 public class ConexaoOfflineActorHandler extends UntypedActor {
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object message) throws Exception {

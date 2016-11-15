@@ -33,10 +33,8 @@ public class ClientActor extends UntypedActor {
 
     private final Storage storage;
 
-
     private ActorRef device;
-
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtControlador;
 

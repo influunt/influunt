@@ -83,6 +83,7 @@ var paths = {
     'bower_components/angular-permission/dist/angular-permission-ui.js',
     'bower_components/angular-permission/dist/angular-permission-ng.js',
     'bower_components/humanize-duration/humanize-duration.js',
+    'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -281,11 +282,6 @@ gulp.task('pre-test', function() {
 gulp.task('test', ['start:server:test'], function() {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
   var cucumberFiles = paths.cucumberFeatures.concat(paths.cucumberStepDefinitions);
-
-  gulp.watch(cucumberFiles)
-    .on('change', function(file) {
-      runCucumber(file);
-    });
 
   return gulp.src(testToFiles)
     .pipe($.karma({

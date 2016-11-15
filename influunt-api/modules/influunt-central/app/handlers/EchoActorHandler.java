@@ -11,7 +11,7 @@ import protocol.Envelope;
  */
 public class EchoActorHandler extends UntypedActor {
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object message) throws Exception {

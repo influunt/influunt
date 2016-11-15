@@ -172,7 +172,7 @@ angular.module('influuntApp')
           $scope.beforeSubmitForm();
         }
 
-        Restangular
+        return Restangular
           .all('controladores')
           .all(stepResource)
           .post($scope.objeto)
@@ -184,6 +184,10 @@ angular.module('influuntApp')
 
             if (nextStep === $state.current.name) {
               toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
+            }
+
+            if (angular.isFunction($scope.afterSubmitForm)) {
+              $scope.afterSubmitForm();
             }
 
             $state.go(nextStep, {id: $scope.objeto.id});
@@ -308,6 +312,7 @@ angular.module('influuntApp')
         transicoesToSearchFor.forEach(function(t) {
           var transicao = _.find(transicoesToFindIn, { idJson: t.idJson });
           $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            transicao: transicao,
             origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
             destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
           };
@@ -533,8 +538,8 @@ angular.module('influuntApp')
           });
       };
 
-      $scope.podeEditarControlador = function() {
-        return planoService.podeEditarControlador($scope.objeto);
+      $scope.podeEditarControlador = function(controlador) {
+        return planoService.podeEditarControlador(controlador);
       };
 
       $scope.controladorBloqueadoParaEdicao = function() {
@@ -546,8 +551,11 @@ angular.module('influuntApp')
       };
 
       $scope.podeFinalizar = function(controlador) {
-        var statusControladorOk = controlador.statusControlador === 'EM_CONFIGURACAO' || controlador.statusControlador === 'EDITANDO';
-        return statusControladorOk && controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        var statusControladorOk = controlador.statusControladorReal === 'EM_CONFIGURACAO' || controlador.statusControladorReal === 'EDITANDO';
+        return statusControladorOk &&
+          controlador.controladorConfigurado &&
+          controlador.planoConfigurado &&
+          controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {

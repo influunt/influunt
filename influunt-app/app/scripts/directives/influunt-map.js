@@ -7,7 +7,7 @@
  * # influuntMap
  */
 angular.module('influuntApp')
-  .directive('influuntMap', [function() {
+  .directive('influuntMap', ['MAP', function(MAP) {
     return {
       restrict: 'A',
       scope: {
@@ -20,19 +20,19 @@ angular.module('influuntApp')
       link: function(scope, element) {
         L.Icon.Default.imagePath = 'images/leaflet';
 
-        var TILE_LAYER = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
         var DEFAULT_MARKER_OPTINS = {draggable: true};
         var DEFAULT_MAP_OPTIONS = {scrollWheelZoom: false};
         var DEFAULT_BG_COLORS = ['#FFC107', '#FF5722', '#009688', '#4CAF50', '#3F51B5', '#D32F2F'];
         var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
-        var BOUNDING_BOX_VARIATION = 15;    // intervalo (em graus) da variacao do bounding box.
+        var BOUNDING_BOX_VARIATION = 90;    // intervalo (em graus) da variacao do bounding box.
         var HULL_CONCAVITY = 0.0013;
+        var DISTANCE_BETWEEN_POINTS = 100;
 
         // private methods.
         var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
-            getAreaTitle, getBoundingBox, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
-            renderMarkers, setView, setViewForArea;
+            getAreaTitle, getBoundingBox, getMiddlePoints, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
+            renderMarkers, setView, setViewForArea, orderPoints, getLatLng;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
@@ -41,10 +41,11 @@ angular.module('influuntApp')
           }
 
           var options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), scope.options);
-
           map = L.map(element[0], options);
           map.setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
-          L.tileLayer(TILE_LAYER, {maxZoom: 20, id: 'mapbox.streets'}).addTo(map);
+
+          var tileLayer = new L.tileLayer.wms(MAP.url, MAP.options);
+          tileLayer.addTo(map);
         };
 
         createMarker = function(obj) {
@@ -118,11 +119,14 @@ angular.module('influuntApp')
           };
 
           options = _.merge(options, obj.options);
-          var points = getBoundingBox(obj.points);
-          points = getHullPoints(points);
-          var agrupamento = L.polygon(points, options);
 
-          return agrupamento;
+          var points = getLatLng(obj.points);
+          points = orderPoints(points);
+          points = getMiddlePoints(points);
+          points = getBoundingBox(points);
+          points = getHullPoints(points);
+
+          return L.polygon(points, options);
         };
 
         addMarkers = function(markers) {
@@ -130,7 +134,14 @@ angular.module('influuntApp')
             map.removeLayer(markersLayer);
           }
 
-          markersLayer = new L.FeatureGroup();
+          // Remove o primeiro anel do mapa, caso o controlador de mesmo endereço seja exibido.
+          markers = _
+            .chain(markers)
+            .orderBy('options.tipo', ['desc'])
+            .uniqBy(function(m) { return m.latitude + '' + m.longitude; })
+            .value();
+
+          markersLayer = new L.markerClusterGroup();
           markers.forEach(function(marker) {
             var m = createMarker(marker);
             markersLayer.addLayer(m);
@@ -182,13 +193,53 @@ angular.module('influuntApp')
           return hull(points, hullConcavity, ['.lat', '.lng']);
         };
 
+        orderPoints = function(tail, head) {
+          tail = _.cloneDeep(tail);
+          head = _.cloneDeep(head);
+          if (!head) {
+            tail = _.orderBy(tail, ['lat', 'lng']);
+            head = tail.shift();
+          }
+
+          tail = tail.sort(function(a, b) { return head.distanceTo(a) - head.distanceTo(b); });
+          var nearest = tail.shift();
+
+          if (tail.length > 0) {
+            return _.concat([head], orderPoints(tail, nearest));
+          } else {
+            return [head, nearest];
+          }
+        };
+
+        getLatLng = function(points) {
+          return points.map(function(point) { return new L.LatLng(point.latitude, point.longitude); });
+        };
+
+        /**
+         * Cria pontos entre os pontos originais do agrupamento. O objetivo deste método é garantir que o contorno dos
+         * agrupamentos fique sempre na mesma espessura, inclusive em espaços onde não há pontos desenhados.
+         *
+         * @param      {<type>}  points  The points
+         */
+        getMiddlePoints = function(points) {
+          var middlePoints = [];
+          for (var i = 0; i < points.length - 1; i++) {
+            var lat1 = points[i];
+            var lat2 = points[i + 1];
+            middlePoints = _.concat(middlePoints, L.LatLng.getPointsBetween(lat1, lat2, DISTANCE_BETWEEN_POINTS));
+            middlePoints.push(lat1);
+            middlePoints.push(lat2);
+          }
+
+          return middlePoints;
+        };
+
         getBoundingBox = function(points) {
           var boxedPoints = [];
           _.each(points, function(point) {
-            var thisPoint = new L.LatLng(point.latitude, point.longitude);
-            boxedPoints.push(thisPoint);
+            boxedPoints.push(point);
             for (var i = 0; i < 360; i += BOUNDING_BOX_VARIATION) {
-              boxedPoints.push(thisPoint.destinationPoint(i, BOUNDING_BOX_SIZE));
+              boxedPoints.push(point.destinationPoint(i, BOUNDING_BOX_SIZE));
             }
           });
 
@@ -216,7 +267,6 @@ angular.module('influuntApp')
           map.addLayer(polylineLayer);
         };
 
-
         var markersTimeout, areasTimeout, agrupamentosTimeout;
         renderMarkers = function(markers) {
           if (_.isObject(markersLayer)) { map.removeLayer(markersLayer); }
@@ -225,7 +275,6 @@ angular.module('influuntApp')
 
           if (_.isArray(markers) && markers.length > 0 && angular.isDefined(map)) {
             addMarkers(markers);
-            agrupaAneis(markers);
           }
         };
 

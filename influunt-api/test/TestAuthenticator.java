@@ -65,6 +65,6 @@ public class TestAuthenticator implements Authenticator {
     @Override
     public Collection<Sessao> listSessions(final Subject subject) {
         return sessions.values().stream().filter(entry -> entry.getSubject().equals(subject))
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 }

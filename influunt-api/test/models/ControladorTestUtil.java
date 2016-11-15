@@ -29,6 +29,13 @@ public class ControladorTestUtil {
         this.modeloControlador = modeloControlador;
     }
 
+    public ControladorTestUtil(Area area, Fabricante fabricante, ModeloControlador modeloControlador) {
+        this.area = area;
+        this.subarea = null;
+        this.fabricante = fabricante;
+        this.modeloControlador = modeloControlador;
+    }
+
     public Controlador getControlador() {
         return new Controlador();
     }
@@ -296,6 +303,12 @@ public class ControladorTestUtil {
                         }
                     }
                 }
+
+                grupoSemaforico.getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico -> {
+                    Estagio origem = estagioGrupoSemaforico.getEstagio();
+                    Transicao t = grupoSemaforico.getTransicoes().stream().filter(transicao -> origem.equals(transicao.getOrigem())).findFirst().get();
+                    t.setModoIntermitenteOuApagado(true);
+                });
             }
         }
         return controlador;
@@ -491,9 +504,9 @@ public class ControladorTestUtil {
         agrupamento.setHorario(LocalTime.MIDNIGHT);
         agrupamento.setPosicaoPlano(1);
         controlador.getAneis()
-                .stream()
-                .filter(Anel::isAtivo)
-                .forEach(agrupamento::addAnel);
+            .stream()
+            .filter(Anel::isAtivo)
+            .forEach(agrupamento::addAnel);
         agrupamento.save();
 
         return controlador;
@@ -521,6 +534,7 @@ public class ControladorTestUtil {
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
             plano.addEstagios(estagioPlano);
+            estagio.addEstagioPlano(estagioPlano);
             i++;
         }
     }

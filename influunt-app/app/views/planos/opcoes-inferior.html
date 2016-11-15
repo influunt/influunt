@@ -72,7 +72,7 @@
 <div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO' || currentPlano.modoOperacao === 'ATUADO'">
   <div class="col-lg-3 col-sm-3">
     <div class="form-group">
-      <label>ESTÁGIO DISPENSÁVEL</label>
+      <label>{{ 'planos.estagioDispensavel' | translate | uppercase }}</label>
       <p>
         <input type="checkbox" name="dispensavel" is-disabled="somenteVisualizacao"
             data-ng-model="currentEstagioPlano.dispensavel" ichecks>
@@ -81,8 +81,8 @@
   </div>
   <div class="col-lg-6 col-sm-6" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO'">
     <div class="form-group" data-ng-if="currentEstagioPlano.dispensavel">
-      <label>ESTÁGIO QUE RECEBE TEMPO DO ESTÁGIO DISPENSÁVEL</label>
-      <select data-ng-options="estagio.idJson as 'E' + estagio.posicao for estagio in opcoesEstagiosDisponiveis"
+      <label>{{ 'planos.estagioQueRecebeTempoDeEstagioDispensavel' | translate | uppercase }}</label>
+      <select data-ng-options="estagio.idJson as 'E' + estagio.posicaoEstagio for estagio in opcoesEstagiosDisponiveis"
         data-ng-model="currentEstagioPlano.estagioQueRecebeEstagioDispensavel.idJson"
         name="tipoEstagio" class="form-control" ng-disabled="somenteVisualizacao">
       </select>

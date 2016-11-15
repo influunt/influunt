@@ -42,10 +42,6 @@ var AgrupamentosPage = function () {
     });
   };
 
-  this.selecionarControlador = function(option) {
-    return world.selectSelect2Option('select[name="controladores"]', option);
-  };
-
   this.textoExisteNaTabela = function(text) {
     return world.waitForByXpath('//td[contains(text(), "'+text+'")]').then(function() {
       return world.getElementByXpath('//td[contains(text(), "'+text+'")]');

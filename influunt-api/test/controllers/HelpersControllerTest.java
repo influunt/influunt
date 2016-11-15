@@ -53,7 +53,7 @@ public class HelpersControllerTest extends WithInfluuntApplicationNoAuthenticati
         labs.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.HelpersController.controladorHelper().url());
+            .uri(routes.HelpersController.controladorHelper().url());
         Result result = route(request);
         assertEquals(OK, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));

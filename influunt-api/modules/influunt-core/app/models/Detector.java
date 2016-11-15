@@ -196,7 +196,7 @@ public class Detector extends Model implements Cloneable, Serializable {
             message = "O tempo de ausência de detecção deve estar entre {min} e {max}.")
     public boolean isTempoAusenciaDeteccaoEstaDentroDaFaixa() {
         if (isMonitorado()) {
-            return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
+            return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance(null).TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
         }
         return true;
     }
@@ -206,7 +206,7 @@ public class Detector extends Model implements Cloneable, Serializable {
             message = "O tempo de detecção permanente deve estar entre {min} e {max}.")
     public boolean isTempoDeteccaoPermanenteEstaDentroDaFaixa() {
         if (isMonitorado()) {
-            return getTempoDeteccaoPermanente() != null && RangeUtils.getInstance().TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
+            return getTempoDeteccaoPermanente() != null && RangeUtils.getInstance(null).TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
         }
         return true;
     }

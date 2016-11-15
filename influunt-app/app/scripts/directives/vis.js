@@ -15,6 +15,7 @@ angular.module('influuntApp')
           grupos: '=',
           estagios: '=',
           onChangeCheckbox: '&',
+          beforeChangeCheckbox: '&?', // deve retornar uma promise
           tempoCiclo: '=',
           comCheckBoxGrupo: '='
         },
@@ -30,16 +31,29 @@ angular.module('influuntApp')
             });
           };
 
-          var bindCheckboxEvents = function() {
-            $('.group-checkbox').on('change', function() {
-              var checkbox = $(this);
-              var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
-              grupo.ativado = checkbox.is(':checked');
+          var handleCheckboxChange = function() {
+            var checkbox = $(this);
+            var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
+            var grupoAtivado = checkbox.is(':checked');
 
+            // se beforeChangeCheckbox for definido, o checkbox só troca de estado
+            // se a promise retornada por scope.beforeChangeCheckbox for resolvida.
+            if (scope.beforeChangeCheckbox) {
+              checkbox.prop('checked', !grupoAtivado);
+              scope.beforeChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado})
+                .then(function() {
+                  grupo.ativado = grupoAtivado;
+                  scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado});
+                });
+            } else {
+              grupo.ativado = grupoAtivado;
               scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado});
               scope.$apply();
-            });
+            }
+          };
 
+          var bindCheckboxEvents = function() {
+            $('.group-checkbox').on('change', handleCheckboxChange);
           };
 
           var setData = function(grupos, estagios) {

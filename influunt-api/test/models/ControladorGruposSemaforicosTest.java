@@ -14,6 +14,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
 
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse anel deve ter no mínimo 2 grupos semáforicos", "aneis[0]")
+            new Erro(CONTROLADOR, "Esse anel deve ter no mínimo 2 grupos semáforicos", "aneis[0]")
         ));
 
         Anel anelAtivo = controlador.getAneis().stream().filter(anel -> anel.isAtivo()).findFirst().get();
@@ -59,7 +60,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         assertEquals(17, anelAtivo.getGruposSemaforicos().size());
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Numero total de grupos semáforicos informado individualmente nos aneis excede o limite do controlador", "")
+            new Erro(CONTROLADOR, "Número total de grupos semáforicos informado individualmente nos anéis excede o limite do controlador", "")
         ));
 
         anelAtivo.setGruposSemaforicos(null);
@@ -77,9 +78,9 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
 
         assertEquals(3, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].tempoVerdeSeguranca"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tempoVerdeSeguranca"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tipo")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].tempoVerdeSeguranca"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tempoVerdeSeguranca"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tipo")
         ));
 
         grupoSemaforicoPedestre.setTipo(TipoGrupoSemaforico.PEDESTRE);
@@ -87,8 +88,8 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].tempoVerdeSeguranca"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tempoVerdeSeguranca")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].tempoVerdeSeguranca"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[1].tempoVerdeSeguranca")
         ));
 
         grupoSemaforicoVeicular.setTempoVerdeSeguranca(9);
@@ -97,8 +98,8 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Tempo de verde de segurança veicular deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
-                new Erro(CONTROLADOR, "Tempo de verde de segurança pedestre deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
+            new Erro(CONTROLADOR, "Tempo de verde de segurança veicular deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
+            new Erro(CONTROLADOR, "Tempo de verde de segurança pedestre deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
         ));
 
         grupoSemaforicoVeicular.setTempoVerdeSeguranca(31);
@@ -107,8 +108,8 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Tempo de verde de segurança veicular deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
-                new Erro(CONTROLADOR, "Tempo de verde de segurança pedestre deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
+            new Erro(CONTROLADOR, "Tempo de verde de segurança veicular deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].tempoVerdeSegurancaFieldVeicular"),
+            new Erro(CONTROLADOR, "Tempo de verde de segurança pedestre deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[1].tempoVerdeSegurancaFieldPedestre")
         ));
 
         grupoSemaforicoVeicular.setTempoVerdeSeguranca(30);
@@ -154,7 +155,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         Controlador controlador = getControladorGrupoSemaforicos();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson((new ControladorCustomSerializer().getControladorJson(controlador)));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson((new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -177,7 +178,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -194,7 +195,7 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.gruposSemaforicos().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -216,6 +217,6 @@ public class ControladorGruposSemaforicosTest extends ControladorTest {
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
+            Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class);
     }
 }

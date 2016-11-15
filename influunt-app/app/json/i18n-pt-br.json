@@ -62,34 +62,35 @@
     "titulo": "Programação",
     "detector": "Detector",
     "mapaControladores": {
-      "titulo": "Mapa dos controladores",
       "acoes": "Ações",
+      "agrupamentos": "Agrupamentos",
       "ajustes": "Ajustes",
+      "aneis": "Anéis",
       "area": "Área",
       "areas": "Áreas",
-      "subAreas": "Subáreas",
-      "planos": "Planos",
-      "imporPlanos": "Impor Planos",
-      "imporPlano": "Impor Plano",
-      "trocarTabela": "Trocar tabela horária",
-      "enviarPlano": "Enviar plano",
-      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o plano {PLANO} para o anel da {ANEL}?",
+      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o {PLANO} para o anel da {ANEL}?",
+      "controladores": "Controladores",
+      "controladoresFalhas": "Controladores com falhas",
+      "controladoresImpostos": "Controladores em planos impostos",
+      "controladoresSobControleManual": "Controladores sob controle manual",
       "descrevaEnvioPlano": "Descreva aqui as circunstâncias para o envio deste plano",
-      "sucessoEnvioPlano": "Plano {PLANO} enviado com sucesso ao anel {ANEL}",
+      "enviarPlano": "Enviar plano",
       "enviarTabela": "Enviar tabela horária",
+      "exibir": "Exibir",
+      "filtrar": "Filtrar",
+      "filtros": "Filtros",
+      "imporPlano": "Impor Plano",
+      "imporPlanos": "Impor Planos",
       "imposicaoPlano": {
         "mensagem": "Selecione abaixo um plano para ser imposto"
       },
-      "agrupamentos": "Agrupamentos",
-      "controladores": "Controladores",
-      "controladoresImpostos": "Controladores em planos impostos",
-      "controladoresFalhas": "Controladores com falhas",
-      "controladoresSobControleManual": "Controladores sob controle manual",
-      "filtros": "Filtros",
-      "filtrar": "Filtrar",
+      "legenda": "Legenda",
+      "planos": "Planos",
+      "subAreas": "Subáreas",
+      "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "tabelasHorarias": "Tabelas horárias",
-      "aneis": "Anéis",
-      "exibir": "Exibir"
+      "titulo": "Mapa dos controladores",
+      "trocarTabela": "Trocar tabela horária"
     },
     "mapa": "Mapa dos controladores",
     "anel": "Anel",
@@ -214,7 +215,12 @@
       "demandaPrioritaria": "Demanda prioritária"
     },
     "entreVerdes": {
-      "titulo": "Tabela de Entreverdes"
+      "titulo": "Tabela de Entreverdes",
+      "tabelas": "TABELAS",
+      "tabela": "TABELA",
+      "novaTabela": "Nova Tabela",
+      "descricao": "Descrição",
+      "modoIntermitenteOuApagado": "Intermitente ou Apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -246,6 +252,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
+      "modoIntermitenteOuApagado": "Intermitente ou Apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
@@ -293,11 +300,12 @@
   },
   "subareas": {
     "area": "Área",
-    "nome": "Nome",
-    "numero": "Número",
-    "novo": "Nova Subárea",
-    "mostrar": "Visualizar Subárea",
+    "associarControladores": "Associar controladores",
     "editar": "Editar Subárea",
+    "mostrar": "Visualizar Subárea",
+    "nome": "Nome",
+    "novo": "Nova Subárea",
+    "numero": "Número",
     "titulo": "Subáreas"
   },
   "cidades": {
@@ -394,6 +402,8 @@
   },
   "planos": {
     "titulo": "Planos",
+    "estagioDispensavel": "Estágio dispensável",
+    "estagioQueRecebeTempoDeEstagioDispensavel": "Estágio que recebe tempo do estágio dispensável",
     "planoNaoConfigurado": {
       "tituloAlert": "Atenção",
       "textoAlert": "Este plano ainda não foi configurado"
@@ -438,7 +448,11 @@
       "APAGADO": "Apagado",
       "MANUAL": "Manual"
     },
-    "estagioSequencia": "Estágio da Sequência"
+    "estagioSequencia": "Estágio da Sequência",
+    "grupoNaoAssociado": {
+      "titulo": "Grupo não associado",
+      "texto": "Este grupo não está associado a nenhum estágio do plano, e portanto está apagado. Para habilitá-lo, associe este grupo a pelo menos um estágio da sequencia."
+    }
   },
   "diagramaIntervalos": {
     "titulo": "Diagrama de Intervalos"
@@ -499,7 +513,8 @@
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
-      "sim": "Sim"
+      "sim": "Sim",
+      "ok": "Ok"
     },
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",

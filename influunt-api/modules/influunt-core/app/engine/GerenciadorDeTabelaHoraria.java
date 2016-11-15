@@ -22,9 +22,9 @@ import static utils.ConstantesDeTempo.*;
  */
 public class GerenciadorDeTabelaHoraria {
 
-    RangeMap<Integer, Evento> rangeMap = TreeRangeMap.create();
+    private RangeMap<Integer, Evento> rangeMap = TreeRangeMap.create();
 
-    Map<Integer, Boolean> petrios = new HashMap<>();
+    private Map<Integer, Boolean> petrios = new HashMap<>();
 
     private List<Evento> eventos;
 

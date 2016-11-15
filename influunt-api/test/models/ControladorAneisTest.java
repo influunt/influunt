@@ -13,6 +13,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class ControladorAneisTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Ao menos um anel deve estar ativo", "")
+            new Erro(CONTROLADOR, "Ao menos um anel deve estar ativo", "")
         ));
 
         Anel anel1 = controlador.getAneis().get(0);
@@ -51,7 +52,7 @@ public class ControladorAneisTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
+            new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
         ArrayList<Estagio> estagios = new ArrayList<Estagio>();
@@ -61,7 +62,7 @@ public class ControladorAneisTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Anel deve ter endereço", "aneis[0].enderecosOk")
+            new Erro(CONTROLADOR, "Anel deve ter endereço", "aneis[0].enderecosOk")
         ));
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
         paulista.setAnel(anel1);
@@ -69,7 +70,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco, caso não seja preenchido a altura numérica.", "aneis[0].endereco.localizacao2")
+            new Erro(CONTROLADOR, "não pode ficar em branco, caso não seja preenchido a altura numérica.", "aneis[0].endereco.localizacao2")
         ));
         paulista.setAlturaNumerica(15);
 
@@ -82,7 +83,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
+            new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
         estagios.clear();
@@ -122,7 +123,7 @@ public class ControladorAneisTest extends ControladorTest {
         Controlador controlador = getControladorAneis();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertControladorAnel(controlador, controladorJson);
@@ -156,7 +157,7 @@ public class ControladorAneisTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.aneis().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.aneis().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -173,7 +174,7 @@ public class ControladorAneisTest extends ControladorTest {
 
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.aneis().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.aneis().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -191,7 +192,7 @@ public class ControladorAneisTest extends ControladorTest {
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class);
+            Default.class, ControladorAneisCheck.class);
     }
 
     @Test

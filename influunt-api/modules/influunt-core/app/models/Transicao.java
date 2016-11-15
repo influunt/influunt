@@ -76,6 +76,9 @@ public class Transicao extends Model implements Cloneable, Serializable {
     private DateTime dataAtualizacao;
 
     @Column
+    private boolean modoIntermitenteOuApagado;
+
+    @Column
     private boolean destroy;
 
     public Transicao() {
@@ -159,6 +162,14 @@ public class Transicao extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public boolean isModoIntermitenteOuApagado() {
+        return modoIntermitenteOuApagado;
+    }
+
+    public void setModoIntermitenteOuApagado(boolean modoIntermitenteOuApagado) {
+        this.modoIntermitenteOuApagado = modoIntermitenteOuApagado;
+    }
+
     public boolean isDestroy() {
         return destroy;
     }
@@ -194,7 +205,7 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "O tempo de atraso de grupo deve estar entre {min} e {max}.")
     public boolean isTempoAtrasoDeGrupoDentroDaFaixa() {
-        return getAtrasoDeGrupo() != null && RangeUtils.getInstance().TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
+        return getAtrasoDeGrupo() != null && RangeUtils.getInstance(null).TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
     }
 
     public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {

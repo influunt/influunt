@@ -55,8 +55,8 @@
               <div class="form-group" data-ng-class="{'has-error': errors.subarea}">
                 <label class="col-sm-12 no-padding control-label">{{ 'controladores.subarea' | translate }}:</label>
                 <select name="subarea" class="form-control"
-                  data-ng-options="subarea.id as subarea.numero + ' - ' + subarea.nome for subarea in currentSubareas"
-                  data-ng-model="objeto.subarea.id"></select>
+                  data-ng-options="subarea as subarea.numero + ' - ' + subarea.nome for subarea in currentSubareas"
+                  data-ng-model="objeto.subarea"></select>
                 <p class="help-block error-msg" data-ng-repeat="error in errors.subarea">{{ error }}</p>
               </div>
 
@@ -112,7 +112,7 @@
               <footer class="form-group">
                 <p><small>{{ 'geral.auditoria.dataCriacao' | translate }}: {{ objeto.dataCriacao | date:"short" }}</small></p>
                 <p><small>{{ 'geral.auditoria.dataAtualizacao' | translate }}: {{ objeto.dataAtualizacao | date:"short" }}</small></p>
-                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.atualizadoPor }}</small></p>
+                <p><small>{{ 'geral.auditoria.atualizadoPor' | translate}}: {{ objeto.versaoControlador.usuario.nome }}</small></p>
               </footer>
             </div>
 

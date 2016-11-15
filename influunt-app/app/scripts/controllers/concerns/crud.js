@@ -143,7 +143,6 @@ angular.module('influuntApp')
      * @return     {boolean}  { description_of_the_return_value }
      */
     $scope.save = function(formValido) {
-
       // Não deve tentar enviar os dados se há informações de formulário invalido.
       $scope.submited = true;
       if (angular.isDefined(formValido) && !formValido) {
@@ -153,13 +152,15 @@ angular.module('influuntApp')
       var promise = $scope.objeto.id ? $scope.update() : $scope.create();
       return promise
         .then(function() {
+          if (angular.isFunction($scope.afterSave)) {
+            $scope.afterSave();
+          }
           $scope.submited = false;
           $state.go('app.' + resourceName);
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })
         .catch(function(err) {
           if (err.status === 422) {
-            // $scope.errors = err.data;
             $scope.errors = handleValidations.handle(err.data);
           } else {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
@@ -196,8 +197,12 @@ angular.module('influuntApp')
             toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
             return $scope.index();
           })
-          .catch(function() {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
+          .catch(function(err) {
+            if (err.status === 422) {
+              _.map(handleValidations.handle(err.data).general, function(error) { toast.warn(error); });
+            } else {
+              toast.error($filter('translate')('geral.mensagens.default_erro'));
+            }
           })
           .finally(influuntBlockui.unblock);
       });

@@ -118,16 +118,18 @@ describe('Controller: ControladoresEntreVerdesCtrl', function () {
           {idJson: 'e4', id: 'e4', posicao: 2, anel: {idJson: 2}}
         ],
         gruposSemaforicos: [
-          {idJson: 'gs2', tipo: 'PEDESTRE', transicoes: [{idJson: 't2'}], tabelasEntreVerdes: [{idJson: 'tev2'}], posicao: 2},
-          {idJson: 'gs1', tipo: 'VEICULAR', transicoes: [{idJson: 't1'}], tabelasEntreVerdes: [{idJson: 'tev1'}], posicao: 1},
+          {idJson: 'gs2', tipo: 'PEDESTRE', transicoes: [{idJson: 't2'}, {idJson: 't5'}], tabelasEntreVerdes: [{idJson: 'tev2'}], posicao: 2},
+          {idJson: 'gs1', tipo: 'VEICULAR', transicoes: [{idJson: 't1'}, {idJson: 't4'}], tabelasEntreVerdes: [{idJson: 'tev1'}], posicao: 1},
           {idJson: 'gs3', tipo: 'VEICULAR', transicoes: [{idJson: 't3'}], tabelasEntreVerdes: [{idJson: 'tev3'}], posicao: 3}
         ],
         verdesConflitantes: [{idJson: 'vc1'}],
         estagiosGruposSemaforicos: [{idJson: 'egs1'}, {idJson: 'egs3'}],
         transicoes: [
-          {idJson: 't1', origem: {idJson: 'e1'}, destino: {idJson: 'e2'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt1'}]}, 
-          {idJson: 't2', origem: {idJson: 'e2'}, destino: {idJson: 'e1'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt2'}]}, 
-          {idJson: 't3', origem: {idJson: 'e3'}, destino: {idJson: 'e4'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt3'}]}
+          {idJson: 't1', origem: {idJson: 'e1'}, destino: {idJson: 'e2'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt1'}], grupoSemaforico: {idJson: 'gs1'} }, 
+          {idJson: 't2', origem: {idJson: 'e2'}, destino: {idJson: 'e1'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt2'}], grupoSemaforico: {idJson: 'gs2'} }, 
+          {idJson: 't3', origem: {idJson: 'e3'}, destino: {idJson: 'e4'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt3'}], grupoSemaforico: {idJson: 'gs3'} },
+          {idJson: 't4', origem: {idJson: 'e2'}, destino: {idJson: 'e3'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt4'}], grupoSemaforico: {idJson: 'gs1'} },
+          {idJson: 't5', origem: {idJson: 'e2'}, destino: {idJson: 'e3'}, tabelaEntreVerdesTransicoes: [{idJson: 'tevt5'}], grupoSemaforico: {idJson: 'gs2'} } 
         ],
         tabelasEntreVerdes: [
           {
@@ -263,6 +265,39 @@ describe('Controller: ControladoresEntreVerdesCtrl', function () {
         scope.$apply();
         expect(scope.possuiInformacoesPreenchidas()).toBeTruthy();
         expect(scope.podeSalvar()).toBeTruthy();
+      });
+    });
+    
+    describe('Deve tratar o modo Intermitente ou Apagado', function () {
+      it('Deve inicializar o modoIntermitenteOuApagado', function () {
+        scope.inicializaModoIntermitenteOuApagado();
+        expect(scope.modoIntermitenteOuApagado[1][1]).toBe('t1');
+        expect(scope.modoIntermitenteOuApagado[1][2]).toBe('t4');
+        expect(scope.modoIntermitenteOuApagado[2][2]).toBe('t2');
+        expect(scope.modoIntermitenteOuApagado[3][1]).toBe('t3');
+
+        expect(_.find(scope.objeto.transicoes, {idJson: 't1'}).modoIntermitenteOuApagado).toBeTruthy();
+        expect(_.find(scope.objeto.transicoes, {idJson: 't4'}).modoIntermitenteOuApagado).toBeTruthy();
+
+        expect(_.find(scope.objeto.transicoes, {idJson: 't2'}).modoIntermitenteOuApagado).toBeTruthy();
+        expect(_.find(scope.objeto.transicoes, {idJson: 't5'}).modoIntermitenteOuApagado).toBeFalsy();
+
+        expect(_.find(scope.objeto.transicoes, {idJson: 't3'}).modoIntermitenteOuApagado).toBeTruthy();
+      });
+
+      it('Deve alterar o modoIntermitenteOuApagado', function () {
+        scope.inicializaModoIntermitenteOuApagado();
+        scope.changeModoAmareloIntermitenteOuApagado('t5');
+        scope.changeModoAmareloIntermitenteOuApagado('t2');
+        
+        expect(_.find(scope.objeto.transicoes, {idJson: 't5'}).modoIntermitenteOuApagado).toBeTruthy();
+        expect(_.find(scope.objeto.transicoes, {idJson: 't2'}).modoIntermitenteOuApagado).toBeFalsy();
+
+        scope.changeModoAmareloIntermitenteOuApagado('t5');
+        scope.changeModoAmareloIntermitenteOuApagado('t2');
+
+        expect(_.find(scope.objeto.transicoes, {idJson: 't2'}).modoIntermitenteOuApagado).toBeTruthy();
+        expect(_.find(scope.objeto.transicoes, {idJson: 't5'}).modoIntermitenteOuApagado).toBeFalsy();
       });
     });
   });

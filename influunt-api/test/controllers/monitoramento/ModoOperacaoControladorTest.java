@@ -90,7 +90,7 @@ public class ModoOperacaoControladorTest extends WithInfluuntApplicationNoAuthen
     public void testModoOperacaoControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModoOperacaoControladorController.findOne("1").url());
+            .uri(routes.ModoOperacaoControladorController.findOne("1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -108,7 +108,7 @@ public class ModoOperacaoControladorTest extends WithInfluuntApplicationNoAuthen
     public void testUltimoModoOperacaoDeTodosControladoresApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModoOperacaoControladorController.ultimoModoOperacaoDosControladores().url());
+            .uri(routes.ModoOperacaoControladorController.ultimoModoOperacaoDosControladores().url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -126,7 +126,7 @@ public class ModoOperacaoControladorTest extends WithInfluuntApplicationNoAuthen
     public void testUltimoStatusDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModoOperacaoControladorController.ultimoModoOperacaoControlador("2").url());
+            .uri(routes.ModoOperacaoControladorController.ultimoModoOperacaoControlador("2").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -140,7 +140,7 @@ public class ModoOperacaoControladorTest extends WithInfluuntApplicationNoAuthen
     public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModoOperacaoControladorController.historico("1", "0", "1").url());
+            .uri(routes.ModoOperacaoControladorController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -151,7 +151,7 @@ public class ModoOperacaoControladorTest extends WithInfluuntApplicationNoAuthen
 
 
         postRequest = new Http.RequestBuilder().method("GET")
-                .uri(routes.ModoOperacaoControladorController.historico("1", "1", "1").url());
+            .uri(routes.ModoOperacaoControladorController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());

@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -17,6 +17,7 @@ import security.Secured;
 import services.ControladorService;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
+import utils.RangeUtils;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -103,7 +104,7 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
     }
 
@@ -129,7 +130,7 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, usuario);
-        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao)));
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao, Cidade.find.all(), RangeUtils.getInstance(null))));
     }
 
     @Transactional
@@ -155,7 +156,7 @@ public class ControladoresController extends Controller {
 
         if (controladorService.criarClonePlanos(controlador, usuario)) {
             controlador.refresh();
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "erro ao clonar planos", "")))));
@@ -184,7 +185,7 @@ public class ControladoresController extends Controller {
 
         if (controladorService.criarCloneTabelaHoraria(controlador, getUsuario())) {
             controlador.refresh();
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "erro ao clonar tabela horária", "")))));
@@ -216,7 +217,7 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> getControladoresForMapa() {
         Usuario u = getUsuario();
         List<ControladorFisico> controladoresFisicos = null;
-        if (u.isRoot()) {
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
         } else if (u.getArea() != null) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
@@ -224,13 +225,41 @@ public class ControladoresController extends Controller {
 
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.stream().forEach(controladorFisico -> {
+            controladoresFisicos.forEach(controladorFisico -> {
                 Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
                 if (controlador != null) {
                     controladores.add(controlador);
                 }
             });
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresForMapas(controladores)));
+        }
+
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+    @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresSemSubareas() {
+        Usuario u = getUsuario();
+        List<ControladorFisico> controladoresFisicos = null;
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        } else if (u.getArea() != null) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
+        }
+
+        if (controladoresFisicos != null) {
+            List<Controlador> controladores = new ArrayList<Controlador>();
+            controladoresFisicos.forEach(controladorFisico -> {
+                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
+
+                // Somente controladores sem subarea.
+                if (controlador != null && controlador.getSubarea() == null) {
+                    controladores.add(controlador);
+                }
+            });
+
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladoresAgrupamentos(controladores)));
         }
 
         return CompletableFuture.completedFuture(forbidden());
@@ -300,15 +329,14 @@ public class ControladoresController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            VersaoControlador versaoControlador = VersaoControlador.findByControlador(controlador);
-            if (versaoControlador != null && getUsuario().equals(versaoControlador.getUsuario())) {
-                return CompletableFuture.completedFuture(ok());
-            } else {
-                return CompletableFuture.completedFuture(forbidden(Json.toJson(
-                    Arrays.asList(new Erro("controlador", "Controlador em edição com o usuário: " + versaoControlador.getUsuario().getNome() + "", "")))));
-            }
         }
+
+        if (controlador.podeEditar(getUsuario())) {
+            return CompletableFuture.completedFuture(ok());
+        }
+
+        return CompletableFuture.completedFuture(forbidden(Json.toJson(
+            Collections.singletonList(new Erro("controlador", "Controlador em edição com o usuário: " + controlador.getVersaoControlador().getUsuario().getNome(), "")))));
     }
 
     @Transactional
@@ -318,6 +346,12 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
+
+            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, ControladorFinalizaConfiguracaoCheck.class);
+            if (erros.size() > 0) {
+                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+            }
+
             if (request().body().asJson() != null) {
                 String descricao = request().body().asJson().get("descricao").asText();
                 if (StringUtils.isEmpty(descricao.trim())) {
@@ -358,7 +392,7 @@ public class ControladoresController extends Controller {
         if (controladorService.cancelar(controlador)) {
             return CompletableFuture.completedFuture(ok());
         }
-        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
+        return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("Controlador", "Erro ao cancelar edição de controlador", "controlador")))));
     }
 
     @Transactional
@@ -429,7 +463,7 @@ public class ControladoresController extends Controller {
                 }
                 Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
+                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
             }
         }
     }

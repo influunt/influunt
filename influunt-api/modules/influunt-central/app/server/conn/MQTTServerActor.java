@@ -30,9 +30,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     private final String port;
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    Router router;
+    private Router router;
 
     private Map<String, Long> contador = new HashMap<String, Long>();
 
@@ -83,7 +83,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Exception) {
             throw (Exception) message;
-        } else if (message.equals("CONNECT")) {
+        } else if ("CONNECT".equals(message)) {
             central = getSender();
             connect();
             getSender().tell("CONNECTED", getSelf());
@@ -105,9 +105,15 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     }
 
     private void sendToBroker(MqttMessage message) throws MqttException {
-        String parsedBytes = new String(message.getPayload());
-        Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
-        router.route(envelope, getSender());
+        try {
+            String parsedBytes = new String(message.getPayload());
+            Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
+            router.route(envelope, getSender());
+            System.out.println("Envelope Roteado:" + envelope.toString() );
+        }catch (Exception e){
+            System.out.println("Mensagem desconhecida:" + e.getMessage());
+
+        }
     }
 
     private void connect() throws MqttException {

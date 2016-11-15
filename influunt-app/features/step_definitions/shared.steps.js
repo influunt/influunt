@@ -14,6 +14,10 @@ module.exports = function() {
     return sharedSteps.variosControladores();
   });
 
+  this.Given(/^que o sistema possua controladores cadastrados e configurados$/, function() {
+    return sharedSteps.variosControladoresConfigurados();
+  });
+
   this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
     return sharedSteps.cadastrarPlanoParaControlador();
   });
@@ -33,6 +37,12 @@ module.exports = function() {
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir$/, function() {
     return sharedSteps.textoSweetAlert().then(function(text) {
       expect(text).to.equal('Quer mesmo apagar este registro?');
+    });
+  });
+
+  this.Given(/^o sistema exibe um alerta com a mensagem "([^"]*)"$/, function(msg) {
+    return sharedSteps.textoSweetAlert().then(function(text) {
+      expect(text).to.equal(msg);
     });
   });
 
@@ -123,5 +133,22 @@ module.exports = function() {
 
   this.Given(/^o usuário acesse a listagem de "([^"]*)"$/, function (localizacao) {
     return sharedSteps.visitarListagem(localizacao);
+  });
+
+  this.Given(/^o usuário selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.selecionarBySelect2Option(campo, valor);
+  });
+
+  this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
+    return sharedSteps.removeSelect2Option(opcao, campo);
+  });
+
+  this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
+    var campo = '#estagio-alternativo-'+transicao+'';
+    var selectSelector = 'select[name="alternativos"]';
+    var optionAtribute = 'label';
+    var value = ''+alternativa+'';
+
+    return sharedSteps.selectBySelectOptionAtribute(campo, selectSelector, optionAtribute, value);
   });
 };

@@ -47,7 +47,8 @@
     "WizardControladores": true,
     "ControladorBasico": true,
     "ControladorComPlanos": true,
-    "ControladorComPlanoExclusivo": true
+    "ControladorComPlanoExclusivo": true,
+    "ControladorComVariosAneis": true
   }
 }
 

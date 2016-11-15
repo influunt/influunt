@@ -5,9 +5,7 @@ import com.google.common.collect.RangeMap;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
 import engine.IntervaloEstagio;
-import models.Detector;
-import models.Estagio;
-import models.EstagioPlano;
+import models.*;
 
 import java.util.Map;
 
@@ -71,9 +69,19 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos{
         if (!listaEstagioPlanos.stream().anyMatch(estagioPlano -> estagioPlano.getEstagio().equals(estagio))) {
             EstagioPlano estagioPlano = new EstagioPlano();
             estagioPlano.setEstagio(estagio);
-            estagioPlano.setPlano(plano);
             estagioPlano.setTempoVerde(estagio.getTempoVerdeDemandaPrioritaria());
-            listaEstagioPlanos.add(listaEstagioPlanos.indexOf(estagioPlanoAtual) + 1, estagioPlano);
+            if (plano.isModoOperacaoVerde()){
+                estagioPlano.setPlano(plano);
+                listaEstagioPlanos.add(listaEstagioPlanos.indexOf(estagioPlanoAtual) + 1, estagioPlano);
+            } else {
+                Plano novoPlano = new Plano();
+                novoPlano.setEstagiosPlanos(plano.getEstagiosPlanos());
+                novoPlano.setGruposSemaforicosPlanos(plano.getGruposSemaforicosPlanos());
+                novoPlano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+                estagioPlano.setPlano(novoPlano);
+                final int index = listaEstagioPlanos.indexOf(estagioPlanoAtual);
+                listaEstagioPlanos.add(index + 1, estagioPlano);
+            }
         }
     }
 

@@ -77,9 +77,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
         //TODO: Se o intermitente sair antes de terminar o entreverde do estágio anterior o que deve acontecer?
-        if (this.agendamento != null && (this.plano.isIntermitente() || this.plano.isApagada())) {
-
-            intervalo.setDuracao(contadorIntervalo);
+        if (this.agendamento != null && (this.plano.isIntermitente() || this.plano.isApagada()) && !intervalo.isEntreverde()) {
+            Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
+            intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
         } else {
@@ -99,6 +99,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (contadorEstagio == listaEstagioPlanos.size()) {
                 atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
                 contadorEstagio = 0;
+                verificaEAjustaIntermitenteCasoDemandaPrioritaria();
                 geraIntervalos(0);
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
@@ -111,6 +112,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo = this.intervalos.get(contadorIntervalo);
         }
         return intervalo;
+    }
+
+    private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
+        if(!this.plano.isModoOperacaoVerde() &&
+            estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
+            this.modoAnterior = ModoOperacaoPlano.TEMPO_FIXO_ISOLADO;
+        }
     }
 
     private void verificaETrocaEstagio(IntervaloEstagio intervalo) {
@@ -206,7 +214,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         List<EstagioPlano> novaLista = new ArrayList<>();
         final Boolean[] adicionado = {false};
         listaEstagioPlanos.forEach(item -> {
-            if (!(item.getPosicao() < estagioPlano.getPosicao()) && !adicionado[0]) {
+            if (item.getPosicao() >= estagioPlano.getPosicao() && !adicionado[0]) {
                 novaLista.add(estagioPlano);
                 adicionado[0] = true;
             }

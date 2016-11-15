@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class BaseJasperReport {
 
-    String REPORT_DEFINITION_PATH = "/app/templates/reports/";
+    private final String REPORT_DEFINITION_PATH = "/app/templates/reports/";
 
     @Inject
     private Provider<Application> provider;

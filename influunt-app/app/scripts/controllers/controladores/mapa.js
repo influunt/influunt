@@ -9,15 +9,19 @@
  */
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular', 'geraDadosDiagramaIntervalo',
-                                        'influuntAlert', 'influuntBlockui', 'filtrosMapa',
+                                        'influuntAlert', 'influuntBlockui', 'filtrosMapa', 'planoService',
     function ($scope, $filter, Restangular, geraDadosDiagramaIntervalo,
-              influuntAlert, influuntBlockui, filtrosMapa) {
+              influuntAlert, influuntBlockui, filtrosMapa, planoService) {
       var filtraDados, getMarkersControladores, getMarkersAneis,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores;
 
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
           .then(function(res) {
+            if (res.length === 0) {
+              return false;
+            }
+
             $scope.listaControladores = res;
             return Restangular.all('areas').customGET(null, {'cidade.id': $scope.listaControladores[0].cidade.id});
           })
@@ -121,7 +125,7 @@ angular.module('influuntApp')
           popupText: '<strong>CLC: </strong>' + controlador.CLC,
           options: {
             id: controlador.id,
-            idJson: controlador.idJson,
+            idJson: controlador.idJson || UUID.generate(),
             tipo: 'CONTROLADOR',
             draggable: false,
             icon: 'images/leaflet/influunt-icons/controlador.svg',
@@ -133,13 +137,18 @@ angular.module('influuntApp')
       };
 
       getMarkersAneis = function(controlador) {
-        if (!$scope.filtro.exibirAneis) {
-          return [];
-        }
-
         return _.chain(controlador.aneis)
           .filter('ativo')
           .orderBy('posicao')
+          .filter(function(anel) {
+            // Se o filtro de "exibirAneis" estiver desativado, somente o primeiro
+            // anel deverá ser selecionado.
+            if (!$scope.filtro.exibirAneis) {
+              return anel.posicao === 1;
+            }
+
+            return true;
+          })
           .map(function(anel) {
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             return {
@@ -262,21 +271,33 @@ angular.module('influuntApp')
       $scope.showDiagramaIntervalos = function(plano) {
         $scope.comCheckBoxGrupo = false;
         $scope.currentPlano = plano;
-        $('#modalDiagramaIntervalos').modal('show');
 
-        var gruposSemaforicos = $scope.currentAnel.gruposSemaforicos.map(function(gs) {
-          return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
-        });
+        if ($scope.currentPlano.modoOperacao === 'ATUADO' || $scope.currentPlano.modoOperacao === 'MANUAL') {
+          influuntAlert.alert(
+            $filter('translate')('planos.modoOperacaoSemDiagrama.tituloAlert'),
+            $filter('translate')('planos.modoOperacaoSemDiagrama.textoAlert')
+          );
 
-        $scope.plano = geraDadosDiagramaIntervalo.gerar(
-          plano, $scope.currentAnel, gruposSemaforicos, $scope.currentControlador
+          return false;
+        }
+
+        var estagiosPlanos = planoService.atualizaEstagiosPlanos($scope.currentControlador, $scope.currentPlano);
+        var valoresMinimos = planoService.montaTabelaValoresMinimos($scope.currentControlador);
+
+        var gruposSemaforicos = _
+          .chain($scope.currentAnel.gruposSemaforicos)
+          .map(function(gs) {
+            return _.find($scope.currentControlador.gruposSemaforicos, {idJson: gs.idJson});
+          })
+          .orderBy('posicao')
+          .value();
+
+        $scope.dadosDiagrama = planoService.atualizaDiagramaIntervalos(
+          $scope.currentControlador, $scope.currentAnel, gruposSemaforicos,
+          estagiosPlanos, $scope.currentPlano, valoresMinimos
         );
-        var diagramaBuilder = new influunt.components.DiagramaIntervalos($scope.plano, $scope.valoresMinimos);
-        var result = diagramaBuilder.calcula();
-        _.each(result.gruposSemaforicos, function(g) {
-          g.ativo = true;
-        });
-        $scope.dadosDiagrama = result;
+
+        $('#modalDiagramaIntervalos').modal('show');
       };
 
       $scope.imporPlano = function() {

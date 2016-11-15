@@ -24,7 +24,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
+            .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
@@ -46,8 +46,8 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         novaCidade.setNome("Teste atualizar");
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update(cidadeId.toString()).url())
-                .bodyJson(Json.toJson(novaCidade));
+            .uri(routes.CidadesController.update(cidadeId.toString()).url())
+            .bodyJson(Json.toJson(novaCidade));
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
@@ -63,8 +63,8 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         cidade.setNome("Teste");
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(cidade));
+            .uri(routes.CidadesController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(cidade));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -76,7 +76,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         cidade.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.CidadesController.delete(cidade.getId().toString()).url());
+            .uri(routes.CidadesController.delete(cidade.getId().toString()).url());
         Result result = route(deleteRequest);
 
         assertEquals(200, result.status());
@@ -86,7 +86,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
     @Test
     public void testApagarCidadeNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.CidadesController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.CidadesController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -104,7 +104,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         cidade1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findAll().url());
+            .uri(routes.CidadesController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Cidade> cidades = Json.fromJson(json.get("data"), List.class);
@@ -122,7 +122,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         assertNotNull(cidadeId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.CidadesController.findOne(cidadeId.toString()).url());
+            .uri(routes.CidadesController.findOne(cidadeId.toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
@@ -136,7 +136,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         Cidade cidade = new Cidade();
         cidade.setNome("Teste");
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
+            .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
@@ -149,7 +149,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         cidadeDuplicadaLowerCase.setNome("teste");
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidadeDuplicadaLowerCase));
+            .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidadeDuplicadaLowerCase));
         postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
@@ -160,7 +160,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         Cidade cidade = new Cidade();
         cidade.setNome("TESTE");
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
+            .uri(routes.CidadesController.create().url()).bodyJson(Json.toJson(cidade));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Cidade cidadeRetornada = Json.fromJson(json, Cidade.class);
@@ -172,7 +172,7 @@ public class CidadesControllerTest extends WithInfluuntApplicationNoAuthenticati
         cidadeRetornada.setNome("teste");
 
         postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.CidadesController.update(cidadeRetornada.getId().toString()).url()).bodyJson(Json.toJson(cidadeRetornada));
+            .uri(routes.CidadesController.update(cidadeRetornada.getId().toString()).url()).bodyJson(Json.toJson(cidadeRetornada));
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         assertEquals("teste", cidadeRetornada.getNome());

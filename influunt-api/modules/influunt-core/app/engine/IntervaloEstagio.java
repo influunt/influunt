@@ -50,6 +50,10 @@ public class IntervaloEstagio {
         return this.estagioPlano.getEstagio();
     }
 
+    public void setEstagioPlanoAnterior(EstagioPlano estagioPlanoAnterior) {
+        this.estagioPlanoAnterior = estagioPlanoAnterior;
+    }
+
     public EstagioPlano getEstagioPlanoAnterior() {
         return estagioPlanoAnterior;
     }
@@ -77,4 +81,5 @@ public class IntervaloEstagio {
         }
         this.eventos.get(contadorIntervalo).add(eventoMotor);
     }
+
 }

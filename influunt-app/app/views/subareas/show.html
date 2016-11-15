@@ -28,6 +28,10 @@
                         <td> {{ objeto.numero }} </td>
                       </tr>
                       <tr>
+                        <th>{{ 'subareas.controladores' | translate }}</th>
+                        <td data-ng-bind-html="controladores | orderBy: 'nomeEndereco' | resourceListToLink:'nomeEndereco':'app.controladores_show':'id'"></td>
+                      </tr>
+                      <tr>
                         <th>{{ 'geral.auditoria.dataCriacao' | translate }}</th>
                         <td>{{ objeto.dataCriacao | date }}</td>
                       </tr>

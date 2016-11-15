@@ -18,7 +18,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
 
     private final String idControlador;
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public ConfiguracaoActorHandler(String idControlador, Storage storage) {
         this.idControlador = idControlador;
