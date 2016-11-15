@@ -88,7 +88,6 @@ var ObjetosComuns = function () {
     });
   };
 
-
   this.realizarScrollUp = function(){
     return world.scrollToUp();
   };
@@ -198,6 +197,12 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.clicarBotaoEspecificoTabelaControladores = function(botao, controlador) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]').click();
+    });
+  };
+
   this.selecionarBySelect2Option = function(field, option) {
     return world.select2OptionByXpath(field, option);
   };
@@ -214,6 +219,12 @@ var ObjetosComuns = function () {
 
   this.visitarListagem = function(local) {
     return world.visit('/app/'+local+'');
+  };
+
+  this.checkPosicaoHistorico = function(posicao, data) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('(//div[contains(@class, "vertical-timeline-content")])['+posicao+']//small[contains(text(), "'+data+'")]');
+    });
   };
 };
 

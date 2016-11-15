@@ -7,8 +7,8 @@ SET @TabelaHorariaID = RANDOM_UUID();
 SET @VersaoTabelaHorariaId = RANDOM_UUID();
 SET @UsurioId = (SELECT id FROM "usuarios" where login = 'mobilab');
 
-INSERT INTO `versoes_tabelas_horarias` (`id`,`id_json`,`controlador_id`,`tabela_horaria_origem_id`,`usuario_id`,`descricao`,`status_versao`,`data_criacao`) VALUES
-                                       (@VersaoTabelaHorariaId, RANDOM_UUID(), @ControladorID, NULL, @UsurioId,NULL,'EDITANDO',NOW());
+INSERT INTO `versoes_tabelas_horarias` (`id`,`id_json`,`controlador_id`,`tabela_horaria_origem_id`,`usuario_id`,`descricao`,`status_versao`,`data_criacao`, `data_atualizacao`) VALUES
+                                       (@VersaoTabelaHorariaId, RANDOM_UUID(), @ControladorID, NULL, @UsurioId,NULL,'EDITANDO',NOW(), NOW());
 
 INSERT INTO `tabela_horarios` (`id`,`id_json`,`versao_tabela_horaria_id`,`data_criacao`,`data_atualizacao`) VALUES
                               (@TabelaHorariaID, RANDOM_UUID(), @VersaoTabelaHorariaId, NOW(), NOW());

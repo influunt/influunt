@@ -143,6 +143,10 @@ module.exports = function() {
     return sharedSteps.removeSelect2Option(opcao, campo);
   });
 
+  this.Given(/^o usuário clicar em "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.clicarBotaoEspecificoTabelaControladores(botao, controlador);
+  });
+
   this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
     var campo = '#estagio-alternativo-'+transicao+'';
     var selectSelector = 'select[name="alternativos"]';
@@ -151,4 +155,9 @@ module.exports = function() {
 
     return sharedSteps.selectBySelectOptionAtribute(campo, selectSelector, optionAtribute, value);
   });
+
+  this.Given(/^o sistema deverá mostrar na "([^"]*)" posição com a data "([^"]*)"$/, function (posicao, data) {
+    return sharedSteps.checkPosicaoHistorico(posicao, data);
+  });
+
 };
