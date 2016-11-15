@@ -2,10 +2,7 @@ package os72c.client.device;
 
 import akka.actor.UntypedActor;
 import com.google.inject.Inject;
-import engine.AgendamentoTrocaPlano;
-import engine.IntervaloGrupoSemaforico;
-import engine.Motor;
-import engine.MotorCallback;
+import engine.*;
 import models.Controlador;
 import models.Evento;
 import org.joda.time.DateTime;
@@ -45,12 +42,23 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
             this.deviceBridge = new SerialDevice();
 
             Executors.newScheduledThreadPool(1)
-                .scheduleAtFixedRate(()->{motor.tick();}, 0, 100, TimeUnit.MILLISECONDS);
+                .scheduleAtFixedRate(()->{
+                    try {
+                        motor.tick();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, 0, 100, TimeUnit.MILLISECONDS);
         }
     }
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
+
+    }
+
+    @Override
+    public void onAlarme(DateTime timestamp, EventoMotor eventoMotor) {
 
     }
 
