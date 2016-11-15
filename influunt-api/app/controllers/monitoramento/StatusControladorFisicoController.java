@@ -52,7 +52,7 @@ public class StatusControladorFisicoController {
 
     public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
         List<StatusControladorFisico> statusControladorFisico = StatusControladorFisico.historico(id, Integer.valueOf(pagina),
-                Integer.valueOf(tamanho));
+            Integer.valueOf(tamanho));
         if (statusControladorFisico == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {

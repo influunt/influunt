@@ -22,18 +22,18 @@ public class Configuracao {
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         if (controlador != null && !controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
             return new Envelope(TipoMensagem.CONFIGURACAO,
-                    envelope.getIdControlador(),
-                    "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
-                    2,
-                    new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), rangeUtils).toString(),
-                    envelope.getIdMensagem());
+                envelope.getIdControlador(),
+                "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
+                2,
+                new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), rangeUtils).toString(),
+                envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,
-                    envelope.getIdControlador(),
-                    "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
-                    2,
-                    null,
-                    envelope.getIdMensagem());
+                envelope.getIdControlador(),
+                "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
+                2,
+                null,
+                envelope.getIdMensagem());
         }
 
     }

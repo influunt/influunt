@@ -34,7 +34,8 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
         }
 
         this.intervalos = TreeRangeMap.create();
-        if (isModoAnteriorVerde(modoAnterior) && entreverde != null && entreverde.getValue().isEntreverde()) {
+        if (isModoAnteriorVerde(modoAnterior) && entreverde != null &&
+            entreverde.getValue().isEntreverde()) {
             final IntervaloEstagio intervalo = entreverde.getValue();
             final Estagio estagio;
             if (intervalo.getEstagioPlanoAnterior().getEstagio().getId() != null) {
@@ -48,15 +49,15 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
             String idJsonNovoEstagio = UUID.randomUUID().toString();
 
             this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde),
-                    new IntervaloEstagio(tempoEntreVerde, true,
-                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), null));
+                new IntervaloEstagio(tempoEntreVerde, true,
+                    criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), null));
 
             this.intervalos.put(Range.closedOpen(tempoEntreVerde, 255000L),
-                    new IntervaloEstagio(255000L - tempoEntreVerde, false,
-                            criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), this.estagioPlanoAtual));
+                new IntervaloEstagio(255000L - tempoEntreVerde, false,
+                    criaEstagioPlanoInterminteOuApagado(idJsonNovoEstagio), this.estagioPlanoAtual));
         } else {
             this.intervalos.put(Range.closedOpen(0L, 255000L),
-                    new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(UUID.randomUUID().toString()), null));
+                new IntervaloEstagio(255000L, false, criaEstagioPlanoInterminteOuApagado(UUID.randomUUID().toString()), null));
         }
 
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
@@ -64,6 +65,7 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
 
     private EstagioPlano criaEstagioPlanoInterminteOuApagado(String idJsonNovoEstagio) {
         Estagio estagio = new Estagio();
+        estagio.setTempoMaximoPermanenciaAtivado(false);
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setIdJson(idJsonNovoEstagio);
         estagioPlano.setPlano(plano);

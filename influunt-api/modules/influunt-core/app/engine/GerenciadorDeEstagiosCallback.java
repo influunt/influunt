@@ -1,6 +1,5 @@
 package engine;
 
-import models.Evento;
 import org.joda.time.DateTime;
 
 /**

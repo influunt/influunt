@@ -193,7 +193,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.tempoMaximoPermanencia = tempoMaximoPermanencia;
     }
 
-    public Boolean getTempoMaximoPermanenciaAtivado() {
+    public Boolean isTempoMaximoPermanenciaAtivado() {
         return tempoMaximoPermanenciaAtivado;
     }
 
@@ -351,7 +351,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve estar entre {min} e {max}")
     public boolean isTempoMaximoPermanenciaOk() {
-        if (getTempoMaximoPermanenciaAtivado()) {
+        if (isTempoMaximoPermanenciaAtivado()) {
             return getTempoMaximoPermanencia() != null &&
                 RangeUtils.getInstance(null).TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
@@ -360,7 +360,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.")
     public boolean isTempoMaximoPermanenciaMaiorQueVerdeDeSeguranca() {
-        if (getTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
+        if (isTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
             return getTempoMaximoPermanencia() > getGruposSemaforicos()
                 .stream()
                 .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())

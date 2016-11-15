@@ -41,19 +41,19 @@ public class Intervalos {
                 momento = delay + ciclo;
             }
             troca.setCancellable(context.system().scheduler().scheduleOnce(Duration.create(momento, TimeUnit.MILLISECONDS),
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            controlador.tell(new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, troca.getGrupos(), String.valueOf(new Date().getTime()), String.valueOf(troca.getDuracao())), supervisor);
-                            intervalo++;
-                            if (intervalo >= trocas.size()) {
-                                intervalo = 0;
-                                supervisor.tell(new MensagemControladorSupervisor(TipoEvento.PROXIMO_CICLO, null, troca.getDuracao().toString()), supervisor);
-                            }
-
-
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        controlador.tell(new MensagemControladorSupervisor(TipoEvento.MUDANCA_GRUPO, troca.getGrupos(), String.valueOf(new Date().getTime()), String.valueOf(troca.getDuracao())), supervisor);
+                        intervalo++;
+                        if (intervalo >= trocas.size()) {
+                            intervalo = 0;
+                            supervisor.tell(new MensagemControladorSupervisor(TipoEvento.PROXIMO_CICLO, null, troca.getDuracao().toString()), supervisor);
                         }
-                    }, context.dispatcher())
+
+
+                    }
+                }, context.dispatcher())
             );
             ciclo += troca.getDuracao();
         }
@@ -81,8 +81,8 @@ public class Intervalos {
 
     public void pararExecucao() {
         trocas.stream().forEach(troca -> {
-                    troca.getCancellable().cancel();
-                }
+                troca.getCancellable().cancel();
+            }
         );
     }
 }

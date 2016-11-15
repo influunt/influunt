@@ -55,8 +55,8 @@ public class StatusControladorFisico {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, StatusDevice> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'statusDevice': {$first:'$statusDevice'}}}").
-                        as(Map.class);
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'statusDevice': {$first:'$statusDevice'}}}").
+                as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), StatusDevice.valueOf(m.get("statusDevice").toString()));
         }

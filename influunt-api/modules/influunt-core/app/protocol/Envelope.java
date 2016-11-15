@@ -87,15 +87,15 @@ public class Envelope {
     @Override
     public String toString() {
         return "Envelope{" +
-                "idMensagem='" + idMensagem + '\'' +
-                ", tipoMensagem=" + tipoMensagem +
-                ", idControlador='" + idControlador + '\'' +
-                ", destino='" + destino + '\'' +
-                ", qos=" + qos +
-                ", carimboDeTempo=" + carimboDeTempo +
-                ", conteudo=" + conteudo +
-                ", emResposta='" + emResposta + '\'' +
-                '}';
+            "idMensagem='" + idMensagem + '\'' +
+            ", tipoMensagem=" + tipoMensagem +
+            ", idControlador='" + idControlador + '\'' +
+            ", destino='" + destino + '\'' +
+            ", qos=" + qos +
+            ", carimboDeTempo=" + carimboDeTempo +
+            ", conteudo=" + conteudo +
+            ", emResposta='" + emResposta + '\'' +
+            '}';
     }
 
     public String toJson() {

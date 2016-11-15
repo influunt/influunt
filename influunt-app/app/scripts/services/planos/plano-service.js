@@ -109,6 +109,7 @@ angular.module('influuntApp')
         controlador.estagiosPlanos = controlador.estagiosPlanos || [];
         anel.estagios.forEach(function (e){
           var estagio =  _.find(controlador.estagios, {idJson: e.idJson});
+
           if(!estagio.demandaPrioritaria){
             var estagioPlano = {
               idJson: UUID.generate(),
@@ -123,8 +124,13 @@ angular.module('influuntApp')
               dispensavel: false
             };
 
+            controlador.estagiosPlanos = controlador.estagiosPlanos || [];
+            plano.estagiosPlanos = plano.estagiosPlanos || [];
+            estagio.estagiosPlanos = estagio.estagiosPlanos || [];
+
             controlador.estagiosPlanos.push(estagioPlano);
             plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            estagio.estagiosPlanos.push({idJson: estagioPlano.idJson});
           }
         });
 
@@ -344,14 +350,24 @@ angular.module('influuntApp')
                               .map('idJson')
                               .value();
         var estagiosAssociadosIdJson = _.chain(controlador.estagiosPlanos)
-                                        .filter(function(ep) { return estagiosIdJson.indexOf(ep.estagio.idJson) > -1 && ep.plano.idJson === plano.idJson })
+                                        .filter(function(ep) { return !ep.destroy && estagiosIdJson.indexOf(ep.estagio.idJson) > -1 && ep.plano.idJson === plano.idJson; })
                                         .map('estagio.idJson')
                                         .value();
-        var estagiosNaoAssociadosIdJson = _.difference(estagiosIdJson, estagiosAssociadosIdJson);
-        return _.chain(controlador.estagiosGruposSemaforicos)
-                .filter(function(egs) { return estagiosNaoAssociadosIdJson.indexOf(egs.estagio.idJson) > -1; })
-                .map('grupoSemaforico.idJson')
-                .value();
+
+        var gruposSemaforicos = _.filter(controlador.gruposSemaforicos, { anel: { idJson: anel.idJson } });
+        var gruposNaoAssociados = [];
+        _.each(gruposSemaforicos, function(gs) {
+          var isGrupoNaoAssociado = _
+            .chain(controlador.estagiosGruposSemaforicos)
+            .filter(function(egs) { return egs.grupoSemaforico.idJson === gs.idJson && estagiosAssociadosIdJson.indexOf(egs.estagio.idJson) > -1; })
+            .value().length === 0;
+
+          if (isGrupoNaoAssociado) {
+            gruposNaoAssociados.push(gs.idJson);
+          }
+        });
+
+        return gruposNaoAssociados;
       };
 
       isGrupoDemandaPrioritaria = function(controlador, grupoSemaforico) {

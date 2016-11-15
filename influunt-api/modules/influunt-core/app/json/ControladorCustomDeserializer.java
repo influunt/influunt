@@ -1557,7 +1557,6 @@ public class ControladorCustomDeserializer {
             }
 
 
-
             controlador.setModelo(modelo);
         }
 

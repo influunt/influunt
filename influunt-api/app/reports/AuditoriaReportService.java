@@ -69,15 +69,15 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
 
         // Write the CSV file header
         buffer.append("Tabela").append(COMMA_DELIMITER)
-                .append("Ação").append(COMMA_DELIMITER)
-                .append("Usuario").append(COMMA_DELIMITER)
-                .append("Data Alteração").append(NEW_LINE_SEPARATOR);
+            .append("Ação").append(COMMA_DELIMITER)
+            .append("Usuario").append(COMMA_DELIMITER)
+            .append("Data Alteração").append(NEW_LINE_SEPARATOR);
 
         for (Auditoria auditoria : auditorias) {
             buffer.append(StringUtils.defaultIfBlank(auditoria.change.getTable(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                    .append(StringUtils.defaultIfBlank(auditoria.change.getType().toString(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                    .append(StringUtils.defaultIfBlank(auditoria.usuario.getNome(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                    .append(StringUtils.defaultIfBlank(InfluuntUtils.formatDateToString(new DateTime(auditoria.change.getEventTime()), null), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
+                .append(StringUtils.defaultIfBlank(auditoria.change.getType().toString(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(auditoria.usuario.getNome(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(InfluuntUtils.formatDateToString(new DateTime(auditoria.change.getEventTime()), null), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
         }
 
 

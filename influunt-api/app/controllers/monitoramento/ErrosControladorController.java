@@ -51,7 +51,7 @@ public class ErrosControladorController {
 
     public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
         List<ErrosControlador> errosControladores = ErrosControlador.historico(id, Integer.valueOf(pagina),
-                Integer.valueOf(tamanho));
+            Integer.valueOf(tamanho));
         if (errosControladores == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {

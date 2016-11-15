@@ -8,21 +8,26 @@ import json.deserializers.simulacao.ParametroSimulacaoImposicaoPlanoDeserializer
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by rodrigosol on 10/4/16.
  */
 @JsonDeserialize(using = ParametroSimulacaoImposicaoPlanoDeserializer.class)
 public class ParametroSimulacaoImposicaoPlano {
-    private int plano;
+
+    @NotNull(message = "não pode ficar em branco")
+    private Integer plano;
 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @NotNull(message = "não pode ficar em branco")
     private DateTime disparo;
 
-    public int getPlano() {
+    public Integer getPlano() {
         return plano;
     }
 
-    public void setPlano(int plano) {
+    public void setPlano(Integer plano) {
         this.plano = plano;
     }
 

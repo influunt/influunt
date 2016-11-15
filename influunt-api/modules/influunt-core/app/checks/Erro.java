@@ -38,10 +38,10 @@ public class Erro {
     @Override
     public String toString() {
         return "Erro{" +
-                "root='" + root + '\'' +
-                ", message='" + message + '\'' +
-                ", path='" + path + '\'' +
-                '}';
+            "root='" + root + '\'' +
+            ", message='" + message + '\'' +
+            ", path='" + path + '\'' +
+            '}';
     }
 
 }

@@ -39,7 +39,7 @@ public class UsuariosController extends Controller {
         if (erros.isEmpty()) {
             if (Usuario.find.where().ieq("login", usuario.getLogin()).findRowCount() != 0) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(
-                        Arrays.asList(new Erro("usuario", "login já utilizado", "login"))))
+                    Arrays.asList(new Erro("usuario", "login já utilizado", "login"))))
                 );
             } else {
                 usuario.save();

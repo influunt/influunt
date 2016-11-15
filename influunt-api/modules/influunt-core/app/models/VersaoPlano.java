@@ -214,12 +214,12 @@ public class VersaoPlano extends Model implements Serializable {
     @Override
     public String toString() {
         return "VersaoPlano{"
-                + "id=" + id
-                + ", idJson='" + idJson + '\''
-                + ", versaoAnterior=" + versaoAnterior
-                + ", descricao='" + descricao + '\''
-                + ", statusVersao=" + statusVersao
-                + ", dataCriacao=" + dataCriacao
-                + '}';
+            + "id=" + id
+            + ", idJson='" + idJson + '\''
+            + ", versaoAnterior=" + versaoAnterior
+            + ", descricao='" + descricao + '\''
+            + ", statusVersao=" + statusVersao
+            + ", dataCriacao=" + dataCriacao
+            + '}';
     }
 }

@@ -125,15 +125,15 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
             return !this.getPlano().getEstagiosPlanos().stream()
-                    .filter(estagioPlano -> estagioPlano.getEstagio().getGruposSemaforicos()
-                            .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
-                    .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
+                .filter(estagioPlano -> !estagioPlano.isDestroy() && estagioPlano.getEstagio().getGruposSemaforicos()
+                    .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
+                .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
         }
         return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-        message = "Um grupo semafórico não associado a nenhum estágio da sequencia do plano deve estar apagado.")
+        message = "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.")
     public boolean isGrupoApagadoSeNaoAssociado() {
         GrupoSemaforico grupo = getGrupoSemaforico();
         List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream().map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());

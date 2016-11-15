@@ -51,7 +51,7 @@ public class StatusControladorController {
 
     public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
         List<StatusConexaoControlador> statusConexaoControlador = StatusConexaoControlador.historico(id, Integer.valueOf(pagina),
-                Integer.valueOf(tamanho));
+            Integer.valueOf(tamanho));
         if (statusConexaoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
