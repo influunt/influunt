@@ -309,6 +309,9 @@ public class ControladorCustomSerializer {
         if (versaoTabelaHoraria.getDataCriacao() != null) {
             versaoTabelaHorariaJson.put("dataCriacao", DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").print(versaoTabelaHoraria.getDataCriacao()));
         }
+        if (versaoTabelaHoraria.getDataAtualizacao() != null) {
+            versaoTabelaHorariaJson.put("dataAtualizacao", DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").print(versaoTabelaHoraria.getDataAtualizacao()));
+        }
         if (versaoTabelaHoraria.getUsuario() != null) {
             Usuario usuario = versaoTabelaHoraria.getUsuario();
             versaoTabelaHorariaJson.putObject("usuario").put("nome", usuario.getNome());
