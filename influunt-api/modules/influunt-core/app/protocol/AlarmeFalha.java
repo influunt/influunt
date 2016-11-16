@@ -5,6 +5,7 @@ import engine.EventoMotor;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusVersao;
+import play.libs.Json;
 import utils.RangeUtils;
 
 import java.util.Collections;
@@ -20,7 +21,7 @@ public class AlarmeFalha {
             idControlador,
             DestinoCentral.alarmeFalhaConfiguracao(idControlador),
             2,
-            new Gson().toJson(eventoMotor),
+            Json.toJson(eventoMotor),
             null);
     }
 }

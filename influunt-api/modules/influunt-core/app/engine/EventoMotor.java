@@ -1,17 +1,31 @@
 package engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.EventoMotorSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
+import models.GrupoSemaforico;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static engine.TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE;
 
 /**
  * Created by rodrigosol on 9/28/16.
  */
+@JsonSerialize(using = EventoMotorSerializer.class)
 public class EventoMotor {
     private TipoEvento tipoEvento;
 
     private Object[] params;
 
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     private DateTime timestamp;
 
     public EventoMotor(DateTime timestamp, TipoEvento tipoEvento, Object... params) {
@@ -51,7 +65,6 @@ public class EventoMotor {
 
         if (!Arrays.equals(params, that.params)) return false;
         return timestamp != null ? timestamp.equals(that.timestamp) : that.timestamp == null;
-
     }
 
     @Override
@@ -60,5 +73,24 @@ public class EventoMotor {
         result = 31 * result + Arrays.hashCode(params);
         result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
         return result;
+    }
+
+    public String[] getStringParams() {
+        String[] paramsStr = new String[params.length];
+        switch (getTipoEvento().getParamsDescriptor().getTipo()) {
+            case DETECTOR_VEICULAR:
+            case DETECTOR_PEDESTRE:
+                paramsStr[0] = params[1].toString();
+                paramsStr[1] = ((Pair<Integer, TipoDetector>) params[0]).getFirst().toString();
+                break;
+            case GRUPO_SEMAFORICO:
+                paramsStr[0] = params[1].toString();
+                paramsStr[1] = ((GrupoSemaforico) params[0]).getPosicao().toString();
+                break;
+            case ANEL:
+                paramsStr[0] = params[0].toString();
+                break;
+        }
+        return paramsStr;
     }
 }
