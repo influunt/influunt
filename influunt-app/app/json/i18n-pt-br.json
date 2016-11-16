@@ -764,6 +764,9 @@
     "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
     "veicular": "Veicular"
   },
+  "imporConfig": {
+    "titulo": "Impor Configuração"
+  },
   "EM_CONFIGURACAO": "Em Configuração",
   "CONFIGURADO": "Configurado",
   "ATIVO": "Ativo",

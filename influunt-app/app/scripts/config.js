@@ -81,7 +81,6 @@ angular
           }
         })
 
-
         // CRUD cidades
         .state('app.cidades', {
           url: '/cidades',
@@ -969,6 +968,17 @@ angular
               only: 'simularControlador',
               redirectTo: 'app.main'
             }
+          }
+        })
+
+        // IMPOR CONFIGURAÇÃO
+        .state('app.impor_config', {
+          url: '/impor_config/',
+          templateUrl: 'views/impor_config/index.html',
+          controller: 'ImporConfigCtrl',
+          controllerAs: 'imporConfig',
+          data: {
+            title: 'imporConfig.titulo',
           }
         })
 
