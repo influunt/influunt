@@ -56,6 +56,24 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         idControlador = controlador.getId().toString();
         provideApp.injector().instanceOf(DeviceConfig.class).setDeviceId(controlador.getId().toString());
 
+        setConfig();
+    }
+
+    @After
+    public void cleanUp() {
+        mqttBroker.stopServer();
+        central.finish();
+        client.finish();
+        mqttBroker = null;
+        mqttBroker = null;
+        onConnectFutureList.clear();
+        onDisconectFutureList.clear();
+        onSubscribeFutureList.clear();
+        onPublishFutureList.clear();
+        System.gc();
+    }
+
+    protected void setConfig() throws IOException, InterruptedException {
         Properties properties = new Properties();
         properties.put("persistent_store", "");
 
@@ -104,21 +122,8 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         central = provideApp.injector().instanceOf(Central.class);
     }
 
-    @After
-    public void cleanUp() {
-        mqttBroker.stopServer();
-        central.finish();
-        client.finish();
-        mqttBroker = null;
-        mqttBroker = null;
-        onConnectFutureList.clear();
-        onDisconectFutureList.clear();
-        onSubscribeFutureList.clear();
-        onPublishFutureList.clear();
-        System.gc();
-    }
-
     protected void startClient() {
         client = provideApp.injector().instanceOf(Client.class);
     }
+
 }

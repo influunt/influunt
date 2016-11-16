@@ -1,23 +1,17 @@
 package status;
 
-import com.google.gson.Gson;
-import engine.EventoMotor;
 import engine.TipoEvento;
-import engine.TipoEventoControlador;
-import models.MotivoFalhaControlador;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import play.api.Play;
-import scala.Int;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 
 /**
@@ -39,8 +33,22 @@ public class AlarmesFalhasControlador {
 
     public String mensagem;
 
+    public String evento;
 
-    public AlarmesFalhasControlador(String idControlador, Long timestamp, TipoEvento tipoEvento, String mensagem) {
+
+    public AlarmesFalhasControlador(String idControlador, Long timestamp,
+                                    TipoEvento tipoEvento, String mensagem,
+                                    String evento) {
+        this.idControlador = idControlador;
+        this.timestamp = timestamp;
+        this.tipoEvento = tipoEvento.toString();
+
+        this.mensagem = mensagem;
+        this.evento = evento;
+    }
+
+    public AlarmesFalhasControlador(String idControlador, Long timestamp,
+                                    TipoEvento tipoEvento, String mensagem) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.tipoEvento = tipoEvento.toString();
@@ -53,6 +61,7 @@ public class AlarmesFalhasControlador {
         this.timestamp = (long) map.get("timestamp");
         this.tipoEvento = map.get("tipoEvento").toString();
         this.mensagem = map.get("mensagem").toString();
+        this.evento = map.get("evento").toString();
     }
 
     public static MongoCollection alarmesFalhas() {
@@ -122,10 +131,12 @@ public class AlarmesFalhasControlador {
         alarmesFalhas().drop();
     }
 
-    public static void log(String idControlador, Long timestamp,TipoEvento tipoEvento,String mensagem) {
-        new AlarmesFalhasControlador(idControlador,timestamp,tipoEvento,mensagem).save();
+    public static void log(String idControlador, Long timestamp, TipoEvento tipoEvento, String mensagem, String evento) {
+        new AlarmesFalhasControlador(idControlador, timestamp, tipoEvento, mensagem, evento).save();
+    }
 
-
+    public static void log(String idControlador, Long timestamp, TipoEvento tipoEvento, String mensagem) {
+        new AlarmesFalhasControlador(idControlador, timestamp, tipoEvento, mensagem).save();
     }
 
     public void insert() {
@@ -136,7 +147,7 @@ public class AlarmesFalhasControlador {
         insert();
     }
 
-    public TipoEvento getTipoEvento(){
+    public TipoEvento getTipoEvento() {
         return TipoEvento.valueOf(tipoEvento);
     }
 }

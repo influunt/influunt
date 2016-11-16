@@ -17,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static engine.TipoEventoParamsTipoDeDado.tipo;
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.route;
@@ -36,7 +35,9 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
 
         jongo.getCollection(AlarmesFalhasControlador.COLLECTION).drop();
 
-        AlarmesFalhasControlador.log("1", System.currentTimeMillis(), TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO, TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO.getMessage(""));
+        AlarmesFalhasControlador.log("1", System.currentTimeMillis(),
+            TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO,
+            TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO.getMessage(""));
         Thread.sleep(10);
         AlarmesFalhasControlador.log("1", System.currentTimeMillis(), TipoEvento.FALHA_VERDES_CONFLITANTES, TipoEvento.FALHA_VERDES_CONFLITANTES.getMessage());
         Thread.sleep(10);

@@ -115,13 +115,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         callback.onTrocaDePlanoEfetiva(agendamentoTrocaPlano);
     }
 
-    private List<Plano> getPlanos(Evento evento) {
-        return controlador.getAneis().stream().sorted((a1, a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
-            .flatMap(anel -> anel.getPlanos().stream())
-            .filter(plano -> plano.getPosicao().equals(evento.getPosicaoPlano()))
-            .collect(Collectors.toList());
-    }
-
     @Override
     public void onEvento(EventoMotor eventoMotor) {
         if (eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
@@ -130,6 +123,13 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             callback.onFalha(instante, eventoMotor);
             motorEventoHandler.handle(eventoMotor);
         }
+    }
+
+    private List<Plano> getPlanos(Evento evento) {
+        return controlador.getAneis().stream().sorted((a1, a2) -> a1.getPosicao().compareTo(a2.getPosicao()))
+            .flatMap(anel -> anel.getPlanos().stream())
+            .filter(plano -> plano.getPosicao().equals(evento.getPosicaoPlano()))
+            .collect(Collectors.toList());
     }
 
     public List<GerenciadorDeEstagios> getEstagios() {

@@ -3,6 +3,7 @@ package handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import com.fasterxml.jackson.databind.JsonNode;
 import engine.TipoEvento;
 import protocol.Envelope;
 import protocol.TipoMensagem;
@@ -22,7 +23,13 @@ public class AlarmeFalhaActorHandler extends UntypedActor {
             if (envelope.getTipoMensagem().equals(TipoMensagem.ALARME_FALHA)) {
                 log.info("Alarme falha recebida de: {0} esta offline", envelope.getIdControlador());
 
-                AlarmesFalhasControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO,"");
+                JsonNode jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+
+                AlarmesFalhasControlador.log(envelope.getIdControlador(),
+                    envelope.getCarimboDeTempo(),
+                    TipoEvento.valueOf(jsonConteudo.get("tipoEvento").get("tipo").asText()),
+                    jsonConteudo.get("descricaoEvento").asText(),
+                    envelope.getConteudo().toString());
             }
         }
     }

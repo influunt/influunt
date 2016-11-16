@@ -21,7 +21,7 @@ public class AlarmeFalha {
             idControlador,
             DestinoCentral.alarmeFalhaConfiguracao(idControlador),
             2,
-            Json.toJson(eventoMotor),
+            Json.toJson(eventoMotor).toString(),
             null);
     }
 }
