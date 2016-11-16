@@ -778,6 +778,21 @@
     "inicio": "Início",
     "fim": "Fim",
     "titulo": "Relatórios",
+    "cla": "CLA",
+    "estado": "Estado",
+    "nomeCruzamento": "Nome do cruzamento",
+    "plano": "Plano",
+    "modo": "Modo",
+    "emFalha": "Em falha",
+    "planoTemp": "Plano Temporário",
+    "coordenado": "Coordenado",
+    "sobImposicao": "Sob imposição de Plano",
+    "planoTemp": "Plano Temporário",
+    "opManual": "Operação Manual",
+    "sobVigente": "Sob plano vigente",
+    "isolado": "Isolado",
+    "planoExclusivo": "Plano exclusivo",
+    "atuado": "Atuado",
     "tipo": "Tipo Relatório"
   }
 }
