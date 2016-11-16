@@ -765,7 +765,26 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
-    "titulo": "Impor Configuração"
+    "titulo": "Impor Configuração",
+    "status": "Status",
+    "cla": "CLA",
+    "local": "Local",
+    "info": "Info",
+    "imporPlano": "Impor Plano",
+    "imporModo": "Impor Modo",
+    "sincronizar": "Sincronizar",
+    "plano": "Plano",
+    "entrada": "Entrada",
+    "horaEntrada": "Hora de Entrada",
+    "duracao": "Duração",
+    "editar": "Editar",
+    "imporApagado": "Impor modo Apagado",
+    "imporInterm": "impor modo interminente",
+    "sincronizarApenas": "Sincronizar apenas Tabela Horária",
+    "sincronizarHoraPlano": "Sincronizar Tabela Horária e Planos",
+    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos, Configurações",
+    "sincronizando": "Sincronizando",
+    "configurado": "Configurado"
   },
   "EM_CONFIGURACAO": "Em Configuração",
   "CONFIGURADO": "Configurado",
