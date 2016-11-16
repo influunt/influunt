@@ -116,7 +116,9 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
-    return sharedSteps.checarValoresNaTabela(status);
+    return sharedSteps.checarValoresNaTabela(status).then(function(){
+      return sharedSteps.checarBadgeStatusControlador(status);
+    });
   });
 
   this.Given(/^o sistema deverá mostrar na tabela o valor "([^"]*)"$/, function (status) {

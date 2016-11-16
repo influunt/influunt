@@ -227,6 +227,22 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.checarBadgeStatusControlador = function(status) {
+    var _this = this;
+    switch(status) {
+      case 'Em Edição':
+        return _this.getBadgeByClass('badge-warning');
+      case 'Configurado':
+        return _this.getBadgeByClass('badge-primary');
+      default:
+        throw new Error('Status não encontrado: '+status);
+    }
+  };
+
+  this.getBadgeByClass = function(badge) {
+    return world.waitForByXpath('//span[contains(@class, "'+badge+'")]');
+  };
+
   this.checkPosicaoHistorico = function(posicao, data) {
     return world.waitForOverlayDisappear().then(function() {
       return world.waitForByXpath('(//div[contains(@class, "vertical-timeline-content")])['+posicao+']//small[contains(text(), "'+data+'")]');
