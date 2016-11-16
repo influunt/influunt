@@ -24,10 +24,12 @@
                       </div>
                       <div class="vertical-timeline-content">
                         <hgroup>
-                          <a href="{{ versao.href }}" class="btn btn-sm btn-primary" data-ng-if="mostrarLinkAlteracoes && $index + 1 < versoes.length" data-ng-click="closeTimelineModal()">
-                            {{ 'timeline.verAlteracoes' | translate }}
-                          </a>
-                          <div class="clearfix" data-ng-if="mostrarLinkAlteracoes"></div>
+                          <div data-ng-if="mostrarLinkAlteracoes && $index + 1 < versoes.length" permission permission-sref="linkAlteracoes">
+                            <a href="{{ versao.href }}" class="btn btn-sm btn-primary" data-ng-click="closeTimelineModal()">
+                              {{ 'timeline.verAlteracoes' | translate }}
+                            </a>
+                            <div class="clearfix"></div>
+                          </div>
                           <span class="vertical-date">{{versao.dataAtualizacao | influuntDate: 'fromNow'}} <br/><small>{{versao.dataAtualizacao | influuntDate: 'LL'}}</small></span>
                         </hgroup>
                         {{ versao.descricao }}

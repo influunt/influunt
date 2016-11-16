@@ -5,3 +5,11 @@ tr[influunt-evento].removido {
 tr[influunt-evento].adicionado {
   background-color: lightgreen;
 }
+
+.diff-table {
+  margin-top: 5px;
+}
+
+.diff-table span.versao-usuario {
+  padding: 10px;
+}

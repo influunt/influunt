@@ -4,6 +4,18 @@
       <div class="step-content tabs-container body">
         <fieldset>
 
+          <div class="row">
+            <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+              <div class="right">
+                <a class="btn btn-primary" type="button"
+                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
+                   data-target="#modal-timeline" data-toggle="modal">
+                  <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+
           <influunt-tabs class="tabpanel"
                          data-on-activate="selecionaTipoEvento"
                          data-aneis-ativos="tipoEventos"
@@ -26,8 +38,8 @@
                                   <div class="row">
                                     <div class="col-sm-6">
 
-                                      <div class="no-padding-left col-sm-12">
-                                        Versão criada por: {{ versaoOrigem.usuario.nome }}
+                                      <div class="no-padding-left col-sm-12 diff-table">
+                                        <span class="versao-usuario"><strong>{{ 'diff.versaoCriadaPor' | translate }} {{ versaoOrigem.usuario.nome }} {{ 'diff.em' | translate }} {{ versaoOrigem.dataCriacao }}</strong></span>
                                         <table class="table table-hover text-center">
                                           <thead class="uppercase">
                                             <tr>
@@ -63,8 +75,8 @@
                                     </div>
                                     <div class="col-sm-6">
 
-                                      <div class="no-padding-left col-sm-12">
-                                        Versão criada por: {{ versaoBase.usuario.nome }}
+                                      <div class="no-padding-left col-sm-12 diff-table">
+                                        <span class="versao-usuario"><strong>{{ 'diff.versaoCriadaPor' | translate }} {{ versaoBase.usuario.nome }} {{ 'diff.em' | translate }} {{ versaoBase.dataCriacao }}</strong></span>
                                         <table class="table table-hover text-center">
                                           <thead class="uppercase">
                                             <tr>
@@ -97,7 +109,6 @@
                                         </table>
                                       </div>
 
-                                      <!-- <ng-include src="'views/tabela_horarios/tabelas.html'"></ng-include> -->
                                     </div>
                                   </div>
                                 </div>
@@ -113,31 +124,11 @@
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- <div class="row">
-            <div class="col-sm-6">
-              <ng-include src="'views/tabela_horarios/tabs-eventos.html'"></ng-include>
-            </div>
-            <div class="col-sm-6">
-              <ng-include src="'views/tabela_horarios/tabs-eventos.html'"></ng-include>
-            </div>
-          </div> -->
-
-
-
+          <influunt-modal-timeline
+            resource="'tabelas_horarias'"
+            resource-id="$state.params.id"
+            mostrar-link-alteracoes="true"
+            link-alteracoes="app.tabelas_horarias_diff"></influunt-modal-timeline>
         </fieldset>
       </div>
     </div>

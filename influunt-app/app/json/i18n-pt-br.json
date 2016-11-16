@@ -793,5 +793,9 @@
     "planoExclusivo": "Plano exclusivo",
     "atuado": "Atuado",
     "tipo": "Tipo Relatório"
+  },
+  "diff": {
+    "versaoCriadaPor": "Versão criada por",
+    "em": "em"
   }
 }
