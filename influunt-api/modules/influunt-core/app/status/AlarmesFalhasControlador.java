@@ -1,11 +1,13 @@
 package status;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import engine.TipoEvento;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import play.api.Play;
+import play.libs.Json;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.ArrayList;
@@ -29,39 +31,25 @@ public class AlarmesFalhasControlador {
 
     public Long timestamp;
 
-    public String tipoEvento;
+    public String idAnel;
 
-    public String mensagem;
-
-    public String evento;
-
-
-    public AlarmesFalhasControlador(String idControlador, Long timestamp,
-                                    TipoEvento tipoEvento, String mensagem,
-                                    String evento) {
-        this.idControlador = idControlador;
-        this.timestamp = timestamp;
-        this.tipoEvento = tipoEvento.toString();
-
-        this.mensagem = mensagem;
-        this.evento = evento;
-    }
-
-    public AlarmesFalhasControlador(String idControlador, Long timestamp,
-                                    TipoEvento tipoEvento, String mensagem) {
-        this.idControlador = idControlador;
-        this.timestamp = timestamp;
-        this.tipoEvento = tipoEvento.toString();
-
-        this.mensagem = mensagem;
-    }
+    public JsonNode objeto;
 
     public AlarmesFalhasControlador(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
-        this.tipoEvento = map.get("tipoEvento").toString();
-        this.mensagem = map.get("mensagem").toString();
-        this.evento = map.get("evento").toString();
+        this.objeto = Json.toJson(map.get("objeto"));
+
+        if (map.containsKey("idAnel")) {
+            this.idAnel = map.get("idAnel").toString();
+        }
+    }
+
+    public AlarmesFalhasControlador(String idControlador, Long timestamp, String idAnel, JsonNode objeto) {
+        this.idControlador = idControlador;
+        this.timestamp = timestamp;
+        this.idAnel = idAnel;
+        this.objeto = objeto;
     }
 
     public static MongoCollection alarmesFalhas() {
@@ -77,7 +65,7 @@ public class AlarmesFalhasControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, TipoEvento> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimo =
-            alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$tipoEvento'}}}").
+            alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'tipoEvento': {$first: '$objeto.tipoEvento.tipo'}}}").
                 as(Map.class);
         for (Map m : ultimo) {
             hash.put(m.get("_id").toString(), TipoEvento.valueOf(m.get("tipoEvento").toString()));
@@ -91,9 +79,9 @@ public class AlarmesFalhasControlador {
         HashMap<String, Object> hash = new HashMap<>();
         Aggregate query = null;
         if (limit != null) {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$tipoEvento'}}}").and("{$limit: " + limit + "}");
+            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$objeto.tipoEvento.tipo'}}}").and("{$limit: " + limit + "}");
         } else {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$tipoEvento'}}}");
+            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$objeto.tipoEvento.tipo'}}}");
         }
         Aggregate.ResultsIterator<Map> ultimo = query.as(Map.class);
         for (Map m : ultimo) {
@@ -131,12 +119,8 @@ public class AlarmesFalhasControlador {
         alarmesFalhas().drop();
     }
 
-    public static void log(String idControlador, Long timestamp, TipoEvento tipoEvento, String mensagem, String evento) {
-        new AlarmesFalhasControlador(idControlador, timestamp, tipoEvento, mensagem, evento).save();
-    }
-
-    public static void log(String idControlador, Long timestamp, TipoEvento tipoEvento, String mensagem) {
-        new AlarmesFalhasControlador(idControlador, timestamp, tipoEvento, mensagem).save();
+    public static void log(Long timestamp, String idControlador, String idAnel, JsonNode objeto) {
+        new AlarmesFalhasControlador(idControlador, timestamp, idAnel, objeto).save();
     }
 
     public void insert() {
@@ -148,6 +132,6 @@ public class AlarmesFalhasControlador {
     }
 
     public TipoEvento getTipoEvento() {
-        return TipoEvento.valueOf(tipoEvento);
+        return TipoEvento.valueOf(objeto.get("tipoEvento").get("tipo").asText());
     }
 }

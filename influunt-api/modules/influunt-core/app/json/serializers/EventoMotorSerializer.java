@@ -24,7 +24,10 @@ public class EventoMotorSerializer extends JsonSerializer<EventoMotor> {
 
         if (eventoMotor.getTipoEvento() != null) {
             jgen.writeObjectField("tipoEvento", eventoMotor.getTipoEvento());
-            jgen.writeObjectField("descricaoEvento", eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
+
+            if (eventoMotor.getParams() != null) {
+                jgen.writeObjectField("descricaoEvento", eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
+            }
         }
 
         if (eventoMotor.getParams() != null) {

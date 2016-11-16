@@ -4,11 +4,17 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import engine.EventoMotor;
 import engine.TipoEvento;
+import models.Controlador;
+import play.libs.Json;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 import status.AlarmesFalhasControlador;
 import status.StatusConexaoControlador;
+
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -23,13 +29,18 @@ public class AlarmeFalhaActorHandler extends UntypedActor {
             if (envelope.getTipoMensagem().equals(TipoMensagem.ALARME_FALHA)) {
                 log.info("Alarme falha recebida de: {0} esta offline", envelope.getIdControlador());
 
-                JsonNode jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+                final JsonNode jsonConteudo = Json.parse(envelope.getConteudo().toString());
 
-                AlarmesFalhasControlador.log(envelope.getIdControlador(),
-                    envelope.getCarimboDeTempo(),
-                    TipoEvento.valueOf(jsonConteudo.get("tipoEvento").get("tipo").asText()),
-                    jsonConteudo.get("descricaoEvento").asText(),
-                    envelope.getConteudo().toString());
+                String idAnel = null;
+                if (jsonConteudo.has("params") && jsonConteudo.get("params").has(0)) {
+                    idAnel = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()))
+                        .findAnelByPosicao(jsonConteudo.get("params").get(0).asInt()).getId().toString();
+                }
+
+                AlarmesFalhasControlador.log(envelope.getCarimboDeTempo(),
+                    envelope.getIdControlador(),
+                    idAnel,
+                    jsonConteudo);
             }
         }
     }
