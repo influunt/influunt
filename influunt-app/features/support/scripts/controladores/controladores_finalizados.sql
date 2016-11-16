@@ -143,6 +143,7 @@ VALUES
 INSERT INTO `controladores` (`id`, `id_json`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `croqui_id`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `data_criacao`, `data_atualizacao`)
 VALUES
   ('0f424143-383e-490d-96ef-145fed18bb29',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:19:08.777000','2016-11-08 09:33:01.639000'),
+  ('9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
   ('1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
   ('279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,'Av. Paulista, nº 1000. ref.: AREA 1',2,'2','1','2','3',NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 09:10:36.924000','2016-11-08 09:16:47.343000'),
   ('3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'R. Maria Figueiredo com Av. Paulista',3,'3',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 10:21:26.853000','2016-11-08 10:32:52.105000'),
@@ -671,20 +672,21 @@ VALUES
 
 INSERT INTO `controladores_fisicos` (`id`, `id_json`, `area_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('3438f178-ecb4-4833-b6e7-e58d2812e35b',NULL,@Area2Id,'2016-11-08 09:19:08.802000','2016-11-08 09:19:08.802000'),
-  ('4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',NULL,@Area3Id,'2016-11-08 09:50:02.879000','2016-11-08 09:50:02.879000'),
-  ('66f6865f-6963-4ff5-b160-7c6febb68c03',NULL,@Area1Id,'2016-11-08 09:10:36.963000','2016-11-08 09:10:36.963000'),
-  ('c64b8f57-0f74-4e56-9bea-614882beeaa2',NULL,@Area1Id,'2016-11-08 09:05:12.082000','2016-11-08 09:05:12.082000'),
-  ('ebaa3115-e64a-45ca-9ec6-afb85a39b89c',NULL,@Area1Id,'2016-11-08 10:21:26.875000','2016-11-08 10:21:26.875000');
+  ('3438f178-ecb4-4833-b6e7-e58d2812e35b',NULL,@Area2Id,NOW(),NOW()),
+  ('4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',NULL,@Area3Id,NOW(),NOW()),
+  ('66f6865f-6963-4ff5-b160-7c6febb68c03',NULL,@Area1Id,NOW(),NOW()),
+  ('c64b8f57-0f74-4e56-9bea-614882beeaa2',NULL,@Area1Id,NOW(),NOW()),
+  ('ebaa3115-e64a-45ca-9ec6-afb85a39b89c',NULL,@Area1Id,NOW(),NOW());
 
-INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('0f2e142f-01eb-4276-87d2-2d0234ef27b2',NULL,NULL,'8d872244-c7c9-4ff6-9239-f207c2773787','4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',@UsuarioId,'Controlador criado pelo usuário: Mobilab','EM_CONFIGURACAO','2016-11-08 09:50:02.880000'),
-  ('7c996199-ed02-4272-b53c-b297c4e69d20',NULL,NULL,'5d238555-8620-4841-a2bf-c77d497f6b03','c64b8f57-0f74-4e56-9bea-614882beeaa2',@UsuarioId,'Controlador 1','CONFIGURADO','2016-11-08 09:05:12.084000'),
-  ('9501b28f-f508-4573-92a7-20c932313e95',NULL,NULL,'3d86335e-05e7-4921-8cdf-42ed03821f62','ebaa3115-e64a-45ca-9ec6-afb85a39b89c',@UsuarioId,'Controlador 4','CONFIGURADO','2016-11-08 10:21:26.876000'),
-  ('9d3ec495-96da-453a-8512-fc458221eb00',NULL,NULL,'279d3e6e-b3ab-4e9f-8358-67e393e5ed0f','66f6865f-6963-4ff5-b160-7c6febb68c03',@UsuarioId,'CONTROLADOR 2','CONFIGURADO','2016-11-08 09:10:36.964000'),
-  ('9e2eb1d1-7af9-423f-9406-ba6c237dfa12',NULL,NULL,'0f424143-383e-490d-96ef-145fed18bb29','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Controlador 3 ','ARQUIVADO','2016-11-08 09:19:08.804000'),
-  ('b95d6fe4-84c9-4d5d-94a4-401b915294d1',NULL,'0f424143-383e-490d-96ef-145fed18bb29','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Controlador clonado pelo usuário: Mobilab','EDITANDO','2016-11-08 09:54:08.000000');
+  ('0f2e142f-01eb-4276-87d2-2d0234ef27b2',NULL,NULL,'8d872244-c7c9-4ff6-9239-f207c2773787','4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',@UsuarioId,'Controlador criado pelo usuário: Mobilab','EM_CONFIGURACAO',NOW(), NOW()),
+  ('7c996199-ed02-4272-b53c-b297c4e69d20',NULL,NULL,'5d238555-8620-4841-a2bf-c77d497f6b03','c64b8f57-0f74-4e56-9bea-614882beeaa2',@UsuarioId,'Controlador 1','CONFIGURADO',NOW(), NOW()),
+  ('9501b28f-f508-4573-92a7-20c932313e95',NULL,NULL,'3d86335e-05e7-4921-8cdf-42ed03821f62','ebaa3115-e64a-45ca-9ec6-afb85a39b89c',@UsuarioId,'Controlador 4','CONFIGURADO',NOW(), NOW()),
+  ('9d3ec495-96da-453a-8512-fc458221eb00',NULL,NULL,'279d3e6e-b3ab-4e9f-8358-67e393e5ed0f','66f6865f-6963-4ff5-b160-7c6febb68c03',@UsuarioId,'CONTROLADOR 2','CONFIGURADO',NOW(), NOW()),
+  (RANDOM_UUID(),NULL,NULL,'0f424143-383e-490d-96ef-145fed18bb29','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Alteração 1','ARQUIVADO','2016-11-08 09:23:35.616000','2016-11-08 09:33:01.673000'),
+  (RANDOM_UUID(),NULL,'0f424143-383e-490d-96ef-145fed18bb29','9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Alteração 2','ARQUIVADO','2016-11-08 09:23:35.616000','2016-11-012 09:33:01.673000'),
+  ('b95d6fe4-84c9-4d5d-94a4-401b915294d1',NULL,'9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Controlador clonado pelo usuário: Mobilab','EDITANDO','2016-11-08 09:23:35.616000','2016-11-13 09:33:01.673000');
 
 INSERT INTO `detectores` (`id`, `id_json`, `tipo`, `anel_id`, `estagio_id`, `controlador_id`, `posicao`, `descricao`, `monitorado`, `tempo_ausencia_deteccao`, `tempo_deteccao_permanente`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -761,18 +763,18 @@ VALUES
 
 ---------------------------- PLANOS --------------------------
 
-INSERT INTO `versoes_planos` (`id`, `id_json`, `versao_anterior_id`, `anel_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_planos` (`id`, `id_json`, `versao_anterior_id`, `anel_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('0668760a-3ea5-4122-8e28-2bbdf85ee83c','1b3108b4-2b95-4593-9469-25fa1e502c41',NULL,'4744f9d9-f9c3-4f3f-ab1c-17b7178453d5',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:08:42.253000'),
-  ('234a6aca-2ea8-4657-8bf6-26a64a4e2b8c','950aa37a-195c-4ed4-bbdd-ede73e78fe82',NULL,'6c709913-6812-41d9-94a6-e36ee55e3b9c',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:15:35.814000'),
-  ('4db9bb39-7794-4eb1-97d5-2ec6a991c26e','9bd223a2-5145-403d-872a-f1e2d9842999',NULL,'043007e5-ee02-4383-bde1-87346abdc895',NULL,'Planos criado','CONFIGURADO','2016-11-08 10:26:13.325000'),
-  ('7c53c166-bcca-4ff1-9340-75cdf53db9f3','2eb6394f-c563-4200-aaaf-644997552497',NULL,'56f26b09-4bf1-4dfd-b014-eb39880ed45a',NULL,'Planos criado','ARQUIVADO','2016-11-08 09:32:26.416000'),
-  ('a3a0d6fa-9845-4c7c-8a52-2dc51fb8a52a','aca19256-0135-4d06-a032-8e48a7326e06',NULL,'9ce82983-8de5-439e-863a-88086fb8b705',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:15:35.732000'),
-  ('bb3f1e93-cb4e-43bc-b634-9ac5a10755a4','a6b8d1f8-ff6f-4c81-86ec-9672c56d934c','7c53c166-bcca-4ff1-9340-75cdf53db9f3','5e913606-1f79-42db-bafd-a86b14a5c64c',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO','2016-11-08 09:54:07.466000'),
-  ('beaed461-4c9c-4a5e-9f6b-0b2ee020af7f','086f197f-c597-468c-a993-fee040067f9b',NULL,'70d364b0-6f7c-4f04-96e8-853a49ccd7f2',NULL,'Planos criado','CONFIGURADO','2016-11-08 10:26:13.233000'),
-  ('ce66c466-750f-4116-97ed-926c01d8d43e','a4cb50af-9cf0-4163-a73e-f0a15ee03dfc',NULL,'750b3c0d-8247-4cc6-adbd-5a34f88092c3',NULL,'Planos criado','ARQUIVADO','2016-11-08 09:32:26.062000'),
-  ('d5c842c1-9cd1-489f-8071-816ef50d1044','2cab46a5-1e55-48af-b897-a14dd0083eca','ce66c466-750f-4116-97ed-926c01d8d43e','5033f1e1-3840-4a01-a69b-ea6815ac33fa',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO','2016-11-08 09:54:07.590000'),
-  ('ebb8691f-4ae0-42cc-b9b7-3023a4ffc004','e653df46-8897-4ad0-900c-4cd7b25d3567',NULL,'33e2bbf0-72ad-4d11-98d8-1bb440c370b0',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:08:42.284000');
+  ('0668760a-3ea5-4122-8e28-2bbdf85ee83c','1b3108b4-2b95-4593-9469-25fa1e502c41',NULL,'4744f9d9-f9c3-4f3f-ab1c-17b7178453d5',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('234a6aca-2ea8-4657-8bf6-26a64a4e2b8c','950aa37a-195c-4ed4-bbdd-ede73e78fe82',NULL,'6c709913-6812-41d9-94a6-e36ee55e3b9c',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('4db9bb39-7794-4eb1-97d5-2ec6a991c26e','9bd223a2-5145-403d-872a-f1e2d9842999',NULL,'043007e5-ee02-4383-bde1-87346abdc895',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('7c53c166-bcca-4ff1-9340-75cdf53db9f3','2eb6394f-c563-4200-aaaf-644997552497',NULL,'56f26b09-4bf1-4dfd-b014-eb39880ed45a',NULL,'Planos criado','ARQUIVADO',NOW(),NOW()),
+  ('a3a0d6fa-9845-4c7c-8a52-2dc51fb8a52a','aca19256-0135-4d06-a032-8e48a7326e06',NULL,'9ce82983-8de5-439e-863a-88086fb8b705',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('bb3f1e93-cb4e-43bc-b634-9ac5a10755a4','a6b8d1f8-ff6f-4c81-86ec-9672c56d934c','7c53c166-bcca-4ff1-9340-75cdf53db9f3','5e913606-1f79-42db-bafd-a86b14a5c64c',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO',NOW(),NOW()),
+  ('beaed461-4c9c-4a5e-9f6b-0b2ee020af7f','086f197f-c597-468c-a993-fee040067f9b',NULL,'70d364b0-6f7c-4f04-96e8-853a49ccd7f2',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('ce66c466-750f-4116-97ed-926c01d8d43e','a4cb50af-9cf0-4163-a73e-f0a15ee03dfc',NULL,'750b3c0d-8247-4cc6-adbd-5a34f88092c3',NULL,'Planos criado','ARQUIVADO',NOW(),NOW()),
+  ('d5c842c1-9cd1-489f-8071-816ef50d1044','2cab46a5-1e55-48af-b897-a14dd0083eca','ce66c466-750f-4116-97ed-926c01d8d43e','5033f1e1-3840-4a01-a69b-ea6815ac33fa',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO',NOW(),NOW()),
+  ('ebb8691f-4ae0-42cc-b9b7-3023a4ffc004','e653df46-8897-4ad0-900c-4cd7b25d3567',NULL,'33e2bbf0-72ad-4d11-98d8-1bb440c370b0',NULL,'Planos criado','CONFIGURADO',NOW(),NOW());
 
 
 INSERT INTO `planos` (`id`, `id_json`, `posicao`, `descricao`, `tempo_ciclo`, `defasagem`, `versao_plano_id`, `modo_operacao`, `posicao_tabela_entre_verde`, `data_criacao`, `data_atualizacao`)
@@ -920,13 +922,13 @@ VALUES
 --------------------------------------- TABELA HORARIAS ------------------------------------------
 
 
-INSERT INTO `versoes_tabelas_horarias` (`id`, `id_json`, `controlador_id`, `tabela_horaria_origem_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_tabelas_horarias` (`id`, `id_json`, `controlador_id`, `tabela_horaria_origem_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('06e58963-0e85-46f6-8a16-2703a543d573','522ce223-637d-4556-a1f0-9e2627dfeb0b','0f424143-383e-490d-96ef-145fed18bb29',NULL,NULL,NULL,'ARQUIVADO','2016-11-08 09:33:02.115000'),
-  ('125f19f1-a544-4019-b62a-4160f3db3f81','15e331ba-3a7d-4f67-b7ab-df02393f847f','279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,NULL,NULL,'CONFIGURADO','2016-11-08 09:16:47.392000'),
-  ('38ad2b48-85cc-48bf-bc30-6ec6e5976551','3f520e9d-2651-4a6a-ba0e-f1ca0618605a','5d238555-8620-4841-a2bf-c77d497f6b03',NULL,NULL,NULL,'CONFIGURADO','2016-11-08 09:09:03.600000'),
-  ('69abb281-91e3-4073-9ba2-1a59817e5f74','1d274495-e924-4e9f-9a8e-9c59181a5d9c','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,@UsuarioId,'Tabela Horaria criado pelo usuário:Mobilab','EDITANDO','2016-11-08 09:54:07.919000'),
-  ('f4c67a91-013c-49fa-9e87-44398ac56403','d8d9e1f1-75fb-46ff-bc06-df1ffbb611b9','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,NULL,NULL,'CONFIGURADO','2016-11-08 10:32:14.027000');
+  ('06e58963-0e85-46f6-8a16-2703a543d573','522ce223-637d-4556-a1f0-9e2627dfeb0b','0f424143-383e-490d-96ef-145fed18bb29',NULL,NULL,NULL,'ARQUIVADO',NOW(), NOW()),
+  ('125f19f1-a544-4019-b62a-4160f3db3f81','15e331ba-3a7d-4f67-b7ab-df02393f847f','279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,NULL,NULL,'CONFIGURADO',NOW(), NOW()),
+  ('38ad2b48-85cc-48bf-bc30-6ec6e5976551','3f520e9d-2651-4a6a-ba0e-f1ca0618605a','5d238555-8620-4841-a2bf-c77d497f6b03',NULL,NULL,NULL,'CONFIGURADO',NOW(), NOW()),
+  ('69abb281-91e3-4073-9ba2-1a59817e5f74','1d274495-e924-4e9f-9a8e-9c59181a5d9c','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,@UsuarioId,'Tabela Horaria criado pelo usuário:Mobilab','EDITANDO',NOW(), NOW()),
+  ('f4c67a91-013c-49fa-9e87-44398ac56403','d8d9e1f1-75fb-46ff-bc06-df1ffbb611b9','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,NULL,NULL,'CONFIGURADO',NOW(), NOW());
 
 INSERT INTO `tabela_horarios` (`id`, `id_json`, `versao_tabela_horaria_id`, `data_criacao`, `data_atualizacao`)
 VALUES

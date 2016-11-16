@@ -61,7 +61,7 @@ public class TabelaHorariosController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
 
-        List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
+        List<VersaoTabelaHoraria> versoes = VersaoTabelaHoraria.versoes(controlador);
         return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
     }
 
