@@ -222,7 +222,7 @@ var ObjetosComuns = function () {
   };
 
   this.fecharModal = function() {
-    return world.sleep(500).then(function(){
+    return world.sleep(600).then(function(){
       return world.getElementByXpath('//button[contains(text(), "Fechar")]').click();
     });
   };
