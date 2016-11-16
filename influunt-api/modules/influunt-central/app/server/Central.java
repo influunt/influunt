@@ -14,9 +14,8 @@ import server.conn.ServerActor;
 @Singleton
 public class Central {
 
-
     private final Configuration mqttSettings;
-//
+
     private final ActorSystem system;
 
     private ActorRef servidor;

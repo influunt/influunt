@@ -44,7 +44,6 @@ public class ClientActor extends UntypedActor {
         this.port = port;
         this.storage = storage;
         this.device = getContext().actorOf(Props.create(DeviceActor.class, storage), "motor");
-
     }
 
 

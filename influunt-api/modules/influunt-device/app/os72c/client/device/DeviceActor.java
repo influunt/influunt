@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
  * Created by rodrigosol on 11/4/16.
  */
 public class DeviceActor extends UntypedActor implements MotorCallback {
-    private final UntypedActorContext context;
-
     private  Controlador controlador;
 
     private final Storage storage;
@@ -38,7 +36,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
     public DeviceActor(Storage mapStorage){
         this.storage = mapStorage;
         start();
-        this.context = getContext();
     }
 
     private void start() {
@@ -60,19 +57,18 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-
     }
 
     @Override
     public void onAlarme(DateTime timestamp, EventoMotor eventoMotor) {
         Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(),eventoMotor);
-        context.actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope,getSelf());
+        sendMessage(envelope);
     }
 
     @Override
     public void onFalha(DateTime timestamp, EventoMotor eventoMotor) {
         Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(),eventoMotor);
-        context.actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope,getSelf());
+        sendMessage(envelope);
     }
 
     @Override
@@ -93,6 +89,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
 
+    }
+
+    private void sendMessage(Envelope envelope) {
+        getContext().actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope,getSelf());
     }
 
     @Override

@@ -44,7 +44,7 @@ public class MotorEventoHandler {
                 break;
 
             case TROCA_ESTAGIO_MANUAL:
-                handleTrocaEstagioManual(eventoMotor);
+                handleControlador(eventoMotor);
                 break;
 
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
@@ -86,7 +86,7 @@ public class MotorEventoHandler {
 
             case FALHA_WATCH_DOG:
             case FALHA_MEMORIA:
-                handleFalhaControlador(eventoMotor);
+                handleControlador(eventoMotor);
                 break;
 
             case ALARME_AMARELO_INTERMITENTE:
@@ -107,7 +107,7 @@ public class MotorEventoHandler {
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
     }
 
-    private void handleFalhaControlador(EventoMotor eventoMotor) {
+    private void handleControlador(EventoMotor eventoMotor) {
         motor.getEstagios().forEach(gerenciadorDeEstagios -> {
             gerenciadorDeEstagios.onEvento(eventoMotor);
         });
@@ -175,11 +175,6 @@ public class MotorEventoHandler {
         });
     }
 
-    private void handleTrocaEstagioManual(EventoMotor eventoMotor) {
-        motor.getEstagios().forEach(estagio -> {
-            estagio.onEvento(eventoMotor);
-        });
-    }
 
     public Motor getMotor() {
         return motor;
