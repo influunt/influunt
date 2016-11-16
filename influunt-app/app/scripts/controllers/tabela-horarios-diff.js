@@ -17,8 +17,7 @@ angular.module('influuntApp')
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('tabelas_horarias');
 
-      var getTabela, findEvento, removeEvento, findEventoNormal, removeEventoNormal, findEventoRecorrente,
-          removeEventoRecorrente, findEventoNaoRecorrente, removeEventoNaoRecorrente, makeDiff;
+      var getTabela, findEvento, removeEvento, makeDiff, getObjComparacaoEvento;
 
       var NORMAL = 'NORMAL';
       var ESPECIAL_RECORRENTE = 'ESPECIAL_RECORRENTE';
@@ -110,100 +109,41 @@ angular.module('influuntApp')
         return _.cloneDeep(tabela);
       };
 
-      findEventoNormal = function(e, eventos) {
-        return _.find(eventos, {
+      getObjComparacaoEvento = function(e) {
+        var objComparacao = {
           posicao: e.posicao,
           hora: e.hora,
           minuto: e.minuto,
           segundo: e.segundo,
           posicaoPlano: e.posicaoPlano,
-          diaDaSemana: e.diaDaSemana,
           tipo: e.tipo
-        });
-      };
+        };
 
-      removeEventoNormal = function(e, eventos) {
-        return _.remove(eventos, {
-          posicao: e.posicao,
-          hora: e.hora,
-          minuto: e.minuto,
-          segundo: e.segundo,
-          posicaoPlano: e.posicaoPlano,
-          diaDaSemana: e.diaDaSemana,
-          tipo: e.tipo
-        });
-      };
+        switch($scope.currentTipoEvento) {
+          case ESPECIAL_RECORRENTE:
+            objComparacao.nome = e.nome;
+            objComparacao.dataDiaMes = e.dataDiaMes;
+            break;
+          case ESPECIAL_NAO_RECORRENTE:
+            objComparacao.nome = e.nome;
+            objComparacao.dataDiaMesAno = e.dataDiaMesAno;
+            break;
+          default:
+            objComparacao.diaDaSemana = e.diaDaSemana;
+            break;
+        }
 
-      findEventoRecorrente = function(e, eventos) {
-        return _.find(eventos, {
-          posicao: e.posicao,
-          dataDiaMes: e.dataDiaMes,
-          hora: e.hora,
-          minuto: e.minuto,
-          segundo: e.segundo,
-          posicaoPlano: e.posicaoPlano,
-          tipo: e.tipo
-        });
-      };
-
-      removeEventoRecorrente = function(e, eventos) {
-        return _.remove(eventos, {
-          posicao: e.posicao,
-          dataDiaMes: e.dataDiaMes,
-          hora: e.hora,
-          minuto: e.minuto,
-          segundo: e.segundo,
-          posicaoPlano: e.posicaoPlano,
-          tipo: e.tipo
-        });
-      };
-
-      findEventoNaoRecorrente = function(e, eventos) {
-        return _.find(eventos, {
-          posicao: e.posicao,
-          nome: e.nome,
-          dataDiaMesAno: e.dataDiaMesAno,
-          hora: e.hora,
-          minuto: e.minuto,
-          segundo: e.segundo,
-          posicaoPlano: e.posicaoPlano,
-          tipo: e.tipo
-        });
-      };
-
-      removeEventoNaoRecorrente = function(e, eventos) {
-        return _.remove(eventos, {
-          posicao: e.posicao,
-          nome: e.nome,
-          dataDiaMesAno: e.dataDiaMesAno,
-          hora: e.hora,
-          minuto: e.minuto,
-          segundo: e.segundo,
-          posicaoPlano: e.posicaoPlano,
-          tipo: e.tipo
-        });
+        return objComparacao;
       };
 
       findEvento = function(e, eventos) {
-        switch($scope.currentTipoEvento) {
-          case ESPECIAL_RECORRENTE:
-            return findEventoRecorrente(e, eventos);
-          case ESPECIAL_NAO_RECORRENTE:
-            return findEventoNaoRecorrente(e, eventos);
-          default:
-            return findEventoNormal(e, eventos);
-        }
+        var objComparacao = getObjComparacaoEvento(e);
+        return _.find(eventos, objComparacao);
       };
 
       removeEvento = function(e, eventos) {
-        switch($scope.currentTipoEvento) {
-          case ESPECIAL_RECORRENTE:
-            return removeEventoRecorrente(e, eventos);
-          case ESPECIAL_NAO_RECORRENTE:
-            return removeEventoNaoRecorrente(e, eventos);
-          default:
-            return removeEventoNormal(e, eventos);
-        }
+        var objComparacao = getObjComparacaoEvento(e);
+        return _.remove(eventos, objComparacao);
       };
 
       makeDiff = function() {
