@@ -410,17 +410,17 @@ angular.module('influuntApp')
         return v[Math.floor(i)][0].state;
       };
 
-      $scope.highlightEvento = _.debounce(function(v, i) {
+      $scope.highlightEvento = function(v,i){
         var table = v[Math.floor(i)][0].state;
         var tr = angular.element('.evento .' + table).parent();
-        tr.addClass('light_' + table);
-      }, 200);
+        tr.addClass(table).addClass('light');
+      };
 
-      $scope.leaveHighlightEvento = _.debounce(function(v, i) {
+      $scope.leaveHighlightEvento = function(v,i){
         var table = v[Math.floor(i)][0].state;
         var tr = angular.element('.light_' + table);
-        tr.removeClass('light_' + table);
-      }, 200);
+        tr.removeClass(table).removeClass('light');
+      };
 
       $scope.$watch('eventosNormais', function(newObj) {
         if($scope.eventosNormais && newObj){
