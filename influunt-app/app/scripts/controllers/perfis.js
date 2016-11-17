@@ -53,7 +53,7 @@ angular.module('influuntApp')
         PermissionsService.getPermissions()
           .then(function(response) {
             $scope.permissions = response.permissoes;
-            $scope.roles = response.permissoesApp;
+            $scope.roles = _.orderBy(response.permissoesApp, 'nome');
             permissoesLoaded = true;
             if (objetoLoaded) {
               atualizarRolesAtivos();
