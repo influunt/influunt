@@ -199,7 +199,7 @@
 .wrapper-content .basic-wizard .content .body .stages nav li .group .ichecks-checkbox {
   float: left;
   margin: 0;
-  padding: 0 10px;
+  padding: 0 20px;
   margin-bottom: 15px;
 }
 
@@ -243,6 +243,10 @@
 
 .both {
   clear: both;
+}
+
+.text-center {
+  text-align: center !important;
 }
 
 .uppercase {
@@ -2600,9 +2604,11 @@ tip-tip span {
   display: inline-block;
   width: inherit;
   cursor: help;
-  padding-bottom: 4px;
-  padding-left: 6px;
   padding-right: 6px;
+  padding-left: 6px;
+  padding-bottom: 3px;
+  margin-left: -20px;
+  font-size: 14px;
 }
 
 .wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-tempo-ciclo {
@@ -2926,4 +2932,10 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 p.velocidade-error {
   margin-top: -15px;
+}
+
+.progress.sincronizando {
+  width: 50%;
+  height: 10px;
+  margin-bottom: 5px;
 }
