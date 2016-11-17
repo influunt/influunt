@@ -211,6 +211,9 @@
 .both {
   clear: both;
 }
+.text-center {
+  text-align: center !important;
+}
 .uppercase {
     text-transform: uppercase;
 }
@@ -2635,4 +2638,12 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 p.velocidade-error {
   margin-top: -15px;
+}
+
+.progress {
+  &.sincronizando {
+    width: 50%;
+    height: 10px;
+    margin-bottom: 5px;
+  }
 }
