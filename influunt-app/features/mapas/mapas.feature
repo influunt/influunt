@@ -11,7 +11,7 @@ Funcionalidade: Vizualisar Controladores em um Mapa
     Então o sistema deve redirecionar para o mapa
 
   Cenário: Ver as informações do anel
-    Dado o usuário clicar no anel "2" no mapa
+    Dado o usuário clicar no anel "1" no mapa
     Então painel com opções deverá aparecer
     E painel ação deve conter "1.000.0001.2"
     E painel ação deve conter "5 Planos"
@@ -41,27 +41,26 @@ Funcionalidade: Vizualisar Controladores em um Mapa
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-verde" em "12s" segundos
     Dado o usuário clicar em fechar o diagrama
 
-  #TODO - Aguardando a issue 1371
-  # Cenário: Ver os diagramas do plano 3 no anel
-  #   Dado o painel com opções esteja aberto
-  #   E o usuário clicar no plano "Plano 3 - PLANO 3"
-  #   Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G4" com "indicacao-amarelo-intermitente" em "30s" segundos
-  #   Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G4" com "indicacao-amarelo-intermitente" em "30s" segundos
-  #   Dado o usuário clicar em fechar o diagrama
+  Cenário: Ver os diagramas do plano 3 no anel
+    Dado o painel com opções esteja aberto
+    E o usuário clicar no plano "Plano 3 - PLANO 3"
+    Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G4" com "indicacao-amarelo-intermitente" em "30s" segundos
+    Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G4" com "indicacao-amarelo-intermitente" em "30s" segundos
+    Dado o usuário clicar em fechar o diagrama
 
-  # Cenário: Ver os diagramas do plano 4 no anel
-  #   Dado o painel com opções esteja aberto
-  #   E o usuário clicar no plano "Plano 4 - PLANO 4"
-  #   Então o sistema deve mostrar o diagrama "Apagado" no grupo "G4" com "indicacao-apagado" em "30s" segundos
-  #   Então o sistema deve mostrar o diagrama "Apagado" no grupo "G4" com "indicacao-apagado" em "30s" segundos
-  #   Dado o usuário clicar em fechar o diagrama
+  Cenário: Ver os diagramas do plano 4 no anel
+    Dado o painel com opções esteja aberto
+    E o usuário clicar no plano "Plano 4 - PLANO 4"
+    Então o sistema deve mostrar o diagrama "Apagado" no grupo "G4" com "indicacao-apagado" em "30s" segundos
+    Então o sistema deve mostrar o diagrama "Apagado" no grupo "G4" com "indicacao-apagado" em "30s" segundos
+    Dado o usuário clicar em fechar o diagrama
 
-  # Cenário: Ver os diagramas do plano 5 no anel
-  #   Dado o painel com opções esteja aberto
-  #   E o usuário clicar para abrir os planos
-  #   E o usuário clicar no plano "Plano 5 - PLANO 5"
-  #   Então o sistema deve mostrar um alert com a mensagem atuado não possue diagrama
-  #   E o usuário confirmar
+  Cenário: Ver os diagramas do plano 5 no anel
+    Dado o painel com opções esteja aberto
+    E o usuário clicar no plano "Plano 5 - PLANO 5"
+    Então o sistema deve mostrar um alert com a mensagem atuado não possue diagrama
+    E o usuário confirmar
+
 
   Cenário: Enviar plano
     Dado o painel com opções esteja aberto

@@ -83,6 +83,10 @@ var World = function () {
     return self.waitForInverse('div.blockUI');
   };
 
+  this.waitForSeewtOverlayDisappear = function() {
+    return self.waitForByXpathInverse('//div[contains(@class, "sweet-overlay")and contains(@style, "display: block;")]');
+  };
+
   this.waitForByXpath = function(xpath, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
