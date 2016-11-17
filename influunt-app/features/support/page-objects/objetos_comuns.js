@@ -28,6 +28,10 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/controladores_finalizados.sql');
   };
 
+  this.desabilitarPermissoes = function() {
+    return world.execSqlScript('features/support/scripts/perfis/remover_permissoes.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
@@ -241,6 +245,10 @@ var ObjetosComuns = function () {
 
   this.getBadgeByClass = function(badge) {
     return world.waitForByXpath('//span[contains(@class, "'+badge+'")]');
+  };
+
+  this.naoConsigaSelecionar = function(campo, valueToSelector) {
+    return world.waitForByXpathInverse('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]');
   };
 
   this.checkPosicaoHistorico = function(posicao, data) {
