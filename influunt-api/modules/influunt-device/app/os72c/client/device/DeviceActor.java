@@ -26,11 +26,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
 
     private Motor motor;
 
-    private SerialDevice deviceBridge;
+    private DeviceBridge device;
 
 
-    public DeviceActor(Storage mapStorage) {
+    public DeviceActor(Storage mapStorage, DeviceBridge device) {
         this.storage = mapStorage;
+        this.device = device;
         start();
     }
 
@@ -38,7 +39,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
         this.controlador = storage.getControlador();
         if (controlador != null) {
             this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
-            this.deviceBridge = new SerialDevice();
 
             Executors.newScheduledThreadPool(1)
                 .scheduleAtFixedRate(() -> {
@@ -69,7 +69,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
 
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        deviceBridge.sendEstagio(intervalos);
+        device.sendEstagio(intervalos);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class ParametroSimulacaoFalha {
 
     public EventoMotor toEvento() {
         if (grupoSemaforico != null) {
-            return new EventoMotor(getDisparo(), getFalha(), grupoSemaforico);
+            return new EventoMotor(getDisparo(), getFalha(), grupoSemaforico, anel.getPosicao());
         } else if (detector != null) {
             return new EventoMotor(getDisparo(), getFalha(), detector, anel.getPosicao());
         } else if (anel != null) {
@@ -75,6 +75,7 @@ public class ParametroSimulacaoFalha {
             case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
             case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO:
                 grupoSemaforico = GrupoSemaforico.find.byId(UUID.fromString(id));
+                this.anel = grupoSemaforico.getAnel();
                 break;
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
             case FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO:

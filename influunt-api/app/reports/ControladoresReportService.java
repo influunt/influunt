@@ -144,7 +144,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
     }
 
     private List<ControladorFalhasVO> getControladoresPorFalhas() {
-//        List<String> errosPorFabricantes = ErrosControlador.errosPorFabricante();
 //        Gson gson = new Gson();
 //        ArrayList<ControladorStatusVO> controladores = new ArrayList<>();
 //        for (String erro : errosPorFabricantes) {

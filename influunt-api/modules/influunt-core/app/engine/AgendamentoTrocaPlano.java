@@ -2,6 +2,7 @@ package engine;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.AgendamentoTrocaPlanoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AgendamentoTrocaPlanoSerializer;
 import json.serializers.EventoMotorSerializer;
@@ -11,6 +12,7 @@ import models.Plano;
 import org.joda.time.DateTime;
 
 @JsonSerialize(using = AgendamentoTrocaPlanoSerializer.class)
+@JsonDeserialize(using = AgendamentoTrocaPlanoDeserializer.class)
 public class AgendamentoTrocaPlano {
     private Evento evento;
 
@@ -33,6 +35,10 @@ public class AgendamentoTrocaPlano {
     private boolean saidaDoModoManual = false;
 
     private boolean tempoDeEntradaCalculado = false;
+
+    public AgendamentoTrocaPlano() {
+        super();
+    }
 
     public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal) {
         this.evento = evento;

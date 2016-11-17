@@ -35,16 +35,12 @@ public class MonitoramentoController extends Controller {
     public CompletionStage<Result> ultimoStatusDosControladores() {
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        HashMap<String, ModoOperacaoPlano> modos = ModoOperacaoControlador.ultimoModoOperacaoDosControladores();
         HashMap<String, Object> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(10);
-        HashMap<String, Boolean> imposicaoPlanos = ImposicaoPlanosControlador.ultimoStatusPlanoImpostoDosControladoresOn();
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
-        retorno.set("modosOperacoes", Json.toJson(modos));
         retorno.set("erros", controladoresToJson(erros));
-        retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }

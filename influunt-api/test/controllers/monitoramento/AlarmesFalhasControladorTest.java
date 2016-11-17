@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import engine.EventoMotor;
 import engine.TipoEvento;
+import models.Anel;
+import models.GrupoSemaforico;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,22 +44,34 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
         AlarmesFalhasControlador.log(System.currentTimeMillis(),
             "1",
             "2",
-            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO, null)));
+            Json.toJson(new EventoMotor(new DateTime(),
+                TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO,
+                new Pair<Integer, TipoDetector>(1, TipoDetector.PEDESTRE),
+                2))
+        );
+
         Thread.sleep(10);
         AlarmesFalhasControlador.log(System.currentTimeMillis(),
             "1",
-            null,
-            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_VERDES_CONFLITANTES, null)));
+            "2",
+            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_VERDES_CONFLITANTES, 2)));
+        Thread.sleep(10);
+        GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
+        grupoSemaforico.setPosicao(1);
+        AlarmesFalhasControlador.log(System.currentTimeMillis(),
+            "2",
+            "2",
+            Json.toJson(new EventoMotor(new DateTime(),
+                TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA,
+                grupoSemaforico,
+                2
+            ))
+        );
         Thread.sleep(10);
         AlarmesFalhasControlador.log(System.currentTimeMillis(),
             "2",
-            null,
-            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA, null)));
-        Thread.sleep(10);
-        AlarmesFalhasControlador.log(System.currentTimeMillis(),
             "2",
-            null,
-            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_SEQUENCIA_DE_CORES, null)));
+            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_SEQUENCIA_DE_CORES, 2)));
 
     }
 
@@ -82,12 +98,16 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
                 AlarmesFalhasControlador.log(System.currentTimeMillis(),
                     "1",
                     null,
-                    Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_VERDES_CONFLITANTES, null)));
+                    Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_VERDES_CONFLITANTES, 2)));
             } else {
                 AlarmesFalhasControlador.log(System.currentTimeMillis(),
                     "1",
                     null,
-                    Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO, null)));
+                    Json.toJson(new EventoMotor(new DateTime(),
+                        TipoEvento.FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO,
+                        new Pair<Integer, TipoDetector>(1, TipoDetector.PEDESTRE),
+                        2))
+                );
             }
 
         }

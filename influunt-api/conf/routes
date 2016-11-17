@@ -155,23 +155,19 @@ GET       /api/v1/monitoramento/status/:id                                      
 GET       /api/v1/monitoramento/status                                                         controllers.monitoramento.StatusControladorFisicoController.ultimoStatusDosControladores()
 GET       /api/v1/monitoramento/status/:id/ultimo_status                                       controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
 
-# ModoOperacao Controlador
-GET       /api/v1/monitoramento/modo_operacoes_controladores/:id                               controllers.monitoramento.ModoOperacaoControladorController.findOne(id)
-GET       /api/v1/monitoramento/modo_operacoes_controladores                                   controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoDosControladores()
-GET       /api/v1/monitoramento/modo_operacoes_controladores/:id/ultimo_modo_operacao          controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoControlador(id)
-GET       /api/v1/monitoramento/modo_operacoes_controladores/:id/historico/:pagina/:tamanho    controllers.monitoramento.ModoOperacaoControladorController.historico(id,pagina,tamanho)
+
+# TrocaDePlanos Controlador
+GET       /api/v1/monitoramento/troca_planos_controladores/:id                               controllers.monitoramento.TrocaPlanoControladorController.findOne(id)
+GET       /api/v1/monitoramento/troca_planos_controladores                                   controllers.monitoramento.TrocaPlanoControladorController.ultimoModoOperacaoDosControladores()
+GET       /api/v1/monitoramento/troca_planos_controladores/:id/ultimo_modo_operacao          controllers.monitoramento.TrocaPlanoControladorController.ultimoModoOperacaoControlador(id)
+GET       /api/v1/monitoramento/troca_planos_controladores/:id/historico/:pagina/:tamanho    controllers.monitoramento.TrocaPlanoControladorController.historico(id,pagina,tamanho)
+
 
 # Alarmes e Falhas Controladores
 GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.AlarmesEFalhasControladorController.findOne(id)
 GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimosAlarmesEFalhasDosControladores()
 GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimoAlarmeFalhaControlador(id)
 GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.AlarmesEFalhasControladorController.historico(id,pagina,tamanho)
-
-# ImposicaoPlanos Controlador
-GET       /api/v1/monitoramento/imposicoes_planos/:id                                           controllers.monitoramento.ImposicaoPlanosControladorController.findOne(id)
-GET       /api/v1/monitoramento/imposicoes_planos                                               controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImpostoDosControladores()
-GET       /api/v1/monitoramento/imposicoes_planos/:id/ultimo_status                             controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto(id)
-GET       /api/v1/monitoramento/imposicoes_planos/:id/historico/:pagina/:tamanho                controllers.monitoramento.ImposicaoPlanosControladorController.historico(id,pagina,tamanho)
 
 # Monitoramento
 GET       /api/v1/monitoramento/status_controladores                                            controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()

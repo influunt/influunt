@@ -65,7 +65,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void testStatusDeUmControlador() {
-        assertFalse(StatusConexaoControlador.ultimoStatus("1").conectado);
+        assertFalse(StatusConexaoControlador.ultimoStatus("1").isConectado());
     }
 
     @Test

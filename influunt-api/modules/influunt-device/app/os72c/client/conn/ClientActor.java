@@ -6,6 +6,7 @@ import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import com.typesafe.config.ConfigFactory;
 import os72c.client.device.DeviceActor;
+import os72c.client.device.DeviceBridge;
 import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
 
@@ -38,12 +39,12 @@ public class ClientActor extends UntypedActor {
 
     private ActorRef mqqtControlador;
 
-    public ClientActor(final String id, final String host, final String port, Storage storage) {
+    public ClientActor(final String id, final String host, final String port, Storage storage, DeviceBridge device) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
-        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage), "motor");
+        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, device), "motor");
     }
 
 

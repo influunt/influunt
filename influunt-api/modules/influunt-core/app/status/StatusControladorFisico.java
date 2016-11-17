@@ -22,13 +22,13 @@ public class StatusControladorFisico {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    public String _id;
+    private String _id;
 
-    public String idControlador;
+    private String idControlador;
 
-    public Long timestamp;
+    private Long timestamp;
 
-    public StatusDevice statusDevice;
+    private StatusDevice statusDevice;
 
     public StatusControladorFisico(String idControlador, long timestamp, StatusDevice statusDevice) {
         this.idControlador = idControlador;
