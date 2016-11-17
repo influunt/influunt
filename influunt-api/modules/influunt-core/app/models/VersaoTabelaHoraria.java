@@ -84,7 +84,7 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.tabelaHoraria = tabelaHoraria;
         this.usuario = usuario;
         if (usuario != null && usuario.getNome() != null) {
-            this.descricao = "Tabela Horaria criado pelo usuário:".concat(usuario.getNome());
+            this.descricao = "Tabela Horária criada pelo usuário: ".concat(usuario.getNome());
         }
         this.statusVersao = StatusVersao.EDITANDO;
     }

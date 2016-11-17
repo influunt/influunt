@@ -8,12 +8,12 @@
             <div class="col-lg-12">
               <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                  <h2>{{ pageTitle | translate }}</h2>
+                  <h2>{{ 'timeline.titulo' | translate }}</h2>
                 </div>
 
                 <div class="no-padding padding-top-20 ibox-content text-center" data-ng-if="versoes.length === 0">
                   <i class="fa fa-exclamation-circle m-t-lg"></i>
-                  <p>{{ 'historico.vazio' | translate }}</p>
+                  <p>{{ 'timeline.vazio' | translate }}</p>
                 </div>
 
                 <div class="ibox-content" id="ibox-content" data-ng-if="versoes.length > 0">
@@ -24,11 +24,15 @@
                       </div>
                       <div class="vertical-timeline-content">
                         <hgroup>
-                          <!-- <a href="#" class="btn btn-sm btn-primary"> Visualizar</a> -->
-                          <!-- <div class="clearfix"></div> -->
+                          <div data-ng-if="mostrarLinkAlteracoes && $index + 1 < versoes.length">
+                            <a href="{{ versao.href }}" class="btn btn-sm btn-primary" data-ng-click="closeTimelineModal()">
+                              {{ 'timeline.verAlteracoes' | translate }}
+                            </a>
+                            <div class="clearfix"></div>
+                          </div>
                           <span class="vertical-date">{{versao.dataAtualizacao | influuntDate: 'fromNow'}} <br/><small>{{versao.dataAtualizacao | influuntDate: 'LL'}}</small></span>
                         </hgroup>
-                        {{versao.descricao}}
+                        {{ versao.descricao }}
                       </div>
                     </div>
                   </div>
