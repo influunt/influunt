@@ -10,10 +10,16 @@
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular', 'geraDadosDiagramaIntervalo',
                                         'influuntAlert', 'influuntBlockui', 'filtrosMapa', 'planoService',
+                                        'pahoProvider', 'eventosDinamicos', 'toast', 'mapaProvider',
     function ($scope, $filter, Restangular, geraDadosDiagramaIntervalo,
-              influuntAlert, influuntBlockui, filtrosMapa, planoService) {
+              influuntAlert, influuntBlockui, filtrosMapa, planoService,
+              pahoProvider, eventosDinamicos, toast, mapaProvider) {
       var filtraDados, getMarkersControladores, getMarkersAneis,
-          getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores;
+          getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores,
+          registerWatchers, alarmesEFalhasWatcher, trocaPlanoWatcher,
+          getIconeAnel, getIconeControlador, exibirAlerta;
+
+      var FALHA = 'FALHA';
 
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
@@ -23,6 +29,17 @@ angular.module('influuntApp')
             }
 
             $scope.listaControladores = res;
+            return Restangular.one('monitoramento', 'status_controladores').get();
+          })
+          .then(function(res) {
+            $scope.listaControladores.forEach(function(controlador) {
+              controlador.status = res.status[controlador.id];
+              controlador.online = res.onlines[controlador.id];
+              controlador.modoOperacao = res.modosOperacoes[controlador.id];
+              // controlador.erros = res.modosOperacoes[controlador.id];
+              // controlador.imposicaoPlanos = res.modosOperacoes[controlador.id];
+            });
+
             return Restangular.all('areas').customGET(null, {'cidade.id': $scope.listaControladores[0].cidade.id});
           })
           .then(function(res) {
@@ -38,6 +55,7 @@ angular.module('influuntApp')
             $scope.listaAgrupamentos = res.data;
             constroiFiltros();
             filtraDados();
+            registerWatchers();
           })
           .finally(influuntBlockui.unblock);
       };
@@ -122,13 +140,13 @@ angular.module('influuntApp')
         return {
           latitude: endereco.latitude,
           longitude: endereco.longitude,
-          popupText: '<strong>CLC: </strong>' + controlador.CLC,
           options: {
+            popupText: controlador.popupText,
             id: controlador.id,
             idJson: controlador.idJson || UUID.generate(),
             tipo: 'CONTROLADOR',
             draggable: false,
-            icon: 'images/leaflet/influunt-icons/controlador.svg',
+            icon: getIconeControlador(controlador.status),
             iconSize: [32, 37],
             iconAnchor:   [16, 36],
             popupAnchor: [0, -30]
@@ -137,7 +155,7 @@ angular.module('influuntApp')
       };
 
       getMarkersAneis = function(controlador) {
-        return _.chain(controlador.aneis)
+        return _.chain(filtrosMapa.getAneis($scope.filtro, controlador.aneis))
           .filter('ativo')
           .orderBy('posicao')
           .filter(function(anel) {
@@ -154,14 +172,14 @@ angular.module('influuntApp')
             return {
               latitude: endereco.latitude,
               longitude: endereco.longitude,
-              popupText: $filter('markersAneisPopup')(anel, controlador),
               options: {
+                popupText: anel.popupText,
                 id: anel.id,
                 idJson: anel.idJson,
                 controladorId: controlador.id,
                 tipo: 'ANEL',
                 draggable: false,
-                icon: 'images/leaflet/influunt-icons/anel.svg',
+                icon: getIconeAnel(anel.status),
                 iconSize: [32, 37],
                 iconAnchor:   [16, 36],
                 popupAnchor: [0, -30]
@@ -227,6 +245,94 @@ angular.module('influuntApp')
           .value();
       };
 
+      registerWatchers = function() {
+        pahoProvider.connect()
+          .then(function() {
+            pahoProvider.register(eventosDinamicos.ALARMES_FALHAS, alarmesEFalhasWatcher);
+            pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
+            // pahoProvider.register(eventosDinamicos.STATUS_CONEXAO_CONTROLADORES, statusConexaoControladoresWatcher);
+            // pahoProvider.register(eventosDinamicos.IMPOSICAO_PLANO_CONTROLADOR, imposicaoPlanoControladorWatcher);
+            // pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
+          });
+      };
+
+      trocaPlanoWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
+
+        var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
+        var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+
+        anel.hasPlanoImposto = mensagem.conteudo.planoImposto || mensagem.conteudo.impostoPorFalha;
+        anel.modoOperacao = mensagem.conteudo.plano.modoOperacao;
+        anel.tipoControleVigente = mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL';
+
+        var posicaoPlano = parseInt(mensagem.conteudo.plano.posicao);
+        var ids = _.map(anel.planos, 'idJson');
+        anel.planoVigente = _.find(controlador.planos, function(plano) {
+          return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
+        });
+
+        var endereco = _.find(controlador.todosEnderecos, {idJson: anel.endereco.idJson});
+        exibirAlerta(
+          $filter('translate')('controladores.mapaControladores.alertas.trocaPlanoAnel', {ANEL: anel.CLA}),
+          new L.LatLng(endereco.latitude, endereco.longitude)
+        );
+
+        return filtraDados();
+      };
+
+      alarmesEFalhasWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
+        var anel = null;
+
+        var obj = controlador;
+        var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
+
+        if (mensagem.conteudo && _.isArray(mensagem.conteudo.params)) {
+          var posicaoAnel = mensagem.conteudo.params[0];
+          anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+          obj = anel;
+          msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+        }
+
+        obj.status = FALHA;
+        obj.popupText = mensagem.conteudo.descricaoEvento;
+
+        var endereco = _.find(controlador.todosEnderecos, {idJson: obj.endereco.idJson});
+        exibirAlerta(msg, new L.LatLng(endereco.latitude, endereco.longitude), true);
+
+        return filtraDados();
+      };
+
+      exibirAlerta = function(msg, target, isPrioritario) {
+        if ($scope.filtro.exibirAlertas || isPrioritario) {
+          toast.warn(msg, null,{
+            onclick: function() {
+              return target && mapaProvider.setView(target, mapaProvider.getMap().getMaxZoom());
+            }
+          });
+        }
+      };
+
+      getIconeAnel = function(status) {
+        switch (status) {
+          case FALHA:
+            return 'images/leaflet/influunt-icons/anel-em-falha.png';
+          default:
+            return 'images/leaflet/influunt-icons/anel-controle-central.png';
+        }
+      };
+
+      getIconeControlador = function(status) {
+        switch (status) {
+          case FALHA:
+            return 'images/leaflet/influunt-icons/controlador-em-falha.svg';
+          default:
+            return 'images/leaflet/influunt-icons/controlador.svg';
+        }
+      };
 
       $scope.setCurrentObject = function(markerData) {
         if (markerData.tipo === 'ANEL') {

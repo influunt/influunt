@@ -7,7 +7,7 @@
  * # influuntMap
  */
 angular.module('influuntApp')
-  .directive('influuntMap', ['MAP', function(MAP) {
+  .directive('influuntMap', ['mapaProvider', function(mapaProvider) {
     return {
       restrict: 'A',
       scope: {
@@ -18,8 +18,6 @@ angular.module('influuntApp')
         onClickMarker: '&?'
       },
       link: function(scope, element) {
-        L.Icon.Default.imagePath = 'images/leaflet';
-
         var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
         var DEFAULT_MARKER_OPTINS = {draggable: true};
         var DEFAULT_MAP_OPTIONS = {scrollWheelZoom: false};
@@ -32,20 +30,13 @@ angular.module('influuntApp')
         // private methods.
         var addAgrupamentos, addAreas, addMarkers, agrupaAneis, createAgrupamento, createArea, createMarker,
             getAreaTitle, getBoundingBox, getMiddlePoints, getHullPoints, initializeMap, renderAgrupamentos, renderAreas,
-            renderMarkers, setView, setViewForArea, orderPoints, getLatLng;
+            renderMarkers, setView, setViewForArea, setViewForMarkers, orderPoints, getLatLng;
         var map, markersLayer, areasLayer, agrupamentosLayer, polylineLayer;
 
         initializeMap = function() {
-          if (_.isObject(map)) {
-            return true;
-          }
-
           var options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), scope.options);
-          map = L.map(element[0], options);
-          map.setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
-
-          var tileLayer = new L.tileLayer.wms(MAP.url, MAP.options);
-          tileLayer.addTo(map);
+          map = mapaProvider.getMap(element[0], options);
+          mapaProvider.setView([DEFAULTS.LATITUDE, DEFAULTS.LONGITUDE], DEFAULTS.ZOOM);
         };
 
         createMarker = function(obj) {
@@ -76,6 +67,10 @@ angular.module('influuntApp')
               return angular.isFunction(scope.onClickMarker) &&
                 scope.onClickMarker({$markerData: markerData});
             });
+
+          if (obj.options.popupText) {
+            marker.bindPopup(obj.options.popupText);
+          }
 
           setView([obj.latitude, obj.longitude]);
           return marker;
@@ -147,8 +142,8 @@ angular.module('influuntApp')
             markersLayer.addLayer(m);
           });
 
-
           map.addLayer(markersLayer);
+          setViewForMarkers();
         };
 
         addAreas = function(areas) {
@@ -267,7 +262,6 @@ angular.module('influuntApp')
           map.addLayer(polylineLayer);
         };
 
-        var markersTimeout, areasTimeout, agrupamentosTimeout;
         renderMarkers = function(markers) {
           if (_.isObject(markersLayer)) { map.removeLayer(markersLayer); }
 
@@ -298,6 +292,14 @@ angular.module('influuntApp')
           }
         };
 
+        setViewForMarkers = function() {
+          if (angular.isDefined(markersLayer)) {
+            var group = new L.featureGroup(markersLayer.getLayers());
+            var bounds = group.getBounds();
+            return bounds.isValid() && map.fitBounds(bounds);
+          }
+        };
+
         var setViewTimeout;
         setView = function(latlng, zoom) {
           clearTimeout(setViewTimeout);
@@ -306,20 +308,23 @@ angular.module('influuntApp')
           }, 500);
         };
 
+        var markersTimeout, areasTimeout, agrupamentosTimeout;
         scope.$watch('markers', function(markers) {
           clearTimeout(markersTimeout);
-          markersTimeout = setTimeout(function() {renderMarkers(markers);}, 200);
-        }, true);
+          markersTimeout = setTimeout(function() {
+            renderMarkers(markers);
+          }, 200);
+        });
 
         scope.$watch('areas', function(areas) {
           clearTimeout(areasTimeout);
           areasTimeout = setTimeout(function() {renderAreas(areas);}, 200);
-        }, true);
+        });
 
         scope.$watch('agrupamentos', function(agrupamentos) {
           clearTimeout(agrupamentosTimeout);
           agrupamentosTimeout = setTimeout(function() {renderAgrupamentos(agrupamentos);}, 200);
-        }, true);
+        });
 
         initializeMap();
       }

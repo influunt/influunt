@@ -49,7 +49,7 @@ module.exports = function(config) {
       'bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js',
       'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
       'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
-      'bower_components/AngularJS-Toaster/toaster.js',
+      'bower_components/toastr/toastr.js',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
       'bower_components/leaflet/dist/leaflet-src.js',

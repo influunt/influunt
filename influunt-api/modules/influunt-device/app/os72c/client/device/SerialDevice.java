@@ -24,8 +24,8 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private SerialPort serialPort;
 
-//    private String porta = "/dev/tty.usbmodem1411";
-    private String porta = "/dev/tty.usbmodemFD131";
+    private String porta = "/dev/tty.usbmodem1411";
+//    private String porta = "/dev/tty.usbmodemFD131";
 
     private Integer baudrate  = 115200;
 

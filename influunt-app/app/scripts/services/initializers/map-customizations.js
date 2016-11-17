@@ -15,6 +15,7 @@ angular.module('influuntApp')
     Number.prototype.toRad = function() { return this * Math.PI / 180; };
     Number.prototype.toDeg = function() { return this * 180 / Math.PI; };
 
+    L.Icon.Default.imagePath = 'images/leaflet';
     L.LatLng.prototype.destinationPoint = function(brng, dist) {
       dist = dist / 6371;
       brng = brng.toRad();
