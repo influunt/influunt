@@ -75,7 +75,7 @@ Funcionalidade: Realizar filtros no mapa
     Então o sistema deverá mostrar no mapa "1" controladores
     E o sistema deverá mostrar no mapa "1" aneis
 
-  Cenário: Quero filtar no mapa pelaq subárea
+  Cenário: Quero filtar no mapa pela subárea
     Dado usuário estiver na tela de mapa
     Quando o usuário remover o "2" selecionado do campo "areas"
     E o usuário selecionar o valor "AREA SUL PAULISTA" para o campo "subarea"
