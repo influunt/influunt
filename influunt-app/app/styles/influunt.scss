@@ -174,7 +174,7 @@
 .wrapper-content .basic-wizard .content .body .stages nav li .group .ichecks-checkbox {
     float: left;
     margin: 0;
-    padding: 0 10px;
+    padding: 0 20px;
     margin-bottom: 15px;
 }
 .wrapper-content .basic-wizard .content .body .stages nav li {
@@ -2341,9 +2341,13 @@ tip-tip {
     display: inline-block;
     width: inherit;
     cursor: help;
-    padding-bottom: 4px;
-    padding-left: 6px;
-    padding-right: 6px;
+    padding: {
+      right: 6px;
+      left: 6px;
+      bottom: 3px;
+    }
+    margin-left: -20px;
+    font-size: 14px;
 }
 
 .wrapper-content .basic-wizard .content .body span.badge.badge-danger.badge-notification.tooltipstered.badge-tempo-ciclo {

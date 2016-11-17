@@ -63,16 +63,17 @@
                             </div>
                             <div class="col-lg-3 col-sm-3 padding-top-20 text-left group">
                               <div class="ichecks-checkbox" data-ng-repeat="(indexGrupo, grupo) in currentGruposSemaforicos">
-                                <label class="i-checks">
-                                  <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" data-if-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
-                                </label>
-                                <p>{{ grupo.label }}</p>
-                                <span class="badge badge-danger badge-notification badge-associacao-estagio-grupo"
+                                <span class="badge badge-danger badge-notification badge-associacao-estagio-grupo shake"
                                   inf-tooltip
                                   data-ng-show="grupoSemaforicoTemErro(currentAnelIndex, grupo) && shouldShowValidationAlert(grupo, estagio, getErrosGrupoSemaforico(currentAnelIndex, grupo))"
                                   messages="getErrosGrupoSemaforico(currentAnelIndex, grupo)">
                                   <i class="fa fa-exclamation"></i>
                                 </span>
+
+                                <label class="i-checks">
+                                  <input type="checkbox" ichecks data-ng-model="grupo.estagiosRelacionados[estagio.id]" data-if-changed="associaEstagiosGrupoSemaforico(grupo, estagio)">
+                                </label>
+                                <p>{{ grupo.label }}</p>
                               </div>
                             </div>
                             <div class="col-lg-5 col-sm-5 padding-top-20 text-left">
