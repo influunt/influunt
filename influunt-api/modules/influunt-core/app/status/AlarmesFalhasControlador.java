@@ -25,20 +25,20 @@ public class AlarmesFalhasControlador {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    public String _id;
+    private String _id;
 
-    public String idControlador;
+    private String idControlador;
 
-    public Long timestamp;
+    private Long timestamp;
 
-    public String idAnel;
+    private String idAnel;
 
-    public JsonNode objeto;
+    private JsonNode conteudo;
 
     public AlarmesFalhasControlador(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
-        this.objeto = Json.toJson(map.get("objeto"));
+        this.conteudo = Json.toJson(map.get("conteudo"));
 
         if (map.containsKey("idAnel")) {
             this.idAnel = map.get("idAnel").toString();
@@ -49,7 +49,7 @@ public class AlarmesFalhasControlador {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.idAnel = idAnel;
-        this.objeto = objeto;
+        this.conteudo = objeto;
     }
 
     public static MongoCollection alarmesFalhas() {
@@ -65,7 +65,7 @@ public class AlarmesFalhasControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, TipoEvento> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimo =
-            alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'tipoEvento': {$first: '$objeto.tipoEvento.tipo'}}}").
+            alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'tipoEvento': {$first: '$conteudo.tipoEvento.tipo'}}}").
                 as(Map.class);
         for (Map m : ultimo) {
             hash.put(m.get("_id").toString(), TipoEvento.valueOf(m.get("tipoEvento").toString()));
@@ -79,9 +79,9 @@ public class AlarmesFalhasControlador {
         HashMap<String, Object> hash = new HashMap<>();
         Aggregate query = null;
         if (limit != null) {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$objeto.tipoEvento.tipo'}}}").and("{$limit: " + limit + "}");
+            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$conteudo.tipoEvento.tipo'}}}").and("{$limit: " + limit + "}");
         } else {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$objeto.tipoEvento.tipo'}}}");
+            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$conteudo.tipoEvento.tipo'}}}");
         }
         Aggregate.ResultsIterator<Map> ultimo = query.as(Map.class);
         for (Map m : ultimo) {
@@ -132,6 +132,6 @@ public class AlarmesFalhasControlador {
     }
 
     public TipoEvento getTipoEvento() {
-        return TipoEvento.valueOf(objeto.get("tipoEvento").get("tipo").asText());
+        return TipoEvento.valueOf(conteudo.get("tipoEvento").get("tipo").asText());
     }
 }

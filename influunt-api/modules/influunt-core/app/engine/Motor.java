@@ -116,14 +116,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        if (eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
-            callback.onAlarme(instante, eventoMotor);
-        } else {
-            if(eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.FALHA)) {
-                callback.onFalha(instante, eventoMotor);
-            }
-            monitor.handle(eventoMotor);
-        }
+        monitor.handle(eventoMotor);
     }
 
     private List<Plano> getPlanos(Evento evento) {
@@ -157,4 +150,15 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         return eventoAtual;
     }
 
+    public void onFalha(EventoMotor eventoMotor) {
+        callback.onFalha(instante, eventoMotor);
+    }
+
+    public void onRemocaoFalha(EventoMotor eventoMotor) {
+        callback.onRemocaoFalha(instante, eventoMotor);
+    }
+
+    public void onAlarme(EventoMotor eventoMotor) {
+        callback.onAlarme(instante, eventoMotor);
+    }
 }

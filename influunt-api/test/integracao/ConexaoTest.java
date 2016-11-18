@@ -66,7 +66,7 @@ public class ConexaoTest extends BasicMQTTTest {
         //Verificar se o registro da conexao foi salvo
         StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(idControlador);
         assertTrue(status.isConectado());
-        assertEquals(Long.valueOf(json.get("carimboDeTempo").asLong()), status.timestamp);
+        assertEquals(Long.valueOf(json.get("carimboDeTempo").asLong()), status.getTimestamp());
 
     }
 }

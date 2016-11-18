@@ -6,8 +6,11 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import engine.EventoMotor;
 import engine.TipoEvento;
+import org.apache.commons.lang3.ClassUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Created by pedropires on 6/19/16.
@@ -31,7 +34,7 @@ public class EventoMotorSerializer extends JsonSerializer<EventoMotor> {
         }
 
         if (eventoMotor.getParams() != null) {
-            jgen.writeObjectField("params", eventoMotor.getParams());
+            jgen.writeObjectField("params", Arrays.stream(eventoMotor.getParams()).filter(p -> ClassUtils.isPrimitiveOrWrapper(p.getClass())).collect(Collectors.toList()));
         }
 
         jgen.writeEndObject();

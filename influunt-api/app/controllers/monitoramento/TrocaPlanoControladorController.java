@@ -8,7 +8,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
-import status.ModoOperacaoControlador;
+import status.TrocaDePlanoControlador;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,38 +21,38 @@ import java.util.concurrent.CompletionStage;
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
-public class ModoOperacaoControladorController extends Controller {
+public class TrocaPlanoControladorController extends Controller {
 
     public CompletionStage<Result> findOne(String id) {
-        List<ModoOperacaoControlador> modos = ModoOperacaoControlador.findByIdControlador(id);
-        if (modos == null) {
+        List<TrocaDePlanoControlador> trocas = TrocaDePlanoControlador.findByIdControlador(id);
+        if (trocas == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(modos)));
+            return CompletableFuture.completedFuture(ok(Json.toJson(trocas)));
         }
     }
 
     public CompletionStage<Result> ultimoModoOperacaoDosControladores() {
-        HashMap<String, ModoOperacaoPlano> map = ModoOperacaoControlador.ultimoModoOperacaoDosControladores();
+        HashMap<String, ModoOperacaoPlano> map = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
 
-    public CompletionStage<Result> ultimoModoOperacaoControlador(String id) {
-        ModoOperacaoControlador modoOperacaoControlador = ModoOperacaoControlador.ultimoModoOperacao(id);
-        if (modoOperacaoControlador == null) {
+    public CompletionStage<Result> ultimoTrocaDePlanoDoControlador(String id) {
+        TrocaDePlanoControlador trocaDePlanoControlador = TrocaDePlanoControlador.ultimaTrocaDePlanoDoControlador(id);
+        if (trocaDePlanoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(modoOperacaoControlador)));
+            return CompletableFuture.completedFuture(ok(Json.toJson(trocaDePlanoControlador)));
         }
     }
 
     public CompletionStage<Result> historico(String id, String pagina, String tamanho) {
-        List<ModoOperacaoControlador> modoOperacaoControlador = ModoOperacaoControlador.historico(id, Integer.valueOf(pagina),
+        List<TrocaDePlanoControlador> trocaDePlanoControlador = TrocaDePlanoControlador.historico(id, Integer.valueOf(pagina),
             Integer.valueOf(tamanho));
-        if (modoOperacaoControlador == null) {
+        if (trocaDePlanoControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return CompletableFuture.completedFuture(ok(Json.toJson(modoOperacaoControlador)));
+            return CompletableFuture.completedFuture(ok(Json.toJson(trocaDePlanoControlador)));
         }
 
     }

@@ -40,7 +40,6 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
         controlador.save();
-        startClient();
 
         startClient();
 

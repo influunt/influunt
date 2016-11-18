@@ -15,12 +15,8 @@ import org.joda.time.DateTime;
 import os72c.client.exceptions.HardwareFailureException;
 import protocol.*;
 
-import java.util.Arrays;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import static javafx.scene.input.KeyCode.T;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by rodrigosol on 11/4/16.
@@ -28,14 +24,14 @@ import static javafx.scene.input.KeyCode.T;
 public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
 
-    private final DeviceBridgeCallback callback;
+    private DeviceBridgeCallback callback;
 
     private SerialPort serialPort;
 
     private String porta = "/dev/tty.usbmodem1411";
     //private String porta = "/dev/tty.usbmodemFD131";
 
-    private Integer baudrate  = 115200;
+    private Integer baudrate = 115200;
 
     private Integer databits = 8;
 
@@ -49,7 +45,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private long ultima = 0l;
 
-    public SerialDevice(DeviceBridgeCallback deviceBridgeCallback){
+    public void start(DeviceBridgeCallback deviceBridgeCallback) {
         this.callback = deviceBridgeCallback;
         this.executor = Executors.newScheduledThreadPool(1);
 
@@ -57,22 +53,28 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
         try {
             serialPort.openPort();//Open serial port
-            serialPort.addEventListener(this);
+
             serialPort.setParams(baudrate, databits, stopbits, parity);
             Thread.sleep(2000);
             serialPort.readBytes();
-
+            serialPort.purgePort(SerialPort.PURGE_RXCLEAR);
+            serialPort.purgePort(SerialPort.PURGE_TXCLEAR);
+            serialPort.readBytes();
+            serialPort.addEventListener(this);
         } catch (SerialPortException spe) {
             spe.printStackTrace();
             throw new HardwareFailureException(spe.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public SerialDevice() {
 
 
     }
 
-    private  void send(Mensagem mensagem)  {
+    private void send(Mensagem mensagem) {
 
         System.out.println("Enviado mensagem:" + mensagem.getSequencia());
         System.out.println("Tempo Decorrido:" + (System.currentTimeMillis() - ultima));
@@ -93,8 +95,8 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     @Override
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico) {
-        MensagemEstagio mensagem = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO,getSequencia(),
-           intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
+        MensagemEstagio mensagem = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO, getSequencia(),
+            intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         mensagem.addIntervalos(intervaloGrupoSemaforico);
         mensagem.print();
         send(mensagem);
@@ -102,7 +104,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
 
     private Integer getSequencia() {
-        if(sequencia + 1 > 65535){
+        if (sequencia + 1 > 65535) {
             sequencia = 0;
         }
         return ++sequencia;
@@ -110,7 +112,6 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
-        System.out.println("RX recebido");
         if (serialPortEvent.isRXCHAR() && serialPortEvent.getEventValue() > 0) {//If data is available
 
             int bytesCount = serialPortEvent.getEventValue();
@@ -120,7 +121,6 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                 byte[] complement = serialPort.readBytes(size[0] - 1);
                 byte[] msg = ArrayUtils.addAll(size, complement);
                 Mensagem mensagem = Mensagem.toMensagem(msg);
-                System.out.println("Interrupcao:" + mensagem.getTipoMensagem());
                 mensagemRecebida(mensagem);
 
             } catch (SerialPortException e) {
@@ -142,7 +142,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                 break;
             case DETECTOR:
                 final MensagemDetector mensagemDetector = (MensagemDetector) mensagem;
-                 te = mensagemDetector.isPedestre() ? TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE :
+                te = mensagemDetector.isPedestre() ? TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE :
                     TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR;
                 final int codigo = ((MensagemDetector) mensagem).getPosicao();
                 tipoDetector = ((MensagemDetector) mensagem).isPedestre() ? TipoDetector.PEDESTRE :
@@ -157,25 +157,27 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                     mensagemFalhaAnel.getAnel()));
                 break;
             case FALHA_DETECTOR:
-
-                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA,((MensagemFalhaDetector) mensagem).getFalha());
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA, ((MensagemFalhaDetector) mensagem).getFalha());
                 final int posicao = ((MensagemFalhaDetector) mensagem).getPosicao();
                 tipoDetector = ((MensagemFalhaDetector) mensagem).isPedestre() ? TipoDetector.PEDESTRE :
                     TipoDetector.VEICULAR;
                 pair = new Pair<Integer, TipoDetector>(posicao, tipoDetector);
                 callback.onEvento(new EventoMotor(DateTime.now(), te, pair));
-
                 break;
             case FALHA_GRUPO_SEMAFORICO:
-                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA,((MensagemFalhaDetector) mensagem).getFalha());
-                callback.onEvento(new EventoMotor(DateTime.now(), te, ((MensagemFalhaGrupoSemaforico)mensagem).getPosicao()));
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA, ((MensagemFalhaGrupoSemaforico) mensagem).getFalha());
+                callback.onEvento(new EventoMotor(DateTime.now(), te, ((MensagemFalhaGrupoSemaforico) mensagem).getPosicao()));
                 break;
             case FALHA_GENERICA:
-                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA,((MensagemFalhaDetector) mensagem).getFalha());
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA, ((MensagemFalhaDetector) mensagem).getFalha());
                 callback.onEvento(new EventoMotor(DateTime.now(), te));
                 break;
+            case REMOCAO_GENERICA:
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.REMOCAO_FALHA, ((MensagemRemocaoFalha) mensagem).getFalha());
+                callback.onEvento(new EventoMotor(DateTime.now(), te, ((MensagemRemocaoFalha) mensagem).getAnel()));
+                break;
             case ALARME:
-                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.ALARME,((MensagemFalhaDetector) mensagem).getFalha());
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.ALARME, ((MensagemFalhaDetector) mensagem).getFalha());
                 callback.onEvento(new EventoMotor(DateTime.now(), te));
                 break;
         }
@@ -183,6 +185,6 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
     }
 
     public void sendMensagem(TipoDeMensagemBaixoNivel inicio) {
-        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO,getSequencia()));
+        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia()));
     }
 }

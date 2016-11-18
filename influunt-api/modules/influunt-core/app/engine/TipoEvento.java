@@ -28,29 +28,31 @@ public enum TipoEvento {
     //Alteram a programacao vigente do controlador
     FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO(TipoEventoControlador.FALHA, 1, "Detector pedestre - Falta de acionamento", "Anel %s: Falha no DP%s - Falta de Acionamento", new TipoEventoParamsDescriptor("Detector Pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
     FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO(TipoEventoControlador.FALHA, 2, "Detector pedestre - Acionamento direto", "Anel %s: Falha no DP%s - Acionamento Direto", new TipoEventoParamsDescriptor("Detector Pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
-    FALHA_DETECTOR_PEDESTRE_REMOCAO(TipoEventoControlador.FALHA, 3, "Detector pedestre - Remoção de falha", "Anel %s: Falha no DP%s removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
 
-    FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO(TipoEventoControlador.FALHA, 4, "Detector veicular - Falta de acionamento", "Anel %s: Falha no DV%s - Falta de Acionamento", new TipoEventoParamsDescriptor("Detector Veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
-    FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO(TipoEventoControlador.FALHA, 5, "Detector veicular - Acionamento direto", "Anel %s: Falha no DV%s - Acionamento Direto", new TipoEventoParamsDescriptor("Detector Veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
-    FALHA_DETECTOR_VEICULAR_REMOCAO(TipoEventoControlador.FALHA, 6, "Detector veicular - Remoção de falha", "Anel %s: Falha no DV%s removida", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
+    FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO(TipoEventoControlador.FALHA, 3, "Detector veicular - Falta de acionamento", "Anel %s: Falha no DV%s - Falta de Acionamento", new TipoEventoParamsDescriptor("Detector Veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
+    FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO(TipoEventoControlador.FALHA, 4, "Detector veicular - Acionamento direto", "Anel %s: Falha no DV%s - Acionamento Direto", new TipoEventoParamsDescriptor("Detector Veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
 
-    FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO(TipoEventoControlador.FALHA, 7, "Desrespeito ao tempo máximo de permanencia no estágio", "Anel %s: Desrespeito ao tempo máximo de permanencia no estágio", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO(TipoEventoControlador.FALHA, 5, true, "Desrespeito ao tempo máximo de permanencia no estágio", "Anel %s: Desrespeito ao tempo máximo de permanencia no estágio", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
-    FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 8, "Fase vermelha do grupo semafórico apagada", "Anel %s: Fase vermelha do G%s apagada", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
-    FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO(TipoEventoControlador.FALHA, 9, "Fase vermelha do grupo semafórico apagada removida", "%s: Fase vermelha do G%s apagada removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
+    FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 6, true, "Fase vermelha do grupo semafórico apagada", "Anel %s: Fase vermelha do G%s apagada", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
 
-    FALHA_SEQUENCIA_DE_CORES(TipoEventoControlador.FALHA, 10, "Falha sequencia de cores", "Anel %s: Falha sequencia de cores", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_SEQUENCIA_DE_CORES(TipoEventoControlador.FALHA, 7, true, "Falha sequencia de cores", "Anel %s: Falha sequencia de cores", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
-    FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 11, "Verdes conflitantes", "Anel %s: Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
-    FALHA_VERDES_CONFLITANTES_REMOCAO(TipoEventoControlador.FALHA, 12, "Verdes conflitantes removido", "Anel %s: Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 8, true, "Verdes conflitantes", "Anel %s: Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
-    FALHA_WATCH_DOG(TipoEventoControlador.FALHA, 13, "Falha CPU", "Falha CPU", null),
-    FALHA_MEMORIA(TipoEventoControlador.FALHA, 14, "Falha Memoria", "Falha Memoria", null),
+    FALHA_WATCH_DOG(TipoEventoControlador.FALHA, 9, true, "Falha CPU", "Falha CPU", null),
+    FALHA_MEMORIA(TipoEventoControlador.FALHA, 10, true, "Falha Memoria", "Falha Memoria", null),
+
+    //Remocao de Falhas
+    REMOCAO_FALHA_DETECTOR_PEDESTRE(TipoEventoControlador.REMOCAO_FALHA, 1, "Detector pedestre - Remoção de falha", "Anel %s: Falha no DP%s removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
+    REMOCAO_FALHA_DETECTOR_VEICULAR(TipoEventoControlador.REMOCAO_FALHA, 2, "Detector veicular - Remoção de falha", "Anel %s: Falha no DV%s removida", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
+    REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO(TipoEventoControlador.REMOCAO_FALHA, 3, true, "Fase vermelha do grupo semafórico apagada removida", "%s: Fase vermelha do G%s apagada removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
+    REMOCAO_FALHA_VERDES_CONFLITANTES(TipoEventoControlador.REMOCAO_FALHA, 4, true, "Verdes conflitantes removido", "Anel %s: Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado", null),
-    ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 2, "Acionamento de detector pedestre", "%s foi acionado", null),
+    ACIONAMENTO_DETECTOR_PEDESTRE(TipoEventoControlador.DETECTOR_PEDESTRE, 1, "Acionamento de detector pedestre", "%s foi acionado", null),
 
     //Modo Manual
     INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 1, "Inserção de plug", null, null),
@@ -75,7 +77,19 @@ public enum TipoEvento {
 
     private final TipoEventoParamsDescriptor paramsDescriptor;
 
+    private boolean entraEmIntermitente = false;
+
     TipoEvento(TipoEventoControlador tipoEventoControlador, int codigo, String descricao, String template, TipoEventoParamsDescriptor paramsDescriptor) {
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.template = template;
+        this.tipoEventoControlador = tipoEventoControlador;
+        this.paramsDescriptor = paramsDescriptor;
+        this.formatter = new Formatter();
+    }
+
+    TipoEvento(TipoEventoControlador tipoEventoControlador, int codigo, boolean entraEmIntermitente, String descricao, String template, TipoEventoParamsDescriptor paramsDescriptor) {
+        this.entraEmIntermitente = entraEmIntermitente;
         this.codigo = codigo;
         this.descricao = descricao;
         this.template = template;
@@ -132,5 +146,9 @@ public enum TipoEvento {
         return Arrays.stream(TipoEvento.values()).filter(e->e.getTipoEventoControlador().equals(tipoEventoControlador))
                                           .filter(e->e.getCodigo() == codigo)
                                           .findFirst().orElse(null);
+    }
+
+    public boolean isEntraEmIntermitente() {
+        return entraEmIntermitente;
     }
 }

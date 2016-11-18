@@ -77,20 +77,31 @@ public class EventoMotor {
 
     public String[] getStringParams() {
         String[] paramsStr = new String[params.length];
-        switch (getTipoEvento().getParamsDescriptor().getTipo()) {
-            case DETECTOR_VEICULAR:
-            case DETECTOR_PEDESTRE:
-                paramsStr[0] = params[1].toString();
-                paramsStr[1] = ((Pair<Integer, TipoDetector>) params[0]).getFirst().toString();
-                break;
-            case GRUPO_SEMAFORICO:
-                paramsStr[0] = params[1].toString();
-                paramsStr[1] = ((GrupoSemaforico) params[0]).getPosicao().toString();
-                break;
-            case ANEL:
-                paramsStr[0] = params[0].toString();
-                break;
+        if(getTipoEvento().getParamsDescriptor() != null) {
+            switch (getTipoEvento().getParamsDescriptor().getTipo()) {
+                case DETECTOR_VEICULAR:
+                case DETECTOR_PEDESTRE:
+                    paramsStr[0] = params[1].toString();
+                    paramsStr[1] = ((Pair<Integer, TipoDetector>) params[0]).getFirst().toString();
+                    break;
+                case GRUPO_SEMAFORICO:
+                    paramsStr[0] = params[1].toString();
+                    paramsStr[1] = params[0].toString();
+                    break;
+                case ANEL:
+                    paramsStr[0] = params[0].toString();
+                    break;
+            }
         }
         return paramsStr;
+
+    }
+
+    public Integer getAnel() {
+        String[] paramsStr = getStringParams();
+        if (paramsStr.length > 0) {
+            return Integer.parseInt(paramsStr[0]);
+        }
+        return 0;
     }
 }

@@ -12,6 +12,10 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static engine.TipoEventoControlador.ALARME;
+import static engine.TipoEventoControlador.FALHA;
+import static engine.TipoEventoControlador.REMOCAO_FALHA;
+
 /**
  * Created by rodrigosol on 11/9/16.
  */
@@ -36,6 +40,10 @@ public class MonitorDeFalhas {
 
     private Map<Long,List<TipoEvento>> historico = new HashMap<>();
 
+    private boolean[] aneisComFalha = new boolean[5];
+
+    private boolean[] aneisComFalhaIrrecuperavel = new boolean[5];
+
     public MonitorDeFalhas(Motor motor, List<Detector> detectors) {
         this.motor = motor;
         this.eventoHandler = new MotorEventoHandler(motor);
@@ -50,7 +58,7 @@ public class MonitorDeFalhas {
 
         for (Map.Entry<Integer, Long> entry : retiraVerdeConflitantes.entrySet()) {
             if (entry.getValue().equals(ticks)) {
-                motor.onEvento(new EventoMotor(timestamp, TipoEvento.FALHA_VERDES_CONFLITANTES_REMOCAO, entry.getKey(), planos.get(entry.getKey() - 1)));
+                motor.onEvento(new EventoMotor(timestamp, TipoEvento.REMOCAO_FALHA_VERDES_CONFLITANTES, entry.getKey(), planos.get(entry.getKey() - 1)));
                 retiraVerdeConflitantes.put(entry.getKey(), Long.MIN_VALUE);
             }
         }
@@ -93,6 +101,7 @@ public class MonitorDeFalhas {
             final long duracao = intervalos.getEntreverde() != null ? intervalos.getEntreverde().getDuracao() : 0L;
             retiraVerdeConflitantes.put(anel, ticks + duracao + 10000L);
         }
+
         if (!sequenciaCoresValida(intervalos)) {
             motor.onEvento(new EventoMotor(timestamp, TipoEvento.FALHA_SEQUENCIA_DE_CORES, anel, false));
         }
@@ -102,9 +111,12 @@ public class MonitorDeFalhas {
         }
     }
 
-    public void monitoraRepeticaoVerdesConflitantes(int anel) {
+    public void monitoraRepeticaoVerdesConflitantes(EventoMotor eventoMotor) {
+        Integer anel = (Integer) eventoMotor.getParams()[0];
         if (!cicloDoVerdeConflitante.containsKey(anel)) {
             cicloDoVerdeConflitante.put(anel, 3);
+        } else {
+            aneisComFalhaIrrecuperavel[eventoMotor.getAnel()] = true;
         }
     }
 
@@ -171,25 +183,69 @@ public class MonitorDeFalhas {
     }
 
     public void handle(EventoMotor eventoMotor) {
+        if (isEventoDuplicado(eventoMotor)) return;
 
+        TipoEvento tipoEvento = eventoMotor.getTipoEvento();
+        switch (tipoEvento.getTipoEventoControlador()) {
+            case ALARME:
+                motor.onAlarme(eventoMotor);
+                eventoHandler.handle(eventoMotor);
+                break;
+            case FALHA:
+                if (!isControladorEmFalha(eventoMotor.getAnel())) {
+                    motor.onFalha(eventoMotor);
+                    eventoHandler.handle(eventoMotor);
+
+                    if(tipoEvento.isEntraEmIntermitente()) {
+                        aneisComFalha[eventoMotor.getAnel()] = true;
+
+                        if (tipoEvento.equals(TipoEvento.FALHA_VERDES_CONFLITANTES)) {
+                            monitoraRepeticaoVerdesConflitantes(eventoMotor);
+                        }
+                    }
+                }
+                break;
+            case REMOCAO_FALHA:
+                if (!isControladorComFalhaIrrecuperavel(eventoMotor.getAnel())) {
+                    if (tipoEvento.isEntraEmIntermitente()) {
+                        aneisComFalha[eventoMotor.getAnel()] = false;
+                    }
+                    motor.onRemocaoFalha(eventoMotor);
+                    eventoHandler.handle(eventoMotor);
+                }
+                break;
+            default:
+                eventoHandler.handle(eventoMotor);
+                break;
+        }
+    }
+
+    private boolean isEventoDuplicado(EventoMotor eventoMotor) {
+        long ticks = this.ticks;
         for(long t = ticks; t >= ticks - 1000L; t-=100) {
             if (historico.get(t) != null && historico.get(t).contains(eventoMotor.getTipoEvento())) {
-                return;
+                return true;
             }
         }
+        System.out.println("************************ NOVO EVENTO: " + eventoMotor.getTipoEvento() + " - TICKS: " + ticks);
 
-        if(historico.get(ticks) == null){
-            historico.put(ticks,new ArrayList<>());
+        if (historico.get(ticks) == null){
+            historico.put(ticks, new ArrayList<>());
         }
 
-        System.out.println("Processando evento:" + eventoMotor.getTipoEvento());
-        System.out.println("Tick:" + ticks);
         historico.get(ticks).add(eventoMotor.getTipoEvento());
-        eventoHandler.handle(eventoMotor);
-
+        return false;
     }
 
     public void endTick() {
         historico.remove(ticks);
+    }
+
+    private boolean isControladorEmFalha(Integer anel) {
+        return aneisComFalha[0] || aneisComFalha[anel];
+    }
+
+    public boolean isControladorComFalhaIrrecuperavel(Integer anel) {
+        return aneisComFalhaIrrecuperavel[0] || aneisComFalhaIrrecuperavel[anel];
     }
 }

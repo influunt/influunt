@@ -9,6 +9,7 @@ import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.LocalDeviceConfig;
 import os72c.client.conf.TestDeviceConfig;
 import os72c.client.conn.ClientActor;
+import os72c.client.device.DeviceBridge;
 import os72c.client.storage.Storage;
 import play.Configuration;
 import play.api.Play;
@@ -36,6 +37,8 @@ public class Client {
 
     private Storage storage = Play.current().injector().instanceOf(Storage.class);
 
+    private DeviceBridge device = Play.current().injector().instanceOf(DeviceBridge.class);
+
 
     public Client() {
         this.system = ActorSystem.create("InfluuntSystem", ConfigFactory.load());
@@ -51,7 +54,7 @@ public class Client {
             id = mqttSettings.getString("id");
         }
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, storage), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, storage, device), id);
 
     }
 

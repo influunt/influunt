@@ -6,8 +6,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import os72c.client.Client;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.awaitility.Awaitility.await;
 
 /**

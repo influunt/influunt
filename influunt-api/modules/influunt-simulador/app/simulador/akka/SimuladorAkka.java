@@ -61,4 +61,9 @@ public class SimuladorAkka extends Simulador {
 
     }
 
+    @Override
+    public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
+
+    }
+
 }
