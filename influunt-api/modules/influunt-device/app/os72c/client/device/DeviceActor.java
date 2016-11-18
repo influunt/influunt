@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static engine.TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE;
-import static engine.TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR;
 import static engine.TipoEventoParamsTipoDeDado.*;
 
 
@@ -132,29 +130,22 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        boolean disparar = false;
+        boolean disparar = true;
         Anel anel = null;
-        if (ACIONAMENTO_DETECTOR_PEDESTRE.equals(eventoMotor.getTipoEvento()) ||
-            ACIONAMENTO_DETECTOR_VEICULAR.equals(eventoMotor.getTipoEvento()) ||
-            DETECTOR_VEICULAR.equals(eventoMotor.getTipoEvento().getParamsDescriptor().getTipo()) ||
-            DETECTOR_PEDESTRE.equals(eventoMotor.getTipoEvento().getParamsDescriptor().getTipo())) {
-            anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
-        } else if (GRUPO_SEMAFORICO.equals(eventoMotor.getTipoEvento().getParamsDescriptor().getTipo())) {
-            anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
-        } else {
-            disparar = true;
+        if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
+            if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
+                eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_VEICULAR)) {
+                anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
+            } else if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(GRUPO_SEMAFORICO)) {
+                anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
+            }
         }
 
         if (anel != null) {
             eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
                 anel.getPosicao()});
-            disparar = true;
         }
-
-        if (disparar || eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.FALHA) ||
-            eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
-            motor.onEvento(eventoMotor);
-        }
+        motor.onEvento(eventoMotor);
     }
 
     private Anel buscarAnelPorDetector(Pair<Integer, TipoDetector> pair) {

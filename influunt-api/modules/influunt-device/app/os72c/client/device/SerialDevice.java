@@ -167,7 +167,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                 callback.onEvento(new EventoMotor(DateTime.now(), te, ((MensagemFalhaGrupoSemaforico) mensagem).getPosicao()));
                 break;
             case FALHA_GENERICA:
-                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA, ((MensagemFalhaDetector) mensagem).getFalha());
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA, ((MensagemFalhaGenerica) mensagem).getFalha());
                 callback.onEvento(new EventoMotor(DateTime.now(), te));
                 break;
             case REMOCAO_GENERICA:
@@ -175,7 +175,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                 callback.onEvento(new EventoMotor(DateTime.now(), te, ((MensagemRemocaoFalha) mensagem).getAnel()));
                 break;
             case ALARME:
-                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.ALARME, ((MensagemFalhaDetector) mensagem).getFalha());
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.ALARME, ((MensagemAlarme) mensagem).getAlarme());
                 callback.onEvento(new EventoMotor(DateTime.now(), te));
                 break;
         }

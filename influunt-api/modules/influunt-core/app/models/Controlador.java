@@ -828,7 +828,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return getAneis().stream()
             .map(Anel::getDetectores)
             .flatMap(Collection::stream)
-            .filter(detector -> posicao.equals(detector) && tipoDetector.equals(detector.getTipo()))
+            .filter(detector -> posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo()))
             .findFirst()
             .orElse(null);
     }
