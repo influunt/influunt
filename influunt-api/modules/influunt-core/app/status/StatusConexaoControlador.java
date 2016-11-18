@@ -23,13 +23,13 @@ public class StatusConexaoControlador {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    public String _id;
+    private String _id;
 
-    public String idControlador;
+    private String idControlador;
 
-    public Long timestamp;
+    private Long timestamp;
 
-    public boolean conectado;
+    private boolean conectado;
 
     public StatusConexaoControlador(String idControlador, long timestamp, boolean conectado) {
         this.idControlador = idControlador;
@@ -191,6 +191,10 @@ public class StatusConexaoControlador {
 
     public boolean isConectado() {
         return conectado;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     public void insert() {

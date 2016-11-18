@@ -4,13 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.AgendamentoTrocaPlano;
-import json.deserializers.InfluuntDateTimeDeserializer;
-import models.Evento;
-import models.Plano;
-import org.joda.time.DateTime;
 
 import java.io.IOException;
 

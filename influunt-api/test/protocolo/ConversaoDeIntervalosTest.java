@@ -77,21 +77,6 @@ public class ConversaoDeIntervalosTest extends WithInfluuntApplicationNoAuthenti
 
     }
 
-    @Test
-    public void testArduino() {
-
-        Anel anel = getAnel(1);
-        Plano plano = getPlano(anel, 7);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
-
-        avancar(gerenciadorDeEstagios, 100);
-
-        IntervaloGrupoSemaforico intervalo = listaEstagios.get(inicioExecucao);
-        SerialDevice serialDevice = new SerialDevice();
-        serialDevice.sendEstagio(intervalo);
-
-    }
-
     @NotNull
     private GerenciadorDeEstagios getGerenciadorDeEstagios(int anel, Plano plano) {
         return new GerenciadorDeEstagios(anel, inicioControlador, inicioExecucao, plano, new GerenciadorDeEstagiosCallback() {
