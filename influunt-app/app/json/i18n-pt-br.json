@@ -85,6 +85,7 @@
     "titulo": "Programação",
     "detector": "Detector",
     "mapaControladores": {
+      "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
       "agrupamentos": "Agrupamentos",
       "ajustes": "Ajustes",
@@ -107,11 +108,35 @@
       "imposicaoPlano": {
         "mensagem": "Selecione abaixo um plano para ser imposto"
       },
-      "legenda": "Legenda",
+      "alertas": {
+        "anelEmFalha": "O anel <strong>{ANEL}</strong> entrou em falha",
+        "controladorEmFalha": "O controlador <strong>{CONTROLADOR}</strong> entrou em falha",
+        "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>"
+      },
+      "legenda": {
+        "titulo": "Legenda",
+        "anelControleCentralizado": "Anel em controle centralizado",
+        "anelControleLocal": "Anel em controle local",
+        "anelControleManual": "Anel em controle manual",
+        "anelEmFalha": "Anel em falha",
+        "controlador": "Controlador",
+        "controladorEmFalha": "Controlador em falha",
+        "controladorOffline": "Controlador offline",
+        "corredor": "Corredor",
+        "rota": "Rota",
+        "subarea": "Subárea"
+      },
+      "status": {
+        "titulo": "Status",
+        "statusControlador": "Status do controlador",
+        "modoOperacao": "Modo de operação",
+        "online": "controlador online"
+      },
       "planos": "Planos",
       "subAreas": "Subáreas",
       "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "tabelasHorarias": "Tabelas horárias",
+      "tipoControleVigente": "tipo de controle vigente",
       "titulo": "Mapa dos controladores",
       "trocarTabela": "Trocar tabela horária"
     },
@@ -187,7 +212,7 @@
       "ativo": "Ativo",
       "CLC": "CLC",
       "dataAtualizacao": "Data atualização",
-      "statusControlador": "Status do controlador",
+      "statusControlador": "Status",
       "visualizarAcoes": "Visualizar/Ações",
       "acoes": "Ações",
       "verTelaAnterior": "Ver Resumo",

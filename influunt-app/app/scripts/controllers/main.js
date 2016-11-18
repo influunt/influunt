@@ -9,11 +9,15 @@
  */
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
-                           'Restangular', 'influuntBlockui', 'PermissionsService',
+                           'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
+                           'eventosDinamicos',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
-                      Restangular, influuntBlockui, PermissionsService) {
+                      Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
+                      eventosDinamicos) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
+
+      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, statusConexaoControladoresWatcher;
 
       $scope.pagination = {
         current: 1,
@@ -48,11 +52,9 @@ angular.module('influuntApp')
       $scope.loadDashboard = function() {
         Restangular.one('monitoramento', 'status_controladores').get()
           .then(function(res) {
-            $scope.dadosStatus = _.countBy(_.values(res.status), _.identity);
-            $scope.dadosOnlines = _.countBy(_.values(res.onlines), _.identity);
-            $scope.modosOperacoes = _.countBy(_.values(res.modosOperacoes), _.identity);
-            $scope.planosImpostos = _.countBy(_.values(res.imposicaoPlanos), _.identity);
-            $scope.errosControladores = res.erros.data;
+            $scope.statusObj = res;
+            atualizaDadosDinamicos();
+            registerWatchers();
           })
           .catch(function(err) {
             if (err.status === 401) {
@@ -62,7 +64,6 @@ angular.module('influuntApp')
             }
           })
           .finally(influuntBlockui.unblock);
-
       };
 
       $scope.carregarControladores = function(onlines) {
@@ -100,7 +101,7 @@ angular.module('influuntApp')
       };
 
       $scope.menuVisible = {};
-      var checkRoleForMenus = function() {
+      checkRoleForMenus = function() {
         return _.each($scope.menus, function(menu) {
           $scope.menuVisible[menu.name] = false;
           if (!_.isArray(menu.children)) {
@@ -115,6 +116,33 @@ angular.module('influuntApp')
         });
       };
 
+
+      registerWatchers = function() {
+        pahoProvider.register(eventosDinamicos.STATUS_CONEXAO_CONTROLADORES, statusConexaoControladoresWatcher);
+        // pahoProvider.register(eventosDinamicos.ALARMES_FALHAS, errosControladoresWatcher);
+        // pahoProvider.register(eventosDinamicos.IMPOSICAO_PLANO_CONTROLADOR, imposicaoPlanoControladorWatcher);
+        // pahoProvider.register(eventosDinamicos.MODOS_CONTROLADORES, modoControladoresWatcher);
+        // pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
+      };
+
+      statusConexaoControladoresWatcher = function(payload) {
+        console.log($scope.statusObj);
+        var response = JSON.parse(payload);
+        $scope.statusObj.onlines[response.idControlador] = response.conectado;
+        atualizaDadosDinamicos();
+
+        if (!response.conectado) {
+          toast.warn('O controlador ' + response.idControlador + ' acabou de se desconectar.', 0);
+        }
+      };
+
+      atualizaDadosDinamicos = function() {
+        $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
+        $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
+        $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
+        $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
+        $scope.errosControladores = $scope.statusObj.erros.data;
+      };
 
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);
