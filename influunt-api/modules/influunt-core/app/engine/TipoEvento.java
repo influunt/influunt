@@ -127,4 +127,10 @@ public enum TipoEvento {
     public boolean match(TipoEventoControlador tipoEventoControlador, int codigo) {
         return this.tipoEventoControlador.equals(tipoEventoControlador) && this.codigo == codigo;
     }
+
+    public static TipoEvento getByTipoECodigo(TipoEventoControlador tipoEventoControlador, Integer codigo) {
+        return Arrays.stream(TipoEvento.values()).filter(e->e.getTipoEventoControlador().equals(tipoEventoControlador))
+                                          .filter(e->e.getCodigo() == codigo)
+                                          .findFirst().orElse(null);
+    }
 }

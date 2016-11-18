@@ -33,8 +33,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Evento eventoAtual;
 
-    private MotorEventoHandler motorEventoHandler;
-
     private int step = 0;
 
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
@@ -45,7 +43,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
         this.instante = inicioExecucao;
-        this.motorEventoHandler = new MotorEventoHandler(this);
+
         this.monitor = new MonitorDeFalhas(this, controlador.getAneis().stream().map(Anel::getDetectores)
             .flatMap(Collection::stream)
             .collect(Collectors.toList()));
@@ -91,6 +89,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         estagios.forEach(e -> e.tick());
         instante = instante.plus(100);
         step++;
+        monitor.endTick();
     }
 
     @Override
@@ -120,8 +119,10 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         if (eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
             callback.onAlarme(instante, eventoMotor);
         } else {
-            callback.onFalha(instante, eventoMotor);
-            motorEventoHandler.handle(eventoMotor);
+            if(eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.FALHA)) {
+                callback.onFalha(instante, eventoMotor);
+            }
+            monitor.handle(eventoMotor);
         }
     }
 
@@ -155,4 +156,5 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public Evento getEventoAtual() {
         return eventoAtual;
     }
+
 }

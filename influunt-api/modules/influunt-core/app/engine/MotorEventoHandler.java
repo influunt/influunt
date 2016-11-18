@@ -6,6 +6,7 @@ import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**

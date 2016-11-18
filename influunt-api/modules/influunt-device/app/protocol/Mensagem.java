@@ -12,6 +12,8 @@ public abstract class Mensagem {
     private int checksum;
     private int tamanho;
 
+    private Integer codigo;
+
     public Mensagem(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia){
         this.tipoMensagem = tipoMensagem;
         this.sequencia = sequencia;
@@ -51,7 +53,8 @@ public abstract class Mensagem {
         return resp;
     }
 
-    public static Mensagem toMensagem(byte[] contents){
+    public static Mensagem toMensagem(byte[] contents) throws Exception{
+
         return TipoDeMensagemBaixoNivel.values()[contents[1]].getInstance(contents);
     }
 
@@ -61,5 +64,9 @@ public abstract class Mensagem {
 
     public TipoDeMensagemBaixoNivel getTipoMensagem() {
         return tipoMensagem;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
     }
 }

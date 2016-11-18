@@ -108,9 +108,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToMany(mappedBy = "controlador")
     private List<GrupoSemaforico> gruposSemaforicos;
 
-    @OneToMany(mappedBy = "controlador")
-    private List<Detector> detectores;
-
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private Endereco endereco;
@@ -471,14 +468,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public List<Detector> getDetectores() {
-        return detectores;
-    }
-
-    public void setDetectores(List<Detector> detectores) {
-        this.detectores = detectores;
-    }
-
     public DateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -833,6 +822,15 @@ public class Controlador extends Model implements Cloneable, Serializable {
             return getAneis().stream().filter(anel -> posicao.equals(anel.getPosicao())).findFirst().orElse(null);
         }
         return null;
+    }
+
+    public Detector findDetectorByPosicaoETipo(TipoDetector tipoDetector, Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getDetectores)
+            .flatMap(Collection::stream)
+            .filter(detector -> posicao.equals(detector) && tipoDetector.equals(detector.getTipo()))
+            .findFirst()
+            .orElse(null);
     }
 
     public RangeUtils getRangeUtils() {

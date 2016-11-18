@@ -3,7 +3,10 @@ package os72c.client.device;
 import akka.actor.UntypedActor;
 import engine.*;
 import models.Controlador;
+import models.Detector;
 import models.Evento;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -19,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by rodrigosol on 11/4/16.
  */
-public class DeviceActor extends UntypedActor implements MotorCallback {
+public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBridgeCallback {
     private Controlador controlador;
 
     private final Storage storage;
@@ -38,7 +41,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
         this.controlador = storage.getControlador();
         if (controlador != null) {
             this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
-            this.deviceBridge = new SerialDevice();
+            this.deviceBridge = new SerialDevice(this);
 
             Executors.newScheduledThreadPool(1)
                 .scheduleAtFixedRate(() -> {
@@ -101,5 +104,31 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
             }
         }
         System.out.println("Menssagem recebida no device actor");
+    }
+
+    @Override
+    public void onReady() {
+
+    }
+
+    @Override
+    public void onEvento(EventoMotor eventoMotor) {
+        boolean disparar = false;
+        switch (eventoMotor.getTipoEvento()){
+            case ACIONAMENTO_DETECTOR_PEDESTRE:
+            case ACIONAMENTO_DETECTOR_VEICULAR:
+                final Pair<Integer, TipoDetector> pair = (Pair<Integer, TipoDetector>) eventoMotor.getParams()[0];
+                Detector detector = controlador.findDetectorByPosicaoETipo(pair.getSecond(),pair.getFirst());
+                if(detector!=null) {
+                    eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
+                        detector.getAnel().getPosicao()});
+                    disparar = true;
+                }
+            break;
+        }
+        if(disparar || eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.FALHA) ||
+                       eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)){
+            motor.onEvento(eventoMotor);
+        }
     }
 }

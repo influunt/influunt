@@ -1,11 +1,17 @@
 package os72c.client.device;
 
+import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
+import engine.TipoEvento;
+import engine.TipoEventoControlador;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+import models.TipoDetector;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.math3.util.Pair;
+import org.joda.time.DateTime;
 import os72c.client.exceptions.HardwareFailureException;
 import protocol.*;
 
@@ -22,10 +28,12 @@ import static javafx.scene.input.KeyCode.T;
 public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
 
+    private final DeviceBridgeCallback callback;
+
     private SerialPort serialPort;
 
-//    private String porta = "/dev/tty.usbmodem1411";
-    private String porta = "/dev/tty.usbmodemFD131";
+    private String porta = "/dev/tty.usbmodem1411";
+    //private String porta = "/dev/tty.usbmodemFD131";
 
     private Integer baudrate  = 115200;
 
@@ -41,7 +49,8 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private long ultima = 0l;
 
-    public SerialDevice(){
+    public SerialDevice(DeviceBridgeCallback deviceBridgeCallback){
+        this.callback = deviceBridgeCallback;
         this.executor = Executors.newScheduledThreadPool(1);
 
         serialPort = new SerialPort(porta);
@@ -69,47 +78,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         System.out.println("Tempo Decorrido:" + (System.currentTimeMillis() - ultima));
 
         try {
-
             serialPort.writeBytes(mensagem.toByteArray());
-            ultima = System.currentTimeMillis();
-//            Callable<Mensagem> run = new Callable<Mensagem>()
-//            {
-//                @Override
-//                public Mensagem call() throws Exception
-//                {
-//
-//                    while(true){
-//                        if(lastReturn != null){
-//                            return lastReturn;
-//                        }
-//                        Thread.sleep(10);
-//                    }
-//                }
-//            };
-//            RunnableFuture<Mensagem> future = new FutureTask(run);
-//            ExecutorService service = Executors.newSingleThreadExecutor();
-//            service.execute(future);
-//            Mensagem result = null;
-//            try
-//            {
-//                result = future.get(10000, TimeUnit.MILLISECONDS);    // wait 100 milis
-//                if(result.getSequencia() != mensagem.getSequencia()){
-//                    System.out.println("Retorno invalido");
-//                }
-//            }
-//            catch (TimeoutException ex)
-//            {
-//                System.out.println("Deu timeout!");
-//                //Todo:Tratar timeout
-//                future.cancel(true);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//
-//            service.shutdown();
-
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
@@ -151,19 +120,66 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                 byte[] complement = serialPort.readBytes(size[0] - 1);
                 byte[] msg = ArrayUtils.addAll(size, complement);
                 Mensagem mensagem = Mensagem.toMensagem(msg);
+                System.out.println("Interrupcao:" + mensagem.getTipoMensagem());
                 mensagemRecebida(mensagem);
+
             } catch (SerialPortException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
     private void mensagemRecebida(Mensagem mensagem) {
-        if(mensagem instanceof MensagemRetorno){
-            lastReturn = mensagem;
-        }else{
-            //Trata eventos
+        TipoEvento te = null;
+        TipoDetector tipoDetector = null;
+        Pair<Integer, TipoDetector> pair = null;
+
+        switch (mensagem.getTipoMensagem()) {
+            case RETORNO:
+                lastReturn = mensagem;
+                break;
+            case DETECTOR:
+                final MensagemDetector mensagemDetector = (MensagemDetector) mensagem;
+                 te = mensagemDetector.isPedestre() ? TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE :
+                    TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR;
+                final int codigo = ((MensagemDetector) mensagem).getPosicao();
+                tipoDetector = ((MensagemDetector) mensagem).isPedestre() ? TipoDetector.PEDESTRE :
+                    TipoDetector.VEICULAR;
+                pair = new Pair<Integer, TipoDetector>(codigo, tipoDetector);
+                callback.onEvento(new EventoMotor(DateTime.now(), te, pair));
+                break;
+            case FALHA_ANEL:
+                final MensagemFalhaAnel mensagemFalhaAnel = (MensagemFalhaAnel) mensagem;
+                callback.onEvento(new EventoMotor(DateTime.now(),
+                    TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA, mensagemFalhaAnel.getFalha()),
+                    mensagemFalhaAnel.getAnel()));
+                break;
+            case FALHA_DETECTOR:
+
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA,((MensagemFalhaDetector) mensagem).getFalha());
+                final int posicao = ((MensagemFalhaDetector) mensagem).getPosicao();
+                tipoDetector = ((MensagemFalhaDetector) mensagem).isPedestre() ? TipoDetector.PEDESTRE :
+                    TipoDetector.VEICULAR;
+                pair = new Pair<Integer, TipoDetector>(posicao, tipoDetector);
+                callback.onEvento(new EventoMotor(DateTime.now(), te, pair));
+
+                break;
+            case FALHA_GRUPO_SEMAFORICO:
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA,((MensagemFalhaDetector) mensagem).getFalha());
+                callback.onEvento(new EventoMotor(DateTime.now(), te, ((MensagemFalhaGrupoSemaforico)mensagem).getPosicao()));
+                break;
+            case FALHA_GENERICA:
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.FALHA,((MensagemFalhaDetector) mensagem).getFalha());
+                callback.onEvento(new EventoMotor(DateTime.now(), te));
+                break;
+            case ALARME:
+                te = TipoEvento.getByTipoECodigo(TipoEventoControlador.ALARME,((MensagemFalhaDetector) mensagem).getFalha());
+                callback.onEvento(new EventoMotor(DateTime.now(), te));
+                break;
         }
+
     }
 
     public void sendMensagem(TipoDeMensagemBaixoNivel inicio) {

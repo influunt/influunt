@@ -8,10 +8,7 @@ import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -25,6 +22,8 @@ public class MonitorDeFalhas {
 
     private final Pattern sequenciaDeCores = Pattern.compile("(^(0)+$)|(^(3)+$)|(^(1)+$)|(^(5)+$)|(^(3)+(5)+$)|(^(3)+(0)+$)|(^(3)+(1)+$)|(^(5)+(3)+$)|(^(0)+(3)+$)|(^(0)+(5)+(3)+$)|(^((5)+(3)+|(0)+(5)+(3)+)(1)+$)|((((2)+|(1)+(2)+)(3)+|((2)+|(1)+(2)+)(6)+(3)+)($|(5)+|(0)+))|((((4)+|(1)+(4)+)(3)+|((4)+|(1)+(4)+)(6)+(3)+)($|(5)+|(0)+))");
 
+    private final MotorEventoHandler eventoHandler;
+
     private long ticks = 0L;
 
     private Map<Integer, TreeSet<Integer>> conflitos = new HashMap<>();
@@ -35,8 +34,11 @@ public class MonitorDeFalhas {
 
     private Map<Detector, Pair<Long, Long>> ausenciaDeteccao = new HashMap<>();
 
+    private Map<Long,List<TipoEvento>> historico = new HashMap<>();
+
     public MonitorDeFalhas(Motor motor, List<Detector> detectors) {
         this.motor = motor;
+        this.eventoHandler = new MotorEventoHandler(motor);
         registraMonitoramentoDetectores(detectors);
     }
 
@@ -166,5 +168,28 @@ public class MonitorDeFalhas {
             }
 
         }
+    }
+
+    public void handle(EventoMotor eventoMotor) {
+
+        for(long t = ticks; t >= ticks - 1000L; t-=100) {
+            if (historico.get(t) != null && historico.get(t).contains(eventoMotor.getTipoEvento())) {
+                return;
+            }
+        }
+
+        if(historico.get(ticks) == null){
+            historico.put(ticks,new ArrayList<>());
+        }
+
+        System.out.println("Processando evento:" + eventoMotor.getTipoEvento());
+        System.out.println("Tick:" + ticks);
+        historico.get(ticks).add(eventoMotor.getTipoEvento());
+        eventoHandler.handle(eventoMotor);
+
+    }
+
+    public void endTick() {
+        historico.remove(ticks);
     }
 }

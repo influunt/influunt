@@ -17,11 +17,12 @@ import java.util.UUID;
 public class AlarmeFalha {
 
     public static Envelope getMensagem(String idControlador,EventoMotor eventoMotor) {
+
         return new Envelope(TipoMensagem.ALARME_FALHA,
             idControlador,
             DestinoCentral.alarmeFalhaConfiguracao(idControlador),
             2,
-            Json.toJson(eventoMotor).toString(),
+            "",//Json.toJson(eventoMotor).toString()
             null);
     }
 }

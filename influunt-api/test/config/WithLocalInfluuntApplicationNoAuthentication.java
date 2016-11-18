@@ -35,5 +35,4 @@ public class WithLocalInfluuntApplicationNoAuthentication extends WithInfluuntAp
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
             .in(Mode.TEST).build();
     }
-
 }

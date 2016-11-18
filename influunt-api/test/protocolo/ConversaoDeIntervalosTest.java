@@ -51,7 +51,7 @@ public class ConversaoDeIntervalosTest extends WithInfluuntApplicationNoAuthenti
     }
 
     @Test
-    public void repeticaoDeEstagio() {
+    public void repeticaoDeEstagio() throws Exception {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 7);
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
@@ -87,8 +87,8 @@ public class ConversaoDeIntervalosTest extends WithInfluuntApplicationNoAuthenti
         avancar(gerenciadorDeEstagios, 100);
 
         IntervaloGrupoSemaforico intervalo = listaEstagios.get(inicioExecucao);
-        SerialDevice serialDevice = new SerialDevice();
-        serialDevice.sendEstagio(intervalo);
+//        SerialDevice serialDevice = new SerialDevice();
+//        serialDevice.sendEstagio(intervalo);
 
     }
 
