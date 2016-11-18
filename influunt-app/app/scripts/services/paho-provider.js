@@ -72,6 +72,7 @@ angular.module('influuntApp')
 
       subscribers[subscribedUrl] = onMessageArrivedCallback;
       client.subscribe(subscribedUrl + '/+');
+      client.subscribe(subscribedUrl);
     };
 
     return {

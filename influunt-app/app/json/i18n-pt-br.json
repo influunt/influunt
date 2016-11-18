@@ -111,7 +111,10 @@
       "alertas": {
         "anelEmFalha": "O anel <strong>{ANEL}</strong> entrou em falha",
         "controladorEmFalha": "O controlador <strong>{CONTROLADOR}</strong> entrou em falha",
-        "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>"
+        "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>",
+        "mudancaStatusControlador": "Troca de status no controlador <strong>{CONTROLADOR}</strong>",
+        "controladorOnline": "O controlador {CONTROLADOR} está online",
+        "controladorOffline": "O controlador {CONTROLADOR} está offline"
       },
       "legenda": {
         "titulo": "Legenda",
@@ -130,7 +133,8 @@
         "titulo": "Status",
         "statusControlador": "Status do controlador",
         "modoOperacao": "Modo de operação",
-        "online": "controlador online"
+        "online": "controlador online",
+        "planoVigente": "Plano vigente"
       },
       "planos": "Planos",
       "subAreas": "Subáreas",

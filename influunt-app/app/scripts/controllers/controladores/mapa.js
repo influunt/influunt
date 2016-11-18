@@ -16,11 +16,14 @@ angular.module('influuntApp')
               pahoProvider, eventosDinamicos, toast, mapaProvider) {
       var filtraDados, getMarkersControladores, getMarkersAneis,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores,
-          registerWatchers, alarmesEFalhasWatcher, trocaPlanoWatcher,
+          registerWatchers, alarmesEFalhasWatcher, trocaPlanoWatcher, statusControladoresWatcher, onlineOfflineWatcher,
           getIconeAnel, getIconeControlador, exibirAlerta;
 
       var FALHA = 'FALHA';
+      var LOCAL = 'LOCAL';
       var MANUAL = 'MANUAL';
+      var OFFLINE = 'OFFLINE';
+      var ONLINE = 'ONLINE';
 
       $scope.map = {
         delegator: {}
@@ -38,10 +41,9 @@ angular.module('influuntApp')
           })
           .then(function(res) {
             $scope.listaControladores.forEach(function(controlador) {
-              debugger;
               controlador.status = res.status[controlador.id];
               controlador.online = res.onlines[controlador.id];
-              controlador.modoOperacao = res.modosOperacoes[controlador.id];
+              // controlador.modoOperacao = res.modosOperacoes[controlador.id];
               // controlador.hasPlanoImposto = res.modosOperacoes[controlador.id];
             });
 
@@ -173,7 +175,7 @@ angular.module('influuntApp')
             return true;
           })
           .map(function(anel) {
-            var iconeAnel = anel.status === FALHA ? FALHA : anel.tipoControleVigente;
+            var iconeAnel = [FALHA, OFFLINE].indexOf(anel.status) >= 0 ? anel.status : anel.tipoControleVigente;
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             return {
               latitude: endereco.latitude,
@@ -256,10 +258,46 @@ angular.module('influuntApp')
           .then(function() {
             pahoProvider.register(eventosDinamicos.ALARMES_FALHAS, alarmesEFalhasWatcher);
             pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
-            // pahoProvider.register(eventosDinamicos.STATUS_CONEXAO_CONTROLADORES, statusConexaoControladoresWatcher);
-            // pahoProvider.register(eventosDinamicos.IMPOSICAO_PLANO_CONTROLADOR, imposicaoPlanoControladorWatcher);
-            // pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
+            pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
+            pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
+            pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
           });
+      };
+
+      onlineOfflineWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
+
+        var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
+        controlador.online = isOnline;
+        controlador.status = isOnline ? ONLINE : OFFLINE;
+
+        controlador.aneis.forEach(function(anel) {
+          anel.online = isOnline;
+          anel.status = isOnline ? ONLINE : OFFLINE;
+        });
+
+        var msg = isOnline ?
+          'controladores.mapaControladores.alertas.controladorOnline' :
+          'controladores.mapaControladores.alertas.controladorOffline';
+
+        msg = $filter('translate')(msg, {CONTROLADOR: controlador.CLC});
+        exibirAlerta(msg, controlador, !isOnline);
+        return filtraDados();
+      };
+
+      statusControladoresWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
+
+        controlador.status = mensagem.conteudo.status;
+
+        var msg = $filter('translate')(
+          'controladores.mapaControladores.alertas.mudancaStatusControlador',
+          {CONTROLADOR: controlador.CLC}
+        );
+        exibirAlerta(msg, controlador);
+        return filtraDados();
       };
 
       trocaPlanoWatcher = function(payload) {
@@ -299,13 +337,27 @@ angular.module('influuntApp')
           msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
         }
 
-        obj.status = FALHA;
+        if (mensagem.conteudo.tipoEvento.tipoEventoControlador === FALHA) {
+          obj.status = FALHA;
+
+          if (!anel) {
+            controlador.aneis = controlador.aneis.map(function(anel) {
+              anel.status = FALHA;
+              return anel;
+            });
+          }
+        }
+
         controlador.popupText = mensagem.conteudo.descricaoEvento;
-        anel.popupText = mensagem.conteudo.descricaoEvento;
+        obj.popupText = mensagem.conteudo.descricaoEvento;
 
         // Se a visualização de controladores estiver ativa e o anel for o primeiro, a falha deverá ser
         // apresentada (visualmente) para o controlador.
-        var target = anel.posicao === 1 && $scope.filtro.exibirControladores ? controlador : anel;
+        var target = controlador;
+        if (anel && !(anel.posicao === 1 && $scope.filtro.exibirControladores)) {
+          target = anel;
+        }
+        // var target = (anel && anel.posicao === 1 && $scope.filtro.exibirControladores) ? controlador : anel;
         exibirAlerta(msg, target, true);
 
         return filtraDados();
@@ -324,11 +376,15 @@ angular.module('influuntApp')
       getIconeAnel = function(status) {
         switch (status) {
           case FALHA:
-            return 'images/leaflet/influunt-icons/anel-em-falha.png';
+            return 'images/leaflet/influunt-icons/anel-em-falha.svg';
           case MANUAL:
-            return 'images/leaflet/influunt-icons/anel-controle-manual.png';
+            return 'images/leaflet/influunt-icons/anel-controle-manual.svg';
+          case LOCAL:
+            return 'images/leaflet/influunt-icons/anel-controle-local.svg';
+          case OFFLINE:
+            return 'images/leaflet/influunt-icons/anel-offline.svg';
           default:
-            return 'images/leaflet/influunt-icons/anel-controle-central.png';
+            return 'images/leaflet/influunt-icons/anel-controle-central.svg';
         }
       };
 
@@ -336,6 +392,8 @@ angular.module('influuntApp')
         switch (status) {
           case FALHA:
             return 'images/leaflet/influunt-icons/controlador-em-falha.svg';
+          case OFFLINE:
+            return 'images/leaflet/influunt-icons/controlador-offline.svg';
           default:
             return 'images/leaflet/influunt-icons/controlador.svg';
         }
