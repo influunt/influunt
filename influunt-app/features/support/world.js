@@ -83,7 +83,7 @@ var World = function () {
     return self.waitForInverse('div.blockUI');
   };
 
-  this.waitForSeewtOverlayDisappear = function() {
+  this.waitForSweetOverlayDisappear = function() {
     return self.waitForByXpathInverse('//div[contains(@class, "sweet-overlay")and contains(@style, "display: block;")]');
   };
 
