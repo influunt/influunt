@@ -37,7 +37,7 @@ angular.module('influuntApp')
 
       return $timeout(function() {
         return fn.apply(this, [message.payloadString, message.destinationName]);
-      })
+      });
     };
 
     var connectClient = function() {
@@ -67,7 +67,7 @@ angular.module('influuntApp')
 
     var register = function(subscribedUrl, onMessageArrivedCallback) {
       if (!isConnected) {
-        throw new Exception('Client is not connected.');
+        throw new Error('Client is not connected.');
       }
 
       subscribers[subscribedUrl] = onMessageArrivedCallback;

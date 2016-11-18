@@ -9,8 +9,12 @@
  */
 angular.module('influuntApp')
   .run(function () {
-
     var getArea, getXCentroid, getYCentroid;
+
+    var BOUNDING_BOX_SIZE = 10.0 / 1000; // unidade: km's.
+    var BOUNDING_BOX_VARIATION = 90;    // intervalo (em graus) da variacao do bounding box.
+    var DISTANCE_BETWEEN_POINTS = 100;
+    var HULL_CONCAVITY = 0.0013;
 
     Number.prototype.toRad = function() { return this * Math.PI / 180; };
     Number.prototype.toDeg = function() { return this * 180 / Math.PI; };
@@ -48,7 +52,6 @@ angular.module('influuntApp')
       var lat1 = this.lat.toRad();
       var lng1 = this.lng.toRad();
       var lat2 = latLng.lat.toRad();
-      var lng2 = latLng.lng.toRad();
 
       var bx = Math.cos(lat2) * Math.cos(lng);
       var by = Math.cos(lat2) * Math.sin(lng);
@@ -62,6 +65,7 @@ angular.module('influuntApp')
       return new L.LatLng(lat3.toDeg(), lng3.toDeg());
     };
 
+
     /**
      * retorna a centroide do poligono. Formula utilizada disponivel em:
      * http://dan-scientia.blogspot.com.br/2009/10/centroide-de-um-poligono.html
@@ -73,6 +77,14 @@ angular.module('influuntApp')
       return new L.LatLng(getXCentroid(latLngList, area), getYCentroid(latLngList, area));
     };
 
+    /**
+     * Retorna a lista contedo os pontos entre dois pontos a cada intervalo de distancia (em metros);
+     *
+     * @param      {<type>}  lat1         The lat 1
+     * @param      {<type>}  lat2         The lat 2
+     * @param      {number}  maxDistance  The maximum distance
+     * @return     {<type>}  The points between.
+     */
     L.LatLng.getPointsBetween = function(lat1, lat2, maxDistance) {
       var points = [];
 
@@ -85,6 +97,90 @@ angular.module('influuntApp')
       }
 
       return _.flatten(points);
+    };
+
+    /**
+     * Retorna a area ao redor de determinados pontos do mapa.
+     *
+     * @param      {<type>}  points  The points
+     * @return     {Array}   The bounding box.
+     */
+    L.LatLng.getBoundingBox = function(points) {
+      var boxedPoints = [];
+      _.each(points, function(point) {
+        boxedPoints.push(point);
+        for (var i = 0; i < 360; i += BOUNDING_BOX_VARIATION) {
+          boxedPoints.push(point.destinationPoint(i, BOUNDING_BOX_SIZE));
+        }
+      });
+
+      return boxedPoints;
+    };
+
+    /**
+     * Retorna os pontos necessários para obter a area ao redor de poontos.
+     *
+     * @param      {<type>}  points         The points
+     * @param      {<type>}  hullConcavity  The hull concavity
+     * @return     {<type>}  The hull points.
+     */
+    L.LatLng.getHullPoints = function(points, hullConcavity) {
+      hullConcavity = hullConcavity || HULL_CONCAVITY;
+      return hull(points, hullConcavity, ['.lat', '.lng']);
+    };
+
+    /**
+     * Converte um array de hashes que contenha lat lng em um array de L.LatLng.
+     *
+     * @param      {<type>}  points  The points
+     * @return     {<type>}  The lat lng.
+     */
+    L.LatLng.getLatLng = function(points) {
+      return points.map(function(point) { return new L.LatLng(point.latitude, point.longitude); });
+    };
+
+    /**
+     * Cria pontos entre os pontos originais do agrupamento. O objetivo deste método é garantir que o contorno dos
+     * agrupamentos fique sempre na mesma espessura, inclusive em espaços onde não há pontos desenhados.
+     *
+     * @param      {<type>}  points  The points
+     */
+    L.LatLng.getMiddlePoints = function(points) {
+      var middlePoints = [];
+      for (var i = 0; i < points.length - 1; i++) {
+        var lat1 = points[i];
+        var lat2 = points[i + 1];
+        middlePoints = _.concat(middlePoints, L.LatLng.getPointsBetween(lat1, lat2, DISTANCE_BETWEEN_POINTS));
+        middlePoints.push(lat1);
+        middlePoints.push(lat2);
+      }
+
+      return middlePoints;
+    };
+
+    /**
+     * Ordena os pontos por proximidade.
+     *
+     * @param      {<type>}  tail    The tail
+     * @param      {<type>}  head    The head
+     * @return     {Array}   { description_of_the_return_value }
+     */
+    L.LatLng.orderPoints = function(tail, head) {
+      tail = _.cloneDeep(tail);
+      head = _.cloneDeep(head);
+      if (!head) {
+        tail = _.orderBy(tail, ['lat', 'lng']);
+        head = tail.shift();
+      }
+
+      tail = tail.sort(function(a, b) { return head.distanceTo(a) - head.distanceTo(b); });
+      var nearest = tail.shift();
+
+      if (tail.length > 0) {
+        return _.concat([head], L.LatLng.orderPoints(tail, nearest));
+      } else {
+        return [head, nearest];
+      }
     };
 
     L.LabelOverlay = L.Class.extend({

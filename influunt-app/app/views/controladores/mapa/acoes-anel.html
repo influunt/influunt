@@ -20,18 +20,18 @@
 
 
       <div class="ibox-content">
-        <h3>
-          Status
-        </h3>
+        <h3>{{ 'controladores.mapaControladores.status.titulo' | translate }}</h3>
         <ul>
           <li>
-            <strong>Status: </strong><span ng-bind-html="currentControlador.status | statusControlador"></span>
+            <strong>{{ 'controladores.mapaControladores.status.statusControlador' | translate }}:</strong>
+            <span ng-bind-html="currentControlador.status | statusControlador"></span>
           </li>
           <li>
-            <strong>online: </strong><span>{{ !!currentControlador.online }}</span>
+            <strong>{{ 'controladores.mapaControladores.status.online' | translate }}: </strong>
+            <span data-ng-bind-html="currentControlador.online | trueOrFalseIcon"></span>
           </li>
           <li>
-            <strong>Modo Operação: </strong><span>{{ currentAnel.modoOperacao }}</span>
+            <strong>{{ 'controladores.mapaControladores.status.modoOperacao' | translate }}: </strong><span>{{ currentAnel.modoOperacao }}</span>
           </li>
         </ul>
       </div>

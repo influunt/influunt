@@ -25,7 +25,7 @@ angular.module('influuntApp')
       "hideEasing": "linear",
       "showMethod": "fadeIn",
       "hideMethod": "fadeOut"
-    }
+    };
 
     var success = function(text, title, options) {
       toastr.success(text, title, options);

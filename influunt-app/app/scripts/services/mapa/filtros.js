@@ -27,7 +27,7 @@ angular.module('influuntApp')
       var agrupamentosIds = _.chain(filtro.agrupamentosSelecionados).map('aneis').flatten().map('controlador.id').uniq().value();
 
       if (filtro.exibirSomenteControladoresComPlanosImpostos) {
-        controladores = _.filter(controladores, function(i) { return i.hasPlanoImposto || _.some(i.aneis, 'hasPlanoImposto') });
+        controladores = _.filter(controladores, function(i) { return i.hasPlanoImposto || _.some(i.aneis, 'hasPlanoImposto'); });
       }
 
       if (_.isArray(filtro.tiposControleVigenteSelecionados) && filtro.tiposControleVigenteSelecionados.length > 0) {
@@ -35,7 +35,7 @@ angular.module('influuntApp')
         controladores = _
           .chain(filtro.tiposControleVigenteSelecionados)
           .map(function(tipo) {
-            return _.filter(controladores, function(c) { return _.map(c.aneis, 'tipoControleVigente').indexOf(tipo) >= 0; })
+            return _.filter(controladores, function(c) { return _.map(c.aneis, 'tipoControleVigente').indexOf(tipo) >= 0; });
           })
           .flatten()
           .uniq()
@@ -71,7 +71,7 @@ angular.module('influuntApp')
       return aneis;
     };
 
-    var getAneisIds = function(controladoresFiltrados, filtro) {
+    var getAneisIds = function(controladoresFiltrados) {
       return _.chain(controladoresFiltrados).map('aneis').flatten().map('id').uniq().value();
     };
 

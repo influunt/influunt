@@ -20,6 +20,11 @@ angular.module('influuntApp')
           getIconeAnel, getIconeControlador, exibirAlerta;
 
       var FALHA = 'FALHA';
+      var MANUAL = 'MANUAL';
+
+      $scope.map = {
+        delegator: {}
+      };
 
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
@@ -33,11 +38,11 @@ angular.module('influuntApp')
           })
           .then(function(res) {
             $scope.listaControladores.forEach(function(controlador) {
+              debugger;
               controlador.status = res.status[controlador.id];
               controlador.online = res.onlines[controlador.id];
               controlador.modoOperacao = res.modosOperacoes[controlador.id];
-              // controlador.erros = res.modosOperacoes[controlador.id];
-              // controlador.imposicaoPlanos = res.modosOperacoes[controlador.id];
+              // controlador.hasPlanoImposto = res.modosOperacoes[controlador.id];
             });
 
             return Restangular.all('areas').customGET(null, {'cidade.id': $scope.listaControladores[0].cidade.id});
@@ -168,6 +173,7 @@ angular.module('influuntApp')
             return true;
           })
           .map(function(anel) {
+            var iconeAnel = anel.status === FALHA ? FALHA : anel.tipoControleVigente;
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             return {
               latitude: endereco.latitude,
@@ -179,7 +185,7 @@ angular.module('influuntApp')
                 controladorId: controlador.id,
                 tipo: 'ANEL',
                 draggable: false,
-                icon: getIconeAnel(anel.status),
+                icon: getIconeAnel(iconeAnel),
                 iconSize: [32, 37],
                 iconAnchor:   [16, 36],
                 popupAnchor: [0, -30]
@@ -263,7 +269,7 @@ angular.module('influuntApp')
         var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
         var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
-        anel.hasPlanoImposto = mensagem.conteudo.planoImposto || mensagem.conteudo.impostoPorFalha;
+        anel.hasPlanoImposto = mensagem.conteudo.planoImposto;
         anel.modoOperacao = mensagem.conteudo.plano.modoOperacao;
         anel.tipoControleVigente = mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL';
 
@@ -273,12 +279,8 @@ angular.module('influuntApp')
           return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
         });
 
-        var endereco = _.find(controlador.todosEnderecos, {idJson: anel.endereco.idJson});
-        exibirAlerta(
-          $filter('translate')('controladores.mapaControladores.alertas.trocaPlanoAnel', {ANEL: anel.CLA}),
-          new L.LatLng(endereco.latitude, endereco.longitude)
-        );
-
+        var msg = $filter('translate')('controladores.mapaControladores.alertas.trocaPlanoAnel', {ANEL: anel.CLA});
+        exibirAlerta(msg, anel);
         return filtraDados();
       };
 
@@ -298,10 +300,13 @@ angular.module('influuntApp')
         }
 
         obj.status = FALHA;
-        obj.popupText = mensagem.conteudo.descricaoEvento;
+        controlador.popupText = mensagem.conteudo.descricaoEvento;
+        anel.popupText = mensagem.conteudo.descricaoEvento;
 
-        var endereco = _.find(controlador.todosEnderecos, {idJson: obj.endereco.idJson});
-        exibirAlerta(msg, new L.LatLng(endereco.latitude, endereco.longitude), true);
+        // Se a visualização de controladores estiver ativa e o anel for o primeiro, a falha deverá ser
+        // apresentada (visualmente) para o controlador.
+        var target = anel.posicao === 1 && $scope.filtro.exibirControladores ? controlador : anel;
+        exibirAlerta(msg, target, true);
 
         return filtraDados();
       };
@@ -310,7 +315,7 @@ angular.module('influuntApp')
         if ($scope.filtro.exibirAlertas || isPrioritario) {
           toast.warn(msg, null,{
             onclick: function() {
-              return target && mapaProvider.setView(target, mapaProvider.getMap().getMaxZoom());
+              return target && mapaProvider.selectMarkerById(target.id);
             }
           });
         }
@@ -320,6 +325,8 @@ angular.module('influuntApp')
         switch (status) {
           case FALHA:
             return 'images/leaflet/influunt-icons/anel-em-falha.png';
+          case MANUAL:
+            return 'images/leaflet/influunt-icons/anel-controle-manual.png';
           default:
             return 'images/leaflet/influunt-icons/anel-controle-central.png';
         }

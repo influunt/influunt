@@ -126,6 +126,12 @@
         "rota": "Rota",
         "subarea": "Subárea"
       },
+      "status": {
+        "titulo": "Status",
+        "statusControlador": "Status do controlador",
+        "modoOperacao": "Modo de operação",
+        "online": "controlador online"
+      },
       "planos": "Planos",
       "subAreas": "Subáreas",
       "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
