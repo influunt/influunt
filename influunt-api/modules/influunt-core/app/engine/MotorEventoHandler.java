@@ -48,7 +48,7 @@ public class MotorEventoHandler {
                 break;
 
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
-            case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO:
+            case REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO:
                 handleFaseVermelhaGrupoSemaforico(eventoMotor);
                 break;
 
@@ -64,14 +64,13 @@ public class MotorEventoHandler {
                 handleFalhaDetector(eventoMotor);
                 break;
 
-            case FALHA_DETECTOR_VEICULAR_REMOCAO:
-            case FALHA_DETECTOR_PEDESTRE_REMOCAO:
+            case REMOCAO_FALHA_DETECTOR_VEICULAR:
+            case REMOCAO_FALHA_DETECTOR_PEDESTRE:
                 handleRemocaoFalhaDetector(eventoMotor);
                 break;
 
 
             case FALHA_VERDES_CONFLITANTES:
-                getMotor().getMonitor().monitoraRepeticaoVerdesConflitantes((Integer) eventoMotor.getParams()[0]);
                 handleFalhaAnel(eventoMotor);
                 break;
 
@@ -80,7 +79,7 @@ public class MotorEventoHandler {
                 handleFalhaAnel(eventoMotor);
                 break;
 
-            case FALHA_VERDES_CONFLITANTES_REMOCAO:
+            case REMOCAO_FALHA_VERDES_CONFLITANTES:
                 handleRemoveFalhaAnel(eventoMotor);
                 break;
 
@@ -119,17 +118,18 @@ public class MotorEventoHandler {
     }
 
     private void handleFaseVermelhaGrupoSemaforico(EventoMotor eventoMotor) {
-        GrupoSemaforico grupoSemaforico = (GrupoSemaforico) eventoMotor.getParams()[0];
+        Integer posicaoGrupoSemaforico = (Integer) eventoMotor.getParams()[0];
+        GrupoSemaforico grupoSemaforico = motor.getControlador().findGrupoSemaforicoByPosicao(posicaoGrupoSemaforico);
         if (eventoMotor.getTipoEvento().equals(TipoEvento.FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA)) {
-            if (!falhasFaseGrupoSemorofico.containsKey(grupoSemaforico.getPosicao())) {
+            if (!falhasFaseGrupoSemorofico.containsKey(posicaoGrupoSemaforico)) {
                 if (grupoSemaforico.isFaseVermelhaApagadaAmareloIntermitente()) {
-                    falhasFaseGrupoSemorofico.put(grupoSemaforico.getPosicao(), eventoMotor);
+                    falhasFaseGrupoSemorofico.put(posicaoGrupoSemaforico, eventoMotor);
                     motor.getEstagios().get(grupoSemaforico.getAnel().getPosicao() - 1).onEvento(eventoMotor);
                 }
             }
         } else {
             if (grupoSemaforico.isFaseVermelhaApagadaAmareloIntermitente()) {
-                falhasFaseGrupoSemorofico.remove(grupoSemaforico.getPosicao());
+                falhasFaseGrupoSemorofico.remove(posicaoGrupoSemaforico);
                 Anel anel = grupoSemaforico.getAnel();
                 if (!anel.getGruposSemaforicos().stream().anyMatch(grupo -> falhasFaseGrupoSemorofico.containsKey(grupo.getPosicao()))) {
                     eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0], motor.getPlanoAtual(anel.getPosicao())});

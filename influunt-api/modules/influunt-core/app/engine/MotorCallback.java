@@ -13,4 +13,5 @@ public interface MotorCallback extends GerenciadorDeEstagiosCallback {
 
     void onAlarme(DateTime timestamp, EventoMotor eventoMotor);
     void onFalha(DateTime timestamp, EventoMotor eventoMotor);
+    void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor);
 }

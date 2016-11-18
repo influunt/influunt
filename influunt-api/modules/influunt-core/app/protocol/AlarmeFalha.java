@@ -17,6 +17,7 @@ import java.util.UUID;
 public class AlarmeFalha {
 
     public static Envelope getMensagem(String idControlador,EventoMotor eventoMotor) {
+
         return new Envelope(TipoMensagem.ALARME_FALHA,
             idControlador,
             DestinoCentral.alarmeFalhaConfiguracao(idControlador),

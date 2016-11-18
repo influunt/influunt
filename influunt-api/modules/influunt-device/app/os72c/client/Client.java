@@ -6,6 +6,7 @@ import akka.actor.Props;
 import com.google.inject.Singleton;
 import com.typesafe.config.ConfigFactory;
 import os72c.client.conf.DeviceConfig;
+import os72c.client.conf.LocalDeviceConfig;
 import os72c.client.conf.TestDeviceConfig;
 import os72c.client.conn.ClientActor;
 import os72c.client.device.DeviceBridge;
@@ -42,7 +43,7 @@ public class Client {
     public Client() {
         this.system = ActorSystem.create("InfluuntSystem", ConfigFactory.load());
 
-        if (deviceConfig instanceof TestDeviceConfig) {
+        if (deviceConfig instanceof TestDeviceConfig || deviceConfig instanceof LocalDeviceConfig) {
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
             id = deviceConfig.getDeviceId();

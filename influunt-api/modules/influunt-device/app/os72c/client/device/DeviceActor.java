@@ -2,8 +2,11 @@ package os72c.client.device;
 
 import akka.actor.UntypedActor;
 import engine.*;
+import models.Anel;
 import models.Controlador;
 import models.Evento;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -15,11 +18,16 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static engine.TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE;
+import static engine.TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR;
+import static engine.TipoEventoParamsTipoDeDado.*;
+
 
 /**
  * Created by rodrigosol on 11/4/16.
  */
-public class DeviceActor extends UntypedActor implements MotorCallback {
+public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBridgeCallback {
+
     private Controlador controlador;
 
     private final Storage storage;
@@ -28,6 +36,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
 
     private DeviceBridge device;
 
+    private boolean iniciado = false;
+
 
     public DeviceActor(Storage mapStorage, DeviceBridge device) {
         this.storage = mapStorage;
@@ -35,20 +45,29 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
         start();
     }
 
-    private void start() {
-        this.controlador = storage.getControlador();
-        if (controlador != null) {
-            this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
+    private synchronized void start() {
+        if (!iniciado) {
+            this.controlador = storage.getControlador();
+            if (controlador != null) {
+                iniciado = true;
+                this.device.start(this);
+                this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
 
-            Executors.newScheduledThreadPool(1)
-                .scheduleAtFixedRate(() -> {
-                    try {
-                        motor.tick();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }, 0, 100, TimeUnit.MILLISECONDS);
+                Executors.newScheduledThreadPool(1)
+                    .scheduleAtFixedRate(() -> {
+                        try {
+                            motor.tick();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }, 0, 100, TimeUnit.MILLISECONDS);
+            }
         }
+    }
+
+    private void sendAlarmeOuFalha(EventoMotor eventoMotor) {
+        Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(), eventoMotor);
+        sendMessage(envelope);
     }
 
     @Override
@@ -57,14 +76,17 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
 
     @Override
     public void onAlarme(DateTime timestamp, EventoMotor eventoMotor) {
-        Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(), eventoMotor);
-        sendMessage(envelope);
+        sendAlarmeOuFalha(eventoMotor);
     }
 
     @Override
     public void onFalha(DateTime timestamp, EventoMotor eventoMotor) {
-        Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(), eventoMotor);
-        sendMessage(envelope);
+        sendAlarmeOuFalha(eventoMotor);
+    }
+
+    @Override
+    public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
+        sendAlarmeOuFalha(eventoMotor);
     }
 
     @Override
@@ -101,5 +123,45 @@ public class DeviceActor extends UntypedActor implements MotorCallback {
             }
         }
         System.out.println("Menssagem recebida no device actor");
+    }
+
+    @Override
+    public void onReady() {
+
+    }
+
+    @Override
+    public void onEvento(EventoMotor eventoMotor) {
+        boolean disparar = false;
+        Anel anel = null;
+        if (ACIONAMENTO_DETECTOR_PEDESTRE.equals(eventoMotor.getTipoEvento()) ||
+            ACIONAMENTO_DETECTOR_VEICULAR.equals(eventoMotor.getTipoEvento()) ||
+            DETECTOR_VEICULAR.equals(eventoMotor.getTipoEvento().getParamsDescriptor().getTipo()) ||
+            DETECTOR_PEDESTRE.equals(eventoMotor.getTipoEvento().getParamsDescriptor().getTipo())) {
+            anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
+        } else if (GRUPO_SEMAFORICO.equals(eventoMotor.getTipoEvento().getParamsDescriptor().getTipo())) {
+            anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
+        } else {
+            disparar = true;
+        }
+
+        if (anel != null) {
+            eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
+                anel.getPosicao()});
+            disparar = true;
+        }
+
+        if (disparar || eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.FALHA) ||
+            eventoMotor.getTipoEvento().getTipoEventoControlador().equals(TipoEventoControlador.ALARME)) {
+            motor.onEvento(eventoMotor);
+        }
+    }
+
+    private Anel buscarAnelPorDetector(Pair<Integer, TipoDetector> pair) {
+        return controlador.findAnelByDetector(pair.getSecond(), pair.getFirst());
+    }
+
+    private Anel buscarAnelPorGrupo(Integer posicao) {
+        return controlador.findAnelByGrupoSemaforico(posicao);
     }
 }

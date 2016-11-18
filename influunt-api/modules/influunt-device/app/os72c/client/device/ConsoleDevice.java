@@ -140,6 +140,11 @@ public class ConsoleDevice implements DeviceBridge {
 
     }
 
+    @Override
+    public void start(DeviceBridgeCallback callback) {
+
+    }
+
     public static void main(String[] args) throws IOException {
         new ConsoleDevice();
     }

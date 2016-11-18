@@ -21,4 +21,9 @@ public class FakeDevice implements DeviceBridge {
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico) {
 
     }
+
+    @Override
+    public void start(DeviceBridgeCallback callback) {
+
+    }
 }

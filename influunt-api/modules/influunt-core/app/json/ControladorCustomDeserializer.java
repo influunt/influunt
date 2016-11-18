@@ -280,8 +280,6 @@ public class ControladorCustomDeserializer {
                 detectoresCache.put(detector.getIdJson().toString(), detector);
                 detectores.add(detector);
             }
-
-            controlador.setDetectores(detectores);
         }
     }
 

@@ -201,6 +201,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
+    public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
+
+    }
+
+    @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
     }
 

@@ -159,7 +159,6 @@ GET       /api/v1/monitoramento/status/:id/ultimo_status                        
 # TrocaDePlanos Controlador
 GET       /api/v1/monitoramento/troca_planos_controladores/:id                               controllers.monitoramento.TrocaPlanoControladorController.findOne(id)
 GET       /api/v1/monitoramento/troca_planos_controladores                                   controllers.monitoramento.TrocaPlanoControladorController.ultimoModoOperacaoDosControladores()
-GET       /api/v1/monitoramento/troca_planos_controladores/:id/ultimo_modo_operacao          controllers.monitoramento.TrocaPlanoControladorController.ultimoModoOperacaoControlador(id)
 GET       /api/v1/monitoramento/troca_planos_controladores/:id/historico/:pagina/:tamanho    controllers.monitoramento.TrocaPlanoControladorController.historico(id,pagina,tamanho)
 
 
