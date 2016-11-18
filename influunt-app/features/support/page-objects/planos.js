@@ -152,6 +152,11 @@ var PlanosPage = function () {
     return world.waitForByXpath('//h4[contains (@id, "'+estagio+'")]//span[contains (@class, "badge-danger")]');
   };
 
+  this.erroDefasagem = function(){
+    var xpath = '//span[contains(@messages, "[erroDefasagem()]")][contains(@class, "ng-hide")]';
+    return world.waitForByXpathInverse(xpath);
+  };
+
   this.clickInPlano = function(numeroPlano){
     return world.waitForOverlayDisappear().then(function() {
       return world.getElementByXpath('//li[contains (@id, "'+numeroPlano+'")]//ins[contains(@class, "iCheck-helper")]').click();
