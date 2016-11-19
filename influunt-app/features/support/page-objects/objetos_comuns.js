@@ -28,6 +28,10 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/controladores_finalizados.sql');
   };
 
+  this.desabilitarPermissoes = function() {
+    return world.execSqlScript('features/support/scripts/perfis/remover_permissoes.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
@@ -225,6 +229,26 @@ var ObjetosComuns = function () {
     return world.sleep(600).then(function(){
       return world.getElementByXpath('//button[contains(text(), "Fechar")]').click();
     });
+  };
+
+  this.checarBadgeStatusControlador = function(status) {
+    var _this = this;
+    switch(status) {
+      case 'Em Edição':
+        return _this.getBadgeByClass('badge-warning');
+      case 'Configurado':
+        return _this.getBadgeByClass('badge-primary');
+      default:
+        throw new Error('Status não encontrado: '+status);
+    }
+  };
+
+  this.getBadgeByClass = function(badge) {
+    return world.waitForByXpath('//span[contains(@class, "'+badge+'")]');
+  };
+
+  this.naoConsigaSelecionar = function(campo, valueToSelector) {
+    return world.waitForByXpathInverse('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]');
   };
 
   this.checkPosicaoHistorico = function(posicao, data) {

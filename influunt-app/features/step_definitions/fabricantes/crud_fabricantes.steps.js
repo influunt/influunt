@@ -64,9 +64,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de fabricantes$/, function() {
-    return fabricantesPage.fabricanteIdH5().then(function(fabricanteId) {
-      expect(fabricanteId).to.match(/ - #/);
-    });
+    return fabricantesPage.isIndex();
   });
 
   this.Given(/^clicar no botão de editar fabricante$/, function() {

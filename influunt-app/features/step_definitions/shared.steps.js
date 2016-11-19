@@ -26,6 +26,10 @@ module.exports = function() {
     return sharedSteps.cadastrarTabelaHorariaParaControlador();
   });
 
+  this.Given(/^for desabilitada no perfil visualizar todas as áreas$/, function () {
+    return sharedSteps.desabilitarPermissoes();
+  });
+
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
     return sharedSteps.clicarLinkComTexto(botao);
   });
@@ -116,7 +120,9 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
-    return sharedSteps.checarValoresNaTabela(status);
+    return sharedSteps.checarValoresNaTabela(status).then(function(){
+      return sharedSteps.checarBadgeStatusControlador(status);
+    });
   });
 
   this.Given(/^o sistema deverá mostrar na tabela o valor "([^"]*)"$/, function (status) {
@@ -137,6 +143,10 @@ module.exports = function() {
 
   this.Given(/^o usuário selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
     return sharedSteps.selecionarBySelect2Option(campo, valor);
+  });
+
+  this.Given(/^o usuário não consiga selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.naoConsigaSelecionar(campo, valor);
   });
 
   this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {

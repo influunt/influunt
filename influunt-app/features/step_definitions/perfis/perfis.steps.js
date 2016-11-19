@@ -39,10 +39,6 @@ module.exports = function() {
     return objetosComuns.clicarLinkNovo();
   });
 
-  this.Given(/^for desabilitada no perfil visualizar todas as áreas$/, function () {
-    return perfisPage.desabilitarPermissoes();
-  });
-
   this.Given(/^a área 2 for setada para o usuário$/, function () {
     return perfisPage.setArea2();
   });
