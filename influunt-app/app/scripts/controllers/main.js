@@ -149,7 +149,6 @@ angular.module('influuntApp')
             msg = $filter('translate')(msg, {CONTROLADOR: controlador.CLC});
             exibirAlerta(msg, !isOnline);
           });
-
       };
 
       trocaPlanoWatcher = function(payload) {
