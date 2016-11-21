@@ -39,7 +39,6 @@ public class ServerActor extends UntypedActor {
     @Override
     public void preStart() throws Exception {
         super.preStart();
-        System.out.println("PreStart");
         setup();
     }
 

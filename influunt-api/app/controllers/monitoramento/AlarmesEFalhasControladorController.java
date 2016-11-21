@@ -9,7 +9,6 @@ import play.mvc.Security;
 import security.Secured;
 import status.AlarmesFalhasControlador;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

@@ -60,9 +60,9 @@ public class MapStorage implements Storage {
     @Override
     public Controlador getControlador() {
         String json = this.controlador.get("atual");
-        if(json != null) {
+        if (json != null) {
             return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(json));
-        }else{
+        } else {
             return null;
         }
     }

@@ -32,7 +32,7 @@ public enum TipoEvento {
     FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO(TipoEventoControlador.FALHA, 3, "Detector veicular - Falta de acionamento", "Anel %s: Falha no DV%s - Falta de Acionamento", new TipoEventoParamsDescriptor("Detector Veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
     FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO(TipoEventoControlador.FALHA, 4, "Detector veicular - Acionamento direto", "Anel %s: Falha no DV%s - Acionamento Direto", new TipoEventoParamsDescriptor("Detector Veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
 
-    FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO(TipoEventoControlador.FALHA, 5, true, "Desrespeito ao tempo máximo de permanencia no estágio", "Anel %s: Desrespeito ao tempo máximo de permanencia no estágio", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO(TipoEventoControlador.FALHA, 5, true, "Desrespeito ao tempo máximo de permanência no estágio", "Anel %s: Desrespeito ao tempo máximo de permanência no estágio", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
     FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 6, true, "Fase vermelha do grupo semafórico apagada", "Anel %s: Fase vermelha do G%s apagada", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
 
@@ -70,10 +70,6 @@ public enum TipoEvento {
     //Troca de PLanos
     TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO, 1, "Troca de Plano no Anel", "Plano %s está ativo", null);
 
-
-
-    private final Formatter formatter;
-
     private final int codigo;
 
     private final String descricao;
@@ -92,7 +88,6 @@ public enum TipoEvento {
         this.template = template;
         this.tipoEventoControlador = tipoEventoControlador;
         this.paramsDescriptor = paramsDescriptor;
-        this.formatter = new Formatter();
     }
 
     TipoEvento(TipoEventoControlador tipoEventoControlador, int codigo, boolean entraEmIntermitente, String descricao, String template, TipoEventoParamsDescriptor paramsDescriptor) {
@@ -102,7 +97,6 @@ public enum TipoEvento {
         this.template = template;
         this.tipoEventoControlador = tipoEventoControlador;
         this.paramsDescriptor = paramsDescriptor;
-        this.formatter = new Formatter();
     }
 
     public static TipoEvento getFalha(final int falha) {
@@ -121,9 +115,15 @@ public enum TipoEvento {
         }
     }
 
+    public static TipoEvento getByTipoECodigo(TipoEventoControlador tipoEventoControlador, Integer codigo) {
+        return Arrays.stream(TipoEvento.values()).filter(e -> e.getTipoEventoControlador().equals(tipoEventoControlador))
+            .filter(e -> e.getCodigo() == codigo)
+            .findFirst().orElse(null);
+    }
+
     public String getMessage(String... args) {
         if (template != null) {
-            return formatter.format(template, args).toString();
+            return new Formatter().format(template, args).toString();
         } else {
             return descricao;
         }
@@ -147,12 +147,6 @@ public enum TipoEvento {
 
     public boolean match(TipoEventoControlador tipoEventoControlador, int codigo) {
         return this.tipoEventoControlador.equals(tipoEventoControlador) && this.codigo == codigo;
-    }
-
-    public static TipoEvento getByTipoECodigo(TipoEventoControlador tipoEventoControlador, Integer codigo) {
-        return Arrays.stream(TipoEvento.values()).filter(e->e.getTipoEventoControlador().equals(tipoEventoControlador))
-                                          .filter(e->e.getCodigo() == codigo)
-                                          .findFirst().orElse(null);
     }
 
     public boolean isEntraEmIntermitente() {

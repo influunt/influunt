@@ -1,7 +1,5 @@
 package os72c.client.utils;
 
-import akka.actor.ActorPath;
-
 /**
  * Created by leonardo on 9/14/16.
  */

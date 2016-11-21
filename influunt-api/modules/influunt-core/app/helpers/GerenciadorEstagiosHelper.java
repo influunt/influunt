@@ -1,14 +1,9 @@
 package helpers;
 
-import models.DiaDaSemana;
 import models.Estagio;
 import models.EstagioPlano;
-import play.Logger;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by leonardo on 11/14/16.

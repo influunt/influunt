@@ -43,8 +43,6 @@ angular.module('influuntApp')
             $scope.listaControladores.forEach(function(controlador) {
               controlador.status = res.status[controlador.id];
               controlador.online = res.onlines[controlador.id];
-              // controlador.modoOperacao = res.modosOperacoes[controlador.id];
-              // controlador.hasPlanoImposto = res.modosOperacoes[controlador.id];
             });
 
             return Restangular.all('areas').customGET(null, {'cidade.id': $scope.listaControladores[0].cidade.id});
@@ -377,7 +375,7 @@ angular.module('influuntApp')
         if (anel && !(anel.posicao === 1 && $scope.filtro.exibirControladores)) {
           target = anel;
         }
-        // var target = (anel && anel.posicao === 1 && $scope.filtro.exibirControladores) ? controlador : anel;
+
         exibirAlerta(msg, target, true);
 
         return filtraDados();

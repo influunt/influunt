@@ -16,7 +16,6 @@ import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
-import server.Central;
 
 import java.util.Map;
 

@@ -14,12 +14,12 @@ public abstract class Mensagem {
 
     private Integer codigo;
 
-    public Mensagem(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia){
+    public Mensagem(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia) {
         this.tipoMensagem = tipoMensagem;
         this.sequencia = sequencia;
     }
 
-    public Mensagem(byte[] contents){
+    public Mensagem(byte[] contents) {
         this.contents = contents;
         tamanho = 0xFF & contents[0];
         tipoMensagem = TipoDeMensagemBaixoNivel.values()[contents[1]];
@@ -27,35 +27,34 @@ public abstract class Mensagem {
         sequencia = sequencia | contents[3];
     }
 
+    public static Mensagem toMensagem(byte[] contents) throws Exception {
+
+        return TipoDeMensagemBaixoNivel.values()[contents[1]].getInstance(contents);
+    }
 
     protected abstract byte[] getBytes();
 
-    public int size(){
+    public int size() {
         return 5 + innerSize();
     }
 
     public abstract int innerSize();
 
-    public byte[] toByteArray(){
+    public byte[] toByteArray() {
         byte[] resp = new byte[size()];
         resp[0] = (byte) size();
         resp[1] = (byte) tipoMensagem.ordinal();
 
-        resp[2] = (byte) ((sequencia & 0xff) >> 8 );
+        resp[2] = (byte) ((sequencia & 0xff) >> 8);
         resp[3] = (byte) ((sequencia & 0xff) & 0x00FF);
 
         byte[] innerMsg = getBytes();
-        for(int i = 0; i < innerMsg.length; i++){
-            resp[i+4] = innerMsg[i];
+        for (int i = 0; i < innerMsg.length; i++) {
+            resp[i + 4] = innerMsg[i];
         }
 
         resp[resp.length - 1] = (byte) LRC.calculateLRC(resp);
         return resp;
-    }
-
-    public static Mensagem toMensagem(byte[] contents) throws Exception{
-
-        return TipoDeMensagemBaixoNivel.values()[contents[1]].getInstance(contents);
     }
 
     public int getSequencia() {

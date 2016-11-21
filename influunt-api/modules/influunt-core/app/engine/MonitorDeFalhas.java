@@ -12,10 +12,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static engine.TipoEventoControlador.ALARME;
-import static engine.TipoEventoControlador.FALHA;
-import static engine.TipoEventoControlador.REMOCAO_FALHA;
-
 /**
  * Created by rodrigosol on 11/9/16.
  */
@@ -38,7 +34,7 @@ public class MonitorDeFalhas {
 
     private Map<Detector, Pair<Long, Long>> ausenciaDeteccao = new HashMap<>();
 
-    private Map<Long,List<TipoEvento>> historico = new HashMap<>();
+    private Map<Long, List<TipoEvento>> historico = new HashMap<>();
 
     private boolean[] aneisComFalha = new boolean[5];
 
@@ -196,7 +192,7 @@ public class MonitorDeFalhas {
                     motor.onFalha(eventoMotor);
                     eventoHandler.handle(eventoMotor);
 
-                    if(tipoEvento.isEntraEmIntermitente()) {
+                    if (tipoEvento.isEntraEmIntermitente()) {
                         aneisComFalha[eventoMotor.getAnel()] = true;
 
                         if (tipoEvento.equals(TipoEvento.FALHA_VERDES_CONFLITANTES)) {
@@ -222,14 +218,13 @@ public class MonitorDeFalhas {
 
     private boolean isEventoDuplicado(EventoMotor eventoMotor) {
         long ticks = this.ticks;
-        for(long t = ticks; t >= ticks - 1000L; t-=100) {
+        for (long t = ticks; t >= ticks - 1000L; t -= 100) {
             if (historico.get(t) != null && historico.get(t).contains(eventoMotor.getTipoEvento())) {
                 return true;
             }
         }
-        System.out.println("************************ NOVO EVENTO: " + eventoMotor.getTipoEvento() + " - TICKS: " + ticks);
 
-        if (historico.get(ticks) == null){
+        if (historico.get(ticks) == null) {
             historico.put(ticks, new ArrayList<>());
         }
 

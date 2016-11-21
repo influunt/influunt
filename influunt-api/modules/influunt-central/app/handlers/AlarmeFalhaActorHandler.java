@@ -4,16 +4,12 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import engine.EventoMotor;
-import engine.TipoEvento;
 import models.Controlador;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 import status.AlarmesFalhasControlador;
-import status.StatusConexaoControlador;
 
-import java.util.Map;
 import java.util.UUID;
 
 /**

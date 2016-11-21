@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Controlador;
-import models.ModoOperacaoPlano;
 import models.StatusDevice;
 import org.jetbrains.annotations.NotNull;
 import play.libs.Json;
@@ -14,7 +13,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
-import status.*;
+import status.AlarmesFalhasControlador;
+import status.StatusConexaoControlador;
+import status.StatusControladorFisico;
 
 import java.util.Collections;
 import java.util.HashMap;

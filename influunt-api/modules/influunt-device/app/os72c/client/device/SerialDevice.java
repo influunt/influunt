@@ -42,6 +42,12 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;
+    private int sequencia = 0;
+
+    public SerialDevice() {
+
+
+    }
 
     public void start(DeviceBridgeCallback deviceBridgeCallback) {
         this.callback = deviceBridgeCallback;
@@ -67,16 +73,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         }
     }
 
-    public SerialDevice() {
-
-
-    }
-
     private void send(Mensagem mensagem) {
-
-        System.out.println("Enviado mensagem:" + mensagem.getSequencia());
-        System.out.println("Tempo Decorrido:" + (System.currentTimeMillis() - ultima));
-
         try {
             serialPort.writeBytes(mensagem.toByteArray());
         } catch (SerialPortException e) {
@@ -88,8 +85,6 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
     private void noResponse(int sequencia) {
 
     }
-
-    private int sequencia = 0;
 
     @Override
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico) {

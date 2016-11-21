@@ -2,7 +2,6 @@ package execucao.modoCoordenado;
 
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
-import models.Evento;
 import org.joda.time.DateTime;
 import org.junit.Test;
 

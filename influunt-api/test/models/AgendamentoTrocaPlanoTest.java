@@ -2,9 +2,6 @@ package models;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.AgendamentoTrocaPlano;
-import engine.EventoMotor;
-import engine.TipoEvento;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import play.libs.Json;

@@ -11,13 +11,13 @@ public class MensagemFalhaAnel extends Mensagem {
     private int falha;
 
 
-    public MensagemFalhaAnel(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia,  Integer anel, Integer falha) {
+    public MensagemFalhaAnel(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia, Integer anel, Integer falha) {
         super(tipoMensagem, sequencia);
         this.anel = anel;
         this.falha = falha;
     }
 
-    public MensagemFalhaAnel(byte[] contents){
+    public MensagemFalhaAnel(byte[] contents) {
         super(contents);
         anel = contents[4];
         falha = contents[5];

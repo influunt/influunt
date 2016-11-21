@@ -5,15 +5,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.EventoMotorSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import models.GrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import static engine.TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE;
 
 /**
  * Created by rodrigosol on 9/28/16.
@@ -77,7 +73,7 @@ public class EventoMotor {
 
     public String[] getStringParams() {
         String[] paramsStr = new String[params.length];
-        if(getTipoEvento().getParamsDescriptor() != null) {
+        if (getTipoEvento().getParamsDescriptor() != null) {
             switch (getTipoEvento().getParamsDescriptor().getTipo()) {
                 case DETECTOR_VEICULAR:
                 case DETECTOR_PEDESTRE:

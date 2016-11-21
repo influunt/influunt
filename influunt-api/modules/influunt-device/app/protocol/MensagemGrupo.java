@@ -36,6 +36,24 @@ public class MensagemGrupo {
     }
 
 
+    public MensagemGrupo(int i, byte[] contents) {
+        int index = (i * 9) + 5;
+        setFlags(contents[index]);
+
+        tempoAtrasoDeGrupo = (contents[++index] & 0xff) << 8;
+        tempoAtrasoDeGrupo |= (contents[++index] & 0xff);
+
+        tempoAmareloOuVermelhoIntermitente = (contents[++index] & 0xff) << 8;
+        tempoAmareloOuVermelhoIntermitente |= (contents[++index] & 0xff);
+
+        tempoVermelhoLimpeza = (contents[++index] & 0xff) << 8;
+        tempoVermelhoLimpeza |= (contents[++index] & 0xff);
+
+        tempoVerdeOuVermelho = (contents[++index] & 0xff) << 8;
+        tempoVerdeOuVermelho |= (contents[++index] & 0xff);
+
+    }
+
     private void parseEstadoGrupos(RangeMap<Long, EstadoGrupoSemaforico> estadoGrupos) {
         boolean first = true;
         for (Map.Entry<Range<Long>, EstadoGrupoSemaforico> entry : estadoGrupos.asMapOfRanges().entrySet()) {
@@ -98,36 +116,18 @@ public class MensagemGrupo {
 
     }
 
-    public MensagemGrupo(int i, byte[] contents) {
-        int index = (i * 9) + 5;
-        setFlags(contents[index]);
-
-        tempoAtrasoDeGrupo = (contents[++index] & 0xff) << 8;
-        tempoAtrasoDeGrupo |= (contents[++index] & 0xff);
-
-        tempoAmareloOuVermelhoIntermitente = (contents[++index] & 0xff) << 8;
-        tempoAmareloOuVermelhoIntermitente |= (contents[++index] & 0xff);
-
-        tempoVermelhoLimpeza = (contents[++index] & 0xff) << 8;
-        tempoVermelhoLimpeza |= (contents[++index] & 0xff);
-
-        tempoVerdeOuVermelho = (contents[++index] & 0xff) << 8;
-        tempoVerdeOuVermelho |= (contents[++index] & 0xff);
-
-    }
-
-    private void setFlags(byte content) {
-        flagPedestreVeicular = (content & 0x80) == 0 ? false : true;
-        flagUltimoTempo = FlagUltimoTempo.values()[(content & 0x60) >> 5];
-        grupo = content & 0x1F;
-    }
-
     private byte getFlags() {
         int r = flagPedestreVeicular ? 1 : 0;
         r = r << 2;
         r |= flagUltimoTempo.ordinal();
         r = r << 5;
         return (byte) (r | grupo);
+    }
+
+    private void setFlags(byte content) {
+        flagPedestreVeicular = (content & 0x80) == 0 ? false : true;
+        flagUltimoTempo = FlagUltimoTempo.values()[(content & 0x60) >> 5];
+        grupo = content & 0x1F;
     }
 
     public int getTempoVerdeOuVermelho() {

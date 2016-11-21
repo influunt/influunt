@@ -1,34 +1,21 @@
 package controllers.monitoramento;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import engine.AgendamentoTrocaPlano;
-import engine.EventoMotor;
-import engine.TipoEvento;
 import models.ModoOperacaoPlano;
 import models.Plano;
-import models.TipoDetector;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.test.Helpers;
 import status.AlarmesFalhasControlador;
 import status.TrocaDePlanoControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.route;
 
 /**
  * Created by lesiopinheiro on 9/27/16.

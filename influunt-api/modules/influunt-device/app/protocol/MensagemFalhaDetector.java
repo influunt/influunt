@@ -8,19 +8,19 @@ public class MensagemFalhaDetector extends Mensagem {
 
     private Integer posicao;
 
-    private  Boolean pedestre;
+    private Boolean pedestre;
 
     private int falha;
 
     public MensagemFalhaDetector(TipoDeMensagemBaixoNivel tipoMensagem,
-                                 Integer sequencia, Boolean pedestre, Integer posicao,Integer falha) {
+                                 Integer sequencia, Boolean pedestre, Integer posicao, Integer falha) {
         super(tipoMensagem, sequencia);
         this.pedestre = pedestre;
         this.posicao = posicao;
         this.falha = falha;
     }
 
-    public MensagemFalhaDetector(byte[] contents){
+    public MensagemFalhaDetector(byte[] contents) {
         super(contents);
         pedestre = contents[4] >> 5 == 1;
         posicao = contents[4] & 0x1F;
@@ -52,5 +52,7 @@ public class MensagemFalhaDetector extends Mensagem {
         return posicao;
     }
 
-    public Integer getFalha() {return  falha;}
+    public Integer getFalha() {
+        return falha;
+    }
 }

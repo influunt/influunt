@@ -10,7 +10,6 @@
 
 angular.module('influuntApp')
   .factory('mapaProvider', ['MAP', '$timeout', function mapaProvider(MAP, $timeout) {
-
     var map, markersLayer, areasLayer, agrupamentosLayer;
 
     // constantes
@@ -25,6 +24,7 @@ angular.module('influuntApp')
     // funcoes de markers.
     var onMarkerClick, setOnMarkerClick;
     var addMarkers, createMarker, renderMarkers, setViewForMarkers;
+    var selectMarkerById;
 
     // funcoes de areas
     var addAreas, createArea, getAreaTitle, renderAreas;
@@ -32,6 +32,7 @@ angular.module('influuntApp')
     // funcoes de agrupamentos
     var addAgrupamentos, createAgrupamento, renderAgrupamentos;
 
+    // Funções gerais de mapa.
     initializeMap = function(element, options) {
       options = _.merge(_.clone(DEFAULT_MAP_OPTIONS), options);
       map = L.map(element, options);
@@ -63,7 +64,7 @@ angular.module('influuntApp')
       onMarkerClick = fn;
     };
 
-
+    // Funções de markers.
     addMarkers = function(markers) {
       if (_.isObject(markersLayer)) {
         map.removeLayer(markersLayer);
@@ -137,9 +138,7 @@ angular.module('influuntApp')
       }
     };
 
-
-
-
+    // Funções de áreas.
     addAreas = function(areas) {
       if (_.isObject(areasLayer)) {
         map.removeLayer(areasLayer);
@@ -190,7 +189,7 @@ angular.module('influuntApp')
       }
     };
 
-
+    // Funções de agrupamentos.
     addAgrupamentos = function(agrupamentos) {
       if (_.isObject(agrupamentosLayer)) {
         map.removeLayer(agrupamentosLayer);
@@ -232,16 +231,16 @@ angular.module('influuntApp')
       return L.polygon(points, options);
     };
 
-    var selectMarkerById = function(id) {
+    renderAgrupamentos = function(agrupamentos) {
+      if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
+    };
+
+    selectMarkerById = function(id) {
       var marker = _.find(markersLayer.getLayers(), function(marker) { return marker.options.id === id; });
       if (marker) {
         setView(marker.getLatLng(), getMap().getMaxZoom());
         marker.fireEvent('click');
       }
-    };
-
-    renderAgrupamentos = function(agrupamentos) {
-      if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
     };
 
     return {
@@ -256,5 +255,4 @@ angular.module('influuntApp')
       setOnMarkerClick: setOnMarkerClick,
       selectMarkerById: selectMarkerById
      };
-
   }]);

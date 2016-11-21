@@ -53,7 +53,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
 
                     //Se OK, avisa o motor para colocar o controlador no ar
-                    if(envelopeSinal.getTipoMensagem().equals(TipoMensagem.OK)){
+                    if (envelopeSinal.getTipoMensagem().equals(TipoMensagem.OK)) {
                         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
                     }
 

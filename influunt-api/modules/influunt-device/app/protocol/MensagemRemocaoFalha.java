@@ -17,7 +17,7 @@ public class MensagemRemocaoFalha extends Mensagem {
         this.falha = falha;
     }
 
-    public MensagemRemocaoFalha(byte[] contents){
+    public MensagemRemocaoFalha(byte[] contents) {
         super(contents);
         anel = contents[4];
         falha = contents[5];

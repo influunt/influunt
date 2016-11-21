@@ -26,10 +26,8 @@ import static engine.TipoEventoParamsTipoDeDado.*;
  */
 public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBridgeCallback {
 
-    private Controlador controlador;
-
     private final Storage storage;
-
+    private Controlador controlador;
     private Motor motor;
 
     private DeviceBridge device;

@@ -7,8 +7,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import play.Configuration;
 import play.Environment;
-import play.Logger;
-import play.api.Play;
 import server.conn.ServerActor;
 
 @Singleton
@@ -22,7 +20,7 @@ public class Central {
 
 
     @Inject
-    public Central(Environment environment,ActorSystem system,Configuration configuration){//, ActorSystem system,Configuration configuration ) {
+    public Central(Environment environment, ActorSystem system, Configuration configuration) {//, ActorSystem system,Configuration configuration ) {
 
         this.system = system;
         mqttSettings = configuration.getConfig("central").getConfig("mqtt");
@@ -32,11 +30,6 @@ public class Central {
 
     }
 
-
-//    public Configuration getMqttSettings() {
-//        return mqttSettings;
-//    }
-//
     public void finish() {
         system.terminate();
     }

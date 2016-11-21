@@ -7,12 +7,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.AgendamentoTrocaPlano;
-import json.serializers.InfluuntDateTimeSerializer;
-import models.*;
-import org.joda.time.LocalTime;
+import models.ModoOperacaoPlano;
+import models.Plano;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by pedropires on 6/19/16.
