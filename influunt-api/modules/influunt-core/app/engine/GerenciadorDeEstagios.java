@@ -141,7 +141,20 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private boolean temQueExecutarOAgendamento() {
         return this.agendamento.isImpostoPorFalha() ||
             this.agendamento.isSaidaDoModoManual() ||
-            this.agendamento.isPlanoCoordenado();
+            this.agendamento.isPlanoCoordenado() ||
+            this.agendamento.isImposicaoPlano() ||
+            this.agendamento.isSaidaImposicao();
+    }
+
+    private boolean naoPodeExecutarOAgendamento() {
+        return (this.plano.isManual() && !this.agendamento.isSaidaDoModoManual()) ||
+            this.plano.isImposto();
+    }
+
+    private boolean podeAgendar() {
+        return ((this.plano.isManual() && this.agendamento.isSaidaDoModoManual()) ||
+            (this.plano.isImposto() && this.agendamento.isSaidaImposicao()) ||
+            (!this.plano.isManual() && !this.plano.isImposto()));
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
@@ -192,10 +205,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void executaAgendamentoTrocaDePlano() {
-        if (this.plano.isManual() && !this.agendamento.isSaidaDoModoManual()) {
-            this.agendamento = null;
-            trocarPlano(new AgendamentoTrocaPlano(null, getEstagioPlanoAnterior().getPlano(), null));
-        } else {
+        if (!naoPodeExecutarOAgendamento()) {
             agendamento.setMomentoDaTroca(tempoDecorrido);
             callback.onTrocaDePlanoEfetiva(agendamento);
             reconhecePlano(this.agendamento.getPlano());
@@ -205,9 +215,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     public void trocarPlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
-        agendamentoTrocaPlano.setAnel(anel);
-        agendamento = agendamentoTrocaPlano;
+        if (podeAgendar()) {
+            agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
+            agendamentoTrocaPlano.setAnel(anel);
+            agendamento = agendamentoTrocaPlano;
+        }
     }
 
     private void reconhecePlano(Plano plano) {
@@ -380,6 +392,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return plano;
     }
 
+    public Plano getPlano(Integer posicao) {
+        return getPlano().getAnel().findPlanoByPosicao(posicao);
+    }
+
     public EstagioPlano getEstagioPlanoAtual() {
         return estagioPlanoAtual;
     }
@@ -425,6 +441,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             return posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo());
         }).findFirst().orElse(null);
     }
+
 
     private class GetIntervaloGrupoSemaforico {
         private IntervaloEstagio intervaloEntreverde;

@@ -43,6 +43,15 @@ public abstract class GerenciadorDeEventos {
             case TROCA_ESTAGIO_MANUAL:
                 new TrocaEstagioManualHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
+            case IMPOSICAO_PLANO:
+                new ImporPlanoHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
+            case IMPOSICAO_MODO:
+                new ImporModoHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
+            case LIBERAR_IMPOSICAO_MODO:
+                new LiberarImposicaoModoHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case FALHA_SEQUENCIA_DE_CORES:
             case FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO:
