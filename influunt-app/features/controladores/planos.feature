@@ -146,9 +146,17 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
     Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (31s) é diferente do tempo de ciclo (50s)."
 
+  Cenário: Em modo Cordenado o sitema deve apresentar erro para defasagem maior que tempo de ciclo
+    Dado que o usuário esteja na página de planos
+    E o usuário deve ter a opção de marcar a defasagem do ciclo
+    E que o usuário marque 80 segundos para o "Defasagem"
+    E o usuário clicar em "Salvar"
+    Então o sistema deverá apresentar erro em defasagem
+
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos
     E o usuário deve ter a opção de marcar a defasagem do ciclo
+    E que o usuário marque 5 segundos para o "Defasagem"
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 14 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração

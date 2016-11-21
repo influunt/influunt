@@ -81,7 +81,6 @@ angular
           }
         })
 
-
         // CRUD cidades
         .state('app.cidades', {
           url: '/cidades',
@@ -641,6 +640,15 @@ angular
           }
         })
 
+        .state('app.tabelas_horarias_diff', {
+          url: '/tabela_horarios/:id/diff/:versaoIdJson',
+          templateUrl: 'views/tabela_horarios/diff.html',
+          controller: 'TabelaHorariosDiffCtrl',
+          data: {
+            title: 'tabelaHorarios.titulo'
+          }
+        })
+
         // Crud perfis.
         .state('app.perfis', {
           url: '/perfis',
@@ -969,6 +977,17 @@ angular
               only: 'simularControlador',
               redirectTo: 'app.main'
             }
+          }
+        })
+
+        // IMPOR CONFIGURAÇÃO
+        .state('app.impor_config', {
+          url: '/impor_config/',
+          templateUrl: 'views/impor_config/index.html',
+          controller: 'ImporConfigCtrl',
+          controllerAs: 'imporConfig',
+          data: {
+            title: 'imporConfig.titulo',
           }
         })
 

@@ -12,6 +12,14 @@ module.exports = function() {
     return agrupamentosPage.existeAoMenosUmAgrupamento();
   });
 
+  this.Given(/^o usuário em evento selecionar o valor "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
+    return agrupamentosPage.selecionarValor(valor, select);
+  });
+
+  this.Given(/^o usuário em evento selecionar o valor plano "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
+    return agrupamentosPage.selecionarValor(valor, select);
+  });
+
   this.Given(/^que este controlador esteja finalizado$/, function() {
     return agrupamentosPage.controladorConfigurado();
   });

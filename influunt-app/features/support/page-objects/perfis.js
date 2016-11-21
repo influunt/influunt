@@ -50,10 +50,6 @@ var PerfisPage = function () {
     return world.getElementByXpath('//a[contains(text(), "'+botao+'")]');
   };
 
-  this.desabilitarPermissoes = function() {
-    return world.execSqlScript('features/support/scripts/perfis/remover_permissoes.sql');
-  };
-
   this.botaoDeveEstarEscondido = function(botao) {
     return world.getElementByXpath('//a[contains(text(), "'+botao+'")][contains(@class, "ng-hide")]');
   };

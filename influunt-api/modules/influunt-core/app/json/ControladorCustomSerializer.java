@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
+import org.joda.time.format.DateTimeFormat;
 import play.libs.Json;
 import utils.RangeUtils;
 
@@ -19,6 +20,9 @@ import java.util.stream.Collectors;
 public class ControladorCustomSerializer {
 
     private static final String ID_JSON = "idJson";
+    private static final String DATA_CRIACAO = "dataCriacao";
+    private static final String DATA_ATUALIZACAO = "dataAtualizacao";
+    private static final String NOME = "nome";
 
     private Map<String, Estagio> estagiosMap = new HashMap<>();
 
@@ -305,6 +309,16 @@ public class ControladorCustomSerializer {
             versaoTabelaHorariaJson.putObject("tabelaHoraria").put(ID_JSON, versaoTabelaHoraria.getTabelaHoraria().getIdJson());
             tabelasHorariasMap.put(versaoTabelaHoraria.getTabelaHoraria().getIdJson(), versaoTabelaHoraria.getTabelaHoraria());
         }
+        if (versaoTabelaHoraria.getDataCriacao() != null) {
+            versaoTabelaHorariaJson.put(DATA_CRIACAO, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").print(versaoTabelaHoraria.getDataCriacao()));
+        }
+        if (versaoTabelaHoraria.getDataAtualizacao() != null) {
+            versaoTabelaHorariaJson.put(DATA_ATUALIZACAO, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").print(versaoTabelaHoraria.getDataAtualizacao()));
+        }
+        if (versaoTabelaHoraria.getUsuario() != null) {
+            Usuario usuario = versaoTabelaHoraria.getUsuario();
+            versaoTabelaHorariaJson.putObject("usuario").put(NOME, usuario.getNome());
+        }
 
         return versaoTabelaHorariaJson;
     }
@@ -335,8 +349,8 @@ public class ControladorCustomSerializer {
         if (controlador.getNomeEndereco() != null) {
             root.put("nomeEndereco", controlador.getNomeEndereco());
         }
-        root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
-        root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
+        root.put(DATA_CRIACAO, InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
+        root.put(DATA_ATUALIZACAO, InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
         root.put("CLC", controlador.getCLC());
         if (controlador.getVersaoControlador().getStatusVersao() != null) {
             root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
@@ -344,7 +358,7 @@ public class ControladorCustomSerializer {
         if (controlador.getVersaoControlador().getUsuario() != null) {
             ObjectNode usuarioNode = root.putObject("versaoControlador").putObject("usuario");
             usuarioNode.put("id", controlador.getVersaoControlador().getUsuario().getId().toString());
-            usuarioNode.put("nome", controlador.getVersaoControlador().getUsuario().getNome());
+            usuarioNode.put(NOME, controlador.getVersaoControlador().getUsuario().getNome());
         }
         root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
         Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
@@ -423,9 +437,9 @@ public class ControladorCustomSerializer {
             root.put("nomeEndereco", controlador.getNomeEndereco());
         }
 
-        root.put("dataCriacao", InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
+        root.put(DATA_CRIACAO, InfluuntDateTimeSerializer.parse(controlador.getDataCriacao()));
 
-        root.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
+        root.put(DATA_ATUALIZACAO, InfluuntDateTimeSerializer.parse(controlador.getDataAtualizacao()));
 
         root.put("CLC", controlador.getCLC());
 
@@ -567,7 +581,7 @@ public class ControladorCustomSerializer {
             }
 
             if (fabricante.getNome() != null) {
-                fabricanteJson.put("nome", fabricante.getNome());
+                fabricanteJson.put(NOME, fabricante.getNome());
             }
         }
     }
@@ -590,7 +604,7 @@ public class ControladorCustomSerializer {
         }
 
         if (subarea.getNome() != null) {
-            subareaJson.put("nome", subarea.getNome());
+            subareaJson.put(NOME, subarea.getNome());
         }
 
         if (subarea.getNumero() != null) {
@@ -654,7 +668,7 @@ public class ControladorCustomSerializer {
             }
 
             if (usuario.getNome() != null) {
-                usuarioJson.put("nome", usuario.getNome());
+                usuarioJson.put(NOME, usuario.getNome());
             }
 
             if (usuario.getLogin() != null) {
@@ -713,7 +727,7 @@ public class ControladorCustomSerializer {
         if (cidade.getIdJson() != null) {
             cidadeJson.put(ID_JSON, cidade.getIdJson());
         }
-        cidadeJson.put("nome", cidade.getNome());
+        cidadeJson.put(NOME, cidade.getNome());
 
         refAreas("areas", cidade.getAreas(), cidadeJson);
 
@@ -943,10 +957,10 @@ public class ControladorCustomSerializer {
             planoJson.put("modoOperacao", plano.getModoOperacao().toString());
         }
         if (plano.getDataCriacao() != null) {
-            planoJson.put("dataCriacao", InfluuntDateTimeSerializer.parse(plano.getDataCriacao()));
+            planoJson.put(DATA_CRIACAO, InfluuntDateTimeSerializer.parse(plano.getDataCriacao()));
         }
         if (plano.getDataAtualizacao() != null) {
-            planoJson.put("dataAtualizacao", InfluuntDateTimeSerializer.parse(plano.getDataAtualizacao()));
+            planoJson.put(DATA_ATUALIZACAO, InfluuntDateTimeSerializer.parse(plano.getDataAtualizacao()));
         }
         if (plano.getAnel() != null && plano.getAnel().getIdJson() != null) {
             planoJson.putObject("anel").put(ID_JSON, plano.getAnel().getIdJson());
@@ -1066,7 +1080,7 @@ public class ControladorCustomSerializer {
             eventoJson.put("diaDaSemana", evento.getDiaDaSemana().toString());
         }
         if (evento.getNome() != null) {
-            eventoJson.put("nome", evento.getNome());
+            eventoJson.put(NOME, evento.getNome());
         }
         if (evento.getData() != null) {
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -1794,7 +1808,7 @@ public class ControladorCustomSerializer {
                 ObjectNode subareaJson = Json.newObject();
                 subareaJson.put("id", subarea.getId().toString());
                 subareaJson.put(ID_JSON, subarea.getIdJson());
-                subareaJson.put("nome", subarea.getNome());
+                subareaJson.put(NOME, subarea.getNome());
                 subareaJson.put("numero", subarea.getNumero().toString());
                 subareasJson.add(subareaJson);
             }

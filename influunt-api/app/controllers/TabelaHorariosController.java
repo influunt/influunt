@@ -56,12 +56,11 @@ public class TabelaHorariosController extends Controller {
     @Dynamic("Influunt")
     public CompletionStage<Result> timeline(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }
 
-        List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
+        List<VersaoTabelaHoraria> versoes = VersaoTabelaHoraria.versoes(controlador);
         return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
     }
 

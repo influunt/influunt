@@ -218,6 +218,6 @@ VALUES
   ('730249be-b9f5-4099-81dc-d8b53c0f2878','d2c5f905-ca94-427f-8585-5ccb33afcbee','b2425ed0-dbd1-4591-bde7-82c6a18dfe3a','a841dc7c-837e-46be-a46e-5ba8e1d27747','2016-09-29 13:27:03.351000','2016-09-29 13:30:42.678000'),
   ('75f43180-ad3f-4b41-b9fa-048d993e4bc1','11160cd4-9745-4b23-8639-38249692697c','4ac5742a-7357-4cb0-9801-0075132c9d9f','b2425ed0-dbd1-4591-bde7-82c6a18dfe3a','2016-09-29 13:27:03.349000','2016-09-29 13:30:42.660000');
 
-INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','90574f0a-cd7b-477c-9fa6-98c426813ea8','Controlador criado pelo usuário: Administrador Geral','EDITANDO','2016-09-29 13:25:30.531000');
+  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','90574f0a-cd7b-477c-9fa6-98c426813ea8','Controlador criado pelo usuário: Administrador Geral','EDITANDO',NOW(),NOW());

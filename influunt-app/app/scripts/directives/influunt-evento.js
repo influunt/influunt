@@ -22,6 +22,7 @@ angular.module('influuntApp')
           podeRemover: '=',
           erros: '=',
           onVerificaAtualizacaoDeEventos: '&',
+          podeVisualizarPlano: '=?',
           onVisualizarPlano: '&',
           onRemoverEvento: '&',
           readOnly: '=?'
@@ -43,6 +44,7 @@ angular.module('influuntApp')
 
           scope.minDate = moment().startOf('year');
           scope.maxDate = moment().endOf('year');
+          scope.podeVisualizarPlano = !!scope.podeVisualizarPlano;
 
           scope.$watch('evento', function(evento){
             if(evento) {

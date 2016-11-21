@@ -28,6 +28,10 @@ var ObjetosComuns = function () {
     return world.execSqlScript('features/support/scripts/controladores/controladores_finalizados.sql');
   };
 
+  this.desabilitarPermissoes = function() {
+    return world.execSqlScript('features/support/scripts/perfis/remover_permissoes.sql');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElement('i[class="fa fa-plus"]').click();
@@ -87,7 +91,6 @@ var ObjetosComuns = function () {
       return world.setValueByXpath('//input[contains(@type, "text")][contains(@tabindex, "3")]', descricao);
     });
   };
-
 
   this.realizarScrollUp = function(){
     return world.scrollToUp();
@@ -198,6 +201,12 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.clicarBotaoEspecificoTabelaControladores = function(botao, controlador) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]').click();
+    });
+  };
+
   this.selecionarBySelect2Option = function(field, option) {
     return world.select2OptionByXpath(field, option);
   };
@@ -214,6 +223,38 @@ var ObjetosComuns = function () {
 
   this.visitarListagem = function(local) {
     return world.visit('/app/'+local+'');
+  };
+
+  this.fecharModal = function() {
+    return world.sleep(600).then(function(){
+      return world.getElementByXpath('//button[contains(text(), "Fechar")]').click();
+    });
+  };
+
+  this.checarBadgeStatusControlador = function(status) {
+    var _this = this;
+    switch(status) {
+      case 'Em Edição':
+        return _this.getBadgeByClass('badge-warning');
+      case 'Configurado':
+        return _this.getBadgeByClass('badge-primary');
+      default:
+        throw new Error('Status não encontrado: '+status);
+    }
+  };
+
+  this.getBadgeByClass = function(badge) {
+    return world.waitForByXpath('//span[contains(@class, "'+badge+'")]');
+  };
+
+  this.naoConsigaSelecionar = function(campo, valueToSelector) {
+    return world.waitForByXpathInverse('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]');
+  };
+
+  this.checkPosicaoHistorico = function(posicao, data) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('(//div[contains(@class, "vertical-timeline-content")])['+posicao+']//small[contains(text(), "'+data+'")]');
+    });
   };
 };
 

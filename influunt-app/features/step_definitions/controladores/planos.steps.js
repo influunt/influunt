@@ -44,6 +44,10 @@ module.exports = function() {
     return planosPage.isTempoDefasagemVisible();
   });
 
+  this.Given(/^o sistema deverá apresentar erro em defasagem$/, function () {
+    return planosPage.erroDefasagem();
+  });
+
   this.Given(/^que o usuário clique no botão de configurar o estágio "([^"]*)"$/, function (estagio) {
     return planosPage.clicarBotaoConfigurarEstagio(estagio);
   });

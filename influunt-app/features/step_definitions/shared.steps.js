@@ -26,6 +26,10 @@ module.exports = function() {
     return sharedSteps.cadastrarTabelaHorariaParaControlador();
   });
 
+  this.Given(/^for desabilitada no perfil visualizar todas as áreas$/, function () {
+    return sharedSteps.desabilitarPermissoes();
+  });
+
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
     return sharedSteps.clicarLinkComTexto(botao);
   });
@@ -116,7 +120,9 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
-    return sharedSteps.checarValoresNaTabela(status);
+    return sharedSteps.checarValoresNaTabela(status).then(function(){
+      return sharedSteps.checarBadgeStatusControlador(status);
+    });
   });
 
   this.Given(/^o sistema deverá mostrar na tabela o valor "([^"]*)"$/, function (status) {
@@ -139,8 +145,16 @@ module.exports = function() {
     return sharedSteps.selecionarBySelect2Option(campo, valor);
   });
 
+  this.Given(/^o usuário não consiga selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.naoConsigaSelecionar(campo, valor);
+  });
+
   this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
     return sharedSteps.removeSelect2Option(opcao, campo);
+  });
+
+  this.Given(/^o usuário clicar em "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.clicarBotaoEspecificoTabelaControladores(botao, controlador);
   });
 
   this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
@@ -150,5 +164,13 @@ module.exports = function() {
     var value = ''+alternativa+'';
 
     return sharedSteps.selectBySelectOptionAtribute(campo, selectSelector, optionAtribute, value);
+  });
+
+  this.Given(/^o sistema deverá mostrar na "([^"]*)" posição com a data "([^"]*)"$/, function (posicao, data) {
+    return sharedSteps.checkPosicaoHistorico(posicao, data);
+  });
+
+  this.Given(/^o usuário clicar em fechar o modal$/, function () {
+    return sharedSteps.fecharModal();
   });
 };

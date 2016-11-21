@@ -143,9 +143,10 @@ VALUES
 INSERT INTO `controladores` (`id`, `id_json`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `croqui_id`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `data_criacao`, `data_atualizacao`)
 VALUES
   ('0f424143-383e-490d-96ef-145fed18bb29',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:19:08.777000','2016-11-08 09:33:01.639000'),
+  ('9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
   ('1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
   ('279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,'Av. Paulista, nº 1000. ref.: AREA 1',2,'2','1','2','3',NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 09:10:36.924000','2016-11-08 09:16:47.343000'),
-  ('3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'R. Maria Figueiredo com Av. Paulista',3,'3',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 10:21:26.853000','2016-11-08 10:32:52.105000'),
+  ('3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'Avenida Nove de Julho com Av. Paulista',3,'3',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 10:21:26.853000','2016-11-08 10:32:52.105000'),
   ('5d238555-8620-4841-a2bf-c77d497f6b03',NULL,'Av. Paulista com R. Pamplona',1,'123','1','2','3','FIRM',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 09:05:11.494000','2016-11-08 09:09:03.537000'),
   ('8d872244-c7c9-4ff6-9239-f207c2773787',NULL,'R. Maria Figueiredo com Av. Paulista',1,'4',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area3Id,@SubareaId,0,0,'2016-11-08 09:50:02.855000','2016-11-08 09:51:40.803000');
 
@@ -188,7 +189,7 @@ VALUES
   ('63815f0d-bf73-4cce-84af-eb12ada29e52','82abd475-3dfa-4b39-a7d0-efd507fedfe4',NULL,'043007e5-ee02-4383-bde1-87346abdc895','Av. Paulista',-23.5631141,-46.65439200000003,'',1500,'1500','2016-11-08 10:22:09.904000','2016-11-08 10:32:52.107000'),
   ('74932fc3-97b8-4a7e-beef-a49611bd78e5','d99504ac-e378-4a04-85a7-d56882883323','8d872244-c7c9-4ff6-9239-f207c2773787',NULL,'R. Maria Figueiredo',-23.56891359999999,-46.647362999999984,'Av. Paulista',NULL,NULL,'2016-11-08 09:50:02.856000','2016-11-08 09:51:40.804000'),
   ('7d63b11b-8fe9-4977-a2b1-a2fc3ab6245f','6eee537e-a2f6-4eb4-9bf7-6082249c9dfb','5d238555-8620-4841-a2bf-c77d497f6b03',NULL,'Av. Paulista',-23.5631141,-46.65439200000003,'R. Pamplona',0,NULL,'2016-11-08 09:05:11.515000','2016-11-08 09:09:03.538000'),
-  ('83f841c0-cec9-471a-9f85-bf28e91e4d92','b9e66757-81a9-478e-ad34-8606ef1dd240','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'R. Maria Figueiredo',-23.56891359999999,-46.647362999999984,'Av. Paulista',NULL,NULL,'2016-11-08 10:21:26.854000','2016-11-08 10:32:52.106000'),
+  ('83f841c0-cec9-471a-9f85-bf28e91e4d92','b9e66757-81a9-478e-ad34-8606ef1dd240','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'Avenida Nove de Julho',-23.5666382, -46.65873690000001,'Av. Paulista',NULL,NULL,'2016-11-08 10:21:26.854000','2016-11-08 10:32:52.106000'),
   ('abe6678e-9326-4d21-8207-f7f63e7806b3','535ece1b-8059-400b-9a80-6494d32f5d85',NULL,'22eb55d2-c56f-4037-a9d7-166d829438a4','Av. Paulista',-23.5631141,-46.65439200000003,'',NULL,'2000','2016-11-08 09:50:36.973000','2016-11-08 09:51:40.818000'),
   ('b0cb8f24-4b44-42dc-bff4-fce562067a16','d44b00b2-97cf-455b-aec1-4dc476794ebc',NULL,'70d364b0-6f7c-4f04-96e8-853a49ccd7f2','R. Maria Figueiredo',-23.56891359999999,-46.647362999999984,'Av. Paulista',NULL,NULL,'2016-11-08 10:22:09.888000','2016-11-08 10:32:52.124000'),
   ('ba45d2a6-7347-41e8-ac9f-83b8202b4bc8','78ebe0b3-9dd4-434e-b535-b7a416eba05b',NULL,'6c709913-6812-41d9-94a6-e36ee55e3b9c','R. Pamplona',-23.5661164,-46.656092400000034,'Av. Paulista',NULL,NULL,'2016-11-08 09:11:35.776000','2016-11-08 09:16:47.371000'),
@@ -671,20 +672,21 @@ VALUES
 
 INSERT INTO `controladores_fisicos` (`id`, `id_json`, `area_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('3438f178-ecb4-4833-b6e7-e58d2812e35b',NULL,@Area2Id,'2016-11-08 09:19:08.802000','2016-11-08 09:19:08.802000'),
-  ('4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',NULL,@Area3Id,'2016-11-08 09:50:02.879000','2016-11-08 09:50:02.879000'),
-  ('66f6865f-6963-4ff5-b160-7c6febb68c03',NULL,@Area1Id,'2016-11-08 09:10:36.963000','2016-11-08 09:10:36.963000'),
-  ('c64b8f57-0f74-4e56-9bea-614882beeaa2',NULL,@Area1Id,'2016-11-08 09:05:12.082000','2016-11-08 09:05:12.082000'),
-  ('ebaa3115-e64a-45ca-9ec6-afb85a39b89c',NULL,@Area1Id,'2016-11-08 10:21:26.875000','2016-11-08 10:21:26.875000');
+  ('3438f178-ecb4-4833-b6e7-e58d2812e35b',NULL,@Area2Id,NOW(),NOW()),
+  ('4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',NULL,@Area3Id,NOW(),NOW()),
+  ('66f6865f-6963-4ff5-b160-7c6febb68c03',NULL,@Area1Id,NOW(),NOW()),
+  ('c64b8f57-0f74-4e56-9bea-614882beeaa2',NULL,@Area1Id,NOW(),NOW()),
+  ('ebaa3115-e64a-45ca-9ec6-afb85a39b89c',NULL,@Area1Id,NOW(),NOW());
 
-INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('0f2e142f-01eb-4276-87d2-2d0234ef27b2',NULL,NULL,'8d872244-c7c9-4ff6-9239-f207c2773787','4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',@UsuarioId,'Controlador criado pelo usuário: Mobilab','EM_CONFIGURACAO','2016-11-08 09:50:02.880000'),
-  ('7c996199-ed02-4272-b53c-b297c4e69d20',NULL,NULL,'5d238555-8620-4841-a2bf-c77d497f6b03','c64b8f57-0f74-4e56-9bea-614882beeaa2',@UsuarioId,'Controlador 1','CONFIGURADO','2016-11-08 09:05:12.084000'),
-  ('9501b28f-f508-4573-92a7-20c932313e95',NULL,NULL,'3d86335e-05e7-4921-8cdf-42ed03821f62','ebaa3115-e64a-45ca-9ec6-afb85a39b89c',@UsuarioId,'Controlador 4','CONFIGURADO','2016-11-08 10:21:26.876000'),
-  ('9d3ec495-96da-453a-8512-fc458221eb00',NULL,NULL,'279d3e6e-b3ab-4e9f-8358-67e393e5ed0f','66f6865f-6963-4ff5-b160-7c6febb68c03',@UsuarioId,'CONTROLADOR 2','CONFIGURADO','2016-11-08 09:10:36.964000'),
-  ('9e2eb1d1-7af9-423f-9406-ba6c237dfa12',NULL,NULL,'0f424143-383e-490d-96ef-145fed18bb29','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Controlador 3 ','ARQUIVADO','2016-11-08 09:19:08.804000'),
-  ('b95d6fe4-84c9-4d5d-94a4-401b915294d1',NULL,'0f424143-383e-490d-96ef-145fed18bb29','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Controlador clonado pelo usuário: Mobilab','EDITANDO','2016-11-08 09:54:08.000000');
+  ('0f2e142f-01eb-4276-87d2-2d0234ef27b2',NULL,NULL,'8d872244-c7c9-4ff6-9239-f207c2773787','4f960382-ef6d-4b47-8b1b-7d4a5aa9b7ee',@UsuarioId,'Controlador criado pelo usuário: Mobilab','EM_CONFIGURACAO',NOW(), NOW()),
+  ('7c996199-ed02-4272-b53c-b297c4e69d20',NULL,NULL,'5d238555-8620-4841-a2bf-c77d497f6b03','c64b8f57-0f74-4e56-9bea-614882beeaa2',@UsuarioId,'Controlador 1','CONFIGURADO',NOW(), NOW()),
+  ('9501b28f-f508-4573-92a7-20c932313e95',NULL,NULL,'3d86335e-05e7-4921-8cdf-42ed03821f62','ebaa3115-e64a-45ca-9ec6-afb85a39b89c',@UsuarioId,'Controlador 4','CONFIGURADO',NOW(), NOW()),
+  ('9d3ec495-96da-453a-8512-fc458221eb00',NULL,NULL,'279d3e6e-b3ab-4e9f-8358-67e393e5ed0f','66f6865f-6963-4ff5-b160-7c6febb68c03',@UsuarioId,'CONTROLADOR 2','CONFIGURADO',NOW(), NOW()),
+  (RANDOM_UUID(),NULL,NULL,'0f424143-383e-490d-96ef-145fed18bb29','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Alteração 1','EM_CONFIGURACAO','2016-11-08 09:23:35.616000','2016-11-08 09:33:01.673000'),
+  (RANDOM_UUID(),NULL,'0f424143-383e-490d-96ef-145fed18bb29','9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Alteração 2','ARQUIVADO','2016-11-08 09:23:35.616000','2016-11-012 09:33:01.673000'),
+  ('b95d6fe4-84c9-4d5d-94a4-401b915294d1',NULL,'9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d','3438f178-ecb4-4833-b6e7-e58d2812e35b',@UsuarioId,'Controlador clonado pelo usuário: Mobilab','EDITANDO','2016-11-08 09:23:35.616000','2016-11-13 09:33:01.673000');
 
 INSERT INTO `detectores` (`id`, `id_json`, `tipo`, `anel_id`, `estagio_id`, `controlador_id`, `posicao`, `descricao`, `monitorado`, `tempo_ausencia_deteccao`, `tempo_deteccao_permanente`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -761,18 +763,18 @@ VALUES
 
 ---------------------------- PLANOS --------------------------
 
-INSERT INTO `versoes_planos` (`id`, `id_json`, `versao_anterior_id`, `anel_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_planos` (`id`, `id_json`, `versao_anterior_id`, `anel_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('0668760a-3ea5-4122-8e28-2bbdf85ee83c','1b3108b4-2b95-4593-9469-25fa1e502c41',NULL,'4744f9d9-f9c3-4f3f-ab1c-17b7178453d5',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:08:42.253000'),
-  ('234a6aca-2ea8-4657-8bf6-26a64a4e2b8c','950aa37a-195c-4ed4-bbdd-ede73e78fe82',NULL,'6c709913-6812-41d9-94a6-e36ee55e3b9c',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:15:35.814000'),
-  ('4db9bb39-7794-4eb1-97d5-2ec6a991c26e','9bd223a2-5145-403d-872a-f1e2d9842999',NULL,'043007e5-ee02-4383-bde1-87346abdc895',NULL,'Planos criado','CONFIGURADO','2016-11-08 10:26:13.325000'),
-  ('7c53c166-bcca-4ff1-9340-75cdf53db9f3','2eb6394f-c563-4200-aaaf-644997552497',NULL,'56f26b09-4bf1-4dfd-b014-eb39880ed45a',NULL,'Planos criado','ARQUIVADO','2016-11-08 09:32:26.416000'),
-  ('a3a0d6fa-9845-4c7c-8a52-2dc51fb8a52a','aca19256-0135-4d06-a032-8e48a7326e06',NULL,'9ce82983-8de5-439e-863a-88086fb8b705',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:15:35.732000'),
-  ('bb3f1e93-cb4e-43bc-b634-9ac5a10755a4','a6b8d1f8-ff6f-4c81-86ec-9672c56d934c','7c53c166-bcca-4ff1-9340-75cdf53db9f3','5e913606-1f79-42db-bafd-a86b14a5c64c',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO','2016-11-08 09:54:07.466000'),
-  ('beaed461-4c9c-4a5e-9f6b-0b2ee020af7f','086f197f-c597-468c-a993-fee040067f9b',NULL,'70d364b0-6f7c-4f04-96e8-853a49ccd7f2',NULL,'Planos criado','CONFIGURADO','2016-11-08 10:26:13.233000'),
-  ('ce66c466-750f-4116-97ed-926c01d8d43e','a4cb50af-9cf0-4163-a73e-f0a15ee03dfc',NULL,'750b3c0d-8247-4cc6-adbd-5a34f88092c3',NULL,'Planos criado','ARQUIVADO','2016-11-08 09:32:26.062000'),
-  ('d5c842c1-9cd1-489f-8071-816ef50d1044','2cab46a5-1e55-48af-b897-a14dd0083eca','ce66c466-750f-4116-97ed-926c01d8d43e','5033f1e1-3840-4a01-a69b-ea6815ac33fa',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO','2016-11-08 09:54:07.590000'),
-  ('ebb8691f-4ae0-42cc-b9b7-3023a4ffc004','e653df46-8897-4ad0-900c-4cd7b25d3567',NULL,'33e2bbf0-72ad-4d11-98d8-1bb440c370b0',NULL,'Planos criado','CONFIGURADO','2016-11-08 09:08:42.284000');
+  ('0668760a-3ea5-4122-8e28-2bbdf85ee83c','1b3108b4-2b95-4593-9469-25fa1e502c41',NULL,'4744f9d9-f9c3-4f3f-ab1c-17b7178453d5',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('234a6aca-2ea8-4657-8bf6-26a64a4e2b8c','950aa37a-195c-4ed4-bbdd-ede73e78fe82',NULL,'6c709913-6812-41d9-94a6-e36ee55e3b9c',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('4db9bb39-7794-4eb1-97d5-2ec6a991c26e','9bd223a2-5145-403d-872a-f1e2d9842999',NULL,'043007e5-ee02-4383-bde1-87346abdc895',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('7c53c166-bcca-4ff1-9340-75cdf53db9f3','2eb6394f-c563-4200-aaaf-644997552497',NULL,'56f26b09-4bf1-4dfd-b014-eb39880ed45a',NULL,'Planos criado','ARQUIVADO',NOW(),NOW()),
+  ('a3a0d6fa-9845-4c7c-8a52-2dc51fb8a52a','aca19256-0135-4d06-a032-8e48a7326e06',NULL,'9ce82983-8de5-439e-863a-88086fb8b705',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('bb3f1e93-cb4e-43bc-b634-9ac5a10755a4','a6b8d1f8-ff6f-4c81-86ec-9672c56d934c','7c53c166-bcca-4ff1-9340-75cdf53db9f3','5e913606-1f79-42db-bafd-a86b14a5c64c',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO',NOW(),NOW()),
+  ('beaed461-4c9c-4a5e-9f6b-0b2ee020af7f','086f197f-c597-468c-a993-fee040067f9b',NULL,'70d364b0-6f7c-4f04-96e8-853a49ccd7f2',NULL,'Planos criado','CONFIGURADO',NOW(),NOW()),
+  ('ce66c466-750f-4116-97ed-926c01d8d43e','a4cb50af-9cf0-4163-a73e-f0a15ee03dfc',NULL,'750b3c0d-8247-4cc6-adbd-5a34f88092c3',NULL,'Planos criado','ARQUIVADO',NOW(),NOW()),
+  ('d5c842c1-9cd1-489f-8071-816ef50d1044','2cab46a5-1e55-48af-b897-a14dd0083eca','ce66c466-750f-4116-97ed-926c01d8d43e','5033f1e1-3840-4a01-a69b-ea6815ac33fa',@UsuarioId,'Planos criado pelo usuário:Mobilab','EDITANDO',NOW(),NOW()),
+  ('ebb8691f-4ae0-42cc-b9b7-3023a4ffc004','e653df46-8897-4ad0-900c-4cd7b25d3567',NULL,'33e2bbf0-72ad-4d11-98d8-1bb440c370b0',NULL,'Planos criado','CONFIGURADO',NOW(),NOW());
 
 
 INSERT INTO `planos` (`id`, `id_json`, `posicao`, `descricao`, `tempo_ciclo`, `defasagem`, `versao_plano_id`, `modo_operacao`, `posicao_tabela_entre_verde`, `data_criacao`, `data_atualizacao`)
@@ -920,21 +922,23 @@ VALUES
 --------------------------------------- TABELA HORARIAS ------------------------------------------
 
 
-INSERT INTO `versoes_tabelas_horarias` (`id`, `id_json`, `controlador_id`, `tabela_horaria_origem_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_tabelas_horarias` (`id`, `id_json`, `controlador_id`, `tabela_horaria_origem_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('06e58963-0e85-46f6-8a16-2703a543d573','522ce223-637d-4556-a1f0-9e2627dfeb0b','0f424143-383e-490d-96ef-145fed18bb29',NULL,NULL,NULL,'ARQUIVADO','2016-11-08 09:33:02.115000'),
-  ('125f19f1-a544-4019-b62a-4160f3db3f81','15e331ba-3a7d-4f67-b7ab-df02393f847f','279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,NULL,NULL,'CONFIGURADO','2016-11-08 09:16:47.392000'),
-  ('38ad2b48-85cc-48bf-bc30-6ec6e5976551','3f520e9d-2651-4a6a-ba0e-f1ca0618605a','5d238555-8620-4841-a2bf-c77d497f6b03',NULL,NULL,NULL,'CONFIGURADO','2016-11-08 09:09:03.600000'),
-  ('69abb281-91e3-4073-9ba2-1a59817e5f74','1d274495-e924-4e9f-9a8e-9c59181a5d9c','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,@UsuarioId,'Tabela Horaria criado pelo usuário:Mobilab','EDITANDO','2016-11-08 09:54:07.919000'),
-  ('f4c67a91-013c-49fa-9e87-44398ac56403','d8d9e1f1-75fb-46ff-bc06-df1ffbb611b9','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,NULL,NULL,'CONFIGURADO','2016-11-08 10:32:14.027000');
+('06e58963-0e85-46f6-8a16-2703a543d573','522ce223-637d-4556-a1f0-9e2627dfeb0b','0f424143-383e-490d-96ef-145fed18bb29',null,null,null,'ARQUIVADO',   '2016-11-16 16:00:07.091','2016-11-16 16:00:07.091'),
+('125f19f1-a544-4019-b62a-4160f3db3f81','15e331ba-3a7d-4f67-b7ab-df02393f847f','279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',null,null,null,'CONFIGURADO', '2016-11-16 16:00:07.091','2016-11-16 16:00:07.091'),
+('f4c67a91-013c-49fa-9e87-44398ac56403','d8d9e1f1-75fb-46ff-bc06-df1ffbb611b9','3d86335e-05e7-4921-8cdf-42ed03821f62',null,null,null,'CONFIGURADO', '2016-11-16 16:00:07.091','2016-11-16 16:00:07.091'),
+('69abb281-91e3-4073-9ba2-1a59817e5f74','1d274495-e924-4e9f-9a8e-9c59181a5d9c','1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',null,@UsuarioId,'Tabela Horaria criado pelo usuário:Mobilab','EDITANDO','2016-11-16 16:00:07.091','2016-11-16 16:00:07.091'),
+('38ad2b48-85cc-48bf-bc30-6ec6e5976551','3f520e9d-2651-4a6a-ba0e-f1ca0618605a','5d238555-8620-4841-a2bf-c77d497f6b03',null,@UsuarioId,null,'ARQUIVADO','2016-11-16 16:00:07.091','2016-11-15 16:01:14.398'),
+('8a5d6a81-fea4-442e-9ae5-ca86bdd757a7','99264c6b-783b-4c99-b704-7d517332e781','5d238555-8620-4841-a2bf-c77d497f6b03',null,@UsuarioId,'Tabela Horária criada pelo usuário: Mobilab','EDITANDO','2016-11-16 16:00:38.645', '2016-11-16 16:01:14.671');
 
 INSERT INTO `tabela_horarios` (`id`, `id_json`, `versao_tabela_horaria_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('2bbb53ba-c4e2-44b6-843a-f64f9e8c1832','2924fdc4-4643-4437-902a-2f5d6c8a6d61','125f19f1-a544-4019-b62a-4160f3db3f81','2016-11-08 09:16:47.393000','2016-11-08 09:16:47.393000'),
-  ('419ca4ea-b018-4d7d-85b1-f01e50e89151','c1e796f9-2245-403c-9857-47dda0fab3eb','06e58963-0e85-46f6-8a16-2703a543d573','2016-11-08 09:33:02.116000','2016-11-08 09:33:02.116000'),
-  ('4dab5371-854b-4e06-9c4d-f1095392b715','29642726-2a42-413f-9313-3aad22a11825','38ad2b48-85cc-48bf-bc30-6ec6e5976551','2016-11-08 09:09:03.601000','2016-11-08 09:09:03.601000'),
-  ('a9cdfa75-e94b-4c8a-b86e-8e33bcce126a','432b9492-52ee-431a-9a6f-9c86a9d04db9','f4c67a91-013c-49fa-9e87-44398ac56403','2016-11-08 10:32:14.028000','2016-11-08 10:32:52.142000'),
-  ('fb59acb2-e62f-4ca2-bbe1-63dab2801ece','3c9763da-bb00-4295-840d-8562855fb1a9','69abb281-91e3-4073-9ba2-1a59817e5f74','2016-11-08 09:54:07.920000','2016-11-08 09:54:07.920000');
+('2bbb53ba-c4e2-44b6-843a-f64f9e8c1832','2924fdc4-4643-4437-902a-2f5d6c8a6d61','125f19f1-a544-4019-b62a-4160f3db3f81','2016-11-08 09:16:47.393' ,'2016-11-08 09:16:47.393'),
+('419ca4ea-b018-4d7d-85b1-f01e50e89151','c1e796f9-2245-403c-9857-47dda0fab3eb','06e58963-0e85-46f6-8a16-2703a543d573','2016-11-08 09:33:02.116' ,'2016-11-08 09:33:02.116'),
+('a9cdfa75-e94b-4c8a-b86e-8e33bcce126a','432b9492-52ee-431a-9a6f-9c86a9d04db9','f4c67a91-013c-49fa-9e87-44398ac56403','2016-11-08 10:32:14.028' ,'2016-11-08 10:32:52.142'),
+('fb59acb2-e62f-4ca2-bbe1-63dab2801ece','3c9763da-bb00-4295-840d-8562855fb1a9','69abb281-91e3-4073-9ba2-1a59817e5f74','2016-11-08 09:54:07.92' , '2016-11-08 09:54:07.92'),
+('4dab5371-854b-4e06-9c4d-f1095392b715','29642726-2a42-413f-9313-3aad22a11825','38ad2b48-85cc-48bf-bc30-6ec6e5976551','2016-11-08 09:09:03.601' ,'2016-11-16 16:01:14.398'),
+('1f8baac3-d304-484b-8b1e-db24a334227d','9138917c-a9cc-4377-85cf-19569dc27d07','8a5d6a81-fea4-442e-9ae5-ca86bdd757a7','2016-11-16 16:00:38.645' ,'2016-11-16 16:01:14.671');
 
 INSERT INTO  `agrupamentos` (`id`, `id_json`, `nome`, `numero`, `descricao`, `tipo`, `posicao_plano`, `dia_da_semana`, `horario`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -949,26 +953,29 @@ VALUES
 
 INSERT INTO `eventos` (`id`, `id_json`, `posicao`, `dia_da_semana`, `horario`, `data`, `nome`, `posicao_plano`, `tipo`, `tabela_horario_id`, `agrupamento_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('03ce86ec-0414-454e-a66c-5339132926f0','bfc24ca8-770f-42c0-b29c-9e62dad5f9e8',2,'SEXTA','03:01:00','2016-11-08 00:00:00.000000',NULL,3,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',NULL,'2016-11-08 09:16:47.548000','2016-11-08 09:16:47.548000'),
-  ('1a4799a3-e836-4039-b59d-4d2c9cd6304d','eed24efd-79da-409f-bbae-54d3d09192f2',1,'DOMINGO','08:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','419ca4ea-b018-4d7d-85b1-f01e50e89151',NULL,'2016-11-08 09:33:02.117000','2016-11-08 09:33:02.117000'),
-  ('4957fa35-e349-4291-a72f-4df16df4dd44','f8ad0f38-284e-4b1d-9bbd-b15145b1d6a0',2,'SABADO','10:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','fb59acb2-e62f-4ca2-bbe1-63dab2801ece',NULL,'2016-11-08 09:54:07.979000','2016-11-08 09:54:07.979000'),
-  ('52b3886d-1a17-44c9-bb3e-0ad4c8a1d530','7cc04f56-d689-42f8-8d06-5342b9cf4bf6',1,'DOMINGO','08:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','fb59acb2-e62f-4ca2-bbe1-63dab2801ece',NULL,'2016-11-08 09:54:07.978000','2016-11-08 09:54:07.978000'),
-  ('544c8768-a64e-4eaa-a9fb-e1b0013eaefc','b6b50997-564a-4ac6-97d1-42568c2f46b9',3,'SEXTA','19:10:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','fb59acb2-e62f-4ca2-bbe1-63dab2801ece',NULL,'2016-11-08 09:54:07.978000','2016-11-08 09:54:07.978000'),
-  ('587d8ee8-8a5f-41bd-840b-6eb8ad412fba','6b31f2ca-d604-4356-ba8a-21a57bca35dd',2,'SEGUNDA','10:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','4dab5371-854b-4e06-9c4d-f1095392b715',NULL,'2016-11-08 09:09:03.778000','2016-11-08 09:09:03.778000'),
-  ('686df7f2-0bd8-4631-bdaa-9956625fc981','8a7f3cbe-c536-40f7-bbff-bc0006199053',1,'DOMINGO','00:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','4dab5371-854b-4e06-9c4d-f1095392b715',NULL,'2016-11-08 09:09:03.602000','2016-11-08 09:09:03.602000'),
-  ('6c6efddc-adf0-4882-849e-8887c14035b7','b4c0ed33-ce1f-4e58-a0a5-e219eaf32978',1,NULL,'00:00:00','2016-11-08 00:00:00.000000','PLANO DE FERIADO',4,'ESPECIAL_RECORRENTE','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',NULL,'2016-11-08 09:16:47.545000','2016-11-08 09:16:47.545000'),
-  ('7b5b25c9-7dc3-4945-9f9b-7bbe262c71c0','eea6a3fc-a0b8-4964-8192-edfeb0afba59',3,'TERCA','00:00:00','2016-11-08 00:00:00.000000',NULL,2,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a',NULL,'2016-11-08 10:32:14.030000','2016-11-08 10:32:52.143000'),
-  ('91a735c6-d8ea-4578-b4b3-9abbabdf4589','70ca6a18-b0fe-4657-899d-09c365eb636e',3,'SEXTA','12:01:00','2016-11-08 00:00:00.000000',NULL,2,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',NULL,'2016-11-08 09:16:47.576000','2016-11-08 09:16:47.576000'),
-  ('af561887-6295-495a-bdb0-cae7711afb87','a644f01f-a246-426e-8c64-d4b51c55a0ec',4,'SEGUNDA_A_SEXTA','01:00:00','2016-11-08 00:00:00.000000',NULL,4,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',NULL,'2016-11-08 09:16:47.577000','2016-11-08 09:16:47.577000'),
-  ('cef34e7b-a92d-4145-afdc-4fbda8b01408','7428cff9-fcdf-419f-88ef-aefd76296ca6',3,'SEXTA','19:10:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','419ca4ea-b018-4d7d-85b1-f01e50e89151',NULL,'2016-11-08 09:33:02.118000','2016-11-08 09:33:02.118000'),
-  ('d8fa7625-3b25-4cca-abda-9a40b050962e','1e7d0d43-1241-458f-b6c3-a56f30fb52dc',1,'SEXTA','14:01:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a',NULL,'2016-11-08 10:32:14.029000','2016-11-08 10:32:52.143000'),
-  ('e7842b29-874e-433c-8611-de4d5c1dd90d','21a9e808-0734-4675-ae89-ce2e35acb83f',2,'SEGUNDA_A_SABADO','22:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a',NULL,'2016-11-08 10:32:14.030000','2016-11-08 10:32:52.144000'),
-  ('fba76da9-d87d-4ad3-a094-fa44d50a7e7b','724bd0f6-122a-44f2-8bc3-d100a972f0dd',2,'SABADO','10:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','419ca4ea-b018-4d7d-85b1-f01e50e89151',NULL,'2016-11-08 09:33:02.117000','2016-11-08 09:33:02.117000'),
-  ('fc726a26-15a9-4229-b5d6-cf504acf5678','5c1b5e76-9028-4d1e-ad9f-2c0978afd78b',1,'DOMINGO','07:00:00','2016-11-08 00:00:00.000000',NULL,1,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',NULL,'2016-11-08 09:16:47.394000','2016-11-08 09:16:47.394000'),
-  ('feded080-479f-4284-a734-4c70ddf02396', '989ec2c5-1f88-49bb-82a6-1ce75e81bc27', 4, 'DOMINGO', TIME '01:00:00', NULL, NULL, 1, 'NORMAL', 'a9cdfa75-e94b-4c8a-b86e-8e33bcce126a', '6da8d307-f1dd-4a5a-b2d6-11b66272a40b', TIMESTAMP '2016-11-08 17:52:29.98', TIMESTAMP '2016-11-08 17:52:29.98'),
-  ('a0b251ec-114e-41f0-b9c9-1bbee7a0f282', '8138906d-7205-4991-a422-291001d4c295', 5, 'DOMINGO', TIME '01:00:00', NULL, NULL, 1, 'NORMAL', '2bbb53ba-c4e2-44b6-843a-f64f9e8c1832', '6da8d307-f1dd-4a5a-b2d6-11b66272a40b', TIMESTAMP '2016-11-08 17:52:29.981', TIMESTAMP '2016-11-08 17:52:29.981'),
-  ('81254d20-ba1e-4fcd-bbb5-560c38b23e4b', '97c34b47-1afc-45a9-94b3-3cde255d0798', 5, 'DOMINGO', TIME '01:00:00', NULL, NULL, 1, 'NORMAL', 'a9cdfa75-e94b-4c8a-b86e-8e33bcce126a', '6da8d307-f1dd-4a5a-b2d6-11b66272a40b', TIMESTAMP '2016-11-08 17:52:29.981', TIMESTAMP '2016-11-08 17:52:29.981'),
-  ('c96cb340-1463-49b0-bf56-d5398d63b4c1', 'cef0e30f-d03f-4690-a2ad-942cbc2ab8fe', 6, 'DOMINGO', TIME '01:00:00', NULL, NULL, 1, 'NORMAL', '2bbb53ba-c4e2-44b6-843a-f64f9e8c1832', '6da8d307-f1dd-4a5a-b2d6-11b66272a40b', TIMESTAMP '2016-11-08 17:52:29.982', TIMESTAMP '2016-11-08 17:52:29.982');
+  ('03ce86ec-0414-454e-a66c-5339132926f0','bfc24ca8-770f-42c0-b29c-9e62dad5f9e8',2,'SEXTA','03:01:00','2016-11-08 00:00:00.0',null,  3,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',null,'2016-11-08 09:16:47.548','2016-11-08 09:16:47.548'),
+  ('1a4799a3-e836-4039-b59d-4d2c9cd6304d','eed24efd-79da-409f-bbae-54d3d09192f2',1,'DOMINGO','08:00:00','2016-11-08 00:00:00.0',null,  1,'NORMAL','419ca4ea-b018-4d7d-85b1-f01e50e89151',null,'2016-11-08 09:33:02.117','2016-11-08 09:33:02.117'),
+  ('4957fa35-e349-4291-a72f-4df16df4dd44','f8ad0f38-284e-4b1d-9bbd-b15145b1d6a0',2,'SABADO','10:00:00','2016-11-08 00:00:00.0',null,  1,'NORMAL','fb59acb2-e62f-4ca2-bbe1-63dab2801ece',null,'2016-11-08 09:54:07.979','2016-11-08 09:54:07.979'),
+  ('52b3886d-1a17-44c9-bb3e-0ad4c8a1d530','7cc04f56-d689-42f8-8d06-5342b9cf4bf6',1,'DOMINGO','08:00:00','2016-11-08 00:00:00.0',null,  1,'NORMAL','fb59acb2-e62f-4ca2-bbe1-63dab2801ece',null,'2016-11-08 09:54:07.978','2016-11-08 09:54:07.978'),
+  ('544c8768-a64e-4eaa-a9fb-e1b0013eaefc','b6b50997-564a-4ac6-97d1-42568c2f46b9',3,'SEXTA','19:10:00','2016-11-08 00:00:00.0',null,  1,'NORMAL','fb59acb2-e62f-4ca2-bbe1-63dab2801ece',null,'2016-11-08 09:54:07.978','2016-11-08 09:54:07.978'),
+  ('6c6efddc-adf0-4882-849e-8887c14035b7','b4c0ed33-ce1f-4e58-a0a5-e219eaf32978',1, null     ,'00:00:00','2016-11-08 00:00:00.0','PLANO DE FERIADO',4, 'ESPECIAL_RECORRENTE','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',null,'2016-11-08 09:16:47.545','2016-11-08 09:16:47.545'),
+  ('7b5b25c9-7dc3-4945-9f9b-7bbe262c71c0','eea6a3fc-a0b8-4964-8192-edfeb0afba59',3,'TERCA'   ,'00:00:00','2016-11-08 00:00:00.0',null,  2, 'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a',null,'2016-11-08 10:32:14.03', '2016-11-08 10:32:52.143'),
+  ('91a735c6-d8ea-4578-b4b3-9abbabdf4589','70ca6a18-b0fe-4657-899d-09c365eb636e',3,'SEXTA'   ,'12:01:00','2016-11-08 00:00:00.0',null,  2, 'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',null,'2016-11-08 09:16:47.576','2016-11-08 09:16:47.576'),
+  ('af561887-6295-495a-bdb0-cae7711afb87','a644f01f-a246-426e-8c64-d4b51c55a0ec',4,'SEGUNDA_A_SEXTA','01:00:00','2016-11-08 00:00:00.0',null,4,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',null,'2016-11-08 09:16:47.577','2016-11-08 09:16:47.577'),
+  ('cef34e7b-a92d-4145-afdc-4fbda8b01408','7428cff9-fcdf-419f-88ef-aefd76296ca6',3,'SEXTA','19:10:00','2016-11-08 00:00:00.0',null,1,'NORMAL','419ca4ea-b018-4d7d-85b1-f01e50e89151',null,'2016-11-08 09:33:02.118','2016-11-08 09:33:02.118'),
+  ('d8fa7625-3b25-4cca-abda-9a40b050962e','1e7d0d43-1241-458f-b6c3-a56f30fb52dc',1,'SEXTA','14:01:00','2016-11-08 00:00:00.0',null,1,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a',null,'2016-11-08 10:32:14.029','2016-11-08 10:32:52.143'),
+  ('e7842b29-874e-433c-8611-de4d5c1dd90d','21a9e808-0734-4675-ae89-ce2e35acb83f',2,'SEGUNDA_A_SABADO','22:00:00','2016-11-08 00:00:00.0',null,1,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a',null,'2016-11-08 10:32:14.03','2016-11-08 10:32:52.144'),
+  ('fba76da9-d87d-4ad3-a094-fa44d50a7e7b','724bd0f6-122a-44f2-8bc3-d100a972f0dd',2,'SABADO', '10:00:00','2016-11-08 00:00:00.0',null,1,'NORMAL','419ca4ea-b018-4d7d-85b1-f01e50e89151',null,'2016-11-08 09:33:02.117','2016-11-08 09:33:02.117'),
+  ('fc726a26-15a9-4229-b5d6-cf504acf5678','5c1b5e76-9028-4d1e-ad9f-2c0978afd78b',1,'DOMINGO','07:00:00','2016-11-08 00:00:00.0',null,1,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832',null,'2016-11-08 09:16:47.394','2016-11-08 09:16:47.394'),
+  ('feded080-479f-4284-a734-4c70ddf02396','989ec2c5-1f88-49bb-82a6-1ce75e81bc27',4,'DOMINGO','01:00:00',null,null,1,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a','6da8d307-f1dd-4a5a-b2d6-11b66272a40b','2016-11-08 17:52:29.98 ','2016-11-08 17:52:29.98'),
+  ('a0b251ec-114e-41f0-b9c9-1bbee7a0f282','8138906d-7205-4991-a422-291001d4c295',5,'DOMINGO','01:00:00',null,null,1,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832','6da8d307-f1dd-4a5a-b2d6-11b66272a40b','2016-11-08 17:52:29.981','2016-11-08 17:52:29.981'),
+  ('81254d20-ba1e-4fcd-bbb5-560c38b23e4b','97c34b47-1afc-45a9-94b3-3cde255d0798',5,'DOMINGO','01:00:00',null,null,1,'NORMAL','a9cdfa75-e94b-4c8a-b86e-8e33bcce126a','6da8d307-f1dd-4a5a-b2d6-11b66272a40b','2016-11-08 17:52:29.981','2016-11-08 17:52:29.981'),
+  ('c96cb340-1463-49b0-bf56-d5398d63b4c1','cef0e30f-d03f-4690-a2ad-942cbc2ab8fe',6,'DOMINGO','01:00:00',null,null,1,'NORMAL','2bbb53ba-c4e2-44b6-843a-f64f9e8c1832','6da8d307-f1dd-4a5a-b2d6-11b66272a40b','2016-11-08 17:52:29.982','2016-11-08 17:52:29.982'),
+  ('686df7f2-0bd8-4631-bdaa-9956625fc981','8a7f3cbe-c536-40f7-bbff-bc0006199053',1,'DOMINGO','00:00:00','2016-11-08 00:00:00.0',null,1,'NORMAL','4dab5371-854b-4e06-9c4d-f1095392b715',null,'2016-11-08 09:09:03.602','2016-11-16 16:01:14.398'),
+  ('587d8ee8-8a5f-41bd-840b-6eb8ad412fba','6b31f2ca-d604-4356-ba8a-21a57bca35dd',2,'TERCA','10:00:00','2016-11-08 00:00:00.0',null,1,'NORMAL','4dab5371-854b-4e06-9c4d-f1095392b715',null,'2016-11-08 09:09:03.778','2016-11-16 16:01:14.67'),
+  ('be528804-7223-46d6-b7ee-e94b08ddd6d3','30ae57fc-2684-4a87-b234-d00d8cbad98a',1,'DOMINGO','00:00:00','2016-11-08 00:00:00.0',null,1,'NORMAL','1f8baac3-d304-484b-8b1e-db24a334227d',null,'2016-11-16 16:00:38.646','2016-11-16 16:01:14.671'),
+  ('73b32570-8839-443c-9d41-2b58be3891ec','5b1a6513-714c-482b-8596-9a6598b7d4d7',2,'SEGUNDA','09:00:00','2016-11-16 00:00:00.0',null,1,'NORMAL','1f8baac3-d304-484b-8b1e-db24a334227d',null,'2016-11-16 16:00:49.742','2016-11-16 16:01:14.671');
 
------ Setar versão editando
 UPDATE versoes_tabelas_horarias SET tabela_horaria_origem_id='419ca4ea-b018-4d7d-85b1-f01e50e89151' WHERE id='69abb281-91e3-4073-9ba2-1a59817e5f74';
+UPDATE versoes_tabelas_horarias SET tabela_horaria_origem_id='4dab5371-854b-4e06-9c4d-f1095392b715' WHERE id='8a5d6a81-fea4-442e-9ae5-ca86bdd757a7';
+
