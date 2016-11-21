@@ -1,11 +1,10 @@
 package protocol;
 
 
-
 /**
  * Created by rodrigosol on 11/3/16.
  */
-public class MensagemRetorno extends Mensagem{
+public class MensagemRetorno extends Mensagem {
 
 
     private final Retorno retorno;
@@ -15,15 +14,15 @@ public class MensagemRetorno extends Mensagem{
         this.retorno = retorno;
     }
 
-    public MensagemRetorno(byte[] contents){
+    public MensagemRetorno(byte[] contents) {
         super(contents);
         this.retorno = Retorno.values()[contents[4]];
     }
 
     @Override
     protected byte[] getBytes() {
-        byte[] ret =  new byte[1];
-        ret[0] = (byte)retorno.ordinal();
+        byte[] ret = new byte[1];
+        ret[0] = (byte) retorno.ordinal();
         return ret;
     }
 

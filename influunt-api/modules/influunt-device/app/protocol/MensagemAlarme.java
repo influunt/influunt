@@ -6,7 +6,6 @@ package protocol;
 public class MensagemAlarme extends Mensagem {
 
 
-
     private int alarme;
 
 
@@ -15,7 +14,7 @@ public class MensagemAlarme extends Mensagem {
         this.alarme = alarme;
     }
 
-    public MensagemAlarme(byte[] contents){
+    public MensagemAlarme(byte[] contents) {
         super(contents);
         alarme = contents[4];
     }

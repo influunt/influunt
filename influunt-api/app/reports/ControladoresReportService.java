@@ -1,15 +1,11 @@
 package reports;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import models.Controlador;
-import models.Fabricante;
 import models.StatusDevice;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-
 import status.StatusControladorFisico;
 import utils.InfluuntUtils;
 
@@ -17,11 +13,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 10/10/16.
  */
+
+//TODO: Verificar se pode ser excluida essa clase
 public class ControladoresReportService extends ReportService<Controlador> {
 
     @Inject

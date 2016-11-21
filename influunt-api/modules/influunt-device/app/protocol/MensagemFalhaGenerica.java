@@ -6,7 +6,6 @@ package protocol;
 public class MensagemFalhaGenerica extends Mensagem {
 
 
-
     private int falha;
 
 
@@ -15,7 +14,7 @@ public class MensagemFalhaGenerica extends Mensagem {
         this.falha = falha;
     }
 
-    public MensagemFalhaGenerica(byte[] contents){
+    public MensagemFalhaGenerica(byte[] contents) {
         super(contents);
         falha = contents[4];
     }

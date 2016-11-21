@@ -8,7 +8,7 @@ public class MensagemDetector extends Mensagem {
 
     private Integer posicao;
 
-    private  Boolean pedestre;
+    private Boolean pedestre;
 
     public MensagemDetector(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia, Boolean pedestre, Integer codigo) {
         super(tipoMensagem, sequencia);
@@ -16,7 +16,7 @@ public class MensagemDetector extends Mensagem {
         this.posicao = codigo;
     }
 
-    public MensagemDetector(byte[] contents){
+    public MensagemDetector(byte[] contents) {
         super(contents);
         pedestre = contents[4] >> 5 == 1;
         posicao = contents[4] & 0x1F;

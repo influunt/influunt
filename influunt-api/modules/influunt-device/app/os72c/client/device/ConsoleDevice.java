@@ -9,24 +9,13 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import engine.IntervaloGrupoSemaforico;
-import javafx.scene.layout.Pane;
-import jssc.SerialPort;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortException;
-import org.apache.commons.lang.ArrayUtils;
-import os72c.client.exceptions.HardwareFailureException;
-import protocol.*;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by rodrigosol on 11/4/16.
  */
 public class ConsoleDevice implements DeviceBridge {
-
 
 
     public ConsoleDevice() throws IOException {
@@ -51,8 +40,6 @@ public class ConsoleDevice implements DeviceBridge {
         table.getTableModel().addRow("14", "AZUL");
         table.getTableModel().addRow("15", "AZUL");
         table.getTableModel().addRow("16", "AZUL");
-
-
 
 
         // Create panel to hold components
@@ -90,7 +77,7 @@ public class ConsoleDevice implements DeviceBridge {
         right.setLayoutManager(new LinearLayout(Direction.VERTICAL));
         Panel falhas = new Panel(new LinearLayout(Direction.VERTICAL));
 
-        TerminalSize size = new TerminalSize(14,10);
+        TerminalSize size = new TerminalSize(14, 10);
         RadioBoxList<String> radioBoxList = new RadioBoxList<String>(size);
         radioBoxList.addItem("Falha");
         radioBoxList.addItem("Alarme");
@@ -101,17 +88,14 @@ public class ConsoleDevice implements DeviceBridge {
         right.addComponent(falhas.withBorder(Borders.singleLine("Falhas")));
         central.addComponent(right);
         Panel log = new Panel();
-        TextBox txtLog = new TextBox(new TerminalSize(20,10));
+        TextBox txtLog = new TextBox(new TerminalSize(20, 10));
         txtLog.setText("jfshdf asdhf kjashdfk ja dlf\n alsjdaflsdflj asdfl\nadlfahsdf adslkdjaslkd lakjsd");
-
 
 
         //txtLog.setSize();
         log.addComponent(txtLog);
         central.addComponent(log.withBorder(Borders.singleLine("Log")));
         panel.addComponent(central);
-
-
 
 
 //        panel.setLayoutManager(new GridLayout(2));
@@ -134,6 +118,9 @@ public class ConsoleDevice implements DeviceBridge {
         gui.addWindowAndWait(window);
     }
 
+    public static void main(String[] args) throws IOException {
+        new ConsoleDevice();
+    }
 
     @Override
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico) {
@@ -143,9 +130,5 @@ public class ConsoleDevice implements DeviceBridge {
     @Override
     public void start(DeviceBridgeCallback callback) {
 
-    }
-
-    public static void main(String[] args) throws IOException {
-        new ConsoleDevice();
     }
 }

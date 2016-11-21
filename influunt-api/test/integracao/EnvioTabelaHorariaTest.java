@@ -10,7 +10,6 @@ import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomSerializer;
 import models.Controlador;
-import org.junit.Ignore;
 import org.junit.Test;
 import protocol.Envelope;
 import protocol.EtapaTransacao;

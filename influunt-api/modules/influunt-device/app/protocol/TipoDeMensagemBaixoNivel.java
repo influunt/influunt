@@ -21,7 +21,7 @@ public enum TipoDeMensagemBaixoNivel {
 
     private final Class clazz;
 
-    TipoDeMensagemBaixoNivel(Class clazz){
+    TipoDeMensagemBaixoNivel(Class clazz) {
 
         this.clazz = clazz;
     }

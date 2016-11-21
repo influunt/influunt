@@ -28,6 +28,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
+
     @Test
     public void execucaoDevice() {
         startClient();

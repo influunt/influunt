@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import engine.EventoMotor;
 import engine.TipoEvento;
-import models.Anel;
 import models.GrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
@@ -134,7 +133,7 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
         List<LinkedHashMap> status = Json.fromJson(json, List.class);
 
         assertEquals(2, status.size());
-        assertEquals(TipoEvento.FALHA_VERDES_CONFLITANTES.toString(), ((Map)status.get(0).get("tipoEvento")).get("tipo").toString());
+        assertEquals(TipoEvento.FALHA_VERDES_CONFLITANTES.toString(), ((Map) status.get(0).get("tipoEvento")).get("tipo").toString());
     }
 
 
@@ -167,7 +166,7 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertEquals(TipoEvento.FALHA_SEQUENCIA_DE_CORES.toString(),json.get("tipoEvento").get("tipo").asText());
+        assertEquals(TipoEvento.FALHA_SEQUENCIA_DE_CORES.toString(), json.get("tipoEvento").get("tipo").asText());
     }
 
     @Test

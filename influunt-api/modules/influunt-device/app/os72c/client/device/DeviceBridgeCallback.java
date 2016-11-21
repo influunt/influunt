@@ -7,5 +7,6 @@ import engine.EventoMotor;
  */
 public interface DeviceBridgeCallback {
     void onReady();
+
     void onEvento(EventoMotor eventoMotor);
 }

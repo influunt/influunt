@@ -1,44 +1,23 @@
 package integracao;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import engine.*;
 import engine.TipoEvento;
-import io.moquette.interception.InterceptHandler;
-import io.moquette.interception.messages.*;
-import io.moquette.server.Server;
-import io.moquette.server.config.IConfig;
-import io.moquette.server.config.MemoryConfig;
-import json.ControladorCustomSerializer;
-import models.*;
+import models.Controlador;
+import models.ModoOperacaoPlano;
 import org.junit.Before;
 import org.junit.Test;
 import os72c.client.conf.DeviceConfig;
-import protocol.Envelope;
-import protocol.EtapaTransacao;
 import protocol.TipoMensagem;
-import protocol.TipoTransacao;
-import server.Central;
-import server.conn.CentralMessageBroker;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
-import status.Transacao;
-import uk.co.panaxiom.playjongo.PlayJongo;
 
 import javax.validation.groups.Default;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-import static java.util.Arrays.asList;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**

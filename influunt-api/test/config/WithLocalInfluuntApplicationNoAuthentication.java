@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 import config.auth.TestDeadboltHandlerCache;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.LocalDeviceConfig;
-import os72c.client.conf.TestDeviceConfig;
 import os72c.client.device.DeviceBridge;
 import os72c.client.device.SerialDevice;
 import os72c.client.storage.MapStorage;
@@ -20,7 +19,6 @@ import security.Authenticator;
 
 import java.util.Map;
 
-import static org.eclipse.collections.impl.block.factory.Predicates.in;
 import static play.inject.Bindings.bind;
 
 /**

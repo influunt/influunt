@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.AgendamentoTrocaPlanoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.AgendamentoTrocaPlanoSerializer;
-import json.serializers.EventoMotorSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Evento;
 import models.Plano;
