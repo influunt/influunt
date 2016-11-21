@@ -70,9 +70,9 @@ VALUES
   (RANDOM_UUID(),RANDOM_UUID(),@Controlador3Id,NULL,'Av. Paulista',-23.56,-46.6543921,NULL,'2000',NULL,NOW(),NOW()),
   (RANDOM_UUID(),RANDOM_UUID(),@Controlador4Id,NULL,'Av. Paulista',-23.56,-46.6543921,'R. Pamplona',NULL,NULL,NOW(),NOW());
 
-INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  (@VersaoControlador1Id,NULL,NULL,@Controlador1Id,@ControladorFisico1Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW()),
-  (@VersaoControlador2Id,NULL,NULL,@Controlador2Id,@ControladorFisico2Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW()),
-  (@VersaoControlador3Id,NULL,NULL,@Controlador3Id,@ControladorFisico3Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','CONFIGURADO',NOW()),
-  (@VersaoControlador4Id,NULL,NULL,@Controlador4Id,@ControladorFisico4Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW());
+  (@VersaoControlador1Id,NULL,NULL,@Controlador1Id,@ControladorFisico1Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW(),NOW()),
+  (@VersaoControlador2Id,NULL,NULL,@Controlador2Id,@ControladorFisico2Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW(),NOW()),
+  (@VersaoControlador3Id,NULL,NULL,@Controlador3Id,@ControladorFisico3Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','CONFIGURADO',NOW(),NOW()),
+  (@VersaoControlador4Id,NULL,NULL,@Controlador4Id,@ControladorFisico4Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW(),NOW());

@@ -6,13 +6,16 @@
   <span data-ng-if="readOnly">{{ evento.diaDaSemana | diaDaSemana }}</span>
 </td>
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial() || TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
-  <input class="form-control" data-ng-model="evento.nome" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly"></input>
+  <input class="form-control" data-ng-model="evento.nome" data-ng-blur="verificaAtualizacao()" data-ng-if="!readOnly"></input>
+  <span data-ng-if="readOnly">{{ evento.nome }}</span>
 </td>
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
-  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD/MM/YYYY" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly">
+  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD/MM/YYYY" data-ng-blur="verificaAtualizacao()" data-ng-if="!readOnly">
+  <span data-ng-if="readOnly">{{ evento.dataMoment.format('DD/MM/YYYY') }}</span>
 </td>
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial()">
-  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="minDate" max-date="maxDate" default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()" ng-disabled="readOnly">
+  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="minDate" max-date="maxDate" default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()" data-ng-if="!readOnly">
+  <span data-ng-if="readOnly">{{ evento.dataMoment.format('DD/MM') }}</span>
 </td>
 <td>
   <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacao()" data-ng-if="!readOnly">
@@ -42,7 +45,7 @@
   </span>
   <span data-ng-if="readOnly">Plano {{ evento.posicaoPlano }}</span>
 </td>
-<td>
+<td data-ng-if="podeVisualizarPlano">
   <div class="ibox-tools">
     <a class="close-link"
         data-ng-click="abrirPlano()"

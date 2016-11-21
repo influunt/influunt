@@ -38,7 +38,9 @@ var MapasPage = function () {
   };
 
   this.acaoPanelOpened = function() {
-    return world.waitForByXpath(opcaoPanel);
+    return world.waitForSweetOverlayDisappear().then(function() {
+      return world.waitForByXpath(opcaoPanel);
+    });
   };
 
   this.filterPanelOpened = function() {

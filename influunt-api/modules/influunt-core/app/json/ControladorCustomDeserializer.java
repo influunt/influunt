@@ -1286,7 +1286,7 @@ public class ControladorCustomDeserializer {
         if (node.has("data")) {
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             try {
-                evento.setData(formatter.parse((node.get("data").asText())));
+                evento.setData(formatter.parse(node.get("data").asText()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

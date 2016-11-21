@@ -20,6 +20,7 @@ DELETE FROM `controladores_fisicos`;
 DELETE FROM `controladores`;
 DELETE FROM `agrupamentos`;
 DELETE FROM `limite_area`;
+DELETE FROM `subareas`;
 DELETE FROM `areas`;
 DELETE FROM `cidades`;
 DELETE FROM `modelo_controladores`;

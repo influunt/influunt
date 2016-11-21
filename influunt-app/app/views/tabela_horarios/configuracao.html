@@ -74,7 +74,11 @@
             </div>
           </div>
 
-          <influunt-modal-timeline resource="'tabelas_horarias'" resource-id="$state.params.id"></influunt-modal-timeline>
+          <influunt-modal-timeline
+            resource="'tabelas_horarias'"
+            resource-id="$state.params.id"
+            mostrar-link-alteracoes="true"
+            link-alteracoes="app.tabelas_horarias_diff"></influunt-modal-timeline>
         </fieldset>
       </div>
     </div>

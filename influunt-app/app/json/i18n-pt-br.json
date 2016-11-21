@@ -641,7 +641,9 @@
     "sair": "Sair"
   },
   "timeline": {
-    "titulo": "Histórico de alterações"
+    "titulo": "Histórico de alterações",
+    "verAlteracoes": "Ver alterações",
+    "vazio": "O histórico está vazio."
   },
   "perfis": {
     "definir_permissoes": "Definir permissões",
@@ -760,9 +762,6 @@
     "mensagem_erro_502": "Erro ao comunicar com a API.",
     "mensagem_erro_404": "Não encontrado."
   },
-  "historico": {
-    "vazio": "O histórico está vazio."
-  },
   "diagrama_intervalo": {
     "erros": {
       "nao_existe_plano": "Plano {NUMERO} não está configurado para esse anel."
@@ -795,6 +794,28 @@
     "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
     "veicular": "Veicular"
   },
+  "imporConfig": {
+    "titulo": "Impor Configuração",
+    "status": "Status",
+    "cla": "CLA",
+    "local": "Local",
+    "info": "Info",
+    "imporPlano": "Impor Plano",
+    "imporModo": "Impor Modo",
+    "sincronizar": "Sincronizar",
+    "plano": "Plano",
+    "entrada": "Entrada",
+    "horaEntrada": "Hora de Entrada",
+    "duracao": "Duração",
+    "editar": "Editar",
+    "imporApagado": "Impor modo Apagado",
+    "imporInterm": "impor modo interminente",
+    "sincronizarApenas": "Sincronizar apenas Tabela Horária",
+    "sincronizarHoraPlano": "Sincronizar Tabela Horária e Planos",
+    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos, Configurações",
+    "sincronizando": "Sincronizando",
+    "configurado": "Configurado"
+  },
   "EM_CONFIGURACAO": "Em Configuração",
   "CONFIGURADO": "Configurado",
   "ATIVO": "Ativo",
@@ -809,6 +830,25 @@
     "inicio": "Início",
     "fim": "Fim",
     "titulo": "Relatórios",
+    "cla": "CLA",
+    "estado": "Estado",
+    "nomeCruzamento": "Nome do cruzamento",
+    "plano": "Plano",
+    "modo": "Modo",
+    "emFalha": "Em falha",
+    "planoTemp": "Plano Temporário",
+    "coordenado": "Coordenado",
+    "sobImposicao": "Sob imposição de Plano",
+    "planoTemp": "Plano Temporário",
+    "opManual": "Operação Manual",
+    "sobVigente": "Sob plano vigente",
+    "isolado": "Isolado",
+    "planoExclusivo": "Plano exclusivo",
+    "atuado": "Atuado",
     "tipo": "Tipo Relatório"
+  },
+  "diff": {
+    "versaoCriadaPor": "Versão criada por",
+    "em": "em"
   }
 }

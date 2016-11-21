@@ -17,6 +17,7 @@
 @import url(./influunt/plano.css);
 @import url(./influunt/mapa-controladores.css);
 @import url(./influunt/simulacao.css);
+@import url(./influunt/diff.css);
 @import url(./directives/influunt-knob.css);
 @import url(./directives/influunt-map.css);
 @import url(./directives/influunt-tabs.css);

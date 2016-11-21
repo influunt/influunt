@@ -55,7 +55,7 @@ public class PlanosController extends Controller {
         if (anel == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            List<VersaoPlano> versoes = anel.getVersoesPlanos();
+            List<VersaoPlano> versoes = VersaoPlano.versoes(anel);
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
         }
     }
