@@ -268,6 +268,11 @@ angular.module('influuntApp')
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
+        if (!controlador) {
+          console.log('controlador', mensagem.idControlador, 'não existe.');
+          return false;
+        }
+
         var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
         controlador.online = isOnline;
         controlador.status = isOnline ? ONLINE : OFFLINE;
@@ -290,6 +295,11 @@ angular.module('influuntApp')
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
+        if (!controlador) {
+          console.log('controlador', mensagem.idControlador, 'não existe.');
+          return false;
+        }
+
         controlador.status = mensagem.conteudo.status;
 
         var msg = $filter('translate')(
@@ -303,6 +313,11 @@ angular.module('influuntApp')
       trocaPlanoWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
+
+        if (!controlador) {
+          console.log('controlador', mensagem.idControlador, 'não existe.');
+          return false;
+        }
 
         var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
         var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
@@ -325,8 +340,13 @@ angular.module('influuntApp')
       alarmesEFalhasWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
-        var anel = null;
 
+        if (!controlador) {
+          console.log('controlador', mensagem.idControlador, 'não existe.');
+          return false;
+        }
+
+        var anel = null;
         var obj = controlador;
         var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
 

@@ -112,6 +112,7 @@
         "anelEmFalha": "O anel <strong>{ANEL}</strong> entrou em falha",
         "controladorEmFalha": "O controlador <strong>{CONTROLADOR}</strong> entrou em falha",
         "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>",
+        "trocaPlanoAnelEControlador": "Troca de plano no anel <strong>{ANEL}</strong>, controlador <strong>{CONTROLADOR}</strong>",
         "mudancaStatusControlador": "Troca de status no controlador <strong>{CONTROLADOR}</strong>",
         "controladorOnline": "O controlador {CONTROLADOR} está online",
         "controladorOffline": "O controlador {CONTROLADOR} está offline"
@@ -616,6 +617,7 @@
     "controlStatus": "Controladores Por Status",
     "controlModo": "Controladores Por Modo",
     "controlApresentando": "controlador está apresentando",
+    "falhasRegistradas": "{FALHAS, plural, one {<strong>uma falha</strong> foi registrada} other {<strong># falhas</strong> foram registradas}} recentemente",
     "recuperaFalhas": "se recuperaram de falhas na última hora",
     "quedaEnergia": "Queda de Energia",
     "faseQueimada": "Fase Pedestre Queimada",
