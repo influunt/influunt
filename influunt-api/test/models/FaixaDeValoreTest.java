@@ -13,9 +13,10 @@ public class FaixaDeValoreTest extends WithInfluuntApplicationNoAuthentication {
     public void validaValores() {
         FaixasDeValores faixasDeValores = FaixasDeValores.getInstance();
         faixasDeValores.save();
+        String valorPadrao = "255";
 
         assertEquals("0", faixasDeValores.getTempoDefasagemMin().toString());
-        assertEquals("255", faixasDeValores.getTempoDefasagemMax().toString());
+        assertEquals(valorPadrao, faixasDeValores.getTempoDefasagemMax().toString());
 
         assertEquals("3", faixasDeValores.getTempoAmareloMin().toString());
         assertEquals("5", faixasDeValores.getTempoAmareloMax().toString());
@@ -39,24 +40,24 @@ public class FaixaDeValoreTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals("10", faixasDeValores.getTempoVerdeSegurancaPedestreMax().toString());
 
         assertEquals("20", faixasDeValores.getTempoMaximoPermanenciaEstagioMin().toString());
-        assertEquals("255", faixasDeValores.getTempoMaximoPermanenciaEstagioMax().toString());
+        assertEquals(valorPadrao, faixasDeValores.getTempoMaximoPermanenciaEstagioMax().toString());
 
         assertEquals("127", faixasDeValores.getDefaultTempoMaximoPermanenciaEstagioVeicular().toString());
 
         assertEquals("30", faixasDeValores.getTempoCicloMin().toString());
-        assertEquals("255", faixasDeValores.getTempoCicloMax().toString());
+        assertEquals(valorPadrao, faixasDeValores.getTempoCicloMax().toString());
 
         assertEquals("10", faixasDeValores.getTempoVerdeMinimoMin().toString());
-        assertEquals("255", faixasDeValores.getTempoVerdeMinimoMax().toString());
+        assertEquals(valorPadrao, faixasDeValores.getTempoVerdeMinimoMax().toString());
 
         assertEquals("10", faixasDeValores.getTempoVerdeIntermediarioMin().toString());
-        assertEquals("255", faixasDeValores.getTempoVerdeIntermediarioMax().toString());
+        assertEquals(valorPadrao, faixasDeValores.getTempoVerdeIntermediarioMax().toString());
 
         assertEquals("1.0", faixasDeValores.getTempoExtensaoVerdeMin().toString());
         assertEquals("10.0", faixasDeValores.getTempoExtensaoVerdeMax().toString());
 
         assertEquals("1", faixasDeValores.getTempoVerdeMin().toString());
-        assertEquals("255", faixasDeValores.getTempoVerdeMax().toString());
+        assertEquals(valorPadrao, faixasDeValores.getTempoVerdeMax().toString());
 
         assertEquals("0", faixasDeValores.getTempoAusenciaDeteccaoMin().toString());
         assertEquals("5800", faixasDeValores.getTempoAusenciaDeteccaoMax().toString());
