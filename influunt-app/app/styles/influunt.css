@@ -2930,6 +2930,16 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   color: #ec4758;
 }
 
+.certo {
+  font-size: 18px;
+  color: #1ab394;
+}
+
+.errado {
+  font-size: 18px;
+  color: #ec4758;
+}
+
 p.velocidade-error {
   margin-top: -15px;
 }

@@ -542,4 +542,19 @@ public class Plano extends Model implements Cloneable, Serializable {
             System.out.println("E" + key.getKey() + "-" + "E" + key.getValue() + ": " + value);
         });
     }
+
+    public EstagioPlano getEstagioPlanoNoMomento(Long momentoEntrada) {
+        Long fimEstagio = 0L;
+        final List<EstagioPlano> lista = getEstagiosOrdenados();
+        EstagioPlano estagioPlano = null;
+
+        for (int i = 0; i < lista.size(); i++) {
+            fimEstagio += (lista.get(i).getDuracaoEstagio() * 1000L);
+            if (momentoEntrada <= fimEstagio) {
+                estagioPlano = lista.get(i);
+                break;
+            }
+        }
+        return estagioPlano;
+    }
 }

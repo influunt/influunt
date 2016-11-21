@@ -13,6 +13,7 @@
 @import url(./style.css);
 @import url(./pace.css);
 @import url(./influunt.css);
+@import url(./influunt/dashboard.css);
 @import url(./influunt/plano.css);
 @import url(./influunt/mapa-controladores.css);
 @import url(./influunt/simulacao.css);

@@ -5,6 +5,8 @@ import com.google.inject.Singleton;
 import config.auth.TestDeadboltHandlerCache;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.TestDeviceConfig;
+import os72c.client.device.DeviceBridge;
+import os72c.client.device.FakeDevice;
 import os72c.client.storage.MapStorage;
 import os72c.client.storage.Storage;
 import os72c.client.storage.StorageConf;
@@ -32,7 +34,10 @@ public class WithInfluuntApplicationNoAuthentication extends WithInfluuntApplica
             .overrides(bind(DeviceConfig.class).to(TestDeviceConfig.class).in(Singleton.class))
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
+            .overrides(bind(DeviceBridge.class).to(FakeDevice.class).in(Singleton.class))
             .in(Mode.TEST).build();
+
+
     }
 
 }

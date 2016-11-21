@@ -869,7 +869,7 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
-            
+
               try{
                 processaEstagios(json.aneis);
                 processaPlanos(json.trocas);

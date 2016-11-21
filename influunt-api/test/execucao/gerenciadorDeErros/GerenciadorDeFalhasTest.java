@@ -28,9 +28,9 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
         //Avancar
         avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA, getGrupoSemaforico(1)));
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA, 1, 1));
         avancarSegundos(motor, 600);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(660), TipoEvento.FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_REMOCAO, getGrupoSemaforico(1)));
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(660), TipoEvento.REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO, 1, 1));
         avancarSegundos(motor, 100);
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());

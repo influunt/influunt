@@ -20,6 +20,6 @@ angular.module('influuntApp')
         ATIVO: 'badge-success'
       };
 
-      return '<span class="badge ' + tags[input] + ' empty-badge"> </span>' + text;
+      return '<span class="badge ' + tags[input] + ' empty-badge">' + text + ' </span>';
     };
   }]);

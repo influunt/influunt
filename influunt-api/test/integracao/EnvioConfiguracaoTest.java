@@ -30,11 +30,17 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
     }
 
     @Test
+    public void execucaoDevice() {
+        startClient();
+        List<Erro> erros = getErros(controlador);
+        assertThat(erros, org.hamcrest.Matchers.empty());
+    }
+
+    @Test
     public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
         controlador.save();
-        startClient();
 
         startClient();
 
@@ -124,4 +130,5 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
             ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class);
     }
+
 }

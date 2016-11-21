@@ -105,9 +105,15 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     }
 
     private void sendToBroker(MqttMessage message) throws MqttException {
-        String parsedBytes = new String(message.getPayload());
-        Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
-        router.route(envelope, getSender());
+        try {
+            String parsedBytes = new String(message.getPayload());
+            Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
+            router.route(envelope, getSender());
+            System.out.println("Envelope Roteado:" + envelope.toString());
+        } catch (Exception e) {
+            System.out.println("Mensagem desconhecida:" + e.getMessage());
+
+        }
     }
 
     private void connect() throws MqttException {
@@ -141,6 +147,14 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         });
 
         client.subscribe("central/transacoes/+", 1, (topic, message) -> {
+            sendToBroker(message);
+        });
+
+        client.subscribe("central/alarmes_falhas/+", 1, (topic, message) -> {
+            sendToBroker(message);
+        });
+
+        client.subscribe("central/troca_plano/+", 1, (topic, message) -> {
             sendToBroker(message);
         });
     }

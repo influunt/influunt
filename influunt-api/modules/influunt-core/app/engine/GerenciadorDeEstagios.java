@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
+import helpers.GerenciadorEstagiosHelper;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -260,19 +261,41 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private List<EstagioPlano> listaEstagioPlanosSincronizada(List<EstagioPlano> estagiosOrdenados, Long momentoEntrada) {
         List<EstagioPlano> novaLista = new ArrayList<>();
         final long[] tempoRestante = {momentoEntrada};
-        estagiosOrdenados.stream().forEach(estagioPlano -> {
-            final long duracaoEstagio = estagioPlano.getDuracaoEstagio() * 1000L;
-            if (tempoRestante[0] >= duracaoEstagio) {
-                tempoRestante[0] -= duracaoEstagio;
-            } else {
-                novaLista.add(estagioPlano);
-            }
-        });
+
+        final EstagioPlano estagioPlanoMomentoEntrada = this.plano.getEstagioPlanoNoMomento(momentoEntrada);
+
+        if (estagioPlanoAtual != null &&
+            estagioPlanoAtual.getEstagio() != null &&
+            estagioPlanoAtual.getEstagio().temTransicaoProibidaParaEstagio(estagioPlanoMomentoEntrada.getEstagio())) {
+
+            final EstagioPlano estagioPlanoAlternativo = GerenciadorEstagiosHelper.getEstagioPlanoAlternativoDaTransicaoProibida(estagioPlanoAtual.getEstagio(),
+                estagioPlanoMomentoEntrada.getEstagio(), estagiosOrdenados);
+
+            estagiosOrdenados.stream().forEach(estagioPlano -> {
+                if (estagioPlano.getPosicao() < estagioPlanoAlternativo.getPosicao()) {
+                    tempoRestante[0] -= estagioPlano.getDuracaoEstagio() * 1000L;
+                } else {
+                    novaLista.add(estagioPlano);
+                }
+            });
+
+        } else {
+            estagiosOrdenados.stream().forEach(estagioPlano -> {
+                final long duracaoEstagio = estagioPlano.getDuracaoEstagio() * 1000L;
+                if (tempoRestante[0] >= duracaoEstagio) {
+                    tempoRestante[0] -= duracaoEstagio;
+                } else {
+                    novaLista.add(estagioPlano);
+                }
+            });
+        }
+
         if (tempoAbatimentoCoordenado != null) {
             tempoAbatimentoCoordenado += tempoRestante[0];
         } else {
             tempoAbatimentoCoordenado = tempoRestante[0];
         }
+
         return novaLista;
     }
 

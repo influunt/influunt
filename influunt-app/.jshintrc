@@ -27,6 +27,7 @@
     "Blob": true,
     "saveAs": true,
     "bowser": true,
+    "toastr": true,
 
     // leaflet lib
     "L": true,

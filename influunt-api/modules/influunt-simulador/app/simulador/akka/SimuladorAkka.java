@@ -56,4 +56,14 @@ public class SimuladorAkka extends Simulador {
         simuladorActor.storeAlarme(timestamp, eventoMotor);
     }
 
+    @Override
+    public void onFalha(DateTime timestamp, EventoMotor eventoMotor) {
+
+    }
+
+    @Override
+    public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
+
+    }
+
 }

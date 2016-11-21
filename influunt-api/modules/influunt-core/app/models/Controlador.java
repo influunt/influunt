@@ -108,9 +108,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToMany(mappedBy = "controlador")
     private List<GrupoSemaforico> gruposSemaforicos;
 
-    @OneToMany(mappedBy = "controlador")
-    private List<Detector> detectores;
-
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private Endereco endereco;
@@ -471,14 +468,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.gruposSemaforicos = gruposSemaforicos;
     }
 
-    public List<Detector> getDetectores() {
-        return detectores;
-    }
-
-    public void setDetectores(List<Detector> detectores) {
-        this.detectores = detectores;
-    }
-
     public DateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -835,11 +824,46 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return null;
     }
 
+    public Detector findDetectorByPosicaoETipo(TipoDetector tipoDetector, Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getDetectores)
+            .flatMap(Collection::stream)
+            .filter(detector -> posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo()))
+            .findFirst()
+            .orElse(null);
+    }
+
     public RangeUtils getRangeUtils() {
         return rangeUtils;
     }
 
     public void setRangeUtils(RangeUtils rangeUtils) {
         this.rangeUtils = rangeUtils;
+    }
+
+    public Anel findAnelByDetector(TipoDetector tipoDetector, Integer posicao) {
+        Detector detector = findDetectorByPosicaoETipo(tipoDetector, posicao);
+        if (detector != null) {
+            return detector.getAnel();
+        }
+        return null;
+    }
+
+    public GrupoSemaforico findGrupoSemaforicoByPosicao(Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getGruposSemaforicos)
+            .flatMap(Collection::stream)
+            .filter(grupoSemaforico -> posicao.equals(grupoSemaforico.getPosicao()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public Anel findAnelByGrupoSemaforico(Integer posicao) {
+        GrupoSemaforico grupoSemaforico = findGrupoSemaforicoByPosicao(posicao);
+        if (grupoSemaforico != null) {
+            return grupoSemaforico.getAnel();
+        } else {
+            return null;
+        }
     }
 }

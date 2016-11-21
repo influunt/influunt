@@ -1,6 +1,6 @@
 package os72c.client.protocols;
 
-import os72c.client.models.EstadoGrupo;
+import engine.IntervaloGrupoSemaforico;
 import os72c.client.models.TipoEvento;
 
 import java.util.Date;
@@ -13,11 +13,11 @@ public class MensagemControladorSupervisor extends Mensagem {
 
     public final String[] argumentos;
 
-    public final EstadoGrupo[] estadoDosGrupos;
+    public final IntervaloGrupoSemaforico intervaloGrupoSemaforico;
 
-    public MensagemControladorSupervisor(TipoEvento tipoEvento, EstadoGrupo[] estadoDosGrupos, String... args) {
+    public MensagemControladorSupervisor(TipoEvento tipoEvento, IntervaloGrupoSemaforico intervaloGrupoSemaforico, String... args) {
         this.tipoEvento = tipoEvento;
-        this.estadoDosGrupos = estadoDosGrupos;
+        this.intervaloGrupoSemaforico = intervaloGrupoSemaforico;
         this.argumentos = args;
     }
 

@@ -27,7 +27,6 @@ public class Module extends AbstractModule {
         bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
         bind(InfluuntContextManager.class).asEagerSingleton();
         bind(InfluuntEmailService.class).asEagerSingleton();
-        //bind(server.Central.class).asEagerSingleton();
     }
 
 }

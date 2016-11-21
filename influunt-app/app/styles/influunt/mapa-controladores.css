@@ -141,20 +141,30 @@
   min-width: 180px;
 }
 
-.agrupamento-sample {
+#modal-legenda-agrupamentos .agrupamento-sample {
   border: 0.3em dashed;
   width: 50px;
   height: 12px;
 }
 
-.agrupamento-sample.rota {
+#modal-legenda-agrupamentos .agrupamento-sample.rota {
   border-color: #555;
 }
 
-.agrupamento-sample.corredor {
+#modal-legenda-agrupamentos .agrupamento-sample.corredor {
   border-color: #2196f3;
 }
 
-.agrupamento-sample.subarea {
+#modal-legenda-agrupamentos .agrupamento-sample.subarea {
   border-color: #4caf50;
+}
+
+#modal-legenda-agrupamentos .texto-legenda {
+  text-align: left;
+  font-weight: bold;
+}
+
+#modal-legenda-agrupamentos .marker-legenda {
+  width: 32px;
+  height: 37px;
 }

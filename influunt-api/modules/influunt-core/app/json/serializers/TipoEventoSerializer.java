@@ -17,6 +17,7 @@ public class TipoEventoSerializer extends JsonSerializer<TipoEvento> {
     public void serialize(TipoEvento tipoEvento, JsonGenerator jgen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         jgen.writeStartObject();
         jgen.writeStringField("tipo", tipoEvento.toString());
+        jgen.writeStringField("tipoEventoControlador", tipoEvento.getTipoEventoControlador().toString());
         jgen.writeNumberField("codigo", tipoEvento.getCodigo());
         jgen.writeStringField("descricao", tipoEvento.getDescricao());
 

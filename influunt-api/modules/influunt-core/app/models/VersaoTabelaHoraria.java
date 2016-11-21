@@ -89,6 +89,23 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.statusVersao = StatusVersao.EDITANDO;
     }
 
+    /**
+     * Retorna a {@link  VersaoTabelaHoraria}
+     *
+     * @param controlador
+     * @return
+     */
+    public static List<VersaoTabelaHoraria> versoes(Controlador controlador) {
+        return findByControladorOrdered(controlador);
+    }
+
+    public static List<VersaoTabelaHoraria> findByControladorOrdered(Controlador controlador) {
+        return VersaoTabelaHoraria.find.where()
+            .eq("controlador_id", controlador.getId())
+            .orderBy("dataAtualizacao desc")
+            .findList();
+    }
+
     public UUID getId() {
         return id;
     }
@@ -187,23 +204,6 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
 
     public void finalizar() {
         setStatusVersao(StatusVersao.CONFIGURADO);
-    }
-
-    /**
-     * Retorna a {@link  VersaoTabelaHoraria}
-     *
-     * @param controlador
-     * @return
-     */
-    public static List<VersaoTabelaHoraria> versoes(Controlador controlador) {
-        return findByControladorOrdered(controlador);
-    }
-
-    public static List<VersaoTabelaHoraria> findByControladorOrdered(Controlador controlador) {
-        return VersaoTabelaHoraria.find.where()
-            .eq("controlador_id", controlador.getId())
-            .orderBy("dataAtualizacao desc")
-            .findList();
     }
 
     @Override
