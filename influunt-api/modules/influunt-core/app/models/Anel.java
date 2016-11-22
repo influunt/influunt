@@ -250,11 +250,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
-            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
-                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
-                    .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
-                this.versaoPlanoAtivo = versaoPlano;
-            } else {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
                 this.versaoPlanoAtivo = getVersoesPlanos().stream().filter(VersaoPlano::isAtivo).findFirst().orElse(null);
             }
         }
@@ -268,11 +264,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
-            if (getVersoesPlanos() == null || getVersoesPlanos().isEmpty()) {
-                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
-                    .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
-                this.versaoPlanoEdicao = versaoPlano;
-            } else {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
                 this.versaoPlanoEdicao = getVersoesPlanos().stream().filter(VersaoPlano::isEditando).findFirst().orElse(null);
             }
         }
@@ -282,11 +274,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoConfigurado() {
         if (versaoPlanoConfigurado == null) {
-            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
-                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
-                    .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.CONFIGURADO)).findUnique();
-                this.versaoPlanoConfigurado = versaoPlano;
-            } else {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
                 this.versaoPlanoConfigurado = getVersoesPlanos().stream().filter(VersaoPlano::isConfigurado).findFirst().orElse(null);
             }
         }

@@ -8,8 +8,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import org.joda.time.LocalTime;
+import play.libs.Json;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -69,6 +72,20 @@ public class AgrupamentoDeserializer extends JsonDeserializer<Agrupamento> {
                     anel.setId(UUID.fromString(anelJson.get("id").asText()));
                     if (anelJson.get("ativo") != null) {
                         anel.setAtivo(anelJson.get("ativo").asBoolean());
+                    }
+                    if (anelJson.has("versaoPlano") && anelJson.get("versaoPlano").has("id")) {
+                        VersaoPlano versaoPlano = new VersaoPlano();
+                        versaoPlano.setId(UUID.fromString(anelJson.get("versaoPlano").get("id").asText()));
+
+                        if (anelJson.get("versaoPlano").has("planos")) {
+                            for (JsonNode planoNode : anelJson.get("versaoPlano").get("planos")) {
+                                Plano plano = new Plano();
+                                plano.setPosicao(planoNode.get("posicao").asInt());
+                                versaoPlano.addPlano(plano);
+                            }
+                        }
+
+                        anel.addVersaoPlano(versaoPlano);
                     }
                     if (anelJson.has("controlador") && anelJson.get("controlador").has("id")) {
                         Controlador c = new Controlador();

@@ -163,22 +163,22 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
         verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 8000, 13000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 8000, 18000, EstadoGrupoSemaforico.VERDE));
 
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 2, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 2, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 2, 8000, 13000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 2, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 3, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 3, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 3, 8000, 13000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 3, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 4, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 4, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 4, 8000, 13000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 4, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 1, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 8000, 13000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 8000, 18000, EstadoGrupoSemaforico.VERDE));
     }
 }

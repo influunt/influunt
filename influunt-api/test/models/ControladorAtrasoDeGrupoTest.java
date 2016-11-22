@@ -52,7 +52,6 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
 
         List<Erro> erros = getErros(controlador);
         assertEquals(36, erros.size());
-        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
             new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),

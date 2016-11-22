@@ -151,9 +151,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.plano.isImposto();
     }
 
-    private boolean podeAgendar() {
-        return ((this.plano.isManual() && this.agendamento.isSaidaDoModoManual()) ||
-            (this.plano.isImposto() && this.agendamento.isSaidaImposicao()) ||
+    private boolean podeAgendar(AgendamentoTrocaPlano agendamento) {
+        return ((this.plano.isManual() && agendamento.isSaidaDoModoManual()) ||
+            (this.plano.isImposto() && agendamento.isSaidaImposicao()) ||
             (!this.plano.isManual() && !this.plano.isImposto()));
     }
 
@@ -215,7 +215,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     public void trocarPlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        if (podeAgendar()) {
+        if (podeAgendar(agendamentoTrocaPlano)) {
             agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
             agendamentoTrocaPlano.setAnel(anel);
             agendamento = agendamentoTrocaPlano;
