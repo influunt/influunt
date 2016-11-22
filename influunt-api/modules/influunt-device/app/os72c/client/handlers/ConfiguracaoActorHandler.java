@@ -41,10 +41,10 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
                         log.info("Responder OK para Central: {}", envelope.getConteudo().toString());
-                        envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao());
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao(),null);
                     } else {
                         log.info("Responder ERRO para Central: {}", envelope.getConteudo().toString());
-                        envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao(),null);
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
                     envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
@@ -55,7 +55,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
         } else if (message instanceof String) {
             if (message.toString().equals("VERIFICA")) {
                 log.info("Solicita configuração a central: {}", sender());
-                getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
+                getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao",storage.getPublicKey()), getSelf());
             }
         }
     }

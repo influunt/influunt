@@ -1,8 +1,22 @@
 package protocol;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+import utils.EncryptionUtil;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.UUID;
+
+import static play.libs.Json.newObject;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -106,4 +120,56 @@ public class Envelope {
     public Envelope replayWithSameMenssage(String detino) {
         return new Envelope(this.tipoMensagem, this.idControlador, detino, this.qos, this.conteudo, this.idMensagem);
     }
+
+
+    public String toJsonCriptografado(String publicKey){
+        try {
+            PublicKey pk =
+                KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec( Hex.decodeHex(publicKey.toCharArray())));
+            SecretKey secretKey = EncryptionUtil.generateAESKey();
+            String key = Hex.encodeHexString(EncryptionUtil.encryptRSA(secretKey.getEncoded(),pk));
+            String json = Hex.encodeHexString(EncryptionUtil.encryptAES(toJson(),secretKey));
+            ObjectNode root = newObject();
+            root.put("key",key);
+            root.put("controladorId",this.getIdControlador());
+            root.put("content",json);
+            return root.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (DecoderException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+//    public void decriptografar(PrivateKey privateKey){
+//        try {
+//            byte[] encriptedAesKey = Hex.decodeHex(this.key.toCharArray());
+//            byte decriptedAesKey[] = EncryptionUtil.decryptRSA(encriptedAesKey,privateKey);
+//            this.conteudo = EncryptionUtil.decryptAES(this.conteudo.toString(),decriptedAesKey);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (DecoderException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

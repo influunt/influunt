@@ -10,7 +10,12 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
+import org.apache.commons.codec.binary.Hex;
+import utils.EncryptionUtil;
 
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.EncodedKeySpec;
 import java.util.Collections;
 
 /**
@@ -25,6 +30,8 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, String> controlador;
 
+    private final HTreeMap<String, String> keys;
+
     @Inject
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
@@ -38,6 +45,25 @@ public class MapStorage implements Storage {
             this.status.put("status", StatusDevice.NOVO.toString());
             db.commit();
         }
+
+        this.keys = this.db.hashMap("keys")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 1, 1)
+            .createOrOpen();
+
+        if (!this.keys.containsKey("keys")) {
+            try {
+                KeyPair keyPair = EncryptionUtil.generateRSAKey();
+                this.keys.put("private", Hex.encodeHexString(keyPair.getPrivate().getEncoded()));
+                this.keys.put("public", Hex.encodeHexString(keyPair.getPublic().getEncoded()));
+                db.commit();
+
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         this.controlador = this.db.hashMap("controladores")
             .keySerializer(Serializer.STRING)
@@ -109,6 +135,28 @@ public class MapStorage implements Storage {
     public void setPlanosStaging(JsonNode plano) {
         this.controlador.put("tempPlanos", plano.toString());
         db.commit();
+    }
+
+
+    @Override
+    public String getPublicKey() {
+        return this.keys.get("public");
+    }
+
+    @Override
+    public String getPrivateKey() {
+        return this.keys.get("private");
+    }
+
+    @Override
+    public void setCentralPublicKey(String publicKey) {
+        this.keys.put("central",publicKey);
+        db.commit();
+    }
+
+    @Override
+    public String getCentralPublicKey() {
+        return this.keys.get("central");
     }
 
 }
