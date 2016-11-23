@@ -16,9 +16,17 @@ Funcionalidade: Realizar filtros no mapa
     Então o sistema deverá mostrar no mapa "3" controladores
     E o sistema deverá mostrar no mapa "2" aneis
 
-  Cenário: Vizualizar aneis agrupados no mapa
+  Cenário: Realizar zoom no mapa
     Dado usuário estiver na tela de mapa
     Quando o usuário clicar no menu filtros para "fechar"
+    E o usuário realizar um "Zoom out" no mapa
+    E o usuário realizar um "Zoom out" no mapa
+    E o usuário realizar um "Zoom out" no mapa
+    Então o sistema deverá mostrar "5" controladores agrupados
+
+  Cenário: Vizualizar aneis agrupados no mapa
+    Dado usuário estiver na tela de mapa
+    Quando o usuário clicar no grupo de aneis "5"
     E o usuário realizar um "Zoom out" no mapa
     E o usuário clicar no grupo de aneis "2"
     Então o sistema deverá mostrar no mapa "3" controladores
