@@ -11,14 +11,20 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
+import models.Controlador;
+import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
+import utils.EncryptionUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -100,19 +106,34 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);
-        message.setPayload(envelope.toJson().getBytes());
+        String publicKey = Controlador.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
+        message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);
     }
 
     private void sendToBroker(MqttMessage message) throws MqttException {
         try {
             String parsedBytes = new String(message.getPayload());
-            Envelope envelope = new Gson().fromJson(parsedBytes, Envelope.class);
-            router.route(envelope, getSender());
-            System.out.println("Envelope Roteado:" + envelope.toString());
-        } catch (Exception e) {
-            System.out.println("Mensagem desconhecida:" + e.getMessage());
+            Map msg = new Gson().fromJson(parsedBytes, Map.class);
+            String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
+            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
 
+            router.route(envelope, getSender());
+
+        } catch (DecoderException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
         }
     }
 
@@ -121,7 +142,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
-        opts.setConnectionTimeout(10);
+        opts.setConnectionTimeout(0);
         opts.setWill("central/morreu", "1".getBytes(), 1, true);
         client.setCallback(this);
         client.connect(opts);

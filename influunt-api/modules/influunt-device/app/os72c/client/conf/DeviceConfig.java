@@ -11,4 +11,13 @@ public interface DeviceConfig {
     public String getDeviceId();
 
     public void setDeviceId(String id);
+
+    public String getCentralPublicKey();
+
+    public void setCentralPublicKey(String publicKey);
+
+    public String getPrivateKey();
+
+    public void setPrivateKey(String publicKey);
+
 }
