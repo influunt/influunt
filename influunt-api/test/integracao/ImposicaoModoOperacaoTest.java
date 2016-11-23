@@ -32,7 +32,7 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
     }
 
     @Test
-    public void enviarPlanosNaoOK() {
+    public void imporModoComErro() {
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
 

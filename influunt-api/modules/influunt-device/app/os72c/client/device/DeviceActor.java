@@ -119,21 +119,21 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
+            System.out.println("Menssagem recebida no device actor: " + envelope.getTipoMensagem());
             switch (envelope.getTipoMensagem()) {
                 case OK:
                     start();
                     break;
 
                 case IMPOSICAO_DE_MODO_OPERACAO:
-                    JsonNode conteudo = envelope.getConteudoParsed();
-                    String modoOperacao = conteudo.get("modoOperacao").asText();
-                    int numeroAnel = conteudo.get("numeroAnel").asInt();
-                    int duracao = conteudo.get("duracao").asInt();
-                    imporModoOperacao(modoOperacao, numeroAnel, duracao);
+                    imporModoOperacao(envelope.getConteudoParsed());
+                    break;
+
+                case IMPOSICAO_DE_PLANO:
+                    imporPlano(envelope.getConteudoParsed());
                     break;
             }
         }
-        System.out.println("Menssagem recebida no device actor");
     }
 
     @Override
@@ -143,7 +143,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        boolean disparar = true;
         Anel anel = null;
         if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
             if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
@@ -169,7 +168,17 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         return controlador.findAnelByGrupoSemaforico(posicao);
     }
 
-    private void imporModoOperacao(String modoOperacao, int numeroAnel, int duracaoEmMinutos) {
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracaoEmMinutos));
+    private void imporModoOperacao(JsonNode conteudo) {
+        String modoOperacao = conteudo.get("modoOperacao").asText();
+        int numeroAnel = conteudo.get("numeroAnel").asInt();
+        int duracao = conteudo.get("duracao").asInt();
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao));
+    }
+
+    private void imporPlano(JsonNode conteudo) {
+        int posicaoPlano = conteudo.get("posicaoPlano").asInt();
+        int numeroAnel = conteudo.get("numeroAnel").asInt();
+        int duracao = conteudo.get("duracao").asInt();
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao));
     }
 }

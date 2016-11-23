@@ -70,7 +70,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                 }
                                 break;
 
-                            case IMPOSICAO_MODO:
+                            case IMPOSICAO_MODO_OPERACAO:
                                 try {
                                     payloadJson = Json.parse(transacao.payload.toString());
                                     ModoOperacaoPlano.valueOf(payloadJson.get("modoOperacao").asText());
@@ -86,6 +86,18 @@ public class TransacaoActorHandler extends UntypedActor {
                                 }
                                 break;
 
+                            case IMPOSICAO_PLANO:
+                                payloadJson = Json.parse(transacao.payload.toString());
+                                int posicaoPlano = payloadJson.get("posicaoPlano").asInt();
+                                int numeroAnel = payloadJson.get("numeroAnel").asInt();
+                                int duracao = payloadJson.get("duracao").asInt();
+                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1) {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                }
+                                break;
+
                             default:
                                 transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 break;
@@ -95,15 +107,28 @@ public class TransacaoActorHandler extends UntypedActor {
 
                     case COMMIT:
                         switch (transacao.tipoTransacao) {
-                            case IMPOSICAO_MODO:
+                            case IMPOSICAO_MODO_OPERACAO:
                                 payloadJson = Json.parse(transacao.payload.toString());
-                                String modoOperacao = payloadJson.get("modoOperacao").asText();
-                                int numeroAnel = payloadJson.get("numeroAnel").asInt();
-                                int duracao = payloadJson.get("duracao").asInt();
-                                Envelope envelopeImposicao = MensagemImposicaoModoOperacao.getMensagem(idControlador, modoOperacao, numeroAnel, duracao);
 
-                                ActorSelection motorActor = getContext().actorSelection(AtoresDevice.motor(idControlador));
-                                motorActor.tell(envelopeImposicao, getSelf());
+                                Envelope envelopeImposicaoModo = MensagemImposicaoModoOperacao.getMensagem(
+                                    idControlador,
+                                    payloadJson.get("modoOperacao").asText(),
+                                    payloadJson.get("numeroAnel").asInt(),
+                                    payloadJson.get("duracao").asInt());
+                                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoModo, getSelf());
+
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            case IMPOSICAO_PLANO:
+                                payloadJson = Json.parse(transacao.payload.toString());
+
+                                Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
+                                    idControlador,
+                                    payloadJson.get("posicaoPlano").asInt(),
+                                    payloadJson.get("numeroAnel").asInt(),
+                                    payloadJson.get("duracao").asInt());
+                                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoPlano, getSelf());
 
                                 transacao.etapaTransacao = EtapaTransacao.COMMITED;
                                 break;

@@ -45,10 +45,19 @@ public class TransacaoHelper {
     public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, int duracao, QoS qos) {
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, duracao)).toString();
-        Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO);
+        Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO);
         sendTransaction(transacao, qos);
         return transacao.transacaoId;
     }
+
+    public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, int duracao, QoS qos) {
+        String controladorId = controlador.getId().toString();
+        String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, duracao)).toString();
+        Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
+        sendTransaction(transacao, qos);
+        return transacao.transacaoId;
+    }
+
 
     private void sendTransaction(Transacao transacao, QoS qos) {
         String transacaoJson = transacao.toJson().toString();

@@ -11,5 +11,8 @@ public enum TipoTransacao {
     CONFIGURACAO_COMPLETA,
 
     // Imposição de modo de operação
-    IMPOSICAO_MODO
+    IMPOSICAO_MODO_OPERACAO,
+
+    // Imposição de plano
+    IMPOSICAO_PLANO
 }
