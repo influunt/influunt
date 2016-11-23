@@ -1,14 +1,25 @@
 package integracao;
 
 import checks.*;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
 import models.*;
+import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
+import os72c.client.storage.Storage;
+import protocol.Envelope;
 import protocol.TipoMensagem;
 import status.StatusControladorFisico;
+import utils.EncryptionUtil;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.validation.groups.Default;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -29,7 +40,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
-    @Test
+
     public void execucaoDevice() {
         startClient();
         List<Erro> erros = getErros(controlador);
@@ -37,73 +48,84 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
     }
 
     @Test
-    public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException {
+    public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
         controlador.save();
 
         startClient();
 
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 3);
 
-        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
-        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
-        String idMensagem = json.get("idMensagem").asText();
+        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(2)));
-        assertEquals(TipoMensagem.CONFIGURACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(idMensagem, json.get("emResposta").asText());
 
-        idMensagem = json.get("idMensagem").asText();
+        String idMensagem = envelope.getIdMensagem();
+        Storage storage = app.injector().instanceOf(Storage.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(2)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(3)));
-        assertEquals(TipoMensagem.ERRO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(idMensagem, json.get("emResposta").asText());
+        assertEquals(TipoMensagem.CONFIGURACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals(idMensagem, envelope.getEmResposta());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(4)));
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR.toString(), json.get("tipoMensagem").asText());
-        assertEquals(StatusDevice.NOVO.toString(), json.get("conteudo").get("status").asText());
-        assertEquals(StatusDevice.NOVO.toString(), StatusControladorFisico.ultimoStatus(idControlador).getStatusDevice().toString());
+        idMensagem = envelope.getIdMensagem();
+
+        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+        assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals(idMensagem, envelope.getEmResposta());
+
     }
 
     @Test
-    public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException {
+    public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
 
-        JsonNode json = play.libs.Json.parse(onPublishFutureList.get(1));
-        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
 
-        String idMensagem = json.get("idMensagem").asText();
+        Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
-        json = play.libs.Json.parse(onPublishFutureList.get(2));
-        assertEquals(TipoMensagem.CONFIGURACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(idMensagem, json.get("emResposta").asText());
+        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
 
-        idMensagem = json.get("idMensagem").asText();
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(3)));
-        assertEquals(TipoMensagem.OK.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(idMensagem, json.get("emResposta").asText());
+        String idMensagem = envelope.getIdMensagem();
+        Storage storage = app.injector().instanceOf(Storage.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(2)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(4)));
-        assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get("conteudo").get("status").asText());
+        assertEquals(TipoMensagem.CONFIGURACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals(idMensagem, envelope.getEmResposta());
+
+        idMensagem = envelope.getIdMensagem();
+
+        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+        assertEquals(TipoMensagem.OK, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals(idMensagem, envelope.getEmResposta());
+
+        map = new Gson().fromJson(new String(onPublishFutureList.get(4)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+
+
+        assertEquals(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals(StatusDevice.CONFIGURADO.toString(), new Gson().fromJson(envelope.getConteudo().toString(), Map.class).get("status"));
         await().until(() -> StatusControladorFisico.ultimoStatus(idControlador) != null);
         assertEquals(StatusDevice.CONFIGURADO.toString(), StatusControladorFisico.ultimoStatus(idControlador).getStatusDevice().toString());
     }
 
     @Test
-    public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException {
+    public void naoExisteConfiguracao() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
         versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
         versaoControlador.update();
@@ -111,16 +133,20 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         await().until(() -> onPublishFutureList.size() > 2);
 
-        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(1)));
-        assertEquals("CONFIGURACAO_INICIAL", json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
-        String idMensagem = json.get("idMensagem").asText();
+        assertEquals(TipoMensagem.CONFIGURACAO_INICIAL, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(2)));
-        assertEquals("ERRO", json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals(idMensagem, json.get("emResposta").asText());
+
+        String idMensagem = envelope.getIdMensagem();
+        Storage storage = app.injector().instanceOf(Storage.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(2)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
+        assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals(idMensagem, envelope.getEmResposta());
     }
 
     protected List<Erro> getErros(Controlador controlador) {

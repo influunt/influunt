@@ -15,8 +15,11 @@ import java.util.List;
  */
 public abstract class GerenciadorDeEventos {
     protected final Plano plano;
+
     protected final EstagioPlano estagioPlanoAtual;
+
     protected final List<EstagioPlano> listaEstagioPlanos;
+
     protected final GerenciadorDeEstagios gerenciadorDeEstagios;
 
     public GerenciadorDeEventos(GerenciadorDeEstagios gerenciadorDeEstagios) {

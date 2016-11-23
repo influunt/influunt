@@ -27,6 +27,10 @@ public class Client {
 
     private final String id;
 
+    private final String centralPublicKey;
+
+    private final String privateKey;
+
     private Configuration mqttSettings;
 
     private ActorRef servidor;
@@ -47,14 +51,19 @@ public class Client {
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
             id = deviceConfig.getDeviceId();
+            centralPublicKey = deviceConfig.getCentralPublicKey();
+            privateKey = deviceConfig.getPrivateKey();
+
         } else {
             mqttSettings = configuration.getConfig("device");
             host = mqttSettings.getConfig("mqtt").getString("host");
             port = mqttSettings.getConfig("mqtt").getString("port");
             id = mqttSettings.getString("id");
+            centralPublicKey = mqttSettings.getString("centralPublicKey");
+            privateKey = mqttSettings.getString("privateKey");
         }
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, storage, device), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage,device), id);
 
     }
 
@@ -66,5 +75,4 @@ public class Client {
     public void finish() {
         system.terminate();
     }
-
 }

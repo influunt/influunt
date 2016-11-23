@@ -14,13 +14,16 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
     public boolean prepare(ChangeSet changes) {
         PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-        final Usuario usuario;
-
-        if (Http.Context.current() != null) {
-            usuario = (Usuario) Http.Context.current().args.get("user");
-        } else {
-            usuario = null;
+        Usuario usu = null;
+        try {
+            if (Http.Context.current() != null) {
+                usu = (Usuario) Http.Context.current().args.get("user");
+            }
+        } catch (RuntimeException e) {
         }
+
+
+        final Usuario usuario = usu;
 
         changes.getChanges().forEach(change -> {
             change.getValues().remove("dataCriacao");

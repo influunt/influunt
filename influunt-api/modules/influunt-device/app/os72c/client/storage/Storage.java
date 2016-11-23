@@ -32,4 +32,14 @@ public interface Storage {
 
     public void setPlanosStaging(JsonNode plano);
 
+
+    public String getPrivateKey();
+
+    public void setPrivateKey(String publicKey);
+
+    public String getCentralPublicKey();
+
+    public void setCentralPublicKey(String publicKey);
+
+
 }

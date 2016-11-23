@@ -23,4 +23,24 @@ public class LocalDeviceConfig implements DeviceConfig {
     public void setDeviceId(String id) {
 
     }
+
+    @Override
+    public String getCentralPublicKey() {
+        return null;
+    }
+
+    @Override
+    public void setCentralPublicKey(String publicKey) {
+
+    }
+
+    @Override
+    public String getPrivateKey() {
+        return null;
+    }
+
+    @Override
+    public void setPrivateKey(String publicKey) {
+
+    }
 }

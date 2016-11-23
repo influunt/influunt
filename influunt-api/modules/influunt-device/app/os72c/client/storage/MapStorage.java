@@ -25,6 +25,8 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, String> controlador;
 
+    private final HTreeMap<String, String> keys;
+
     @Inject
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
@@ -38,6 +40,12 @@ public class MapStorage implements Storage {
             this.status.put("status", StatusDevice.NOVO.toString());
             db.commit();
         }
+
+        this.keys = this.db.hashMap("keys")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 1, 1)
+            .createOrOpen();
 
         this.controlador = this.db.hashMap("controladores")
             .keySerializer(Serializer.STRING)
@@ -113,6 +121,29 @@ public class MapStorage implements Storage {
     @Override
     public void setPlanosStaging(JsonNode plano) {
         this.controlador.put("tempPlanos", plano.toString());
+        db.commit();
+    }
+
+
+    @Override
+    public String getPrivateKey() {
+        return this.keys.get("private");
+    }
+
+    @Override
+    public void setPrivateKey(String privateKey) {
+        this.keys.put("private", privateKey);
+        db.commit();
+    }
+
+    @Override
+    public String getCentralPublicKey() {
+        return this.keys.get("central");
+    }
+
+    @Override
+    public void setCentralPublicKey(String publicKey) {
+        this.keys.put("central", publicKey);
         db.commit();
     }
 

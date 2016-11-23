@@ -34,17 +34,28 @@ public class ClientActor extends UntypedActor {
 
     private final Storage storage;
 
+    private final String centralPublicKey;
+
+    private final String controladorPrivateKey;
+
     private ActorRef device;
+
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtControlador;
 
-    public ClientActor(final String id, final String host, final String port, Storage storage, DeviceBridge device) {
+    public ClientActor(final String id, final String host, final String port, final String centralPublicKey, final String controladorPrivateKey, Storage storage, DeviceBridge deviceBridge) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
-        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, device), "motor");
+        this.centralPublicKey = centralPublicKey;
+        this.controladorPrivateKey = controladorPrivateKey;
+        if (storage.getCentralPublicKey() == null) {
+            storage.setCentralPublicKey(centralPublicKey);
+            storage.setPrivateKey(controladorPrivateKey);
+        }
+           this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge), "motor");
     }
 
 
