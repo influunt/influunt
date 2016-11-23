@@ -216,8 +216,10 @@ var ObjetosComuns = function () {
   };
 
   this.removeSelect2Option = function(option, field) {
-    return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
-      return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+    return world.sleep(400).then(function(){
+      return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
+        return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+      });
     });
   };
 
@@ -235,16 +237,16 @@ var ObjetosComuns = function () {
     var _this = this;
     switch(status) {
       case 'Em Edição':
-        return _this.getBadgeByClass('badge-warning');
+        return _this.getBadgeByClassStatus('badge-warning', status);
       case 'Configurado':
-        return _this.getBadgeByClass('badge-primary');
+        return _this.getBadgeByClassStatus('badge-primary', status);
       default:
         throw new Error('Status não encontrado: '+status);
     }
   };
 
-  this.getBadgeByClass = function(badge) {
-    return world.waitForByXpath('//span[contains(@class, "'+badge+'")]');
+  this.getBadgeByClassStatus = function(badge, text) {
+    return world.waitForByXpath('//span[contains(@class, "'+badge+'")][contains(text(), "'+text+'")]');
   };
 
   this.naoConsigaSelecionar = function(campo, valueToSelector) {
