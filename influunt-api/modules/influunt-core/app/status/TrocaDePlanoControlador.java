@@ -59,6 +59,19 @@ public class TrocaDePlanoControlador {
         return toList(trocas().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
+    public static HashMap<String, Boolean> ultimoStatusPlanoImposto() {
+        HashMap<String, Boolean> hash = new HashMap<>();
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'hasPlanoImposto': {$first:'$conteudo.imposicaoDePlano'}}}").
+                as(Map.class);
+        for (Map m : ultimoStatus) {
+            boolean hasPlanoImposto = m.get("hasPlanoImposto") == null ? false : Boolean.valueOf(m.get("hasPlanoImposto").toString());
+            hash.put(m.get("_id").toString(), hasPlanoImposto);
+        }
+
+        return hash;
+    }
+
     public static HashMap<String, ModoOperacaoPlano> ultimoModoOperacaoDosControladores() {
         HashMap<String, ModoOperacaoPlano> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
