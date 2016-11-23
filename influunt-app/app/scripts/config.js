@@ -1024,8 +1024,8 @@ angular
 
         .state('app.relatorios_controladores_status', {
           url: '/relatorios/controladores_status',
-          templateUrl: 'views/relatorios/controladoresStatus.html',
-          controller: 'RelatoriosCtrl',
+          templateUrl: 'views/relatorios/status.html',
+          controller: 'RelatoriosStatusCtrl',
           controllerAs: 'relatorios',
           data: {
             title: 'relatorios.controladoresStatus',

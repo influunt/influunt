@@ -830,8 +830,10 @@
     "controladoresStatus": "Controladores por Status",
     "controladoresFalhas": "Controladores por Falhas",
     "controladoresEntreVerdes": "Controladores com alteração Entreverdes",
+    "exportarCSV": "CSV",
     "gerar": "Gerar",
     "inicio": "Início",
+    "filtarPor": "Filtrar Por",
     "fim": "Fim",
     "titulo": "Relatórios",
     "cla": "CLA",
@@ -849,7 +851,8 @@
     "isolado": "Isolado",
     "planoExclusivo": "Plano exclusivo",
     "atuado": "Atuado",
-    "tipo": "Tipo Relatório"
+    "tipo": "Tipo Relatório",
+    "subareaAgrupamento": "Subarea / Agrupamento"
   },
   "diff": {
     "versaoCriadaPor": "Versão criada por",
