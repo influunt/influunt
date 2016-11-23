@@ -46,6 +46,17 @@ public class TrocaDePlanosControladorTest extends WithInfluuntApplicationNoAuthe
 
         Thread.sleep(10);
 
+        plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO);
+        AgendamentoTrocaPlano agendamento = new AgendamentoTrocaPlano(null, plano, new DateTime());
+        agendamento.setImposicaoPlano(true);
+        TrocaDePlanoControlador.log(System.currentTimeMillis(),
+            "2",
+            "1",
+            Json.toJson(agendamento)
+        );
+
+        Thread.sleep(10);
+
         plano.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
         TrocaDePlanoControlador.log(System.currentTimeMillis(),
             "1",
@@ -70,6 +81,7 @@ public class TrocaDePlanosControladorTest extends WithInfluuntApplicationNoAuthe
             "1",
             Json.toJson(new AgendamentoTrocaPlano(null, plano, new DateTime(), true))
         );
+
     }
 
     @Test

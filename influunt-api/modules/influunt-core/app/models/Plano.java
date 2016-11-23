@@ -98,6 +98,9 @@ public class Plano extends Model implements Cloneable, Serializable {
     @Transient
     private boolean impostoPorFalha = false;
 
+    @Transient
+    private boolean imposto = false;
+
     public Plano() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -556,5 +559,13 @@ public class Plano extends Model implements Cloneable, Serializable {
             }
         }
         return estagioPlano;
+    }
+
+    public boolean isImposto() {
+        return imposto;
+    }
+
+    public void setImposto(boolean imposto) {
+        this.imposto = imposto;
     }
 }
