@@ -61,7 +61,6 @@ Funcionalidade: Vizualisar Controladores em um Mapa
     Então o sistema deve mostrar um alert com a mensagem atuado não possue diagrama
     E o usuário confirmar
 
-
   Cenário: Enviar plano
     Dado o painel com opções esteja aberto
     Quando no painel clicar no botão "Enviar plano"

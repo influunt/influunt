@@ -51,8 +51,8 @@ var AreasPage = function () {
     return world.clickButton(novaAreaButton);
   };
 
-  this.limetesNaTabela = function() {
-    return world.waitFor('td.ng-binding li');
+  this.limetesNaTabela = function(limites) {
+    return world.waitForByXpath('//li[contains(text(), "'+limites+'")]');
   };
 
   this.textoExisteNaTabela = function(text) {
