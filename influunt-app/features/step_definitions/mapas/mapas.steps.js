@@ -52,8 +52,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o usuário clicar no menu filtros$/, function() {
-    return mapasPage.clicarMenuFiltros();
+  this.Given(/^o usuário clicar no menu filtros para "([^"]*)"$/, function(acao) {
+    return mapasPage.clicarMenuFiltros(acao);
   });
 
   this.Given(/^o menu filtros deverá aparecer$/, function() {
@@ -68,8 +68,8 @@ module.exports = function() {
     return mapasPage.checkPointsOnMapa('anel', quantidade);
   });
 
-  this.Given(/^o sistema deverá marcar o agrupamento no mapa$/, function() {
-    return mapasPage.checkAgrupamentoMapa();
+  this.Given(/^o sistema deverá marcar o agrupamento da subarea no mapa$/, function() {
+    return mapasPage.checkSubareaMapa();
   });
 
   this.Given(/^o sistema deverá mostrar "([^"]*)" controladores agrupados$/, function(numAgrupamento) {
@@ -78,5 +78,9 @@ module.exports = function() {
 
   this.Given(/^o usuário clicar no grupo de aneis "([^"]*)"$/, function(numAgrupamento) {
     return mapasPage.clicarAgrupamentoMapa(numAgrupamento);
+  });
+
+  this.Given(/^o usuário realizar um "([^"]*)" no mapa$/, function(acao) {
+    return mapasPage.zoom(acao);
   });
 };

@@ -15,7 +15,7 @@ angular.module('influuntApp')
 
           // não exibe o blockui para requests feitas somente para as requests dinamicas.
           if (request.headers['x-prevent-block-ui']) {
-            delete request.headers['x-prevent-block-ui']
+            delete request.headers['x-prevent-block-ui'];
             return request;
           }
 

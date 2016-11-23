@@ -8,23 +8,33 @@ Funcionalidade: Realizar filtros no mapa
     E que o usuário acesse a página de listagem de controladores
     E o usuário clicar no botão "Ver no mapa"
     Então o sistema deve redirecionar para o mapa
-    Quando o usuário clicar no menu filtros
+    Quando o usuário clicar no menu filtros para "abrir"
     Então o menu filtros deverá aparecer
 
   Cenário: Exibir todos os controladores e aneis configurados
     Dado usuário estiver na tela de mapa
     Então o sistema deverá mostrar no mapa "3" controladores
-    E o sistema deverá mostrar no mapa "0" aneis
-    E o sistema deverá mostrar "2" controladores agrupados
+    E o sistema deverá mostrar no mapa "2" aneis
+
+  Cenário: Realizar zoom no mapa
+    Dado usuário estiver na tela de mapa
+    Quando o usuário clicar no menu filtros para "fechar"
+    E o usuário realizar um "Zoom out" no mapa
+    E o usuário realizar um "Zoom out" no mapa
+    E o usuário realizar um "Zoom out" no mapa
+    Então o sistema deverá mostrar "5" controladores agrupados
 
   Cenário: Vizualizar aneis agrupados no mapa
     Dado usuário estiver na tela de mapa
-    Quando o usuário clicar no grupo de aneis "2"
+    Quando o usuário clicar no grupo de aneis "5"
+    E o usuário realizar um "Zoom out" no mapa
+    E o usuário clicar no grupo de aneis "2"
     Então o sistema deverá mostrar no mapa "3" controladores
     E o sistema deverá mostrar no mapa "2" aneis
 
   Cenário: Quero visualizar apenas os controladores
     Dado usuário estiver na tela de mapa
+    Quando o usuário clicar no menu filtros para "abrir"
     E o usuário clicar na opção "Anéis" para filtrar
     Então o sistema deverá mostrar no mapa "3" controladores
     E o sistema deverá mostrar no mapa "0" aneis
@@ -56,16 +66,16 @@ Funcionalidade: Realizar filtros no mapa
 
   Cenário: Quero remover do meu filtro os controladores selecionados
     Dado usuário estiver na tela de mapa
-    Quando o usuário remover o "2.000.0001" selecionado do campo "controladores"
-    Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "3" aneis
     Quando o usuário remover o "1.000.0001" selecionado do campo "controladores"
-    Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "2" aneis
+    Então o sistema deverá mostrar no mapa "3" controladores
+    E o sistema deverá mostrar no mapa "1" aneis
     Quando o usuário remover o "1.000.0002" selecionado do campo "controladores"
-    Então o sistema deverá mostrar no mapa "1" controladores
-    E o sistema deverá mostrar no mapa "2" aneis
+    Então o sistema deverá mostrar no mapa "2" controladores
+    E o sistema deverá mostrar no mapa "1" aneis
     Quando o usuário remover o "1.000.0003" selecionado do campo "controladores"
+    Então o sistema deverá mostrar no mapa "1" controladores
+    E o sistema deverá mostrar no mapa "1" aneis
+    Quando o usuário remover o "2.000.0001" selecionado do campo "controladores"
     Então o sistema deverá mostrar no mapa "3" controladores
     E o sistema deverá mostrar no mapa "2" aneis
 
@@ -79,15 +89,15 @@ Funcionalidade: Realizar filtros no mapa
     Dado usuário estiver na tela de mapa
     Quando o usuário remover o "2" selecionado do campo "areas"
     E o usuário selecionar o valor "AREA SUL PAULISTA" para o campo "subarea"
-    Então o sistema deverá marcar o agrupamento no mapa
+    Então o sistema deverá marcar o agrupamento da subarea no mapa
     E o sistema deverá mostrar no mapa "1" controladores
     E o sistema deverá mostrar no mapa "1" aneis
 
   Cenário: Quero filtar no mapa pelo agrupamento
     Dado usuário estiver na tela de mapa
-    Quando o usuário remover o "AREA SUL PAULISTA" selecionado do campo "subarea"
-    E o usuário selecionar o valor "Corredor da Paulista" para o campo "agrupamentos"
-    Então o sistema deverá marcar o agrupamento no mapa
+    Quando o usuário selecionar o valor "Corredor da Paulista" para o campo "agrupamentos"
+    E o usuário remover o "AREA SUL PAULISTA" selecionado do campo "subarea"
+    Então o sistema deverá marcar o agrupamento da subarea no mapa
     E o sistema deverá mostrar no mapa "2" controladores
     E o sistema deverá mostrar no mapa "2" aneis
 
