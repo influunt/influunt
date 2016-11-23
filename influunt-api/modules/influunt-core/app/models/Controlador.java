@@ -16,6 +16,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
+import play.libs.Json;
 import utils.DBUtils;
 import utils.EncryptionUtil;
 import utils.RangeUtils;
@@ -163,7 +164,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private RangeUtils rangeUtils;
 
     public static Controlador isValido(Object conteudo) {
-        JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
+        JsonNode controladorJson = Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
 
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
@@ -174,8 +175,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public static Controlador isPacotePlanosValido(Object controladorObject, Object planosObject) {
-        JsonNode controladorJson = play.libs.Json.parse(controladorObject.toString());
-        JsonNode planoJson = play.libs.Json.parse(planosObject.toString());
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode planoJson = Json.parse(planosObject.toString());
+
         Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
@@ -183,6 +185,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty() ? controlador : null;
     }
+
+
+
+
 
     public static Controlador findUniqueByArea(String controladorId, String areaId) {
         return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
@@ -929,5 +935,20 @@ public class Controlador extends Model implements Cloneable, Serializable {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Controlador controlador = (Controlador) o;
+
+        return id != null ? id.equals(controlador.id) : controlador.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

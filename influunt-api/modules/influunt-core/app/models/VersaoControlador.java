@@ -125,6 +125,7 @@ public class VersaoControlador extends Model implements Serializable {
         if (controladorFisico == null) {
             return Collections.emptyList();
         }
+
         return VersaoControlador.find.where().eq("controlador_fisico_id", controladorFisico.getId()).orderBy("data_atualizacao desc").findList();
     }
 

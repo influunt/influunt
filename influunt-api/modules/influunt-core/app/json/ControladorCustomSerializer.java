@@ -171,6 +171,15 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
+    public JsonNode getControladoresForImposicao(List<Controlador> controladores) {
+        ArrayNode controladoresJson = Json.newArray();
+        for (Controlador controlador : controladores) {
+            ObjectNode root = controladoresJson.addObject();
+            putControladorImposicoes(controlador, root);
+        }
+        return controladoresJson;
+    }
+
     public JsonNode getControladorSimulacao(Controlador controlador) {
         ObjectNode root = Json.newObject();
 
@@ -229,9 +238,9 @@ public class ControladorCustomSerializer {
     public JsonNode getPacotePlanosJson(Controlador controlador) {
         ObjectNode root = Json.newObject();
 
-        controlador.getAneis().stream().filter(anel -> anel.isAtivo()).forEach(anel -> {
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
             if (anel.getVersaoPlano() != null) {
-                versoesPlanosMap.put(anel.getVersaoPlano().getIdJson().toString(), anel.getVersaoPlano());
+                versoesPlanosMap.put(anel.getVersaoPlano().getIdJson(), anel.getVersaoPlano());
             }
         });
         putControladorVersoesPlanos(root);
@@ -240,12 +249,21 @@ public class ControladorCustomSerializer {
         putControladorEstagiosPlanos(root);
 
         if (controlador.getVersaoTabelaHoraria() != null) {
-            versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson().toString(), controlador.getVersaoTabelaHoraria());
+            versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria());
         }
         putControladorVersoesTabelasHorarias(root);
         putControladorTabelasHorarias(root);
         putControladorEventos(root);
 
+        return root;
+    }
+
+    public JsonNode getPacoteConfiguracaoCompletaJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
+        ObjectNode root = Json.newObject();
+        root.set("pacotePlanos", getPacotePlanosJson(controlador));
+        // pacoteConfiguracao seta alguns relacionamentos p/ null, portanto
+        // deve ser executado por último.
+        root.set("pacoteConfiguracao", getPacoteConfiguracaoJson(controlador, cidades, rangeUtils));
         return root;
     }
 
@@ -550,6 +568,52 @@ public class ControladorCustomSerializer {
             anelMap.put("ativo", anel.isAtivo());
             anelMap.put("posicao", anel.getPosicao());
             aneisJson.add(Json.toJson(anelMap));
+        });
+    }
+
+    private void putControladorImposicoes(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getVersaoControlador() != null) {
+            root.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
+            root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
+        }
+
+        ArrayNode aneisJson = root.putArray("aneis");
+        controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+            ObjectNode anelJson = aneisJson.addObject();
+            anelJson.put("id", anel.getId().toString());
+            anelJson.put("CLA", anel.getCLA());
+            anelJson.put("ativo", anel.isAtivo());
+            anelJson.put("posicao", anel.getPosicao());
+            ObjectNode controladorJson = anelJson.putObject("controlador");
+            controladorJson.put("statusControlador", controlador.getVersaoControlador().getStatusVersao().toString());
+            controladorJson.put("statusControladorReal", controlador.getStatusControladorReal().toString());
+            controladorJson.put("id", controlador.getId().toString());
+            if (anel.getEndereco() != null) {
+                Endereco endereco = anel.getEndereco();
+                ObjectNode enderecoJson = anelJson.putObject("endereco");
+                if (endereco.getLocalizacao() != null) {
+                    enderecoJson.put("localizacao", endereco.getLocalizacao());
+                }
+                if (endereco.getLocalizacao2() != null) {
+                    enderecoJson.put("localizacao2", endereco.getLocalizacao2());
+                }
+                if (endereco.getAlturaNumerica() != null) {
+                    enderecoJson.put("alturaNumerica", endereco.getAlturaNumerica());
+                }
+                if (endereco.getReferencia() != null) {
+                    enderecoJson.put("referencia", endereco.getReferencia());
+                }
+                if (endereco.getLatitude() != null) {
+                    enderecoJson.put("latituda", endereco.getLatitude());
+                }
+                if (endereco.getLongitude() != null) {
+                    enderecoJson.put("longitude", endereco.getLongitude());
+                }
+            }
         });
     }
 

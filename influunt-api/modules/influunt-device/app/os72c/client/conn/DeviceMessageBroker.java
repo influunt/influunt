@@ -54,8 +54,8 @@ public class DeviceMessageBroker extends UntypedActor {
             if (routers.containsKey(envelope.getTipoMensagem())) {
                 routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
             } else {
-                log.error("MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
-                throw new RuntimeException("MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());
+                log.error("[DEVICE] - MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
+                throw new RuntimeException("[DEVICE] - MESSAGE BROKER NÃO SABER TRATAR A MENSAGEM: " + envelope.getConteudo());
             }
         } else if (message instanceof Mensagem) {
             if (message instanceof MensagemVerificaConfiguracao) {

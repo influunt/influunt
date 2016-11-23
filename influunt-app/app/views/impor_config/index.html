@@ -12,44 +12,43 @@
           <h5>{{ 'imporConfig.titulo' | translate }}</h5>
         </div>
         <div class="ibox-content">
+
+        <pre>{{ aneisSelecionados | json }}</pre>
+        <pre>{{ dataSincronizar | json }}</pre>
+
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
-                <th>
-                  {{ 'imporConfig.status' | translate }}
-                </th>
-                <th>
-                  {{ 'imporConfig.cla' | translate }}
-                </th>
-                <th>
-                  {{ 'imporConfig.local' | translate }}
-                </th>
-                <th>
-                  {{ 'imporConfig.info' | translate }}
-                </th>
+                <th class='fit-to-content'></th>
+                <th>{{ 'imporConfig.status' | translate }}</th>
+                <th>{{ 'imporConfig.cla' | translate }}</th>
+                <th>{{ 'imporConfig.local' | translate }}</th>
+                <th>{{ 'imporConfig.info' | translate }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
+              <tr data-ng-repeat="anel in lista">
+                <td class='fit-to-content'>
                   <div class="ichecks-checkbox">
                     <label class="i-checks">
-                      <input type="checkbox" ichecks>
+                      <input type="checkbox"
+                        ichecks
+                        data-if-checked="selecionaAnel(anel.id)"
+                        data-if-unchecked="desselecionaAnel(anel.id)">
                     </label>
-                    {{ 'imporConfig.configurado' | translate }}
                   </div>
                 </td>
+                <td>{{ anel.controlador.statusControladorReal | translate }}</td>
+                <td>{{ anel.CLA }}</td>
+                <td>{{ anel.endereco | nomeEndereco }}</td>
                 <td>
-                  3.000.0004-2
-                </td>
-                <td>
-                  R. Emília Marengo com Rua Serra do Japi
-                </td>
-                <td>
-                  Modo imposto: Intermitente. Início 26/02/2016 às 16:50. Duração: 180 minutos. <a ng-click='liberar'>Liberar</a>.
+                  <influunt-mqtt-transaction-status data-transaction-id="idsTransacoes[anel.controlador.id]"></influunt-mqtt-transaction-status>
+                  <!-- Modo imposto: Intermitente. Início 26/02/2016 às 16:50. Duração: 180 minutos. <a data-ng-click='liberar'>Liberar</a>. -->
                 </td>
               </tr>
-              <tr>
+
+
+              <!-- <tr>
                 <td>
                   <div class="ichecks-checkbox">
                     <label class="i-checks">
@@ -145,9 +144,11 @@
                       </div>
                   </div>
                 </td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
+          <ng-include src="'views/common/footer-pagination.html'"></ng-include>
+
           <div class="row">
             <div class="col-sm-12">
               <div class="row">
@@ -408,15 +409,11 @@
               <div class="row">
                 <div class="col-sm-12">
                   <p>
-                    <input type="radio" ichecks value="">
-                    {{ 'imporConfig.sincronizarApenas' | translate }}
-                  </p>
-                  <p>
-                    <input type="radio" ichecks value="">
+                    <input type="radio" ichecks value="pacotePlanos" data-ng-model="dataSincronizar.tipo">
                     {{ 'imporConfig.sincronizarHoraPlano' | translate }}
                   </p>
                   <p>
-                    <input type="radio" ichecks value="">
+                    <input type="radio" ichecks value="configuracaoCompleta" data-ng-model="dataSincronizar.tipo">
                     {{ 'imporConfig.sincronizarHPConfig' | translate }}
                   </p>
                 </div>
@@ -426,7 +423,7 @@
         </div>
       </div>
       <div class="modal-footer text-center">
-        <button type="button" class="btn btn-primary " data-dismiss="modal">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="sincronizar()">
           {{ 'imporConfig.sincronizar' | translate }}
         </button>
       </div>

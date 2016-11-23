@@ -3,10 +3,14 @@ package server;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import play.Application;
 import play.Configuration;
 import play.Environment;
+import play.Logger;
 import server.conn.ServerActor;
 
 @Singleton
@@ -27,6 +31,7 @@ public class Central {
         servidor = system.actorOf(Props.create(ServerActor.class,
             mqttSettings.getString("host"),
             mqttSettings.getString("port")), "servidor");
+        System.out.println("\nConfiguração MQTT central:\n  host: " + mqttSettings.getString("host") + "\n  port: " + mqttSettings.getString("port") + "\n");
 
     }
 

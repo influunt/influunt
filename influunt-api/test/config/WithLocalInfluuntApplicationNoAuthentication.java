@@ -6,6 +6,7 @@ import config.auth.TestDeadboltHandlerCache;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.LocalDeviceConfig;
 import os72c.client.device.DeviceBridge;
+import os72c.client.device.FakeDevice;
 import os72c.client.device.SerialDevice;
 import os72c.client.storage.MapStorage;
 import os72c.client.storage.Storage;
@@ -17,6 +18,7 @@ import play.inject.guice.GuiceApplicationBuilder;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import static play.inject.Bindings.bind;
@@ -32,9 +34,9 @@ public class WithLocalInfluuntApplicationNoAuthentication extends WithInfluuntAp
             .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
             .overrides(bind(HandlerCache.class).to(TestDeadboltHandlerCache.class).in(Singleton.class))
             .overrides(bind(DeviceConfig.class).to(LocalDeviceConfig.class).in(Singleton.class))
-            .overrides(bind(DeviceBridge.class).to(SerialDevice.class).in(Singleton.class))
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
+            .overrides(bind(DeviceBridge.class).to(FakeDevice.class).in(Singleton.class))
             .in(Mode.TEST).build();
     }
 }

@@ -19,6 +19,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa o {@link Anel} no sistema
@@ -317,7 +318,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         message = "O anel ativo deve ter somente um estágio de demanda prioritária.")
     public boolean isSomenteUmEstagioDeDemandaPrioritaria() {
         if (this.isAtivo()) {
-            return this.getEstagios().stream().filter(estagio -> estagio.isDemandaPrioritaria()).count() <= 1;
+            return this.getEstagios().stream().filter(Estagio::isDemandaPrioritaria).count() <= 1;
         }
         return true;
     }
@@ -326,7 +327,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         message = "O anel ativo deve ter pelo menos 1 plano configurado.")
     public boolean isAoMenosUmPlanoConfigurado() {
         if (this.isAtivo()) {
-            return !this.getPlanos().isEmpty();
+            return getPlanos() != null && !getPlanos().isEmpty();
         }
         return true;
     }

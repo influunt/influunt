@@ -306,6 +306,32 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForImposicao() {
+        Usuario u = getUsuario();
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(ctx().request().queryString());
+        String[] status = {"ATIVO"};
+        params.put("versaoControlador.statusVersao", status);
+
+        if (u.isRoot()) {
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Collections.singletonList("aneis")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("imposicoes")));
+        } else if (u.getArea() != null) {
+            String[] areaId = { u.getArea().getId().toString() };
+            if (params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "aneis")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("imposicoes")));
+        }
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+
+
+    @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));

@@ -55,7 +55,7 @@ public class Transacao {
     }
 
     public static Transacao fromJson(JsonNode transacaoJson) {
-        Transacao transacao = (Transacao) Json.fromJson(transacaoJson, Transacao.class);
+        Transacao transacao = Json.fromJson(transacaoJson, Transacao.class);
         if (transacaoJson.has("payload")) {
             transacao.setPayload(transacaoJson.get("payload").asText());
         }

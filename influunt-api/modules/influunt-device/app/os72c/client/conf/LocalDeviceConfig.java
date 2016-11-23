@@ -6,7 +6,7 @@ package os72c.client.conf;
 public class LocalDeviceConfig implements DeviceConfig {
     @Override
     public String getHost() {
-        return "mosquitto.rarolabs.com.br";
+        return "localhost";
     }
 
     @Override
@@ -16,7 +16,7 @@ public class LocalDeviceConfig implements DeviceConfig {
 
     @Override
     public String getDeviceId() {
-        return "6e864974-7b0a-435e-a8fb-f73beb33e187";
+        return "a984b485-f100-4537-ada0-211deffd52c5";
     }
 
     @Override

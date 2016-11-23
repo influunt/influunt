@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.fusesource.mqtt.client.QoS;
 import utils.EncryptionUtil;
 
 import javax.crypto.BadPaddingException;
@@ -43,6 +44,8 @@ public class Envelope {
 
     private String emResposta;
 
+    private Boolean criptografado = true;
+
     public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, int qos,
                     Object conteudo, String emResposta) {
         this.tipoMensagem = tipoMensagem;
@@ -53,6 +56,11 @@ public class Envelope {
         this.emResposta = emResposta;
         this.carimboDeTempo = System.currentTimeMillis();
         this.idMensagem = UUID.randomUUID().toString();
+    }
+
+    public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, QoS qos,
+                    Object conteudo, String emResposta) {
+        this(tipoMensagem, idControlador, destino, qos.ordinal(), conteudo, emResposta);
     }
 
     public String getIdMensagem() {
@@ -125,9 +133,12 @@ public class Envelope {
 
 
     public String toJsonCriptografado(String publicKey) {
+        if (!criptografado) {
+            return toJson();
+        }
+
         try {
-            PublicKey pk =
-                KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Hex.decodeHex(publicKey.toCharArray())));
+            PublicKey pk = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Hex.decodeHex(publicKey.toCharArray())));
             SecretKey secretKey = EncryptionUtil.generateAESKey();
             String key = Hex.encodeHexString(EncryptionUtil.encryptRSA(secretKey.getEncoded(), pk));
             String json = Hex.encodeHexString(EncryptionUtil.encryptAES(toJson(), secretKey));
@@ -152,6 +163,10 @@ public class Envelope {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void setCriptografado(Boolean criptografado) {
+        this.criptografado = criptografado;
     }
 
 }

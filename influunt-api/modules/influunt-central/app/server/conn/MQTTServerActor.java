@@ -120,25 +120,13 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
             router.route(envelope, getSender());
 
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | InvalidKeyException e) {
             e.printStackTrace();
         }
+
     }
 
     private void connect() throws MqttException {
-
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
@@ -155,29 +143,17 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         }
 
 
-        client.subscribe("controladores/conn/online", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("controladores/conn/online", 1, (topic, message) -> sendToBroker(message));
 
-        client.subscribe("controladores/conn/offline", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("controladores/conn/offline", 1, (topic, message) -> sendToBroker(message));
 
-        client.subscribe("central/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("central/+", 1, (topic, message) -> sendToBroker(message));
 
-        client.subscribe("central/transacoes/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("central/transacoes/+", 1, (topic, message) -> sendToBroker(message));
 
-        client.subscribe("central/alarmes_falhas/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("central/alarmes_falhas/+", 1, (topic, message) -> sendToBroker(message));
 
-        client.subscribe("central/troca_plano/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("central/troca_plano/+", 1, (topic, message) -> sendToBroker(message));
     }
 
     @Override

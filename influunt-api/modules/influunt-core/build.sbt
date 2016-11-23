@@ -31,6 +31,7 @@ libraryDependencies ++= Seq(
   "net.coobird" % "thumbnailator" % "0.4.8",
   "com.google.code.gson" % "gson" % "2.7",
   "org.jfree" % "jfreesvg" % "3.1",
+  "org.fusesource.mqtt-client" % "mqtt-client" % "1.14",
   "org.mindrot" % "jbcrypt" % "0.3m")
 
 jacoco.settings
