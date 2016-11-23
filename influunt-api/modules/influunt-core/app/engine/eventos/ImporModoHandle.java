@@ -1,10 +1,7 @@
 package engine.eventos;
 
 import com.google.common.collect.RangeMap;
-import engine.AgendamentoTrocaPlano;
-import engine.EventoMotor;
-import engine.GerenciadorDeEstagios;
-import engine.IntervaloEstagio;
+import engine.*;
 import engine.services.PlanoService;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
@@ -48,6 +45,12 @@ public class ImporModoHandle extends GerenciadorDeEventos {
             AgendamentoTrocaPlano agendamentoTrocaPlano = new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp());
             agendamentoTrocaPlano.setImposicaoPlano(true);
             gerenciadorDeEstagios.trocarPlano(agendamentoTrocaPlano);
+
+            Integer duracao = (Integer) eventoMotor.getParams()[2];
+            EventoMotor liberacao = new EventoMotor(eventoMotor.getTimestamp().plusMinutes(duracao),
+                TipoEvento.LIBERAR_IMPOSICAO,
+                eventoMotor.getParams()[1]);
+            gerenciadorDeEstagios.agendarEvento(liberacao.getTimestamp(), liberacao);
         }
     }
 }

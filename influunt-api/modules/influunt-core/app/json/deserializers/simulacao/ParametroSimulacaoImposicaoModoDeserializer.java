@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.ModoOperacaoPlano;
+import models.simulador.parametros.ParametroSimulacaoImposicaoModo;
 import models.simulador.parametros.ParametroSimulacaoImposicaoPlano;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -14,17 +16,17 @@ import java.io.IOException;
 /**
  * Created by pedropires on 6/19/16.
  */
-public class ParametroSimulacaoImposicaoPlanoDeserializer extends JsonDeserializer<ParametroSimulacaoImposicaoPlano> {
+public class ParametroSimulacaoImposicaoModoDeserializer extends JsonDeserializer<ParametroSimulacaoImposicaoModo> {
 
     @Override
-    public ParametroSimulacaoImposicaoPlano deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public ParametroSimulacaoImposicaoModo deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         ObjectCodec oc = jp.getCodec();
         JsonNode node = oc.readTree(jp);
 
-        ParametroSimulacaoImposicaoPlano imposicaoParams = new ParametroSimulacaoImposicaoPlano();
+        ParametroSimulacaoImposicaoModo imposicaoParams = new ParametroSimulacaoImposicaoModo();
 
-        if (node.has("plano") && node.get("plano").has("posicao")) {
-            imposicaoParams.setPlano(node.get("plano").get("posicao").asInt());
+        if (node.has("modo")) {
+            imposicaoParams.setModoOperacao(node.get("modo").asText());
         }
 
         if (node.has("anel") && node.get("anel").has("posicao")) {

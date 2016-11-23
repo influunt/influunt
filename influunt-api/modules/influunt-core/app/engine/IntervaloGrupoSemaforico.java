@@ -359,7 +359,7 @@ public class IntervaloGrupoSemaforico {
         fields.add(eventoMotor.getTipoEvento().toString());
         fields.add(eventoMotor.getTipoEvento().getCodigo());
         fields.add(eventoMotor.getTipoEvento().getTipoEventoControlador().toString());
-        fields.add(eventoMotor.getTipoEvento().getMessage(Arrays.toString(eventoMotor.getParams())));
+        fields.add(eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
     }
 
     private void parseEventoTrocaPlano(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {

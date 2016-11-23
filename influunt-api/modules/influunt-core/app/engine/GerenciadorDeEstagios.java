@@ -9,10 +9,8 @@ import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 10/11/16.
@@ -61,6 +59,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private Long tempoAbatimentoCoordenado = null;
 
+    private HashMap<DateTime, EventoMotor> eventosAgendados = new HashMap<>();
+
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -101,6 +101,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
         tempoDecorrido += 100L;
 
         monitoraTempoMaximoDePermanenciaDoEstagio();
+
+        if (eventosAgendados.containsKey(inicioExecucao.plus(tempoDecorrido))) {
+            motor.onEvento(eventosAgendados.get(inicioExecucao.plus(tempoDecorrido)));
+            eventosAgendados.remove(inicioExecucao.plus(tempoDecorrido));
+        }
     }
 
     private Long verificarETrocaCoordenado() {
@@ -442,6 +447,17 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }).findFirst().orElse(null);
     }
 
+    public void agendarEvento(DateTime timestamp, EventoMotor eventoMotor) {
+        eventosAgendados.put(timestamp, eventoMotor);
+    }
+
+    public void limparAgendamentos(TipoEvento liberarImposicao) {
+        eventosAgendados.entrySet().removeIf(entry -> liberarImposicao.equals(entry.getValue().getTipoEvento()));
+    }
+
+    public HashMap<DateTime, EventoMotor> getEventosAgendados() {
+        return eventosAgendados;
+    }
 
     private class GetIntervaloGrupoSemaforico {
         private IntervaloEstagio intervaloEntreverde;

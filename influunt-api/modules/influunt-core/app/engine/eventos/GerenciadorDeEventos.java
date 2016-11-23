@@ -49,8 +49,8 @@ public abstract class GerenciadorDeEventos {
             case IMPOSICAO_MODO:
                 new ImporModoHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
-            case LIBERAR_IMPOSICAO_MODO:
-                new LiberarImposicaoModoHandle(gerenciadorDeEstagios).processar(eventoMotor);
+            case LIBERAR_IMPOSICAO:
+                new LiberarImposicaoHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case FALHA_SEQUENCIA_DE_CORES:

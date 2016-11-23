@@ -25,7 +25,7 @@ public class MotorEventoHandler {
 
     public void handle(EventoMotor eventoMotor) {
 
-        System.out.println("**************************NOVO EVENTO************************* :" + eventoMotor.getTipoEvento());
+        System.out.println("**************************NOVO EVENTO************************* :" + eventoMotor.getTipoEvento() + " : " + eventoMotor.getTimestamp());
         switch (eventoMotor.getTipoEvento()) {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:
@@ -99,8 +99,7 @@ public class MotorEventoHandler {
                 handleAnel(eventoMotor, 1);
                 break;
 
-            case LIBERAR_IMPOSICAO_PLANO:
-            case LIBERAR_IMPOSICAO_MODO:
+            case LIBERAR_IMPOSICAO:
                 handleRemoveFalhaAnel(eventoMotor);
                 break;
         }

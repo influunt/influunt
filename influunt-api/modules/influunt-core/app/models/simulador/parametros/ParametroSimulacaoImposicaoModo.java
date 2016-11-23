@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.EventoMotor;
 import engine.TipoEvento;
+import json.deserializers.simulacao.ParametroSimulacaoImposicaoModoDeserializer;
 import json.deserializers.simulacao.ParametroSimulacaoImposicaoPlanoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
@@ -13,11 +15,8 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by rodrigosol on 10/4/16.
  */
-@JsonDeserialize(using = ParametroSimulacaoImposicaoPlanoDeserializer.class)
-public class ParametroSimulacaoImposicaoPlano {
-
-    @NotNull(message = "não pode ficar em branco")
-    private Integer plano;
+@JsonDeserialize(using = ParametroSimulacaoImposicaoModoDeserializer.class)
+public class ParametroSimulacaoImposicaoModo {
 
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @NotNull(message = "não pode ficar em branco")
@@ -27,14 +26,25 @@ public class ParametroSimulacaoImposicaoPlano {
     private Integer duracao;
 
     @NotNull(message = "não pode ficar em branco")
+    private String modoOperacao;
+
+    @NotNull(message = "não pode ficar em branco")
     private Integer anel;
 
-    public Integer getPlano() {
-        return plano;
+    public String getModoOperacao() {
+        return modoOperacao;
     }
 
-    public void setPlano(Integer plano) {
-        this.plano = plano;
+    public void setModoOperacao(String modoOperacao) {
+        this.modoOperacao = modoOperacao;
+    }
+
+    public Integer getAnel() {
+        return anel;
+    }
+
+    public void setAnel(Integer anel) {
+        this.anel = anel;
     }
 
     public DateTime getDisparo() {
@@ -53,16 +63,7 @@ public class ParametroSimulacaoImposicaoPlano {
         this.duracao = duracao;
     }
 
-    public Integer getAnel() {
-        return anel;
-    }
-
-    public void setAnel(Integer anel) {
-        this.anel = anel;
-    }
-
     public EventoMotor toEvento() {
-        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_PLANO, plano, anel, duracao);
+        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_MODO, modoOperacao, anel, duracao);
     }
-
 }
