@@ -44,6 +44,7 @@ public class TrocaDePlanoControlador {
     }
 
     public TrocaDePlanoControlador(Map map) {
+        this.idAnel = map.get("idAnel").toString();
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.conteudo = Json.toJson(map.get("conteudo"));
@@ -68,6 +69,21 @@ public class TrocaDePlanoControlador {
         }
 
         return hash;
+    }
+
+    public static List<TrocaDePlanoControlador> ultimasTrocasDePlanosDosControladores() {
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idAnel', 'timestamp': {$max:'$timestamp'}, " +
+                " idAnel: {$first: '$idAnel'}," +
+                " idControlador: {$first: '$idControlador'}," +
+                " conteudo: {$first: '$conteudo'}}}").
+                as(Map.class);
+        List<TrocaDePlanoControlador> resultado = new ArrayList<>();
+        for (Map m : ultimoStatus) {
+            resultado.add(new TrocaDePlanoControlador(m));
+        }
+
+        return resultado;
     }
 
     public static TrocaDePlanoControlador ultimaTrocaDePlanoDoControlador(String idControlador) {
@@ -108,6 +124,18 @@ public class TrocaDePlanoControlador {
 
     public AgendamentoTrocaPlano getTrocaDePlano() {
         return Json.fromJson(conteudo, AgendamentoTrocaPlano.class);
+    }
+
+    public String getIdControlador() {
+        return this.idControlador;
+    }
+
+    public String getIdAnel() {
+        return this.idAnel;
+    }
+
+    public JsonNode getConteudo() {
+        return this.conteudo;
     }
 
     public void insert() {
