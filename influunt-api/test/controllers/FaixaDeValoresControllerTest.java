@@ -36,7 +36,7 @@ public class FaixaDeValoresControllerTest extends WithInfluuntApplicationNoAuthe
     @Test
     public void naoDeveriaCriarFaixaDeValoresComTempoPermanenciaEstagioVeicularForaDaFaixaDeIntervaloMenorQueTempoMinimo() {
         FaixasDeValores faixasDeValores = FaixasDeValores.getInstance();
-        faixasDeValores.setDefaultTempoMaximoPermanenciaEstagioVeicular(20);
+        faixasDeValores.setDefaultTempoMaximoPermanenciaEstagioVeicular(19);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("PUT")
             .uri(routes.FaixasDeValoresController.update().url()).bodyJson(Json.toJson(faixasDeValores));
