@@ -18,11 +18,8 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
         try {
             if (Http.Context.current() != null) {
                 usu = (Usuario) Http.Context.current().args.get("user");
-            } else {
-                usu = null;
             }
         } catch (RuntimeException e) {
-            usu = null;
         }
 
 

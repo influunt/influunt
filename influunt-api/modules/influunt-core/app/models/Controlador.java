@@ -490,33 +490,18 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return centralPrivateKey;
     }
 
-    public void setCentralPrivateKey(String centralPrivateKey) {
-        this.centralPrivateKey = centralPrivateKey;
-    }
-
     public String getCentralPublicKey() {
         return centralPublicKey;
-    }
-
-    public void setCentralPublicKey(String centralPublicKey) {
-        this.centralPublicKey = centralPublicKey;
     }
 
     public String getControladorPublicKey() {
         return controladorPublicKey;
     }
 
-    public void setControladorPublicKey(String controladorPublicKey) {
-        this.controladorPublicKey = controladorPublicKey;
-    }
-
     public String getControladorPrivateKey() {
         return controladorPrivateKey;
     }
 
-    public void setControladorPrivateKey(String controladorPrivateKey) {
-        this.controladorPrivateKey = controladorPrivateKey;
-    }
 
     public List<Anel> getAneis() {
         return aneis;

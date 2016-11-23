@@ -154,24 +154,4 @@ public class Envelope {
         return null;
     }
 
-//    public void decriptografar(PrivateKey privateKey){
-//        try {
-//            byte[] encriptedAesKey = Hex.decodeHex(this.key.toCharArray());
-//            byte decriptedAesKey[] = EncryptionUtil.decryptRSA(encriptedAesKey,privateKey);
-//            this.conteudo = EncryptionUtil.decryptAES(this.conteudo.toString(),decriptedAesKey);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (BadPaddingException e) {
-//            e.printStackTrace();
-//        } catch (IllegalBlockSizeException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (DecoderException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }
