@@ -62,6 +62,10 @@ module.exports = function() {
     return sharedSteps.realizarScrollDown();
   });
 
+  this.Given(/^o usuário realizar um scroll down no modal$/, function() {
+    return sharedSteps.realizarScrollDownModal();
+  });
+
   this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
     return sharedSteps.trocarAnel(numeroAnel);
   });
@@ -131,6 +135,10 @@ module.exports = function() {
     return sharedSteps.clicarEditarEmResumo(tooltipSelector);
   });
 
+  this.Given(/^o usuário clicar para visualizar o resumo$/, function () {
+    return sharedSteps.clicarVisualizarResumo();
+  });
+
   this.Given(/^o usuário esteja na listagem de controladores$/, function () {
     return sharedSteps.isListagemControladores();
   });
@@ -168,7 +176,15 @@ module.exports = function() {
     return sharedSteps.checkPosicaoHistorico(posicao, data);
   });
 
-  this.Given(/^o usuário clicar em fechar o modal$/, function () {
-    return sharedSteps.fecharModal();
+  this.Given(/^o sistema não deverá mostrar o botão "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.naoPodeMostraBotao(botao, controlador);
+  });
+
+  this.Given(/^o usuário clicar em fechar o modal "([^"]*)"$/, function (modal) {
+    return sharedSteps.fecharModal(modal);
+  });
+
+  this.Given(/^o usuário digitar no campo "([^"]*)" com a informação "([^"]*)"$/, function (campo, texto) {
+    return sharedSteps.preencherCampo(campo, texto);
   });
 };

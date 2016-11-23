@@ -57,17 +57,17 @@
                     <div class="col-sm-12 m-t">
                       <div class="row">
                         <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="inicioControlador.hora">
+                          <select class='form-control m-b' name='hora' data-ng-model="inicioControlador.hora">
                             <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                           </select>
                         </div>
                         <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="inicioControlador.minuto">
+                          <select class='form-control m-b' name='minuto' data-ng-model="inicioControlador.minuto">
                             <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                           </select>
                         </div>
                         <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="inicioControlador.segundo">
+                          <select class='form-control m-b' name='segundo' data-ng-model="inicioControlador.segundo">
                             <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                           </select>
                         </div>
@@ -385,24 +385,25 @@
                                is-open="alarmesControlador.alarmes[$index].opened"
                                datepicker-options="dateOptions"
                                ng-required="true"
+                               name="data-alarme"
                                close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
                                clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
                                current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
                         <p class="help-block error-msg" data-ng-repeat="error in errors.alarmes[$index].disparo">{{ error }}</p>
                       </div>
                       <div class='col-sm-1' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
-                        <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].hora">
+                        <select class='form-control m-b' name='hora' data-ng-model="alarmesControlador.alarmes[$index].hora">
                           <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                         </select>
                         <p class="help-block error-msg simulacao-horario-error" data-ng-repeat="error in errors.alarmes[$index].disparo">{{ error }}</p>
                       </div>
                       <div class='col-sm-1' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
-                        <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].minuto">
+                        <select class='form-control m-b' name='minuto' data-ng-model="alarmesControlador.alarmes[$index].minuto">
                           <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                         </select>
                       </div>
                       <div class='col-sm-1' data-ng-class="{ 'has-error': errors.alarmes[$index].disparo }">
-                        <select class='form-control m-b' name='account' data-ng-model="alarmesControlador.alarmes[$index].segundo">
+                        <select class='form-control m-b' name='segundo' data-ng-model="alarmesControlador.alarmes[$index].segundo">
                           <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                         </select>
                       </div>
@@ -488,6 +489,7 @@
                                ng-click="falhasControlador.falhas[$index].opened = true"
                                is-open="falhasControlador.falhas[$index].opened"
                                datepicker-options="dateOptions"
+                               name="data-falhas"
                                ng-required="true"
                                close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
                                clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
@@ -495,18 +497,18 @@
                         <p class="help-block error-msg" data-ng-repeat="error in errors.falhas[$index].disparo">{{ error }}</p>
                       </div>
                       <div class='col-sm-1' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
-                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].hora">
+                        <select class='form-control m-b' name='hora' data-ng-model="falhasControlador.falhas[$index].hora">
                           <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
                         </select>
                         <p class="help-block error-msg simulacao-horario-error" data-ng-repeat="error in errors.falhas[$index].disparo">{{ error }}</p>
                       </div>
                       <div class='col-sm-1' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
-                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].minuto">
+                        <select class='form-control m-b' name='minuto' data-ng-model="falhasControlador.falhas[$index].minuto">
                           <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
                         </select>
                       </div>
                       <div class='col-sm-1' data-ng-class="{ 'has-error': errors.falhas[$index].disparo }">
-                        <select class='form-control m-b' name='account' data-ng-model="falhasControlador.falhas[$index].segundo">
+                        <select class='form-control m-b' name='segundo' data-ng-model="falhasControlador.falhas[$index].segundo">
                           <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                         </select>
                       </div>
