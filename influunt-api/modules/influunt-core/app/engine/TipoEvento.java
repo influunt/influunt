@@ -58,6 +58,7 @@ public enum TipoEvento {
     INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 1, "Inserção de plug", null, null),
     RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL(TipoEventoControlador.MODO_MANUAL, 2, "Retirada de plug", null, null),
     TROCA_ESTAGIO_MANUAL(TipoEventoControlador.MODO_MANUAL, 3, "Troca de estágio no modo manual", "Troca estágio", null),
+    MODO_MANUAL_ATIVADO(TipoEventoControlador.MODO_MANUAL,4,"Modo manual ativado", "Modo manual ativado",null),
 
     //Imposicao de Planos
     IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto", null),

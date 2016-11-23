@@ -218,9 +218,18 @@ public class GerenciadorDeEstagios implements EventoCallback {
         if (this.plano == null || !this.plano.isImpostoPorFalha()) {
             if (this.plano != null) {
                 modoAnterior = this.plano.getModoOperacao();
+
+                if (this.plano.isManual()) {
+                    motor.getCallback().modoManualDesativado();
+                }
+            }
+
+            if (plano.isManual()) {
+                motor.getCallback().modoManualAtivo();
             }
 
             this.plano = plano;
+
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
 

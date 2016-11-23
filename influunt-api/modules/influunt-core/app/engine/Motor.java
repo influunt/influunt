@@ -161,4 +161,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public void onAlarme(EventoMotor eventoMotor) {
         callback.onAlarme(instante, eventoMotor);
     }
+
+    public MotorCallback getCallback() {
+        return callback;
+    }
 }

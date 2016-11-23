@@ -9,4 +9,7 @@ public interface DeviceBridge {
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico);
 
     public void start(DeviceBridgeCallback callback);
+
+    public void modoManualAtivo();
+    public void modoManualDesativo();
 }

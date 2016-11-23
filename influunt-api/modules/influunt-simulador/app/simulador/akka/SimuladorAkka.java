@@ -66,4 +66,14 @@ public class SimuladorAkka extends Simulador {
 
     }
 
+    @Override
+    public void modoManualAtivo() {
+
+    }
+
+    @Override
+    public void modoManualDesativado() {
+
+    }
+
 }
