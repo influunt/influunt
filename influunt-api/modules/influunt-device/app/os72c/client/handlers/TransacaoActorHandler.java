@@ -1,18 +1,17 @@
 package os72c.client.handlers;
 
+import akka.actor.ActorSelection;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
+import models.ModoOperacaoPlano;
 import models.StatusDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
-import protocol.DestinoCentral;
-import protocol.Envelope;
-import protocol.EtapaTransacao;
-import protocol.TipoMensagem;
+import protocol.*;
 import status.Transacao;
 
 /**
@@ -38,6 +37,7 @@ public class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 Controlador controlador = null;
+                JsonNode payloadJson = null;
                 log.info("DEVICE - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
@@ -55,7 +55,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                 break;
 
                             case CONFIGURACAO_COMPLETA:
-                                JsonNode payloadJson = Json.parse(transacao.payload.toString());
+                                payloadJson = Json.parse(transacao.payload.toString());
                                 JsonNode planoJson = payloadJson.get("pacotePlanos");
                                 JsonNode controladorJson = payloadJson.get("pacoteConfiguracao");
                                 controlador = Controlador.isPacotePlanosValido(controladorJson, planoJson);
@@ -70,6 +70,22 @@ public class TransacaoActorHandler extends UntypedActor {
                                 }
                                 break;
 
+                            case IMPOSICAO_MODO:
+                                try {
+                                    payloadJson = Json.parse(transacao.payload.toString());
+                                    ModoOperacaoPlano.valueOf(payloadJson.get("modoOperacao").asText());
+                                    int numeroAnel = payloadJson.get("numeroAnel").asInt();
+                                    int duracao = payloadJson.get("duracao").asInt();
+                                    if (numeroAnel < 1 || duracao < 1) {
+                                        transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                    } else {
+                                        transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                    }
+                                } catch (Exception e) {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                }
+                                break;
+
                             default:
                                 transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 break;
@@ -78,7 +94,24 @@ public class TransacaoActorHandler extends UntypedActor {
                         break;
 
                     case COMMIT:
-                        transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                        switch (transacao.tipoTransacao) {
+                            case IMPOSICAO_MODO:
+                                payloadJson = Json.parse(transacao.payload.toString());
+                                String modoOperacao = payloadJson.get("modoOperacao").asText();
+                                int numeroAnel = payloadJson.get("numeroAnel").asInt();
+                                int duracao = payloadJson.get("duracao").asInt();
+                                Envelope envelopeImposicao = MensagemImposicaoModoOperacao.getMensagem(idControlador, modoOperacao, numeroAnel, duracao);
+
+                                ActorSelection motorActor = getContext().actorSelection(AtoresDevice.motor(idControlador));
+                                motorActor.tell(envelopeImposicao, getSelf());
+
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            default:
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+                        }
                         envelope.setDestino(DestinoCentral.transacao(transacao.transacaoId));
                         break;
 
@@ -97,4 +130,9 @@ public class TransacaoActorHandler extends UntypedActor {
             }
         }
     }
+
+    public static void main(String args[]) {
+        System.out.println(ModoOperacaoPlano.valueOf("opa"));
+    }
+
 }

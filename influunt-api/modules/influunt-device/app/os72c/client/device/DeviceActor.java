@@ -1,6 +1,7 @@
 package os72c.client.device;
 
 import akka.actor.UntypedActor;
+import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import models.Anel;
 import models.Controlador;
@@ -122,6 +123,14 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 case OK:
                     start();
                     break;
+
+                case IMPOSICAO_DE_MODO_OPERACAO:
+                    JsonNode conteudo = envelope.getConteudoParsed();
+                    String modoOperacao = conteudo.get("modoOperacao").asText();
+                    int numeroAnel = conteudo.get("numeroAnel").asInt();
+                    int duracao = conteudo.get("duracao").asInt();
+                    imporModoOperacao(modoOperacao, numeroAnel, duracao);
+                    break;
             }
         }
         System.out.println("Menssagem recebida no device actor");
@@ -158,5 +167,9 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Anel buscarAnelPorGrupo(Integer posicao) {
         return controlador.findAnelByGrupoSemaforico(posicao);
+    }
+
+    private void imporModoOperacao(String modoOperacao, int numeroAnel, int duracaoEmMinutos) {
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracaoEmMinutos));
     }
 }

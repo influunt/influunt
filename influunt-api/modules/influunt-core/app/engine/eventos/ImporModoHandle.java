@@ -47,9 +47,10 @@ public class ImporModoHandle extends GerenciadorDeEventos {
             gerenciadorDeEstagios.trocarPlano(agendamentoTrocaPlano);
 
             Integer duracao = (Integer) eventoMotor.getParams()[2];
+            Integer anel = (Integer) eventoMotor.getParams()[1];
             EventoMotor liberacao = new EventoMotor(eventoMotor.getTimestamp().plusMinutes(duracao),
                 TipoEvento.LIBERAR_IMPOSICAO,
-                eventoMotor.getParams()[1]);
+                anel);
             gerenciadorDeEstagios.agendarEvento(liberacao.getTimestamp(), liberacao);
         }
     }

@@ -8,7 +8,9 @@ import com.google.inject.Inject;
 import json.ControladorCustomSerializer;
 import models.Cidade;
 import models.Controlador;
+import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
+import play.libs.Json;
 import protocol.*;
 import server.conn.CentralMessageBroker;
 import status.Transacao;
@@ -36,6 +38,14 @@ public class TransacaoHelper {
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
         Transacao transacao = new Transacao(controladorId, configuracaoJson, TipoTransacao.CONFIGURACAO_COMPLETA);
+        sendTransaction(transacao, qos);
+        return transacao.transacaoId;
+    }
+
+    public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, int duracao, QoS qos) {
+        String controladorId = controlador.getId().toString();
+        String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, duracao)).toString();
+        Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO);
         sendTransaction(transacao, qos);
         return transacao.transacaoId;
     }

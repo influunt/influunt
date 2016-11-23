@@ -179,8 +179,8 @@ public class MotorEventoHandler {
     }
 
 
-    private void handleAnel(EventoMotor eventoMotor, Integer posicaoAnel) {
-        Integer anel = (Integer) eventoMotor.getParams()[posicaoAnel];
+    private void handleAnel(EventoMotor eventoMotor, Integer posicaoParamAnel) {
+        Integer anel = (Integer) eventoMotor.getParams()[posicaoParamAnel];
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
     }
 

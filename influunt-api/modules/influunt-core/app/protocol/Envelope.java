@@ -1,10 +1,12 @@
 package protocol;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.fusesource.mqtt.client.QoS;
+import play.libs.Json;
 import utils.EncryptionUtil;
 
 import javax.crypto.BadPaddingException;
@@ -94,6 +96,10 @@ public class Envelope {
 
     public Object getConteudo() {
         return conteudo;
+    }
+
+    public JsonNode getConteudoParsed() {
+        return Json.parse(getConteudo().toString());
     }
 
     public void setConteudo(Object conteudo) {
