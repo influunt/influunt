@@ -2,6 +2,7 @@ package engine.intervalos;
 
 import com.google.common.collect.RangeMap;
 import engine.IntervaloEstagio;
+import helpers.GerenciadorEstagiosHelper;
 import models.Estagio;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
@@ -67,10 +68,10 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
     }
 
     private EstagioPlano atualizaListaEstagiosComTransicoesProibidas(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlano) {
-        final Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
-        if (estagioAnterior.temTransicaoProibidaParaEstagio(estagioPlano.getEstagio())) {
-            final Estagio estagioAtual = estagioAnterior.getTransicaoProibidaPara(estagioPlano.getEstagio()).getAlternativo();
-            estagioPlano = listaEstagioPlanos.stream().filter(ep -> ep.getEstagio().equals(estagioAtual)).findFirst().orElse(null);
+        final Estagio origem = estagioPlanoAnterior.getEstagio();
+        final Estagio destino = estagioPlano.getEstagio();
+        if (origem.temTransicaoProibidaParaEstagio(destino)) {
+            estagioPlano = GerenciadorEstagiosHelper.getEstagioPlanoAlternativoDaTransicaoProibida(origem, destino, listaEstagioPlanos);
         }
         return estagioPlano;
     }

@@ -67,7 +67,12 @@ public class MapStorage implements Storage {
 
     @Override
     public Controlador getControlador() {
-        return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(this.controlador.get("atual")));
+        String json = this.controlador.get("atual");
+        if (json != null) {
+            return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(json));
+        } else {
+            return null;
+        }
     }
 
     @Override

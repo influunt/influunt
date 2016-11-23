@@ -40,12 +40,18 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
+
+    public void execucaoDevice() {
+        startClient();
+        List<Erro> erros = getErros(controlador);
+        assertThat(erros, org.hamcrest.Matchers.empty());
+    }
+
     @Test
     public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
         anel.setAtivo(true);
         controlador.save();
-        startClient();
 
         startClient();
 
@@ -150,4 +156,5 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
             ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class);
     }
+
 }

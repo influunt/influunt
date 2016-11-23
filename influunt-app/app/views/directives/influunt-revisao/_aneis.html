@@ -13,8 +13,7 @@
       <div class="col-lg-3 col-sm-3 no-padding-left">
         <p>
           <strong>{{ 'controladores.aneis.aceitaModoManual' | translate }}:</strong>
-          <span data-ng-if="dadosCurrentAnel.aceitaModoManual"><i class="fa fa-check com-monitoramento" aria-hidden="true"></i></span>
-          <span data-ng-if="!dadosCurrentAnel.aceitaModoManual"><i class="fa fa-times sem-monitoramento" aria-hidden="true"></i></span>
+          <span data-ng-bind-html="dadosCurrentAnel.aceitaModoManual | trueOrFalseIcon"></span>
         </p>
         <p><strong>{{ 'controladores.CLA' | translate }}:</strong> {{ dadosCurrentAnel.CLA }}</p>
         <p><strong>{{ 'controladores.localizacao' | translate }}:</strong> {{ dadosCurrentAnel.localizacao }}</p>

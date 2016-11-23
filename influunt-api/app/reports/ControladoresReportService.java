@@ -1,15 +1,11 @@
 package reports;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import models.Controlador;
-import models.Fabricante;
 import models.StatusDevice;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import status.ErrosControlador;
 import status.StatusControladorFisico;
 import utils.InfluuntUtils;
 
@@ -17,11 +13,12 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 10/10/16.
  */
+
+//TODO: Verificar se pode ser excluida essa clase
 public class ControladoresReportService extends ReportService<Controlador> {
 
     @Inject
@@ -144,33 +141,33 @@ public class ControladoresReportService extends ReportService<Controlador> {
     }
 
     private List<ControladorFalhasVO> getControladoresPorFalhas() {
-        List<String> errosPorFabricantes = ErrosControlador.errosPorFabricante();
-        Gson gson = new Gson();
-        ArrayList<ControladorStatusVO> controladores = new ArrayList<>();
-        for (String erro : errosPorFabricantes) {
-            JsonObject jobj = gson.fromJson(erro, JsonObject.class);
-            JsonObject controladorJson = jobj.get("_id").getAsJsonObject();
-            ControladorStatusVO statusVO = new ControladorStatusVO(controladorJson.get("status").getAsString(), jobj.get("total").getAsInt());
-            statusVO.setIdFabricante(controladorJson.get("idFabricante").getAsString());
-            controladores.add(statusVO);
-        }
-
-        Map<String, List<ControladorStatusVO>> controladoresAux = controladores.stream().collect(Collectors.groupingBy(ControladorStatusVO::getIdFabricante));
-
-        ArrayList<ControladorFalhasVO> controladoresFalhas = new ArrayList<>();
-        for (Map.Entry<String, List<ControladorStatusVO>> entry : controladoresAux.entrySet()) {
-            Fabricante fabricante = Fabricante.find.byId(UUID.fromString(entry.getKey()));
-            ControladorFalhasVO controladorFalha = new ControladorFalhasVO();
-            controladorFalha.setIdFabricante(entry.getKey());
-            controladorFalha.setNomeFabricante(fabricante.getNome());
-            for (ControladorStatusVO statusAux : entry.getValue()) {
-                controladorFalha.addFalha(new FalhaPorFabricanteVO(statusAux.getStatus(), statusAux.getTotal()));
-            }
-
-            controladoresFalhas.add(controladorFalha);
-        }
-
-        return controladoresFalhas;
+//        Gson gson = new Gson();
+//        ArrayList<ControladorStatusVO> controladores = new ArrayList<>();
+//        for (String erro : errosPorFabricantes) {
+//            JsonObject jobj = gson.fromJson(erro, JsonObject.class);
+//            JsonObject controladorJson = jobj.get("_id").getAsJsonObject();
+//            ControladorStatusVO statusVO = new ControladorStatusVO(controladorJson.get("status").getAsString(), jobj.get("total").getAsInt());
+//            statusVO.setIdFabricante(controladorJson.get("idFabricante").getAsString());
+//            controladores.add(statusVO);
+//        }
+//
+//        Map<String, List<ControladorStatusVO>> controladoresAux = controladores.stream().collect(Collectors.groupingBy(ControladorStatusVO::getIdFabricante));
+//
+//        ArrayList<ControladorFalhasVO> controladoresFalhas = new ArrayList<>();
+//        for (Map.Entry<String, List<ControladorStatusVO>> entry : controladoresAux.entrySet()) {
+//            Fabricante fabricante = Fabricante.find.byId(UUID.fromString(entry.getKey()));
+//            ControladorFalhasVO controladorFalha = new ControladorFalhasVO();
+//            controladorFalha.setIdFabricante(entry.getKey());
+//            controladorFalha.setNomeFabricante(fabricante.getNome());
+//            for (ControladorStatusVO statusAux : entry.getValue()) {
+//                controladorFalha.addFalha(new FalhaPorFabricanteVO(statusAux.getStatus(), statusAux.getTotal()));
+//            }
+//
+//            controladoresFalhas.add(controladorFalha);
+//        }
+//
+//        return controladoresFalhas;
+        return null;
     }
 
     private Map<String, Object> controladoresFalhasReportParams(Map<String, String[]> queryStringParams) {

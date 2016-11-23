@@ -112,7 +112,13 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
     }
 
     private void connect() throws MqttException {
-        client = new MqttClient("tcp://" + host + ":" + port, id);
+        try {
+            client = new MqttClient("tcp://" + host + ":" + port, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
 
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);

@@ -29,7 +29,6 @@ angular
     'restangular',
 
     // ui
-    'toaster',
     'oitozero.ngSweetAlert',
     'ui.bootstrap',
     'ui.sortable',

@@ -47,8 +47,11 @@ public class ConexaoTest extends BasicMQTTTest {
         //A central se increveu para receber informação de transações
         assertEquals("central/transacoes/+", onSubscribeFutureList.get(3));
 
-        //A cliente se inscreve para receber informações enviadas pela central
-        assertEquals("controlador/" + idControlador + "/+", onSubscribeFutureList.get(4));
+        //A cliente se inscreve para receber informações de alarmes e falhas
+        assertEquals("central/alarmes_falhas/+", onSubscribeFutureList.get(4));
+
+        //A cliente se inscreve para receber informações de trocas de planos
+        assertEquals("central/troca_plano/+", onSubscribeFutureList.get(5));
 
         //O cliente se conectou
         assertEquals(idControlador, onConnectFutureList.get(1));
@@ -76,7 +79,7 @@ public class ConexaoTest extends BasicMQTTTest {
         //Verificar se o registro da conexao foi salvo
         StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(idControlador);
         assertTrue(status.isConectado());
-        assertEquals(Long.valueOf(envelope.getCarimboDeTempo()), status.timestamp);
+        assertEquals(Long.valueOf(envelope.getCarimboDeTempo()), status.getTimestamp());
 
     }
 }

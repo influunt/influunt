@@ -51,9 +51,6 @@ public class Detector extends Model implements Cloneable, Serializable {
     @OneToOne
     private Estagio estagio;
 
-    @ManyToOne
-    private Controlador controlador;
-
     @Column
     private Integer posicao;
 
@@ -122,11 +119,11 @@ public class Detector extends Model implements Cloneable, Serializable {
     }
 
     public Controlador getControlador() {
-        return controlador;
+        return getAnel().getControlador();
     }
 
     public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
+        getAnel().setControlador(controlador);
     }
 
     public Integer getPosicao() {

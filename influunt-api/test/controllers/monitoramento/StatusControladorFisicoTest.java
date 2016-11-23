@@ -66,7 +66,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
     @Test
     public void testStatusDeUmControlador() {
-        assertEquals(StatusDevice.CONFIGURADO, StatusControladorFisico.ultimoStatus("1").statusDevice);
+        assertEquals(StatusDevice.CONFIGURADO, StatusControladorFisico.ultimoStatus("1").getStatusDevice());
     }
 
     @Test
@@ -84,11 +84,11 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         List<StatusControladorFisico> statusControlador = StatusControladorFisico.historico("1", 0, 50);
         assertEquals(50, statusControlador.size());
-        assertEquals(StatusDevice.ATIVO, statusControlador.get(0).statusDevice);
+        assertEquals(StatusDevice.ATIVO, statusControlador.get(0).getStatusDevice());
 
         statusControlador = StatusControladorFisico.historico("1", 1, 50);
         assertEquals(50, statusControlador.size());
-        assertEquals(StatusDevice.NOVO, statusControlador.get(0).statusDevice);
+        assertEquals(StatusDevice.NOVO, statusControlador.get(0).getStatusDevice());
     }
 
     @Test

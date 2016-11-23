@@ -18,6 +18,31 @@
         </button>
       </div>
 
+
+      <div class="ibox-content">
+        <h3>{{ 'controladores.mapaControladores.status.titulo' | translate }}</h3>
+        <ul>
+          <li>
+            <strong>{{ 'controladores.mapaControladores.status.statusControlador' | translate }}:</strong>
+            <span ng-bind-html="currentControlador.status | statusControlador"></span>
+          </li>
+          <li>
+            <strong>{{ 'controladores.mapaControladores.status.online' | translate }}: </strong>
+            <span data-ng-bind-html="currentControlador.online | trueOrFalseIcon"></span>
+          </li>
+          <li>
+            <strong>{{ 'controladores.mapaControladores.status.modoOperacao' | translate }}: </strong>
+            <span>{{ currentAnel.modoOperacao }}</span>
+          </li>
+          <li>
+            <strong>{{ 'controladores.mapaControladores.status.planoVigente' | translate }}: </strong>
+            <a data-ng-click="showDiagramaIntervalos(currentAnel.planoVigente)">
+              {{ 'controladores.geral.plano' | translate}} {{ currentAnel.planoVigente.posicao }} - {{ currentAnel.planoVigente.descricao }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <div class="ibox-content" ng-init="openPlanos()">
         <h3 class="btnPlanos">
           {{ currentAnel.planos.length }} {{ 'controladores.mapaControladores.planos' | translate }}
@@ -29,6 +54,7 @@
           </li>
         </ul>
       </div>
+
       <div class="ibox-content">
         <h3>Ações</h3>
         <button

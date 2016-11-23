@@ -390,4 +390,7 @@ public class IntervaloGrupoSemaforico {
         return entreverde;
     }
 
+    public Integer quantidadeGruposSemaforicos() {
+        return estados.keySet().size();
+    }
 }
