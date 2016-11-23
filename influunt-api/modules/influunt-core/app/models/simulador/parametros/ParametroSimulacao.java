@@ -50,7 +50,7 @@ public class ParametroSimulacao {
     private List<ParametroSimulacaoImposicaoPlano> imposicoes = new ArrayList<>();
 
     @Valid
-    private List<ParametroSimulacaoImposicaoModo> imposicoesModos  = new ArrayList<>();
+    private List<ParametroSimulacaoImposicaoModo> imposicoesModos = new ArrayList<>();
 
     @Valid
     private List<ParametroSimulacaoFalha> falhas = new ArrayList<>();

@@ -13,6 +13,6 @@ public class ErroActorHandler extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        log.error("Erro: {0}",message);
+        log.error("Erro: {0}", message);
     }
 }

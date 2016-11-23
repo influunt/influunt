@@ -24,8 +24,7 @@ public class MotorEventoHandler {
     }
 
     public void handle(EventoMotor eventoMotor) {
-
-        System.out.println("**************************NOVO EVENTO************************* :" + eventoMotor.getTipoEvento() + " : " + eventoMotor.getTimestamp());
+        
         switch (eventoMotor.getTipoEvento()) {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:

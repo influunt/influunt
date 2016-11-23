@@ -2,9 +2,7 @@ package engine.eventos;
 
 import com.google.common.collect.RangeMap;
 import engine.*;
-import engine.services.PlanoService;
 import models.EstagioPlano;
-import models.ModoOperacaoPlano;
 import models.Plano;
 
 /**

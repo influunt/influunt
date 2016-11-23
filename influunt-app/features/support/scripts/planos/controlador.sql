@@ -118,14 +118,14 @@ VALUES
   ('8eb481e9-2558-4aa2-9326-a8402658efd7','2a26df7a-f342-4a64-b539-b1139594453b','12b2a949-6ab0-4467-b30a-be7c2ff92b05','4ac5742a-7357-4cb0-9801-0075132c9d9f','2016-09-29 13:27:29.778000','2016-09-29 13:30:42.659000'),
   ('abd58873-f6f7-4f0c-93fb-2ee6488203d1','7bd9d6ee-f8e1-4fd1-a444-a6efb77214cb','a76a7b05-289b-460e-aad6-4901eb2cd1ba','a841dc7c-837e-46be-a46e-5ba8e1d27747','2016-09-29 13:27:29.798000','2016-09-29 13:30:42.677000');
 
-INSERT INTO `detectores` (`id`, `id_json`, `tipo`, `anel_id`, `estagio_id`, `controlador_id`, `posicao`, `descricao`, `monitorado`, `tempo_ausencia_deteccao`, `tempo_deteccao_permanente`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `detectores` (`id`, `id_json`, `tipo`, `anel_id`, `estagio_id`, `posicao`, `descricao`, `monitorado`, `tempo_ausencia_deteccao`, `tempo_deteccao_permanente`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('2d133563-6914-48ab-b282-1349d78086a3','f5b30400-ebde-41cb-89a4-bc67e1d9cbc1','VEICULAR','287415c8-1d96-4ab1-a04f-377b19cd9238','12b2a949-6ab0-4467-b30a-be7c2ff92b05',NULL,1,NULL,1,0,0,'2016-09-29 13:30:42.654000','2016-09-29 13:30:42.654000'),
-  ('34156874-3ad0-4157-8c76-4ec4d8e5cdaa','993363c2-a12d-4e02-bef8-9ca90fbf61f1','VEICULAR','e4aea91d-790d-496f-b70e-887060734fd7','28e7a329-ca3c-4431-916d-d2aa2283f7e6',NULL,4,NULL,1,0,0,'2016-09-29 13:30:42.716000','2016-09-29 13:30:42.716000'),
-  ('41e5f77d-5434-49e3-b792-d3d883d0921c','0c9f408a-359a-457a-ba7d-4a8bc3928443','VEICULAR','e4aea91d-790d-496f-b70e-887060734fd7','108ed266-d7b4-461f-b4e9-e2117c3348a6',NULL,3,NULL,1,0,0,'2016-09-29 13:30:42.715000','2016-09-29 13:30:42.715000'),
-  ('61ff6f35-2415-4bbe-bd28-c0fbada9c8bf','22f3e804-30e2-4481-8e6f-222b276ddff4','VEICULAR','287415c8-1d96-4ab1-a04f-377b19cd9238','63fc4b2b-85be-4900-a374-0e85fc7b1e85',NULL,2,NULL,1,0,0,'2016-09-29 13:30:42.656000','2016-09-29 13:30:42.656000'),
-  ('9aecc1d9-f3b1-4e72-a45c-421c517aecf4','7ada8724-395a-48d3-9a78-544176d4ba7f','PEDESTRE','287415c8-1d96-4ab1-a04f-377b19cd9238','e671e421-b7a0-4b56-97f6-9e48962a59e7',NULL,2,NULL,1,0,0,'2016-09-29 13:30:42.652000','2016-09-29 13:30:42.652000'),
-  ('c2db1c49-1ace-43ae-b056-be0bcf0db87d','9e80f5d6-dc19-44bd-b5b0-fb6d321ab81a','PEDESTRE','287415c8-1d96-4ab1-a04f-377b19cd9238','a76a7b05-289b-460e-aad6-4901eb2cd1ba',NULL,1,NULL,1,0,0,'2016-09-29 13:30:42.651000','2016-09-29 13:30:42.651000');
+  ('2d133563-6914-48ab-b282-1349d78086a3','f5b30400-ebde-41cb-89a4-bc67e1d9cbc1','VEICULAR','287415c8-1d96-4ab1-a04f-377b19cd9238','12b2a949-6ab0-4467-b30a-be7c2ff92b05',1,NULL,1,0,0,'2016-09-29 13:30:42.654000','2016-09-29 13:30:42.654000'),
+  ('34156874-3ad0-4157-8c76-4ec4d8e5cdaa','993363c2-a12d-4e02-bef8-9ca90fbf61f1','VEICULAR','e4aea91d-790d-496f-b70e-887060734fd7','28e7a329-ca3c-4431-916d-d2aa2283f7e6',4,NULL,1,0,0,'2016-09-29 13:30:42.716000','2016-09-29 13:30:42.716000'),
+  ('41e5f77d-5434-49e3-b792-d3d883d0921c','0c9f408a-359a-457a-ba7d-4a8bc3928443','VEICULAR','e4aea91d-790d-496f-b70e-887060734fd7','108ed266-d7b4-461f-b4e9-e2117c3348a6',3,NULL,1,0,0,'2016-09-29 13:30:42.715000','2016-09-29 13:30:42.715000'),
+  ('61ff6f35-2415-4bbe-bd28-c0fbada9c8bf','22f3e804-30e2-4481-8e6f-222b276ddff4','VEICULAR','287415c8-1d96-4ab1-a04f-377b19cd9238','63fc4b2b-85be-4900-a374-0e85fc7b1e85',2,NULL,1,0,0,'2016-09-29 13:30:42.656000','2016-09-29 13:30:42.656000'),
+  ('9aecc1d9-f3b1-4e72-a45c-421c517aecf4','7ada8724-395a-48d3-9a78-544176d4ba7f','PEDESTRE','287415c8-1d96-4ab1-a04f-377b19cd9238','e671e421-b7a0-4b56-97f6-9e48962a59e7',2,NULL,1,0,0,'2016-09-29 13:30:42.652000','2016-09-29 13:30:42.652000'),
+  ('c2db1c49-1ace-43ae-b056-be0bcf0db87d','9e80f5d6-dc19-44bd-b5b0-fb6d321ab81a','PEDESTRE','287415c8-1d96-4ab1-a04f-377b19cd9238','a76a7b05-289b-460e-aad6-4901eb2cd1ba',1,NULL,1,0,0,'2016-09-29 13:30:42.651000','2016-09-29 13:30:42.651000');
 
 
 INSERT INTO `tabela_entre_verdes` (`id`, `id_json`, `descricao`, `grupo_semaforico_id`, `posicao`, `data_criacao`, `data_atualizacao`)
