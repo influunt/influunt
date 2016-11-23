@@ -1,8 +1,9 @@
 package models;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import config.WithInfluuntApplicationNoAuthentication;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
 /**

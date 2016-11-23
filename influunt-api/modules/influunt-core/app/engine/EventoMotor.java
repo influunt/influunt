@@ -84,6 +84,12 @@ public class EventoMotor {
                     paramsStr[0] = params[1].toString();
                     paramsStr[1] = params[0].toString();
                     break;
+                case PLANO:
+                case MODO_OPERACAO_PLANO:
+                    paramsStr[0] = params[1].toString();
+                    paramsStr[1] = params[0].toString();
+                    paramsStr[2] = params[2].toString();
+                    break;
                 case ANEL:
                     paramsStr[0] = params[0].toString();
                     break;

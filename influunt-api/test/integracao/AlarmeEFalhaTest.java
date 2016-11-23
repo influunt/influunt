@@ -59,7 +59,7 @@ public class AlarmeEFalhaTest extends BasicMQTTTest {
 
         JsonNode jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
         assertEquals(TipoMensagem.ALARME_FALHA, envelope.getTipoMensagem());
-        assertEquals(idControlador,envelope.getIdControlador());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(TipoEvento.FALHA_VERDES_CONFLITANTES.toString(), jsonConteudo.get("tipoEvento").get("tipo").asText());
 
         map = new Gson().fromJson(new String(onPublishFutureList.get(7)), Map.class);
