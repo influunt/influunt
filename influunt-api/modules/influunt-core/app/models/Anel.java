@@ -251,7 +251,9 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
-                this.versaoPlanoAtivo = getVersoesPlanos().stream().filter(VersaoPlano::isAtivo).findFirst().orElse(null);
+                this.versaoPlanoAtivo = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isAtivo())
+                    .findFirst().orElse(null);
             }
         }
         return versaoPlanoAtivo;
@@ -265,7 +267,8 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
-                this.versaoPlanoEdicao = getVersoesPlanos().stream().filter(VersaoPlano::isEditando).findFirst().orElse(null);
+                this.versaoPlanoEdicao = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isEditando()).findFirst().orElse(null);
             }
         }
         return versaoPlanoEdicao;
@@ -275,7 +278,8 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoConfigurado() {
         if (versaoPlanoConfigurado == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
-                this.versaoPlanoConfigurado = getVersoesPlanos().stream().filter(VersaoPlano::isConfigurado).findFirst().orElse(null);
+                this.versaoPlanoConfigurado = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isConfigurado()).findFirst().orElse(null);
             }
         }
         return versaoPlanoConfigurado;
