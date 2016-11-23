@@ -4,7 +4,6 @@ import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import models.Evento;
 import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +21,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
         Evento evento = controlador.getTabelaHoraria().getEventos().stream().filter(evento1 -> evento1.getPosicao().equals(13)).findFirst().get();
 
         //Rever os testes passando uma data e hora desejada
-        DateTime dataHora =  new DateTime(2016, 11, 15, 8, 0, 0, 0);
+        DateTime dataHora = new DateTime(2016, 11, 15, 8, 0, 0, 0);
 
         System.out.println("DATA SERVIDOR **************************** " + dataHora + " *************** " + dataHora.getMillis());
 

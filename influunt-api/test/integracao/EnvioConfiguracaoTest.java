@@ -1,7 +1,6 @@
 package integracao;
 
 import checks.*;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import models.*;
 import org.apache.commons.codec.DecoderException;

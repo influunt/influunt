@@ -20,8 +20,11 @@ import java.util.stream.Collectors;
 public class ControladorCustomSerializer {
 
     private static final String ID_JSON = "idJson";
+
     private static final String DATA_CRIACAO = "dataCriacao";
+
     private static final String DATA_ATUALIZACAO = "dataAtualizacao";
+
     private static final String NOME = "nome";
 
     private Map<String, Estagio> estagiosMap = new HashMap<>();

@@ -3,10 +3,10 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.avaje.ebean.annotation.UpdatedTimestamp;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
@@ -173,16 +173,16 @@ public class VersaoPlano extends Model implements Serializable {
         return dataCriacao;
     }
 
+    public void setDataCriacao(DateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
     public DateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
-    }
-
-    public void setDataCriacao(DateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
     }
 
     public void addPlano(Plano plano) {

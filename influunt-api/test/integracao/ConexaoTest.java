@@ -1,6 +1,5 @@
 package integracao;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
@@ -17,9 +16,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -63,13 +60,13 @@ public class ConexaoTest extends BasicMQTTTest {
 
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals("CONTROLADOR_ONLINE", envelope.getTipoMensagem().toString());
-        assertEquals("controladores/conn/online",envelope.getDestino());
+        assertEquals("controladores/conn/online", envelope.getDestino());
         assertNotNull(envelope.getCarimboDeTempo());
         assertNotNull(envelope.getCarimboDeTempo());
         assertNotNull(envelope.getIdMensagem());
         assertNotNull(envelope.getConteudo());
 
-        map = new Gson().fromJson(envelope.getConteudo().toString(),Map.class);
+        map = new Gson().fromJson(envelope.getConteudo().toString(), Map.class);
         assertTrue(map.containsKey("dataHora"));
         assertTrue(map.containsKey("versao72c"));
         assertTrue(map.containsKey("status"));

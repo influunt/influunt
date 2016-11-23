@@ -12,10 +12,12 @@ public interface DeviceConfig {
 
     public void setDeviceId(String id);
 
-    public void setCentralPublicKey(String publicKey);
     public String getCentralPublicKey();
 
-    public void setPrivateKey(String publicKey);
+    public void setCentralPublicKey(String publicKey);
+
     public String getPrivateKey();
+
+    public void setPrivateKey(String publicKey);
 
 }

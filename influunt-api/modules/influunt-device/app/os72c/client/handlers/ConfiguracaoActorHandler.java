@@ -45,7 +45,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
-                    if(envelopeStatus!=null) {
+                    if (envelopeStatus != null) {
                         getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                     }
                 }

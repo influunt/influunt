@@ -17,10 +17,15 @@ import java.util.List;
  */
 public abstract class GeradorDeIntervalos {
     protected final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
+
     protected final ModoOperacaoPlano modoAnterior;
+
     protected final Plano plano;
+
     protected final EstagioPlano estagioPlanoAtual;
+
     protected final List<EstagioPlano> listaEstagioPlanos;
+
     protected RangeMap<Long, IntervaloEstagio> intervalos;
 
     public GeradorDeIntervalos(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,

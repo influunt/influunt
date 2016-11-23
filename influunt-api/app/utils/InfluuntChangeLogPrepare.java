@@ -14,17 +14,16 @@ public class InfluuntChangeLogPrepare implements ChangeLogPrepare {
     public boolean prepare(ChangeSet changes) {
         PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-        Usuario usu =null;
+        Usuario usu = null;
         try {
             if (Http.Context.current() != null) {
                 usu = (Usuario) Http.Context.current().args.get("user");
             } else {
                 usu = null;
             }
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             usu = null;
         }
-
 
 
         final Usuario usuario = usu;

@@ -114,9 +114,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     private void sendToBroker(MqttMessage message) throws MqttException {
         try {
             String parsedBytes = new String(message.getPayload());
-            Map msg = new Gson().fromJson(parsedBytes,Map.class);
+            Map msg = new Gson().fromJson(parsedBytes, Map.class);
             String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
-            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg,privateKey), Envelope.class);
+            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
 
             router.route(envelope, getSender());
 

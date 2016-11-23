@@ -825,7 +825,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
     private <T> void assertFields(T origem, T destino) {
         for (Field field : origem.getClass().getDeclaredFields()) {
-            if(field.getAnnotation(Ignore.class) == null) {
+            if (field.getAnnotation(Ignore.class) == null) {
                 field.setAccessible(true);
                 try {
                     if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)

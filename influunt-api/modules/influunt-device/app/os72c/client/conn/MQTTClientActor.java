@@ -11,7 +11,6 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
-import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import os72c.client.protocols.Mensagem;
@@ -20,7 +19,6 @@ import os72c.client.storage.Storage;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
-import protocol.TipoMensagem;
 import scala.concurrent.duration.Duration;
 import utils.EncryptionUtil;
 
@@ -33,7 +31,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -147,10 +144,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
     private void sendToBroker(MqttMessage message) throws MqttException {
         String parsedBytes = new String(message.getPayload());
 
-        Map msg = new Gson().fromJson(parsedBytes,Map.class);
+        Map msg = new Gson().fromJson(parsedBytes, Map.class);
         String privateKey = storage.getPrivateKey();
         try {
-            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg,privateKey), Envelope.class);
+            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
             router.route(envelope, getSender());
         } catch (DecoderException e) {
             e.printStackTrace();

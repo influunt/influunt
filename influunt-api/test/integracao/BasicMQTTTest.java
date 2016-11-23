@@ -7,7 +7,6 @@ import io.moquette.server.Server;
 import io.moquette.server.config.IConfig;
 import io.moquette.server.config.MemoryConfig;
 import models.Controlador;
-import org.bouncycastle.util.encoders.Hex;
 import org.junit.After;
 import org.junit.Before;
 import os72c.client.Client;

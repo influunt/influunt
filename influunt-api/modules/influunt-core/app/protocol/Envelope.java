@@ -10,9 +10,11 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.UUID;
 
@@ -122,17 +124,17 @@ public class Envelope {
     }
 
 
-    public String toJsonCriptografado(String publicKey){
+    public String toJsonCriptografado(String publicKey) {
         try {
             PublicKey pk =
-                KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec( Hex.decodeHex(publicKey.toCharArray())));
+                KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Hex.decodeHex(publicKey.toCharArray())));
             SecretKey secretKey = EncryptionUtil.generateAESKey();
-            String key = Hex.encodeHexString(EncryptionUtil.encryptRSA(secretKey.getEncoded(),pk));
-            String json = Hex.encodeHexString(EncryptionUtil.encryptAES(toJson(),secretKey));
+            String key = Hex.encodeHexString(EncryptionUtil.encryptRSA(secretKey.getEncoded(), pk));
+            String json = Hex.encodeHexString(EncryptionUtil.encryptAES(toJson(), secretKey));
             ObjectNode root = newObject();
-            root.put("key",key);
-            root.put("idControlador",this.getIdControlador());
-            root.put("content",json);
+            root.put("key", key);
+            root.put("idControlador", this.getIdControlador());
+            root.put("content", json);
             return root.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

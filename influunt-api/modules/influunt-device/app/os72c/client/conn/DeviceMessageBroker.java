@@ -50,7 +50,7 @@ public class DeviceMessageBroker extends UntypedActor {
         if (message instanceof Envelope) {
 
             Envelope envelope = (Envelope) message;
-            System.out.println("DEVICE RECEBEU: " +  envelope.getTipoMensagem());
+            System.out.println("DEVICE RECEBEU: " + envelope.getTipoMensagem());
             if (routers.containsKey(envelope.getTipoMensagem())) {
                 routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
             } else {

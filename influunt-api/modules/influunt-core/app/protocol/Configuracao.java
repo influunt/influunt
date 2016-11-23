@@ -1,13 +1,11 @@
 package protocol;
 
-import com.google.gson.Gson;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusVersao;
 import utils.RangeUtils;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.UUID;
 
 /**

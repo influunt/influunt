@@ -10,12 +10,7 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
-import org.apache.commons.codec.binary.Hex;
-import utils.EncryptionUtil;
 
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.EncodedKeySpec;
 import java.util.Collections;
 
 /**
@@ -125,7 +120,6 @@ public class MapStorage implements Storage {
     }
 
 
-
     @Override
     public String getPrivateKey() {
         return this.keys.get("private");
@@ -133,19 +127,19 @@ public class MapStorage implements Storage {
 
     @Override
     public void setPrivateKey(String privateKey) {
-        this.keys.put("private",privateKey);
-        db.commit();
-    }
-
-    @Override
-    public void setCentralPublicKey(String publicKey) {
-        this.keys.put("central",publicKey);
+        this.keys.put("private", privateKey);
         db.commit();
     }
 
     @Override
     public String getCentralPublicKey() {
         return this.keys.get("central");
+    }
+
+    @Override
+    public void setCentralPublicKey(String publicKey) {
+        this.keys.put("central", publicKey);
+        db.commit();
     }
 
 }

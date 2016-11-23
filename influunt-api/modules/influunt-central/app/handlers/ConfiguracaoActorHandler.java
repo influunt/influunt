@@ -3,12 +3,9 @@ package handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import models.Controlador;
 import protocol.Configuracao;
 import protocol.Envelope;
 import utils.AtoresCentral;
-
-import java.util.UUID;
 
 
 /**
