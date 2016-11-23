@@ -23,9 +23,6 @@ public class Configuracao {
         Controlador controlador = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()));
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         if (controlador != null && !controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
-            Map map = new Gson().fromJson(envelope.getConteudo().toString(),Map.class);
-            controlador.setControladorPublicKey(map.get("publicKey").toString());
-            controlador.update();
             return new Envelope(TipoMensagem.CONFIGURACAO,
                 envelope.getIdControlador(),
                 "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),

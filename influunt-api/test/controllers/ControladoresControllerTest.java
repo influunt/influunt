@@ -5,6 +5,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
@@ -824,23 +825,25 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
     private <T> void assertFields(T origem, T destino) {
         for (Field field : origem.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            try {
-                if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
-                    || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
-                    || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
-                    continue;
-                }
-                if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
-                    if (field.getType().isPrimitive() || field.getType().isEnum() ||
-                        field.getType().equals(String.class)) {
-
-                        Logger.debug("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
-                        assertEquals("Teste de " + field.getName().toString(), field.get(origem), field.get(destino));
+            if(field.getAnnotation(Ignore.class) == null) {
+                field.setAccessible(true);
+                try {
+                    if (field.get(origem) == null || Modifier.isFinal(field.getModifiers()) || field.getType().equals(UUID.class)
+                        || field.getType().equals(DateTime.class) || field.getType().equals(Fabricante.class) || field.getType().equals(Cidade.class)
+                        || field.getType().equals(DiaDaSemana.class) || "idJson".equals(field.getName())) {
+                        continue;
                     }
+                    if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())) {
+                        if (field.getType().isPrimitive() || field.getType().isEnum() ||
+                            field.getType().equals(String.class)) {
+
+                            Logger.debug("[" + origem.getClass().getName().toString() + "] - CAMPO: " + field.getName().toString());
+                            assertEquals("Teste de " + field.getName().toString(), field.get(origem), field.get(destino));
+                        }
+                    }
+                } catch (IllegalAccessException | SecurityException e) {
+                    Logger.error("XXX ERRO NO CAMPO: " + field.getName().toString());
                 }
-            } catch (IllegalAccessException | SecurityException e) {
-                Logger.error("XXX ERRO NO CAMPO: " + field.getName().toString());
             }
         }
     }

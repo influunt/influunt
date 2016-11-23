@@ -12,15 +12,8 @@ public class Sinal {
     private Sinal() {
     }
 
-    public static Envelope getMensagem(TipoMensagem tipoMensagem, String idControlador, String destino,String publicKey) {
-        if(publicKey!=null){
-            ObjectNode root = Json.newObject();
-            root.put("publicKey",publicKey);
-            return new Envelope(tipoMensagem, idControlador, destino, 1, root.toString(), null);
-        }else{
+    public static Envelope getMensagem(TipoMensagem tipoMensagem, String idControlador, String destino) {
             return new Envelope(tipoMensagem, idControlador, destino, 1, null, null);
-        }
-
     }
 
 }

@@ -7,7 +7,10 @@ import akka.japi.Function;
 import com.typesafe.config.ConfigFactory;
 import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
+import utils.EncryptionUtil;
 
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,15 +35,25 @@ public class ClientActor extends UntypedActor {
 
     private final Storage storage;
 
+    private final String centralPublicKey;
+
+    private final String controladorPrivateKey;
+
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtControlador;
 
-    public ClientActor(final String id, final String host, final String port, Storage storage) {
+    public ClientActor(final String id, final String host, final String port, final String centralPublicKey,final String controladorPrivateKey, Storage storage) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
+        this.centralPublicKey = centralPublicKey;
+        this.controladorPrivateKey = controladorPrivateKey;
+        if(storage.getCentralPublicKey() == null){
+            storage.setCentralPublicKey(centralPublicKey);
+            storage.setPrivateKey(controladorPrivateKey);
+        }
     }
 
     public static void main(String args[]) {

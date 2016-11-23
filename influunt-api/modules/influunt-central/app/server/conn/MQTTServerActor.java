@@ -112,11 +112,12 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     }
 
     private void sendToBroker(MqttMessage message) throws MqttException {
-        String parsedBytes = new String(message.getPayload());
-        Map msg = new Gson().fromJson(parsedBytes,Map.class);
-        String privateKey = Controlador.find.byId(UUID.fromString(msg.get("controladorId").toString())).getCentralPrivateKey();
         try {
+            String parsedBytes = new String(message.getPayload());
+            Map msg = new Gson().fromJson(parsedBytes,Map.class);
+            String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg,privateKey), Envelope.class);
+
             router.route(envelope, getSender());
 
         } catch (DecoderException e) {
@@ -141,7 +142,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
-        opts.setConnectionTimeout(10);
+        opts.setConnectionTimeout(0);
         opts.setWill("central/morreu", "1".getBytes(), 1, true);
         client.setCallback(this);
         client.connect(opts);

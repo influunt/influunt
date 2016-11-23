@@ -392,6 +392,10 @@ public class ControladorCustomSerializer {
         if (controlador.getFirmware() != null) {
             root.put("firmware", controlador.getFirmware());
         }
+        if (controlador.getCentralPublicKey() != null) {
+            root.put("centralPublicKey", controlador.getCentralPublicKey());
+        }
+
         if (controlador.getCroqui() != null) {
             ObjectNode croquiJson = Json.newObject();
             Imagem croqui = controlador.getCroqui();

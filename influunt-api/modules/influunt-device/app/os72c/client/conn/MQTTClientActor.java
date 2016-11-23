@@ -15,12 +15,12 @@ import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import os72c.client.protocols.Mensagem;
-import os72c.client.protocols.MensagemControladorSupervisor;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
+import protocol.TipoMensagem;
 import scala.concurrent.duration.Duration;
 import utils.EncryptionUtil;
 
@@ -109,13 +109,6 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
             if (!client.isConnected()) {
                 throw new Exception("Conexao morreu");
             }
-        } else if (message instanceof MensagemControladorSupervisor) {
-            String json = new Gson().toJson(((MensagemControladorSupervisor) message));
-            MqttMessage status = new MqttMessage();
-            status.setQos(0);
-            status.setRetained(false);
-            status.setPayload(json.getBytes());
-            client.publish("central/erros/" + id, status);
         } else if (message instanceof Envelope) {
             sendMenssage((Envelope) message);
         }
@@ -126,11 +119,11 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
-        opts.setConnectionTimeout(10);
+        opts.setConnectionTimeout(0);
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
-        opts.setWill(controladorOffline.getDestino(), controladorOffline.toJson().getBytes(), 1, true);
+        opts.setWill(controladorOffline.getDestino(), controladorOffline.toJsonCriptografado(storage.getCentralPublicKey()).getBytes(), 1, true);
 
         client.setCallback(this);
         client.connect(opts);
@@ -146,12 +139,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         });
 
         Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
-        MqttMessage message = new MqttMessage();
-        message.setQos(2);
-        message.setRetained(true);
-        message.setPayload(controladorOnline.toJson().getBytes());
-        client.publish(controladorOnline.getDestino(), message);
-
+        sendMenssage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 

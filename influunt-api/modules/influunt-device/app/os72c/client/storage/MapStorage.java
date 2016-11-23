@@ -52,19 +52,6 @@ public class MapStorage implements Storage {
             .layout(1, 1, 1)
             .createOrOpen();
 
-        if (!this.keys.containsKey("keys")) {
-            try {
-                KeyPair keyPair = EncryptionUtil.generateRSAKey();
-                this.keys.put("private", Hex.encodeHexString(keyPair.getPrivate().getEncoded()));
-                this.keys.put("public", Hex.encodeHexString(keyPair.getPublic().getEncoded()));
-                db.commit();
-
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-        }
-
-
         this.controlador = this.db.hashMap("controladores")
             .keySerializer(Serializer.STRING)
             .valueSerializer(Serializer.STRING)
@@ -138,14 +125,16 @@ public class MapStorage implements Storage {
     }
 
 
-    @Override
-    public String getPublicKey() {
-        return this.keys.get("public");
-    }
 
     @Override
     public String getPrivateKey() {
         return this.keys.get("private");
+    }
+
+    @Override
+    public void setPrivateKey(String privateKey) {
+        this.keys.put("private",privateKey);
+        db.commit();
     }
 
     @Override

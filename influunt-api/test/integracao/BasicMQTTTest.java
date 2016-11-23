@@ -7,6 +7,7 @@ import io.moquette.server.Server;
 import io.moquette.server.config.IConfig;
 import io.moquette.server.config.MemoryConfig;
 import models.Controlador;
+import org.bouncycastle.util.encoders.Hex;
 import org.junit.After;
 import org.junit.Before;
 import os72c.client.Client;
@@ -55,6 +56,8 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         controlador = new ControladorHelper().getControlador();
         idControlador = controlador.getId().toString();
         provideApp.injector().instanceOf(DeviceConfig.class).setDeviceId(controlador.getId().toString());
+        provideApp.injector().instanceOf(DeviceConfig.class).setCentralPublicKey(controlador.getCentralPublicKey());
+        provideApp.injector().instanceOf(DeviceConfig.class).setPrivateKey(controlador.getControladorPrivateKey());
 
         Properties properties = new Properties();
         properties.put("persistent_store", "");
@@ -64,30 +67,27 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             @Override
             public void onConnect(InterceptConnectMessage interceptConnectMessage) {
                 onConnectFutureList.add(interceptConnectMessage.getClientID());
-                System.out.println("ON CONNECT");
             }
 
             @Override
             public void onDisconnect(InterceptDisconnectMessage interceptDisconnectMessage) {
                 onDisconectFutureList.add(interceptDisconnectMessage.getClientID());
-                System.out.println("ON DISCONNECT");
             }
 
             @Override
             public void onPublish(InterceptPublishMessage interceptPublishMessage) {
                 onPublishFutureList.add(interceptPublishMessage.getPayload().array());
-                System.out.println("ON PUBLISH");
+                System.out.println("onPublishFutureList.size() : " + onPublishFutureList.size());
+                System.out.println("MSG : " + interceptPublishMessage.getTopicName());
             }
 
             @Override
             public void onSubscribe(InterceptSubscribeMessage interceptSubscribeMessage) {
                 onSubscribeFutureList.add(interceptSubscribeMessage.getTopicFilter());
-                System.out.println("ON SUBSCRIBE");
             }
 
             @Override
             public void onUnsubscribe(InterceptUnsubscribeMessage interceptUnsubscribeMessage) {
-                System.out.println("ON UNSUBSCRIBE");
             }
         });
 

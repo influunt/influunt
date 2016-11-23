@@ -1,11 +1,24 @@
 package integracao;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
+import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
+import protocol.Envelope;
 import status.StatusConexaoControlador;
+import utils.EncryptionUtil;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Map;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
@@ -16,7 +29,7 @@ public class ConexaoTest extends BasicMQTTTest {
 
 
     @Test
-    public void centralDeveSeConectarAoServidorMQTT() {
+    public void centralDeveSeConectarAoServidorMQTT() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         //A central ao se conectar no servidor deve se inscrever em diversos tópicos
         startClient();
 
@@ -26,7 +39,6 @@ public class ConexaoTest extends BasicMQTTTest {
 
         assertEquals("central", onConnectFutureList.get(0));
 
-        //A central se increveu para receber informação de quando um controlador fica online
         assertEquals("controladores/conn/online", onSubscribeFutureList.get(0));
 
         //A central se increveu para receber informação de quando um controlador fica offline
@@ -45,25 +57,29 @@ public class ConexaoTest extends BasicMQTTTest {
         assertEquals(idControlador, onConnectFutureList.get(1));
 
         //O cliente envio a CONTROLADOR_ONLINE
-        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(0)));
+        //A central se increveu para receber informação de quando um controlador fica online
+        Map map = new Gson().fromJson(new String(onPublishFutureList.get(0)), Map.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
-        assertEquals(idControlador, json.get("idControlador").asText());
-        assertEquals("CONTROLADOR_ONLINE", json.get("tipoMensagem").asText());
-        assertEquals("controladores/conn/online", json.get("destino").asText());
-        assertTrue(json.has("carimboDeTempo"));
-        assertTrue(json.has("idMensagem"));
-        assertTrue(json.has("conteudo"));
+        assertEquals(idControlador, envelope.getIdControlador());
+        assertEquals("CONTROLADOR_ONLINE", envelope.getTipoMensagem().toString());
+        assertEquals("controladores/conn/online",envelope.getDestino());
+        assertNotNull(envelope.getCarimboDeTempo());
+        assertNotNull(envelope.getCarimboDeTempo());
+        assertNotNull(envelope.getIdMensagem());
+        assertNotNull(envelope.getConteudo());
 
-        assertTrue(json.get("conteudo").has("dataHora"));
-        assertTrue(json.get("conteudo").has("versao72c"));
-        assertTrue(json.get("conteudo").has("status"));
-        assertEquals("NOVO", json.get("conteudo").get("status").asText());
+        map = new Gson().fromJson(envelope.getConteudo().toString(),Map.class);
+        assertTrue(map.containsKey("dataHora"));
+        assertTrue(map.containsKey("versao72c"));
+        assertTrue(map.containsKey("status"));
+        assertEquals("NOVO", map.get("status").toString());
 
 
         //Verificar se o registro da conexao foi salvo
         StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(idControlador);
         assertTrue(status.isConectado());
-        assertEquals(Long.valueOf(json.get("carimboDeTempo").asLong()), status.timestamp);
+        assertEquals(Long.valueOf(envelope.getCarimboDeTempo()), status.timestamp);
 
     }
 }

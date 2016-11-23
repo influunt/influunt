@@ -95,6 +95,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Column(columnDefinition = "TEXT")
     private String centralPrivateKey;
 
+    @Ignore
     @Column(columnDefinition = "TEXT")
     private String centralPublicKey;
 
@@ -102,6 +103,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Column(columnDefinition = "TEXT")
     private String controladorPublicKey;
 
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPrivateKey;
 
     @ManyToOne
     @Valid
@@ -164,6 +168,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -209,6 +214,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 KeyPair key = EncryptionUtil.generateRSAKey();
                 this.centralPrivateKey = Hex.encodeHexString(key.getPrivate().getEncoded());
                 this.centralPublicKey = Hex.encodeHexString(key.getPublic().getEncoded());
+
+                KeyPair keyControlador = EncryptionUtil.generateRSAKey();
+                this.controladorPrivateKey = Hex.encodeHexString(keyControlador.getPrivate().getEncoded());
+                this.controladorPublicKey = Hex.encodeHexString(keyControlador.getPublic().getEncoded());
+
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
@@ -501,6 +511,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setControladorPublicKey(String controladorPublicKey) {
         this.controladorPublicKey = controladorPublicKey;
+    }
+
+    public String getControladorPrivateKey() {
+        return controladorPrivateKey;
+    }
+
+    public void setControladorPrivateKey(String controladorPrivateKey) {
+        this.controladorPrivateKey = controladorPrivateKey;
     }
 
     public List<Anel> getAneis() {

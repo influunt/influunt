@@ -131,7 +131,7 @@ public class Envelope {
             String json = Hex.encodeHexString(EncryptionUtil.encryptAES(toJson(),secretKey));
             ObjectNode root = newObject();
             root.put("key",key);
-            root.put("controladorId",this.getIdControlador());
+            root.put("idControlador",this.getIdControlador());
             root.put("content",json);
             return root.toString();
         } catch (NoSuchAlgorithmException e) {

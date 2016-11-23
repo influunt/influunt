@@ -6,6 +6,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class TestDeviceConfig implements DeviceConfig {
     private String id;
+    private String centralPublicKey;
+    private String privateKey;
 
     @Override
     public String getHost() {
@@ -26,4 +28,25 @@ public class TestDeviceConfig implements DeviceConfig {
     public void setDeviceId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String getCentralPublicKey() {
+        return centralPublicKey;
+    }
+
+    @Override
+    public void setCentralPublicKey(String centralPublicKey) {
+        this.centralPublicKey = centralPublicKey;
+    }
+
+    @Override
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    @Override
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
 }

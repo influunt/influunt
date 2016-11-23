@@ -8,6 +8,7 @@ import akka.event.LoggingAdapter;
 import akka.routing.Router;
 import os72c.client.handlers.ConfiguracaoActorHandler;
 import os72c.client.handlers.EchoActorHandler;
+import os72c.client.handlers.ErroActorHandler;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
@@ -39,6 +40,7 @@ public class DeviceMessageBroker extends UntypedActor {
         routers.put(TipoMensagem.ECHO, createRoutees(getContext(), 5, EchoActorHandler.class));
         routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(), 1, ConfiguracaoActorHandler.class, idControlador, storage));
         routers.put(TipoMensagem.TRANSACAO, createRoutees(getContext(), 1, TransacaoActorHandler.class, idControlador, storage));
+        routers.put(TipoMensagem.ERRO, createRoutees(getContext(), 1, ErroActorHandler.class));
         actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage), "actorConfig");
 
     }
@@ -46,7 +48,9 @@ public class DeviceMessageBroker extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
+
             Envelope envelope = (Envelope) message;
+            System.out.println("DEVICE RECEBEU: " +  envelope.getTipoMensagem());
             if (routers.containsKey(envelope.getTipoMensagem())) {
                 routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
             } else {
