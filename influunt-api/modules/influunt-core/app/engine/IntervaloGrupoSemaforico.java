@@ -60,15 +60,15 @@ public class IntervaloGrupoSemaforico {
         if (plano.isIntermitente() || plano.isApagada()) {
             loadEstadosFixos();
         } else if (verde.isInicio()) {
-            loadEstadosComSequenciaPartica();
+            loadEstadosComSequenciaDePartida();
         } else {
             loadEstados();
         }
     }
 
-    private void loadEstadosComSequenciaPartica() {
+    private void loadEstadosComSequenciaDePartida() {
         estados = new HashMap<>();
-        loadEstagioSequenciaPartida(verde.getDuracao());
+        loadEstagioSequenciaDePartida(verde.getDuracao());
     }
 
     private void loadEstados() {
@@ -80,7 +80,7 @@ public class IntervaloGrupoSemaforico {
             if (estagioPlanoAnterior.getPlano().isIntermitente()) {
                 loadEstagioPosModoIntermitente(estagioPlano.getTempoVerdeEstagio() * 1000L);
             } else {
-                loadEstagioSequenciaPartida(estagioPlano.getTempoVerdeEstagio() * 1000L);
+                loadEstagioSequenciaDePartida(estagioPlano.getTempoVerdeEstagio() * 1000L);
             }
 
 
@@ -98,7 +98,7 @@ public class IntervaloGrupoSemaforico {
 
     }
 
-    private void loadEstagioSequenciaPartida(Long tempoVerdeEstagio) {
+    private void loadEstagioSequenciaDePartida(Long tempoVerdeEstagio) {
         final long tempoTotalSequenciaPartida = GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
         final long tempoVerde = tempoTotalSequenciaPartida + tempoVerdeEstagio;
 
@@ -293,10 +293,6 @@ public class IntervaloGrupoSemaforico {
         intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), estadoFinal);
 
 
-        return intervalos;
-    }
-
-    private RangeMap<Long, EstadoGrupoSemaforico> geraSequenciaDePartida(RangeMap<Long, EstadoGrupoSemaforico> intervalos) {
         return intervalos;
     }
 
