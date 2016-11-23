@@ -46,6 +46,16 @@ public class EventoMotorTest {
         json = Json.toJson(eventoMotor);
 
         assertEquals("Anel 3: Falha no DV2 - Falta de Acionamento", json.get("descricaoEvento").asText());
+
+
+        eventoMotor = new EventoMotor(data,
+            TipoEvento.IMPOSICAO_PLANO,
+            15,
+            2,
+            60);
+        json = Json.toJson(eventoMotor);
+
+        assertEquals("Anel 2: Plano 15 foi imposto com duração de 60 minutos", json.get("descricaoEvento").asText());
     }
 
 

@@ -14,7 +14,6 @@ import play.test.Helpers;
 import utils.RangeUtils;
 
 import javax.validation.groups.Default;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -82,7 +81,6 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(13, erros.size());
-        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
@@ -108,7 +106,6 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(13, erros.size());
-        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
@@ -133,7 +130,6 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(14, erros.size());
-        Collections.sort(erros, (Erro e1, Erro e2) -> e1.path.compareTo(e2.path));
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro(CONTROLADOR, "Esse grupo semafórico deve ter no máximo o número de tabelas entreverdes definido na configuração do controlador.", "aneis[0].gruposSemaforicos[0].numeroCorretoTabelasEntreVerdes"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
