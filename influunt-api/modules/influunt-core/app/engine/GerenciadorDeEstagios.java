@@ -9,8 +9,10 @@ import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rodrigosol on 10/11/16.

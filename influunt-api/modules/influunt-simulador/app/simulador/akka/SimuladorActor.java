@@ -17,7 +17,6 @@ import org.joda.time.DateTime;
 import play.libs.Json;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 

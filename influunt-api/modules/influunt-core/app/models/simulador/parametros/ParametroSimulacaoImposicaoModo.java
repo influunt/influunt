@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import json.deserializers.simulacao.ParametroSimulacaoImposicaoModoDeserializer;
-import json.deserializers.simulacao.ParametroSimulacaoImposicaoPlanoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;

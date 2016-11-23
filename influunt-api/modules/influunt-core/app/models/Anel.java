@@ -1,7 +1,6 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;

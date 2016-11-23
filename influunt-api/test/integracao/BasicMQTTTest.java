@@ -67,7 +67,6 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         central.finish();
         mqttBroker.stopServer();
         mqttBroker = null;
-        mqttBroker = null;
         onConnectFutureList.clear();
         onDisconectFutureList.clear();
         onSubscribeFutureList.clear();

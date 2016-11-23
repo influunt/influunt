@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Agrupamento;
 import models.Anel;
-import models.LimiteArea;
 import models.Plano;
 
 import java.io.IOException;

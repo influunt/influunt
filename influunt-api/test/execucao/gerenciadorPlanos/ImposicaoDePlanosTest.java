@@ -5,16 +5,12 @@ import engine.EventoMotor;
 import engine.Motor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
-import integracao.ControladorHelper;
 import models.EstadoGrupoSemaforico;
 import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
