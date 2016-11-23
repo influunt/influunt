@@ -25,6 +25,15 @@ public class EnderecoSerializer extends JsonSerializer<Endereco> {
         if (endereco.getLocalizacao() != null) {
             jgen.writeStringField("localizacao", endereco.getLocalizacao());
         }
+        if (endereco.getLocalizacao2() != null) {
+            jgen.writeStringField("localizacao2", endereco.getLocalizacao2());
+        }
+        if (endereco.getReferencia() != null) {
+            jgen.writeStringField("referencia", endereco.getReferencia());
+        }
+        if (endereco.getAlturaNumerica() != null) {
+            jgen.writeNumberField("alturaNumerica", endereco.getAlturaNumerica());
+        }
         if (endereco.getLatitude() != null) {
             jgen.writeNumberField("latitude", endereco.getLatitude());
         }
