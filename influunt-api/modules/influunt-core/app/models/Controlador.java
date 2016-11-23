@@ -10,11 +10,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
 import utils.DBUtils;
+import utils.EncryptionUtil;
 import utils.RangeUtils;
 
 import javax.persistence.*;
@@ -22,6 +25,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 
@@ -86,6 +91,22 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToOne
     private Imagem croqui;
 
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String centralPrivateKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String centralPublicKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPublicKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPrivateKey;
+
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
@@ -144,6 +165,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -185,6 +207,19 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             this.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
+            try {
+                KeyPair key = EncryptionUtil.generateRSAKey();
+                this.centralPrivateKey = Hex.encodeHexString(key.getPrivate().getEncoded());
+                this.centralPublicKey = Hex.encodeHexString(key.getPublic().getEncoded());
+
+                KeyPair keyControlador = EncryptionUtil.generateRSAKey();
+                this.controladorPrivateKey = Hex.encodeHexString(keyControlador.getPrivate().getEncoded());
+                this.controladorPublicKey = Hex.encodeHexString(keyControlador.getPublic().getEncoded());
+
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
             int quantidade = this.getModelo().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
@@ -450,6 +485,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public void setSubarea(Subarea subarea) {
         this.subarea = subarea;
     }
+
+    public String getCentralPrivateKey() {
+        return centralPrivateKey;
+    }
+
+    public String getCentralPublicKey() {
+        return centralPublicKey;
+    }
+
+    public String getControladorPublicKey() {
+        return controladorPublicKey;
+    }
+
+    public String getControladorPrivateKey() {
+        return controladorPrivateKey;
+    }
+
 
     public List<Anel> getAneis() {
         return aneis;

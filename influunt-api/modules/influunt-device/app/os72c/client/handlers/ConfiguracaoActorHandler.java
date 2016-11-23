@@ -31,27 +31,23 @@ public class ConfiguracaoActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO)) {
                 if (envelope.getEmResposta() == null) {
-                    log.info("Mensagem de configuração errada: {}", envelope.getConteudo().toString());
                 } else {
-                    log.info("Central respondeu a configuração: {}", envelope.getConteudo().toString());
                     Envelope envelopeSinal;
-                    Envelope envelopeStatus;
+                    Envelope envelopeStatus = null;
                     Controlador controlador = Controlador.isValido(envelope.getConteudo());
                     if (controlador != null) {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
-                        log.info("Responder OK para Central: {}", envelope.getConteudo().toString());
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao());
-
+                        envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
                     } else {
-                        log.info("Responder ERRO para Central: {}", envelope.getConteudo().toString());
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
-
-                    envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
-
+                    if (envelopeStatus != null) {
+                        getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
+                    }
                     //Se OK, avisa o motor para colocar o controlador no ar
                     if (envelopeSinal.getTipoMensagem().equals(TipoMensagem.OK)) {
                         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
@@ -62,7 +58,6 @@ public class ConfiguracaoActorHandler extends UntypedActor {
             }
         } else if (message instanceof String) {
             if (message.toString().equals("VERIFICA")) {
-                log.info("Solicita configuração a central: {}", sender());
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
             }
         }
