@@ -42,16 +42,21 @@ public abstract class GeradorDeIntervalos {
     public static GeradorDeIntervalos getInstance(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                                                   ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                                                   EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
-                                                  int index, Long tempoAbatimentoCoordenado) {
+                                                  int index, Long tempoAbatimentoCoordenado, boolean inicio) {
         if (!plano.isModoOperacaoVerde() && (index == 0 || (!listaEstagioPlanos.isEmpty() && !listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()))) {
-            return new GeradorIntermitente(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+            return new GeradorIntermitente(intervalos, plano, modoAnterior,
+                listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else if (!isModoAnteriorVerde(modoAnterior)) {
             if (modoAnterior.equals(ModoOperacaoPlano.INTERMITENTE)) {
-                return new GeradorVermelhoIntegral(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+                return new GeradorVermelhoIntegral(intervalos, plano, modoAnterior,
+                    listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
             }
-            return new GeradorSequenciaPartida(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+            return new GeradorSequenciaPartida(intervalos, plano, modoAnterior,
+                listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         } else {
-            return new GeradorModosVerde(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde, tempoAbatimentoCoordenado);
+            return new GeradorModosVerde(intervalos, plano, modoAnterior,
+                listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde,
+                tempoAbatimentoCoordenado, inicio);
         }
     }
 
@@ -64,8 +69,14 @@ public abstract class GeradorDeIntervalos {
     public abstract Long getTempoAbatimentoCoordenado();
 
     protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde) {
+        geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, false);
+    }
+
+    protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde, boolean inicio) {
         this.intervalos = TreeRangeMap.create();
-        this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde), new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual));
-        this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde), new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual));
+        this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde),
+            new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual, inicio));
+        this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde),
+            new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual, inicio));
     }
 }

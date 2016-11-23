@@ -1,7 +1,9 @@
 package engine.intervalos;
 
 import com.google.common.collect.RangeMap;
+import engine.GerenciadorDeEstagiosHelper;
 import engine.IntervaloEstagio;
+import helpers.GerenciadorEstagiosHelper;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
 import models.Plano;
@@ -21,7 +23,9 @@ public class GeradorSequenciaPartida extends GeradorDeIntervalos {
     @Override
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
         EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
-        geraIntervaloEstagio(estagioPlano, 8000L, estagioPlano.getTempoVerdeEstagio() * 1000L);
+        geraIntervaloEstagio(estagioPlano,
+            GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA,
+            estagioPlano.getTempoVerdeEstagio() * 1000L);
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
     }
 

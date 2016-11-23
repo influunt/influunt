@@ -9,6 +9,8 @@ import java.util.List;
 
 public class IntervaloEstagio {
 
+    private final boolean inicio;
+
     private long duracao;
 
     private boolean entreverde = false;
@@ -24,6 +26,15 @@ public class IntervaloEstagio {
         this.entreverde = entreverde;
         this.estagioPlano = estagioPlano;
         this.estagioPlanoAnterior = estagioPlanoAnterior;
+        this.inicio = false;
+    }
+
+    public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior, boolean inicio) {
+        this.duracao = duracao;
+        this.entreverde = entreverde;
+        this.estagioPlano = estagioPlano;
+        this.estagioPlanoAnterior = estagioPlanoAnterior;
+        this.inicio = inicio;
     }
 
     public long getDuracao() {
@@ -60,6 +71,10 @@ public class IntervaloEstagio {
 
     public void setEventos(HashMap<Long, List<EventoMotor>> eventos) {
         this.eventos = eventos;
+    }
+
+    public boolean isInicio() {
+        return inicio;
     }
 
     @Override

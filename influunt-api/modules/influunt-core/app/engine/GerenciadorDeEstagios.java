@@ -261,7 +261,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
             }
 
-            geraIntervalos(0);
+            geraIntervalos(0, inicio);
 
             if (!inicio) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
@@ -319,10 +319,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void geraIntervalos(Integer index) {
+        geraIntervalos(index, false);
+    }
+
+    private void geraIntervalos(Integer index, boolean inicio) {
         GeradorDeIntervalos gerador = GeradorDeIntervalos.getInstance(this.intervalos, this.plano,
             this.modoAnterior, this.listaEstagioPlanos,
             this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
-            index, tempoAbatimentoCoordenado);
+            index, tempoAbatimentoCoordenado, inicio);
 
         Pair<Integer, RangeMap<Long, IntervaloEstagio>> resultado = gerador.gerar(index);
 
