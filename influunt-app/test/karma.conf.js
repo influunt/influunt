@@ -73,6 +73,7 @@ module.exports = function(config) {
       'bower_components/humanize-duration/humanize-duration.js',
       'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
       'bower_components/paho-mqtt/src/mqttws31.js',
+      'bower_components/ng-idle/angular-idle.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',

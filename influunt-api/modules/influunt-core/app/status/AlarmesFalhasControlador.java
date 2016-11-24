@@ -2,6 +2,7 @@ package status;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.TipoEvento;
+import engine.TipoEventoControlador;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
@@ -104,6 +105,21 @@ public class AlarmesFalhasControlador {
         }
     }
 
+    public static AlarmesFalhasControlador ultimaFalhaControlador(String idControlador, String idAnel) {
+        MongoCursor<Map> result = alarmesFalhas()
+            .find("{ idControlador: #, " +
+                "idAnel: #, " +
+                "recuperado: { $exists: false }, " +
+                "conteudo.tipoEvento.tipoEventoControlador: # }", idControlador, idAnel, TipoEventoControlador.FALHA.toString())
+            .sort("{ timestamp: -1 }")
+            .limit(1).as(Map.class);
+        if (result.hasNext()) {
+            return new AlarmesFalhasControlador(result.next());
+        } else {
+            return null;
+        }
+    }
+
     public static List<AlarmesFalhasControlador> historico(String idControlador, int pagina, int quantidade) {
         MongoCursor<Map> result = alarmesFalhas().find("{ idControlador: # }", idControlador).sort("{timestamp:-1}").skip(pagina * quantidade).limit(quantidade).as(Map.class);
         return toList(result);
@@ -125,6 +141,21 @@ public class AlarmesFalhasControlador {
 
     public static void log(Long timestamp, String idControlador, String idAnel, JsonNode objeto) {
         new AlarmesFalhasControlador(idControlador, timestamp, idAnel, objeto).save();
+    }
+
+    public static void logRemocao(long carimboDeTempo, String idControlador, String idAnel, JsonNode jsonConteudo) {
+        TipoEvento evento = TipoEvento.valueOf(jsonConteudo.get("tipoEvento").get("tipo").asText());
+
+        String falha = evento.toString().replace("REMOCAO_", "").concat(".*");
+        alarmesFalhas()
+            .update("{ idControlador: #, " +
+                "idAnel: #, " +
+                "recuperado: { $exists: false }, " +
+                "conteudo.tipoEvento.tipo: { $regex: # } }", idControlador, idAnel, falha)
+            .multi()
+            .with("{ $set: { recuperado: true } }");
+
+        log(carimboDeTempo, idControlador, idAnel, jsonConteudo);
     }
 
     public void insert() {

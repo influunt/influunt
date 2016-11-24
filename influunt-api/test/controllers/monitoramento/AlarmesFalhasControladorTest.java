@@ -54,6 +54,7 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
             "1",
             "2",
             Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_VERDES_CONFLITANTES, 2)));
+
         Thread.sleep(10);
         GrupoSemaforico grupoSemaforico = new GrupoSemaforico();
         grupoSemaforico.setPosicao(1);
@@ -66,12 +67,14 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
                 2
             ))
         );
+
         Thread.sleep(10);
         AlarmesFalhasControlador.log(System.currentTimeMillis(),
             "2",
             "2",
             Json.toJson(new EventoMotor(new DateTime(), TipoEvento.FALHA_SEQUENCIA_DE_CORES, 2)));
 
+        Thread.sleep(10);
     }
 
     @Test
@@ -193,5 +196,19 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
         json = Json.parse(Helpers.contentAsString(postResult));
 
         assertEquals(TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO.toString(), json.get(0).get("tipoEvento").get("tipo").asText());
+    }
+
+    @Test
+    public void testUltimaFalhaControladorAposRemocao() {
+        assertEquals(TipoEvento.FALHA_VERDES_CONFLITANTES,
+            AlarmesFalhasControlador.ultimaFalhaControlador("1", "2").getTipoEvento());
+
+        AlarmesFalhasControlador.logRemocao(System.currentTimeMillis(),
+            "1",
+            "2",
+            Json.toJson(new EventoMotor(new DateTime(), TipoEvento.REMOCAO_FALHA_VERDES_CONFLITANTES, 2)));
+
+        assertEquals(TipoEvento.FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO,
+            AlarmesFalhasControlador.ultimaFalhaControlador("1", "2").getTipoEvento());
     }
 }

@@ -24,7 +24,7 @@ public class MotorEventoHandler {
     }
 
     public void handle(EventoMotor eventoMotor) {
-        
+
         switch (eventoMotor.getTipoEvento()) {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:
