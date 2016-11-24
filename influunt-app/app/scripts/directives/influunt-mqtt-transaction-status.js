@@ -38,7 +38,7 @@ angular.module('influuntApp')
           };
 
           scope.currentStatusAsBoolean = function() {
-            return scope.currentStatus !== OK;
+            return scope.currentStatus === OK;
           };
 
           scope.$watch('transactionId', function(transactionId) {
@@ -57,6 +57,10 @@ angular.module('influuntApp')
                       var conteudo = JSON.parse(msg.conteudo);
                       scope.currentStatus = _.get(conteudo, 'status') || ERRO;
                       console.log('current status: ' + scope.currentStatus)
+
+                      if (scope.isTransacaoFinalizada()) {
+                        pahoProvider.disconnect();
+                      }
                     });
                   }, true);
                 })

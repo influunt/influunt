@@ -36,6 +36,7 @@ angular.module('influuntApp')
 
       $scope.aneisSelecionados = [];
       $scope.dataSincronizar = {};
+      $scope.dataImposicaoModo = {};
 
       $scope.index = function() {
         var query = $scope.buildQuery($scope.pesquisa);

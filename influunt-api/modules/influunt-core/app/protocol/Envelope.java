@@ -133,8 +133,8 @@ public class Envelope {
         return gson.toJson(this);
     }
 
-    public Envelope replayWithSameMenssage(String detino) {
-        return new Envelope(this.tipoMensagem, this.idControlador, detino, this.qos, this.conteudo, this.idMensagem);
+    public Envelope replayWithSameMessage(String destino) {
+        return new Envelope(this.tipoMensagem, this.idControlador, destino, this.qos, this.conteudo, this.idMensagem);
     }
 
 
@@ -153,19 +153,7 @@ public class Envelope {
             root.put("idControlador", this.getIdControlador());
             root.put("content", json);
             return root.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | NoSuchPaddingException | InvalidKeyException | DecoderException | IllegalBlockSizeException e) {
             e.printStackTrace();
         }
         return null;

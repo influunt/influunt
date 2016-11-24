@@ -195,3 +195,4 @@ GET       /api/v1/relatorios/controladores_entreverdes                          
 # Imposições
 POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano
 POST       /api/v1/imposicoes/configuracao_completa                                             controllers.ImposicoesController.configuracao
+POST       /api/v1/imposicoes/modo_operacao                                                     controllers.ImposicoesController.modoOperacao

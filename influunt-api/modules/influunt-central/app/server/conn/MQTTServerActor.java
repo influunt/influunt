@@ -98,11 +98,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
                 throw new Exception("Conexao morreu");
             }
         } else if (message instanceof Envelope) {
-            sendMenssage((Envelope) message);
+            sendMessage((Envelope) message);
         }
     }
 
-    private void sendMenssage(Envelope envelope) throws MqttException {
+    private void sendMessage(Envelope envelope) throws MqttException {
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);

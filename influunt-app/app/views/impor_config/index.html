@@ -308,11 +308,11 @@
               <div class="row">
                 <div class="col-sm-12">
                   <p>
-                    <input type="radio" ichecks value="">
+                    <input type="radio" ichecks value="apagado" data-ng-model="dataImposicaoModo.tipo">
                     {{ 'imporConfig.imporApagado' | translate }}
                   </p>
                   <p>
-                    <input type="radio" ichecks value="">
+                    <input type="radio" ichecks value="intermitente" data-ng-model="dataImposicaoModo.tipo">
                     {{ 'imporConfig.imporInterm' | translate }}
                   </p>
                 </div>
@@ -425,6 +425,9 @@
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="sincronizar()">
           {{ 'imporConfig.sincronizar' | translate }}
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          {{ 'crud.cancelar' | translate }}
         </button>
       </div>
     </div>
