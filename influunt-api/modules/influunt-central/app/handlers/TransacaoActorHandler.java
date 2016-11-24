@@ -27,7 +27,6 @@ public class TransacaoActorHandler extends UntypedActor {
                     case NEW:
                         transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
                         envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
-                        publishTransactionStatus(transacao, StatusTransacao.INICIADA);
                         break;
 
                     case PREPARE_OK:
@@ -38,19 +37,16 @@ public class TransacaoActorHandler extends UntypedActor {
                     case PREPARE_FAIL:
                         transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
                         break;
 
                     case COMMITED:
                         transacao.updateStatus(EtapaTransacao.COMPLETED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.OK);
                         break;
 
                     case ABORTED:
                         transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
                         break;
 
                     default:
@@ -62,11 +58,5 @@ public class TransacaoActorHandler extends UntypedActor {
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }
-    }
-
-    private void publishTransactionStatus(Transacao transacao, StatusTransacao status) {
-        Envelope envelope = MensagemStatusTransacao.getMensagem(transacao, status);
-        log.info("CENTRAL ENVIANDO STATUS TRANSAÇÃO: {}", status);
-        getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
     }
 }

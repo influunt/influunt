@@ -122,6 +122,10 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         await().atMost(10, TimeUnit.MINUTES).until(() -> onPublishFutureList.size() > 5);
 
         List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
+//        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+//        List<String> aneisIds = new ArrayList<>();
+//        aneisIds.add(aneis.get(0).getId().toString());
+
         Map<String, Object> params = new HashMap<>();
         params.put("aneis", aneisIds.toArray());
         params.put("modoOperacao", ModoOperacaoPlano.INTERMITENTE);
@@ -133,8 +137,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 7*aneisIds.size());
-        assertEquals(6 + 7*aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 5*aneisIds.size());
+        assertEquals(6 + 5*aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -163,8 +167,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 5*aneisIds.size());
-        assertEquals(6 + 5*aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 3*aneisIds.size());
+        assertEquals(6 + 3*aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
