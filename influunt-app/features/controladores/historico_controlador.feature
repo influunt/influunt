@@ -12,7 +12,7 @@ Funcionalidade: Visualizar histórico do controlador, tabela horária e planos
     E o sistema deverá mostrar na "1" posição com a data "13 de Novembro de 2016"
     E o sistema deverá mostrar na "2" posição com a data "12 de Novembro de 2016"
     E o sistema deverá mostrar na "3" posição com a data "8 de Novembro de 2016"
-    Então o usuário clicar em fechar o modal
+    Então o usuário clicar em fechar o modal "modal-timeline"
 
   Cenário: Visualizar histórico de forma ordenada por data da tabela horária
     Dado o usuário clicar em "Tabela Horária" do controlador "1.000.0001"
