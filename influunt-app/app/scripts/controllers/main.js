@@ -10,10 +10,10 @@
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
                            'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
-                           'eventosDinamicos',
+                           'eventosDinamicos', 'audioNotifier',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
                       Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
-                      eventosDinamicos) {
+                      eventosDinamicos, audioNotifier) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
 
@@ -239,11 +239,7 @@ angular.module('influuntApp')
       exibirAlerta = function(msg, isPrioritario) {
         if ($scope.eventos.exibirAlertas || isPrioritario) {
           toast.warn(msg);
-          if (!!window.Audio) {
-            var soundFile = 'audio/notification.mp3';
-            var mp3 = new window.Audio(soundFile);
-            mp3.play();
-          }
+          audioNotifier.notify();
         }
       };
 

@@ -10,14 +10,14 @@
 angular.module('influuntApp')
   .controller('ControladoresMapaCtrl', ['$scope', '$filter', 'Restangular', 'geraDadosDiagramaIntervalo',
                                         'influuntAlert', 'influuntBlockui', 'filtrosMapa', 'planoService',
-                                        'pahoProvider', 'eventosDinamicos', 'toast', 'mapaProvider',
+                                        'pahoProvider', 'eventosDinamicos', 'toast', 'mapaProvider', 'audioNotifier',
     function ($scope, $filter, Restangular, geraDadosDiagramaIntervalo,
               influuntAlert, influuntBlockui, filtrosMapa, planoService,
-              pahoProvider, eventosDinamicos, toast, mapaProvider) {
+              pahoProvider, eventosDinamicos, toast, mapaProvider, audioNotifier) {
       var filtraDados, getMarkersControladores, getMarkersAneis,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores,
           registerWatchers, alarmesEFalhasWatcher, trocaPlanoWatcher, statusControladoresWatcher, onlineOfflineWatcher,
-          getIconeAnel, getIconeControlador, exibirAlerta;
+          getIconeAnel, getIconeControlador, exibirAlerta, getPopupText;
 
       var FALHA = 'FALHA';
       var LOCAL = 'LOCAL';
@@ -157,12 +157,7 @@ angular.module('influuntApp')
         }
 
         var endereco = _.find(controlador.todosEnderecos, controlador.endereco);
-        var popupText = _.size(controlador.erros) > 0 && _
-          .chain(controlador.erros)
-          .orderBy('data', 'desc')
-          .map(function(i) { return '<li>' + i.motivoFalha + '</li>'; })
-          .value()
-          .join('');
+        var popupText = getPopupText(controlador);
 
         return {
           latitude: endereco.latitude,
@@ -197,13 +192,7 @@ angular.module('influuntApp')
           .map(function(anel) {
             var iconeAnel = [FALHA, OFFLINE].indexOf(anel.status) >= 0 ? anel.status : anel.tipoControleVigente;
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
-
-            var popupText = _.size(anel.erros) > 0 && _
-              .chain(anel.erros)
-              .orderBy('data', 'desc')
-              .map(function(i) { return '<li>' + i.motivoFalha + '</li>'; })
-              .value()
-              .join('');
+            var popupText = getPopupText(anel);
 
             return {
               latitude: endereco.latitude,
@@ -433,12 +422,17 @@ angular.module('influuntApp')
             }
           });
 
-          if (!!window.Audio) {
-            var soundFile = 'audio/notification.mp3';
-            var mp3 = new window.Audio(soundFile);
-            mp3.play();
-          }
+          audioNotifier.notify();
         }
+      };
+
+      getPopupText = function(obj) {
+        return _.size(obj.erros) > 0 && _
+          .chain(obj.erros)
+          .orderBy('data', 'desc')
+          .map(function(i) { return '<li>' + i.motivoFalha + '</li>'; })
+          .value()
+          .join('');
       };
 
       getIconeAnel = function(status) {

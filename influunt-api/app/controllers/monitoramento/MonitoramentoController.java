@@ -85,7 +85,7 @@ public class MonitoramentoController extends Controller {
             String idControlador = erro.get("idControlador").toString();
             Controlador controlador;
             Anel anel = null;
-            controlador = controladores.stream().filter(c -> Objects.equals(String.valueOf(c.getId()), idControlador)).collect(Collectors.toList()).get(0);
+            controlador = controladores.stream().filter(c -> Objects.equals(String.valueOf(c.getId()), idControlador)).findFirst().orElse(null);
             if (erro.get("idAnel") != null) {
                 String idAnel = erro.get("idAnel").toString();
                 anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
