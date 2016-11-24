@@ -10,16 +10,17 @@
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
                            'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
-                           'eventosDinamicos',
+                           'eventosDinamicos', 'audioNotifier',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
                       Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
-                      eventosDinamicos) {
+                      eventosDinamicos, audioNotifier) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
 
       var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, exibirAlerta,
           statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher;
 
+      var LIMITE_ALARMES_FALHAS = 10;
       $scope.pagination = {
         current: 1,
         maxSize: 5
@@ -55,7 +56,7 @@ angular.module('influuntApp')
       };
 
       $scope.loadDashboard = function() {
-        Restangular.one('monitoramento', 'status_controladores').get()
+        Restangular.one('monitoramento', 'status_controladores').get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
           .then(function(res) {
             $scope.statusObj = res;
             atualizaDadosDinamicos();
@@ -163,7 +164,7 @@ angular.module('influuntApp')
             $scope.statusObj.modosOperacoes  = $scope.statusObj.modosOperacoes || {};
 
             $scope.statusObj.modosOperacoes[mensagem.idControlador] = _.get(mensagem, 'conteudo.plano.modoOperacao');
-            $scope.statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.planoImposto');
+            $scope.statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.imposicaoDePlano');
             atualizaDadosDinamicos();
 
             var msg = $filter('translate')(
@@ -181,23 +182,26 @@ angular.module('influuntApp')
         if (_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador') === 'FALHA') {
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
+              var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+              var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+              var endereco = anel !== null ? anel.endereco : controlador.endereco;
+              endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+
               var falha = {
                 clc: controlador.CLC,
                 data: mensagem.carimboDeTempo,
-                endereco: controlador.nomeEndereco,
+                endereco: $filter('nomeEndereco')(endereco),
                 id: mensagem.idControlador,
                 motivoFalha: _.get(mensagem, 'conteudo.descricaoEvento')
               };
 
-              $scope.statusObj.erros.data = $scope.statusObj.erros.data || [];
-              $scope.statusObj.erros.data.push(falha);
+              $scope.statusObj.erros = $scope.statusObj.erros || [];
+              $scope.statusObj.erros.push(falha);
               atualizaDadosDinamicos();
 
 
               var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
-              if (mensagem.conteudo && _.isArray(mensagem.conteudo.params)) {
-                var posicaoAnel = mensagem.conteudo.params[0];
-                var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+              if (anel) {
                 msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
               }
 
@@ -229,12 +233,13 @@ angular.module('influuntApp')
         $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
         $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
         $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
-        $scope.errosControladores = _.orderBy($scope.statusObj.erros.data, 'data', 'desc');
+        $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
       };
 
       exibirAlerta = function(msg, isPrioritario) {
         if ($scope.eventos.exibirAlertas || isPrioritario) {
           toast.warn(msg);
+          audioNotifier.notify();
         }
       };
 
