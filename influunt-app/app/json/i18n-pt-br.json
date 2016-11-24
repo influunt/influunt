@@ -127,6 +127,7 @@
         "anelControleLocal": "Anel em controle local",
         "anelControleManual": "Anel em controle manual",
         "anelEmFalha": "Anel em falha",
+        "anelOffline": "Anel offline",
         "controlador": "Controlador",
         "controladorEmFalha": "Controlador em falha",
         "controladorOffline": "Controlador offline",
@@ -571,7 +572,13 @@
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
       "sim": "Sim",
-      "ok": "Ok"
+      "ok": "Ok",
+      "sessaoExpirada": {
+        "tituloAlerta": "Atenção",
+        "alerta": "Atenção! Sua sessão deverá expirar em {TEMPO} segundos",
+        "titulo": "Sessão expirada",
+        "mensagem": "Sessão expirada por tempo de inatividade. Faça login novamente"
+      }
     },
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",
@@ -820,11 +827,15 @@
     "sincronizando": "Sincronizando",
     "configurado": "Configurado"
   },
-  "EM_CONFIGURACAO": "Em Configuração",
-  "CONFIGURADO": "Configurado",
   "ATIVO": "Ativo",
-  "EM_EDICAO": "Em Edição",
+  "CONFIGURADO": "Configurado",
   "EDITANDO": "Em Edição",
+  "EM_CONFIGURACAO": "Em Configuração",
+  "EM_EDICAO": "Em Edição",
+  "FALHA": "Em falha",
+  "INATIVO": "Inativo",
+  "INOPERANTE": "Inoperante",
+  "OPERANDO_COM_FALHAS": "Operando com falhas",
   "relatorios": {
     "auditorias": "Auditorias",
     "controladoresStatus": "Controladores por Status",

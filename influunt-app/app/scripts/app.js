@@ -28,6 +28,9 @@ angular
     // API consume.
     'restangular',
 
+    // expiração de sessão por falta de uso.
+    'ngIdle',
+
     // ui
     'oitozero.ngSweetAlert',
     'ui.bootstrap',

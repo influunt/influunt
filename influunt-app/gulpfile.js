@@ -85,6 +85,7 @@ var paths = {
     'bower_components/humanize-duration/humanize-duration.js',
     'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
     'bower_components/paho-mqtt/src/mqttws31.js',
+    'bower_components/ng-idle/angular-idle.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -374,6 +375,10 @@ gulp.task('copy:extras', function () {
   gulp
     .src(yeoman.app + '/json/**/*.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist + '/json/'));
+
+  gulp
+    .src(yeoman.app + '/audio/**/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/audio/'));
 
   return gulp
     .src(yeoman.app + '/*/.*', {dot: true})

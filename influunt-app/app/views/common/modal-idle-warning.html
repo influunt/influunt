@@ -1,0 +1,14 @@
+<!-- modal para legenda -->
+<div class="modal inmodal" id="modal-idle-warning" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h1>{{ 'geral.mensagens.sessaoExpirada.tituloAlerta' | translate }}</h1>
+        <hr>
+        <h2 idle-countdown="countdown" ng-init="countdown=5">
+          {{ 'geral.mensagens.sessaoExpirada.alerta' | translate: {TEMPO: countdown} }}
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
