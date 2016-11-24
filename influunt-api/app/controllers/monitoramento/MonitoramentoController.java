@@ -5,8 +5,7 @@ import be.objectify.deadbolt.java.actions.Dynamic;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Controlador;
-import models.StatusDevice;
+import models.*;
 import org.jetbrains.annotations.NotNull;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,13 +15,12 @@ import security.Secured;
 import status.AlarmesFalhasControlador;
 import status.StatusConexaoControlador;
 import status.StatusControladorFisico;
+import status.TrocaDePlanoControlador;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 9/16/16.
@@ -34,14 +32,22 @@ public class MonitoramentoController extends Controller {
 
 
     public CompletionStage<Result> ultimoStatusDosControladores() {
+
+        Map<String, String[]> params = ctx().request().queryString();
+        Integer limiteQueryFalhas = params.containsKey("limite_alarmes_falhas") ? Integer.parseInt(params.get("limite_alarmes_falhas")[0]) : null;
+
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        HashMap<String, Object> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(10);
+        List<Map> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas);
+        HashMap<String, ModoOperacaoPlano> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
+        HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto();
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
-        retorno.set("erros", controladoresToJson(erros));
+        retorno.set("erros", errosToJson(erros));
+        retorno.set("modosOperacoes", Json.toJson(modosOperacoes));
+        retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }
@@ -68,6 +74,35 @@ public class MonitoramentoController extends Controller {
         retorno.put("percentualOnline", percentual).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco())
             .put("totalOnline", totalOnline).put("totalOffline", totalOffline).putPOJO("historico", status);
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
+    }
+
+    private ArrayNode errosToJson(List<Map> erros) {
+        List<String> ids =  erros.stream().map(erro -> erro.get("idControlador").toString()).distinct().collect(Collectors.toList());
+        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("aneis.endereco").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
+        ArrayNode itens = JsonNodeFactory.instance.arrayNode();
+
+        erros.forEach(erro -> {
+            String idControlador = erro.get("idControlador").toString();
+            Controlador controlador;
+            Anel anel = null;
+            controlador = controladores.stream().filter(c -> Objects.equals(String.valueOf(c.getId()), idControlador)).findFirst().orElse(null);
+            if (erro.get("idAnel") != null) {
+                String idAnel = erro.get("idAnel").toString();
+                anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
+            }
+
+            Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
+            itens.addObject()
+                .put("idControlador", controlador.getId().toString())
+                .put("idAnel", anel != null ? anel.getId().toString() : null)
+                .put("clc", controlador.getCLC())
+                .put("cla", anel != null ? anel.getCLA() : null)
+                .putPOJO("endereco", Json.toJson(endereco))
+                .put("data", Long.parseLong(erro.get("timestamp").toString()))
+                .put("motivoFalha", ((HashMap)erro.get("conteudo")).get("descricaoEvento").toString());
+        });
+
+        return itens;
     }
 
     @NotNull

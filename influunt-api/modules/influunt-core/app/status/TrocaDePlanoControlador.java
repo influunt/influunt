@@ -44,6 +44,7 @@ public class TrocaDePlanoControlador {
     }
 
     public TrocaDePlanoControlador(Map map) {
+        this.idAnel = map.get("idAnel").toString();
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.conteudo = Json.toJson(map.get("conteudo"));
@@ -58,6 +59,19 @@ public class TrocaDePlanoControlador {
         return toList(trocas().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
+    public static HashMap<String, Boolean> ultimoStatusPlanoImposto() {
+        HashMap<String, Boolean> hash = new HashMap<>();
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'hasPlanoImposto': {$first:'$conteudo.imposicaoDePlano'}}}").
+                as(Map.class);
+        for (Map m : ultimoStatus) {
+            boolean hasPlanoImposto = m.get("hasPlanoImposto") == null ? false : Boolean.valueOf(m.get("hasPlanoImposto").toString());
+            hash.put(m.get("_id").toString(), hasPlanoImposto);
+        }
+
+        return hash;
+    }
+
     public static HashMap<String, ModoOperacaoPlano> ultimoModoOperacaoDosControladores() {
         HashMap<String, ModoOperacaoPlano> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
@@ -68,6 +82,21 @@ public class TrocaDePlanoControlador {
         }
 
         return hash;
+    }
+
+    public static List<TrocaDePlanoControlador> ultimasTrocasDePlanosDosControladores() {
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idAnel', 'timestamp': {$max:'$timestamp'}, " +
+                " idAnel: {$first: '$idAnel'}," +
+                " idControlador: {$first: '$idControlador'}," +
+                " conteudo: {$first: '$conteudo'}}}").
+                as(Map.class);
+        List<TrocaDePlanoControlador> resultado = new ArrayList<>();
+        for (Map m : ultimoStatus) {
+            resultado.add(new TrocaDePlanoControlador(m));
+        }
+
+        return resultado;
     }
 
     public static TrocaDePlanoControlador ultimaTrocaDePlanoDoControlador(String idControlador) {
@@ -108,6 +137,18 @@ public class TrocaDePlanoControlador {
 
     public AgendamentoTrocaPlano getTrocaDePlano() {
         return Json.fromJson(conteudo, AgendamentoTrocaPlano.class);
+    }
+
+    public String getIdControlador() {
+        return this.idControlador;
+    }
+
+    public String getIdAnel() {
+        return this.idAnel;
+    }
+
+    public JsonNode getConteudo() {
+        return this.conteudo;
     }
 
     public void insert() {

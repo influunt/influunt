@@ -62,7 +62,7 @@ public class Client {
             privateKey = mqttSettings.getString("privateKey");
         }
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage,device), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage, device), id);
 
     }
 

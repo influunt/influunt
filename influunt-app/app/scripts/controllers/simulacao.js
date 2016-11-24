@@ -15,7 +15,7 @@ angular.module('influuntApp')
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert,
           $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao;
+  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao;
 
   $scope.init = function() {
     var controladorId = $stateParams.id;
@@ -35,6 +35,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       velocidade: 1,
       disparoDetectores: [{}],
       imposicaoPlanos: [{}],
+      imposicaoModos: [{}],
       falhasControlador: [{}],
       alarmesControlador: [{}]
     };
@@ -45,6 +46,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
+    $scope.imposicoesModos = { imposicoes: [] };
     $scope.falhasControlador = { falhas: [] };
     $scope.alarmesControlador = { alarmes: [] };
 
@@ -75,6 +77,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         });
         atualizaDetectores($scope.controlador);
         atualizaPlanos($scope.controlador);
+        carregaModos();
       }).finally(influuntBlockui.unblock);
   };
 
@@ -109,6 +112,10 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         .value();
     }
   };
+  
+  carregaModos = function() {
+    $scope.modos = ["INTERMITENTE", "APAGADO"];
+  };
 
   $scope.$watch('parametrosSimulacao.disparoDetectores', function(parametro) {
     if (parametro) {
@@ -127,8 +134,20 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var length = $scope.parametrosSimulacao.imposicaoPlanos.length;
       if (length > 0) {
         var imposicao = $scope.parametrosSimulacao.imposicaoPlanos[length - 1];
-        if (imposicao && imposicao.plano && imposicao.disparo) {
+        if (imposicao && imposicao.plano && imposicao.disparo && imposicao.duracao) {
           $scope.parametrosSimulacao.imposicaoPlanos.push({});
+        }
+      }
+      }
+  }, true);
+
+  $scope.$watch('parametrosSimulacao.imposicaoModos', function(parametro) {
+    if (parametro) {
+      var length = $scope.parametrosSimulacao.imposicaoModos.length;
+      if (length > 0) {
+        var imposicao = $scope.parametrosSimulacao.imposicaoModos[length - 1];
+        if (imposicao && imposicao.modo && imposicao.disparo && imposicao.duracao) {
+          $scope.parametrosSimulacao.imposicaoModos.push({});
         }
       }
       }
@@ -208,6 +227,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       });
     }
   }, true);
+  
+  $scope.$watch('imposicoesModos.imposicoes', function(imposicoes) {
+    if (imposicoes) {
+      _.forEach($scope.imposicoesModos.imposicoes, function(imposicao, index) {
+        if (imposicao.date && imposicao.hora && imposicao.minuto && imposicao.segundo) {
+          var date = moment(imposicao.date);
+          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), imposicao.hora, imposicao.minuto, imposicao.segundo);
+          $scope.parametrosSimulacao.imposicaoModos[index].disparo = dateMoment;
+        }
+      });
+    }
+  }, true);
 
   $scope.$watch('falhasControlador.falhas', function(falhas) {
     if (falhas) {
@@ -272,6 +303,23 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       });
   };
 
+  $scope.removerImposicaoModo = function(index) {
+    var title = $filter('translate')('simulacao.planoAlert.title'),
+        text = $filter('translate')('simulacao.planoAlert.text');
+    return influuntAlert.confirm(title, text)
+      .then(function(confirmado) {
+        if (confirmado) {
+          if ($scope.parametrosSimulacao.imposicaoModo.length > 1) {
+            $scope.parametrosSimulacao.imposicaoModo.splice(index, 1);
+            $scope.imposicoesPlanos.imposicoes.splice(index, 1);
+          } else {
+            $scope.parametrosSimulacao.imposicaoModo = [{}];
+            $scope.imposicoesModos.imposicoes = [];
+          }
+        }
+      });
+  };
+
   $scope.removerFalhaControlador = function(index) {
     var title = $filter('translate')('simulacao.falhaAlert.title'),
         text = $filter('translate')('simulacao.falhaAlert.text');
@@ -309,6 +357,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.submitForm = function() {
     $scope.parametrosSimulacao.disparoDetectores = _.filter($scope.parametrosSimulacao.disparoDetectores, 'detector');
     $scope.parametrosSimulacao.imposicaoPlanos = _.filter($scope.parametrosSimulacao.imposicaoPlanos, 'plano');
+    $scope.parametrosSimulacao.imposicaoModos = _.filter($scope.parametrosSimulacao.imposicaoModos, 'modo');
     $scope.parametrosSimulacao.alarmesControlador = _.filter($scope.parametrosSimulacao.alarmesControlador, 'alarme');
     $scope.parametrosSimulacao.falhasControlador = _.filter($scope.parametrosSimulacao.falhasControlador, 'falha');
 

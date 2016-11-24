@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import models.Agrupamento;
 import models.Anel;
+import models.Plano;
 
 import java.io.IOException;
 
@@ -59,9 +60,22 @@ public class AgrupamentoSerializer extends JsonSerializer<Agrupamento> {
                 jgen.writeStringField("id", anel.getId().toString());
                 jgen.writeStringField("CLA", anel.getCLA());
                 jgen.writeBooleanField("ativo", anel.isAtivo());
+
+                jgen.writeObjectFieldStart("versaoPlano");
+                jgen.writeStringField("id", anel.getVersaoPlano().getId().toString());
+                jgen.writeArrayFieldStart("planos");
+                for (Plano plano : anel.getVersaoPlano().getPlanos()) {
+                    Plano novoPlano = new Plano();
+                    novoPlano.setPosicao(plano.getPosicao());
+                    jgen.writeObject(novoPlano);
+                }
+                jgen.writeEndArray();
+                jgen.writeEndObject();
+
                 jgen.writeObjectFieldStart("controlador");
                 jgen.writeStringField("id", anel.getControlador().getId().toString());
                 jgen.writeEndObject();
+
                 jgen.writeEndObject();
             }
             jgen.writeEndArray();

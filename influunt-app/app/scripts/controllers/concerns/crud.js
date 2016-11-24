@@ -14,8 +14,11 @@ angular.module('influuntApp')
     function ($scope, $state, $filter, $timeout,
               Restangular, toast, influuntAlert, handleValidations,
               influuntBlockui) {
-    var buildFilterQuery, buildSortQuery, buildFilterDataFields;
+
+    var buildFilterQuery, buildSortQuery, buildFilterDataFields, buildReportQuery;
     var resourceName = null;
+    var customURL = null;
+
     $scope.pagination = {
       current: 1,
       perPage: 30,
@@ -32,9 +35,11 @@ angular.module('influuntApp')
      * Inicializa novo crud.
      *
      * @param      {string}  param   Nome base para a rota do crud.
+     * @url        {string}  url     Complemento da URL
      */
-    $scope.inicializaNovoCrud = function(param) {
+    $scope.inicializaNovoCrud = function(param, url) {
       resourceName =  param;
+      customURL = url || null;
     };
 
     /**
@@ -44,7 +49,7 @@ angular.module('influuntApp')
      */
     $scope.index = function() {
       var query = $scope.buildQuery($scope.pesquisa);
-      return Restangular.all(resourceName).customGET(null, query)
+      return Restangular.all(resourceName).customGET(customURL, query)
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
@@ -60,6 +65,7 @@ angular.module('influuntApp')
 
       buildFilterQuery(query, pesquisa);
       buildSortQuery(query, pesquisa);
+      buildReportQuery(query, pesquisa);
 
       return query;
     };
@@ -93,6 +99,12 @@ angular.module('influuntApp')
     buildSortQuery = function(query, pesquisa) {
       query.sort = pesquisa.orderField;
       query.sort_type = pesquisa.orderReverse ? 'desc' : 'asc';
+    };
+
+    buildReportQuery = function(query, pesquisa) {
+      if(pesquisa.tipoRelatorio !== '') {
+        query.tipoRelatorio = pesquisa.tipoRelatorio;
+      }
     };
 
     var perPageTimeout = null;

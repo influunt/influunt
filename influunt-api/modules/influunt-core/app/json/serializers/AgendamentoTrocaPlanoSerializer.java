@@ -34,6 +34,7 @@ public class AgendamentoTrocaPlanoSerializer extends JsonSerializer<AgendamentoT
 
 
         jgen.writeBooleanField("impostoPorFalha", agendamentoTrocaPlano.isImpostoPorFalha());
+        jgen.writeBooleanField("imposicaoDePlano", agendamentoTrocaPlano.isImposicaoPlano());
 
 
         if (agendamentoTrocaPlano.getPlano() != null) {

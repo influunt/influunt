@@ -63,6 +63,14 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
             params.setImposicoes(imposicoes);
         }
 
+        if (node.has("imposicaoModos")) {
+            List<ParametroSimulacaoImposicaoModo> imposicoes = new ArrayList<>();
+            for (JsonNode imposicao : node.get("imposicaoModos")) {
+                imposicoes.add(Json.fromJson(imposicao, ParametroSimulacaoImposicaoModo.class));
+            }
+            params.setImposicoesModos(imposicoes);
+        }
+
         if (node.has("falhasControlador")) {
             List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
             for (JsonNode falha : node.get("falhasControlador")) {

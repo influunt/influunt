@@ -70,6 +70,20 @@ public class AgrupamentoDeserializer extends JsonDeserializer<Agrupamento> {
                     if (anelJson.get("ativo") != null) {
                         anel.setAtivo(anelJson.get("ativo").asBoolean());
                     }
+                    if (anelJson.has("versaoPlano") && anelJson.get("versaoPlano").has("id")) {
+                        VersaoPlano versaoPlano = new VersaoPlano();
+                        versaoPlano.setId(UUID.fromString(anelJson.get("versaoPlano").get("id").asText()));
+
+                        if (anelJson.get("versaoPlano").has("planos")) {
+                            for (JsonNode planoNode : anelJson.get("versaoPlano").get("planos")) {
+                                Plano plano = new Plano();
+                                plano.setPosicao(planoNode.get("posicao").asInt());
+                                versaoPlano.addPlano(plano);
+                            }
+                        }
+
+                        anel.addVersaoPlano(versaoPlano);
+                    }
                     if (anelJson.has("controlador") && anelJson.get("controlador").has("id")) {
                         Controlador c = new Controlador();
                         c.setId(UUID.fromString(anelJson.get("controlador").get("id").asText()));

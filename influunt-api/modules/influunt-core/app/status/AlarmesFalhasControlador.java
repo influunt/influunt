@@ -2,6 +2,7 @@ package status;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.TipoEvento;
+import engine.TipoEventoControlador;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
@@ -74,25 +75,44 @@ public class AlarmesFalhasControlador {
         return hash;
     }
 
-    public static HashMap<String, Object> ultimosAlarmesFalhasControladores(Integer limit) {
-        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
-        HashMap<String, Object> hash = new HashMap<>();
-        Aggregate query = null;
+    public static List<Map> ultimosAlarmesFalhasControladores(Integer limit) {
+        ArrayList<Map> list = new ArrayList<>();
+
+        ArrayList<String> predicates = new ArrayList<>();
+        predicates.add("{ $match: { recuperado: {$exists: false} }  }");
+        predicates.add("{ $sort: { timestamp: -1 } }");
+        predicates.add("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
         if (limit != null) {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$conteudo.tipoEvento.tipo'}}}").and("{$limit: " + limit + "}");
-        } else {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$conteudo.tipoEvento.tipo'}}}");
-        }
-        Aggregate.ResultsIterator<Map> ultimo = query.as(Map.class);
-        for (Map m : ultimo) {
-            hash.put(m.get("_id").toString(), m);
+            predicates.add("{ $limit: ".concat(String.valueOf(limit)).concat("}"));
         }
 
-        return hash;
+
+        Aggregate.ResultsIterator<Map> results = alarmesFalhas().aggregate(String.join(",", predicates)).as(Map.class);
+
+        for (Map m : results) {
+            list.add(m);
+        }
+
+        return list;
     }
 
     public static AlarmesFalhasControlador ultimoAlarmeFalhaControlador(String idControlador) {
         MongoCursor<Map> result = alarmesFalhas().find("{ idControlador: # }", idControlador).sort("{timestamp:-1}").limit(1).as(Map.class);
+        if (result.hasNext()) {
+            return new AlarmesFalhasControlador(result.next());
+        } else {
+            return null;
+        }
+    }
+
+    public static AlarmesFalhasControlador ultimaFalhaControlador(String idControlador, String idAnel) {
+        MongoCursor<Map> result = alarmesFalhas()
+            .find("{ idControlador: #, " +
+                "idAnel: #, " +
+                "recuperado: { $exists: false }, " +
+                "conteudo.tipoEvento.tipoEventoControlador: # }", idControlador, idAnel, TipoEventoControlador.FALHA.toString())
+            .sort("{ timestamp: -1 }")
+            .limit(1).as(Map.class);
         if (result.hasNext()) {
             return new AlarmesFalhasControlador(result.next());
         } else {
@@ -121,6 +141,21 @@ public class AlarmesFalhasControlador {
 
     public static void log(Long timestamp, String idControlador, String idAnel, JsonNode objeto) {
         new AlarmesFalhasControlador(idControlador, timestamp, idAnel, objeto).save();
+    }
+
+    public static void logRemocao(long carimboDeTempo, String idControlador, String idAnel, JsonNode jsonConteudo) {
+        TipoEvento evento = TipoEvento.valueOf(jsonConteudo.get("tipoEvento").get("tipo").asText());
+
+        String falha = evento.toString().replace("REMOCAO_", "").concat(".*");
+        alarmesFalhas()
+            .update("{ idControlador: #, " +
+                "idAnel: #, " +
+                "recuperado: { $exists: false }, " +
+                "conteudo.tipoEvento.tipo: { $regex: # } }", idControlador, idAnel, falha)
+            .multi()
+            .with("{ $set: { recuperado: true } }");
+
+        log(carimboDeTempo, idControlador, idAnel, jsonConteudo);
     }
 
     public void insert() {
