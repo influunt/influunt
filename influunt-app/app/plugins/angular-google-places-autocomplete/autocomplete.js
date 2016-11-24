@@ -179,10 +179,8 @@ angular.module('google.places', [])
 
                     var timeoutId;
                     function parse(viewValue) {
-                        console.log('parse before timeout!!!');
                         clearTimeout(timeoutId);
                         timeoutId = setTimeout(function() {
-                            console.log('parse!!!');
                             var request;
 
                             if (!(viewValue && isString(viewValue))) return viewValue;

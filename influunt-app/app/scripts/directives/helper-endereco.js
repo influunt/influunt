@@ -23,6 +23,7 @@ angular.module('influuntApp')
           language: 'pt',
           location: new google.maps.LatLng(-23.6659, -46.6973),
           radius: 39239,
+          types: ['address'],
           componentRestrictions: {
             country: ['br']
           }
@@ -40,7 +41,8 @@ angular.module('influuntApp')
             updateGeometryData(value);
             scope.localizacao = _.isArray(value.address_components) && _.chain(value.address_components)
               .filter(function(component) {
-                return component.types.indexOf('route') >= 0;
+                return component.types.indexOf('route') >= 0 ||
+                       component.types.indexOf('sublocality_level_1') >= 0;
               })
               .first()
               .get('short_name')
