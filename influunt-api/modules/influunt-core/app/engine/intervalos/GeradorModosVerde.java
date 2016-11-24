@@ -51,7 +51,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         final int verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos);
         long tempoVerde = verde * 1000L;
 
-        if ((tempoAbatimentoCoordenado != null && tempoAbatimentoCoordenado > 0L) || (tempoAbatimentoCoordenado != null && inicio)) {
+        if (tempoAbatimentoCoordenado != null && (tempoAbatimentoCoordenado > 0L || inicio)) {
             //Compensação de diferença entre entreverdes
             final Long tempoEntreVerdeDoPlano = tabelaDeTemposEntreVerde.get(
                 new Pair<Integer, Integer>(this.plano.getEstagioAnterior(estagioPlano).getPosicao(), estagioAtual.getPosicao()));
