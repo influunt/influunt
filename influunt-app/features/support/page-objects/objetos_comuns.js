@@ -290,6 +290,14 @@ var ObjetosComuns = function () {
   this.clicarVisualizarResumo = function() {
     return world.getElementByXpath('//i[contains(@class, "fa-eye")]').click();
   };
+
+  this.verificarValoresEmLinhasNaTabela = function(valor) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.sleep(1000);
+    }).then(function() {
+      return world.getElementByXpath('//li[contains(text(), "'+valor+'")]');
+    });
+  };
 };
 
 module.exports = ObjetosComuns;

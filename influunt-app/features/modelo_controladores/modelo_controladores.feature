@@ -7,9 +7,27 @@ Funcionalidade: tela de cadastro de modelos de controladores
     E clicar no botão de Novo Modelo
     Então o sistema deverá redirecionar para o formulário de cadastro de novos modelos
 
-  Cenário: Cadastro de modelos não pode ficar em branco
+  Cenário: Verificar valicações em branco
     Dado clicar no botão de salvar
-    Então o sistema deverá permanecer no form
+    Então o sistema deverá indicar erro no campo "descricao"
+    E o sistema deverá indicar erro no campo "fabricante"
+
+  Cenário: Verificar valicações de valores negativo para os limetes
+    Dado o usuário preencher o campo "Limite Estágios" com "-1"
+    E o usuário preencher o campo "Limite Grupos Semafóricos" com "-1"
+    E o usuário preencher o campo "Limite Aneies" com "-1"
+    E o usuário preencher o campo "Limite Detectores Pedestre" com "-1"
+    E o usuário preencher o campo "Limite Detectores Veicular" com "-1"
+    E o usuário preencher o campo "Limite Tabelas Entre Verdes" com "-1"
+    E o usuário preencher o campo "Limite Planos" com "-1"
+    Quando clicar no botão de salvar
+    Então o sistema deverá indicar erro no campo "limiteEstagio"
+    E o sistema deverá indicar erro no campo "limiteGrupoSemaforico"
+    E o sistema deverá indicar erro no campo "limiteAnel"
+    E o sistema deverá indicar erro no campo "limiteDetectorPedestre"
+    E o sistema deverá indicar erro no campo "limiteDetectorVeicular"
+    E o sistema deverá indicar erro no campo "limiteTabelasEntreVerdes"
+    E o sistema deverá indicar erro no campo "limitePlanos"
 
   Cenário: Cadastro de modelos
     Dado que tenha um fabricante cadastrado
@@ -63,3 +81,18 @@ Funcionalidade: tela de cadastro de modelos de controladores
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário confirmar
     Então o item deverá ser excluido
+
+  Cenário: Deve Salvar um modelo padrão quando usuário não passar os limetes
+    Dado o usuário acessar a tela de cadastro de novos modelos
+    E o usuário preencher o campo "Descrição" com "Modelo 1"
+    E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
+    Quando clicar no botão de salvar
+    Então o sistema deverá mostrar na tabela o valor "Modelo 1"
+    E o sistema deverá mostrar em linhas com valor "LIMITE ESTÁGIOS: 16" na tabela
+    E o sistema deverá mostrar em linhas com valor "LIMITE GRUPOS SEMAFÓRICOS: 16" na tabela
+    E o sistema deverá mostrar em linhas com valor "LIMITE ANEIS: 4" na tabela
+    E o sistema deverá mostrar em linhas com valor "LIMITE DETECTORES PEDESTRE: 4" na tabela
+    E o sistema deverá mostrar em linhas com valor "LIMITE DETECTORES VEICULARES: 8" na tabela
+    E o sistema deverá mostrar em linhas com valor "LIMITE TABELAS ENTRE-VERDES: 2" na tabela
+    E o sistema deverá mostrar em linhas com valor "LIMITE Planos: 16" na tabela
+
