@@ -4,22 +4,11 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
-import json.ControladorCustomSerializer;
 import models.Controlador;
-import org.apache.commons.codec.DecoderException;
-import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
-import protocol.TipoTransacao;
-import status.Transacao;
 import utils.TransacaoHelper;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.validation.groups.Default;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import static org.awaitility.Awaitility.await;
@@ -44,7 +33,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         controlador = new ControladorHelper().setPlanos(controlador);
         await().until(() -> onPublishFutureList.size() > 4);
 
-        enviarPacotePlano(QoS.EXACTLY_ONCE);
+        enviarPacotePlano();
         assertTransacaoOk();
     }
 
@@ -53,7 +42,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
 
-        enviarPacotePlano(QoS.EXACTLY_ONCE);
+        enviarPacotePlano();
         assertTransacaoErro();
     }
 
@@ -63,9 +52,9 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
             Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
     }
 
-    private void enviarPacotePlano(QoS qos) {
+    private void enviarPacotePlano() {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarPacotePlanos(controlador, qos);
+        transacaoHelper.enviarPacotePlanos(controlador);
     }
 
 }

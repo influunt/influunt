@@ -25,36 +25,44 @@ public class TransacaoHelper {
     @Inject
     private ActorSystem context;
 
-    public String enviarPacotePlanos(Controlador controlador, QoS qos) {
+    public String enviarPacotePlanos(Controlador controlador) {
         JsonNode pacotePlanosJson = new ControladorCustomSerializer().getPacotePlanosJson(controlador);
         Transacao transacao = new Transacao(controlador.getId().toString(), pacotePlanosJson, TipoTransacao.PACOTE_PLANO);
-        sendTransaction(transacao, qos);
+        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;
     }
 
-    public String enviarConfiguracaoCompleta(Controlador controlador, QoS qos) {
+    public String enviarConfiguracaoCompleta(Controlador controlador) {
         String controladorId = controlador.getId().toString();
         List<Cidade> cidades = Cidade.find.all();
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
         Transacao transacao = new Transacao(controladorId, configuracaoJson, TipoTransacao.CONFIGURACAO_COMPLETA);
-        sendTransaction(transacao, qos);
+        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;
     }
 
-    public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, int duracao, QoS qos) {
+    public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, int duracao) {
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO);
-        sendTransaction(transacao, qos);
+        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;
     }
 
-    public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, int duracao, QoS qos) {
+    public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, int duracao) {
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
-        sendTransaction(transacao, qos);
+        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        return transacao.transacaoId;
+    }
+
+    public String liberarImposicao(Controlador controlador, int numeroAnel) {
+        String controladorId = controlador.getId().toString();
+        String payload = Json.toJson(new MensagemLiberarImposicao(numeroAnel)).toString();
+        Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.LIBERAR_IMPOSICAO);
+        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;
     }
 

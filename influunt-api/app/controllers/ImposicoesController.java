@@ -52,14 +52,14 @@ public class ImposicoesController extends Controller {
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
         List<Controlador> controladores = getControladores(aneis);
         Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador -> transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador, QoS.EXACTLY_ONCE)));
+        controladores.forEach(controlador -> transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador)));
         return transacoesIds;
     }
 
     private Map<String, String> enviarConfiguracoesCompletas(List<String> aneis) {
         List<Controlador> controladores = getControladores(aneis);
         Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador -> transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controlador, QoS.EXACTLY_ONCE)));
+        controladores.forEach(controlador -> transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controlador)));
         return transacoesIds;
     }
 

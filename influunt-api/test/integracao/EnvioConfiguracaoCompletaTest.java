@@ -3,7 +3,6 @@ package integracao;
 import checks.*;
 import models.Anel;
 import models.Controlador;
-import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
 import utils.TransacaoHelper;
 
@@ -34,7 +33,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
         controlador = new ControladorHelper().setPlanos(controlador);
         await().until(() -> onPublishFutureList.size() > 4);
 
-        enviarConfiguracaoCompleta(controlador, QoS.EXACTLY_ONCE);
+        enviarConfiguracaoCompleta(controlador);
         assertTransacaoOk();
     }
 
@@ -48,7 +47,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
         anel.setAtivo(true);
         controlador.update();
 
-        enviarConfiguracaoCompleta(controlador, QoS.EXACTLY_ONCE);
+        enviarConfiguracaoCompleta(controlador);
         assertTransacaoErro();
     }
 
@@ -60,8 +59,8 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
             ControladorAssociacaoDetectoresCheck.class);
     }
 
-    private void enviarConfiguracaoCompleta(Controlador controlador, QoS qos) {
+    private void enviarConfiguracaoCompleta(Controlador controlador) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarConfiguracaoCompleta(controlador, qos);
+        transacaoHelper.enviarConfiguracaoCompleta(controlador);
     }
 }

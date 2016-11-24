@@ -259,7 +259,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             envelope = new Gson().fromJson(new String(onPublishFutureList.get(9)), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
-            assertEquals(TipoMensagem.STATUS_TRANSACAO,envelope.getTipoMensagem());
+            assertEquals(TipoMensagem.STATUS_TRANSACAO, envelope.getTipoMensagem());
             assertEquals(idControlador, envelope.getIdControlador());
             assertEquals(StatusTransacao.ERRO.toString(), jsonConteudo.get("status").asText());
 

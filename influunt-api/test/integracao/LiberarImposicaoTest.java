@@ -1,7 +1,6 @@
 package integracao;
 
 import models.Anel;
-import models.Plano;
 import org.junit.Test;
 import utils.TransacaoHelper;
 
@@ -10,10 +9,10 @@ import static org.awaitility.Awaitility.await;
 /**
  * Created by rodrigosol on 6/22/16.
  */
-public class ImposicaoPlanoTest extends BasicMQTTTest {
+public class LiberarImposicaoTest extends BasicMQTTTest {
 
     @Test
-    public void imporPlanoOK() {
+    public void liberarImposicaoOK() {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
         await().until(() -> onPublishFutureList.size() > 4);
@@ -21,9 +20,8 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
         Anel anel = controlador.getAneis().stream()
             .filter(Anel::isAtivo)
             .findFirst().orElse(null);
-        Plano plano = anel.getPlanos().get(0);
 
-        imporPlano(plano.getPosicao(), anel.getPosicao(), 30);
+        liberarImposicao(anel.getPosicao());
         assertTransacaoOk();
     }
 
@@ -33,13 +31,12 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
         controlador = new ControladorHelper().setPlanos(controlador);
         await().until(() -> onPublishFutureList.size() > 4);
 
-        imporPlano(-1, 0, -1);
+        liberarImposicao(-1);
         assertTransacaoErro();
     }
 
-    private void imporPlano(int posicaoPlano, int numeroAnel, int duracao) {
+    private void liberarImposicao(int numeroAnel) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporPlano(controlador, posicaoPlano, numeroAnel, duracao);
+        transacaoHelper.liberarImposicao(controlador, numeroAnel);
     }
-
 }

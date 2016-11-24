@@ -98,6 +98,15 @@ public class TransacaoActorHandler extends UntypedActor {
                                 }
                                 break;
 
+                            case LIBERAR_IMPOSICAO:
+                                payloadJson = Json.parse(transacao.payload.toString());
+                                if (payloadJson.get("numeroAnel").asInt() < 1) {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                }
+                                break;
+
                             default:
                                 transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 break;
@@ -122,14 +131,21 @@ public class TransacaoActorHandler extends UntypedActor {
 
                             case IMPOSICAO_PLANO:
                                 payloadJson = Json.parse(transacao.payload.toString());
-
                                 Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
                                     idControlador,
                                     payloadJson.get("posicaoPlano").asInt(),
                                     payloadJson.get("numeroAnel").asInt(),
                                     payloadJson.get("duracao").asInt());
                                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoPlano, getSelf());
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
 
+                            case LIBERAR_IMPOSICAO:
+                                payloadJson = Json.parse(transacao.payload.toString());
+                                Envelope envelopeLiberarImposicao = MensagemLiberarImposicao.getMensagem(
+                                    idControlador,
+                                    payloadJson.get("numeroAnel").asInt());
+                                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeLiberarImposicao, getSelf());
                                 transacao.etapaTransacao = EtapaTransacao.COMMITED;
                                 break;
 

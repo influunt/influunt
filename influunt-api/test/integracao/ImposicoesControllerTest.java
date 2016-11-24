@@ -4,18 +4,14 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
-import com.fasterxml.jackson.databind.JsonNode;
 import controllers.routes;
 import models.Anel;
 import models.Controlador;
-import org.junit.Ignore;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
-import protocol.EtapaTransacao;
-import protocol.TipoMensagem;
 
 import javax.validation.groups.Default;
 import java.util.List;
@@ -25,8 +21,6 @@ import java.util.stream.Collectors;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static play.mvc.Http.Status.BAD_REQUEST;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.route;
 

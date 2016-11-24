@@ -14,5 +14,8 @@ public enum TipoTransacao {
     IMPOSICAO_MODO_OPERACAO,
 
     // Imposição de plano
-    IMPOSICAO_PLANO
+    IMPOSICAO_PLANO,
+
+    // Liherar anel da imposição de plano ou modo operação
+    LIBERAR_IMPOSICAO
 }

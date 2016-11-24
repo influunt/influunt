@@ -7,7 +7,6 @@ import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.LocalDeviceConfig;
 import os72c.client.device.DeviceBridge;
 import os72c.client.device.FakeDevice;
-import os72c.client.device.SerialDevice;
 import os72c.client.storage.MapStorage;
 import os72c.client.storage.Storage;
 import os72c.client.storage.StorageConf;
@@ -18,7 +17,6 @@ import play.inject.guice.GuiceApplicationBuilder;
 import security.AllowAllAuthenticator;
 import security.Authenticator;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import static play.inject.Bindings.bind;

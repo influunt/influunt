@@ -132,6 +132,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 case IMPOSICAO_DE_PLANO:
                     imporPlano(envelope.getConteudoParsed());
                     break;
+
+                case LIBERAR_IMPOSICAO:
+                    liberarImposicao(envelope.getConteudoParsed());
+                    break;
             }
         }
     }
@@ -180,5 +184,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         int duracao = conteudo.get("duracao").asInt();
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao));
+    }
+
+    private void liberarImposicao(JsonNode conteudo) {
+        int numeroAnel = conteudo.get("numeroAnel").asInt();
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
     }
 }
