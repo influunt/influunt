@@ -18,12 +18,19 @@ public class AtivaModoManualHandle extends GerenciadorDeEventos {
     @Override
     protected void processar(EventoMotor eventoMotor) {
         Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
+
+
+
         if (anel.isAceitaModoManual()) {
             Plano plano = anel.getPlanos().stream().filter(Plano::isManual).findFirst().orElse(null);
-            if (plano == null) {
+            if (plano == null && gerenciadorDeEstagios.getPlano().isModoOperacaoVerde()) {
                 plano = PlanoService.gerarPlanoManual(gerenciadorDeEstagios.getPlano());
             }
-            gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp()));
+
+            //TODO: Não entra no manual, se caso não tiver sido configurado o plano exclusivo e o plano vigente for Intermitente ou Apagado
+            if (plano != null) {
+                gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp()));
+            }
         }
     }
 }
