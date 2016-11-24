@@ -16,5 +16,6 @@ public enum TipoMensagem {
     ENVIO_PLANOS,
     ALARME_FALHA,
     TROCA_DE_PLANO,
-    IMPOSICAO_DE_PLANO;
+    IMPOSICAO_DE_PLANO,
+    REMOCAO_FALHA;
 }

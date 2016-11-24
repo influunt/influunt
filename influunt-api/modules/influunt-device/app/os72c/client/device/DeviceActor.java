@@ -12,6 +12,7 @@ import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import protocol.AlarmeFalha;
 import protocol.Envelope;
+import protocol.RemocaoFalha;
 import protocol.TrocaPlanoEfetiva;
 
 import java.util.List;
@@ -66,6 +67,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         sendMessage(envelope);
     }
 
+    private void sendRemocaoFalha(EventoMotor eventoMotor) {
+        Envelope envelope = RemocaoFalha.getMensagem(controlador.getId().toString(), eventoMotor);
+        sendMessage(envelope);
+    }
+
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
     }
@@ -82,7 +88,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
-        sendAlarmeOuFalha(eventoMotor);
+        sendRemocaoFalha(eventoMotor);
     }
 
     @Override
