@@ -193,6 +193,8 @@ GET       /api/v1/relatorios/controladores_falhas                               
 GET       /api/v1/relatorios/controladores_entreverdes                                          controllers.RelatoriosController.gerarRelatorioControladoresEntreverdes()
 
 # Imposições
-POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano
-POST       /api/v1/imposicoes/configuracao_completa                                             controllers.ImposicoesController.configuracao
+POST       /api/v1/imposicoes/pacote_plano                                                      controllers.ImposicoesController.pacotePlano
+POST       /api/v1/imposicoes/configuracao_completa                                             controllers.ImposicoesController.configuracaoCompleta
 POST       /api/v1/imposicoes/modo_operacao                                                     controllers.ImposicoesController.modoOperacao
+POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano
+POST       /api/v1/imposicoes/liberar                                                           controllers.ImposicoesController.liberar

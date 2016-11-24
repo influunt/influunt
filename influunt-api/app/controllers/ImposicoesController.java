@@ -28,23 +28,25 @@ public class ImposicoesController extends Controller {
     private TransacaoHelper transacaoHelper;
 
     @Transactional
-    public CompletionStage<Result> plano() {
+    public CompletionStage<Result> pacotePlano() {
         JsonNode json = request().body().asJson();
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        // Map  controlador ID -> transação ID
         Map<String, String> transacoesIds = enviarPacotesPlanos(Json.fromJson(json, List.class));
         return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
     }
 
     @Transactional
-    public CompletionStage<Result> configuracao() {
+    public CompletionStage<Result> configuracaoCompleta() {
         JsonNode json = request().body().asJson();
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        // Map  controlador ID -> transação ID
         Map<String, String> transacoesIds = enviarConfiguracoesCompletas(Json.fromJson(json, List.class));
         return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
     }
@@ -56,9 +58,40 @@ public class ImposicoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        // Map  anel ID -> transação ID
         Map<String, String> transacoesIds = imporModoOperacao(json);
         return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
     }
+
+    @Transactional
+    public CompletionStage<Result> plano() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = imporPlano(json);
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
+
+    @Transactional
+    public CompletionStage<Result> liberar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacaoId = liberarImposicao(json.get("anelId").asText());
+        if (transacaoId == null) {
+            return CompletableFuture.completedFuture(notFound("Anel não encontrado"));
+        }
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacaoId)));
+    }
+
+
+
 
 
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
@@ -91,6 +124,31 @@ public class ImposicoesController extends Controller {
         );
         return transacoesIds;
     }
+
+    private Map<String, String>  imporPlano(JsonNode params) {
+        int posicaoPlano = params.get("posicaoPlano").asInt();
+        int duracao = params.get("duracao").asInt();
+
+        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
+        List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
+
+        Map<String, String> transacoesIds = new HashMap<>();
+        aneis.forEach(anel ->
+            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), duracao))
+        );
+        return transacoesIds;
+    }
+
+    private Map<String, String> liberarImposicao(String anelId) {
+        Anel anel = Anel.find.fetch("controlador").where().eq("id", anelId).findUnique();
+        if (anel != null) {
+            Map<String, String> transacoesIds = new HashMap<>();
+            transacoesIds.put(anel.getId().toString(), transacaoHelper.liberarImposicao(anel.getControlador(), anel.getPosicao()));
+            return transacoesIds;
+        }
+        return null;
+    }
+
 
     private List<Controlador> getControladores(List<String> aneis) {
         return aneis.stream()

@@ -75,7 +75,7 @@ angular.module('influuntApp')
       $scope.sincronizar = function() {
         var resource;
         if ($scope.dataSincronizar.tipo === 'pacotePlanos') {
-          resource = 'plano';
+          resource = 'pacote_plano';
         } else {
           resource = 'configuracao_completa';
         }

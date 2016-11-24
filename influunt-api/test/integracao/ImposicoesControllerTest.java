@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.route;
 
@@ -31,7 +32,7 @@ import static play.test.Helpers.route;
 public class ImposicoesControllerTest extends BasicMQTTTest {
 
     @Test
-    public void imposicaoPlanoTestOk() {
+    public void imposicaoPacotePlanosTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
@@ -39,7 +40,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.ImposicoesController.plano().url())
+            .uri(routes.ImposicoesController.pacotePlano().url())
             .bodyJson(Json.toJson(aneisIds));
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -52,13 +53,13 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     }
 
     @Test
-    public void imposicaoPlanoTestErro() {
+    public void imposicaoPacotePlanosTestErro() {
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.ImposicoesController.plano().url())
+            .uri(routes.ImposicoesController.pacotePlano().url())
             .bodyJson(Json.toJson(aneisIds));
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -79,7 +80,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.ImposicoesController.configuracao().url())
+            .uri(routes.ImposicoesController.configuracaoCompleta().url())
             .bodyJson(Json.toJson(aneisIds));
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -103,7 +104,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.ImposicoesController.configuracao().url())
+            .uri(routes.ImposicoesController.configuracaoCompleta().url())
             .bodyJson(Json.toJson(aneisIds));
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -119,7 +120,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoModoOperacaoTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.MINUTES).until(() -> onPublishFutureList.size() > 5);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
 
         List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
 //        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
@@ -149,7 +150,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoModoOperacaoTestErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.MINUTES).until(() -> onPublishFutureList.size() > 5);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
 
         List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
 //        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
@@ -175,9 +176,118 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
     }
 
+    @Test
+    public void imposicaoPlanoTestOk() {
+        controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
+
+//        List<String> aneisIds = new ArrayList<>();
+//        aneisIds.add(aneis.get(0).getId().toString());
+
+        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+        List<String> aneisIds = aneis.stream().map(anel -> anel.getId().toString()).collect(Collectors.toList());
+
+        Integer posicaoPlano = 1;
+        boolean planoConfiguradoEmTodosOsAneis = aneis.stream()
+            .filter(Anel::isAtivo)
+            .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> posicaoPlano.equals(plano.getPosicao())));
+        assertTrue(planoConfiguradoEmTodosOsAneis);
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("aneis", aneisIds.toArray());
+        params.put("posicaoPlano", posicaoPlano);
+        params.put("duracao", 30);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.ImposicoesController.plano().url())
+            .bodyJson(Json.toJson(params));
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        await().until(() -> onPublishFutureList.size() >= 6 + 5*aneisIds.size());
+        assertEquals(6 + 5*aneisIds.size(), onPublishFutureList.size());
+
+        Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
+        assertEquals(aneisIds.size(), ids.keySet().size());
+        ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
+    }
+
+    @Test
+    public void imposicaoPlanoTestErro() {
+        controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
+
+        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+        List<String> aneisIds = aneis.stream().map(anel -> anel.getId().toString()).collect(Collectors.toList());
+
+        Integer posicaoPlano = 1;
+        boolean planoConfiguradoEmTodosOsAneis = aneis.stream()
+            .filter(Anel::isAtivo)
+            .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> posicaoPlano.equals(plano.getPosicao())));
+        assertTrue(planoConfiguradoEmTodosOsAneis);
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("aneis", aneisIds.toArray());
+        params.put("posicaoPlano", posicaoPlano);
+        params.put("duracao", 0);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.ImposicoesController.plano().url())
+            .bodyJson(Json.toJson(params));
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        await().until(() -> onPublishFutureList.size() >= 6 + 3*aneisIds.size());
+        assertEquals(6 + 3*aneisIds.size(), onPublishFutureList.size());
+
+        Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
+        assertEquals(aneisIds.size(), ids.keySet().size());
+        ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
+    }
+
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
             Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
+    }
+
+    @Test
+    public void liberarImposicaoTestOk() {
+        controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
+
+        Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
+        Map<String, Object> params = new HashMap<>();
+        params.put("anelId", anel.getId().toString());
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.ImposicoesController.liberar().url())
+            .bodyJson(Json.toJson(params));
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        assertTransacaoOk();
+    }
+
+    @Test
+    public void liberarImposicaoTestAnelNaoExistente() {
+        controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("anelId", "1234");
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.ImposicoesController.liberar().url())
+            .bodyJson(Json.toJson(params));
+        Result result = route(request);
+        assertEquals(NOT_FOUND, result.status());
+        assertEquals(6, onPublishFutureList.size());
     }
 
 }
