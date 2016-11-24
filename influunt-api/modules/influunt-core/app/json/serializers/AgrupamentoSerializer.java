@@ -61,15 +61,18 @@ public class AgrupamentoSerializer extends JsonSerializer<Agrupamento> {
                 jgen.writeStringField("CLA", anel.getCLA());
                 jgen.writeBooleanField("ativo", anel.isAtivo());
 
-                jgen.writeObjectFieldStart("versaoPlano");
-                jgen.writeStringField("id", anel.getVersaoPlano().getId().toString());
-                jgen.writeArrayFieldStart("planos");
-                for (Plano plano : anel.getVersaoPlano().getPlanos()) {
-                    Plano novoPlano = new Plano();
-                    novoPlano.setPosicao(plano.getPosicao());
-                    jgen.writeObject(novoPlano);
+                if (anel.getVersaoPlano() != null) {
+                    jgen.writeObjectFieldStart("versaoPlano");
+                    jgen.writeStringField("id", anel.getVersaoPlano().getId().toString());
+                    jgen.writeArrayFieldStart("planos");
+                    for (Plano plano : anel.getVersaoPlano().getPlanos()) {
+                        Plano novoPlano = new Plano();
+                        novoPlano.setPosicao(plano.getPosicao());
+                        jgen.writeObject(novoPlano);
+                    }
+                    jgen.writeEndArray();
                 }
-                jgen.writeEndArray();
+
                 jgen.writeEndObject();
 
                 jgen.writeObjectFieldStart("controlador");
