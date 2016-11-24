@@ -60,8 +60,10 @@ public enum TipoEvento {
     TROCA_ESTAGIO_MANUAL(TipoEventoControlador.MODO_MANUAL, 3, "Troca de estágio no modo manual", "Troca estágio", null),
     MODO_MANUAL_ATIVADO(TipoEventoControlador.MODO_MANUAL,4,"Modo manual ativado", "Modo manual ativado",null),
 
-    //Imposicao de Planos
-    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO_PLANO, 1, "Imposição de Plano", "Plano %s foi imposto", null),
+    //Imposicoes
+    IMPOSICAO_PLANO(TipoEventoControlador.IMPOSICAO, 1, "Imposição de Plano", "Anel %s: Plano %s foi imposto com duração de %s minutos", new TipoEventoParamsDescriptor("Plano", TipoEventoParamsTipoDeDado.PLANO)),
+    IMPOSICAO_MODO(TipoEventoControlador.IMPOSICAO, 2, "Imposição de Modo", "Anel %s: Modo de operação %s foi imposto", new TipoEventoParamsDescriptor("Plano", TipoEventoParamsTipoDeDado.MODO_OPERACAO_PLANO)),
+    LIBERAR_IMPOSICAO(TipoEventoControlador.IMPOSICAO, 3, "Liberação de imposição", "Anel %s: Foi liberado da imposição", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
     //Troca de PLanos
     TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO, 1, "Troca de Plano no Anel", "Plano %s está ativo", null);

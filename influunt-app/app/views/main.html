@@ -145,7 +145,7 @@
         <small><i class="fa fa-check-circle"></i> 5 {{ 'main.recuperaFalhas' | translate }}</small>
       </div>
       <div class="ibox-content lista-falhas inspinia-timeline">
-        <div class="timeline-item" ng-repeat="erro in errosControladores">
+        <div class="timeline-item" ng-repeat="erro in errosControladores | limitTo: 10">
           <div class="row">
             <div class="col-xs-3 date">
               <i class="fa fa-plug text-danger"></i> {{erro.data | influuntDate: 'HH:mm:ss'}}
@@ -154,7 +154,7 @@
             </div>
             <div class="col-xs-7 content no-top-border">
               <p class="m-b-xs"><strong>{{ erro.motivoFalha | humanize }}</strong></p>
-              <p><strong>{{erro.clc}}</strong><br>{{erro.endereco}}</p>
+              <p><strong>{{erro.clc}}</strong><br>{{ erro.endereco | nomeEndereco }}</p>
             </div>
           </div>
       </div>

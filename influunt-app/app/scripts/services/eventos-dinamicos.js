@@ -17,5 +17,5 @@ angular.module('influuntApp')
     ALARMES_FALHAS: 'central/alarmes_falhas',
     TROCA_PLANO: 'central/troca_plano',
     CONTROLADOR_ONLINE: 'controladores/conn/online',
-    CONTROLADOR_OFFLINE: 'controladores/conn/offline',
+    CONTROLADOR_OFFLINE: 'controladores/conn/offline'
   });

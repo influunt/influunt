@@ -97,8 +97,8 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         detector.setTipo(TipoDetector.VEICULAR);
         detector2.setTipo(TipoDetector.PEDESTRE);
 
-        detector2.setTempoAusenciaDeteccao(5000);
-        detector2.setTempoDeteccaoPermanente(1441);
+        detector2.setTempoAusenciaDeteccao(5801);
+        detector2.setTempoDeteccaoPermanente(11);
 
         erros = getErros(controlador);
         assertEquals(2, erros.size());
@@ -108,7 +108,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         ));
 
         detector2.setTempoAusenciaDeteccao(0);
-        detector2.setTempoDeteccaoPermanente(1440);
+        detector2.setTempoDeteccaoPermanente(10);
 
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());

@@ -93,8 +93,8 @@ module.exports = function() {
     return areasPage.selecionarCidade(cidade);
   });
 
-  this.Given(/^o sistema deverá possuir longitude e latidude$/, function () {
-    return areasPage.limetesNaTabela();
+  this.Given(/^o sistema deverá possuir longitude e latidude com os valores "([^"]*)"$/, function (limetes) {
+    return areasPage.limetesNaTabela(limetes);
   });
 
   this.Given(/^que o usuário limpe o campo área$/, function () {

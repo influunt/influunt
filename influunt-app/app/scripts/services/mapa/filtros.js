@@ -9,6 +9,7 @@
  */
 angular.module('influuntApp')
   .factory('filtrosMapa', function () {
+    var STATUS_FALHAS = ['FALHA', 'OPERANDO_COM_FALHAS'];
 
     var getAreas = function(areas, filtro) {
       var areasIds = _.map(filtro.areasSelecionadas, 'idJson');
@@ -30,12 +31,21 @@ angular.module('influuntApp')
         controladores = _.filter(controladores, function(i) { return i.hasPlanoImposto || _.some(i.aneis, 'hasPlanoImposto'); });
       }
 
+      if (filtro.exibirSomenteControladoresComFalhas) {
+        controladores = _.filter(controladores, function(c) { return STATUS_FALHAS.indexOf(c.status) >= 0 ;});
+      }
+
       if (_.isArray(filtro.tiposControleVigenteSelecionados) && filtro.tiposControleVigenteSelecionados.length > 0) {
         // filtra todos os controladores que possuem ao menos um anel em algum tipo de vigencia selecionada no filtro.
         controladores = _
           .chain(filtro.tiposControleVigenteSelecionados)
           .map(function(tipo) {
-            return _.filter(controladores, function(c) { return _.map(c.aneis, 'tipoControleVigente').indexOf(tipo) >= 0; });
+            return _.filter(controladores, function(c) {
+              return _.map(c.aneis, function(a) {
+                a.tipoControleVigente = a.tipoControleVigente || 'CENTRAL';
+                return a.tipoControleVigente;
+              }).indexOf(tipo) >= 0;
+            });
           })
           .flatten()
           .uniq()

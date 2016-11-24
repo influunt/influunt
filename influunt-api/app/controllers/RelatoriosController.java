@@ -2,6 +2,7 @@ package controllers;
 
 import com.google.inject.Inject;
 import models.TabelaEntreVerdes;
+import org.apache.commons.lang3.StringUtils;
 import play.mvc.Controller;
 import play.mvc.Result;
 import reports.AuditoriaReportService;
@@ -48,15 +49,12 @@ public class RelatoriosController extends Controller {
 
     public CompletionStage<Result> gerarRelatorioControladoresStatus() {
 
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
-
-        Map<String, String[]> params = new HashMap<>();
-        params.putAll(request().queryString());
-        if (params.containsKey("tipoRelatorio")) {
-            params.remove("tipoRelatorio");
+        if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
+            return CompletableFuture.completedFuture(ok(controladoresReportService.getControladoresStatusReportData(request().queryString())));
+        } else {
+            InputStream input = controladoresReportService.generateControladoresStatusCSVReport(request().queryString());
+            return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
         }
-        InputStream input = controladoresReportService.generateControladoresStatusReport(request().queryString(), reportType);
-        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
 
     public CompletionStage<Result> gerarRelatorioControladoresFalhas() {

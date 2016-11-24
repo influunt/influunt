@@ -23,6 +23,12 @@ public class ParametroSimulacaoImposicaoPlano {
     @NotNull(message = "não pode ficar em branco")
     private DateTime disparo;
 
+    @NotNull(message = "não pode ficar em branco")
+    private Integer duracao;
+
+    @NotNull(message = "não pode ficar em branco")
+    private Integer anel;
+
     public Integer getPlano() {
         return plano;
     }
@@ -39,8 +45,24 @@ public class ParametroSimulacaoImposicaoPlano {
         this.disparo = disparo;
     }
 
+    public Integer getDuracao() {
+        return duracao;
+    }
+
+    public void setDuracao(Integer duracao) {
+        this.duracao = duracao;
+    }
+
+    public Integer getAnel() {
+        return anel;
+    }
+
+    public void setAnel(Integer anel) {
+        this.anel = anel;
+    }
+
     public EventoMotor toEvento() {
-        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_PLANO, plano);
+        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_PLANO, plano, anel, duracao);
     }
 
 }

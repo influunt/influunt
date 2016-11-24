@@ -52,6 +52,7 @@ public abstract class Simulador implements MotorCallback {
         motor = new Motor(controlador, parametros.getInicioControlador(), inicioSimulado, this);
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getImposicoesModos().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getAlarmes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getInsercaoDePlugDeControleManual().stream().forEach(param -> addEvento(param.toEvento()));

@@ -100,6 +100,10 @@ var ObjetosComuns = function () {
     return world.scrollToDown();
   };
 
+  this.realizarScrollDownModal = function() {
+    return world.scrollToDownModal();
+  };
+
   // verifica diagrama
   this.isDiagramaModo = function(modoOperacao, grupo, indicacaoCor, tempo) {
     var _this = this;
@@ -202,9 +206,26 @@ var ObjetosComuns = function () {
   };
 
   this.clicarBotaoEspecificoTabelaControladores = function(botao, controlador) {
+    var _this = this;
     return world.waitForOverlayDisappear().then(function() {
-      return world.getElementByXpath('//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]').click();
+      return _this.botaoAcaoControladores(botao, controlador).click();
     });
+  };
+
+  this.botaoAcaoControladores = function(botao, controlador) {
+    var _this = this;
+    return world.getElementByXpath(_this.xpathBotoesControladores(botao,controlador));
+  };
+
+  this.naoPodeMostraBotao = function(botao, controlador) {
+    var _this = this;
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpathInverse(_this.xpathBotoesControladores(botao,controlador));
+    });
+  };
+
+  this.xpathBotoesControladores = function(botao, controlador) {
+   return '//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
   this.selecionarBySelect2Option = function(field, option) {
@@ -212,12 +233,16 @@ var ObjetosComuns = function () {
   };
 
   this.selectBySelectOptionAtribute = function(campo, selectSelector, optionAtribute, value) {
-    return world.selectByOptionAtribute(campo, selectSelector, optionAtribute, value);
+    return world.sleep(300).then(function(){
+      return world.selectByOptionAtribute(campo, selectSelector, optionAtribute, value);
+    });
   };
 
   this.removeSelect2Option = function(option, field) {
-    return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
-      return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+    return world.sleep(400).then(function(){
+      return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
+        return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+      });
     });
   };
 
@@ -225,9 +250,9 @@ var ObjetosComuns = function () {
     return world.visit('/app/'+local+'');
   };
 
-  this.fecharModal = function() {
+  this.fecharModal = function(modal) {
     return world.sleep(600).then(function(){
-      return world.getElementByXpath('//button[contains(text(), "Fechar")]').click();
+      return world.getElementByXpath('//div[contains(@id, "'+modal+'")]//button[contains(text(), "Fechar")]').click();
     });
   };
 
@@ -235,16 +260,16 @@ var ObjetosComuns = function () {
     var _this = this;
     switch(status) {
       case 'Em Edição':
-        return _this.getBadgeByClass('badge-warning');
+        return _this.getBadgeByClassStatus('badge-warning', status);
       case 'Configurado':
-        return _this.getBadgeByClass('badge-primary');
+        return _this.getBadgeByClassStatus('badge-primary', status);
       default:
         throw new Error('Status não encontrado: '+status);
     }
   };
 
-  this.getBadgeByClass = function(badge) {
-    return world.waitForByXpath('//span[contains(@class, "'+badge+'")]');
+  this.getBadgeByClassStatus = function(badge, text) {
+    return world.waitForByXpath('//span[contains(@class, "'+badge+'")][contains(text(), "'+text+'")]');
   };
 
   this.naoConsigaSelecionar = function(campo, valueToSelector) {
@@ -255,6 +280,15 @@ var ObjetosComuns = function () {
     return world.waitForOverlayDisappear().then(function() {
       return world.waitForByXpath('(//div[contains(@class, "vertical-timeline-content")])['+posicao+']//small[contains(text(), "'+data+'")]');
     });
+  };
+
+  this.preencherCampo = function(campo, valor) {
+    world.sleep(500);
+    return world.setValue('[name="'+campo+'"]', valor);
+  };
+
+  this.clicarVisualizarResumo = function() {
+    return world.getElementByXpath('//i[contains(@class, "fa-eye")]').click();
   };
 };
 

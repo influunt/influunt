@@ -46,4 +46,18 @@ public class PlanoService {
 
         return novoPlano;
     }
+
+    public static Plano gerarPlanoIntermitente(Plano plano) {
+        Plano novoPlano = gerarPlano(plano);
+        novoPlano.setModoOperacao(ModoOperacaoPlano.INTERMITENTE);
+        novoPlano.setImposto(true);
+        return novoPlano;
+    }
+
+    public static Plano gerarPlanoApagado(Plano plano) {
+        Plano novoPlano = gerarPlano(plano);
+        novoPlano.setModoOperacao(ModoOperacaoPlano.APAGADO);
+        novoPlano.setImposto(true);
+        return novoPlano;
+    }
 }
