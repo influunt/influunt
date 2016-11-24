@@ -448,4 +448,14 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     public void setDestroy(boolean destroy) {
         this.destroy = destroy;
     }
+
+
+    public Integer getTempoVerdeSeguranca() {
+        return this.getEstagio()
+            .getGruposSemaforicos()
+            .stream()
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
+            .max()
+            .orElse(0);
+    }
 }
