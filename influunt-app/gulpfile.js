@@ -375,6 +375,10 @@ gulp.task('copy:extras', function () {
     .src(yeoman.app + '/json/**/*.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist + '/json/'));
 
+  gulp
+    .src(yeoman.app + '/audio/**/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/audio/'));
+
   return gulp
     .src(yeoman.app + '/*/.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist));

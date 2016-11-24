@@ -74,21 +74,25 @@ public class AlarmesFalhasControlador {
         return hash;
     }
 
-    public static HashMap<String, Object> ultimosAlarmesFalhasControladores(Integer limit) {
-        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
-        HashMap<String, Object> hash = new HashMap<>();
-        Aggregate query = null;
+    public static List<Map> ultimosAlarmesFalhasControladores(Integer limit) {
+        ArrayList<Map> list = new ArrayList<>();
+
+        ArrayList<String> predicates = new ArrayList<>();
+        predicates.add("{ $match: { recuperado: {$exists: false} }  }");
+        predicates.add("{ $sort: { timestamp: -1 } }");
+        predicates.add("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
         if (limit != null) {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$conteudo.tipoEvento.tipo'}}}").and("{$limit: " + limit + "}");
-        } else {
-            query = alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'tipoEvento': {$first:'$conteudo.tipoEvento.tipo'}}}");
-        }
-        Aggregate.ResultsIterator<Map> ultimo = query.as(Map.class);
-        for (Map m : ultimo) {
-            hash.put(m.get("_id").toString(), m);
+            predicates.add("{ $limit: ".concat(String.valueOf(limit)).concat("}"));
         }
 
-        return hash;
+
+        Aggregate.ResultsIterator<Map> results = alarmesFalhas().aggregate(String.join(",", predicates)).as(Map.class);
+
+        for (Map m : results) {
+            list.add(m);
+        }
+
+        return list;
     }
 
     public static AlarmesFalhasControlador ultimoAlarmeFalhaControlador(String idControlador) {
