@@ -43,14 +43,19 @@ angular.module('influuntApp')
         });
 
         scope.$watch('markers', function(marker, oldMarker) {
-          if (_.isPlainObject(marker) && marker.id) {
+          if (_.isPlainObject(marker)) {
             clearTimeout(markersTimeout);
             markersTimeout = setTimeout(function() {
               _mapaProvider.renderMarkers(marker);
-              return _.get(marker, 'id') !== _.get(oldMarker, 'id') && _mapaProvider.setViewForMarkers();
+
+              var shouldSetView = _.get(marker, 'id') !== _.get(oldMarker, 'id') ||
+                                  _.get(marker, 'latitude') !== _.get(oldMarker, 'latitude') ||
+                                  _.get(marker, 'longitude') !== _.get(oldMarker, 'longitude');
+
+              return shouldSetView && _mapaProvider.setViewForMarkers();
             }, 200);
           }
-        });
+        }, true);
 
         scope.$watch('markers', function(markers, oldMarkers) {
           if (_.isArray(markers)) {
