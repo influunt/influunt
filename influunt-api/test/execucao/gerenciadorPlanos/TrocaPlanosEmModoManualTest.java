@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class TrocaPlanosEmModoManualTest extends GerenciadorDeTrocasTest {
 
     @Test
-    public void motorTest() throws IOException {
+    public void entrada() throws IOException {
         inicioControlador = new DateTime(2016, 10, 20, 22, 0, 0);
         inicioExecucao = inicioControlador;
         instante = inicioControlador;
@@ -54,6 +55,33 @@ public class TrocaPlanosEmModoManualTest extends GerenciadorDeTrocasTest {
 
         assertEquals("Plano Atual Anel 3 - Normal", 6, getPlanoTrocaEfetiva(3, 240).getPosicao().intValue());
         assertEquals("Plano Atual Anel 3 - Normal", ModoOperacaoPlano.APAGADO, getPlanoTrocaEfetiva(3, 240).getModoOperacao());
+    }
+
+
+    @Test
+    public void entradaDepoisDeIntermitente() throws IOException {
+        inicioControlador = new DateTime(2016, 11, 24, 23, 0, 0);
+        inicioExecucao = inicioControlador;
+        instante = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 10);
+        acionarModoManual(motor);
+        avancarSegundos(motor, 70);
+        trocarEstagioModoManual(motor);
+        avancarSegundos(motor, 40);
+        trocarEstagioModoManual(motor);
+        avancarSegundos(motor, 40);
+        trocarEstagioModoManual(motor);
+        avancarSegundos(motor, 40);
+        trocarEstagioModoManual(motor);
+        avancarSegundos(motor, 40);
+        desativarModoManual(motor);
+        avancarSegundos(motor, 100);
+
+        assertEquals("Plano Atual", 16, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+
+        assertTrue("Não tem troca de plano", listaTrocaPlanoEfetiva.isEmpty());
     }
 
 

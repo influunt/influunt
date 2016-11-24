@@ -17,7 +17,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
     @Test
     public void monentoCicloTroca() {
         controlador.getTabelaHoraria();
-        Evento evento = controlador.getTabelaHoraria().getEventos().stream().filter(evento1 -> evento1.getPosicao().equals(13)).findFirst().get();
+        Evento evento = controlador.getTabelaHoraria().getEventos().stream().filter(evento1 -> evento1.getPosicao().equals(18)).findFirst().get();
 
         //Rever os testes passando uma data e hora desejada
         DateTime dataHora = new DateTime(2016, 11, 15, 8, 0, 0, 0);
