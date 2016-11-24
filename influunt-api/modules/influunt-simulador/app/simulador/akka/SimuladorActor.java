@@ -46,7 +46,7 @@ public class SimuladorActor extends UntypedActor {
 
     private List<ArrayNode> alarmes = new ArrayList<>();
 
-    private List<ArrayNode> modoManual;
+    private List<ArrayNode> modoManual = new ArrayList<>();
 
     private String jsonTrocas;
 
