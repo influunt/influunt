@@ -24,7 +24,7 @@ public class MotorEventoHandler {
     }
 
     public void handle(EventoMotor eventoMotor) {
-
+        
         switch (eventoMotor.getTipoEvento()) {
 
             case ACIONAMENTO_DETECTOR_VEICULAR:
@@ -94,8 +94,13 @@ public class MotorEventoHandler {
                 break;
 
             case IMPOSICAO_PLANO:
+            case IMPOSICAO_MODO:
+                handleAnel(eventoMotor, 1);
                 break;
 
+            case LIBERAR_IMPOSICAO:
+                handleRemoveFalhaAnel(eventoMotor);
+                break;
         }
 
     }
@@ -113,8 +118,7 @@ public class MotorEventoHandler {
     }
 
     private void handleFalhaAnel(EventoMotor eventoMotor) {
-        Integer anel = (Integer) eventoMotor.getParams()[0];
-        motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+        handleAnel(eventoMotor, 0);
     }
 
     private void handleFaseVermelhaGrupoSemaforico(EventoMotor eventoMotor) {
@@ -150,8 +154,7 @@ public class MotorEventoHandler {
     }
 
     private void handleRemocaoFalhaDetector(EventoMotor eventoMotor) {
-        Integer anel = (Integer) eventoMotor.getParams()[1];
-        motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+        handleAnel(eventoMotor, 1);
     }
 
 
@@ -175,6 +178,11 @@ public class MotorEventoHandler {
         });
     }
 
+
+    private void handleAnel(EventoMotor eventoMotor, Integer posicaoAnel) {
+        Integer anel = (Integer) eventoMotor.getParams()[posicaoAnel];
+        motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+    }
 
     public Motor getMotor() {
         return motor;

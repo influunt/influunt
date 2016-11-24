@@ -13,7 +13,7 @@ var MapasPage = function () {
 
   this.clicarAnelMapa = function(anel) {
     return world.sleep(1000).then(function(){
-      return world.getElementByXpath('//img[contains(@src, "images/leaflet/influunt-icons/anel.svg")]['+anel+']').click();
+      return world.getElementByXpath('//img[contains(@src, "images/leaflet/influunt-icons/anel-controle-central.svg")]['+anel+']').click();
     });
   };
 
@@ -31,9 +31,10 @@ var MapasPage = function () {
     return world.getElementByXpath(''+opcaoPanel+'//a[contains(text(), "'+plano+'")]').click();
   };
 
-  this.clicarMenuFiltros = function() {
+  this.clicarMenuFiltros = function(acao) {
+    var classToClick = acao === 'fechar' ? 'a-angle-left' : 'fa-map';
     return world.sleep(500).then(function(){
-      return world.getElementByXpath('//i[contains(@class, "fa-map")]').click();
+      return world.getElementByXpath('//i[contains(@class, "'+classToClick+'")]').click();
     });
   };
 
@@ -51,7 +52,7 @@ var MapasPage = function () {
     return world.waitForByXpath(''+opcaoPanel+'//h3[contains(text(), "'+valor+'")]');
   };
 
-  this.checkAgrupamentoMapa = function() {
+  this.checkSubareaMapa = function() {
     return world.waitFor('path[class^="influunt-agrupamento"]');
   };
 
@@ -62,21 +63,30 @@ var MapasPage = function () {
   };
 
   this.checkPointsOnMapa = function(tipoIcone, quantidade) {
+    var icone = tipoIcone === 'anel' ? 'anel-controle-central.svg' : 'controlador.svg';
     return world.sleep(500).then(function(){
-      return world.calculateByXpath('//img[contains(@src, "images/leaflet/influunt-icons/'+tipoIcone+'.svg")]', quantidade);
+      return world.calculateByXpath(
+        '//div[contains(@class, "leaflet-marker-pane")]//img[contains(@src, "images/leaflet/influunt-icons/'+icone+'")]', quantidade);
     });
   };
 
   this.checkAgrupamentoMapa = function(numAgrupamento) {
-    return world.waitForOverlayDisappear();
-    return world.sleep(500).then(function(){
-      return world.waitForByXpath('//div[contains(@class, "marker-cluster")]//span[contains(text(), "'+numAgrupamento+'")]');
+    return world.waitForOverlayDisappear().then(function(){
+      return world.sleep(500).then(function(){
+        return world.waitForByXpath('//div[contains(@class, "marker-cluster")]//span[contains(text(), "'+numAgrupamento+'")]');
+      });
     });
   };
 
   this.clicarAgrupamentoMapa = function(numAgrupamento) {
     return world.sleep(500).then(function(){
       return world.getElementByXpath('//div[contains(@class, "marker-cluster")]//span[contains(text(), "'+numAgrupamento+'")]').click();
+    });
+  };
+
+  this.zoom = function(acao) {
+    return world.sleep(500).then(function(){
+      return world.getElementByXpath('//a[contains(@title, "'+acao+'")]').click();
     });
   };
 

@@ -11,7 +11,7 @@
     </div>
     <div class="navbar-collapse collapse" id="navbar">
       <ul class="nav navbar-nav">
-        <li uib-dropdown data-ng-repeat="menu in menus" data-ng-if="menuVisible[menu.name] && menu.name !== 'relatorios'">
+        <li uib-dropdown data-ng-repeat="menu in menus" data-ng-if="menuVisible[menu.name]">
           <a ui-sref="{{ menu.route }}" data-ng-if="!menu.children" permission permission-sref="menu.route">{{ menu.label | translate | uppercase }}</a>
           <a href uib-dropdown-toggle data-ng-if="menu.children">{{ menu.label | translate | uppercase }}<span class="caret"></span></a>
           <ul role="menu" uib-dropdown-menu data-ng-if="menu.children">

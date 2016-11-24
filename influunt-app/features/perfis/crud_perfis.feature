@@ -40,7 +40,7 @@ Funcionalidade: Realizar os cadastros
     Então perfil "Perfil Teste 2" deve ser excluído
 
   Cenário: Como administrador posso definir os acessos de perfis
-    Dado que o usuário esteja logado no sistema
+    Dado o usuário logue no sistema com usuário "mobilab" e perfil administrador
     E que o usuário acesse a página de listagem de perfis
     Então o sistema deverá redirecionar a listagem de perfis
     E o sistema deverá mostrar "4" na listagem

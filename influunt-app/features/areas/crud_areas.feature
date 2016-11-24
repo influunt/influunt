@@ -44,7 +44,7 @@ Funcionalidade: tela de cadastro de áreas
     E o usuário preencher o campo "Latitude" com "-55"
     E o usuário preencher o campo "Longitude" com "55"
     E clicar no botão de salvar
-    Então o sistema deverá possuir longitude e latidude
+    Então o sistema deverá possuir longitude e latidude com os valores "(-55.0; 55.0)"
 
   Cenário: Acesso à tela de detalhes de área
     Quando o usuário acessar a tela de listagem de áreas

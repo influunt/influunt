@@ -35,6 +35,10 @@ public class AgendamentoTrocaPlano {
 
     private boolean tempoDeEntradaCalculado = false;
 
+    private boolean imposicaoPlano = false;
+
+    private boolean saidaImposicao = false;
+
     public AgendamentoTrocaPlano() {
         super();
     }
@@ -124,5 +128,21 @@ public class AgendamentoTrocaPlano {
 
     public boolean isPlanoCoordenado() {
         return getPlano().isTempoFixoCoordenado();
+    }
+
+    public boolean isImposicaoPlano() {
+        return imposicaoPlano;
+    }
+
+    public void setImposicaoPlano(boolean imposicaoPlano) {
+        this.imposicaoPlano = imposicaoPlano;
+    }
+
+    public boolean isSaidaImposicao() {
+        return saidaImposicao;
+    }
+
+    public void setSaidaImposicao(boolean saidaImposicao) {
+        this.saidaImposicao = saidaImposicao;
     }
 }

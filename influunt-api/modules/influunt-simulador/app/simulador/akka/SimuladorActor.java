@@ -17,7 +17,6 @@ import org.joda.time.DateTime;
 import play.libs.Json;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -158,11 +157,12 @@ public class SimuladorActor extends UntypedActor {
                 anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
             });
         });
+
         ArrayNode trocas = root.putArray("trocas");
         trocasDePlanos.forEach(troca -> trocas.add(troca));
 
-        ArrayNode ala = root.putArray("alarmes");
-        alarmes.forEach(alarme -> ala.add(alarme));
+        ArrayNode alarmesNode = root.putArray("alarmes");
+        alarmes.forEach(alarme -> alarmesNode.add(alarme));
 
         return root.toString();
     }
@@ -193,7 +193,7 @@ public class SimuladorActor extends UntypedActor {
         alarme.add(timestamp.getMillis());
         alarme.add(eventoMotor.getTipoEvento().getCodigo());
         alarme.add(eventoMotor.getTipoEvento().toString());
-        alarme.add(eventoMotor.getTipoEvento().getMessage(Arrays.toString(eventoMotor.getParams())));
+        alarme.add(eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
         alarmes.add(alarme);
 
     }

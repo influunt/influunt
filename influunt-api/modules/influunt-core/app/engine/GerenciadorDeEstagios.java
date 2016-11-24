@@ -61,6 +61,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private Long tempoAbatimentoCoordenado = null;
 
+    private HashMap<DateTime, EventoMotor> eventosAgendados = new HashMap<>();
+
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -101,6 +103,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
         tempoDecorrido += 100L;
 
         monitoraTempoMaximoDePermanenciaDoEstagio();
+
+        if (eventosAgendados.containsKey(inicioExecucao.plus(tempoDecorrido))) {
+            motor.onEvento(eventosAgendados.get(inicioExecucao.plus(tempoDecorrido)));
+            eventosAgendados.remove(inicioExecucao.plus(tempoDecorrido));
+        }
     }
 
     private Long verificarETrocaCoordenado() {
@@ -141,7 +148,20 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private boolean temQueExecutarOAgendamento() {
         return this.agendamento.isImpostoPorFalha() ||
             this.agendamento.isSaidaDoModoManual() ||
-            this.agendamento.isPlanoCoordenado();
+            this.agendamento.isPlanoCoordenado() ||
+            this.agendamento.isImposicaoPlano() ||
+            this.agendamento.isSaidaImposicao();
+    }
+
+    private boolean naoPodeExecutarOAgendamento() {
+        return (this.plano.isManual() && !this.agendamento.isSaidaDoModoManual()) ||
+            this.plano.isImposto();
+    }
+
+    private boolean podeAgendar(AgendamentoTrocaPlano agendamento) {
+        return ((this.plano.isManual() && agendamento.isSaidaDoModoManual()) ||
+            (this.plano.isImposto() && agendamento.isSaidaImposicao()) ||
+            (!this.plano.isManual() && !this.plano.isImposto()));
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
@@ -192,10 +212,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void executaAgendamentoTrocaDePlano() {
-        if (this.plano.isManual() && !this.agendamento.isSaidaDoModoManual()) {
-            this.agendamento = null;
-            trocarPlano(new AgendamentoTrocaPlano(null, getEstagioPlanoAnterior().getPlano(), null));
-        } else {
+        if (!naoPodeExecutarOAgendamento()) {
             agendamento.setMomentoDaTroca(tempoDecorrido);
             callback.onTrocaDePlanoEfetiva(agendamento);
             reconhecePlano(this.agendamento.getPlano());
@@ -205,9 +222,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     public void trocarPlano(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
-        agendamentoTrocaPlano.setAnel(anel);
-        agendamento = agendamentoTrocaPlano;
+        if (podeAgendar(agendamentoTrocaPlano)) {
+            agendamentoTrocaPlano.setMomentoPedidoTroca(tempoDecorrido);
+            agendamentoTrocaPlano.setAnel(anel);
+            agendamento = agendamentoTrocaPlano;
+        }
     }
 
     private void reconhecePlano(Plano plano) {
@@ -242,7 +261,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
             }
 
-            geraIntervalos(0);
+            geraIntervalos(0, inicio);
 
             if (!inicio) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
@@ -300,10 +319,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private void geraIntervalos(Integer index) {
+        geraIntervalos(index, false);
+    }
+
+    private void geraIntervalos(Integer index, boolean inicio) {
         GeradorDeIntervalos gerador = GeradorDeIntervalos.getInstance(this.intervalos, this.plano,
             this.modoAnterior, this.listaEstagioPlanos,
             this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
-            index, tempoAbatimentoCoordenado);
+            index, tempoAbatimentoCoordenado, inicio);
 
         Pair<Integer, RangeMap<Long, IntervaloEstagio>> resultado = gerador.gerar(index);
 
@@ -380,6 +403,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return plano;
     }
 
+    public Plano getPlano(Integer posicao) {
+        return getPlano().getAnel().findPlanoByPosicao(posicao);
+    }
+
     public EstagioPlano getEstagioPlanoAtual() {
         return estagioPlanoAtual;
     }
@@ -424,6 +451,18 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return getPlano().getAnel().getDetectores().stream().filter(detector -> {
             return posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo());
         }).findFirst().orElse(null);
+    }
+
+    public void agendarEvento(DateTime timestamp, EventoMotor eventoMotor) {
+        eventosAgendados.put(timestamp, eventoMotor);
+    }
+
+    public void limparAgendamentos(TipoEvento liberarImposicao) {
+        eventosAgendados.entrySet().removeIf(entry -> liberarImposicao.equals(entry.getValue().getTipoEvento()));
+    }
+
+    public HashMap<DateTime, EventoMotor> getEventosAgendados() {
+        return eventosAgendados;
     }
 
     private class GetIntervaloGrupoSemaforico {

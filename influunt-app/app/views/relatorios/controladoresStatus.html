@@ -1,11 +1,11 @@
 <pesquisa-lateral
     data-ng-model="pesquisa.filtro"
-    campos="pesquisa.campos"
-    on-close="index()">
+    campos="pesquisa_status.campos"
+    on-close="gerarRelatorioControladoresPorStatus()">
 </pesquisa-lateral>
 
 <div id="form">
-  <div class="wrapper wrapper-content animated fadeInRight">
+  <div class="wrapper wrapper-content animated fadeInRight" data-ng-init="gerarRelatorioControladoresPorStatus()">
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -13,128 +13,25 @@
           <div class="ibox-content">
             <div class="col-sm-12">
               <div class="row">
-                <table class="footable table table-bordered table-hover" data-page-size="10" data-filter=#filter>
+                <table class="footable table table-bordered table-hover" data-page-size="1" data-filter=#filter>
                     <thead>
                       <tr>
-                        <th>
-                          {{ 'relatorios.cla' | translate }}
-                        </th>
-                        <th>
-                          {{ 'relatorios.nomeCruzamento' | translate }}
-                        </th>
+                        <th>{{ 'relatorios.cla' | translate }}</th>
+                        <th>{{ 'relatorios.nomeCruzamento' | translate }}</th>
                         <th data-toggle="true"class="footable-visible footable-first-column footable-sortable footable-sorted-desc">
                           {{ 'relatorios.estado' | translate }}<span class="footable-sort-indicator"></span>
                         </th>
-                        <th>
-                          {{ 'relatorios.plano' | translate }}
-                        </th>
-                        <th>
-                          {{ 'relatorios.modo' | translate }}
-                        </th>
+                        <th>{{ 'relatorios.plano' | translate }}</th>
+                        <th>{{ 'relatorios.modo' | translate }}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          3.000.004-2
-                        </td>
-                        <td>
-                          Rua Célia com R. Caio Graco
-                        </td>
-                        <td>
-                          {{ 'relatorios.emFalha' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.planoTemp' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.coordenado' | translate }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          3.000.004-2
-                        </td>
-                        <td>
-                          Rua Célia com R. Caio Graco
-                        </td>
-                        <td>
-                          {{ 'relatorios.sobImposicao' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.planoTemp' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.coordenado' | translate }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          3.000.004-2
-                        </td>
-                        <td>
-                          Rua Célia com R. Caio Graco
-                        </td>
-                        <td>
-                          {{ 'relatorios.opManual' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.planoTemp' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.atuado' | translate }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          3.000.004-2
-                        </td>
-                        <td>
-                          Rua Célia com R. Caio Graco
-                        </td>
-                        <td>
-                          {{ 'relatorios.sobVigente' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.planoTemp' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.isolado' | translate }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          3.000.004-2
-                        </td>
-                        <td>
-                          Rua Célia com R. Caio Graco
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-                          {{ 'relatorios.planoExclusivo' | translate }}
-                        </td>
-                        <td>
-
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          3.000.004-2
-                        </td>
-                        <td>
-                          Rua Célia com R. Caio Graco
-                        </td>
-                        <td>
-                          {{ 'relatorios.emFalha' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.planoTemp' | translate }}
-                        </td>
-                        <td>
-                          {{ 'relatorios.coordenado' | translate }}
-                        </td>
+                      <tr data-ng-repeat="status in resultado">
+                        <td>{{status.cla}}</td>
+                        <td>{{status.endereco}}</td>
+                        <td>{{status.estado}}</td>
+                        <td>{{status.plano}}</td>
+                        <td>{{status.modo}}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -151,8 +48,8 @@
                       uib-pagination
                       previous-text="Anterior"
                       next-text="Próximo"
-                      items-per-page="10"
-                      total-items="controladores.length"
+                      items-per-page="1"
+                      total-items="resultado.length"
                       ng-model="pagination.current"
                       max-size="pagination.maxSize"
                       boundary-link-numbers="true"
@@ -161,19 +58,6 @@
                 </div>
               </div>
             </div>
-            <form class="simple_form form-horizontal"
-                method="post"
-                name="formRelatorioAuditoria"
-                novalidate="novalidate"
-                data-ng-submit="gerarRelatorioControladoresPorStatus()">
-
-              <div class="form-group">
-                <label class="control-label col-sm-2 control-label">{{ 'relatorios.tipo' | translate }}</label>
-                <div class="col-sm-9">
-                  <input type="radio" name="tipoRelatorio" ichecks value="PDF" data-ng-model="relatorio.tipoRelatorio"> PDF
-                  <input type="radio" name="tipoRelatorio" ichecks value="CSV" data-ng-model="relatorio.tipoRelatorio"> CSV
-                </div>
-              </div>
 
               <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-2">
@@ -182,7 +66,7 @@
                 </div>
               </div>
 
-            </form>
+
           </div>
 
         </div>
