@@ -67,13 +67,13 @@ public class SimuladorAkka extends Simulador {
     }
 
     @Override
-    public void modoManualAtivo() {
-
+    public void modoManualAtivo(DateTime timestamp) {
+        simuladorActor.ativaModoManual(timestamp);
     }
 
     @Override
-    public void modoManualDesativado() {
-
+    public void modoManualDesativado(DateTime timestamp) {
+        simuladorActor.desativaModoManual(timestamp);
     }
 
 }

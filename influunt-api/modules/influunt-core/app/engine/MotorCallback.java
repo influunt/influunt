@@ -17,7 +17,7 @@ public interface MotorCallback extends GerenciadorDeEstagiosCallback {
 
     void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor);
 
-    void modoManualAtivo();
+    void modoManualAtivo(DateTime timestamp);
 
-    void modoManualDesativado();
+    void modoManualDesativado(DateTime timestamp);
 }

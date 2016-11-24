@@ -220,12 +220,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 modoAnterior = this.plano.getModoOperacao();
 
                 if (this.plano.isManual()) {
-                    motor.getCallback().modoManualDesativado();
+                    motor.getCallback().modoManualDesativado(inicioExecucao.plus(tempoDecorrido));
                 }
             }
 
             if (plano.isManual()) {
-                motor.getCallback().modoManualAtivo();
+                motor.getCallback().modoManualAtivo(inicioExecucao.plus(tempoDecorrido));
             }
 
             this.plano = plano;

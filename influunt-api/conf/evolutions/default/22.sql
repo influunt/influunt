@@ -1,8 +1,8 @@
 #-- !Ups
-ALTER TABLE controladores ADD COLUMN central_private_key varchar(65535);
-ALTER TABLE controladores ADD COLUMN central_public_key varchar(65535);
-ALTER TABLE controladores ADD COLUMN controlador_public_key varchar(65535);
-ALTER TABLE controladores ADD COLUMN controlador_private_key varchar(65535);
+ALTER TABLE controladores ADD COLUMN central_private_key TEXT;
+ALTER TABLE controladores ADD COLUMN central_public_key TEXT;
+ALTER TABLE controladores ADD COLUMN controlador_public_key TEXT;
+ALTER TABLE controladores ADD COLUMN controlador_private_key TEXT;
 
 # --- !Downs
 ALTER TABLE controladores DROP COLUMN central_private_key;

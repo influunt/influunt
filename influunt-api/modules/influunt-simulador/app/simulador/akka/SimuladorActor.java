@@ -1,6 +1,7 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
+import akka.protobuf.ExtensionRegistry;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -45,9 +46,13 @@ public class SimuladorActor extends UntypedActor {
 
     private List<ArrayNode> alarmes = new ArrayList<>();
 
+    private List<ArrayNode> modoManual;
+
     private String jsonTrocas;
 
     private StringBuffer bufferTrocaDePlanos = null;
+
+
 
 
     public SimuladorActor(String host, String port, ParametroSimulacao params) {
@@ -142,6 +147,7 @@ public class SimuladorActor extends UntypedActor {
             estagios.clear();
             trocasDePlanos.clear();
             alarmes.clear();
+            modoManual.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -163,6 +169,9 @@ public class SimuladorActor extends UntypedActor {
 
         ArrayNode ala = root.putArray("alarmes");
         alarmes.forEach(alarme -> ala.add(alarme));
+
+        ArrayNode manual = root.putArray("manual");
+        modoManual.forEach( modo -> manual.add(modo));
 
         return root.toString();
     }
@@ -196,5 +205,19 @@ public class SimuladorActor extends UntypedActor {
         alarme.add(eventoMotor.getTipoEvento().getMessage(Arrays.toString(eventoMotor.getParams())));
         alarmes.add(alarme);
 
+    }
+
+    public void ativaModoManual(DateTime timestamp) {
+        ArrayNode manual = Json.newArray();
+        manual.add("ATIVAR");
+        manual.add(timestamp.getMillis());
+        modoManual.add(manual);
+    }
+
+    public void desativaModoManual(DateTime timestamp) {
+        ArrayNode manual = Json.newArray();
+        manual.add("DESATIVAR");
+        manual.add(timestamp.getMillis());
+        modoManual.add(manual);
     }
 }
