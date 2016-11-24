@@ -11,6 +11,6 @@ public interface DeviceBridge {
 
     public void start(DeviceBridgeCallback callback);
 
-    public void modoManualAtivo(DateTime timestamp);
-    public void modoManualDesativo(DateTime timestamp);
+    public void modoManualAtivo();
+    public void modoManualDesativo();
 }
