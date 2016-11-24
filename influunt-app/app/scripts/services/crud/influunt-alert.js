@@ -22,12 +22,17 @@ angular.module('influuntApp')
       };
 
       var alertPopup = function(title, text) {
+        var deferred = $q.defer();
         SweetAlert.swal({
           type: 'warning',
           title: title,
           text: text,
           showConfirmButton: true
+        }, function() {
+          deferred.resolve(true);
         });
+
+        return deferred.promise;
       };
 
       /**

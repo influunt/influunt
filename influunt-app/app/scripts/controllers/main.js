@@ -10,15 +10,17 @@
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
                            'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
-                           'eventosDinamicos', 'audioNotifier',
+                           'eventosDinamicos', 'audioNotifier', 'Idle',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
                       Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
-                      eventosDinamicos, audioNotifier) {
+                      eventosDinamicos, audioNotifier, Idle) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
+      Idle.watch();
 
       var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, exibirAlerta,
-          statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher;
+          statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher,
+          logout;
 
       var LIMITE_ALARMES_FALHAS = 10;
       $scope.pagination = {
@@ -38,19 +40,7 @@ angular.module('influuntApp')
           )
           .then(function(confirmado) {
             if (confirmado) {
-              Restangular.one('logout', localStorage.token).remove()
-                .then(function() {
-                  localStorage.removeItem('token');
-                  $state.go('login');
-                })
-                .catch(function(err) {
-                  if (err.status === 401) {
-                    err.data.forEach(function(error) {
-                      influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
-                    });
-                  }
-                })
-                .finally(influuntBlockui.unblock);
+              logout();
             }
           });
       };
@@ -247,9 +237,44 @@ angular.module('influuntApp')
         return Restangular.one('controladores', idControlador).get({}, {'x-prevent-block-ui': true});
       };
 
+      logout = function() {
+        Restangular.one('logout', localStorage.token).remove()
+          .then(function() {
+            localStorage.removeItem('token');
+            $state.go('login');
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);
       };
+
+      $scope.$on('IdleStart', function() {
+        $('#modal-idle-warning').modal('show');
+      });
+
+      $scope.$on('IdleEnd', function() {
+        $('#modal-idle-warning').modal('hide');
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        $('#modal-idle-warning').modal('hide');
+        Idle.unwatch();
+        logout();
+
+        influuntAlert.alert(
+          $filter('translate')('geral.mensagens.sessaoExpirada.titulo'),
+          $filter('translate')('geral.mensagens.sessaoExpirada.mensagem')
+        );
+      });
 
       $http.get('/json/menus.json').then(function(res) {
         $scope.menus = res.data;

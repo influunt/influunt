@@ -572,7 +572,13 @@
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
       "sim": "Sim",
-      "ok": "Ok"
+      "ok": "Ok",
+      "sessaoExpirada": {
+        "tituloAlerta": "Atenção",
+        "alerta": "Atenção! Sua sessão deverá expirar em {TEMPO} segundos",
+        "titulo": "Sessão expirada",
+        "mensagem": "Sessão expirada por tempo de inatividade. Faça login novamente"
+      }
     },
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",
