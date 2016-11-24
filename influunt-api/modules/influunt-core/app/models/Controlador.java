@@ -602,7 +602,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public StatusVersao getStatusVersao() {
-        return getVersaoControlador().getStatusVersao();
+        if (getVersaoControlador() != null) {
+            return getVersaoControlador().getStatusVersao();
+        }
+
+        return null;
     }
 
     public void setStatusVersao(StatusVersao statusVersao) {
@@ -653,7 +657,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public StatusVersao getStatusControladorReal() {
-        StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
+        StatusVersao statusVersaoControlador = getStatusVersao();
         if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador)) {
             TabelaHorario tabela = getTabelaHoraria();
             if (tabela != null) {
@@ -679,7 +683,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        return getVersaoControlador().getStatusVersao();
+        return getStatusVersao();
     }
 
     public void deleteAnelSeNecessario() {
@@ -800,9 +804,17 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public boolean isConfigurado() {
-        getEndereco().getAlturaNumerica();
-        getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
-        getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
+        if (getEndereco() != null) {
+            getEndereco().getAlturaNumerica();
+        }
+
+        if (getAneis() != null) {
+            getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
+        }
+
+        if (getVersoesTabelasHorarias() != null) {
+            getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
+        }
 
         return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,

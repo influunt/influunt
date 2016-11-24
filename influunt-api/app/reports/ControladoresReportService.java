@@ -54,7 +54,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         paramsAux.putAll(params);
         paramsAux.remove("tipoRelatorio");
 
-        if(params.containsKey("filtrarPor_eq")) {
+        if (params.containsKey("filtrarPor_eq")) {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
                     paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
@@ -80,7 +80,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         aneis.forEach(anel -> {
-            if(aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString())) {
+            if (aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString())) {
                 TrocaDePlanoControlador troca = trocas.stream().filter(t -> t.getIdAnel().equals(anel.getId().toString())).findFirst().get();
                 final String estado;
                 final String descricaoPlano;
