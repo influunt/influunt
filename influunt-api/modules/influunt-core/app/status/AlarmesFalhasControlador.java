@@ -86,7 +86,6 @@ public class AlarmesFalhasControlador {
             predicates.add("{ $limit: ".concat(String.valueOf(limit)).concat("}"));
         }
 
-
         Aggregate.ResultsIterator<Map> results = alarmesFalhas().aggregate(String.join(",", predicates)).as(Map.class);
 
         for (Map m : results) {
