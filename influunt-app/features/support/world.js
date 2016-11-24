@@ -97,10 +97,14 @@ var World = function () {
   this.waitForByXpathInverse = function(xpath, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
-      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
-        return !isElementPresent;
+      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(element) {
+        return self.elementShouldNotPresent(element);
       });
     }, waitTimeout);
+  };
+
+  this.elementShouldNotPresent = function(isElementPresent) {
+    return !isElementPresent;
   };
 
   this.waitForAJAX = function(timeout) {
@@ -376,6 +380,12 @@ var World = function () {
 
   this.scrollToDown = function() {
     return driver.executeScript('window.scrollTo(0, 1000);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
+  this.scrollToDownModal = function() {
+    return driver.executeScript('$("#myModal").scrollTop(10000);').then(function() {
       return driver.sleep(500);
     });
   };
