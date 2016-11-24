@@ -1,7 +1,6 @@
 package engine.intervalos;
 
 import com.google.common.collect.RangeMap;
-import engine.GerenciadorDeEstagiosHelper;
 import engine.IntervaloEstagio;
 import helpers.GerenciadorEstagiosHelper;
 import models.EstagioPlano;
