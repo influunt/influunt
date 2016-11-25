@@ -102,17 +102,11 @@ public class SimuladorActor extends UntypedActor {
 
     private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
         simulador.alternarModoManual(disparo, ativar);
-        trocasDePlanos.clear();
-        alarmes.clear();
-        estagios.clear();
         proximaPagina(0);
     }
 
     private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
-        trocasDePlanos.clear();
-        alarmes.clear();
-        estagios.clear();
         proximaPagina(0);
     }
 

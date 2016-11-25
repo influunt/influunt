@@ -845,6 +845,7 @@ var influunt;
         }
 
         function processaManual(manuais){
+          modoManual = [];
           manuais.forEach(function(manual){
             var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
             if(modoManual.length == 0){

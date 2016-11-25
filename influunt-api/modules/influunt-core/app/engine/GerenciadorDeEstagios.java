@@ -174,7 +174,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private void verificaETrocaEstagio(IntervaloEstagio intervalo) {
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
-        if (!estagioPlano.equals(estagioPlanoAtual) || planoComEstagioUnico()) {
+        if (!estagioPlano.equals(estagioPlanoAtual) || planoComEstagioUnico() || trocaPlanoAbrupt(estagioPlano, estagioPlanoAtual)) {
             if (intervaloGrupoSemaforicoAtual != null) {
                 IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
                 callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
@@ -187,6 +187,15 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagioPlanoAnterior = estagioPlanoAtual;
             estagioPlanoAtual = estagioPlano;
         }
+    }
+
+    private boolean trocaPlanoAbrupt(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAtual) {
+        Plano plano = estagioPlanoAtual.getPlano();
+        Plano novoPlano = estagioPlano.getPlano();
+        if (novoPlano.equals(plano) && novoPlano.getModoOperacao().equals(plano.getModoOperacao())) {
+            return false;
+        }
+        return true;
     }
 
     private boolean monitoraTempoMaximoDePermanenciaDoEstagio() {
@@ -239,7 +248,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (this.plano != null) {
                 modoAnterior = this.plano.getModoOperacao();
 
-                if (this.plano.isManual()) {
+                if (this.plano.isManual() && !plano.isManual()) {
                     motor.desativaModoManual();
                 }
             }

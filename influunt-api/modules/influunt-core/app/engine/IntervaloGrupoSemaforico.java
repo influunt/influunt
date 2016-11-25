@@ -357,6 +357,9 @@ public class IntervaloGrupoSemaforico {
                         parseEventoTrocaPlano(eventoMotor, entry, eventos.addArray());
                         break;
                     case INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL:
+                        parseEventoGenerico(eventoMotor, entry, eventos.addArray());
+                        break;
+                    case RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL:
                         break;
                     default:
                         parseEventoGenerico(eventoMotor, entry, eventos.addArray());
@@ -388,15 +391,6 @@ public class IntervaloGrupoSemaforico {
         fields.add(entry.getKey());
         fields.add(eventoMotor.getTipoEvento().toString());
         fields.add(((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]).getFirst());
-    }
-
-    private void parseEventoInsercaoPlug(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
-//        fields.add(entry.getKey());
-//        fields.add(eventoMotor.getTipoEvento().toString());
-//        fields.add(eventoMotor.getParams()[0].toString());
-//        fields.add(eventoMotor.getParams()[1].toString());
-//        fields.add(((DateTime)eventoMotor.getParams()[2]).getMillis());
-//        fields.add(((DateTime)eventoMotor.getParams()[3]).getMillis());
     }
 
     public IntervaloEstagio getEntreverde() {
