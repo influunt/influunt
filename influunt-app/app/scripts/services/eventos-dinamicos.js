@@ -9,14 +9,10 @@
  */
 angular.module('influuntApp')
   .constant('eventosDinamicos', {
-    STATUS_CONEXAO_CONTROLADORES: 'status_conexao_controladores',
-    IMPOSICAO_PLANO_CONTROLADOR: 'imposicao_plano_controlador',
-    MODOS_CONTROLADORES: 'modos_controladores',
-
-    STATUS_CONTROLADORES: 'central/mudanca_status_controlador',
-    ALARMES_FALHAS: 'central/alarmes_falhas',
-    TROCA_PLANO: 'central/troca_plano',
-    CONTROLADOR_ONLINE: 'controladores/conn/online',
-    CONTROLADOR_OFFLINE: 'controladores/conn/offline',
+    STATUS_CONTROLADORES: 'app/mudanca_status_controlador',
+    ALARMES_FALHAS: 'app/alarmes_falhas',
+    TROCA_PLANO: 'app/troca_plano',
+    CONTROLADOR_ONLINE: 'app/conn/online',
+    CONTROLADOR_OFFLINE: 'app/conn/offline',
     STATUS_TRANSACAO: 'app/transacoes/:transacaoId/status'
   });

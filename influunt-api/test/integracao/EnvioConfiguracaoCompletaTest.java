@@ -21,16 +21,16 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
 
     @Test
     public void configuracaoValida() {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
     @Test
     public void envioConfiguracaoCompletaOk() {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
         enviarConfiguracaoCompleta(controlador);
@@ -39,8 +39,8 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
 
     @Test
     public void envioConfiguracaoCompletaErro() throws InterruptedException, ExecutionException, TimeoutException {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().orElse(null);

@@ -13,6 +13,7 @@ angular.module('influuntApp')
     var isConnected = false;
     var client = new Paho.MQTT.Client(MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-'+UUID.generate());
     var subscribers = {};
+    var timeoutId;
 
     client.onConnectionLost = function(res) {
       isConnected = false;
@@ -46,13 +47,16 @@ angular.module('influuntApp')
       if (isConnected) {
         deferred.resolve(true);
       } else {
-        client.connect({
-          onSuccess: function() {
-            console.log('======> connected');
-            isConnected = true;
-            deferred.resolve(true);
-          }
-        });
+        $timeout.cancel(timeoutId);
+        timeoutId = $timeout(function() {
+          client.connect({
+            onSuccess: function() {
+              console.log('======> connected');
+              isConnected = true;
+              deferred.resolve(true);
+            }
+          });
+        }, 200);
       }
 
       return deferred.promise;

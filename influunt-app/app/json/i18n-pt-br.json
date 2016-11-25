@@ -838,6 +838,8 @@
   "INATIVO": "Inativo",
   "INOPERANTE": "Inoperante",
   "OPERANDO_COM_FALHAS": "Operando com falhas",
+  "ONLINE": "Online",
+  "OFFLINE": "Offline",
   "relatorios": {
     "auditorias": "Auditorias",
     "controladoresStatus": "Controladores por Status",

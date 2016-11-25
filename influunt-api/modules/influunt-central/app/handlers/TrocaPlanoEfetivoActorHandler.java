@@ -6,9 +6,11 @@ import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
 import play.libs.Json;
+import protocol.DestinoApp;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 import status.TrocaDePlanoControlador;
+import utils.AtoresCentral;
 
 import java.util.UUID;
 
@@ -37,6 +39,12 @@ public class TrocaPlanoEfetivoActorHandler extends UntypedActor {
                     envelope.getIdControlador(),
                     idAnel,
                     jsonConteudo);
+
+
+                // enviar msg APP troca de plano.
+                envelope.setDestino(DestinoApp.trocaPlano());
+                envelope.setCriptografado(false);
+                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }
     }

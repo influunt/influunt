@@ -45,7 +45,6 @@ angular.module('influuntApp')
             if (transactionId) {
               scope.possuiTransaction = true;
               var topic = eventosDinamicos.STATUS_TRANSACAO.replace(':transacaoId', transactionId);
-              console.log('vai se conectar ao paho...')
               pahoProvider.connect()
                 .then(function() {
                   console.log('conectado! registrando listener no topic ' + topic)

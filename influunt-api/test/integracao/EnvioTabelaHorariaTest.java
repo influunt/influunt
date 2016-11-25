@@ -21,8 +21,8 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     @Test
     public void configuracaoValida() {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }

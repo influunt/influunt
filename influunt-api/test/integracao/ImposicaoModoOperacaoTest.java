@@ -13,8 +13,8 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
 
     @Test
     public void imporModoOK() {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
         imporModoOperacao(1, 30);

@@ -96,7 +96,7 @@ angular.module('influuntApp')
         var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
         controladores.forEach(function(controlador) {
           controlador.status = $scope.statusObj.status[controlador.id];
-          controlador.online = $scope.statusObj.onlines[controlador.id];
+          controlador.online = !!$scope.statusObj.onlines[controlador.id];
 
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
           $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
@@ -309,7 +309,8 @@ angular.module('influuntApp')
           });
       };
 
-      onlineOfflineWatcher = function(payload) {
+      onlineOfflineWatcher = function(payload, topic) {
+        console.log(topic, payload)
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
@@ -319,12 +320,15 @@ angular.module('influuntApp')
         }
 
         var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
+        var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
+        $scope.statusObj.onlines[controlador.id] = isOnline;
+        $scope.statusObj.status[controlador.id] = status;
         controlador.online = isOnline;
-        controlador.status = isOnline ? ONLINE : OFFLINE;
+        controlador.status = status;
 
         controlador.aneis.forEach(function(anel) {
           anel.online = isOnline;
-          anel.status = isOnline ? ONLINE : OFFLINE;
+          anel.status = isOnline ? (anel.status || ONLINE) : OFFLINE;
         });
 
         var msg = isOnline ?
@@ -336,7 +340,8 @@ angular.module('influuntApp')
         return filtraDados();
       };
 
-      statusControladoresWatcher = function(payload) {
+      statusControladoresWatcher = function(payload, topic) {
+        console.log(topic, payload)
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
@@ -346,6 +351,7 @@ angular.module('influuntApp')
         }
 
         controlador.status = mensagem.conteudo.status;
+        $scope.statusObj.status[controlador.id] = mensagem.conteudo.status;
 
         var msg = $filter('translate')(
           'controladores.mapaControladores.alertas.mudancaStatusControlador',
@@ -355,7 +361,8 @@ angular.module('influuntApp')
         return filtraDados();
       };
 
-      trocaPlanoWatcher = function(payload) {
+      trocaPlanoWatcher = function(payload, topic) {
+        console.log(topic, payload)
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
@@ -382,7 +389,8 @@ angular.module('influuntApp')
         return filtraDados();
       };
 
-      alarmesEFalhasWatcher = function(payload) {
+      alarmesEFalhasWatcher = function(payload, topic) {
+        console.log(topic, payload)
         var mensagem = JSON.parse(payload);
         $scope.statusObj.erros = $scope.statusObj.erros || {};
 
