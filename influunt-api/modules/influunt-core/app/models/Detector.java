@@ -279,6 +279,6 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        return String.format("{0}{1}", getTipo().toString().charAt(0), getPosicao());
+        return "D".concat(Character.toString(getTipo().toString().charAt(0))).concat(getPosicao().toString());
     }
 }

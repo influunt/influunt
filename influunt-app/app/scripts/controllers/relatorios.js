@@ -61,6 +61,14 @@ angular.module('influuntApp')
         return generateReport('relatorio_controladores_entreverdes', 'controladores_entreverdes', $scope.relatorio);
       };
 
+      $scope.gg = function() {
+        // Optional callback
+        wkhtmltopdf('http://google.com/', { pageSize: 'letter' }, function (err, stream) {
+          var blob = new Blob([stream], {type: 'application/pdf'});
+          saveAs(blob, 'resumo.pdf');
+        });
+      };
+
       generateReport = function(reportName, url, relatorio) {
         return Restangular.all('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET(url, relatorio)
           .then(function(res) {

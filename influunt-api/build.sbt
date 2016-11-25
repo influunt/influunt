@@ -62,6 +62,7 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "19.0",
   "org.jfree" % "jfreesvg" % "3.1",
   "net.sf.jasperreports" % "jasperreports" % "6.3.1",
+  "com.github.jhonnymertz" % "java-wkhtmltopdf-wrapper" % "1.0.1-RELEASE",
   "org.awaitility" % "awaitility-scala" % "2.0.0")
 
 jacoco.settings
@@ -78,6 +79,7 @@ resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https
 resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
 resolvers ++= Seq("Jasper" at "http://jasperreports.sourceforge.net/maven2/")
 resolvers ++= Seq("Jasper Third Party" at "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/")
+resolvers ++= Seq("Java PDF" at "https://jitpack.io")
 
 mappings in Universal <++= (packageBin in Compile) map { jar =>
   val scriptsDir = new java.io.File("app/templates/")
