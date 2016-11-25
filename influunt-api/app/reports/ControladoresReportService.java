@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import models.Anel;
 import models.Controlador;
+import models.Endereco;
 import models.StatusDevice;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import status.AlarmesFalhasControlador;
 import status.TrocaDePlanoControlador;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntUtils;
@@ -29,17 +31,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
     @Inject
     private BaseJasperReport baseJasperReport;
-
-    public InputStream generateControladoresFalhasReport(Map<String, String[]> params, ReportType reportType) {
-        switch (reportType) {
-            case PDF:
-                return generateControladoresFalhasPDFReport(params);
-            case CSV:
-                return generateControladoresFalhasCSVReport();
-            default:
-                return generateControladoresFalhasCSVReport();
-        }
-    }
 
     @Override
     public InputStream generateReport(Map<String, String[]> params, List<Controlador> lista, ReportType reportType) {
@@ -139,25 +130,67 @@ public class ControladoresReportService extends ReportService<Controlador> {
         return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
     }
 
+    public ObjectNode getControladoresFalhasReportData(Map<String, String[]> params) {
+        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);;
+        List<String> aneisIds = new ArrayList<>();
 
-    /**
-     * Retorna um PDF dos {@link models.Controlador} por Falhas
-     *
-     * @return {@link InputStream} do pdf
-     */
-    private InputStream generateControladoresFalhasPDFReport(Map<String, String[]> queryStringParams) {
-        Map<String, Object> params = controladoresFalhasReportParams(queryStringParams);
-        return baseJasperReport.generateReport("controladoresFalhas", params, getControladoresPorFalhas());
+        Map<String, String[]> paramsAux = new HashMap<>();
+        paramsAux.putAll(params);
+        paramsAux.remove("tipoRelatorio");
+
+        if(params.containsKey("filtrarPor_eq")) {
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                if (params.containsKey("subareaAgrupamento")) {
+                    paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
+                }
+            } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                if (params.containsKey("subareaAgrupamento")) {
+                    paramsAux.put("aneis.agrupamentos.nome", params.get("subareaAgrupamento"));
+                }
+            }
+
+            paramsAux.remove("subareaAgrupamento");
+            paramsAux.remove("filtrarPor_eq");
+        }
+        List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
+        controladores.stream().forEach(c -> c.getAneis().forEach(a -> aneisIds.add(a.getId().toString())));
+
+        ArrayNode itens = JsonNodeFactory.instance.arrayNode();
+        falhas.forEach(falha -> {
+            String idControlador = falha.getIdControlador();
+            Controlador controlador;
+            Anel anel = null;
+            controlador = controladores.stream().filter(c -> c.getId().toString().equals(idControlador)).findFirst().orElse(null);
+            if(controlador != null) {
+                if (falha.getIdAnel() != null && StringUtils.isNotEmpty(falha.getIdAnel())) {
+                    String idAnel = falha.getIdAnel();
+                    anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
+                }
+
+                Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
+                itens.addObject()
+                    .put("clc", controlador.getCLC())
+                    .put("cla", anel != null ? anel.getCLA() : "TODOS OS ANÉIS APRESENTAM FALHAS")
+                    .putPOJO("endereco", endereco.nomeEndereco())
+                    .put("falha", anel != null ? "Falha no Anel" : "Falha no Controlador")
+                    .put("tipo", falha.getConteudo().get("tipoEvento").get("descricao").asText());
+            }
+        });
+
+        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+        retorno.putArray("data").addAll(itens);
+
+        return retorno;
     }
 
     /**
      * Retorna um CSV com dados dos {@link models.Controlador} por Falhas
-     * <p>
-     * FORMATO: STATUS | TOTAL
+     *
+     * FORMATO: CLA | ENDERECO | FALHA | TIPO FALHA
      *
      * @return {@link InputStream} do csv
      */
-    private InputStream generateControladoresFalhasCSVReport() {
+    public InputStream generateControladoresFalhasCSVReport(Map<String, String[]> params) {
         StringBuilder buffer = new StringBuilder();
 
         buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
@@ -166,18 +199,18 @@ public class ControladoresReportService extends ReportService<Controlador> {
         buffer.append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR);
 
         // Write the CSV file header
-        buffer.append("Status").append(COMMA_DELIMITER)
-            .append("Total").append(NEW_LINE_SEPARATOR);
+        buffer.append("CLA").append(COMMA_DELIMITER).append("ENDEREÇO").append(COMMA_DELIMITER)
+            .append("FALHA").append(COMMA_DELIMITER).append("TIPO FALHA").append(NEW_LINE_SEPARATOR);
 
-        for (ControladorFalhasVO controladorFalhasVO : getControladoresPorFalhas()) {
-            buffer.append(StringUtils.defaultIfBlank(controladorFalhasVO.getNomeFabricante(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
-            for (FalhaPorFabricanteVO falha : controladorFalhasVO.getFalhas()) {
-                buffer.append(StringUtils.defaultIfBlank(falha.getFalha(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                    .append(StringUtils.defaultIfBlank(falha.getTotal().toString(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
-            }
 
-        }
-
+        ObjectNode retorno = getControladoresFalhasReportData(params);
+        retorno.get("data").forEach(jsonNode -> {
+            buffer.append(StringUtils.defaultIfBlank(jsonNode.get("clc").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("cla").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("endereco").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("falha").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("tipo").asText(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
+        });
 
         return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
     }

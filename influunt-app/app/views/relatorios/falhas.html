@@ -1,0 +1,50 @@
+<pesquisa-lateral
+    data-ng-model="pesquisa.filtro"
+    campos="pesquisa.campos"
+    on-close="index()">
+</pesquisa-lateral>
+
+
+<div class="wrapper wrapper-content animated fadeInRight" data-ng-init="index()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-content">
+          <!-- botão de novo fabricante -->
+          <div class="pull-left actions">
+            <a class="btn btn-xs btn-primary" tooltips tooltip-template="Exportar CSV" data-ng-click="gerarRelatorioControladoresPorFalhasCSV()">
+              {{ 'relatorios.exportarCSV' | translate }}
+            </a>
+          </div>
+
+          <table datatable="ng" dt-options="datatables.options" dt-instance="datatables.instance" class="table table-bordered table-hover">
+            <div class="table">
+              <thead>
+                <tr>
+                  <th>{{ 'relatorios.clc' | translate }}</th>
+                  <th>{{ 'relatorios.cla' | translate }}</th>
+                  <th>{{ 'relatorios.nomeCruzamento' | translate }}</th>
+                  <th>{{ 'relatorios.falha' | translate }}</th>
+                  <th>{{ 'relatorios.tipoFalha' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="falha in lista">
+                  <td>{{falha.clc}}</td>
+                  <td>{{falha.cla}}</td>
+                  <td>{{falha.endereco}}</td>
+                  <td>{{falha.falha}}</td>
+                  <td>{{falha.tipo}}</td>
+                </tr>
+              </tbody>
+            </div>
+          </table>
+          <ng-include src="'views/common/footer-pagination.html'"></ng-include>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

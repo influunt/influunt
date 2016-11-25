@@ -58,15 +58,13 @@ public class RelatoriosController extends Controller {
     }
 
     public CompletionStage<Result> gerarRelatorioControladoresFalhas() {
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
 
-        Map<String, String[]> params = new HashMap<>();
-        params.putAll(request().queryString());
-        if (params.containsKey("tipoRelatorio")) {
-            params.remove("tipoRelatorio");
+        if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
+            return CompletableFuture.completedFuture(ok(controladoresReportService.getControladoresFalhasReportData(request().queryString())));
+        } else {
+            InputStream input = controladoresReportService.generateControladoresFalhasCSVReport(request().queryString());
+            return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
         }
-        InputStream input = controladoresReportService.generateControladoresFalhasReport(request().queryString(), reportType);
-        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
     }
 
     public CompletionStage<Result> gerarRelatorioControladoresEntreverdes() {
