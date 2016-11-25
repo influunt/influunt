@@ -7,12 +7,12 @@ Funcionalidade: tela de cadastro de modelos de controladores
     E clicar no botão de Novo Modelo
     Então o sistema deverá redirecionar para o formulário de cadastro de novos modelos
 
-  Cenário: Verificar valicações em branco
+  Cenário: Verificar validações em branco
     Dado clicar no botão de salvar
     Então o sistema deverá indicar erro no campo "descricao"
     E o sistema deverá indicar erro no campo "fabricante"
 
-  Cenário: Verificar valicações de valores negativo para os limetes
+  Cenário: Verificar validações de valores negativos para os limites
     Dado o usuário preencher o campo "Limite Estágios" com "-1"
     E o usuário preencher o campo "Limite Grupos Semafóricos" com "-1"
     E o usuário preencher o campo "Limite Aneies" com "-1"
@@ -82,7 +82,7 @@ Funcionalidade: tela de cadastro de modelos de controladores
     Quando o usuário confirmar
     Então o item deverá ser excluido
 
-  Cenário: Deve Salvar um modelo padrão quando usuário não passar os limetes
+  Cenário: Deve salvar um modelo padrão quando não houver limites inseridos
     Dado o usuário acessar a tela de cadastro de novos modelos
     E o usuário preencher o campo "Descrição" com "Modelo 1"
     E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"

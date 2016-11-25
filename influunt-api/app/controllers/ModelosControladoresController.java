@@ -33,7 +33,7 @@ public class ModelosControladoresController extends Controller {
         }
         ModeloControlador modeloControlador = Json.fromJson(json, ModeloControlador.class);
         List<Erro> erros = new InfluuntValidator<ModeloControlador>().validate(modeloControlador, javax.validation.groups.Default.class);
-        if (erros.size() > 0) {
+        if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
 
