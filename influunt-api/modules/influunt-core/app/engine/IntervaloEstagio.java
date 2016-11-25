@@ -9,6 +9,8 @@ import java.util.List;
 
 public class IntervaloEstagio {
 
+    private final Long diffEntreVerde;
+
     private final boolean inicio;
 
     private long duracao;
@@ -27,14 +29,27 @@ public class IntervaloEstagio {
         this.estagioPlano = estagioPlano;
         this.estagioPlanoAnterior = estagioPlanoAnterior;
         this.inicio = false;
+        this.diffEntreVerde = 0L;
     }
 
-    public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior, boolean inicio) {
+    public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano,
+                            EstagioPlano estagioPlanoAnterior, boolean inicio) {
         this.duracao = duracao;
         this.entreverde = entreverde;
         this.estagioPlano = estagioPlano;
         this.estagioPlanoAnterior = estagioPlanoAnterior;
         this.inicio = inicio;
+        this.diffEntreVerde = 0L;
+    }
+
+    public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano,
+                            EstagioPlano estagioPlanoAnterior, long diffEntreVerde, boolean inicio) {
+        this.duracao = duracao;
+        this.entreverde = entreverde;
+        this.estagioPlano = estagioPlano;
+        this.estagioPlanoAnterior = estagioPlanoAnterior;
+        this.inicio = inicio;
+        this.diffEntreVerde = diffEntreVerde;
     }
 
     public long getDuracao() {
@@ -75,6 +90,10 @@ public class IntervaloEstagio {
 
     public boolean isInicio() {
         return inicio;
+    }
+
+    public Long getDiffEntreVerde() {
+        return diffEntreVerde;
     }
 
     @Override
