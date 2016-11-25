@@ -38,7 +38,7 @@ public class MonitoramentoController extends Controller {
 
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        List<Map> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas);
         HashMap<String, ModoOperacaoPlano> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto();
 
@@ -76,18 +76,18 @@ public class MonitoramentoController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }
 
-    private ArrayNode errosToJson(List<Map> erros) {
-        List<String> ids =  erros.stream().map(erro -> erro.get("idControlador").toString()).distinct().collect(Collectors.toList());
+    private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {
+        List<String> ids =  erros.stream().map(erro -> erro.getIdControlador()).distinct().collect(Collectors.toList());
         List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("aneis.endereco").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
 
         erros.forEach(erro -> {
-            String idControlador = erro.get("idControlador").toString();
+            String idControlador = erro.getIdControlador();
             Controlador controlador;
             Anel anel = null;
             controlador = controladores.stream().filter(c -> Objects.equals(String.valueOf(c.getId()), idControlador)).findFirst().orElse(null);
-            if (erro.get("idAnel") != null) {
-                String idAnel = erro.get("idAnel").toString();
+            if (erro.getIdAnel() != null) {
+                String idAnel = erro.getIdAnel();
                 anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
             }
 
@@ -98,8 +98,8 @@ public class MonitoramentoController extends Controller {
                 .put("clc", controlador.getCLC())
                 .put("cla", anel != null ? anel.getCLA() : null)
                 .putPOJO("endereco", Json.toJson(endereco))
-                .put("data", Long.parseLong(erro.get("timestamp").toString()))
-                .put("motivoFalha", ((HashMap)erro.get("conteudo")).get("descricaoEvento").toString());
+                .put("data", Long.parseLong(erro.getTimestamp().toString()))
+                .put("motivoFalha", erro.getConteudo().get("descricaoEvento").toString());
         });
 
         return itens;

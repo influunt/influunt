@@ -1038,8 +1038,8 @@ angular
 
         .state('app.relatorios_controladores_falhas', {
           url: '/relatorios/controladores_falhas',
-          templateUrl: 'views/relatorios/controladoresFalhas.html',
-          controller: 'RelatoriosCtrl',
+          templateUrl: 'views/relatorios/falhas.html',
+          controller: 'RelatoriosFalhasCtrl',
           controllerAs: 'relatorios',
           data: {
             title: 'relatorios.controladoresFalhas',

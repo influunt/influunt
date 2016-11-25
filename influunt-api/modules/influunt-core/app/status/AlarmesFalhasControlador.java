@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
+import play.Logger;
 import play.api.Play;
 import play.libs.Json;
 import uk.co.panaxiom.playjongo.PlayJongo;
@@ -41,7 +42,7 @@ public class AlarmesFalhasControlador {
         this.timestamp = (long) map.get("timestamp");
         this.conteudo = Json.toJson(map.get("conteudo"));
 
-        if (map.containsKey("idAnel")) {
+        if (map.containsKey("idAnel") && map.get("idAnel") != null) {
             this.idAnel = map.get("idAnel").toString();
         }
     }
@@ -75,8 +76,8 @@ public class AlarmesFalhasControlador {
         return hash;
     }
 
-    public static List<Map> ultimosAlarmesFalhasControladores(Integer limit) {
-        ArrayList<Map> list = new ArrayList<>();
+    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit) {
+        ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
 
         ArrayList<String> predicates = new ArrayList<>();
         predicates.add("{ $match: { recuperado: {$exists: false} }  }");
@@ -89,7 +90,7 @@ public class AlarmesFalhasControlador {
         Aggregate.ResultsIterator<Map> results = alarmesFalhas().aggregate(String.join(",", predicates)).as(Map.class);
 
         for (Map m : results) {
-            list.add(m);
+            list.add(new AlarmesFalhasControlador(m));
         }
 
         return list;
@@ -167,5 +168,21 @@ public class AlarmesFalhasControlador {
 
     public TipoEvento getTipoEvento() {
         return TipoEvento.valueOf(conteudo.get("tipoEvento").get("tipo").asText());
+    }
+
+    public String getIdControlador() {
+        return idControlador;
+    }
+
+    public String getIdAnel() {
+        return idAnel;
+    }
+
+    public JsonNode getConteudo() {
+        return conteudo;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 }

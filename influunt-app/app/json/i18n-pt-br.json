@@ -844,9 +844,11 @@
     "exportarCSV": "CSV",
     "gerar": "Gerar",
     "inicio": "Início",
+    "falha": "Falha",
     "filtarPor": "Filtrar Por",
     "fim": "Fim",
     "titulo": "Relatórios",
+    "clc": "CLC",
     "cla": "CLA",
     "estado": "Estado",
     "nomeCruzamento": "Nome do cruzamento",
@@ -863,6 +865,7 @@
     "planoExclusivo": "Plano exclusivo",
     "atuado": "Atuado",
     "tipo": "Tipo Relatório",
+    "tipoFalha": "Tipo Falha",
     "subareaAgrupamento": "Subarea / Agrupamento"
   },
   "diff": {
