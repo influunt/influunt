@@ -89,8 +89,6 @@ public abstract class Simulador implements MotorCallback {
             tempoSimulacao += 100;
             inicioSimulacao = inicioSimulacao.plus(100);
         }
-
-
     }
 
     private void processaEventos(DateTime inicio) throws Exception {

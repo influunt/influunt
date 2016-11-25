@@ -1,5 +1,6 @@
 package engine;
 
+import engine.eventos.GerenciadorDeEventos;
 import models.Anel;
 import models.Controlador;
 import models.Evento;
@@ -33,7 +34,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Evento eventoAtual;
 
-    private int step = 0;
+    private boolean entrarEmModoManualAbrupt = false;
+
+    private boolean emModoManual = false;
 
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
 
@@ -88,7 +91,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         monitor.tick(instante, planos);
         estagios.forEach(e -> e.tick());
         instante = instante.plus(100);
-        step++;
         monitor.endTick();
     }
 
@@ -164,5 +166,36 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public MotorCallback getCallback() {
         return callback;
+    }
+
+    public void desativaModoManual() {
+        if (estagios.stream().allMatch(gerenciador -> !gerenciador.getPlano().isManual())) {
+            callback.modoManualDesativado(instante);
+            emModoManual = false;
+        }
+        entrarEmModoManualAbrupt = false;
+    }
+
+    public void ativaModoManual() {
+        entrarEmModoManualAbrupt = true;
+        List<GerenciadorDeEstagios> estagiosComManual = estagios.stream()
+            .filter(gerenciador -> gerenciador.getPlano().getAnel().isAceitaModoManual())
+            .collect(Collectors.toList());
+        if (estagiosComManual.stream().allMatch(gerenciador -> gerenciador.getPlano().isManual())) {
+            callback.modoManualAtivo(instante);
+            emModoManual = true;
+        } else {
+            estagiosComManual.stream()
+                .filter(gerenciador -> !gerenciador.getPlano().isManual())
+                .forEach(gerenciador -> GerenciadorDeEventos.entrarEmModoManual(gerenciador));
+        }
+    }
+
+    public boolean isEntrarEmModoManualAbrupt() {
+        return entrarEmModoManualAbrupt;
+    }
+
+    public boolean isEmModoManual() {
+        return emModoManual;
     }
 }

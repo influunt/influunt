@@ -182,7 +182,6 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel = getAnel(3);
         anel.setDescricao("Av. Paulista com Rua da Consolação");
         anel.setPosicao(3);
-        anel.setAceitaModoManual(false);
         anel.setAtivo(true);
         List<Estagio> estagios3 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3), new Estagio(4), new Estagio(5));
         estagios3.forEach(estagio -> {

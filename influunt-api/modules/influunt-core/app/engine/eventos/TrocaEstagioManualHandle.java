@@ -6,6 +6,7 @@ import engine.GerenciadorDeEstagios;
 import engine.IntervaloEstagio;
 import models.Anel;
 import models.EstagioPlano;
+import models.Plano;
 
 /**
  * Created by leonardo on 11/7/16.
@@ -26,8 +27,11 @@ public class TrocaEstagioManualHandle extends GerenciadorDeEventos {
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
-        Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
-        if (anel.isAceitaModoManual() && !estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
+        final Plano plano = gerenciadorDeEstagios.getPlano();
+        final Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
+
+        if (plano.isManual() && gerenciadorDeEstagios.getMotor().isEmModoManual() &&
+            anel.isAceitaModoManual() && !estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
             reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
         }
     }

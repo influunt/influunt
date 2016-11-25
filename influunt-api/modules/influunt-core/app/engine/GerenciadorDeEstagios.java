@@ -150,7 +150,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.agendamento.isSaidaDoModoManual() ||
             this.agendamento.isPlanoCoordenado() ||
             this.agendamento.isImposicaoPlano() ||
-            this.agendamento.isSaidaImposicao();
+            this.agendamento.isSaidaImposicao() ||
+            (this.agendamento.getPlano().isManual() && motor.isEntrarEmModoManualAbrupt());
     }
 
     private boolean naoPodeExecutarOAgendamento() {
@@ -239,15 +240,15 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 modoAnterior = this.plano.getModoOperacao();
 
                 if (this.plano.isManual()) {
-                    motor.getCallback().modoManualDesativado(inicioExecucao.plus(tempoDecorrido));
+                    motor.desativaModoManual();
                 }
             }
 
-            if (plano.isManual()) {
-                motor.getCallback().modoManualAtivo(inicioExecucao.plus(tempoDecorrido));
-            }
-
             this.plano = plano;
+
+            if (plano.isManual()) {
+                motor.ativaModoManual();
+            }
 
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();

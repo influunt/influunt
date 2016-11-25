@@ -45,14 +45,11 @@ public class SimuladorActor extends UntypedActor {
 
     private List<ArrayNode> alarmes = new ArrayList<>();
 
-    private List<ArrayNode> modoManual;
+    private List<ArrayNode> modoManual = new ArrayList<>();
 
     private String jsonTrocas;
 
     private StringBuffer bufferTrocaDePlanos = null;
-
-
-
 
     public SimuladorActor(String host, String port, ParametroSimulacao params) {
         this.params = params;
