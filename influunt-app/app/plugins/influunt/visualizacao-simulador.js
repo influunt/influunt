@@ -48,6 +48,8 @@ var influunt;
         var botoes = {};
         var specBotoes = null;
         var estagios = {};
+        var modoManual = [];
+        var led;
 
         var modoManualAtivado = false;
 
@@ -75,6 +77,7 @@ var influunt;
           game.load.spritesheet('veicular', '/images/simulador/sprite_veicular.png', 86, 25);
           game.load.spritesheet('estado', '/images/simulador/modos.png', 10, 25);
           game.load.spritesheet('controles', '/images/simulador/controles.png', 30, 26);
+          game.load.spritesheet('leds', '/images/simulador/leds.png', 31, 28);
           game.load.spritesheet('loading', '/images/simulador/loading.png', 200, 200);
           game.load.image('grid', '/images/simulador/grid.png');
 
@@ -98,11 +101,20 @@ var influunt;
           data.setText(dataText);
         }
 
+        function verificaLed(){
+          var result = _.some(modoManual,function(e){
+            return tempo >= e[0] / 10  && tempo <= e[1] / 10; 
+          }) ? 'ligado' : 'desligado';
+          
+          led.play(result);
+        }
+        
         function moveToLeft() {
           if(tempo + 1 < limite){
             tempo += (velocidade);
             relogio.setText((tempo + 1) + 's');
             desenhaPlanoAtual(getPlanoAtual(tempo));
+            verificaLed();
             game.camera.x+=(10 * velocidade);
             atualizaEstadosGruposSemaforicos();
             atualizaBotoesVisiveis();
@@ -113,6 +125,7 @@ var influunt;
           tempo = Math.max(0,tempo - velocidade);
           relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
+          verificaLed();          
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();
           atualizaBotoesVisiveis();
@@ -289,7 +302,16 @@ var influunt;
           client.send(message);
 
         }
-
+        
+        function criaLedManual(){
+          led = game.add.sprite(850 , 10, 'leds');
+          led.animations.add('desligado', [0],1,false);
+          led.animations.add('ligado', [1],1,false);          
+          led.play('desligado');
+          
+          led.fixedToCamera = true;
+        }
+        
         function criaControles(){
           var inicio = 200, y = 10;
           specBotoes = [
@@ -775,13 +797,13 @@ var influunt;
           bmd.ctx.fillRect(0,0,20,20);
 
           bmd.ctx.fillStyle = '#fff';
-
+          bmd.ctx.textAlign = 'center';
           if(label.length > 1){
             bmd.ctx.font = '8px Open Sans';
-            bmd.ctx.fillText(label, 5, 14);
+            bmd.ctx.fillText(label, 10, 14);
           }else{
             bmd.ctx.font = '12px Open Sans';
-            bmd.ctx.fillText(label, 7, 15);
+            bmd.ctx.fillText(label, 10, 15);
           }
 
           bmd.render();
@@ -822,6 +844,27 @@ var influunt;
           });
         }
 
+        function processaManual(manuais){
+          manuais.forEach(function(manual){
+            var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
+            if(modoManual.length == 0){
+              modoManual.push([x,undefined]);
+            }else if(manual[0] == 'ATIVAR'){
+              if(_.last(modoManual)[1] != undefined){
+                modoManual.push([x,undefined]);
+              }
+            }else if(manual[0] == 'DESATIVAR'){
+              if(_.last(modoManual)[1] == undefined){
+                _.last(modoManual)[1] = x;
+              }
+            }
+          });
+          modoManual.forEach(function(m){
+            desenhaEventoDoControlador(m[0],'#2E7D32',"EM","Entrada do modo manual"); 
+            desenhaEventoDoControlador(m[1],'#2E7D32',"SM","Saída do modo manual");
+          });
+        }
+
         function criaLoading(){
           var background  = game.add.graphics( 0, 0 );
           background.beginFill(0xCCCCCC, 1);
@@ -857,6 +900,7 @@ var influunt;
           });
 
           criaControles();
+          criaLedManual();
 
           var onConnect = function () {
             // Once a connection has been made, make a subscription and send a message.
@@ -874,6 +918,7 @@ var influunt;
                 processaEstagios(json.aneis);
                 processaPlanos(json.trocas);
                 processaAlarmes(json.alarmes);
+                processaManual(json.manual);
               }catch(err){
                 console.log(err);
               }

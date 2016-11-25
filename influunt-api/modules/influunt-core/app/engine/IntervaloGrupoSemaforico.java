@@ -357,7 +357,6 @@ public class IntervaloGrupoSemaforico {
                         parseEventoTrocaPlano(eventoMotor, entry, eventos.addArray());
                         break;
                     case INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL:
-                        parseEventoInsercaoPlug(eventoMotor, entry, eventos.addArray());
                         break;
                     default:
                         parseEventoGenerico(eventoMotor, entry, eventos.addArray());
