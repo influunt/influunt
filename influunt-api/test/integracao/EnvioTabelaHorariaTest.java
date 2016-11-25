@@ -31,7 +31,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     public void enviarPlanosOK() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         enviarPacotePlano();
         assertTransacaoOk();
@@ -40,7 +40,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     @Test
     public void enviarPlanosNaoOK() {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         enviarPacotePlano();
         assertTransacaoErro();

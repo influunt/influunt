@@ -31,7 +31,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     public void envioConfiguracaoCompletaOk() {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         enviarConfiguracaoCompleta(controlador);
         assertTransacaoOk();
@@ -41,7 +41,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     public void envioConfiguracaoCompletaErro() throws InterruptedException, ExecutionException, TimeoutException {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().orElse(null);
         anel.setAtivo(true);

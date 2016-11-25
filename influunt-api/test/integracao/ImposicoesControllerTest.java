@@ -38,7 +38,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoPacotePlanosTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
@@ -58,7 +58,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     @Test
     public void imposicaoPacotePlanosTestErro() {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
@@ -78,7 +78,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void envioConfiguracaoCompletaTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
@@ -141,8 +141,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
-        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
+        assertEquals(6 + 7 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -171,8 +171,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 3 * aneisIds.size());
-        assertEquals(6 + 3 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
+        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -206,11 +206,11 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        // 6 -> configuração incial
+        // 6 -> configuração inicial
         // 5 * aneis -> 5 mensagens para cada transaçao
         // 1 -> mensagem de troca de plano
-        await().until(() -> onPublishFutureList.size() >= 6 + 1 + 5 * aneisIds.size());
-        assertEquals(6 + 1 + 5 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 7*aneisIds.size());
+        assertEquals(6 + 7*aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -237,8 +237,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 3 * aneisIds.size());
-        assertEquals(6 + 3 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
+        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());

@@ -16,7 +16,7 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
     public void imporPlanoOK() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         Anel anel = controlador.getAneis().stream()
             .filter(Anel::isAtivo)
@@ -31,7 +31,7 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
     public void imporPlanoComErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
         imporPlano(-1, 0, -1);
         assertTransacaoErro();

@@ -86,7 +86,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
     @Test
     public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().until(() -> onPublishFutureList.size() > 5);
 
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
