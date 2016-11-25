@@ -60,9 +60,4 @@ public class PlanoService {
         novoPlano.setImposto(true);
         return novoPlano;
     }
-
-
-    public static Plano ajustaPlanoComAtrasoAutomatico(Plano plano) {
-        return null;
-    }
 }

@@ -4,7 +4,6 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
-import engine.services.PlanoService;
 import helpers.GerenciadorEstagiosHelper;
 import models.*;
 import org.apache.commons.math3.util.Pair;

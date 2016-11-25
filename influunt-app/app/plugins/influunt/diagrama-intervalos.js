@@ -50,7 +50,6 @@ var influunt;
                 tempoAmarelo = parseInt(tabelaEntreVerdesTransicao.tempoAmarelo) || 0;
                 tempoVermelhoIntermitente = parseInt(tabelaEntreVerdesTransicao.tempoVermelhoIntermitente) || 0;
 
-                // ### PONTO DE INTERESSE ###
                 tempoAtrasoGrupo = parseInt(tabelaEntreVerdesTransicao.tempoAtrasoGrupo) || 0;
                 tempoVermelhoLimpeza = parseInt(tabelaEntreVerdesTransicao.tempoVermelhoLimpeza) || 0;
 
@@ -58,7 +57,6 @@ var influunt;
                 tempoEntreVerde = tempoAmareloOuVermelhoIntermitente + tempoVermelhoLimpeza;
                 posicao = plano.posicaoGruposSemaforicos['G' + grupo.posicao];
 
-                // ### PONTO DE INTERESSE ###
                 if(tempoAtrasoGrupo > 0){
                   for(t = tempoCiclo; t < tempoCiclo + tempoAtrasoGrupo; t++){
                     diagrama[posicao][t] = VERDE;
