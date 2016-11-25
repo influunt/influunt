@@ -120,7 +120,7 @@ public class VersaoControlador extends Model implements Serializable {
     }
 
     public static List<VersaoControlador> findByControladorOrdered(Controlador controlador) {
-        ControladorFisico controladorFisico = ControladorFisico.find.where().eq("area_id", controlador.getArea().getId()).findUnique();
+        ControladorFisico controladorFisico = ControladorFisico.find.where().eq("id", controlador.getVersaoControlador().getControladorFisico().getId()).findUnique();
         return VersaoControlador.find.where().eq("controlador_fisico_id", controladorFisico.getId()).orderBy("data_atualizacao desc").findList();
     }
 
