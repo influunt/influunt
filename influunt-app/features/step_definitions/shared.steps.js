@@ -187,4 +187,8 @@ module.exports = function() {
   this.Given(/^o usuário digitar no campo "([^"]*)" com a informação "([^"]*)"$/, function (campo, texto) {
     return sharedSteps.preencherCampo(campo, texto);
   });
+
+  this.Given(/^o sistema deverá mostrar em linhas com valor "([^"]*)" na tabela$/, function (valorLinha) {
+    return sharedSteps.verificarValoresEmLinhasNaTabela(valorLinha);
+  });
 };

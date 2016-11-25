@@ -211,7 +211,7 @@ angular.module('influuntApp')
         grupoSemaforioPlano.ativado = isAtivo;
         if (!isAtivo) {
           grupo.intervalos.unshift({
-            status: modoOperacaoService.getModoIdByName('APAGADO'),
+            status: modoOperacaoService.get('APAGADO'),
             duracao: $scope.currentPlano.tempoCiclo || $scope.objeto.cicloMax
           });
         } else {
@@ -306,6 +306,7 @@ angular.module('influuntApp')
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
           deveAtivarPlano = $scope.currentPlano.configurado;
         }
+
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
         // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.

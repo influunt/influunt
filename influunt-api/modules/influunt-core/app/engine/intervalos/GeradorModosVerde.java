@@ -2,6 +2,7 @@ package engine.intervalos;
 
 import com.google.common.collect.RangeMap;
 import engine.IntervaloEstagio;
+import engine.services.PlanoService;
 import helpers.GerenciadorEstagiosHelper;
 import models.Estagio;
 import models.EstagioPlano;
@@ -18,7 +19,10 @@ import java.util.List;
 public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private final boolean inicio;
+
     private Long tempoAbatimentoCoordenado = 0L;
+
+    private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
 
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
@@ -27,6 +31,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
         this.inicio = inicio;
+        this.tabelaDeTemposEntreVerdeComAtraso = plano.tabelaEntreVerdeComAtraso();
     }
 
     @Override
@@ -40,16 +45,28 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         final Estagio estagioAtual = estagioPlano.getEstagio();
         final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
 
-        final Long tempoEntreVerde;
+        Long tempoEntreVerde;
+        final Long tempoEntreVerdeComAtraso;
 
         if (inicio) {
             tempoEntreVerde = GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
+            tempoEntreVerdeComAtraso = 0L;
         } else {
             tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+            tempoEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
         }
 
         final int verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos);
         long tempoVerde = verde * 1000L;
+
+        final long diffEntreVerdes;
+        if (tempoEntreVerdeComAtraso > tempoEntreVerde) {
+            diffEntreVerdes = tempoEntreVerdeComAtraso - tempoEntreVerde;
+            tempoEntreVerde += diffEntreVerdes;
+            tempoVerde -= diffEntreVerdes;
+        } else {
+            diffEntreVerdes = 0L;
+        }
 
         if (tempoAbatimentoCoordenado != null && (tempoAbatimentoCoordenado > 0L || inicio)) {
             //Compensação de diferença entre entreverdes
@@ -76,7 +93,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             estagioPlano.setTempoVerde(verde);
         }
 
-        geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, inicio);
+        geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, diffEntreVerdes, inicio);
 
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(listaEstagioPlanos.indexOf(estagioPlano) - index, this.intervalos);
     }
