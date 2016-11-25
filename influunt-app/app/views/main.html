@@ -141,19 +141,22 @@
   <div class="col-lg-4 col-sm-12">
     <div class="ibox float-e-margins white-bg">
       <div class="ibox-content ibox-heading yellow-bg">
-        <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ FALHAS: errosControladores.length || 0 }"></h3>
-        <small><i class="fa fa-check-circle"></i> 5 {{ 'main.recuperaFalhas' | translate }}</small>
+        <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ FALHAS: (errosControladores | falhaNaoRecuperada).length || 0 }"></h3>
+        <small>
+          <i class="fa fa-check-circle"></i>
+          <span data-ng-bind-html="'main.recuperaFalhas' | translate:{FALHAS: (errosControladores | falhaRecuperada).length}"></span>
+        </small>
       </div>
       <div class="ibox-content lista-falhas inspinia-timeline">
         <div class="timeline-item" ng-repeat="erro in errosControladores | limitTo: 10">
           <div class="row">
             <div class="col-xs-3 date">
-              <i class="fa fa-plug text-danger"></i> {{erro.data | influuntDate: 'HH:mm:ss'}}
+              <i class="fa fa-plug" data-ng-class="erro.recuperado ? 'text-navy' : 'text-danger'"></i> {{erro.data | influuntDate: 'HH:mm:ss'}}
               <br>
               <small class="text-navy">{{erro.data | influuntDate: 'fromNow'}}</small>
             </div>
             <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>{{ erro.motivoFalha | humanize }}</strong></p>
+              <p class="m-b-xs"><strong>{{ erro.descricaoEvento | humanize }}</strong></p>
               <p><strong>{{erro.clc}}</strong><br>{{ erro.endereco | nomeEndereco }}</p>
             </div>
           </div>

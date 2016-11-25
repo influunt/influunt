@@ -51,7 +51,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     @Test
     public void enviarPlanosOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         controlador = new ControladorHelper().setPlanos(controlador);
-        
+
         startClient();
         await().until(() -> onPublishFutureList.size() > 4);
 

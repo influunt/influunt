@@ -170,6 +170,7 @@ GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:taman
 
 # Monitoramento
 GET       /api/v1/monitoramento/status_controladores                                            controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
+GET       /api/v1/monitoramento/status_aneis                                                    controllers.monitoramento.MonitoramentoController.ultimoStatusDosAneis()
 GET       /api/v1/monitoramento/controladores_onlines                                           controllers.monitoramento.MonitoramentoController.controladoresOnline()
 GET       /api/v1/monitoramento/controladores_offlines                                          controllers.monitoramento.MonitoramentoController.controladoresOffline()
 GET       /api/v1/monitoramento/detalhe_controlador/:id                                         controllers.monitoramento.MonitoramentoController.detalheControlador(id)
