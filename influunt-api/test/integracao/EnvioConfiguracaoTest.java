@@ -4,6 +4,7 @@ import checks.*;
 import com.google.gson.Gson;
 import models.*;
 import org.apache.commons.codec.DecoderException;
+import org.junit.Ignore;
 import org.junit.Test;
 import os72c.client.storage.Storage;
 import protocol.Envelope;

@@ -23,7 +23,7 @@ public class TrocaPlanoEfetivoActorHandler extends UntypedActor {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.TROCA_DE_PLANO)) {
-                log.info("Troca de plano recebida de: {0}", envelope.getIdControlador());
+                log.info("Troca de plano recebida de: {}", envelope.getIdControlador());
 
                 JsonNode jsonConteudo = Json.parse(envelope.getConteudo().toString());
 

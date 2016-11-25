@@ -5,6 +5,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import models.StatusDevice;
@@ -13,6 +14,8 @@ import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.*;
 import status.Transacao;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -91,7 +94,10 @@ public class TransacaoActorHandler extends UntypedActor {
                                 int posicaoPlano = payloadJson.get("posicaoPlano").asInt();
                                 int numeroAnel = payloadJson.get("numeroAnel").asInt();
                                 int duracao = payloadJson.get("duracao").asInt();
-                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1) {
+
+                                controlador = storage.getControlador();
+                                boolean planoNaoConfigurado = !isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
+                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1 || planoNaoConfigurado) {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
@@ -172,8 +178,9 @@ public class TransacaoActorHandler extends UntypedActor {
         }
     }
 
-    public static void main(String args[]) {
-        System.out.println(ModoOperacaoPlano.valueOf("opa"));
+    private boolean isPlanoConfigurado(Controlador controlador, int numeroAnel, int posicaoPlano) {
+        Anel anel = controlador.getAneis().stream().filter(a -> a.getPosicao() == numeroAnel).findFirst().orElse(null);
+        return anel != null && anel.getPlanos().stream().anyMatch(plano -> plano.getPosicao() == posicaoPlano);
     }
 
 }

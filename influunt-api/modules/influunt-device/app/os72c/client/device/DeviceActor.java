@@ -131,6 +131,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
                 case IMPOSICAO_DE_PLANO:
                     imporPlano(envelope.getConteudoParsed());
+                    Thread.sleep(1000);
                     break;
 
                 case LIBERAR_IMPOSICAO:
