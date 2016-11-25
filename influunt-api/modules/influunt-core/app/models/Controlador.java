@@ -941,10 +941,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public Long getTotalDetectoresVeicular() {
-        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count()).sum();
+        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isVeicular()).count()).sum();
     }
 
     public Long getTotalDetectoresPedestre() {
-        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isVeicular()).count()).sum();
+        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count()).sum();
     }
 }
