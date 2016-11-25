@@ -14,12 +14,14 @@ angular.module('influuntApp')
     function ($scope, $filter, Restangular, geraDadosDiagramaIntervalo,
               influuntAlert, influuntBlockui, filtrosMapa, planoService,
               pahoProvider, eventosDinamicos, toast, mapaProvider, audioNotifier) {
-      var filtraDados, getMarkersControladores, getMarkersAneis,
+      var filtraDados, getMarkersControladores, getMarkersAneis, addFalha, removeFalha,
           getAreas, constroiFiltros, getAgrupamentos, getSubareas, getCoordenadasFromControladores,
           registerWatchers, alarmesEFalhasWatcher, trocaPlanoWatcher, statusControladoresWatcher, onlineOfflineWatcher,
-          getIconeAnel, getIconeControlador, exibirAlerta, getPopupText;
+          getIconeAnel, getIconeControlador, exibirAlerta, getPopupText, handleAlarmesEFalhas, handleRecuperacaoFalhas,
+          notifica, setStatus, atualizaErros, atualizaStatusPlanos;
 
       var FALHA = 'FALHA';
+      var REMOCAO_FALHA = 'REMOCAO_FALHA';
       var LOCAL = 'LOCAL';
       var MANUAL = 'MANUAL';
       var OPERANDO_COM_FALHAS = 'OPERANDO_COM_FALHAS';
@@ -38,7 +40,7 @@ angular.module('influuntApp')
             }
 
             $scope.listaControladores = res;
-            return Restangular.one('monitoramento', 'status_controladores').get();
+            return Restangular.one('monitoramento', 'status_aneis').get();
           })
           .then(function(res) {
             $scope.statusObj = res;
@@ -88,20 +90,8 @@ angular.module('influuntApp')
         $scope.areas = [];
         $scope.agrupamentos = [];
 
-        $scope.listaControladores.forEach(function(controlador) {
-          var erros = _.chain($scope.statusObj.erros).filter({idControlador: controlador.id}).sort('data', 'desc').value();
-          controlador.erros = _.reject(erros, 'idAnel');
-          _.chain(erros)
-            .filter('idAnel')
-            .groupBy('idAnel')
-            .each(function(errosAnel, anelId) {
-              var anel = _.find(controlador.aneis, {id: anelId});
-              if (anel) {
-                anel.erros = errosAnel;
-              }
-            })
-            .value();
-        });
+        atualizaErros();
+        atualizaStatusPlanos();
 
         var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
         controladores.forEach(function(controlador) {
@@ -128,6 +118,44 @@ angular.module('influuntApp')
           $scope.agrupamentos,
           getSubareas(filtrosMapa.getSubareas($scope.filtro, controladores))
         );
+      };
+
+      atualizaStatusPlanos = function() {
+        _.each($scope.statusObj.statusPlanos, function(statusPlano) {
+          var controlador = _.find($scope.listaControladores, {id: statusPlano.idControlador});
+          if (controlador) {
+            var anel = _.find(controlador.aneis, {posicao: parseInt(statusPlano.anelPosicao)});
+
+            anel.modoOperacao = statusPlano.modoOperacao;
+            anel.hasPlanoImposto = statusPlano.hasPlanoImposto;
+
+            var posicaoPlano = parseInt(statusPlano.planoPosicao);
+            var ids = _.map(anel.planos, 'idJson');
+            anel.planoVigente = _.find(controlador.planos, function(plano) {
+              return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
+            });
+          }
+        });
+      };
+
+      atualizaErros = function() {
+        $scope.listaControladores.forEach(function(controlador) {
+          var erros = _.chain($scope.statusObj.erros).filter({idControlador: controlador.id}).sort('data', 'desc').value();
+          controlador.erros = null;
+          controlador.aneis.forEach(function(a) { a.erros = null; });
+
+          controlador.erros = _.reject(erros, 'idAnel');
+          _.chain(erros)
+            .filter('idAnel')
+            .groupBy('idAnel')
+            .each(function(errosAnel, anelId) {
+              var anel = _.find(controlador.aneis, {id: anelId});
+              if (anel) {
+                anel.erros = errosAnel;
+              }
+            })
+            .value();
+        });
       };
 
       getAreas = function(areas) {
@@ -356,61 +384,23 @@ angular.module('influuntApp')
 
       alarmesEFalhasWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
-        var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
+        $scope.statusObj.erros = $scope.statusObj.erros || {};
 
+        var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
         if (!controlador) {
           console.log('controlador', mensagem.idControlador, 'não existe.');
           return false;
         }
 
-        var anel = null;
-        var obj = controlador;
-        var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
+        var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+        var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
-        if (mensagem.conteudo && _.isArray(mensagem.conteudo.params)) {
-          var posicaoAnel = mensagem.conteudo.params[0];
-          anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-          obj = anel;
-          msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+        switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
+          case FALHA:
+            return handleAlarmesEFalhas(mensagem, controlador, anel);
+          case REMOCAO_FALHA:
+            return handleRecuperacaoFalhas(mensagem, controlador, anel);
         }
-
-        if (mensagem.conteudo.tipoEvento.tipoEventoControlador === FALHA) {
-          obj.status = FALHA;
-
-          if (!anel) {
-            $scope.statusObj.status[obj.id] = FALHA;
-            controlador.aneis = controlador.aneis.map(function(anel) {
-              anel.status = FALHA;
-              return anel;
-            });
-          }
-        }
-
-        var endereco = anel !== null ? anel.endereco : controlador.endereco;
-        endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
-
-        var objErro = {
-          cla: _.get(anel, 'CLA'),
-          clc: controlador.CLC,
-          data: mensagem.carimboDeTempo,
-          endereco: 'endereco',
-          idAnel: _.get(anel, 'id'),
-          idControlador: controlador.id,
-          motivoFalha: _.get(mensagem, 'conteudo.descricaoEvento')
-        };
-
-        $scope.statusObj.erros = $scope.statusObj.erros || [];
-        $scope.statusObj.erros.push(objErro);
-
-        // Se a visualização de controladores estiver ativa e o anel for o primeiro, a falha deverá ser
-        // apresentada (visualmente) para o controlador.
-        var target = controlador;
-        if (anel && !(anel.posicao === 1 && $scope.filtro.exibirControladores)) {
-          target = anel;
-        }
-
-        exibirAlerta(msg, target, true);
-        return filtraDados();
       };
 
       exibirAlerta = function(msg, target, isPrioritario) {
@@ -430,7 +420,7 @@ angular.module('influuntApp')
         return _.size(obj.erros) > 0 && _
           .chain(obj.erros)
           .orderBy('data', 'desc')
-          .map(function(i) { return '<li>' + i.motivoFalha + '</li>'; })
+          .map(function(i) { return '<li>' + i.descricaoEvento + '</li>'; })
           .value()
           .join('');
       };
@@ -461,6 +451,94 @@ angular.module('influuntApp')
           default:
             return 'images/leaflet/influunt-icons/controlador.svg';
         }
+      };
+
+      handleAlarmesEFalhas = function(mensagem, controlador, anel) {
+        var msg;
+        var obj = anel || controlador;
+
+        msg = anel ? $filter('translate')(
+            'controladores.mapaControladores.alertas.controladorEmFalha',
+            {CONTROLADOR: controlador.CLC}
+          ) : $filter('translate')(
+            'controladores.mapaControladores.alertas.anelEmFalha',
+            {ANEL: anel.CLA}
+          );
+
+        if (mensagem.conteudo.tipoEvento.tipoEventoControlador === FALHA) {
+          setStatus(FALHA, obj, controlador, anel);
+        }
+
+        addFalha(mensagem, controlador, anel);
+        notifica(msg, controlador, anel);
+        return filtraDados();
+      };
+
+      handleRecuperacaoFalhas = function(mensagem, controlador, anel) {
+        var msg;
+
+        msg = anel ? $filter('translate')(
+            'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
+            {CONTROLADOR: controlador.CLC, FALHA: _.get(mensagem, 'conteudo.descricaoEvento')}
+          ) : $filter('translate')(
+            'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
+            {ANEL: anel.CLA, FALHA: _.get(mensagem, 'conteudo.descricaoEvento')}
+          );
+
+        removeFalha(mensagem);
+        notifica(msg, controlador, anel);
+
+        return filtraDados();
+      };
+
+      notifica = function(msg, controlador, anel) {
+        // Se a visualização de controladores estiver ativa e o anel for o primeiro, a falha deverá ser
+        // apresentada (visualmente) para o controlador.
+        var target = controlador;
+        if (anel && !(anel.posicao === 1 && $scope.filtro.exibirControladores)) {
+          target = anel;
+        }
+
+        exibirAlerta(msg, target, true);
+      };
+
+      setStatus = function(status, obj, controlador, anel) {
+        obj.status = status;
+
+        if (!anel) {
+          $scope.statusObj.status[obj.id] = status;
+          controlador.aneis = controlador.aneis.map(function(anel) {
+            anel.status = status;
+            return anel;
+          });
+        }
+      };
+
+      removeFalha = function(mensagem) {
+        $scope.statusObj.erros = _.reject($scope.statusObj.erros, function(falha) {
+          return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&
+            !!mensagem.conteudo.tipoEvento.tipoEventoControlador.match(new RegExp(falha.tipoEventoControlador + '$'));
+        });
+      };
+
+      addFalha = function(mensagem, controlador, anel) {
+        var endereco = anel !== null ? anel.endereco : controlador.endereco;
+        endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+
+        var objErro = {
+          cla: _.get(anel, 'CLA'),
+          clc: controlador.CLC,
+          data: mensagem.carimboDeTempo,
+          endereco: 'endereco',
+          idAnel: _.get(anel, 'id'),
+          idControlador: controlador.id,
+          descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento'),
+          tipo: mensagem.conteudo.tipoEvento.tipo,
+          tipoEventoControlador: mensagem.conteudo.tipoEvento.tipoEventoControlador
+        };
+
+        $scope.statusObj.erros = $scope.statusObj.erros || [];
+        $scope.statusObj.erros.push(objErro);
       };
 
       $scope.setCurrentObject = function(markerData) {
