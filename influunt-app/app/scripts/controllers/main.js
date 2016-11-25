@@ -20,9 +20,13 @@ angular.module('influuntApp')
 
       var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, exibirAlerta,
           statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher,
-          logout;
+          handleAlarmesEFalhas, handleRecuperacaoFalhas, logout;
 
       var LIMITE_ALARMES_FALHAS = 10;
+      var FALHA = 'FALHA';
+      var REMOCAO_FALHA = 'REMOCAO_FALHA';
+
+
       $scope.pagination = {
         current: 1,
         maxSize: 5
@@ -169,35 +173,11 @@ angular.module('influuntApp')
         var mensagem = JSON.parse(payload);
         $scope.statusObj.erros = $scope.statusObj.erros || {};
 
-        if (_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador') === 'FALHA') {
-          return getControlador(mensagem.idControlador)
-            .then(function(controlador) {
-              var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
-              var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-              var endereco = anel !== null ? anel.endereco : controlador.endereco;
-              endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
-
-              var falha = {
-                clc: controlador.CLC,
-                data: mensagem.carimboDeTempo,
-                endereco: $filter('nomeEndereco')(endereco),
-                id: mensagem.idControlador,
-                motivoFalha: _.get(mensagem, 'conteudo.descricaoEvento')
-              };
-
-              $scope.statusObj.erros = $scope.statusObj.erros || [];
-              $scope.statusObj.erros.push(falha);
-              atualizaDadosDinamicos();
-
-
-              var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
-              if (anel) {
-                msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
-              }
-
-              exibirAlerta(msg, true);
-            })
-            .finally(influuntBlockui.unblock);
+        switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
+          case FALHA:
+            return handleAlarmesEFalhas(mensagem);
+          case REMOCAO_FALHA:
+            return handleRecuperacaoFalhas(mensagem);
         }
       };
 
@@ -249,6 +229,71 @@ angular.module('influuntApp')
                 influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
               });
             }
+          })
+        .finally(influuntBlockui.unblock);
+      };
+
+      handleAlarmesEFalhas = function(mensagem) {
+        return getControlador(mensagem.idControlador)
+          .then(function(controlador) {
+            var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+            var endereco = anel !== null ? anel.endereco : controlador.endereco;
+            endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+
+            var falha = {
+              clc: controlador.CLC,
+              data: mensagem.carimboDeTempo,
+              endereco: $filter('nomeEndereco')(endereco),
+              id: mensagem.idControlador,
+              descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento')
+            };
+
+            $scope.statusObj.erros = $scope.statusObj.erros || [];
+            $scope.statusObj.erros.push(falha);
+            atualizaDadosDinamicos();
+
+
+            var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
+            if (anel) {
+              msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+            }
+
+            exibirAlerta(msg, true);
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
+      handleRecuperacaoFalhas = function(mensagem) {
+        return getControlador(mensagem.idControlador)
+          .then(function(controlador) {
+
+            var sampleFalha;
+            _.filter($scope.statusObj.erros, function(falha) {
+              return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&
+                !!mensagem.conteudo.tipoEvento.tipoEventoControlador.match(new RegExp(falha.tipoEventoControlador + '$'));
+            })
+            .map(function(falha) {
+              sampleFalha = falha;
+              falha.recuperado = true;
+            });
+
+            var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+            atualizaDadosDinamicos();
+
+            var msg = $filter('translate')(
+              'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
+              {CONTROLADOR: controlador.CLC, FALHA: sampleFalha.descricaoEvento}
+            );
+            if (anel) {
+              msg = $filter('translate')(
+                'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
+                {ANEL: anel.CLA, FALHA: sampleFalha.descricaoEvento}
+              );
+            }
+
+            exibirAlerta(msg, true);
           })
           .finally(influuntBlockui.unblock);
       };

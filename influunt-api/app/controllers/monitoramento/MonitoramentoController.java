@@ -99,7 +99,9 @@ public class MonitoramentoController extends Controller {
                 .put("cla", anel != null ? anel.getCLA() : null)
                 .putPOJO("endereco", Json.toJson(endereco))
                 .put("data", Long.parseLong(erro.getTimestamp().toString()))
-                .put("motivoFalha", erro.getConteudo().get("descricaoEvento").toString());
+                .put("descricaoEvento", erro.getConteudo().get("descricaoEvento").asText())
+                .put("tipo", erro.getConteudo().get("tipoEvento").get("tipo").asText())
+                .put("tipoEventoControlador", erro.getConteudo().get("tipoEvento").get("tipoEventoControlador").asText());
         });
 
         return itens;
