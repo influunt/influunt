@@ -37,16 +37,19 @@ public class TransacaoActorHandler extends UntypedActor {
                     case PREPARE_FAIL:
                         transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
+                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
                         break;
 
                     case COMMITED:
                         transacao.updateStatus(EtapaTransacao.COMPLETED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
+                        publishTransactionStatus(transacao, StatusTransacao.OK);
                         break;
 
                     case ABORTED:
                         transacao.updateStatus(EtapaTransacao.FAILED);
                         envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
+                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
                         break;
 
                     default:
@@ -59,4 +62,11 @@ public class TransacaoActorHandler extends UntypedActor {
             }
         }
     }
+
+    private void publishTransactionStatus(Transacao transacao, StatusTransacao status) {
+        Envelope envelope = MensagemStatusTransacao.getMensagem(transacao, status);
+        log.info("CENTRAL ENVIANDO STATUS TRANSAÇÃO: {}", status);
+        getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+    }
+
 }
