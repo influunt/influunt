@@ -8,6 +8,11 @@
               <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
                 <div class="right">
                   <a class="btn btn-primary"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.imprimir' | translate }} {{ 'controladores.controlador' | translate }}"
+                      type="button" data-ng-click="imprimir(objeto.id)">
+                    <i class="fa fa-print"></i> {{ 'controladores.print' | translate }}
+                  </a>
+                  <a class="btn btn-primary"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
                       type="button" data-target="#modal-timeline" data-toggle="modal">
                     <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}

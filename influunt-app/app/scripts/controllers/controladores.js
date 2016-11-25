@@ -566,4 +566,13 @@ angular.module('influuntApp')
         return $scope.podeFinalizar(controlador);
       };
 
+      $scope.imprimir = function(controlador) {
+        return Restangular.one('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET("controlador/"+controlador, null)
+          .then(function(res) {
+            var blob = new Blob([res], {type: 'application/pdf'});
+            saveAs(blob, 'controlador.pdf');
+          })
+          .finally(influuntBlockui.unblock);
+      }
+
     }]);
