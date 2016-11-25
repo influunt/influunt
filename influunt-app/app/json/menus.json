@@ -47,6 +47,11 @@
         "name": "faixasDeValores",
         "label": "faixas_de_valores.titulo",
         "route": "app.faixas_de_valores_edit"
+      },
+      {
+        "name": "imporConfig",
+        "label": "imporConfig.titulo",
+        "route": "app.impor_config"
       }
     ]
   },
@@ -60,14 +65,14 @@
     "label": "relatorios.titulo",
     "children": [
       {
-        "name": "relatorioAuditorias",
-        "label": "relatorios.auditorias",
-        "route": "app.relatorios_auditorias"
-      },
-      {
         "name": "relatorioControladoresStatus",
         "label": "relatorios.controladoresStatus",
         "route": "app.relatorios_controladores_status"
+      },
+      {
+        "name": "relatorioAuditorias",
+        "label": "relatorios.auditorias",
+        "route": "app.relatorios_auditorias"
       },
       {
         "name": "relatorioControladoresFalhas",

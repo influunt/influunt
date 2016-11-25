@@ -6,8 +6,10 @@ import akka.actor.Props;
 import com.google.inject.Singleton;
 import com.typesafe.config.ConfigFactory;
 import os72c.client.conf.DeviceConfig;
+import os72c.client.conf.LocalDeviceConfig;
 import os72c.client.conf.TestDeviceConfig;
 import os72c.client.conn.ClientActor;
+import os72c.client.device.DeviceBridge;
 import os72c.client.storage.Storage;
 import play.Configuration;
 import play.api.Play;
@@ -25,6 +27,10 @@ public class Client {
 
     private final String id;
 
+    private final String centralPublicKey;
+
+    private final String privateKey;
+
     private Configuration mqttSettings;
 
     private ActorRef servidor;
@@ -35,22 +41,29 @@ public class Client {
 
     private Storage storage = Play.current().injector().instanceOf(Storage.class);
 
+    private DeviceBridge device = Play.current().injector().instanceOf(DeviceBridge.class);
+
 
     public Client() {
         this.system = ActorSystem.create("InfluuntSystem", ConfigFactory.load());
 
-        if (deviceConfig instanceof TestDeviceConfig) {
+        if (deviceConfig instanceof TestDeviceConfig || deviceConfig instanceof LocalDeviceConfig) {
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
             id = deviceConfig.getDeviceId();
+            centralPublicKey = deviceConfig.getCentralPublicKey();
+            privateKey = deviceConfig.getPrivateKey();
+
         } else {
             mqttSettings = configuration.getConfig("device");
             host = mqttSettings.getConfig("mqtt").getString("host");
             port = mqttSettings.getConfig("mqtt").getString("port");
             id = mqttSettings.getString("id");
+            centralPublicKey = mqttSettings.getString("centralPublicKey");
+            privateKey = mqttSettings.getString("privateKey");
         }
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, storage), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage, device), id);
 
     }
 

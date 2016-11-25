@@ -55,7 +55,26 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         controlador = new ControladorHelper().getControlador();
         idControlador = controlador.getId().toString();
         provideApp.injector().instanceOf(DeviceConfig.class).setDeviceId(controlador.getId().toString());
+        provideApp.injector().instanceOf(DeviceConfig.class).setCentralPublicKey(controlador.getCentralPublicKey());
+        provideApp.injector().instanceOf(DeviceConfig.class).setPrivateKey(controlador.getControladorPrivateKey());
 
+        setConfig();
+    }
+
+    @After
+    public void cleanUp() {
+        client.finish();
+        central.finish();
+        mqttBroker.stopServer();
+        mqttBroker = null;
+        onConnectFutureList.clear();
+        onDisconectFutureList.clear();
+        onSubscribeFutureList.clear();
+        onPublishFutureList.clear();
+        System.gc();
+    }
+
+    protected void setConfig() throws IOException, InterruptedException {
         Properties properties = new Properties();
         properties.put("persistent_store", "");
 
@@ -64,30 +83,27 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             @Override
             public void onConnect(InterceptConnectMessage interceptConnectMessage) {
                 onConnectFutureList.add(interceptConnectMessage.getClientID());
-                System.out.println("ON CONNECT");
             }
 
             @Override
             public void onDisconnect(InterceptDisconnectMessage interceptDisconnectMessage) {
                 onDisconectFutureList.add(interceptDisconnectMessage.getClientID());
-                System.out.println("ON DISCONNECT");
             }
 
             @Override
             public void onPublish(InterceptPublishMessage interceptPublishMessage) {
                 onPublishFutureList.add(interceptPublishMessage.getPayload().array());
-                System.out.println("ON PUBLISH");
+                System.out.println("onPublishFutureList.size() : " + onPublishFutureList.size());
+                System.out.println("MSG : " + interceptPublishMessage.getTopicName());
             }
 
             @Override
             public void onSubscribe(InterceptSubscribeMessage interceptSubscribeMessage) {
                 onSubscribeFutureList.add(interceptSubscribeMessage.getTopicFilter());
-                System.out.println("ON SUBSCRIBE");
             }
 
             @Override
             public void onUnsubscribe(InterceptUnsubscribeMessage interceptUnsubscribeMessage) {
-                System.out.println("ON UNSUBSCRIBE");
             }
         });
 
@@ -104,21 +120,8 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         central = provideApp.injector().instanceOf(Central.class);
     }
 
-    @After
-    public void cleanUp() {
-        mqttBroker.stopServer();
-        central.finish();
-        client.finish();
-        mqttBroker = null;
-        mqttBroker = null;
-        onConnectFutureList.clear();
-        onDisconectFutureList.clear();
-        onSubscribeFutureList.clear();
-        onPublishFutureList.clear();
-        System.gc();
-    }
-
     protected void startClient() {
         client = provideApp.injector().instanceOf(Client.class);
     }
+
 }

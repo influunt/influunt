@@ -41,7 +41,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
         FilePart<Source<ByteString, ?>> filePart = new FilePart<>("imagem", "ubuntu.jpeg", "image/jpeg", src);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-                .uri(routes.ImagensController.create().url()).bodyMultipart(Arrays.asList(dataPart, filePart), mat);
+            .uri(routes.ImagensController.create().url()).bodyMultipart(Arrays.asList(dataPart, filePart), mat);
         Result result = route(request);
 
         assertEquals(OK, result.status());
@@ -55,7 +55,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
         imagem.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.ImagensController.findOne(imagem.getId().toString()).url());
+            .uri(routes.ImagensController.findOne(imagem.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -70,7 +70,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
         imagem.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ImagensController.delete(imagem.getId().toString()).url());
+            .uri(routes.ImagensController.delete(imagem.getId().toString()).url());
         Result result = route(deleteRequest);
 
         assertEquals(200, result.status());
@@ -80,7 +80,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
     @Test
     public void testApagarImagemNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ImagensController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.ImagensController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -97,7 +97,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
         anel.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ImagensController.deleteCroqui(imagem.getId().toString()).url());
+            .uri(routes.ImagensController.deleteCroqui(imagem.getId().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(200, result.status());
 
@@ -133,7 +133,7 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
         controlador.save();
 
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ImagensController.deleteCroqui(imagem.getId().toString()).url());
+            .uri(routes.ImagensController.deleteCroqui(imagem.getId().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(200, result.status());
 

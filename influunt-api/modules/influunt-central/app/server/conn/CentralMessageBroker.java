@@ -31,6 +31,10 @@ public class CentralMessageBroker extends UntypedActor {
         routers.put(TipoMensagem.MUDANCA_STATUS_CONTROLADOR, createRoutees(getContext(), 5, MudancaStatusControladorActorHandler.class));
         routers.put(TipoMensagem.TRANSACAO, createRoutees(getContext(), 5, TransacaoActorHandler.class));
         routers.put(TipoMensagem.OK, createRoutees(getContext(), 5, OKActorHandler.class));
+        routers.put(TipoMensagem.ERRO, createRoutees(getContext(), 5, ErroActorHandler.class));
+        routers.put(TipoMensagem.ALARME_FALHA, createRoutees(getContext(), 5, AlarmeFalhaActorHandler.class));
+        routers.put(TipoMensagem.REMOCAO_FALHA, createRoutees(getContext(), 5, RemocaoFalhaActorHandler.class));
+        routers.put(TipoMensagem.TROCA_DE_PLANO, createRoutees(getContext(), 5, TrocaPlanoEfetivoActorHandler.class));
     }
 
 
@@ -40,6 +44,7 @@ public class CentralMessageBroker extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (routers.containsKey(envelope.getTipoMensagem())) {
                 routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
+                log.error("CENTRAL RECEBEU: " + envelope.getTipoMensagem());
             } else {
                 log.error("MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
                 throw new RuntimeException("MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());

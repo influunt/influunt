@@ -15,7 +15,7 @@ angular
 
       $urlRouterProvider.otherwise(function($injector) {
         var $state = $injector.get('$state');
-        $state.go('login');
+        $state.go('app.main');
       });
 
       $stateProvider
@@ -80,7 +80,6 @@ angular
             }
           }
         })
-
 
         // CRUD cidades
         .state('app.cidades', {
@@ -641,6 +640,15 @@ angular
           }
         })
 
+        .state('app.tabelas_horarias_diff', {
+          url: '/tabela_horarios/:id/diff/:versaoIdJson',
+          templateUrl: 'views/tabela_horarios/diff.html',
+          controller: 'TabelaHorariosDiffCtrl',
+          data: {
+            title: 'tabelaHorarios.titulo'
+          }
+        })
+
         // Crud perfis.
         .state('app.perfis', {
           url: '/perfis',
@@ -972,6 +980,17 @@ angular
           }
         })
 
+        // IMPOR CONFIGURAÇÃO
+        .state('app.impor_config', {
+          url: '/impor_config/',
+          templateUrl: 'views/impor_config/index.html',
+          controller: 'ImporConfigCtrl',
+          controllerAs: 'imporConfig',
+          data: {
+            title: 'imporConfig.titulo',
+          }
+        })
+
         // FAIXAS DE VALORES
         .state('app.faixas_de_valores_edit', {
           url: '/faixas_de_valores/edit',
@@ -1005,8 +1024,8 @@ angular
 
         .state('app.relatorios_controladores_status', {
           url: '/relatorios/controladores_status',
-          templateUrl: 'views/relatorios/controladoresStatus.html',
-          controller: 'RelatoriosCtrl',
+          templateUrl: 'views/relatorios/status.html',
+          controller: 'RelatoriosStatusCtrl',
           controllerAs: 'relatorios',
           data: {
             title: 'relatorios.controladoresStatus',
@@ -1019,8 +1038,8 @@ angular
 
         .state('app.relatorios_controladores_falhas', {
           url: '/relatorios/controladores_falhas',
-          templateUrl: 'views/relatorios/controladoresFalhas.html',
-          controller: 'RelatoriosCtrl',
+          templateUrl: 'views/relatorios/falhas.html',
+          controller: 'RelatoriosFalhasCtrl',
           controllerAs: 'relatorios',
           data: {
             title: 'relatorios.controladoresFalhas',

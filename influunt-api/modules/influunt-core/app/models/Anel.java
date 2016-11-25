@@ -1,7 +1,6 @@
 package models;
 
 import checks.*;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -117,7 +116,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     private DateTime dataAtualizacao;
 
     @Transient
-    private boolean isDestroy = false;
+    private boolean isDestroy;
 
     public Anel(Controlador controlador, int posicao) {
         super();
@@ -250,11 +249,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
-            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
-                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
-                        .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
-                this.versaoPlanoAtivo = versaoPlano;
-            } else {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
                 this.versaoPlanoAtivo = getVersoesPlanos().stream().filter(VersaoPlano::isAtivo).findFirst().orElse(null);
             }
         }
@@ -268,11 +263,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
-            if (getVersoesPlanos() == null || getVersoesPlanos().isEmpty()) {
-                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
-                        .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.EDITANDO)).findUnique();
-                this.versaoPlanoEdicao = versaoPlano;
-            } else {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
                 this.versaoPlanoEdicao = getVersoesPlanos().stream().filter(VersaoPlano::isEditando).findFirst().orElse(null);
             }
         }
@@ -282,11 +273,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoPlano getVersaoPlanoConfigurado() {
         if (versaoPlanoConfigurado == null) {
-            if (getVersoesPlanos().isEmpty() || getVersoesPlanos() == null) {
-                VersaoPlano versaoPlano = VersaoPlano.find.fetch("planos").where()
-                        .and(Expr.eq("anel_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.CONFIGURADO)).findUnique();
-                this.versaoPlanoConfigurado = versaoPlano;
-            } else {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
                 this.versaoPlanoConfigurado = getVersoesPlanos().stream().filter(VersaoPlano::isConfigurado).findFirst().orElse(null);
             }
         }
@@ -327,7 +314,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "O anel ativo deve ter somente um estágio de demanda prioritária.")
+        message = "O anel ativo deve ter somente um estágio de demanda prioritária.")
     public boolean isSomenteUmEstagioDeDemandaPrioritaria() {
         if (this.isAtivo()) {
             return this.getEstagios().stream().filter(estagio -> estagio.isDemandaPrioritaria()).count() <= 1;
@@ -336,7 +323,7 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = PlanosCheck.class,
-            message = "O anel ativo deve ter pelo menos 1 plano configurado.")
+        message = "O anel ativo deve ter pelo menos 1 plano configurado.")
     public boolean isAoMenosUmPlanoConfigurado() {
         if (this.isAtivo()) {
             return !this.getPlanos().isEmpty();
@@ -376,6 +363,13 @@ public class Anel extends Model implements Cloneable, Serializable {
     public Detector findDetectorByDescricao(String descricao) {
         if (Objects.nonNull(descricao)) {
             return getDetectores().stream().filter(detector -> descricao.equals(detector.getDescricao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    public Plano findPlanoByPosicao(Integer posicao) {
+        if (Objects.nonNull(posicao)) {
+            return getPlanos().stream().filter(plano -> posicao.equals(plano.getPosicao())).findFirst().orElse(null);
         }
         return null;
     }

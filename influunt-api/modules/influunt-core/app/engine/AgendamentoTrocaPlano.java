@@ -1,9 +1,17 @@
 package engine;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.deserializers.AgendamentoTrocaPlanoDeserializer;
+import json.deserializers.InfluuntDateTimeDeserializer;
+import json.serializers.AgendamentoTrocaPlanoSerializer;
+import json.serializers.InfluuntDateTimeSerializer;
 import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
 
+@JsonSerialize(using = AgendamentoTrocaPlanoSerializer.class)
+@JsonDeserialize(using = AgendamentoTrocaPlanoDeserializer.class)
 public class AgendamentoTrocaPlano {
     private Evento evento;
 
@@ -11,17 +19,39 @@ public class AgendamentoTrocaPlano {
 
     private Integer anel;
 
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     private DateTime momentoDaTroca;
 
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     private DateTime momentoOriginal;
 
     private long momentoPedidoTroca = 0L;
 
+    private boolean impostoPorFalha = false;
+
+    private boolean saidaDoModoManual = false;
+
+    private boolean tempoDeEntradaCalculado = false;
+
+    private boolean imposicaoPlano = false;
+
+    private boolean saidaImposicao = false;
+
+    public AgendamentoTrocaPlano() {
+        super();
+    }
 
     public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal) {
         this.evento = evento;
         this.plano = plano;
         this.momentoOriginal = momentoOriginal;
+    }
+
+    public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal, boolean impostoPorFalha) {
+        this(evento, plano, momentoOriginal);
+        this.impostoPorFalha = impostoPorFalha;
     }
 
     public Evento getEvento() {
@@ -70,5 +100,49 @@ public class AgendamentoTrocaPlano {
 
     public void setAnel(Integer anel) {
         this.anel = anel;
+    }
+
+    public boolean isImpostoPorFalha() {
+        return impostoPorFalha;
+    }
+
+    public void setImpostoPorFalha(boolean impostoPorFalha) {
+        this.impostoPorFalha = impostoPorFalha;
+    }
+
+    public boolean isSaidaDoModoManual() {
+        return this.saidaDoModoManual;
+    }
+
+    public void setSaidaDoModoManual(boolean saidaDoModoManual) {
+        this.saidaDoModoManual = saidaDoModoManual;
+    }
+
+    public boolean isTempoDeEntradaCalculado() {
+        return tempoDeEntradaCalculado;
+    }
+
+    public void setTempoDeEntradaCalculado(boolean tempoDeEntradaCalculado) {
+        this.tempoDeEntradaCalculado = tempoDeEntradaCalculado;
+    }
+
+    public boolean isPlanoCoordenado() {
+        return getPlano().isTempoFixoCoordenado();
+    }
+
+    public boolean isImposicaoPlano() {
+        return imposicaoPlano;
+    }
+
+    public void setImposicaoPlano(boolean imposicaoPlano) {
+        this.imposicaoPlano = imposicaoPlano;
+    }
+
+    public boolean isSaidaImposicao() {
+        return saidaImposicao;
+    }
+
+    public void setSaidaImposicao(boolean saidaImposicao) {
+        this.saidaImposicao = saidaImposicao;
     }
 }

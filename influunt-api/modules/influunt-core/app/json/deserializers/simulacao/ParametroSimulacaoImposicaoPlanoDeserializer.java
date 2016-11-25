@@ -27,8 +27,16 @@ public class ParametroSimulacaoImposicaoPlanoDeserializer extends JsonDeserializ
             imposicaoParams.setPlano(node.get("plano").get("posicao").asInt());
         }
 
+        if (node.has("anel") && node.get("anel").has("posicao")) {
+            imposicaoParams.setAnel(node.get("anel").get("posicao").asInt());
+        }
+
         if (node.has("disparo")) {
             imposicaoParams.setDisparo(DateTime.parse(node.get("disparo").asText(), ISODateTimeFormat.dateTimeParser()));
+        }
+
+        if (node.has("duracao")) {
+            imposicaoParams.setDuracao(node.get("duracao").asInt());
         }
 
         return imposicaoParams;

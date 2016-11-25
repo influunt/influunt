@@ -48,7 +48,7 @@ public class PlanosControllerTest extends WithInfluuntApplicationNoAuthenticatio
         assertNotNull(plano.getId());
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PlanosController.delete(plano.getId().toString()).url());
+            .uri(routes.PlanosController.delete(plano.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -63,7 +63,7 @@ public class PlanosControllerTest extends WithInfluuntApplicationNoAuthenticatio
     @Test
     public void testApagarPlanoNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.PlanosController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.PlanosController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }

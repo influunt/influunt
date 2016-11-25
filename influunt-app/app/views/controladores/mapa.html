@@ -7,6 +7,11 @@
           <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
             <div class="right">
               <a class="btn btn-primary btn-outline btn-footer right m-r-sm" ui-sref="app.controladores">{{ 'geral.crud.voltar' | translate }}</a>
+              <a class="btn btn-primary btn-outline btn-footer right m-r-sm"
+                  data-ng-click="legendaAgrupamentos()"
+                  data-toggle="modal" data-target="#modal-legenda-agrupamentos" aria-hidden="true">
+                {{ 'controladores.mapaControladores.legenda.titulo' | translate }}
+              </a>
             </div>
           </div>
         </div>
@@ -20,6 +25,7 @@
         areas="areas"
         agrupamentos="agrupamentos"
         options="{scrollWheelZoom: false}"
+        map-id="map.id"
         on-click-marker="setCurrentObject($markerData)"
         class="influunt-map area-mapa"></div>
 
@@ -31,6 +37,9 @@
     </section>
   </div>
 </div>
+
+<!-- modal para legenda -->
+<ng-include src="'views/controladores/modal-legenda-mapa.html'"></ng-include>
 
 <!-- modal diagrama de intervalos -->
 <div class="modal inmodal" id="modalDiagramaIntervalos" tabindex="-1" role="dialog" aria-hidden="true">
@@ -69,7 +78,7 @@
 </div>
 
 <!-- modal para selecionar planos para imposição. -->
-<div class="modal inmodal" id="modal-imposicao-plaos" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="modal-imposicao-planos" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content animated bounceInRight">
       <div class="modal-header">

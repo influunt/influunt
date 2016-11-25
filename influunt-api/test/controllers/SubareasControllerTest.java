@@ -1,10 +1,10 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import config.WithInfluuntApplicationNoAuthentication;
-import models.Area;
-import models.Cidade;
-import models.Subarea;
+import models.*;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
@@ -44,7 +44,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.setNumero(254);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SubareasController.create().url()).bodyJson(Json.toJson(subarea));
+            .uri(routes.SubareasController.create().url()).bodyJson(Json.toJson(subarea));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Subarea subareaRetornada = Json.fromJson(json, Subarea.class);
@@ -62,8 +62,8 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.setNumero(254);
 
         Http.RequestBuilder putRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.AreasController.update(UUID.randomUUID().toString()).url())
-                .bodyJson(Json.toJson(subarea));
+            .uri(routes.AreasController.update(UUID.randomUUID().toString()).url())
+            .bodyJson(Json.toJson(subarea));
         Result putResult = route(putRequest);
         assertEquals(404, putResult.status());
     }
@@ -85,8 +85,8 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         novaSubarea.setNumero(254);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
-                .uri(routes.SubareasController.update(subareaId.toString()).url())
-                .bodyJson(Json.toJson(novaSubarea));
+            .uri(routes.SubareasController.update(subareaId.toString()).url())
+            .bodyJson(Json.toJson(novaSubarea));
 
         Result result = route(request);
         assertEquals(200, result.status());
@@ -107,7 +107,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.SubareasController.delete(subarea.getId().toString()).url());
+            .uri(routes.SubareasController.delete(subarea.getId().toString()).url());
         Result result = route(request);
 
         assertEquals(200, result.status());
@@ -117,7 +117,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
     @Test
     public void testApagarSubareaNaoExistente() {
         Http.RequestBuilder deleteRequest = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.SubareasController.delete(UUID.randomUUID().toString()).url());
+            .uri(routes.SubareasController.delete(UUID.randomUUID().toString()).url());
         Result result = route(deleteRequest);
         assertEquals(404, result.status());
     }
@@ -135,7 +135,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea1.save();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.SubareasController.findAll().url());
+            .uri(routes.SubareasController.findAll().url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Area> subareas = Json.fromJson(json.get("data"), List.class);
@@ -154,7 +154,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         assertNotNull(subareaId);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-                .uri(routes.SubareasController.findOne(subareaId.toString()).url());
+            .uri(routes.SubareasController.findOne(subareaId.toString()).url());
         Result result = route(request);
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Subarea subareaRetornada = Json.fromJson(json, Subarea.class);
@@ -171,7 +171,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.setArea(area);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SubareasController.create().url()).bodyJson(Json.toJson(subarea));
+            .uri(routes.SubareasController.create().url()).bodyJson(Json.toJson(subarea));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Subarea subareaRetornada = Json.fromJson(json, Subarea.class);
@@ -185,7 +185,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subareaDuplicada.setNumero(254);
 
         postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(subareaDuplicada));
+            .uri(routes.AreasController.create().url()).bodyJson(Json.toJson(subareaDuplicada));
         postResult = route(postRequest);
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
 
@@ -199,7 +199,7 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subarea.setNome("Consolação");
         subarea.setNumero(254);
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.SubareasController.create().url()).bodyJson(Json.toJson(subarea));
+            .uri(routes.SubareasController.create().url()).bodyJson(Json.toJson(subarea));
         Result postResult = route(postRequest);
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Subarea subareaRetornada = Json.fromJson(json, Subarea.class);
@@ -211,11 +211,44 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         subareaRetornada.setNumero(254);
 
         postRequest = new Http.RequestBuilder().method("PUT")
-                .uri(routes.SubareasController.update(subareaRetornada.getId().toString()).url()).bodyJson(Json.toJson(subareaRetornada));
+            .uri(routes.SubareasController.update(subareaRetornada.getId().toString()).url()).bodyJson(Json.toJson(subareaRetornada));
         postResult = route(postRequest);
         assertEquals(OK, postResult.status());
         assertEquals(254, subareaRetornada.getNumero().longValue());
 
+    }
+
+    @Test
+    public void testAssociarControladoresASubarea() {
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome("teste");
+        fabricante.save();
+
+        ModeloControlador modelo = new ModeloControlador();
+        modelo.setDescricao("teste");
+        modelo.setFabricante(fabricante);
+        modelo.save();
+
+
+        Controlador controlador = new ControladorTestUtil(area, fabricante, modelo).getControladorDadosBasicos();
+        controlador.save();
+        assertNull(controlador.getSubarea());
+
+        Subarea subarea = new Subarea();
+        subarea.setArea(area);
+        subarea.setNome("Consolação");
+        subarea.setNumero(255);
+
+        JsonNode json = Json.toJson(subarea);
+        ArrayNode controladoresJson = ((ObjectNode) json).putArray("controladoresAssociados");
+        controladoresJson.addObject().put("id", controlador.getId().toString());
+
+        Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST").uri(routes.SubareasController.create().url()).bodyJson(json);
+        Result postResult = route(postRequest);
+
+        assertEquals(OK, postResult.status());
+        controlador.refresh();
+        assertNotNull(controlador.getSubarea());
     }
 
 }

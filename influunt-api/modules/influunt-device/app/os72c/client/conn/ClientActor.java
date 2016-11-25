@@ -5,6 +5,8 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import com.typesafe.config.ConfigFactory;
+import os72c.client.device.DeviceActor;
+import os72c.client.device.DeviceBridge;
 import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
 
@@ -16,13 +18,13 @@ import java.util.concurrent.TimeUnit;
 public class ClientActor extends UntypedActor {
 
     private static SupervisorStrategy strategy =
-            new OneForOneStrategy(-1, Duration.Undefined(),
-                    new Function<Throwable, SupervisorStrategy.Directive>() {
-                        @Override
-                        public SupervisorStrategy.Directive apply(Throwable t) {
-                            return SupervisorStrategy.stop();
-                        }
-                    }, false);
+        new OneForOneStrategy(-1, Duration.Undefined(),
+            new Function<Throwable, SupervisorStrategy.Directive>() {
+                @Override
+                public SupervisorStrategy.Directive apply(Throwable t) {
+                    return SupervisorStrategy.stop();
+                }
+            }, false);
 
     private final String id;
 
@@ -32,16 +34,30 @@ public class ClientActor extends UntypedActor {
 
     private final Storage storage;
 
+    private final String centralPublicKey;
+
+    private final String controladorPrivateKey;
+
+    private ActorRef device;
+
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqqtControlador;
 
-    public ClientActor(final String id, final String host, final String port, Storage storage) {
+    public ClientActor(final String id, final String host, final String port, final String centralPublicKey, final String controladorPrivateKey, Storage storage, DeviceBridge deviceBridge) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
+        this.centralPublicKey = centralPublicKey;
+        this.controladorPrivateKey = controladorPrivateKey;
+        if (storage.getCentralPublicKey() == null) {
+            storage.setCentralPublicKey(centralPublicKey);
+            storage.setPrivateKey(controladorPrivateKey);
+        }
+        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge), "motor");
     }
+
 
     public static void main(String args[]) {
         ActorSystem system = ActorSystem.create("InfluuntControlador", ConfigFactory.load());

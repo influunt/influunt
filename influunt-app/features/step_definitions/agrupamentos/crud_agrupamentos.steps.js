@@ -12,6 +12,14 @@ module.exports = function() {
     return agrupamentosPage.existeAoMenosUmAgrupamento();
   });
 
+  this.Given(/^o usuário em evento selecionar o valor "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
+    return agrupamentosPage.selecionarValor(valor, select);
+  });
+
+  this.Given(/^o usuário em evento selecionar o valor plano "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
+    return agrupamentosPage.selecionarValor(valor, select);
+  });
+
   this.Given(/^que este controlador esteja finalizado$/, function() {
     return agrupamentosPage.controladorConfigurado();
   });
@@ -38,10 +46,6 @@ module.exports = function() {
 
   this.Given(/^o usuário acessar a tela de cadastro de novos agrupamentos$/, function() {
     return agrupamentosPage.newPage();
-  });
-
-  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
-    return agrupamentosPage.selecionarControlador(valor);
   });
 
   this.Given(/^o registro do agrupamento deverá ser salvo com nome igual a "([^"]*)"$/, function(nome) {

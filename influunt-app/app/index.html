@@ -12,17 +12,18 @@
 
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="/bower_components/AngularJS-Toaster/toaster.css" />
     <link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />
     <link rel="stylesheet" href="/bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/bower_components/angular-google-places-autocomplete/src/autocomplete.css" />
-    <link rel="stylesheet" href="/bower_components/angular-google-places-autocomplete/dist/autocomplete.min.css" />
     <link rel="stylesheet" href="/bower_components/tooltipster/dist/css/tooltipster.bundle.css" />
     <link rel="stylesheet" href="/bower_components/metisMenu/dist/metisMenu.css" />
     <link rel="stylesheet" href="/bower_components/vis/dist/vis.css" />
     <link rel="stylesheet" href="/bower_components/css-progress-wizard/css/progress-wizard.min.css" />
     <link rel="stylesheet" href="/bower_components/angular-datepicker/dist/angular-datepicker.css" />
     <link rel="stylesheet" href="/bower_components/angular-tooltips/dist/angular-tooltips.min.css" />
+    <link rel="stylesheet" href="/bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="/bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="/bower_components/toastr/toastr.css" />
     <!-- endbower -->
     <!-- build:css(app) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -46,7 +47,7 @@
        ga('create', 'UA-XXXXX-X');
        ga('send', 'pageview');
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHc71AShrLBT-3gpAj-1rxR3TmJ-YOCng&libraries=places" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHc71AShrLBT-3gpAj-1rxR3TmJ-YOCng&language=pt&libraries=places" type="text/javascript"></script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -67,12 +68,9 @@
     <script src="/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
     <script src="/bower_components/lodash/lodash.js"></script>
     <script src="/bower_components/restangular/dist/restangular.js"></script>
-    <script src="/bower_components/AngularJS-Toaster/toaster.js"></script>
     <script src="/bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/bower_components/ngSweetAlert/SweetAlert.js"></script>
     <script src="/bower_components/leaflet/dist/leaflet-src.js"></script>
-    <script src="/bower_components/angular-google-places-autocomplete/src/autocomplete.js"></script>
-    <script src="/bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
     <script src="/bower_components/tooltipster/dist/js/tooltipster.bundle.js"></script>
     <script src="/bower_components/select2/dist/js/select2.js"></script>
     <script src="/bower_components/metisMenu/dist/metisMenu.js"></script>
@@ -95,6 +93,9 @@
     <script src="/bower_components/angular-permission/dist/angular-permission-ui.js"></script>
     <script src="/bower_components/angular-permission/dist/angular-permission-ng.js"></script>
     <script src="/bower_components/file-saver/FileSaver.js"></script>
+    <script src="/bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+    <script src="/bower_components/toastr/toastr.js"></script>
+    <script src="/bower_components/ng-idle/angular-idle.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -115,6 +116,8 @@
     <script src="plugins/cropper/cropper.min.js"></script>
     <script src="plugins/footable/footable.all.min.js"></script>
     <script src="plugins/angular-datepicker/angular-datepicker.js"></script>
+    <script src="plugins/phasertips/Phasetips.js"></script>
+    <script src="plugins/angular-google-places-autocomplete/autocomplete.js"></script>
 
     <script src="scripts/app.js"></script>
     <script src="plugins/inspinia-directives.js"></script>
@@ -176,6 +179,7 @@
     <script src="scripts/directives/influunt-knob.js"></script>
     <script src="scripts/controllers/planos.js"></script>
     <script src="scripts/controllers/tabela-horarios.js"></script>
+    <script src="scripts/controllers/tabela-horarios-diff.js"></script>
     <script src="scripts/directives/vis.js"></script>
     <script src="scripts/services/validacoes/valida-transicao.js"></script>
     <script src="scripts/services/util/estagios.js"></script>
@@ -220,6 +224,7 @@
     <script src="scripts/services/util/objects.js"></script>
     <script src="scripts/services/util/dropzone.js"></script>
     <script src="scripts/controllers/relatorios.js"></script>
+    <script src="scripts/controllers/impor-config.js"></script>
     <script src="scripts/services/tipo-acao.js"></script>
     <script src="scripts/services/simulacao-service.js"></script>
     <script src="scripts/filters/padding.js"></script>
@@ -227,6 +232,15 @@
     <script src="scripts/directives/wizard-footer.js"></script>
     <script src="scripts/directives/check-browser.js"></script>
     <script src="scripts/directives/influunt-faixa-valores.js"></script>
+    <script src="scripts/filters/status-controlador.js"></script>
+    <script src="scripts/services/paho-provider.js"></script>
+    <script src="scripts/services/eventos-dinamicos.js"></script>
+    <script src="scripts/services/mapa/provider.js"></script>
+    <script src="scripts/filters/true-or-false-icon.js"></script>
+    <script src="scripts/controllers/relatorios/status.js"></script>
+    <script src="scripts/services/audio-notifier.js"></script>
+    <script src="scripts/services/initializers/idle-config.js"></script>
+    <script src="scripts/controllers/relatorios/falhas.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">

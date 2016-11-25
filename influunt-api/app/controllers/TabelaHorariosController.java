@@ -7,6 +7,7 @@ import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
+import models.Cidade;
 import models.Controlador;
 import models.TabelaHorario;
 import models.VersaoTabelaHoraria;
@@ -17,6 +18,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,7 +46,7 @@ public class TabelaHorariosController extends Controller {
             controlador.update();
             Controlador controlador1 = Controlador.find.byId(controlador.getId());
             controlador1.getVersoesTabelasHorarias();
-            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
@@ -54,12 +56,11 @@ public class TabelaHorariosController extends Controller {
     @Dynamic("Influunt")
     public CompletionStage<Result> timeline(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }
 
-        List<VersaoTabelaHoraria> versoes = controlador.getVersoesTabelasHorarias();
+        List<VersaoTabelaHoraria> versoes = VersaoTabelaHoraria.versoes(controlador);
         return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
     }
 

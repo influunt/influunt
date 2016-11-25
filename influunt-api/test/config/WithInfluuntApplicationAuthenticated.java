@@ -14,7 +14,7 @@ public class WithInfluuntApplicationAuthenticated extends WithInfluuntApplicatio
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected Application createApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
-                .in(Mode.TEST).build();
+            .in(Mode.TEST).build();
     }
 
 }

@@ -24,12 +24,21 @@
     "horario": "Horário",
     "progDisparo": "Programar disparo de detectores",
     "progImposicao": "Programar imposição de planos",
+    "progImposicaoModo": "Programar imposição de modos",
+    "progAlarmes": "Programar disparo de alarmes",
+    "progFalhas": "Programar falhas no controlador",
+    "falha": "Falha",
     "disparoFalhas": "Disparo de falhas",
     "detectorVeicular": "Detector Veicular",
     "detector": "Detector",
+    "tipoParametro": "Parâmetro",
+    "valorParametro": "Valor Parâmetro",
     "tipo": "Tipo",
     "plano": "Plano",
+    "anel": "Anel",
+    "modo": "Modo de Operação",
     "falhas": "Falhas",
+    "alarme": "Alarme",
     "problema": "Problema",
     "tempoSimulacao": "Tempo de simulação",
     "simular": "Simular",
@@ -45,9 +54,14 @@
     "horarioDisparo": "Horário do Disparo",
     "dataImposicao": "Data da Imposição",
     "horarioImposicao": "Horário da Imposição",
+    "duracao": "Duração (MIN)",
     "monitorado": "Monitorado",
     "descricao": "Descrição",
     "modoOperacao": "Modo Operação",
+    "dataFalha": "Data da Falha",
+    "horarioFalha": "Horário da Falha",
+    "dataAlarme": "Data do Alarme",
+    "horarioAlarme": "Horário do Alarme",
     "detectorAlert": {
       "title": "Remover disparo de detector?",
       "text": "Deseja remover este disparo de detector da simulação?"
@@ -55,6 +69,19 @@
     "planoAlert": {
       "title": "Remover imposição de plano?",
       "text": "Deseja remover esta imposição de plano da simulação?"
+    },
+    "falhaAlert": {
+      "title": "Remover falha do controlador?",
+      "text": "Deseja remover esta falha da simulação?"
+    },
+    "alarmeAlert": {
+      "title": "Remover alarme do controlador?",
+      "text": "Deseja remover este alarme da simulação?"
+    },
+    "datepicker": {
+      "fechar": "Fechar",
+      "limpar": "Limpar",
+      "hoje": "Hoje"
     }
   },
   "controladores": {
@@ -62,34 +89,66 @@
     "titulo": "Programação",
     "detector": "Detector",
     "mapaControladores": {
-      "titulo": "Mapa dos controladores",
+      "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
+      "agrupamentos": "Agrupamentos",
       "ajustes": "Ajustes",
+      "aneis": "Anéis",
       "area": "Área",
       "areas": "Áreas",
-      "subAreas": "Subáreas",
-      "planos": "Planos",
-      "imporPlanos": "Impor Planos",
-      "imporPlano": "Impor Plano",
-      "trocarTabela": "Trocar tabela horária",
-      "enviarPlano": "Enviar plano",
-      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o plano {PLANO} para o anel da {ANEL}?",
+      "confirmacaoEnvioPlano": "Tem certeza que você deseja enviar o {PLANO} para o anel da {ANEL}?",
+      "controladores": "Controladores",
+      "controladoresFalhas": "Controladores com falhas",
+      "controladoresImpostos": "Controladores em planos impostos",
+      "controladoresSobControleManual": "Controladores sob controle manual",
       "descrevaEnvioPlano": "Descreva aqui as circunstâncias para o envio deste plano",
-      "sucessoEnvioPlano": "Plano {PLANO} enviado com sucesso ao anel {ANEL}",
+      "enviarPlano": "Enviar plano",
       "enviarTabela": "Enviar tabela horária",
+      "exibir": "Exibir",
+      "filtrar": "Filtrar",
+      "filtros": "Filtros",
+      "imporPlano": "Impor Plano",
+      "imporPlanos": "Impor Planos",
       "imposicaoPlano": {
         "mensagem": "Selecione abaixo um plano para ser imposto"
       },
-      "agrupamentos": "Agrupamentos",
-      "controladores": "Controladores",
-      "controladoresImpostos": "Controladores em planos impostos",
-      "controladoresFalhas": "Controladores com falhas",
-      "controladoresSobControleManual": "Controladores sob controle manual",
-      "filtros": "Filtros",
-      "filtrar": "Filtrar",
+      "alertas": {
+        "anelEmFalha": "O anel <strong>{ANEL}</strong> entrou em falha",
+        "controladorEmFalha": "O controlador <strong>{CONTROLADOR}</strong> entrou em falha",
+        "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>",
+        "trocaPlanoAnelEControlador": "Troca de plano no anel <strong>{ANEL}</strong>, controlador <strong>{CONTROLADOR}</strong>",
+        "mudancaStatusControlador": "Troca de status no controlador <strong>{CONTROLADOR}</strong>",
+        "controladorOnline": "O controlador {CONTROLADOR} está online",
+        "controladorOffline": "O controlador {CONTROLADOR} está offline"
+      },
+      "legenda": {
+        "titulo": "Legenda",
+        "anelControleCentralizado": "Anel em controle centralizado",
+        "anelControleLocal": "Anel em controle local",
+        "anelControleManual": "Anel em controle manual",
+        "anelEmFalha": "Anel em falha",
+        "anelOffline": "Anel offline",
+        "controlador": "Controlador",
+        "controladorEmFalha": "Controlador em falha",
+        "controladorOffline": "Controlador offline",
+        "corredor": "Corredor",
+        "rota": "Rota",
+        "subarea": "Subárea"
+      },
+      "status": {
+        "titulo": "Status",
+        "statusControlador": "Status do controlador",
+        "modoOperacao": "Modo de operação",
+        "online": "controlador online",
+        "planoVigente": "Plano vigente"
+      },
+      "planos": "Planos",
+      "subAreas": "Subáreas",
+      "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "tabelasHorarias": "Tabelas horárias",
-      "aneis": "Anéis",
-      "exibir": "Exibir"
+      "tipoControleVigente": "tipo de controle vigente",
+      "titulo": "Mapa dos controladores",
+      "trocarTabela": "Trocar tabela horária"
     },
     "mapa": "Mapa dos controladores",
     "anel": "Anel",
@@ -163,7 +222,7 @@
       "ativo": "Ativo",
       "CLC": "CLC",
       "dataAtualizacao": "Data atualização",
-      "statusControlador": "Status do controlador",
+      "statusControlador": "Status",
       "visualizarAcoes": "Visualizar/Ações",
       "acoes": "Ações",
       "verTelaAnterior": "Ver Resumo",
@@ -299,11 +358,12 @@
   },
   "subareas": {
     "area": "Área",
-    "nome": "Nome",
-    "numero": "Número",
-    "novo": "Nova Subárea",
-    "mostrar": "Visualizar Subárea",
+    "associarControladores": "Associar controladores",
     "editar": "Editar Subárea",
+    "mostrar": "Visualizar Subárea",
+    "nome": "Nome",
+    "novo": "Nova Subárea",
+    "numero": "Número",
     "titulo": "Subáreas"
   },
   "cidades": {
@@ -446,7 +506,11 @@
       "APAGADO": "Apagado",
       "MANUAL": "Manual"
     },
-    "estagioSequencia": "Estágio da Sequência"
+    "estagioSequencia": "Estágio da Sequência",
+    "grupoNaoAssociado": {
+      "titulo": "Grupo não associado",
+      "texto": "Este grupo não está associado a nenhum estágio do plano, e portanto está apagado. Para habilitá-lo, associe este grupo a pelo menos um estágio da sequencia."
+    }
   },
   "diagramaIntervalos": {
     "titulo": "Diagrama de Intervalos"
@@ -507,7 +571,14 @@
       "removido_com_sucesso": "Removido com sucesso",
       "salvo_com_sucesso": "Salvo com sucesso",
       "sair": "Sair do sistema?",
-      "sim": "Sim"
+      "sim": "Sim",
+      "ok": "Ok",
+      "sessaoExpirada": {
+        "tituloAlerta": "Atenção",
+        "alerta": "Atenção! Sua sessão deverá expirar em {TEMPO} segundos",
+        "titulo": "Sessão expirada",
+        "mensagem": "Sessão expirada por tempo de inatividade. Faça login novamente"
+      }
     },
     "croqui": "CROQUI",
     "erro_deletar_croqui": "Não foi possível apagar o Croqui.",
@@ -557,6 +628,7 @@
     "controlStatus": "Controladores Por Status",
     "controlModo": "Controladores Por Modo",
     "controlApresentando": "controlador está apresentando",
+    "falhasRegistradas": "{FALHAS, plural, one {<strong>uma falha</strong> foi registrada} other {<strong># falhas</strong> foram registradas}} recentemente",
     "recuperaFalhas": "se recuperaram de falhas na última hora",
     "quedaEnergia": "Queda de Energia",
     "faseQueimada": "Fase Pedestre Queimada",
@@ -580,7 +652,9 @@
     "sair": "Sair"
   },
   "timeline": {
-    "titulo": "Histórico de alterações"
+    "titulo": "Histórico de alterações",
+    "verAlteracoes": "Ver alterações",
+    "vazio": "O histórico está vazio."
   },
   "perfis": {
     "definir_permissoes": "Definir permissões",
@@ -699,9 +773,6 @@
     "mensagem_erro_502": "Erro ao comunicar com a API.",
     "mensagem_erro_404": "Não encontrado."
   },
-  "historico": {
-    "vazio": "O histórico está vazio."
-  },
   "diagrama_intervalo": {
     "erros": {
       "nao_existe_plano": "Plano {NUMERO} não está configurado para esse anel."
@@ -734,20 +805,71 @@
     "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
     "veicular": "Veicular"
   },
-  "EM_CONFIGURACAO": "Em Configuração",
-  "CONFIGURADO": "Configurado",
+  "imporConfig": {
+    "titulo": "Impor Configuração",
+    "status": "Status",
+    "cla": "CLA",
+    "local": "Local",
+    "info": "Info",
+    "imporPlano": "Impor Plano",
+    "imporModo": "Impor Modo",
+    "sincronizar": "Sincronizar",
+    "plano": "Plano",
+    "entrada": "Entrada",
+    "horaEntrada": "Hora de Entrada",
+    "duracao": "Duração",
+    "editar": "Editar",
+    "imporApagado": "Impor modo Apagado",
+    "imporInterm": "impor modo interminente",
+    "sincronizarApenas": "Sincronizar apenas Tabela Horária",
+    "sincronizarHoraPlano": "Sincronizar Tabela Horária e Planos",
+    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos, Configurações",
+    "sincronizando": "Sincronizando",
+    "configurado": "Configurado"
+  },
   "ATIVO": "Ativo",
-  "EM_EDICAO": "Em Edição",
+  "CONFIGURADO": "Configurado",
   "EDITANDO": "Em Edição",
+  "EM_CONFIGURACAO": "Em Configuração",
+  "EM_EDICAO": "Em Edição",
+  "FALHA": "Em falha",
+  "INATIVO": "Inativo",
+  "INOPERANTE": "Inoperante",
+  "OPERANDO_COM_FALHAS": "Operando com falhas",
   "relatorios": {
     "auditorias": "Auditorias",
     "controladoresStatus": "Controladores por Status",
     "controladoresFalhas": "Controladores por Falhas",
     "controladoresEntreVerdes": "Controladores com alteração Entreverdes",
+    "exportarCSV": "CSV",
     "gerar": "Gerar",
     "inicio": "Início",
+    "falha": "Falha",
+    "filtarPor": "Filtrar Por",
     "fim": "Fim",
     "titulo": "Relatórios",
-    "tipo": "Tipo Relatório"
+    "clc": "CLC",
+    "cla": "CLA",
+    "estado": "Estado",
+    "nomeCruzamento": "Nome do cruzamento",
+    "plano": "Plano",
+    "modo": "Modo",
+    "emFalha": "Em falha",
+    "planoTemp": "Plano Temporário",
+    "coordenado": "Coordenado",
+    "sobImposicao": "Sob imposição de Plano",
+    "planoTemp": "Plano Temporário",
+    "opManual": "Operação Manual",
+    "sobVigente": "Sob plano vigente",
+    "isolado": "Isolado",
+    "planoExclusivo": "Plano exclusivo",
+    "atuado": "Atuado",
+    "tipo": "Tipo Relatório",
+    "tipoFalha": "Tipo Falha",
+    "subareaAgrupamento": "Subarea / Agrupamento"
+  },
+  "diff": {
+    "versaoCriadaPor": "Versão criada por",
+    "em": "em"
   }
 }

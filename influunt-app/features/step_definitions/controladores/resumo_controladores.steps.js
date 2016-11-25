@@ -28,7 +28,7 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá mostrar as informações iniciais do anel 2$/, function () {
      var informacoes = {
-      'Logradouro': 'Av. Amazonas com Av. Contorno',
+      'Logradouro': 'Alameda Campinas com Av. Paulista',
       'CLA': '1.000.0001.2',
       'SMEE': '-',
       'gsp': '0',

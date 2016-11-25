@@ -1,0 +1,38 @@
+tr[influunt-evento].removido {
+  background-color: #FFBDBD;
+}
+
+tr[influunt-evento].adicionado {
+  background-color: lightgreen;
+}
+
+.diff-table {
+  margin-top: 5px;
+}
+
+.diff-table span.versao-usuario {
+  padding: 10px;
+}
+
+div.legenda a {
+  cursor: default;
+}
+
+div.legenda a:hover {
+  background-color: white;
+}
+
+div.legenda a div {
+  height: 10px;
+  width: 20px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+div.legenda a div.removido {
+  background: #FFBDBD;
+}
+
+div.legenda a div.adicionado {
+  background: lightgreen;
+}

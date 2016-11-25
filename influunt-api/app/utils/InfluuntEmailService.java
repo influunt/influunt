@@ -45,10 +45,10 @@ public class InfluuntEmailService {
         final String htmlContent = templateEngine.process("recuperarSenha", ctx);
 
         Email email = new Email()
-                .setSubject("Influunt Recuperar Senha")
-                .setFrom("naoresponda@influunt.com.br")
-                .addTo(emailAddress)
-                .setBodyHtml(htmlContent);
+            .setSubject("Influunt Recuperar Senha")
+            .setFrom("naoresponda@influunt.com.br")
+            .addTo(emailAddress)
+            .setBodyHtml(htmlContent);
         mailerClient.send(email);
     }
 }

@@ -82,10 +82,10 @@ public class Transacao {
     @Override
     public String toString() {
         return "Transacao{" +
-                "etapaTransacao=" + etapaTransacao +
-                ", transacaoId='" + transacaoId + '\'' +
-                ", idControlador='" + idControlador + '\'' +
-                '}';
+            "etapaTransacao=" + etapaTransacao +
+            ", transacaoId='" + transacaoId + '\'' +
+            ", idControlador='" + idControlador + '\'' +
+            '}';
     }
 
     public JsonNode toJson() {

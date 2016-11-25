@@ -11,6 +11,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+            new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
 
@@ -52,14 +53,14 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         assertEquals(8, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "A quantidade de detectores não deve ultrapassar a quantidade de estágios definidas no modelo do controlador.", "aneis[1]"),
-                new Erro(CONTROLADOR, "Numero total de detectores de pedestre informado individualmente nos aneis excede o limite do controlador", ""),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[0].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[1].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[2].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[3].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[4].associadoAoMenosUmEstagio"),
-                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+            new Erro(CONTROLADOR, "A quantidade de detectores não deve ultrapassar a quantidade de estágios definidas no modelo do controlador.", "aneis[1]"),
+            new Erro(CONTROLADOR, "Numero total de detectores de pedestre informado individualmente nos aneis excede o limite do controlador", ""),
+            new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[0].associadoAoMenosUmEstagio"),
+            new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[1].associadoAoMenosUmEstagio"),
+            new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[2].associadoAoMenosUmEstagio"),
+            new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[3].associadoAoMenosUmEstagio"),
+            new Erro(CONTROLADOR, "O detector deve estar associado a pelo menos um estágio.", "aneis[1].detectores[4].associadoAoMenosUmEstagio"),
+            new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
         anelCom2Estagios.setDetectores(null);
@@ -68,7 +69,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
 
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
+            new Erro(CONTROLADOR, "Esse estágio deve estar associado a pelo menos um detector.", "aneis[1].estagios[0].associadoDetectorCasoDemandaPrioritaria")
         ));
 
         criarDetector(anelCom2Estagios, TipoDetector.PEDESTRE, 1, false);
@@ -87,27 +88,27 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.", "aneis[1].detectores[0].associadoAoMenosUmEstagioPedestre"),
-                new Erro(CONTROLADOR, "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.", "aneis[0].detectores[0].associadoAoMenosUmEstagioVeicular"),
-                new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
-                new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
+            new Erro(CONTROLADOR, "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.", "aneis[1].detectores[0].associadoAoMenosUmEstagioPedestre"),
+            new Erro(CONTROLADOR, "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.", "aneis[0].detectores[0].associadoAoMenosUmEstagioVeicular"),
+            new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
+            new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 
         detector.setTipo(TipoDetector.VEICULAR);
         detector2.setTipo(TipoDetector.PEDESTRE);
 
-        detector2.setTempoAusenciaDeteccao(5000);
-        detector2.setTempoDeteccaoPermanente(1441);
+        detector2.setTempoAusenciaDeteccao(5801);
+        detector2.setTempoDeteccaoPermanente(11);
 
         erros = getErros(controlador);
         assertEquals(2, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-                new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
-                new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
+            new Erro(CONTROLADOR, "O tempo de ausência de detecção deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoAusenciaDeteccaoEstaDentroDaFaixa"),
+            new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 
         detector2.setTempoAusenciaDeteccao(0);
-        detector2.setTempoDeteccaoPermanente(1440);
+        detector2.setTempoDeteccaoPermanente(10);
 
         erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
@@ -156,7 +157,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
 
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
@@ -184,7 +185,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -199,7 +200,7 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
         Controlador controlador = getControladorAssociacaoDetectores();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(routes.ControladoresController.associacaoDetectores().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -229,10 +230,10 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class,
-                ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
+            Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class,
+            ControladorTabelaEntreVerdesCheck.class, ControladorAssociacaoDetectoresCheck.class);
     }
 
 }

@@ -8,8 +8,11 @@ package reports;
 public class ControladorStatusVO {
 
     private String idFabricante;
+
     private String nomeFabricante;
+
     private String status;
+
     private Integer total;
 
     public ControladorStatusVO() {
@@ -54,10 +57,10 @@ public class ControladorStatusVO {
     @Override
     public String toString() {
         return "ControladorStatusVO{" +
-                "idFabricante='" + idFabricante + '\'' +
-                ", nomeFabricante='" + nomeFabricante + '\'' +
-                ", status='" + status + '\'' +
-                ", total=" + total +
-                '}';
+            "idFabricante='" + idFabricante + '\'' +
+            ", nomeFabricante='" + nomeFabricante + '\'' +
+            ", status='" + status + '\'' +
+            ", total=" + total +
+            '}';
     }
 }

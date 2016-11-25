@@ -12,6 +12,14 @@ var AgrupamentosPage = function () {
 
   var totalAgrupamentosIndex = 0;
 
+  var selects = {
+    'Dias':                            '[name="agrupamentoPlanoDiaSemana"]',
+    'Hora':                            '[name="planoHora"]',
+    'Minuto':                          '[name="planoMinuto"]',
+    'Segundo':                         '[name="planoSegundo"]',
+    'Plano':                           '[name="posicaoPlano"]'
+  };
+
   this.existeAoMenosUmAgrupamento = function() {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
   };
@@ -40,10 +48,6 @@ var AgrupamentosPage = function () {
     return world.visit(NEW_PATH).then(function(){
       return world.waitFor(formAgrupamentos);
     });
-  };
-
-  this.selecionarControlador = function(option) {
-    return world.selectSelect2Option('select[name="controladores"]', option);
   };
 
   this.textoExisteNaTabela = function(text) {
@@ -83,6 +87,13 @@ var AgrupamentosPage = function () {
   this.alertaAtulizarTabelaHoraria = function() {
     return world.getTextInSweetAlert();
   };
+
+  this.selecionarValor = function(valor, select) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.selectByOptionAtribute('div', selects[select], 'value', valor);
+    });
+  };
+
 
   this.toastMessage = function() {
     return world.sleep(1000).then(function() {

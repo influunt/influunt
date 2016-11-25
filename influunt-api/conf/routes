@@ -30,6 +30,7 @@ DELETE    /api/v1/subareas/:id                                        controller
 GET       /api/v1/controladores                                       controllers.ControladoresController.findAll()
 GET       /api/v1/controladores/mapas                                 controllers.ControladoresController.getControladoresForMapa
 GET       /api/v1/controladores/agrupamentos                          controllers.ControladoresController.getControladoresForAgrupamentos
+GET       /api/v1/controladores/sem_subarea                           controllers.ControladoresController.getControladoresSemSubareas
 POST      /api/v1/controladores/dados_basicos                         controllers.ControladoresController.dadosBasicos()
 POST      /api/v1/controladores/aneis                                 controllers.ControladoresController.aneis()
 POST      /api/v1/controladores/grupos_semaforicos                    controllers.ControladoresController.gruposSemaforicos()
@@ -51,7 +52,7 @@ DELETE    /api/v1/controladores/:id/cancelar_edicao                   controller
 GET       /api/v1/controladores/:id/editar_planos                     controllers.ControladoresController.editarPlanos(id)
 GET       /api/v1/controladores/:id/editar_tabelas_horarias           controllers.ControladoresController.editarTabelaHoraria(id)
 PUT       /api/v1/controladores/:id/atualizar_descricao               controllers.ControladoresController.atualizarDescricao(id)
-DELETE    /api/v1/controladores/:id/remover_planos_tabelas_horarios   controllers.ControladoresController.removerPlanosTabelasHorarios(id)
+DELETE    /api/v1/controladores/:id/remover_planos_tabelas_horarias   controllers.ControladoresController.removerPlanosTabelasHorarios(id)
 
 # Fabricantes
 GET       /api/v1/fabricantes                                         controllers.FabricantesController.findAll()
@@ -154,23 +155,18 @@ GET       /api/v1/monitoramento/status/:id                                      
 GET       /api/v1/monitoramento/status                                                         controllers.monitoramento.StatusControladorFisicoController.ultimoStatusDosControladores()
 GET       /api/v1/monitoramento/status/:id/ultimo_status                                       controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
 
-# ModoOperacao Controlador
-GET       /api/v1/monitoramento/modo_operacoes_controladores/:id                               controllers.monitoramento.ModoOperacaoControladorController.findOne(id)
-GET       /api/v1/monitoramento/modo_operacoes_controladores                                   controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoDosControladores()
-GET       /api/v1/monitoramento/modo_operacoes_controladores/:id/ultimo_modo_operacao          controllers.monitoramento.ModoOperacaoControladorController.ultimoModoOperacaoControlador(id)
-GET       /api/v1/monitoramento/modo_operacoes_controladores/:id/historico/:pagina/:tamanho    controllers.monitoramento.ModoOperacaoControladorController.historico(id,pagina,tamanho)
 
-# Erros Controladores
-GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.ErrosControladorController.findOne(id)
-GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.ErrosControladorController.ultimosErrosDosControladores()
-GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.ErrosControladorController.ultimoErroControlador(id)
-GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.ErrosControladorController.historico(id,pagina,tamanho)
+# TrocaDePlanos Controlador
+GET       /api/v1/monitoramento/troca_planos_controladores/:id                               controllers.monitoramento.TrocaPlanoControladorController.findOne(id)
+GET       /api/v1/monitoramento/troca_planos_controladores                                   controllers.monitoramento.TrocaPlanoControladorController.ultimoModoOperacaoDosControladores()
+GET       /api/v1/monitoramento/troca_planos_controladores/:id/historico/:pagina/:tamanho    controllers.monitoramento.TrocaPlanoControladorController.historico(id,pagina,tamanho)
 
-# ImposicaoPlanos Controlador
-GET       /api/v1/monitoramento/imposicoes_planos/:id                                           controllers.monitoramento.ImposicaoPlanosControladorController.findOne(id)
-GET       /api/v1/monitoramento/imposicoes_planos                                               controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImpostoDosControladores()
-GET       /api/v1/monitoramento/imposicoes_planos/:id/ultimo_status                             controllers.monitoramento.ImposicaoPlanosControladorController.ultimoStatusPlanoImposto(id)
-GET       /api/v1/monitoramento/imposicoes_planos/:id/historico/:pagina/:tamanho                controllers.monitoramento.ImposicaoPlanosControladorController.historico(id,pagina,tamanho)
+
+# Alarmes e Falhas Controladores
+GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.AlarmesEFalhasControladorController.findOne(id)
+GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimosAlarmesEFalhasDosControladores()
+GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimoAlarmeFalhaControlador(id)
+GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.AlarmesEFalhasControladorController.historico(id,pagina,tamanho)
 
 # Monitoramento
 GET       /api/v1/monitoramento/status_controladores                                            controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()

@@ -15,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,22 +32,19 @@ public class PlanosController extends Controller {
     @Dynamic("Influunt")
     public CompletionStage<Result> create() {
         JsonNode json = request().body().asJson();
-
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
-        } else {
-
-            Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json);
-            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
-
-            if (erros.isEmpty()) {
-                controlador.update();
-                Controlador controlador1 = Controlador.find.byId(controlador.getId());
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1)));
-            } else {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
-            }
         }
+
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
+        if (!erros.isEmpty()) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
+
+        controlador.update();
+        Controlador controlador1 = Controlador.find.byId(controlador.getId());
+        return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
     }
 
     @Transactional
@@ -57,7 +55,7 @@ public class PlanosController extends Controller {
         if (anel == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            List<VersaoPlano> versoes = anel.getVersoesPlanos();
+            List<VersaoPlano> versoes = VersaoPlano.versoes(anel);
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
         }
     }

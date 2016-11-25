@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Detector;
+import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacaoDetector;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import play.libs.Json;
@@ -26,7 +28,10 @@ public class ParametroSimulacaoDetectorDeserializer extends JsonDeserializer<Par
         ParametroSimulacaoDetector detectorParams = new ParametroSimulacaoDetector();
 
         if (node.has("detector")) {
-            detectorParams.setDetector(Json.fromJson(node.get("detector"), Detector.class));
+            Detector detector = Json.fromJson(node.get("detector"), Detector.class);
+
+            detectorParams.setDetector(new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo()));
+            detectorParams.setAnel(detector.getAnel().getPosicao());
         }
 
         if (node.has("disparo")) {

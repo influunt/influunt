@@ -8,9 +8,10 @@ import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
 import json.ControladorCustomSerializer;
 import models.Controlador;
-import org.junit.Ignore;
+import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
@@ -18,9 +19,17 @@ import protocol.TipoMensagem;
 import protocol.TipoTransacao;
 import server.conn.CentralMessageBroker;
 import status.Transacao;
+import utils.EncryptionUtil;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.validation.groups.Default;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Map;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
@@ -31,7 +40,6 @@ import static org.junit.Assert.assertThat;
  */
 public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
-    @Ignore
     @Test
     public void configuracaoValida() {
         startClient();
@@ -40,9 +48,8 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
-    @Ignore
     @Test
-    public void enviarPlanosOK() {
+    public void enviarPlanosOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
         await().until(() -> onPublishFutureList.size() > 4);
@@ -57,50 +64,60 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         ActorRef actor = context.actorOf(Props.create(CentralMessageBroker.class), "MessageBrokerTeste");
         actor.tell(envelope, null);
 
-        await().until(() -> onPublishFutureList.size() > 9);
+        await().until(() -> onPublishFutureList.size() > 10);
 
-        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(5)));
-        JsonNode jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        Map map = new Gson().fromJson(new String(onPublishFutureList.get(6)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getControladorPrivateKey()), Envelope.class);
+
+        JsonNode jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.PREPARE_TO_COMMIT.toString(), jsonConteudo.get("etapaTransacao").asText());
 
         String idTransacao = jsonConteudo.get("transacaoId").asText();
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(6)));
-        jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        map = new Gson().fromJson(new String(onPublishFutureList.get(7)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+
+        jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.PREPARE_OK.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(7)));
-        jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        map = new Gson().fromJson(new String(onPublishFutureList.get(8)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getControladorPrivateKey()), Envelope.class);
+
+        jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.COMMIT.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(8)));
-        jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        map = new Gson().fromJson(new String(onPublishFutureList.get(9)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+
+        jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.COMMITED.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(9)));
-        jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        map = new Gson().fromJson(new String(onPublishFutureList.get(10)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getControladorPrivateKey()), Envelope.class);
+
+        jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.COMPLETED.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
     }
 
-    @Ignore
     @Test
-    public void enviarPlanosNaoOK() {
+    public void enviarPlanosNaoOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         startClient();
-        controlador = new ControladorHelper().getControlador();
+        //controlador = new ControladorHelper().getControlador();
+
         await().until(() -> onPublishFutureList.size() > 4);
 
         JsonNode pacotePlanosJson = new ControladorCustomSerializer().getPacotePlanosJson(controlador);
@@ -113,27 +130,34 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         ActorRef actor = context.actorOf(Props.create(CentralMessageBroker.class), "MessageBrokerTeste");
         actor.tell(envelope, null);
 
-        await().until(() -> onPublishFutureList.size() > 7);
+        await().until(() -> onPublishFutureList.size() > 8);
 
-        JsonNode json = play.libs.Json.parse(new String(onPublishFutureList.get(5)));
-        JsonNode jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+
+        Map map = new Gson().fromJson(new String(onPublishFutureList.get(6)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getControladorPrivateKey()), Envelope.class);
+
+        JsonNode jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.PREPARE_TO_COMMIT.toString(), jsonConteudo.get("etapaTransacao").asText());
 
         String idTransacao = jsonConteudo.get("transacaoId").asText();
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(6)));
-        jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        map = new Gson().fromJson(new String(onPublishFutureList.get(7)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+
+        jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.PREPARE_FAIL.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
-        json = play.libs.Json.parse(new String(onPublishFutureList.get(7)));
-        jsonConteudo = play.libs.Json.parse(json.get("conteudo").asText());
-        assertEquals(TipoMensagem.TRANSACAO.toString(), json.get("tipoMensagem").asText());
-        assertEquals(idControlador, json.get("idControlador").asText());
+        map = new Gson().fromJson(new String(onPublishFutureList.get(8)), Map.class);
+        envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getControladorPrivateKey()), Envelope.class);
+
+        jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+        assertEquals(TipoMensagem.TRANSACAO, envelope.getTipoMensagem());
+        assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(EtapaTransacao.FAILED.toString(), jsonConteudo.get("etapaTransacao").asText());
         assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
@@ -142,7 +166,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-                Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
     }
 
 }

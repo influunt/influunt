@@ -17,6 +17,7 @@ public class SimulacaoConfig {
     private List<Integer> tempoCicloAnel = new ArrayList<>();
 
     private List<AnelSimulacaoConfig> aneis;
+
     private List<DetectorSimulacaoConfig> detectores;
 
     public String getSimulacaoId() {
@@ -78,11 +79,13 @@ public class SimulacaoConfig {
             return imagem;
         }
     }
+
     public static class AnelSimulacaoConfig {
+        public List<EstagioSimulacaoConfig> estagios = new ArrayList<>();
+
         private int numero;
 
         private List<TipoGrupoSemaforico> tiposGruposSemaforicos = new ArrayList<>();
-        public List<EstagioSimulacaoConfig> estagios = new ArrayList<>();
 
         public int getNumero() {
             return numero;

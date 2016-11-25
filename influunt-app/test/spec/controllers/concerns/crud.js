@@ -120,12 +120,28 @@ describe('Controller: CrudCtrl', function () {
       expect(toast.success).toHaveBeenCalled();
     });
 
+    it('Em caso de erro, deve exibir a mensagem de validacao', function() {
+      spyOn(scope, 'index');
+      spyOn(toast, 'warn');
+
+      var url = '/resource/1';
+      httpBackend.expectDELETE(url).respond(422, [{"root":"Fabricante","message":"Este fabricante possui modelos utilizados em controladores","path":""}]);
+
+      scope.confirmDelete(1);
+      deferred.resolve(true);
+      httpBackend.flush();
+      scope.$apply();
+
+      expect(scope.index).not.toHaveBeenCalled();
+      expect(toast.warn).toHaveBeenCalled();
+    });
+
     it('Em caso de erro, deve exibir a mensagem', function() {
       spyOn(scope, 'index');
       spyOn(toast, 'error');
 
       var url = '/resource/1';
-      httpBackend.expectDELETE(url).respond(422, {});
+      httpBackend.expectDELETE(url).respond(500, {});
 
       scope.confirmDelete(1);
       deferred.resolve(true);

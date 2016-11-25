@@ -121,7 +121,7 @@ public class TransicaoProibida extends Model implements Serializable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "O estágio de origem deve ser diferente do estágio de destino.")
+        message = "O estágio de origem deve ser diferente do estágio de destino.")
     public boolean isOrigemEDestinoDiferentes() {
         if (getOrigem() != null && getDestino() != null) {
             return (getOrigem() != getDestino());
@@ -129,7 +129,7 @@ public class TransicaoProibida extends Model implements Serializable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "Esse estágio só pode ser proibido com estágios do mesmo anel.")
+        message = "Esse estágio só pode ser proibido com estágios do mesmo anel.")
     public boolean isOrigemEDestinoPertencemAoMesmoAnel() {
         if (getOrigem() != null && getDestino() != null) {
             return (getOrigem().getAnel() == getDestino().getAnel());
@@ -137,7 +137,7 @@ public class TransicaoProibida extends Model implements Serializable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "O Estágio alternativo deve ser diferente do destino.")
+        message = "O Estágio alternativo deve ser diferente do destino.")
     public boolean isEstagioAlternativoDiferenteOrigemEDestino() {
         if (getAlternativo() != null && getOrigem() != null && getDestino() != null)
             return (getAlternativo() != getDestino());
@@ -146,9 +146,9 @@ public class TransicaoProibida extends Model implements Serializable {
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
-            message = "O Estágio de origem não pode ter transição proibida para estágio alternativo.")
+        message = "O Estágio de origem não pode ter transição proibida para estágio alternativo.")
     public boolean isOrigemNaoPossuiTransicaoProibidaParaAlternativo() {
-        if (getAlternativo() != null && getOrigem() != null) {
+        if (!isDestroy() && getAlternativo() != null && getOrigem() != null) {
             return !getOrigem().temTransicaoProibidaParaEstagio(getAlternativo());
         }
         return true;

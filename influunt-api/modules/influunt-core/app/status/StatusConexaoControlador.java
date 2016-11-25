@@ -23,13 +23,13 @@ public class StatusConexaoControlador {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    public String _id;
+    private String _id;
 
-    public String idControlador;
+    private String idControlador;
 
-    public Long timestamp;
+    private Long timestamp;
 
-    public boolean conectado;
+    private boolean conectado;
 
     public StatusConexaoControlador(String idControlador, long timestamp, boolean conectado) {
         this.idControlador = idControlador;
@@ -57,8 +57,8 @@ public class StatusConexaoControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Boolean> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first:'$conectado'}}}").
-                        as(Map.class);
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first:'$conectado'}}}").
+                as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), (boolean) m.get("conectado"));
         }
@@ -181,8 +181,8 @@ public class StatusConexaoControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Object> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
-                        as(Map.class);
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+                as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), m);
         }
@@ -191,6 +191,10 @@ public class StatusConexaoControlador {
 
     public boolean isConectado() {
         return conectado;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     public void insert() {
@@ -204,11 +208,11 @@ public class StatusConexaoControlador {
     @Override
     public String toString() {
         return "StatusConexaoControlador{" +
-                "_id='" + _id + '\'' +
-                ", idControlador='" + idControlador + '\'' +
-                ", timestamp=" + timestamp +
-                ", conectado=" + conectado +
-                '}';
+            "_id='" + _id + '\'' +
+            ", idControlador='" + idControlador + '\'' +
+            ", timestamp=" + timestamp +
+            ", conectado=" + conectado +
+            '}';
     }
 
 

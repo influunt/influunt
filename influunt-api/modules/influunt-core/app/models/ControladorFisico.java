@@ -101,16 +101,20 @@ public class ControladorFisico extends Model implements Serializable {
 
     public Controlador getControladorAtivo() {
         VersaoControlador versaoControlador = VersaoControlador.find.fetch("controlador").where()
-                .and(Expr.eq("controlador_fisico_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
+            .and(Expr.eq("controlador_fisico_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 
     public Controlador getControladorConfiguradoOuAtivoOuEditando() {
-        VersaoControlador versaoControlador = this.getVersoes().stream().filter(versaoControladorAux ->
-                StatusVersao.ATIVO.equals(versaoControladorAux.getStatusVersao()) ||
-                        StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao()) ||
-                        StatusVersao.EDITANDO.equals(versaoControladorAux.getStatusVersao())).findFirst().orElse(null);
-
+        VersaoControlador versaoControlador = this
+            .getVersoes()
+            .stream()
+            .filter(versaoControladorAux ->
+                StatusVersao.EM_CONFIGURACAO.equals(versaoControladorAux.getStatusVersao()) ||
+                    StatusVersao.ATIVO.equals(versaoControladorAux.getStatusVersao()) ||
+                    StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao()) ||
+                    StatusVersao.EDITANDO.equals(versaoControladorAux.getStatusVersao())
+            ).findFirst().orElse(null);
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 

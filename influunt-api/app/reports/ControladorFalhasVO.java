@@ -9,7 +9,9 @@ import java.util.List;
 public class ControladorFalhasVO {
 
     private String idFabricante;
+
     private List<FalhaPorFabricanteVO> falhas = new ArrayList<FalhaPorFabricanteVO>();
+
     private String nomeFabricante;
 
     public ControladorFalhasVO() {

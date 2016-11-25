@@ -51,45 +51,47 @@ angular.module('influuntApp')
 
         currentPlano.estagiosPlanos.forEach(function(ep){
           var estagioPlano = _.cloneDeep(_.find(controlador.estagiosPlanos, {idJson: ep.idJson}));
-          var estagio = _.find(controlador.estagios, {idJson: estagioPlano.estagio.idJson});
-          var novoEstagio = _.cloneDeep(estagio);
+          if (!estagioPlano.destroy) {
+            var estagio = _.find(controlador.estagios, {idJson: estagioPlano.estagio.idJson});
+            var novoEstagio = _.cloneDeep(estagio);
 
-          novoEstagio.gruposSemaforicos = [];
-          estagio.estagiosGruposSemaforicos.forEach(function(egs){
-            var estagioGrupoSemaforico = _.find(controlador.estagiosGruposSemaforicos, {idJson: egs.idJson});
-            var grupoSemaforico = _.find(controlador.gruposSemaforicos, {idJson: estagioGrupoSemaforico.grupoSemaforico.idJson});
-            var novoGrupoSemaforico = _.cloneDeep(grupoSemaforico);
+            novoEstagio.gruposSemaforicos = [];
+            estagio.estagiosGruposSemaforicos.forEach(function(egs){
+              var estagioGrupoSemaforico = _.find(controlador.estagiosGruposSemaforicos, {idJson: egs.idJson});
+              var grupoSemaforico = _.find(controlador.gruposSemaforicos, {idJson: estagioGrupoSemaforico.grupoSemaforico.idJson});
+              var novoGrupoSemaforico = _.cloneDeep(grupoSemaforico);
 
-            novoGrupoSemaforico.tabelasEntreVerdes = [];
-            grupoSemaforico.tabelasEntreVerdes.forEach(function(tev){
-              var tabelaEntreVerde = _.cloneDeep(_.find(controlador.tabelasEntreVerdes, {idJson: tev.idJson}));
-              novoGrupoSemaforico.tabelasEntreVerdes.push(tabelaEntreVerde);
-            });
-
-            novoGrupoSemaforico.transicoes = [];
-            grupoSemaforico.transicoes.forEach(function(t){
-              var transicao = _.find(controlador.transicoes, {idJson: t.idJson});
-              var novaTransicao = _.cloneDeep(transicao);
-              novaTransicao.tabelaEntreVerdesTransicoes = [];
-              transicao.tabelaEntreVerdesTransicoes.forEach(function(tevt){
-                var tabelaEntreVerdeTransicao = _.cloneDeep(_.find(controlador.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson}));
-                novaTransicao.tabelaEntreVerdesTransicoes.push(tabelaEntreVerdeTransicao);
+              novoGrupoSemaforico.tabelasEntreVerdes = [];
+              grupoSemaforico.tabelasEntreVerdes.forEach(function(tev){
+                var tabelaEntreVerde = _.cloneDeep(_.find(controlador.tabelasEntreVerdes, {idJson: tev.idJson}));
+                novoGrupoSemaforico.tabelasEntreVerdes.push(tabelaEntreVerde);
               });
-              novoGrupoSemaforico.transicoes.push(novaTransicao);
+
+              novoGrupoSemaforico.transicoes = [];
+              grupoSemaforico.transicoes.forEach(function(t){
+                var transicao = _.find(controlador.transicoes, {idJson: t.idJson});
+                var novaTransicao = _.cloneDeep(transicao);
+                novaTransicao.tabelaEntreVerdesTransicoes = [];
+                transicao.tabelaEntreVerdesTransicoes.forEach(function(tevt){
+                  var tabelaEntreVerdeTransicao = _.cloneDeep(_.find(controlador.tabelasEntreVerdesTransicoes, {idJson: tevt.idJson}));
+                  novaTransicao.tabelaEntreVerdesTransicoes.push(tabelaEntreVerdeTransicao);
+                });
+                novoGrupoSemaforico.transicoes.push(novaTransicao);
+              });
+
+              novoGrupoSemaforico.transicoesComGanhoDePassagem = [];
+              grupoSemaforico.transicoesComGanhoDePassagem.forEach(function(t){
+                var transicao = _.find(controlador.transicoesComGanhoDePassagem, {idJson: t.idJson});
+                var novaTransicao = _.cloneDeep(transicao);
+                novoGrupoSemaforico.transicoesComGanhoDePassagem.push(novaTransicao);
+              });
+
+              novoEstagio.gruposSemaforicos.push(novoGrupoSemaforico);
             });
 
-            novoGrupoSemaforico.transicoesComGanhoDePassagem = [];
-            grupoSemaforico.transicoesComGanhoDePassagem.forEach(function(t){
-              var transicao = _.find(controlador.transicoesComGanhoDePassagem, {idJson: t.idJson});
-              var novaTransicao = _.cloneDeep(transicao);
-              novoGrupoSemaforico.transicoesComGanhoDePassagem.push(novaTransicao);
-            });
-
-            novoEstagio.gruposSemaforicos.push(novoGrupoSemaforico);
-          });
-
-          estagioPlano.estagio = novoEstagio;
-          plano.estagiosPlanos.push(estagioPlano);
+            estagioPlano.estagio = novoEstagio;
+            plano.estagiosPlanos.push(estagioPlano);
+          }
         });
         plano.estagiosPlanos = _.orderBy(plano.estagiosPlanos, ['posicao']);
 

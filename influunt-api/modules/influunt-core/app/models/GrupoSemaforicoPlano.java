@@ -15,8 +15,10 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 7/13/16.
@@ -123,9 +125,24 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
             return !this.getPlano().getEstagiosPlanos().stream()
-                    .filter(estagioPlano -> estagioPlano.getEstagio().getGruposSemaforicos()
-                            .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
-                    .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
+                .filter(estagioPlano -> !estagioPlano.isDestroy() && estagioPlano.getEstagio().getGruposSemaforicos()
+                    .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
+                .anyMatch(estagioPlano -> estagioPlano.getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, this.getGrupoSemaforico()) < this.getGrupoSemaforico().getTempoVerdeSeguranca());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.")
+    public boolean isGrupoApagadoSeNaoAssociado() {
+        GrupoSemaforico grupo = getGrupoSemaforico();
+        List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream().map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());
+        boolean isDemandaPrioritaria = estagios.stream().anyMatch(Estagio::isDemandaPrioritaria);
+        if (!isDemandaPrioritaria) {
+            List<EstagioPlano> eps = estagios.stream().map(Estagio::getEstagiosPlanos).flatMap(Collection::stream).collect(Collectors.toList());
+            if (eps.isEmpty() && isAtivado()) {
+                return false;
+            }
         }
         return true;
     }

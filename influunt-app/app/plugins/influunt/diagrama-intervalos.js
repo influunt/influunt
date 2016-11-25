@@ -25,10 +25,13 @@ var influunt;
         var i = 0;
         var j = 0;
         var t = 0;
-        var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao, tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao;
+        var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao, 
+            tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, 
+            tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao;
 
         // cria uma matriz de tamanho quantidadeGruposSemaforicos x tempoCiclo, inicializada com -1 em todos os campos.
         var diagrama = _.times(plano.quantidadeGruposSemaforicos, function() { return _.times(plano.tempoCiclo, _.constant(-1)); });
+
         var tempoCiclo = 0;
         var instante = 0;
         for (i = 0; i < plano.estagiosPlanos.length; i++) {

@@ -55,9 +55,9 @@ public class ImagensController extends Controller {
 
                 //Create thumbnail
                 Thumbnails.of(tmpFile)
-                        .forceSize(150, 150)
-                        .outputFormat("jpg")
-                        .toFile(imagem.getPath(appRootPath, "thumb"));
+                    .forceSize(150, 150)
+                    .outputFormat("jpg")
+                    .toFile(imagem.getPath(appRootPath, "thumb"));
 
             } catch (IOException e) {
                 imagem.delete();

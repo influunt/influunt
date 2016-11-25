@@ -14,12 +14,20 @@ module.exports = function() {
     return sharedSteps.variosControladores();
   });
 
+  this.Given(/^que o sistema possua controladores cadastrados e configurados$/, function() {
+    return sharedSteps.variosControladoresConfigurados();
+  });
+
   this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
     return sharedSteps.cadastrarPlanoParaControlador();
   });
 
   this.Given(/^que o sistema possua tabela horária para o controlador cadastrado$/, function() {
     return sharedSteps.cadastrarTabelaHorariaParaControlador();
+  });
+
+  this.Given(/^for desabilitada no perfil visualizar todas as áreas$/, function () {
+    return sharedSteps.desabilitarPermissoes();
   });
 
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
@@ -52,6 +60,10 @@ module.exports = function() {
 
   this.Given(/^o usuário realizar um scroll down$/, function() {
     return sharedSteps.realizarScrollDown();
+  });
+
+  this.Given(/^o usuário realizar um scroll down no modal$/, function() {
+    return sharedSteps.realizarScrollDownModal();
   });
 
   this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
@@ -112,7 +124,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
-    return sharedSteps.checarValoresNaTabela(status);
+    return sharedSteps.checarBadgeStatusControlador(status);
   });
 
   this.Given(/^o sistema deverá mostrar na tabela o valor "([^"]*)"$/, function (status) {
@@ -123,11 +135,56 @@ module.exports = function() {
     return sharedSteps.clicarEditarEmResumo(tooltipSelector);
   });
 
+  this.Given(/^o usuário clicar para visualizar o resumo$/, function () {
+    return sharedSteps.clicarVisualizarResumo();
+  });
+
   this.Given(/^o usuário esteja na listagem de controladores$/, function () {
     return sharedSteps.isListagemControladores();
   });
 
   this.Given(/^o usuário acesse a listagem de "([^"]*)"$/, function (localizacao) {
     return sharedSteps.visitarListagem(localizacao);
+  });
+
+  this.Given(/^o usuário selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.selecionarBySelect2Option(campo, valor);
+  });
+
+  this.Given(/^o usuário não consiga selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.naoConsigaSelecionar(campo, valor);
+  });
+
+  this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
+    return sharedSteps.removeSelect2Option(opcao, campo);
+  });
+
+  this.Given(/^o usuário clicar em "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.clicarBotaoEspecificoTabelaControladores(botao, controlador);
+  });
+
+  this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
+    var campo = '#estagio-alternativo-'+transicao+'';
+    var selectSelector = 'select[name="alternativos"]';
+    var optionAtribute = 'label';
+    var value = ''+alternativa+'';
+
+    return sharedSteps.selectBySelectOptionAtribute(campo, selectSelector, optionAtribute, value);
+  });
+
+  this.Given(/^o sistema deverá mostrar na "([^"]*)" posição com a data "([^"]*)"$/, function (posicao, data) {
+    return sharedSteps.checkPosicaoHistorico(posicao, data);
+  });
+
+  this.Given(/^o sistema não deverá mostrar o botão "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.naoPodeMostraBotao(botao, controlador);
+  });
+
+  this.Given(/^o usuário clicar em fechar o modal "([^"]*)"$/, function (modal) {
+    return sharedSteps.fecharModal(modal);
+  });
+
+  this.Given(/^o usuário digitar no campo "([^"]*)" com a informação "([^"]*)"$/, function (campo, texto) {
+    return sharedSteps.preencherCampo(campo, texto);
   });
 };

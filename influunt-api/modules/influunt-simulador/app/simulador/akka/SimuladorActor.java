@@ -4,7 +4,7 @@ import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.Gson;
+import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
 import models.Evento;
 import models.TipoDetector;
@@ -37,11 +37,12 @@ public class SimuladorActor extends UntypedActor {
 
     private MqttClient client;
 
-    private int pagina = 0;
 
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
     private List<ArrayNode> trocasDePlanos = new ArrayList<>();
+
+    private List<ArrayNode> alarmes = new ArrayList<>();
 
     private String jsonTrocas;
 
@@ -61,7 +62,8 @@ public class SimuladorActor extends UntypedActor {
             opts.setWill("simulador/" + id + "/morreu", "1".getBytes(), 1, true);
             client.connect(opts);
             client.subscribe("simulador/" + id + "/proxima_pagina", 1, (topic, message) -> {
-                proximaPagina();
+                JsonNode root = Json.parse(message.getPayload());
+                proximaPagina(root.get("pagina").asInt());
             });
             client.subscribe("simulador/" + id + "/detector", 1, (topic, message) -> {
                 JsonNode root = Json.parse(message.getPayload());
@@ -69,11 +71,25 @@ public class SimuladorActor extends UntypedActor {
                 int posicao = root.get("posicao").asInt();
                 int anel = root.get("anel").asInt();
                 DateTime disparo = new DateTime(root.get("disparo").asLong());
-                detectorAcionador(anel,td,disparo,posicao);
+                detectorAcionador(anel, td, disparo, posicao);
+            });
+
+            client.subscribe("simulador/" + id + "/alternar_modo_manual", 1, (topic, message) -> {
+                JsonNode root = Json.parse(message.getPayload());
+                DateTime disparo = new DateTime(root.get("disparo").asLong());
+                boolean ativar = root.get("ativarModoManual").asBoolean();
+
+                alternarModoManual(disparo, ativar);
             });
 
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
-            proximaPagina();
+            try {
+                proximaPagina(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+                send();
+            }
+
 
         } catch (MqttException e) {
             e.printStackTrace();
@@ -82,19 +98,26 @@ public class SimuladorActor extends UntypedActor {
 
     }
 
-    private void detectorAcionador(int anel,TipoDetector tipoDetector, DateTime disparo, int detector) {
-        simulador.detectorAcionador(anel,tipoDetector,disparo,detector);
-        pagina = 0;
+    private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
+        simulador.alternarModoManual(disparo, ativar);
         trocasDePlanos.clear();
+        alarmes.clear();
         estagios.clear();
-        proximaPagina();
+        proximaPagina(0);
     }
 
-    private void proximaPagina() {
+    private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
+        simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
+        trocasDePlanos.clear();
+        alarmes.clear();
+        estagios.clear();
+        proximaPagina(0);
+    }
+
+    private void proximaPagina(int pagina) throws Exception {
         DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);
-        pagina++;
         send();
     }
 
@@ -117,6 +140,7 @@ public class SimuladorActor extends UntypedActor {
             client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
             estagios.clear();
             trocasDePlanos.clear();
+            alarmes.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -130,12 +154,15 @@ public class SimuladorActor extends UntypedActor {
         estagios.keySet().stream().forEach(key -> {
             ArrayNode anelArray = aneis.putArray(key.toString());
             estagios.get(key).stream().forEach(e -> {
-                 anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
+                anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
             });
         });
+
         ArrayNode trocas = root.putArray("trocas");
         trocasDePlanos.forEach(troca -> trocas.add(troca));
 
+        ArrayNode alarmesNode = root.putArray("alarmes");
+        alarmes.forEach(alarme -> alarmesNode.add(alarme));
 
         return root.toString();
     }
@@ -146,9 +173,9 @@ public class SimuladorActor extends UntypedActor {
 
         troca.add(timestamp.getMillis());
 
-        if(eventoAnterior!=null) {
+        if (eventoAnterior != null) {
             troca.add(eventoAnterior.getPosicaoPlano());
-        }else{
+        } else {
             troca.add("null");
         }
         troca.add(eventoAtual.getPosicaoPlano());
@@ -157,6 +184,17 @@ public class SimuladorActor extends UntypedActor {
         troca.add(modosJson);
 
         trocasDePlanos.add(troca);
+
+    }
+
+    public void storeAlarme(DateTime timestamp, EventoMotor eventoMotor) {
+        ArrayNode alarme = Json.newArray();
+
+        alarme.add(timestamp.getMillis());
+        alarme.add(eventoMotor.getTipoEvento().getCodigo());
+        alarme.add(eventoMotor.getTipoEvento().toString());
+        alarme.add(eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
+        alarmes.add(alarme);
 
     }
 }

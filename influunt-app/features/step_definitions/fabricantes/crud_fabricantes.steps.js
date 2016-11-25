@@ -64,9 +64,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de fabricantes$/, function() {
-    return fabricantesPage.fabricanteIdH5().then(function(fabricanteId) {
-      expect(fabricanteId).to.match(/ - #/);
-    });
+    return fabricantesPage.isIndex();
   });
 
   this.Given(/^clicar no botão de editar fabricante$/, function() {
@@ -91,6 +89,12 @@ module.exports = function() {
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o fabricante$/, function() {
     return fabricantesPage.textoConfirmacaoApagarRegistro().then(function(text) {
       expect(text).to.equal('Quer mesmo apagar este registro?');
+    });
+  });
+
+  this.Then(/^o sistema deverá apresentar a mensagem "([^"]*)"$/, function (mensagem) {
+    return fabricantesPage.toastMessage().then(function(text) {
+      expect(text).to.match(new RegExp(mensagem));
     });
   });
 

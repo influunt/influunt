@@ -78,7 +78,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Dado que o usuário esteja na página de planos
     E que o usuário clicar em editar o "PLANO 1"
     Então o sistema exibe uma caixa para renomear o plano
-    E o usuário prenche o campo com "PLANO 77"
+    E o usuário preencha o alert com "PLANO 77"
     Quando o usuário confirmar
     Então o sistema deve alterar o nome para "PLANO 77"
 
@@ -146,9 +146,17 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
     Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (31s) é diferente do tempo de ciclo (50s)."
 
+  Cenário: Em modo Cordenado o sitema deve apresentar erro para defasagem maior que tempo de ciclo
+    Dado que o usuário esteja na página de planos
+    E o usuário deve ter a opção de marcar a defasagem do ciclo
+    E que o usuário marque 80 segundos para o "Defasagem"
+    E o usuário clicar em "Salvar"
+    Então o sistema deverá apresentar erro em defasagem
+
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos
     E o usuário deve ter a opção de marcar a defasagem do ciclo
+    E que o usuário marque 5 segundos para o "Defasagem"
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 14 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
@@ -171,7 +179,6 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-verde" em "13s" segundos
     E o usuário realize um scroll up
     E que o usuário selecione o anel 2
-    E que o usuário clicar no plano 2
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 12 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
@@ -201,7 +208,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário não deve ter a opção de marcar o tempo de ciclo do estágio
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
     Dado que o usuário selecione o anel 2
-    E que o usuário clicar no plano 3
     E que o usuário selecione o modo de operação "Intermitente"
     Então o sistema deve mostrar o diagrama "Intermitente" no grupo "G4" com "indicacao-intermitente" em "30s" segundos
     E o sistema deve mostrar o diagrama "Intermitente" no grupo "G5" com "indicacao-intermitente" em "30s" segundos
@@ -221,7 +227,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário não deve ter a opção de marcar o tempo de ciclo do estágio
     E o usuário não deve ter a opção de marcar a defasagem do ciclo
     Dado que o usuário selecione o anel 2
-    E que o usuário clicar no plano 4
     E que o usuário selecione o modo de operação "Apagado"
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G4" com "indicacao-apagado" em "30s" segundos
     Então o sistema deve mostrar o diagrama "Apagado" no grupo "G5" com "indicacao-apagado" em "30s" segundos
@@ -281,7 +286,6 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de fechar a caixa de configuração
     E o usuário realize um scroll up
     Dado que o usuário selecione o anel 2
-    E que o usuário clicar no plano 5
     E que o usuário selecione o modo de operação "Atuado"
     Então o diagrama de intervalos não deverá aparecer
     E que o usuário clique no botão de configurar o estágio "E1"

@@ -14,6 +14,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.io.File;
@@ -43,7 +44,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "O controlador deve ter tabela horária configurada.", "possuiTabelaHoraria")
+            new Erro(CONTROLADOR, "O controlador deve ter tabela horária configurada.", "possuiTabelaHoraria")
         ));
 
         TabelaHorario tabelaHoraria = new TabelaHorario();
@@ -54,7 +55,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "versoesTabelasHorarias[0].tabelaHoraria.aoMenosUmEvento")
+            new Erro(CONTROLADOR, "A tabela horária deve ter pelo menos 1 evento configurado.", "versoesTabelasHorarias[0].tabelaHoraria.aoMenosUmEvento")
         ));
 
         Evento evento = new Evento();
@@ -64,10 +65,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].tipo"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].tipo"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.ESPECIAL_RECORRENTE);
@@ -75,10 +76,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].data"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].data"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.ESPECIAL_NAO_RECORRENTE);
@@ -86,10 +87,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].data"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].data"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setTipo(TipoEvento.NORMAL);
@@ -97,10 +98,10 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(4, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].diaDaSemana"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
-                new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicao"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].diaDaSemana"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].horario"),
+            new Erro(CONTROLADOR, "não pode ficar em branco", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].posicaoPlano")
         ));
 
         evento.setPosicao(1);
@@ -120,9 +121,9 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(3, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
-                new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].eventosMesmoDiaEHora"),
-                new Erro(CONTROLADOR, "O plano selecionado não está configurado em todos os anéis.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados")
+            new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[0].eventosMesmoDiaEHora"),
+            new Erro(CONTROLADOR, "Existem eventos configurados no mesmo dia e horário.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].eventosMesmoDiaEHora"),
+            new Erro(CONTROLADOR, "O plano selecionado não está configurado em todos os anéis.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados")
         ));
 
         evento2.setHorario(LocalTime.parse("00:00:00"));
@@ -130,7 +131,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-                new Erro(CONTROLADOR, "O plano selecionado não está configurado em todos os anéis.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados")
+            new Erro(CONTROLADOR, "O plano selecionado não está configurado em todos os anéis.", "versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados")
         ));
 
         evento2.setPosicaoPlano(1);
@@ -163,11 +164,11 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
 
         assertEquals("A tabela horário possui 3 eventos", 3, controlador.getTabelaHoraria().getEventos().size());
         assertEquals("A tabela horário possui 1 evento NORMAL", 1, controlador.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoNormal()).count());
+            .filter(evento -> evento.isEventoNormal()).count());
         assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+            .filter(evento -> evento.isEventoEspecialRecorrente()).count());
         assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controlador.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
+            .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -176,17 +177,17 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Controlador controlador = getControladorTabelaHorario();
         controlador.save();
 
-        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         assertEquals(controlador.getId(), controladorJson.getId());
         assertNotNull(controladorJson.getId());
 
         assertEquals("A tabela horário possui 3 eventos", 3, controladorJson.getTabelaHoraria().getEventos().size());
         assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorJson.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoNormal()).count());
+            .filter(evento -> evento.isEventoNormal()).count());
         assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+            .filter(evento -> evento.isEventoEspecialRecorrente()).count());
         assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorJson.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
+            .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -196,7 +197,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -212,7 +213,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Controlador controlador = getControladorTabelaHorario();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-                .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador));
+            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
@@ -226,11 +227,11 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
 
         assertEquals("A tabela horário possui 3 eventos", 3, controladorRetornado.getTabelaHoraria().getEventos().size());
         assertEquals("A tabela horário possui 1 evento NORMAL", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoNormal()).count());
+            .filter(evento -> evento.isEventoNormal()).count());
         assertEquals("A tabela horário possui 1 evento RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoEspecialRecorrente()).count());
+            .filter(evento -> evento.isEventoEspecialRecorrente()).count());
         assertEquals("A tabela horário possui 1 evento NAO RECORRENTE", 1, controladorRetornado.getTabelaHoraria().getEventos().stream()
-                .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
+            .filter(evento -> evento.isEventoEspecialNaoRecorrente()).count());
     }
 
     @Override
@@ -246,7 +247,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         List<Erro> erros = getErros(controlador);
         assertEquals("Total de Erros", 0, erros.size());
 
-        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador));
+        controlador = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         controlador.update();
@@ -263,22 +264,22 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         int totalTransicoesAnel = ((int) anelCom4Estagios.getGruposSemaforicos().stream().map(GrupoSemaforico::getTransicoes).flatMap(Collection::stream).count());
         int totalTransicoesProibidas = TransicaoProibida.find.findRowCount();
         int totalTransicoesProibidasAnel = Stream.of(
-                anelCom4Estagios.getEstagios().stream().map(Estagio::getOrigemDeTransicoesProibidas).collect(Collectors.toSet()),
-                anelCom4Estagios.getEstagios().stream().map(Estagio::getDestinoDeTransicoesProibidas).collect(Collectors.toSet()),
-                anelCom4Estagios.getEstagios().stream().map(Estagio::getAlternativaDeTransicoesProibidas).collect(Collectors.toSet()))
-                .flatMap(Collection::stream)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet()).size();
+            anelCom4Estagios.getEstagios().stream().map(Estagio::getOrigemDeTransicoesProibidas).collect(Collectors.toSet()),
+            anelCom4Estagios.getEstagios().stream().map(Estagio::getDestinoDeTransicoesProibidas).collect(Collectors.toSet()),
+            anelCom4Estagios.getEstagios().stream().map(Estagio::getAlternativaDeTransicoesProibidas).collect(Collectors.toSet()))
+            .flatMap(Collection::stream)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet()).size();
         int totalVerdesConflitantes = VerdesConflitantes.find.findRowCount();
         int totalVerdesConflitantesAnel = anelCom4Estagios.getGruposSemaforicos().stream()
-                .map(GrupoSemaforico::getVerdesConflitantes)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet()).size();
+            .map(GrupoSemaforico::getVerdesConflitantes)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet()).size();
         int totalTabelaEntreVerdes = TabelaEntreVerdes.find.findRowCount();
         int totalTabelaEntreVerdesAnel = anelCom4Estagios.getGruposSemaforicos().stream()
-                .map(GrupoSemaforico::getTabelasEntreVerdes)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet()).size();
+            .map(GrupoSemaforico::getTabelasEntreVerdes)
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet()).size();
 
         anelCom4Estagios.setDestroy(true);
         controlador.deleteAnelSeNecessario();
@@ -315,11 +316,11 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         int totalEstagioGrupoSemaforicosEstagio = Ebean.find(EstagioGrupoSemaforico.class).where().eq("estagio_id", estagio1AnelCom4Estagios.getId()).findRowCount();
         int totalTransicoesProibidas = TransicaoProibida.find.findRowCount();
         int totalTransicoesProibidasEstagio = Stream.of(
-                estagio1AnelCom4Estagios.getOrigemDeTransicoesProibidas(),
-                estagio1AnelCom4Estagios.getDestinoDeTransicoesProibidas(),
-                estagio1AnelCom4Estagios.getAlternativaDeTransicoesProibidas())
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet()).size();
+            estagio1AnelCom4Estagios.getOrigemDeTransicoesProibidas(),
+            estagio1AnelCom4Estagios.getDestinoDeTransicoesProibidas(),
+            estagio1AnelCom4Estagios.getAlternativaDeTransicoesProibidas())
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet()).size();
 
         File appRootPath = app.path();
         estagio1AnelCom4Estagios.delete(appRootPath);
@@ -329,5 +330,4 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         assertEquals("Quantidade de transições proibidas", totalTransicoesProibidas - totalTransicoesProibidasEstagio, TransicaoProibida.find.findRowCount());
         assertEquals("Quantidade de detectores", totalDetectores - totalDetectoresEstagio, Detector.find.findRowCount());
     }
-
 }

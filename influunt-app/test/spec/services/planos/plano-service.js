@@ -77,4 +77,40 @@ describe('Service: planoService', function () {
     });
   });
 
+  describe('isGrupoNemAssociadoNemDemandaPrioritaria()', function() {
+    var anel, plano;
+    beforeEach(function() {
+      controlador = ControladorComVariosAneisEPlanos.get();
+      anel = _.find(controlador.aneis, { posicao: 2 });
+      plano = _.find(controlador.planos, { anel: { idJson: anel.idJson }, posicao: 1 });
+    });
+
+    it('deve retornar false para um grupo semafórico associado a estágio de demanda prioritária', function() {
+      var estagioDP = _.find(controlador.estagios, { demandaPrioritaria: true, anel: { idJson: anel.idJson } });
+      var egsDP = _.find(controlador.estagiosGruposSemaforicos, { estagio: { idJson: estagioDP.idJson } });
+      var grupoDP = _.find(controlador.gruposSemaforicos, { idJson: egsDP.grupoSemaforico.idJson });
+      expect(planoService.isGrupoNemAssociadoNemDemandaPrioritaria(controlador, anel, plano, grupoDP)).toBe(false);
+    });
+
+    it('deve retornar false para um grupo semafórico associado a estágio que esteja na sequência do plano', function() {
+      var epAssociado = _.find(controlador.estagiosPlanos, { plano: { idJson: plano.idJson } });
+      var estagioAssociado = _.find(controlador.estagios, { idJson: epAssociado.estagio.idJson });
+      var egsAssociado = _.find(controlador.estagiosGruposSemaforicos, { estagio: { idJson: estagioAssociado.idJson } });
+      var grupoAssociado = _.find(controlador.gruposSemaforicos, { idJson: egsAssociado.grupoSemaforico.idJson });
+      expect(planoService.isGrupoNemAssociadoNemDemandaPrioritaria(controlador, anel, plano, grupoAssociado)).toBe(false);
+    });
+
+    it('deve retornar true para um grupo semafórico que não seja demanda prioritária e nem esteja na sequência do plano', function() {
+      var estagiosIdJson = _.chain(controlador.estagios).filter({ anel: { idJson: anel.idJson } }).map('idJson').value();
+      var estagiosAssociados = _.chain(controlador.estagiosPlanos).filter({ plano: { idJson: plano.idJson } }).map('estagio.idJson').uniq().value();
+      var estagiosNaoAssociadosIdJson = _.difference(estagiosIdJson, estagiosAssociados);
+      var estagioNaoAssociadoNemDP = _.find(controlador.estagios, function(e) {
+        return estagiosNaoAssociadosIdJson.indexOf(e.idJson) > -1 && !e.demandaPrioritaria;
+      });
+      var egsNaoAssociadoNemDP = _.find(controlador.estagiosGruposSemaforicos, { estagio: { idJson: estagioNaoAssociadoNemDP.idJson } });
+      var grupoNaoAssociadoNemDP = _.find(controlador.gruposSemaforicos, { idJson: egsNaoAssociadoNemDP.grupoSemaforico.idJson });
+      expect(planoService.isGrupoNemAssociadoNemDemandaPrioritaria(controlador, anel, plano, grupoNaoAssociadoNemDP)).toBe(true);
+    });
+  });
+
 });

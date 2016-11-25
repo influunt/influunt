@@ -73,8 +73,7 @@ angular.module('influuntApp')
                 evento.diaDaSemana = _.find($scope.dias, {label: evento.diaDaSemana}).value;
               }
               if(!!evento.data){
-                evento.data = moment(evento.data, 'DD-MM-YYYY');
-                evento.dataMoment = evento.data;
+                evento.dataMoment = moment(evento.data, 'DD-MM-YYYY');
               }
             });
 
@@ -195,7 +194,7 @@ angular.module('influuntApp')
         return angular.isDefined(evento.id) ? removerEventoRemoto(evento) : removerEventoNoCliente(evento);
       };
 
-      $scope.visualizarPlano = function(evento){
+      $scope.visualizarPlano = function(evento) {
         $scope.selecionaEvento(evento);
         $scope.selecionaAnel(0);
 
@@ -217,7 +216,6 @@ angular.module('influuntApp')
           $('#modalDiagramaIntervalos').modal('show');
           return $scope.dadosDiagrama;
         }
-
       };
 
       adicionaTabelaHorario = function(controlador) {
@@ -415,16 +413,16 @@ angular.module('influuntApp')
       $scope.highlightEvento = function(v,i){
         var table = v[Math.floor(i)][0].state;
         var tr = angular.element('.evento .' + table).parent();
-        tr.addClass('light_' + table);
+        tr.addClass(table).addClass('light');
       };
 
       $scope.leaveHighlightEvento = function(v,i){
         var table = v[Math.floor(i)][0].state;
         var tr = angular.element('.light_' + table);
-        tr.removeClass('light_' + table);
+        tr.removeClass(table).removeClass('light');
       };
 
-      $scope.$watch('eventosNormais',function(newObj){
+      $scope.$watch('eventosNormais', function(newObj) {
         if($scope.eventosNormais && newObj){
           atualizaQuadroTabelaHoraria();
         }

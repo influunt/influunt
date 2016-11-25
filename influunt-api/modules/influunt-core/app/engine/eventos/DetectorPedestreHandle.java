@@ -2,8 +2,11 @@ package engine.eventos;
 
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
+import engine.TipoEvento;
 import models.Detector;
 import models.EstagioPlano;
+import models.TipoDetector;
+import org.apache.commons.math3.util.Pair;
 
 import java.util.List;
 
@@ -20,21 +23,30 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
-        Detector detector = (Detector) eventoMotor.getParams()[0];
+        Pair<Integer, TipoDetector> key = (Pair<Integer, TipoDetector>) eventoMotor.getParams()[0];
+
+        Detector detector = gerenciadorDeEstagios.getDetector(key.getFirst(), key.getSecond());
+
+        if (detector.isComFalha()) {
+            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.REMOCAO_FALHA_DETECTOR_PEDESTRE, key, detector.getAnel().getPosicao()));
+        }
+
         EstagioPlano estagioPlano = plano.getEstagiosPlanos()
-                .stream()
-                .filter(EstagioPlano::isDispensavel)
-                .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
-                .findFirst()
-                .orElse(null);
-        int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
-        if (compare < 0) {
-            if (!estagiosProximoCiclo.contains(estagioPlano)) {
-                gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
-            }
-        } else if (compare > 0) {
-            if (!listaEstagioPlanos.contains(estagioPlano)) {
-                gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+            .stream()
+            .filter(EstagioPlano::isDispensavel)
+            .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
+            .findFirst()
+            .orElse(null);
+        if (estagioPlano != null) {
+            int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
+            if (compare < 0) {
+                if (!estagiosProximoCiclo.contains(estagioPlano)) {
+                    gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+                }
+            } else if (compare > 0) {
+                if (!listaEstagioPlanos.contains(estagioPlano)) {
+                    gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+                }
             }
         }
     }

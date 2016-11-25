@@ -1,5 +1,8 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard" ng-init="loadDashboard()">
-
+  <div class="col-lg-12">
+    <input type="checkbox" ichecks data-ng-model="eventos.exibirAlertas">
+    <span>{{ 'controladores.mapaControladores.exibirAlertasDeEventos' | translate }}</span>
+  </div>
   <div class="col-lg-8 col-sm-12">
     <div class="row">
       <div class="col-lg-12 no-padding">
@@ -138,11 +141,11 @@
   <div class="col-lg-4 col-sm-12">
     <div class="ibox float-e-margins white-bg">
       <div class="ibox-content ibox-heading yellow-bg">
-        <h3><strong>{{errosControladores.length || ('main.nenhum' | translate)}}</strong> {{ 'main.controlApresentando' | translate }} <strong>{{ 'main.falha' | translate }}</strong></h3>
+        <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ FALHAS: errosControladores.length || 0 }"></h3>
         <small><i class="fa fa-check-circle"></i> 5 {{ 'main.recuperaFalhas' | translate }}</small>
       </div>
-      <div class="ibox-content inspinia-timeline">
-        <div class="timeline-item" ng-repeat="erro in errosControladores">
+      <div class="ibox-content lista-falhas inspinia-timeline">
+        <div class="timeline-item" ng-repeat="erro in errosControladores | limitTo: 10">
           <div class="row">
             <div class="col-xs-3 date">
               <i class="fa fa-plug text-danger"></i> {{erro.data | influuntDate: 'HH:mm:ss'}}
@@ -151,7 +154,7 @@
             </div>
             <div class="col-xs-7 content no-top-border">
               <p class="m-b-xs"><strong>{{ erro.motivoFalha | humanize }}</strong></p>
-              <p><strong>{{erro.clc}}</strong><br>{{erro.endereco}}</p>
+              <p><strong>{{erro.clc}}</strong><br>{{ erro.endereco | nomeEndereco }}</p>
             </div>
           </div>
       </div>

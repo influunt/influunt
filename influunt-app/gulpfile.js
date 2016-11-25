@@ -61,7 +61,7 @@ var paths = {
     'bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js',
     'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
     'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
-    'bower_components/AngularJS-Toaster/toaster.js',
+    'bower_components/toastr/toastr.js',
     'bower_components/sweetalert/dist/sweetalert.min.js',
     'bower_components/ngSweetAlert/SweetAlert.js',
     'bower_components/leaflet/dist/leaflet-src.js',
@@ -83,6 +83,9 @@ var paths = {
     'bower_components/angular-permission/dist/angular-permission-ui.js',
     'bower_components/angular-permission/dist/angular-permission-ng.js',
     'bower_components/humanize-duration/humanize-duration.js',
+    'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
+    'bower_components/paho-mqtt/src/mqttws31.js',
+    'bower_components/ng-idle/angular-idle.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -98,7 +101,8 @@ var paths = {
 
     // influunt app plugins.
     yeoman.app + '/plugins/influunt/diagrama-intervalos.js',
-    yeoman.app + '/plugins/influunt/quadro-tabela-horaria.js'
+    yeoman.app + '/plugins/influunt/quadro-tabela-horaria.js',
+    yeoman.app + '/plugins/phasertips/Phasetips.js',
 
     // yeoman.app + '/json/**/*.js'
     // 'test/mock/**/*.js'
@@ -282,11 +286,6 @@ gulp.task('test', ['start:server:test'], function() {
   var testToFiles = paths.testRequire.concat(paths.scripts, paths.test);
   var cucumberFiles = paths.cucumberFeatures.concat(paths.cucumberStepDefinitions);
 
-  gulp.watch(cucumberFiles)
-    .on('change', function(file) {
-      runCucumber(file);
-    });
-
   return gulp.src(testToFiles)
     .pipe($.karma({
       configFile: paths.karma,
@@ -376,6 +375,10 @@ gulp.task('copy:extras', function () {
   gulp
     .src(yeoman.app + '/json/**/*.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist + '/json/'));
+
+  gulp
+    .src(yeoman.app + '/audio/**/*.*', {dot: true})
+    .pipe(gulp.dest(yeoman.dist + '/audio/'));
 
   return gulp
     .src(yeoman.app + '/*/.*', {dot: true})

@@ -1,5 +1,4 @@
 'use strict';
-
 var fs = require('fs');
 var webdriver = require('selenium-webdriver');
 var platform = process.env.PLATFORM || 'PHANTOMJS';
@@ -84,6 +83,10 @@ var World = function () {
     return self.waitForInverse('div.blockUI');
   };
 
+  this.waitForSweetOverlayDisappear = function() {
+    return self.waitForByXpathInverse('//div[contains(@class, "sweet-overlay")and contains(@style, "display: block;")]');
+  };
+
   this.waitForByXpath = function(xpath, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
@@ -94,10 +97,14 @@ var World = function () {
   this.waitForByXpathInverse = function(xpath, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
-      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
-        return !isElementPresent;
+      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(element) {
+        return self.elementShouldNotPresent(element);
       });
     }, waitTimeout);
+  };
+
+  this.elementShouldNotPresent = function(isElementPresent) {
+    return !isElementPresent;
   };
 
   this.waitForAJAX = function(timeout) {
@@ -197,6 +204,20 @@ var World = function () {
     });
   };
 
+  this.calculateByXpath = function(xpathSelector, quantity) {
+    return driver.findElements(webdriver.By.xpath(xpathSelector)).then(function(elements){
+    var sizeElements = elements.length.toString();
+
+      return new Promise(function(resolve, reject) {
+        if (sizeElements === quantity) {
+          resolve(true);
+        } else {
+          reject('Espera que retorne "'+quantity+'" mas o valor retornado é "'+sizeElements+'"');
+        }
+      });
+    });
+  };
+
   this.checkIsElementPresent = function(xpath, campo, dado) {
     return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
       return new Promise(function(resolve, reject) {
@@ -269,6 +290,11 @@ var World = function () {
         }, 500);
       });
     });
+  };
+
+  this.select2OptionByXpath = function(campo, valueToSelector) {
+    var _this = this;
+    return _this.getElementByXpath('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]').click();
   };
 
   this.selectSelect2Option = function(selectSelector, optionText) {
@@ -354,6 +380,12 @@ var World = function () {
 
   this.scrollToDown = function() {
     return driver.executeScript('window.scrollTo(0, 1000);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
+  this.scrollToDownModal = function() {
+    return driver.executeScript('$("#myModal").scrollTop(10000);').then(function() {
       return driver.sleep(500);
     });
   };

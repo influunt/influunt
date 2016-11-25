@@ -5,7 +5,7 @@ DELETE FROM `modelo_controladores`;
 DELETE FROM `fabricantes`;
 DELETE FROM `imagens`;
 
-SET @UsurioId = (SELECT id FROM "usuarios" where login = 'mobilab');
+SET @UsuarioId = (SELECT id FROM "usuarios" where login = 'mobilab');
 
 SET @CidadeId  = RANDOM_UUID();
 SET @Area1Id   = RANDOM_UUID();
@@ -56,12 +56,12 @@ INSERT INTO `imagens` (`id`, `id_json`, `filename`, `content_type`, `data_criaca
   (@Croqui3Id,RANDOM_UUID(),'sinal.png','image/png',NOW(),NOW()),
   (@Croqui4Id,RANDOM_UUID(),'sinal.png','image/png',NOW(),NOW());
 
-INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `data_criacao`, `data_atualizacao`)
 VALUES
-  (@Controlador1Id,RANDOM_UUID(), @Croqui1Id, 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area1Id,NULL, NOW(),NOW()),
-  (@Controlador2Id,RANDOM_UUID(), @Croqui2Id, 'R. Bela Cintra com Av. Paulista',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area2Id,NULL, NOW(),NOW()),
-  (@Controlador3Id,RANDOM_UUID(), @Croqui3Id, 'Av. Paulista, nº 2000',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area3Id,NULL, NOW(),NOW()),
-  (@Controlador4Id,RANDOM_UUID(), @Croqui4Id, 'Av. Paulista com R. Pamplona',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area4Id,NULL, NOW(),NOW());
+  (@Controlador1Id,RANDOM_UUID(), @Croqui1Id, 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area1Id,NULL,'FALSE', 'FALSE', NOW(),NOW()),
+  (@Controlador2Id,RANDOM_UUID(), @Croqui2Id, 'R. Bela Cintra com Av. Paulista',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area2Id,NULL,'FALSE', 'FALSE', NOW(),NOW()),
+  (@Controlador3Id,RANDOM_UUID(), @Croqui3Id, 'Av. Paulista, nº 2000',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area3Id,NULL, 'FALSE', 'FALSE', NOW(),NOW()),
+  (@Controlador4Id,RANDOM_UUID(), @Croqui4Id, 'Av. Paulista com R. Pamplona',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area4Id,NULL,'FALSE', 'FALSE', NOW(),NOW());
 
 INSERT INTO `enderecos` (`id`, `id_json`, `controlador_id`, `anel_id`, `localizacao`, `latitude`, `longitude`, `localizacao2`, `altura_numerica`, `referencia`, `data_criacao`, `data_atualizacao`)
 VALUES
@@ -70,9 +70,9 @@ VALUES
   (RANDOM_UUID(),RANDOM_UUID(),@Controlador3Id,NULL,'Av. Paulista',-23.56,-46.6543921,NULL,'2000',NULL,NOW(),NOW()),
   (RANDOM_UUID(),RANDOM_UUID(),@Controlador4Id,NULL,'Av. Paulista',-23.56,-46.6543921,'R. Pamplona',NULL,NULL,NOW(),NOW());
 
-INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`)
+INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  (@VersaoControlador1Id,NULL,NULL,@Controlador1Id,@ControladorFisico1Id,@UsurioId,'Controlador criado pelo usuário: Administrador Geral','EDITANDO',NOW()),
-  (@VersaoControlador2Id,NULL,NULL,@Controlador2Id,@ControladorFisico2Id,@UsurioId,'Controlador criado pelo usuário: Administrador Geral','EDITANDO',NOW()),
-  (@VersaoControlador3Id,NULL,NULL,@Controlador3Id,@ControladorFisico3Id,@UsurioId,'Controlador criado pelo usuário: Administrador Geral','CONFIGURADO',NOW()),
-  (@VersaoControlador4Id,NULL,NULL,@Controlador4Id,@ControladorFisico4Id,@UsurioId,'Controlador criado pelo usuário: Administrador Geral','EDITANDO',NOW());
+  (@VersaoControlador1Id,NULL,NULL,@Controlador1Id,@ControladorFisico1Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW(),NOW()),
+  (@VersaoControlador2Id,NULL,NULL,@Controlador2Id,@ControladorFisico2Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW(),NOW()),
+  (@VersaoControlador3Id,NULL,NULL,@Controlador3Id,@ControladorFisico3Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','CONFIGURADO',NOW(),NOW()),
+  (@VersaoControlador4Id,NULL,NULL,@Controlador4Id,@ControladorFisico4Id,@UsuarioId,'Controlador criado pelo usuário: mobilab','EDITANDO',NOW(),NOW());

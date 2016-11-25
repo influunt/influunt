@@ -9,15 +9,27 @@
  */
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
-                           'Restangular', 'influuntBlockui', 'PermissionsService',
+                           'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
+                           'eventosDinamicos', 'audioNotifier', 'Idle',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
-                      Restangular, influuntBlockui, PermissionsService) {
+                      Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
+                      eventosDinamicos, audioNotifier, Idle) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
+      Idle.watch();
 
+      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, exibirAlerta,
+          statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher,
+          logout;
+
+      var LIMITE_ALARMES_FALHAS = 10;
       $scope.pagination = {
         current: 1,
         maxSize: 5
+      };
+
+      $scope.eventos = {
+        exibirAlertas: false
       };
 
       $scope.sair = function() {
@@ -28,31 +40,17 @@ angular.module('influuntApp')
           )
           .then(function(confirmado) {
             if (confirmado) {
-              Restangular.one('logout', localStorage.token).remove()
-                .then(function() {
-                  localStorage.removeItem('token');
-                  $state.go('login');
-                })
-                .catch(function(err) {
-                  if (err.status === 401) {
-                    err.data.forEach(function(error) {
-                      influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
-                    });
-                  }
-                })
-                .finally(influuntBlockui.unblock);
+              logout();
             }
           });
       };
 
       $scope.loadDashboard = function() {
-        Restangular.one('monitoramento', 'status_controladores').get()
+        Restangular.one('monitoramento', 'status_controladores').get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
           .then(function(res) {
-            $scope.dadosStatus = _.countBy(_.values(res.status), _.identity);
-            $scope.dadosOnlines = _.countBy(_.values(res.onlines), _.identity);
-            $scope.modosOperacoes = _.countBy(_.values(res.modosOperacoes), _.identity);
-            $scope.planosImpostos = _.countBy(_.values(res.imposicaoPlanos), _.identity);
-            $scope.errosControladores = res.erros.data;
+            $scope.statusObj = res;
+            atualizaDadosDinamicos();
+            registerWatchers();
           })
           .catch(function(err) {
             if (err.status === 401) {
@@ -62,7 +60,6 @@ angular.module('influuntApp')
             }
           })
           .finally(influuntBlockui.unblock);
-
       };
 
       $scope.carregarControladores = function(onlines) {
@@ -100,7 +97,7 @@ angular.module('influuntApp')
       };
 
       $scope.menuVisible = {};
-      var checkRoleForMenus = function() {
+      checkRoleForMenus = function() {
         return _.each($scope.menus, function(menu) {
           $scope.menuVisible[menu.name] = false;
           if (!_.isArray(menu.children)) {
@@ -115,10 +112,169 @@ angular.module('influuntApp')
         });
       };
 
+      registerWatchers = function() {
+        pahoProvider.connect()
+          .then(function() {
+            pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
+            pahoProvider.register(eventosDinamicos.ALARMES_FALHAS, alarmesEFalhasWatcher);
+            pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
+            pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
+            pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
+          });
+      };
+
+      onlineOfflineWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        $scope.statusObj.onlines = $scope.statusObj.onlines || {};
+
+        return getControlador(mensagem.idControlador)
+          .then(function(controlador) {
+            var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
+            $scope.statusObj.onlines[mensagem.idControlador] = isOnline;
+            atualizaDadosDinamicos();
+
+            var msg = isOnline ?
+              'controladores.mapaControladores.alertas.controladorOnline' :
+              'controladores.mapaControladores.alertas.controladorOffline';
+
+            msg = $filter('translate')(msg, {CONTROLADOR: controlador.CLC});
+            exibirAlerta(msg, !isOnline);
+          });
+      };
+
+      trocaPlanoWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+
+        return getControlador(mensagem.idControlador)
+          .then(function(controlador) {
+            var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
+            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+
+            $scope.statusObj.imposicaoPlanos = $scope.statusObj.imposicaoPlanos || {};
+            $scope.statusObj.modosOperacoes  = $scope.statusObj.modosOperacoes || {};
+
+            $scope.statusObj.modosOperacoes[mensagem.idControlador] = _.get(mensagem, 'conteudo.plano.modoOperacao');
+            $scope.statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.imposicaoDePlano');
+            atualizaDadosDinamicos();
+
+            var msg = $filter('translate')(
+              'controladores.mapaControladores.alertas.trocaPlanoAnelEControlador',
+              {ANEL: anel.CLA, CONTROLADOR: controlador.CLC}
+            );
+            exibirAlerta(msg);
+          });
+      };
+
+      alarmesEFalhasWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        $scope.statusObj.erros = $scope.statusObj.erros || {};
+
+        if (_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador') === 'FALHA') {
+          return getControlador(mensagem.idControlador)
+            .then(function(controlador) {
+              var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+              var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+              var endereco = anel !== null ? anel.endereco : controlador.endereco;
+              endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+
+              var falha = {
+                clc: controlador.CLC,
+                data: mensagem.carimboDeTempo,
+                endereco: $filter('nomeEndereco')(endereco),
+                id: mensagem.idControlador,
+                motivoFalha: _.get(mensagem, 'conteudo.descricaoEvento')
+              };
+
+              $scope.statusObj.erros = $scope.statusObj.erros || [];
+              $scope.statusObj.erros.push(falha);
+              atualizaDadosDinamicos();
+
+
+              var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
+              if (anel) {
+                msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+              }
+
+              exibirAlerta(msg, true);
+            })
+            .finally(influuntBlockui.unblock);
+        }
+      };
+
+      statusControladoresWatcher = function(payload) {
+        var mensagem = JSON.parse(payload);
+        $scope.statusObj.status = $scope.statusObj.status || {};
+
+        return getControlador(mensagem.idControlador)
+          .then(function(controlador) {
+            $scope.statusObj.status[mensagem.idControlador] = _.get(mensagem, 'conteudo.status');
+            atualizaDadosDinamicos();
+
+            var msg = $filter('translate')(
+              'controladores.mapaControladores.alertas.mudancaStatusControlador',
+              {CONTROLADOR: controlador.CLC}
+            );
+            exibirAlerta(msg);
+          });
+      };
+
+      atualizaDadosDinamicos = function() {
+        $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
+        $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
+        $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
+        $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
+        $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
+      };
+
+      exibirAlerta = function(msg, isPrioritario) {
+        if ($scope.eventos.exibirAlertas || isPrioritario) {
+          toast.warn(msg);
+          audioNotifier.notify();
+        }
+      };
+
+      getControlador = function(idControlador) {
+        return Restangular.one('controladores', idControlador).get({}, {'x-prevent-block-ui': true});
+      };
+
+      logout = function() {
+        Restangular.one('logout', localStorage.token).remove()
+          .then(function() {
+            localStorage.removeItem('token');
+            $state.go('login');
+          })
+          .catch(function(err) {
+            if (err.status === 401) {
+              err.data.forEach(function(error) {
+                influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
+              });
+            }
+          })
+          .finally(influuntBlockui.unblock);
+      };
 
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);
       };
+
+      $scope.$on('IdleStart', function() {
+        $('#modal-idle-warning').modal('show');
+      });
+
+      $scope.$on('IdleEnd', function() {
+        $('#modal-idle-warning').modal('hide');
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        $('#modal-idle-warning').modal('hide');
+        Idle.unwatch();
+        logout();
+
+        influuntAlert.alert(
+          $filter('translate')('geral.mensagens.sessaoExpirada.titulo'),
+          $filter('translate')('geral.mensagens.sessaoExpirada.mensagem')
+        );
+      });
 
       $http.get('/json/menus.json').then(function(res) {
         $scope.menus = res.data;

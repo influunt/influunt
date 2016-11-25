@@ -7,4 +7,8 @@ public class AtoresDevice {
     public final static String mqttActorPath(String idControlador) {
         return "akka://InfluuntSystem/user/".concat(idControlador).concat("/ControladorMQTT");
     }
+
+    public final static String motor(String idControlador) {
+        return "akka://InfluuntSystem/user/".concat(idControlador).concat("/motor");
+    }
 }

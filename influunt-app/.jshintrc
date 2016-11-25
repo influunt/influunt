@@ -21,10 +21,13 @@
     "moment": true,
     "humanizeDuration": true,
     "Phaser": true,
+    "Phasetips": true,
+    "PIXI": true,
     "Paho": true,
     "Blob": true,
     "saveAs": true,
     "bowser": true,
+    "toastr": true,
 
     // leaflet lib
     "L": true,
@@ -40,7 +43,6 @@
     "inject": true,
     "it": true,
     "jasmine": true,
-    "Paho": true,
     "spyOn": true,
 
     // tests helpers
@@ -48,7 +50,8 @@
     "ControladorBasico": true,
     "ControladorComPlanos": true,
     "ControladorComPlanoExclusivo": true,
-    "ControladorAtrasoGrupoAutomatico": true
+    "ControladorAtrasoGrupoAutomatico": true,
+    "ControladorComVariosAneis": true
   }
 }
 

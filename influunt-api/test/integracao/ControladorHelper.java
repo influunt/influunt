@@ -6,7 +6,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +25,18 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
     private Controlador controlador;
 
+    public ControladorHelper(Controlador controlador) {
+        this.controlador = controlador;
+    }
+
+    public ControladorHelper() {
+    }
+
     public Controlador getControlador() {
+        return getControlador(false);
+    }
+
+    public Controlador getControlador(boolean comVerdeConflitante) {
         controlador = new Controlador();
 
         criaRelacaoDadosBasicos();
@@ -37,7 +47,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         setDadosVerdesConflitantes();
         setDadosAssociacaoEstagioGrupoSemaforico();
         setDadosTransicoesProibidas();
-        setDadosAtrasoDeGrupo();
+
+        setDadosAtrasoDeGrupo(comVerdeConflitante);
+
         setDadosTabelaEntreVerdes();
         setDadosAssociacaoDetectores();
 
@@ -154,6 +166,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         anel.setDescricao("Av. Paulista com Rua Augusta");
         anel.setPosicao(2);
         anel.setAtivo(true);
+        anel.setAceitaModoManual(false);
         List<Estagio> estagios2 = Arrays.asList(new Estagio(1), new Estagio(2), new Estagio(3));
         estagios2.forEach(estagio -> {
             Imagem imagem = criarImagem();
@@ -244,8 +257,8 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosVerdesConflitantes() {
         Anel anel = getAnel(1);
 
-        criarVerdeConflitante(anel, 1, 2);
         criarVerdeConflitante(anel, 1, 3);
+        criarVerdeConflitante(anel, 1, 2);
         criarVerdeConflitante(anel, 1, 4);
         criarVerdeConflitante(anel, 2, 3);
         criarVerdeConflitante(anel, 2, 5);
@@ -334,7 +347,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 7);
         criarAssociacaoEstagioGrupoSemaforico(anel, 2, 9);
 
-        estagioGrupoSemaforico = criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
+        criarAssociacaoEstagioGrupoSemaforico(anel, 3, 8);
 
         anel = getAnel(3);
 
@@ -352,7 +365,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void criarTransicaoProibida(Anel anel, Integer posicaoOrigem, Integer posicaoDestino, Integer posicaoAlternativo) {
+    public void criarTransicaoProibida(Anel anel, Integer posicaoOrigem, Integer posicaoDestino, Integer posicaoAlternativo) {
         Estagio origem = anel.findEstagioByPosicao(posicaoOrigem);
         Estagio destino = anel.findEstagioByPosicao(posicaoDestino);
         Estagio alternativo = anel.findEstagioByPosicao(posicaoAlternativo);
@@ -389,7 +402,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         }
     }
 
-    private void setAtrasoDeGrupo(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAtrasoGrupo) {
+    public void setAtrasoDeGrupo(Anel anel, Integer posicaoGrupo, Integer posicaoOrigem, Integer posicaoDestino, Integer tempoAtrasoGrupo) {
         GrupoSemaforico grupoSemaforico = anel.findGrupoSemaforicoByPosicao(posicaoGrupo);
         Estagio origem = anel.findEstagioByPosicao(posicaoOrigem);
         Estagio destino = anel.findEstagioByPosicao(posicaoDestino);
@@ -400,12 +413,19 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     }
 
     private void setDadosAtrasoDeGrupo() {
+        setDadosAtrasoDeGrupo(false);
+    }
+
+    private void setDadosAtrasoDeGrupo(boolean gerarVerdeConflitante) {
         criarAtrasoDeGrupo();
         controlador.save();
 
         Anel anel = getAnel(1);
         setAtrasoDeGrupo(anel, 2, 3, 1, 2);
-        setAtrasoDeGrupo(anel, 1, 3, 1, 2);
+
+        if (gerarVerdeConflitante) {
+            setAtrasoDeGrupo(anel, 1, 3, 1, 2);
+        }
 
         controlador.save();
     }
@@ -590,6 +610,14 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         return this.controlador;
     }
 
+    public Controlador setPlanosComTabelaHorariaMicro(Controlador controlador) {
+        this.controlador = controlador;
+        setDadosPlanos();
+        setDadosTabelaHorariaMicro();
+
+        return this.controlador;
+    }
+
     private void criaVersaoPlanos(Anel anel) {
         VersaoPlano versaoPlano = new VersaoPlano(anel, getUsuario());
         versaoPlano.setStatusVersao(StatusVersao.ATIVO);
@@ -615,6 +643,15 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criaVersaoPlanos(anel);
         Plano plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 52);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 10, 10});
+
+        plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
+
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
+
+        plano = criarPlano(anel, 4, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        criarEstagiosPlanos(anel, plano, new int[]{2, 3, 1}, new int[]{10, 12, 14});
 
         plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 47);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 5, 10});
@@ -643,13 +680,33 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 1, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
+        plano = criarPlano(anel, 2, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        plano.setDefasagem(10);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 11, 10});
+
+        plano = criarPlano(anel, 4, ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, 58);
+        plano.setDefasagem(10);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 11, 10});
+        EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano.setDispensavel(true);
+        estagioPlano.setEstagioQueRecebeEstagioDispensavel(plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(1)).findFirst().get());
+
+        plano = criarPlano(anel, 5, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
         plano = criarPlano(anel, 6, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
+
+        plano = criarPlano(anel, 7, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 59);
         criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{10, 12, 10});
 
         //Plano com estágio 3 dispensavel no fim
         plano = criarPlano(anel, 10, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 63);
         criarEstagiosPlanos(anel, plano, new int[]{1, 2, 3}, new int[]{10, 15, 12});
-        EstagioPlano estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
+        estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
         //Plano com estágio 3 dispensavel no meio
@@ -677,8 +734,22 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
         criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 12, 14, 11}, false);
 
+        plano = criarPlano(anel, 2, ModoOperacaoPlano.ATUADO, null);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 10, 11, 11}, true);
+
+        plano = criarPlano(anel, 3, ModoOperacaoPlano.ATUADO, null);
+        criarEstagioPlano(anel, plano, 1, 1, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 2, 2, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 3, 3, new int[]{10, 15, 20, 11}, false);
+        criarEstagioPlano(anel, plano, 4, 4, new int[]{10, 10, 11, 11}, true);
+
+        criarPlano(anel, 4, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 5, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 6, ModoOperacaoPlano.APAGADO, null);
+        criarPlano(anel, 7, ModoOperacaoPlano.APAGADO, null);
         criarPlano(anel, 10, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 11, ModoOperacaoPlano.INTERMITENTE, null);
         criarPlano(anel, 12, ModoOperacaoPlano.INTERMITENTE, null);
@@ -718,7 +789,19 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
         criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.SEXTA, LocalTime.parse("01:00:00"), 11);
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.SEXTA, LocalTime.parse("01:00:30"), 10);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("02:00:00"), 7);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("03:00:00"), 1);
+
         criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("08:00:00"), 11);
+
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("13:00:00"), 1);
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SABADO, LocalTime.parse("14:00:00"), 1);
+
         criarEvento(tabelaHoraria, 3, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
         criarEvento(tabelaHoraria, 4, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:01:00"), 10);
         criarEvento(tabelaHoraria, 5, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:02:00"), 1);
@@ -730,14 +813,45 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 9, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("20:00:00"), 10);
         criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("20:00:58"), 16);
 
-        criarEvento(tabelaHoraria, 9, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:00"), 10);
-        criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:58"), 16);
-        criarEvento(tabelaHoraria, 10, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:01:00"), 10);
+        criarEvento(tabelaHoraria, 11, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:00"), 10);
+        criarEvento(tabelaHoraria, 12, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:00:58"), 16);
+        criarEvento(tabelaHoraria, 13, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("21:01:00"), 10);
 
-        criarEvento(tabelaHoraria, 11, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
+        criarEvento(tabelaHoraria, 14, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("22:00:00"), 1);
+        criarEvento(tabelaHoraria, 15, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("22:02:00"), 6);
 
-        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016,12,25,0,0,0), LocalTime.parse("08:00:00"), "Natal", 11);
-        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017,03,15,0,0,0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
+        criarEvento(tabelaHoraria, 16, DiaDaSemana.DOMINGO, LocalTime.parse("18:00:00"), 6);
+
+        criarEvento(tabelaHoraria, 17, DiaDaSemana.SEGUNDA, LocalTime.parse("23:00:00"), 2);
+
+        criarEvento(tabelaHoraria, 18, DiaDaSemana.TERCA, LocalTime.parse("23:00:00"), 3);
+
+        criarEvento(tabelaHoraria, 19, DiaDaSemana.QUARTA, LocalTime.parse("23:00:00"), 4);
+
+        criarEvento(tabelaHoraria, 20, DiaDaSemana.QUINTA, LocalTime.parse("23:00:00"), 16);
+
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
+
+        controlador.save();
+    }
+
+    private void setDadosTabelaHorariaMicro() {
+        TabelaHorario tabelaHoraria = new TabelaHorario();
+        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
+        controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 1);
+
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("8:00:00"), 5);
+        criarEvento(tabelaHoraria, 3, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 6);
+
+        criarEvento(tabelaHoraria, 4, DiaDaSemana.DOMINGO, LocalTime.parse("17:00:00"), 7);
+
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
 
         controlador.save();
     }
@@ -762,6 +876,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
             estagioPlano.setPosicao(posicoes[i]);
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
+            estagio.addEstagioPlano(estagioPlano);
             estagioPlano.setTempoVerde(tempos[estagioPlano.getPosicao() - 1]);
             plano.addEstagios(estagioPlano);
             i++;
@@ -772,7 +887,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setPosicao(posicao);
         estagioPlano.setPlano(plano);
-        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        Estagio estagio = anel.findEstagioByPosicao(posicaoEstagio);
+        estagioPlano.setEstagio(estagio);
+        estagio.addEstagioPlano(estagioPlano);
         estagioPlano.setTempoVerdeMinimo(tempos[0]);
         estagioPlano.setTempoVerdeIntermediario(tempos[1]);
         estagioPlano.setTempoVerdeMaximo(tempos[2]);
@@ -786,7 +903,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         EstagioPlano estagioPlano = new EstagioPlano();
         estagioPlano.setPosicao(posicao);
         estagioPlano.setPlano(plano);
-        estagioPlano.setEstagio(anel.findEstagioByPosicao(posicaoEstagio));
+        Estagio estagio = anel.findEstagioByPosicao(posicaoEstagio);
+        estagioPlano.setEstagio(estagio);
+        estagio.addEstagioPlano(estagioPlano);
         estagioPlano.setTempoVerde(tempo);
         estagioPlano.setDispensavel(dispensavel);
         plano.addEstagios(estagioPlano);

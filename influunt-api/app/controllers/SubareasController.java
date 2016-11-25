@@ -6,6 +6,8 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.SubareasCheck;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import models.Controlador;
 import models.Subarea;
 import models.Usuario;
 import play.db.ebean.Transactional;
@@ -41,6 +43,8 @@ public class SubareasController extends Controller {
             if (erros.isEmpty()) {
                 subarea.save();
                 subarea.refresh();
+                setSubareaForControladores(subarea, json);
+
                 return CompletableFuture.completedFuture(ok(Json.toJson(subarea)));
             } else {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
@@ -105,9 +109,24 @@ public class SubareasController extends Controller {
         if (erros.isEmpty()) {
             subarea.update();
             subarea.refresh();
+
+            setSubareaForControladores(subarea, json);
             return CompletableFuture.completedFuture(ok(Json.toJson(subarea)));
         } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
+    }
+
+    private void setSubareaForControladores(Subarea subarea, JsonNode json) {
+        if (json.has("controladoresAssociados") && json.get("controladoresAssociados").isArray()) {
+            ArrayNode controladoresJson = (ArrayNode) json.get("controladoresAssociados");
+            controladoresJson.forEach(controladorJson -> {
+                Controlador controlador = Controlador.find.byId(UUID.fromString(controladorJson.get("id").asText()));
+                if (controlador != null) {
+                    controlador.setSubarea(subarea);
+                    controlador.save();
+                }
+            });
         }
     }
 

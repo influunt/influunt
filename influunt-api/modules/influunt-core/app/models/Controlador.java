@@ -10,21 +10,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
 import utils.DBUtils;
+import utils.EncryptionUtil;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 
 /**
@@ -88,6 +91,22 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToOne
     private Imagem croqui;
 
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String centralPrivateKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String centralPublicKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPublicKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPrivateKey;
+
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
@@ -109,9 +128,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     @OneToMany(mappedBy = "controlador")
     private List<GrupoSemaforico> gruposSemaforicos;
-
-    @OneToMany(mappedBy = "controlador")
-    private List<Detector> detectores;
 
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
@@ -142,13 +158,18 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
 
+    @JsonIgnore
+    @Transient
+    private RangeUtils rangeUtils;
+
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class);
         return erros.isEmpty() ? controlador : null;
     }
 
@@ -157,9 +178,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
         JsonNode planoJson = play.libs.Json.parse(planosObject.toString());
         Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty() ? controlador : null;
     }
 
@@ -186,6 +207,19 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             this.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
+            try {
+                KeyPair key = EncryptionUtil.generateRSAKey();
+                this.centralPrivateKey = Hex.encodeHexString(key.getPrivate().getEncoded());
+                this.centralPublicKey = Hex.encodeHexString(key.getPublic().getEncoded());
+
+                KeyPair keyControlador = EncryptionUtil.generateRSAKey();
+                this.controladorPrivateKey = Hex.encodeHexString(keyControlador.getPrivate().getEncoded());
+                this.controladorPublicKey = Hex.encodeHexString(keyControlador.getPublic().getEncoded());
+
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
             int quantidade = this.getModelo().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
@@ -208,6 +242,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteTransicoesProibidas(this);
         deleteTabelasEntreVerdes(this);
         deleteEventos(this);
+        deleteEstagiosPlanos(this);
         this.criarPossiveisTransicoes();
     }
 
@@ -225,11 +260,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (controlador.getId() != null) {
             controlador.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                        grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
-                            if (tabelaEntreVerdes.isDestroy()) {
-                                tabelaEntreVerdes.delete();
-                            }
-                        }));
+                    grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
+                        if (tabelaEntreVerdes.isDestroy()) {
+                            tabelaEntreVerdes.delete();
+                        }
+                    }));
             });
         }
     }
@@ -238,11 +273,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (c.getId() != null) {
             c.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                        grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
-                            if (verdeConflitante.isDestroy()) {
-                                verdeConflitante.delete();
-                            }
-                        }));
+                    grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
+                        if (verdeConflitante.isDestroy()) {
+                            verdeConflitante.delete();
+                        }
+                    }));
             });
         }
     }
@@ -299,12 +334,28 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
     }
 
+    private void deleteEstagiosPlanos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+                anel.getVersoesPlanos().forEach(versaoPlano -> {
+                    versaoPlano.getPlanos().forEach(plano -> {
+                        if (plano != null) {
+                            plano.getEstagiosPlanos().stream()
+                                .filter(EstagioPlano::isDestroy)
+                                .forEach(EstagioPlano::delete);
+                        }
+                    });
+                });
+            });
+        }
+    }
+
     private void gerarCLC() {
         List<Controlador> controladorList =
-                Controlador.find.query()
-                        .select("sequencia")
-                        .where().eq("area_id", area.getId().toString())
-                        .order("sequencia desc").setMaxRows(1).findList();
+            Controlador.find.query()
+                .select("sequencia")
+                .where().eq("area_id", area.getId().toString())
+                .order("sequencia desc").setMaxRows(1).findList();
 
         if (controladorList.size() == 0) {
             this.sequencia = 1;
@@ -435,6 +486,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.subarea = subarea;
     }
 
+    public String getCentralPrivateKey() {
+        return centralPrivateKey;
+    }
+
+    public String getCentralPublicKey() {
+        return centralPublicKey;
+    }
+
+    public String getControladorPublicKey() {
+        return controladorPublicKey;
+    }
+
+    public String getControladorPrivateKey() {
+        return controladorPrivateKey;
+    }
+
+
     public List<Anel> getAneis() {
         return aneis;
     }
@@ -450,14 +518,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setGruposSemaforicos(List<GrupoSemaforico> gruposSemaforicos) {
         this.gruposSemaforicos = gruposSemaforicos;
-    }
-
-    public List<Detector> getDetectores() {
-        return detectores;
-    }
-
-    public void setDetectores(List<Detector> detectores) {
-        this.detectores = detectores;
     }
 
     public DateTime getDataCriacao() {
@@ -537,8 +597,16 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return versaoControlador;
     }
 
+    public void setVersaoControlador(VersaoControlador versaoControlador) {
+        this.versaoControlador = versaoControlador;
+    }
+
     public StatusVersao getStatusVersao() {
-        return getVersaoControlador().getStatusVersao();
+        if (getVersaoControlador() != null) {
+            return getVersaoControlador().getStatusVersao();
+        }
+
+        return null;
     }
 
     public void setStatusVersao(StatusVersao statusVersao) {
@@ -547,10 +615,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             versao.setStatusVersao(statusVersao);
             versao.update();
         }
-    }
-
-    public void setVersaoControlador(VersaoControlador versaoControlador) {
-        this.versaoControlador = versaoControlador;
     }
 
     public List<VersaoTabelaHoraria> getVersoesTabelasHorarias() {
@@ -570,13 +634,15 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "O controlador deve ter tabela horária configurada.")
+        message = "O controlador deve ter tabela horária configurada.")
     public boolean isPossuiTabelaHoraria() {
         return this.getTabelaHoraria() != null;
     }
 
     @AssertTrue(groups = ControladorFinalizaConfiguracaoCheck.class, message = "O controlador não pode ser finalizado sem o número do SMEE preenchido.")
-    public boolean isNumeroSmeePreenchido() { return this.getNumeroSMEE() != null && !this.getNumeroSMEE().isEmpty(); }
+    public boolean isNumeroSmeePreenchido() {
+        return this.getNumeroSMEE() != null && !this.getNumeroSMEE().isEmpty();
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -591,7 +657,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public StatusVersao getStatusControladorReal() {
-        StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
+        StatusVersao statusVersaoControlador = getStatusVersao();
         if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador)) {
             TabelaHorario tabela = getTabelaHoraria();
             if (tabela != null) {
@@ -617,7 +683,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        return getVersaoControlador().getStatusVersao();
+        return getStatusVersao();
     }
 
     public void deleteAnelSeNecessario() {
@@ -706,10 +772,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
                     anelOrigem.getAgrupamentos().forEach(agrupamento -> {
                         Anel anelAtual = this.getAneis()
-                                .stream()
-                                .filter(anel -> anel.getPosicao().equals(anelOrigem.getPosicao()))
-                                .findFirst()
-                                .orElse(null);
+                            .stream()
+                            .filter(anel -> anel.getPosicao().equals(anelOrigem.getPosicao()))
+                            .findFirst()
+                            .orElse(null);
                         if (anelAtual != null) {
                             ListIterator<Anel> it = agrupamento.getAneis().listIterator();
                             while (it.hasNext()) {
@@ -738,14 +804,22 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public boolean isConfigurado() {
-        getEndereco().getAlturaNumerica();
-        getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
-        getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
+        if (getEndereco() != null) {
+            getEndereco().getAlturaNumerica();
+        }
+
+        if (getAneis() != null) {
+            getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
+        }
+
+        if (getVersoesTabelasHorarias() != null) {
+            getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
+        }
 
         return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class).size() == 0;
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class).size() == 0;
     }
 
     /**
@@ -805,5 +879,55 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setPlanosBloqueado(boolean planosBloqueado) {
         this.planosBloqueado = planosBloqueado;
+    }
+
+    public Anel findAnelByPosicao(Integer posicao) {
+        if (Objects.nonNull(posicao)) {
+            return getAneis().stream().filter(anel -> posicao.equals(anel.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    public Detector findDetectorByPosicaoETipo(TipoDetector tipoDetector, Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getDetectores)
+            .flatMap(Collection::stream)
+            .filter(detector -> posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public RangeUtils getRangeUtils() {
+        return rangeUtils;
+    }
+
+    public void setRangeUtils(RangeUtils rangeUtils) {
+        this.rangeUtils = rangeUtils;
+    }
+
+    public Anel findAnelByDetector(TipoDetector tipoDetector, Integer posicao) {
+        Detector detector = findDetectorByPosicaoETipo(tipoDetector, posicao);
+        if (detector != null) {
+            return detector.getAnel();
+        }
+        return null;
+    }
+
+    public GrupoSemaforico findGrupoSemaforicoByPosicao(Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getGruposSemaforicos)
+            .flatMap(Collection::stream)
+            .filter(grupoSemaforico -> posicao.equals(grupoSemaforico.getPosicao()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public Anel findAnelByGrupoSemaforico(Integer posicao) {
+        GrupoSemaforico grupoSemaforico = findGrupoSemaforicoByPosicao(posicao);
+        if (grupoSemaforico != null) {
+            return grupoSemaforico.getAnel();
+        } else {
+            return null;
+        }
     }
 }

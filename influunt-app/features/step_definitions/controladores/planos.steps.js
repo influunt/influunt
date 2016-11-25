@@ -44,6 +44,10 @@ module.exports = function() {
     return planosPage.isTempoDefasagemVisible();
   });
 
+  this.Given(/^o sistema deverá apresentar erro em defasagem$/, function () {
+    return planosPage.erroDefasagem();
+  });
+
   this.Given(/^que o usuário clique no botão de configurar o estágio "([^"]*)"$/, function (estagio) {
     return planosPage.clicarBotaoConfigurarEstagio(estagio);
   });
@@ -101,10 +105,6 @@ module.exports = function() {
     return planosPage.getTextInModal().then(function(text) {
       expect(text).to.equal('selecione os planos que deverão copiar as configurações de PLANO 1');
     });
-  });
-
-  this.Given(/^o usuário prenche o campo com "([^"]*)"$/, function (valor) {
-    return planosPage.preencherCampoEditarPlano(valor);
   });
 
   this.Given(/^o usuário selecionar o "([^"]*)"$/, function (valor) {

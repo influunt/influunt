@@ -49,7 +49,7 @@ module.exports = function(config) {
       'bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js',
       'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
       'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
-      'bower_components/AngularJS-Toaster/toaster.js',
+      'bower_components/toastr/toastr.js',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
       'bower_components/leaflet/dist/leaflet-src.js',
@@ -71,6 +71,9 @@ module.exports = function(config) {
       'bower_components/angular-permission/dist/angular-permission-ui.js',
       'bower_components/angular-permission/dist/angular-permission-ng.js',
       'bower_components/humanize-duration/humanize-duration.js',
+      'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
+      'bower_components/paho-mqtt/src/mqttws31.js',
+      'bower_components/ng-idle/angular-idle.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -83,6 +86,7 @@ module.exports = function(config) {
       'app/plugins/uiTabs/ui.tabs.overflowResize.js',
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
+      'app/plugins/phasertips/Phasetips.js',
 
       // influunt app plugins.
       'app/plugins/influunt/**/*.js',
@@ -118,6 +122,7 @@ module.exports = function(config) {
     ],
 
     reporters: ['progress', 'kjhtml', 'coverage'],
+    // reporters: ['progress', 'kjhtml'],
 
     // plugins to enable
     plugins: [

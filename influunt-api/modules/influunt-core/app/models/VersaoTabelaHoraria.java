@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,6 +14,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -62,6 +64,12 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @CreatedTimestamp
     private DateTime dataCriacao;
 
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
+
     public VersaoTabelaHoraria() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -76,11 +84,27 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.tabelaHoraria = tabelaHoraria;
         this.usuario = usuario;
         if (usuario != null && usuario.getNome() != null) {
-            this.descricao = "Tabela Horaria criado pelo usuário:".concat(usuario.getNome());
+            this.descricao = "Tabela Horária criada pelo usuário: ".concat(usuario.getNome());
         }
         this.statusVersao = StatusVersao.EDITANDO;
     }
 
+    /**
+     * Retorna a {@link  VersaoTabelaHoraria}
+     *
+     * @param controlador
+     * @return
+     */
+    public static List<VersaoTabelaHoraria> versoes(Controlador controlador) {
+        return findByControladorOrdered(controlador);
+    }
+
+    public static List<VersaoTabelaHoraria> findByControladorOrdered(Controlador controlador) {
+        return VersaoTabelaHoraria.find.where()
+            .eq("controlador_id", controlador.getId())
+            .orderBy("dataAtualizacao desc")
+            .findList();
+    }
 
     public UUID getId() {
         return id;
@@ -138,6 +162,14 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.descricao = descricao;
     }
 
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
     public StatusVersao getStatusVersao() {
         return statusVersao;
     }
@@ -177,12 +209,12 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
     @Override
     public String toString() {
         return "VersaoTabelaHoraria{"
-                + "id=" + id
-                + ", idJson='" + idJson + '\''
-                + ", descricao='" + descricao + '\''
-                + ", statusVersao=" + statusVersao
-                + ", dataCriacao=" + dataCriacao
-                + '}';
+            + "id=" + id
+            + ", idJson='" + idJson + '\''
+            + ", descricao='" + descricao + '\''
+            + ", statusVersao=" + statusVersao
+            + ", dataCriacao=" + dataCriacao
+            + '}';
     }
 
     @JsonIgnore

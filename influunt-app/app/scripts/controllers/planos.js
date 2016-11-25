@@ -8,14 +8,14 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter',
-                             'validaTransicao', 'utilEstagios', 'toast', 'modoOperacaoService',
-                             'influuntAlert', 'influuntBlockui',
-                             'handleValidations', 'utilControladores', 'planoService', 'breadcrumbs', 'SimulacaoService',
-    function ($controller, $scope, $state, $timeout, Restangular, $filter,
-              validaTransicao, utilEstagios, toast, modoOperacaoService,
-              influuntAlert, influuntBlockui,
-              handleValidations, utilControladores, planoService, breadcrumbs, SimulacaoService) {
+  .controller('PlanosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'validaTransicao',
+                             'utilEstagios', 'toast', 'modoOperacaoService', 'influuntAlert', 'influuntBlockui',
+                             'geraDadosDiagramaIntervalo', 'handleValidations', 'utilControladores', 'planoService',
+                             'breadcrumbs', 'SimulacaoService', '$q',
+    function ($controller, $scope, $state, $timeout, Restangular, $filter, validaTransicao,
+              utilEstagios, toast, modoOperacaoService, influuntAlert, influuntBlockui,
+              geraDadosDiagramaIntervalo, handleValidations, utilControladores, planoService,
+              breadcrumbs, SimulacaoService, $q) {
 
       $controller('HistoricoCtrl', {$scope: $scope});
       $scope.inicializaResourceHistorico('planos');
@@ -64,10 +64,21 @@ angular.module('influuntApp')
               }
             });
 
+            $scope.configuraModoManualExclusivo();
             $scope.selecionaAnelPlanos(0);
             return atualizaDiagramaIntervalos();
           })
           .finally(influuntBlockui.unblock);
+      };
+
+      $scope.configuraModoManualExclusivo = function() {
+        $scope.obrigaModoManualExclusivo = _.filter($scope.objeto.aneis, {ativo: true, aceitaModoManual: true}).length > 1;
+        _
+          .chain($scope.objeto.planos)
+          .filter({modoOperacao: 'MANUAL'})
+          .each(function(p) {
+            p.configurado = p.configurado || $scope.obrigaModoManualExclusivo;
+          }).value();
       };
 
       $scope.clonarPlanos = function(controladorId) {
@@ -176,10 +187,23 @@ angular.module('influuntApp')
         });
       };
 
+      $scope.beforeChangeCheckboxGrupo = function(grupo) {
+        var posicaoOriginal = parseInt(grupo.labelPosicao.substring(1));
+        var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, { anel: { idJson: $scope.currentAnel.idJson }, posicao: posicaoOriginal });
+        var nemAssociadoNemDemandaPrioritaria = planoService.isGrupoNemAssociadoNemDemandaPrioritaria($scope.objeto, $scope.currentAnel, $scope.currentPlano, grupoSemaforico);
+        if (nemAssociadoNemDemandaPrioritaria) {
+          var title = $filter('translate')('planos.grupoNaoAssociado.titulo'),
+              text = $filter('translate')('planos.grupoNaoAssociado.texto');
+          return influuntAlert.error(title, text).then(function() { return $q.reject(); });
+        } else {
+          return $q.resolve();
+        }
+      };
+
       $scope.onChangeCheckboxGrupo = function(grupo, isAtivo) {
         var gruposSemaforicos = _.chain($scope.objeto.gruposSemaforicos)
-          .filter(function(gs) { return gs.anel.idJson === $scope.currentAnel.idJson; })
-          .orderBy(['posicao'])
+          .filter({ anel: { idJson: $scope.currentAnel.idJson } })
+          .orderBy('posicao')
           .value();
 
         var grupoSemaforico = gruposSemaforicos[grupo.posicao-1];
@@ -204,12 +228,8 @@ angular.module('influuntApp')
       $scope.removerEstagioPlano = function(estagioPlano) {
         influuntAlert.delete().then(function(confirmado) {
           if (confirmado) {
-            //Remover do plano
-            var estagioPlanoIndex = _.findIndex($scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson});
-            $scope.currentPlano.estagiosPlanos.splice(estagioPlanoIndex, 1);
-            //Remover do objeto
-            var index = _.findIndex($scope.objeto.estagiosPlanos, {idJson: estagioPlano.idJson});
-            $scope.objeto.estagiosPlanos.splice(index, 1);
+            var ep = _.find($scope.objeto.estagiosPlanos, { idJson: estagioPlano.idJson });
+            ep.destroy = true;
             $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
           }
         });
@@ -280,14 +300,17 @@ angular.module('influuntApp')
         selecionaAnel(index);
 
         var indexPlano = 0;
+        var deveAtivarPlano = false;
         if (angular.isDefined($scope.currentPlano)) {
           indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
+          deveAtivarPlano = $scope.currentPlano.configurado;
         }
 
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
-        $scope.currentPlano.configurado = true;
+        // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
+        $scope.currentPlano.configurado = $scope.currentPlano.configurado || deveAtivarPlano;
       };
 
       $scope.selecionaPlano = function(plano, index) {
@@ -392,7 +415,7 @@ angular.module('influuntApp')
 
 
       /**
-       * Reenderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
+       * Renderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
        * Faz um debounce de 500ms, para evitar chamadas excessivas à "calculadora" do diagrama.
        *
        * Caso o modo de operação do plano for "amarelo intermitente" ou "desligado", o diagrama deverá ser gerado
@@ -447,7 +470,7 @@ angular.module('influuntApp')
           var errosGruposSemaforicosPlanos = _.get(listaErros, 'planos['+ currentPlanoIndex +'].gruposSemaforicosPlanos');
           if (errosGruposSemaforicosPlanos) {
             _.each(errosGruposSemaforicosPlanos, function(erro, index) {
-              if(erro) {
+              if(erro && angular.isArray(erro.respeitaVerdesDeSeguranca)) {
                 var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
                 var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
                 var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
@@ -500,7 +523,7 @@ angular.module('influuntApp')
       getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
         var erros = [];
         var errosSequencia;
-        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaInvalida');
+        errosSequencia = _.get(listaErros, 'planos['+ currentPlanoIndex +'].sequenciaValida');
         if (errosSequencia) {
           erros.push(errosSequencia[0]);
         }
@@ -548,6 +571,7 @@ angular.module('influuntApp')
         };
 
         $scope.objeto.estagiosPlanos.push(novoEstagioPlano);
+        estagio.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
         $scope.currentPlano.estagiosPlanos.push({idJson: novoEstagioPlano.idJson});
       };
 
@@ -663,7 +687,9 @@ angular.module('influuntApp')
           tempoEstagiosPlanos[anelIndex] = [];
           tempoCiclo[anelIndex] = [];
           _.forEach(anel.planos, function(plano, planoIndex) {
-            var estagiosPlanos = _.filter($scope.objeto.estagiosPlanos, { plano: { idJson: plano.idJson } });
+            var estagiosPlanos = _.filter($scope.objeto.estagiosPlanos, function(ep) {
+              return !ep.destroy && ep.plano.idJson === plano.idJson;
+            });
             tempoEstagiosPlanos[anelIndex][planoIndex] = _.sumBy(estagiosPlanos, 'tempoEstagio') || 0;
 
             plano = _.find($scope.objeto.planos, { idJson: plano.idJson });
