@@ -27,6 +27,7 @@ public class TransacaoActorHandler extends UntypedActor {
                     case NEW:
                         transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
                         envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
+                        publishTransactionStatus(transacao, StatusTransacao.INICIADA);
                         break;
 
                     case PREPARE_OK:
