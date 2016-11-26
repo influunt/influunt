@@ -391,6 +391,10 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
       $scope.parametrosSimulacao.imposicaoPlanos = [{}];
     }
+    
+    if (_.isEmpty($scope.parametrosSimulacao.imposicaoModos)) {
+      $scope.parametrosSimulacao.imposicaoModos = [{}];
+    }
 
     if (_.isEmpty($scope.parametrosSimulacao.alarmesControlador)) {
       $scope.parametrosSimulacao.alarmesControlador = [{}];
