@@ -18,6 +18,7 @@ angular.module('influuntApp')
           trackTransaction: '='
         },
         link: function sincronizacao(scope) {
+          var transactionTracker;
           scope.sincronizar = function() {
             var resource = scope.dataSincronizar.tipo === 'pacotePlanos' ? 'pacote_plano' : 'configuracao_completa';
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
@@ -31,14 +32,14 @@ angular.module('influuntApp')
               .finally(influuntBlockui.unblock);
           };
 
-          var transactionTracker = function(id) {
+          transactionTracker = function(id) {
             return mqttTransactionStatusService
               .watchTransaction(id)
               .then(function(transmitido) {
                 if (transmitido) {
-                  toast.success($filter('translate')('imporConfig.sincronizacao.sincronizadoComSucesso'));
+                  toast.success($filter('translate')('imporConfig.imposicaoPlano.sucesso'));
                 } else {
-                  toast.warn($filter('translate')('imporConfig.sincronizacao.sincronizadoComErro'));
+                  toast.warn($filter('translate')('imporConfig.imposicaoPlano.erro'));
                 }
               });
           };

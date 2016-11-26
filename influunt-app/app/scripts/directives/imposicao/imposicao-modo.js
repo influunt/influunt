@@ -7,20 +7,21 @@
  * # imposicaoModo
  */
 angular.module('influuntApp')
-  .directive('imposicaoModo', ['HorariosService', 'Restangular', 'influuntBlockui',
-      function (HorariosService, Restangular, influuntBlockui) {
+  .directive('imposicaoModo', ['HorariosService', 'Restangular', 'influuntBlockui', '$filter', 'toast', 'mqttTransactionStatusService',
+      function (HorariosService, Restangular, influuntBlockui, $filter, toast, mqttTransactionStatusService) {
       return {
         templateUrl: 'views/directives/imposicoes/imposicao-modo.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
-          idsTransacoes: '='
+          idsTransacoes: '=',
+          trackTransaction: '='
         },
         link: function postLink(scope) {
           scope.configuracao = {};
           scope.planos = HorariosService.getPlanos();
 
-          var getControladores;
+          var getControladores, transactionTracker;
 
           scope.todosAneisDoMesmoControlador = function() {
             return getControladores().length === 1;
@@ -38,10 +39,23 @@ angular.module('influuntApp')
               .then(function(response) {
                 _.each(response.plain(), function(transacaoId, controladorId) {
                   scope.idsTransacoes[controladorId] = transacaoId;
+                  return scope.trackTransaction && transactionTracker(transacaoId);
                 });
               })
               .catch(console.error)
               .finally(influuntBlockui.unblock);
+          };
+
+          transactionTracker = function(id) {
+            return mqttTransactionStatusService
+              .watchTransaction(id)
+              .then(function(transmitido) {
+                if (transmitido) {
+                  toast.success($filter('translate')('imporConfig.imposicaoModo.sucesso'));
+                } else {
+                  toast.warn($filter('translate')('imporConfig.imposicaoModo.erro'));
+                }
+              });
           };
 
           scope.$watch('aneisSelecionados', function(aneisSelecionados) {

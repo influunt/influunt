@@ -115,12 +115,13 @@ public class ImposicoesController extends Controller {
     private Map<String, String>  imporModoOperacao(JsonNode params) {
         ModoOperacaoPlano modoOperacao = ModoOperacaoPlano.valueOf(params.get("modoOperacao").asText());
         int duracao = params.get("duracao").asInt();
+        Long horarioEntrada = params.get("horarioEntrada").asLong();
         List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
         List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
 
         Map<String, String> transacoesIds = new HashMap<>();
         aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), null, duracao))
+            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), horarioEntrada, duracao))
         );
         return transacoesIds;
     }
