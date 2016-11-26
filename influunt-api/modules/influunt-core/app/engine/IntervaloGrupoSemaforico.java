@@ -263,16 +263,18 @@ public class IntervaloGrupoSemaforico {
 
             if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                 final Transicao transicao;
+                final long tempoAtraso;
                 if (estagio.getId() != null) {
                     transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagio);
+                    tempoAtraso = Math.min(transicao.getTempoAtrasoGrupo() * 1000L, duracaoEntreverde);
                 } else {
                     transicao = grupoSemaforico.findTransicaoByDestinoIntermitente(estagioAnterior);
+                    tempoAtraso = 0L;
                 }
 
                 final TabelaEntreVerdesTransicao tabelaEntreVerdes = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(plano.getPosicaoTabelaEntreVerde(), transicao);
                 final long tempo;
                 final EstadoGrupoSemaforico estadoAmarelo;
-                final long tempoAtraso = Math.min(transicao.getTempoAtrasoGrupo() * 1000L, duracaoEntreverde);
 
                 intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
                 if (grupoSemaforico.isPedestre()) {

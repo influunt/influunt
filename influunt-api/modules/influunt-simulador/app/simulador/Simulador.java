@@ -6,10 +6,7 @@ import engine.MotorCallback;
 import models.Controlador;
 import models.Plano;
 import models.TipoDetector;
-import models.simulador.parametros.ParametroSimulacao;
-import models.simulador.parametros.ParametroSimulacaoDetector;
-import models.simulador.parametros.ParametroSimulacaoManual;
-import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
+import models.simulador.parametros.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -54,6 +51,7 @@ public abstract class Simulador implements MotorCallback {
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoesModos().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getLiberacoesImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getAlarmes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getInsercaoDePlugDeControleManual().stream().forEach(param -> addEvento(param.toEvento()));

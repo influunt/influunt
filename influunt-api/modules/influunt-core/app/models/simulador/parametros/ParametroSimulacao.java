@@ -53,6 +53,9 @@ public class ParametroSimulacao {
     private List<ParametroSimulacaoImposicaoModo> imposicoesModos = new ArrayList<>();
 
     @Valid
+    private List<ParametroSimulacaoLiberacaoImposicao> liberacoesImposicoes = new ArrayList<>();
+
+    @Valid
     private List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
 
     @Valid
@@ -139,6 +142,14 @@ public class ParametroSimulacao {
 
     public void setImposicoesModos(List<ParametroSimulacaoImposicaoModo> imposicoesModos) {
         this.imposicoesModos = imposicoesModos;
+    }
+
+    public List<ParametroSimulacaoLiberacaoImposicao> getLiberacoesImposicoes() {
+        return liberacoesImposicoes;
+    }
+
+    public void setLiberacoesImposicoes(List<ParametroSimulacaoLiberacaoImposicao> liberacoesImposicoes) {
+        this.liberacoesImposicoes = liberacoesImposicoes;
     }
 
     public List<ParametroSimulacaoFalha> getFalhas() {
