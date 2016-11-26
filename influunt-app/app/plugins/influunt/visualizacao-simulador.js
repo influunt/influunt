@@ -37,7 +37,6 @@ var influunt;
         var offsetDeAneis = {};
         var offsetGrupo = {};
         var tempo = 0;
-        var descolamentoMaximo = 0;
         var relogio;
         var plano;
         var data;
@@ -91,6 +90,25 @@ var influunt;
           game.load.start();
         }
 
+        function getPlanoAtual(tempo){
+          for(var i =  planos.length - 1; i >= 0 ; i--){
+            if(tempo >= planos[i][0]){
+              return planos[i];
+            }
+          }
+        }
+
+        function getModo(modo) {
+          switch(modo){
+            case 'TEMPO_FIXO_ISOLADO': return 'TFI';
+            case 'TEMPO_FIXO_COORDENADO': return 'TFC';
+            case 'ATUADO': return 'ATU';
+            case 'APAGADO': return 'APA';
+            case 'INTERMITENTE': return 'INT';
+            case 'MANUAL': return 'MAN';
+          }
+        }
+
         function desenhaPlanoAtual(planoSpec) {
           plano.setText('Plano ' + planoSpec[1]);
           planoSpec[2].forEach(function(modo,index){
@@ -108,7 +126,30 @@ var influunt;
           
           led.play(result);
         }
-        
+
+        function atualizaBotoesVisiveis() {
+          _.each(specBotoes, function(spec) {
+            if (typeof spec.visivel === 'function') {
+              var botao = botoes[spec.nome];
+              botao.visible = spec.visivel.apply(this);
+            }
+          });
+        }
+
+        function atualizaEstadosGruposSemaforicos(){
+          for(var i = 0; i < totalGruposSemaforicos; i++){
+            if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
+              gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);
+            }
+          }
+        }
+
+        function loadMore() {
+            var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
+            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
+            client.send(message);
+        }
+
         function moveToLeft() {
           if(tempo + 1 < limite){
             tempo += (velocidade);
@@ -164,10 +205,6 @@ var influunt;
           }
         }
 
-        // function botaoLog(){}
-
-        // function botaoExport(){}
-
         function botaoBackward(){
             moveToRight();
         }
@@ -212,14 +249,6 @@ var influunt;
 
           botoes.pause.play('OFF');
           game.time.events.remove(repeater);
-        }
-
-        function getPlanoAtual(tempo){
-          for(var i =  planos.length - 1; i >= 0 ; i--){
-            if(tempo >= planos[i][0]){
-              return planos[i];
-            }
-          }
         }
 
         function getAlturaDiagrama() {
@@ -370,40 +399,6 @@ var influunt;
 
             grupoControles.add(botoes[botaoSpec.nome]);
           });
-        }
-
-        function atualizaBotoesVisiveis() {
-          _.each(specBotoes, function(spec) {
-            if (typeof spec.visivel === 'function') {
-              var botao = botoes[spec.nome];
-              botao.visible = spec.visivel.apply(this);
-            }
-          });
-        }
-
-        function atualizaEstadosGruposSemaforicos(){
-          for(var i = 0; i < totalGruposSemaforicos; i++){
-            if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
-              gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);
-            }
-          }
-        }
-
-        function getModo(modo) {
-          switch(modo){
-            case 'TEMPO_FIXO_ISOLADO': return 'TFI';
-            case 'TEMPO_FIXO_COORDENADO': return 'TFC';
-            case 'ATUADO': return 'ATU';
-            case 'APAGADO': return 'APA';
-            case 'INTERMITENTE': return 'INT';
-            case 'MANUAL': return 'MAN';
-          }
-        }
-
-        function loadMore() {
-            var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
-            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
-            client.send(message);
         }
 
         function desenhaAgendamento(x1, x2, y1, y2, color, hLabel) {
@@ -571,10 +566,21 @@ var influunt;
               color = '#2603339';
               desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
               desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
-            }else{
+            } else {
               var xFalha = (x  + (evento[0] / 100)) - MARGEM_LATERAL;
-              var cor = evento[3] == "FALHA" ? "#C51162" : "#F57F17";
-              desenhaFalha(xFalha,cor,evento[2],evento[4]);
+              var cor;
+              switch (evento[3]) {
+                case "FALHA":
+                  cor = "#C51162";
+                  break;
+                case "IMPOSICAO":
+                  cor = "#B11134";
+                  break;
+                default:
+                  cor = "#F57F17";
+                  break;
+              }
+              desenhaFalha(xFalha, cor, evento[2], evento[4]);
             }
           });
 
@@ -612,8 +618,8 @@ var influunt;
           bmd.render();
           var sprite = game.add.sprite(x, y, bmd);
           sprite.name = 'A' + (anel - 1) + 'E' + estagio.estagio;
-          sprite.events.onInputDown.add(estagioDown,this);
-          sprite.events.onInputOut.add(estagioOut,this);
+          sprite.events.onInputDown.add(estagioDown, this);
+          sprite.events.onInputOut.add(estagioOut, this);
           sprite.inputEnabled = true;
           intervalosGroup.add(sprite);
         }
@@ -848,14 +854,14 @@ var influunt;
           modoManual = [];
           manuais.forEach(function(manual){
             var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
-            if(modoManual.length == 0){
+            if(modoManual.length === 0){
               modoManual.push([x,undefined]);
-            }else if(manual[0] == 'ATIVAR'){
-              if(_.last(modoManual)[1] != undefined){
+            }else if(manual[0] === 'ATIVAR'){
+              if(_.last(modoManual)[1] !== undefined){
                 modoManual.push([x,undefined]);
               }
-            }else if(manual[0] == 'DESATIVAR'){
-              if(_.last(modoManual)[1] == undefined){
+            }else if(manual[0] === 'DESATIVAR'){
+              if(_.last(modoManual)[1] === undefined){
                 _.last(modoManual)[1] = x;
               }
             }
