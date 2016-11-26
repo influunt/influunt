@@ -209,8 +209,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         // 6 -> configuração inicial
         // 5 * aneis -> 5 mensagens para cada transaçao
         // 1 -> mensagem de troca de plano
-        await().until(() -> onPublishFutureList.size() >= 6 + 7*aneisIds.size());
-        assertEquals(6 + 7*aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
+        assertEquals(6 + 7 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());

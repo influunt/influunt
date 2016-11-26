@@ -6,7 +6,10 @@ import engine.MotorCallback;
 import models.Controlador;
 import models.Plano;
 import models.TipoDetector;
-import models.simulador.parametros.*;
+import models.simulador.parametros.ParametroSimulacao;
+import models.simulador.parametros.ParametroSimulacaoDetector;
+import models.simulador.parametros.ParametroSimulacaoManual;
+import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 

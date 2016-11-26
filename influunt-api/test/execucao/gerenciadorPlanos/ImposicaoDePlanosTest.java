@@ -26,9 +26,16 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.INTERMITENTE.toString(), 1, 240));
-        avancarSegundos(motor, 60);
+
+        avancarSegundos(motor, 10);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_MODO,
+            ModoOperacaoPlano.INTERMITENTE.toString(),
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
+
+        avancarSegundos(motor, 110);
 
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.AMARELO));
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
@@ -72,10 +79,15 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plus(60), TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.INTERMITENTE.toString(), 1, 240));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plus(60),
+            TipoEvento.IMPOSICAO_MODO,
+            ModoOperacaoPlano.INTERMITENTE.toString(),
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
 
-        avancarSegundos(motor, 20);
+        avancarSegundos(motor, 30);
         assertEquals(ModoOperacaoPlano.INTERMITENTE, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
@@ -110,10 +122,15 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.INTERMITENTE.toString(), 1, 1));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_MODO,
+            ModoOperacaoPlano.INTERMITENTE.toString(),
+            1,
+            1,
+            inicioExecucao.plusSeconds(60).getMillis()));
 
-        avancarSegundos(motor, 20);
+        avancarSegundos(motor, 30);
         assertEquals(ModoOperacaoPlano.INTERMITENTE, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
@@ -146,8 +163,13 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.APAGADO.toString(), 1, 240));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_MODO,
+            ModoOperacaoPlano.APAGADO.toString(),
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
         avancarSegundos(motor, 60);
 
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.AMARELO));
@@ -185,10 +207,15 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plus(60), TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.APAGADO.toString(), 1, 240));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plus(60),
+            TipoEvento.IMPOSICAO_MODO,
+            ModoOperacaoPlano.APAGADO.toString(),
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
 
-        avancarSegundos(motor, 20);
+        avancarSegundos(motor, 30);
         assertEquals(ModoOperacaoPlano.APAGADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
@@ -228,10 +255,15 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.APAGADO.toString(), 1, 1));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_MODO,
+            ModoOperacaoPlano.APAGADO.toString(),
+            1,
+            1,
+            inicioExecucao.plusSeconds(60).getMillis()));
 
-        avancarSegundos(motor, 20);
+        avancarSegundos(motor, 30);
         assertEquals(ModoOperacaoPlano.APAGADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
@@ -269,9 +301,14 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_PLANO, 3, 1, 240));
-        avancarSegundos(motor, 60);
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_PLANO,
+            3,
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
+        avancarSegundos(motor, 70);
 
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
@@ -290,10 +327,15 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_PLANO, 3, 1, 240));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_PLANO,
+            3,
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
 
-        avancarSegundos(motor, 20);
+        avancarSegundos(motor, 30);
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
@@ -314,10 +356,15 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_PLANO, 3, 1, 1));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_PLANO,
+            3,
+            1,
+            1,
+            inicioExecucao.plusSeconds(60).getMillis()));
 
-        avancarSegundos(motor, 20);
+        avancarSegundos(motor, 30);
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
@@ -335,8 +382,13 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_PLANO, 1, 1, 240));
+        avancarSegundos(motor, 50);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
+            TipoEvento.IMPOSICAO_PLANO,
+            1,
+            1,
+            240,
+            inicioExecucao.plusSeconds(60).getMillis()));
         avancarSegundos(motor, 60);
 
         assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());

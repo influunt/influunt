@@ -1,7 +1,5 @@
 package os72c.client.conf;
 
-import java.util.Map;
-
 /**
  * Created by rodrigosol on 11/15/16.
  */

@@ -3,14 +3,10 @@ package server;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import play.Application;
 import play.Configuration;
 import play.Environment;
-import play.Logger;
 import server.conn.ServerActor;
 
 @Singleton

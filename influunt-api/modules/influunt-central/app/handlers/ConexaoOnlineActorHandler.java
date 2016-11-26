@@ -3,13 +3,9 @@ package handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import models.StatusDevice;
-import org.joda.time.DateTime;
-import protocol.ControladorOnline;
 import protocol.DestinoApp;
 import protocol.Envelope;
 import protocol.TipoMensagem;
-import server.conn.MQTTServerActor;
 import status.StatusConexaoControlador;
 import utils.AtoresCentral;
 

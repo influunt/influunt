@@ -45,11 +45,6 @@ public class Envelope {
     private Object conteudo;
 
     private String emResposta;
-
-    public Boolean isCriptografado() {
-        return criptografado;
-    }
-
     private Boolean criptografado = true;
 
     public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, int qos,
@@ -67,6 +62,10 @@ public class Envelope {
     public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, QoS qos,
                     Object conteudo, String emResposta) {
         this(tipoMensagem, idControlador, destino, qos.ordinal(), conteudo, emResposta);
+    }
+
+    public Boolean isCriptografado() {
+        return criptografado;
     }
 
     public String getIdMensagem() {
@@ -102,12 +101,12 @@ public class Envelope {
         return conteudo;
     }
 
-    public JsonNode getConteudoParsed() {
-        return Json.parse(getConteudo().toString());
-    }
-
     public void setConteudo(Object conteudo) {
         this.conteudo = conteudo;
+    }
+
+    public JsonNode getConteudoParsed() {
+        return Json.parse(getConteudo().toString());
     }
 
     public String getEmResposta() {

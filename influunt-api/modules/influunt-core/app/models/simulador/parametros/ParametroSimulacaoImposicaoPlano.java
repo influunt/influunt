@@ -62,7 +62,7 @@ public class ParametroSimulacaoImposicaoPlano {
     }
 
     public EventoMotor toEvento() {
-        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_PLANO, plano, anel, duracao);
+        return new EventoMotor(disparo.minus(200), TipoEvento.IMPOSICAO_PLANO, plano, anel, duracao, disparo.getMillis());
     }
 
 }

@@ -318,7 +318,7 @@ public class ControladoresController extends Controller {
             InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Collections.singletonList("aneis")).query());
             return CompletableFuture.completedFuture(ok(result.toJson("imposicoes")));
         } else if (u.getArea() != null) {
-            String[] areaId = { u.getArea().getId().toString() };
+            String[] areaId = {u.getArea().getId().toString()};
             if (params.containsKey("area.descricao")) {
                 params.remove("area.descricao");
             }
@@ -328,7 +328,6 @@ public class ControladoresController extends Controller {
         }
         return CompletableFuture.completedFuture(forbidden());
     }
-
 
 
     @Transactional

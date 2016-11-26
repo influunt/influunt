@@ -105,9 +105,19 @@ public class GerenciadorDeEstagios implements EventoCallback {
         monitoraTempoMaximoDePermanenciaDoEstagio();
 
         if (eventosAgendados.containsKey(inicioExecucao.plus(tempoDecorrido))) {
-            motor.onEvento(eventosAgendados.get(inicioExecucao.plus(tempoDecorrido)));
-            eventosAgendados.remove(inicioExecucao.plus(tempoDecorrido));
+            executaEventoAgendamento();
         }
+    }
+
+    private void executaEventoAgendamento() {
+        EventoMotor evento = eventosAgendados.get(inicioExecucao.plus(tempoDecorrido));
+        if (TipoEvento.IMPOSICAO_PLANO.equals(evento.getTipoEvento()) ||
+            TipoEvento.IMPOSICAO_MODO.equals(evento.getTipoEvento())) {
+            onEvento(evento);
+        } else {
+            motor.onEvento(evento);
+        }
+        eventosAgendados.remove(inicioExecucao.plus(tempoDecorrido));
     }
 
     private Long verificarETrocaCoordenado() {
