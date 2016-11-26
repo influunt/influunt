@@ -11,6 +11,8 @@ import os72c.client.storage.MapStorage;
 import os72c.client.storage.Storage;
 import os72c.client.storage.StorageConf;
 import os72c.client.storage.TestStorageConf;
+import os72c.client.virtual.ControladorForm;
+import os72c.client.virtual.ControladorVirtual;
 import play.Application;
 import play.Mode;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -34,7 +36,7 @@ public class WithInfluuntApplicationNoAuthentication extends WithInfluuntApplica
             .overrides(bind(DeviceConfig.class).to(TestDeviceConfig.class).in(Singleton.class))
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
-            .overrides(bind(DeviceBridge.class).to(FakeDevice.class).in(Singleton.class))
+            .overrides(bind(DeviceBridge.class).to(ControladorForm.class).in(Singleton.class))
             .in(Mode.TEST).build();
 
 

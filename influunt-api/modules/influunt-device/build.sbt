@@ -75,7 +75,7 @@ lazy val influuntCore = (project in file("../influunt-core")).enablePlugins(Play
 
 
 
-mainClass in Compile := Some("os72c.client.Client")
+mainClass in Compile := Some("os72c.client.virtual.ControladorSettingsForm")
 
 import NativePackagerHelper._
 

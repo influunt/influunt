@@ -8,6 +8,7 @@ import com.typesafe.config.ConfigFactory;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
 import os72c.client.storage.Storage;
+import play.api.Play;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;

@@ -425,6 +425,14 @@ public class IntervaloGrupoSemaforico {
         return entreverde;
     }
 
+    public IntervaloEstagio getVerde() {
+        return verde;
+    }
+
+    public long getDuracao() {
+        return duracao;
+    }
+
     public Integer quantidadeGruposSemaforicos() {
         return estados.keySet().size();
     }
