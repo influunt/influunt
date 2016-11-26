@@ -9,6 +9,7 @@ import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
 import models.simulador.parametros.ParametroSimulacaoManual;
+import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -56,6 +57,7 @@ public abstract class Simulador implements MotorCallback {
         this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getAlarmes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getInsercaoDePlugDeControleManual().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getTrocasEstagioModoManual().stream().forEach(param -> addEvento(param.toEvento()));
         this.ponteiro = parametros.getInicioSimulacao();
     }
 
@@ -110,6 +112,12 @@ public abstract class Simulador implements MotorCallback {
     public void alternarModoManual(DateTime disparo, boolean ativar) {
         ParametroSimulacaoManual param = new ParametroSimulacaoManual(disparo, ativar);
         this.parametros.getInsercaoDePlugDeControleManual().add(param);
+        setup(dataInicioControlador, controlador, parametros);
+    }
+
+    public void trocarEstagioModoManual(DateTime disparo) {
+        ParametroSimulacaoTrocaDeEstagioManual param = new ParametroSimulacaoTrocaDeEstagioManual(disparo);
+        this.parametros.getTrocasEstagioModoManual().add(param);
         setup(dataInicioControlador, controlador, parametros);
     }
 }

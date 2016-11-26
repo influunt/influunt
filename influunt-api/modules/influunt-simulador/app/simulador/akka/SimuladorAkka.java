@@ -43,7 +43,6 @@ public class SimuladorAkka extends Simulador {
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
 
-
     }
 
     @Override

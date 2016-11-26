@@ -62,6 +62,8 @@ public class ParametroSimulacao {
 
     private List<ParametroSimulacaoManual> insercaoDePlugDeControleManual = new ArrayList<>();
 
+    private List<ParametroSimulacaoTrocaDeEstagioManual> trocasEstagioModoManual = new ArrayList<>();
+
     public ParametroSimulacao() {
         this.id = UUID.randomUUID();
     }
@@ -206,4 +208,7 @@ public class ParametroSimulacao {
         return insercaoDePlugDeControleManual;
     }
 
+    public List<ParametroSimulacaoTrocaDeEstagioManual> getTrocasEstagioModoManual() {
+        return trocasEstagioModoManual;
+    }
 }

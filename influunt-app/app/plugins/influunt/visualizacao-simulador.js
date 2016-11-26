@@ -49,6 +49,7 @@ var influunt;
         var estagios = {};
         var modoManual = [];
         var led;
+        var situacaoLedManual = 'desligado';
 
         var modoManualAtivado = false;
 
@@ -99,7 +100,11 @@ var influunt;
         }
 
         function getModo(modo) {
-          switch(modo){
+          if (situacaoLedManual === 'ligado') {
+            return 'MAN';
+          }
+
+          switch (modo) {
             case 'TEMPO_FIXO_ISOLADO': return 'TFI';
             case 'TEMPO_FIXO_COORDENADO': return 'TFC';
             case 'ATUADO': return 'ATU';
@@ -123,7 +128,9 @@ var influunt;
           var result = _.some(modoManual,function(e){
             return tempo >= e[0] / 10  && tempo <= e[1] / 10; 
           }) ? 'ligado' : 'desligado';
-          
+
+          situacaoLedManual = result;
+
           led.play(result);
         }
 
@@ -259,11 +266,7 @@ var influunt;
         }
 
         function showEstagioManual() {
-          return getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
-        }
-
-        function showEstagioManualWaiting() {
-          return modoManualAtivado && !getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
+          return situacaoLedManual === 'ligado';
         }
 
         function botaoPlay(){
@@ -329,15 +332,14 @@ var influunt;
           var message = new Paho.MQTT.Message(JSON.stringify(json));
           message.destinationName = 'simulador/' + config.simulacaoId + '/trocar_estagio';
           client.send(message);
-
         }
         
         function criaLedManual(){
           led = game.add.sprite(850 , 10, 'leds');
-          led.animations.add('desligado', [0],1,false);
-          led.animations.add('ligado', [1],1,false);          
+          led.animations.add('desligado', [0], 1, false);
+          led.animations.add('ligado', [1], 1, false);
           led.play('desligado');
-          
+
           led.fixedToCamera = true;
         }
         
@@ -363,8 +365,8 @@ var influunt;
               {nome: 'DP3', action: botaoDetector},
               {nome: 'DP4', action: botaoDetector, incremento: 39},
 
-              {nome: 'operacaoManual', action: toggleModoManual},
-              {nome: 'trocaEstagioManualWaiting', visivel: showEstagioManualWaiting, incremento: 0},
+              {nome: 'ativaOperacaoManual', action: toggleModoManual, visivel: !showEstagioManual, incremento: -1},
+              {nome: 'desativaOperacaoManual', action: toggleModoManual, visivel: showEstagioManual},
               {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showEstagioManual}
           ];
 
@@ -431,39 +433,6 @@ var influunt;
 
           bmd.render();
           eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x1) - 10, y1 + ALTURA_GRUPO, bmd));
-        }
-
-        function desenhaTrocaEstagioManual(x, color, label) {
-          var h = getAlturaDiagrama();
-
-          var hLabel = h/3;
-          var bmd = game.add.bitmapData(20,h);
-
-          bmd.ctx.closePath();
-          bmd.ctx.beginPath();
-            bmd.ctx.lineWidth = '2';
-            bmd.ctx.setLineDash([5, 5]);
-            bmd.ctx.strokeStyle = color;
-          bmd.ctx.closePath();
-
-          bmd.ctx.beginPath();
-            bmd.ctx.moveTo(10,0);
-            bmd.ctx.lineTo(10,h);
-            bmd.ctx.stroke();
-          bmd.ctx.closePath();
-
-          bmd.ctx.fillStyle = color;
-          bmd.ctx.arc(10, hLabel - 4, 8, 0, Math.PI*2, true);
-          bmd.ctx.fill();
-
-          bmd.ctx.fillStyle = '#fff';
-          bmd.ctx.font = '8px Open Sans';
-
-          bmd.ctx.fillText(label, 5,hLabel-1);
-
-          bmd.render();
-
-          eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR + ALTURA_GRUPO, bmd));
         }
 
         function desenhaDetector(anel,x,color,tipo,label){
@@ -549,23 +518,12 @@ var influunt;
                                             config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
 
               desenhaAgendamento(x1,x2,y1,y2,'#2603339');
-            } else if(evento[1] === 'ACIONAMENTO_PLANO_MANUAL') {
-              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
-
-              y1 = MARGEM_SUPERIOR;
-              y2 = y1 + getAlturaDiagrama();
-              color = '#2603339';
-              desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
-            } else if (evento[1] === 'TROCA_DE_ESTAGIO_MANUAL') {
-              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
-
-              y1 = MARGEM_SUPERIOR;
-              y2 = y1 + getAlturaDiagrama();
-              color = '#2603339';
-              desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
-              desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
+            } else if(evento[1] === 'INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL') {
+              color = '#2E7D32';
+              desenhaTrocaEstagioManual((x  + (evento[0] / 100)) - MARGEM_LATERAL, color, 'CM ', evento[4]);
+            } else if (evento[1] === 'TROCA_ESTAGIO_MANUAL') {
+              color = '#2E7D32';
+              desenhaTrocaEstagioManual((x  + (evento[0] / 100)) - MARGEM_LATERAL, color, 'TE', evento[4]);
             } else {
               var xFalha = (x  + (evento[0] / 100)) - MARGEM_LATERAL;
               var cor;
@@ -834,6 +792,10 @@ var influunt;
         function desenhaPlano(x,color,label) { return desenhaEventoDoControlador(x, color, label); }
 
         function desenhaFalha(x,color,label, tooltip) { return desenhaEventoDoControlador(x, color, label, tooltip); }
+
+        function desenhaTrocaEstagioManual(x, color, label, tooltip) {
+          desenhaEventoDoControlador(x, color, label, tooltip);
+        }
 
         function processaPlanos(trocas){
           trocas.forEach(function(troca){

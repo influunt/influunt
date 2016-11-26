@@ -28,7 +28,7 @@ import static play.libs.Json.newObject;
  */
 public class SimuladorActor extends UntypedActor {
 
-    private final static int SEGUNDOS_POR_PAGINA = 300;
+    private final static int SEGUNDOS_POR_PAGINA = 600;
 
     private final ParametroSimulacao params;
 
@@ -37,7 +37,6 @@ public class SimuladorActor extends UntypedActor {
     private final String id;
 
     private MqttClient client;
-
 
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
@@ -84,6 +83,13 @@ public class SimuladorActor extends UntypedActor {
                 alternarModoManual(disparo, ativar);
             });
 
+            client.subscribe("simulador/" + id + "/trocar_estagio", 1, (topic, message) -> {
+                JsonNode root = Json.parse(message.getPayload());
+                DateTime disparo = new DateTime(root.get("disparo").asLong());
+
+                trocarEstagioModoManual(disparo);
+            });
+
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             try {
                 proximaPagina(0);
@@ -102,17 +108,28 @@ public class SimuladorActor extends UntypedActor {
 
     private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
         simulador.alternarModoManual(disparo, ativar);
-        proximaPagina(0);
+        proximaPagina(disparo);
+    }
+
+    private void trocarEstagioModoManual(DateTime disparo) throws Exception {
+        simulador.trocarEstagioModoManual(disparo);
+        proximaPagina(disparo);
     }
 
     private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
-        proximaPagina(0);
+        proximaPagina(disparo);
+    }
+
+    private void proximaPagina(DateTime disparo) throws Exception {
+        final int diff = ((Long) ((disparo.getMillis() - params.getInicioSimulacao().getMillis()) / 1000)).intValue();
+        final int pagina = diff / SEGUNDOS_POR_PAGINA;
+        proximaPagina(pagina);
     }
 
     private void proximaPagina(int pagina) throws Exception {
-        DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
-        DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
+        DateTime inicio = params.getInicioSimulacao();
+        DateTime fim = inicio.plusSeconds((pagina + 1) * SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);
         send();
     }
@@ -162,7 +179,7 @@ public class SimuladorActor extends UntypedActor {
         alarmes.forEach(alarme -> alarmesNode.add(alarme));
 
         ArrayNode manual = root.putArray("manual");
-        modoManual.forEach( modo -> manual.add(modo));
+        modoManual.forEach(modo -> manual.add(modo));
 
         return root.toString();
     }
