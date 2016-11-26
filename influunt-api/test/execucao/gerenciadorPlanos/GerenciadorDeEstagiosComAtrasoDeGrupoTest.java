@@ -47,18 +47,21 @@ public class GerenciadorDeEstagiosComAtrasoDeGrupoTest extends GerenciadorDeTroc
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 8000, 48000, EstadoGrupoSemaforico.VERDE));
 
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 8000, 48000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 2, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 2, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 2, 8000, 48000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 8000, 48000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 3, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 3, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 3, 8000, 48000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 1, 8000, 48000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 4, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 4, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 4, 8000, 48000, EstadoGrupoSemaforico.VERMELHO));
 
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 5, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 5, 8000, 48000, EstadoGrupoSemaforico.VERDE));
 
         offsetEstagio = 48;
         assertEquals("Segundo Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());

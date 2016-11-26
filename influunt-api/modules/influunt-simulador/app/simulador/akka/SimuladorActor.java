@@ -1,6 +1,7 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
+import akka.protobuf.ExtensionRegistry;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -27,7 +28,7 @@ import static play.libs.Json.newObject;
  */
 public class SimuladorActor extends UntypedActor {
 
-    private final static int SEGUNDOS_POR_PAGINA = 300;
+    private final static int SEGUNDOS_POR_PAGINA = 600;
 
     private final ParametroSimulacao params;
 
@@ -37,17 +38,17 @@ public class SimuladorActor extends UntypedActor {
 
     private MqttClient client;
 
-
     private HashMap<Integer, List<Pair<DateTime, IntervaloGrupoSemaforico>>> estagios = new HashMap();
 
     private List<ArrayNode> trocasDePlanos = new ArrayList<>();
 
     private List<ArrayNode> alarmes = new ArrayList<>();
 
+    private List<ArrayNode> modoManual = new ArrayList<>();
+
     private String jsonTrocas;
 
     private StringBuffer bufferTrocaDePlanos = null;
-
 
     public SimuladorActor(String host, String port, ParametroSimulacao params) {
         this.params = params;
@@ -82,6 +83,13 @@ public class SimuladorActor extends UntypedActor {
                 alternarModoManual(disparo, ativar);
             });
 
+            client.subscribe("simulador/" + id + "/trocar_estagio", 1, (topic, message) -> {
+                JsonNode root = Json.parse(message.getPayload());
+                DateTime disparo = new DateTime(root.get("disparo").asLong());
+
+                trocarEstagioModoManual(disparo);
+            });
+
             client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
             try {
                 proximaPagina(0);
@@ -100,23 +108,28 @@ public class SimuladorActor extends UntypedActor {
 
     private void alternarModoManual(DateTime disparo, boolean ativar) throws Exception {
         simulador.alternarModoManual(disparo, ativar);
-        trocasDePlanos.clear();
-        alarmes.clear();
-        estagios.clear();
-        proximaPagina(0);
+        proximaPagina(disparo);
+    }
+
+    private void trocarEstagioModoManual(DateTime disparo) throws Exception {
+        simulador.trocarEstagioModoManual(disparo);
+        proximaPagina(disparo);
     }
 
     private void detectorAcionador(int anel, TipoDetector tipoDetector, DateTime disparo, int detector) throws Exception {
         simulador.detectorAcionador(anel, tipoDetector, disparo, detector);
-        trocasDePlanos.clear();
-        alarmes.clear();
-        estagios.clear();
-        proximaPagina(0);
+        proximaPagina(disparo);
+    }
+
+    private void proximaPagina(DateTime disparo) throws Exception {
+        final int diff = ((Long) ((disparo.getMillis() - params.getInicioSimulacao().getMillis()) / 1000)).intValue();
+        final int pagina = diff / SEGUNDOS_POR_PAGINA;
+        proximaPagina(pagina);
     }
 
     private void proximaPagina(int pagina) throws Exception {
-        DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
-        DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
+        DateTime inicio = params.getInicioSimulacao();
+        DateTime fim = inicio.plusSeconds((pagina + 1) * SEGUNDOS_POR_PAGINA);
         simulador.simular(inicio, fim);
         send();
     }
@@ -141,6 +154,7 @@ public class SimuladorActor extends UntypedActor {
             estagios.clear();
             trocasDePlanos.clear();
             alarmes.clear();
+            modoManual.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -163,6 +177,9 @@ public class SimuladorActor extends UntypedActor {
 
         ArrayNode alarmesNode = root.putArray("alarmes");
         alarmes.forEach(alarme -> alarmesNode.add(alarme));
+
+        ArrayNode manual = root.putArray("manual");
+        modoManual.forEach(modo -> manual.add(modo));
 
         return root.toString();
     }
@@ -196,5 +213,19 @@ public class SimuladorActor extends UntypedActor {
         alarme.add(eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
         alarmes.add(alarme);
 
+    }
+
+    public void ativaModoManual(DateTime timestamp) {
+        ArrayNode manual = Json.newArray();
+        manual.add("ATIVAR");
+        manual.add(timestamp.getMillis());
+        modoManual.add(manual);
+    }
+
+    public void desativaModoManual(DateTime timestamp) {
+        ArrayNode manual = Json.newArray();
+        manual.add("DESATIVAR");
+        manual.add(timestamp.getMillis());
+        modoManual.add(manual);
     }
 }

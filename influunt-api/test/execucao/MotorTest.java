@@ -206,6 +206,16 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
+    public void modoManualAtivo(DateTime timestamp) {
+
+    }
+
+    @Override
+    public void modoManualDesativado(DateTime timestamp) {
+
+    }
+
+    @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
     }
 

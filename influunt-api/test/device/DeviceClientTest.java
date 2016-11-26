@@ -1,14 +1,16 @@
 package device;
 
+import config.WithInfluuntApplicationNoAuthentication;
 import config.WithLocalInfluuntApplicationNoAuthentication;
 import integracao.BasicMQTTTest;
 import integracao.ControladorHelper;
+import models.Controlador;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import os72c.client.Client;
 import os72c.client.conf.DeviceConfig;
 import views.html.report.controlador;
-
 /**
  * Created by rodrigosol on 11/15/16.
  */
@@ -17,13 +19,6 @@ public class DeviceClientTest extends WithLocalInfluuntApplicationNoAuthenticati
     @Test
     @Ignore
     public void execucao() throws InterruptedException {
-
-        provideApp.injector().instanceOf(DeviceConfig.class).setHost("mosquitto.rarolabs.com.br");
-        provideApp.injector().instanceOf(DeviceConfig.class).setPort("1883");
-        provideApp.injector().instanceOf(DeviceConfig.class).setDeviceId("1228c64b-158a-44fe-9a8e-2631401257b7");
-        provideApp.injector().instanceOf(DeviceConfig.class).setCentralPublicKey("30819f300d06092a864886f70d010101050003818d0030818902818100a2cd05a243e3308c3d6cd11d506c95f93d4aec8bd5a268c814bfb78e7f0d1d035a969a4e7845a69a214847f204f0b7402001105ae8d90705924cb290f73006ea96a55261f80e6f3442901a414917e4fa57a93b7bdd442fccfcf6b4f8a91f5367e0b5c0f250cb423be967b3d4d8994806fbdd16cb61d502dec60e3743b2dc1a2b0203010001");
-        provideApp.injector().instanceOf(DeviceConfig.class).setPrivateKey("30820276020100300d06092a864886f70d0101010500048202603082025c0201000281810098aabc9d44746b307419c8ce07a01f6cdb1fc51d1ce06cb7303bd53e08d2d85af58f99bb3ac461ab68bf769651ea87a7c2a4e8123b7f7b64339b91cda2dabf2ecc942b82ab0e4786a0d3c62b9015b8dea7c6b7710ca1c79d88f6ec53ef8f0095694651d1ad2fef1e6ea40a0bafec34c8bc0c74cc8baf30cabb0a963694cf5525020301000102818010e9791382edd2a1ff7a8bc0272019db193b1fbee5e006ab1470cc629edf9c9016fbdd6fdc46bcfb1c1379b3954781d797bc64e900265328fa7e955c4e5a252b822abfecabb7aa4479df788f9ef0dc620cf8cfa837e62170f1f811dca392596f16b0d1a41705a12c83bc9301801ccbf2ebb564b71f704c0e7b88f21de31c8851024100d00522584b9a4a6e19156dc7924fbcc90cf5e319cb156310d95128ff24b016085d9c4b21d292b81243adef4e4b3383245d02ec62b74425d6141a0b148b04a6ab024100bbe1313e45e96921f9b61427ec443ed682505048e28a830c5ab39770cf6b812365a7c1f70f29f90d67b6d19aba1d663125e6f6212f69eea5f65e80745dc5336f024003ec54dd7d6f877fd4114764c029a8d1d1e0c14bb73ccc058153ba863556ecd37390830a3c42701e48107bb6ea4c2a69012810f53ba7995f1439f98385abacc9024100b491078cbc104a1477344146e551e9baabdf986994205f369e6d801cd19c96ae7862b48e47aaa54bf6e3c3ab1b386a20ce369d52e388c1ee0b4c63d472d2b64d02403806930a799e4a96e6e376576803b7517ccd6c9db18291c734ca3c08185ff6ac7cc4e39bdc75ecbe3a598b72bd4424af090b9713f2728eaab2e5a3175d125b93");
-
         Client client = provideApp.injector().instanceOf(Client.class);
         Thread.sleep(600000l);
 

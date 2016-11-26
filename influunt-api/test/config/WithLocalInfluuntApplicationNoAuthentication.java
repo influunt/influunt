@@ -1,5 +1,6 @@
 package config;
 
+
 import be.objectify.deadbolt.java.cache.HandlerCache;
 import com.google.inject.Singleton;
 import config.auth.TestDeadboltHandlerCache;
@@ -38,4 +39,5 @@ public class WithLocalInfluuntApplicationNoAuthentication extends WithInfluuntAp
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
             .in(Mode.TEST).build();
     }
+
 }

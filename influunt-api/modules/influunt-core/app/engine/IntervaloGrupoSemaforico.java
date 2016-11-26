@@ -263,16 +263,18 @@ public class IntervaloGrupoSemaforico {
 
             if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                 final Transicao transicao;
+                final long tempoAtraso;
                 if (estagio.getId() != null) {
                     transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagio);
+                    tempoAtraso = Math.min(transicao.getTempoAtrasoGrupo() * 1000L, duracaoEntreverde);
                 } else {
                     transicao = grupoSemaforico.findTransicaoByDestinoIntermitente(estagioAnterior);
+                    tempoAtraso = 0L;
                 }
 
                 final TabelaEntreVerdesTransicao tabelaEntreVerdes = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(plano.getPosicaoTabelaEntreVerde(), transicao);
                 final long tempo;
                 final EstadoGrupoSemaforico estadoAmarelo;
-                final long tempoAtraso = Math.min(transicao.getTempoAtrasoGrupo() * 1000L, duracaoEntreverde);
 
                 intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
                 if (grupoSemaforico.isPedestre()) {
@@ -378,7 +380,9 @@ public class IntervaloGrupoSemaforico {
                         parseEventoTrocaPlano(eventoMotor, entry, eventos.addArray());
                         break;
                     case INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL:
-                        parseEventoInsercaoPlug(eventoMotor, entry, eventos.addArray());
+                        parseEventoGenerico(eventoMotor, entry, eventos.addArray());
+                        break;
+                    case RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL:
                         break;
                     default:
                         parseEventoGenerico(eventoMotor, entry, eventos.addArray());
@@ -410,15 +414,6 @@ public class IntervaloGrupoSemaforico {
         fields.add(entry.getKey());
         fields.add(eventoMotor.getTipoEvento().toString());
         fields.add(((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]).getFirst());
-    }
-
-    private void parseEventoInsercaoPlug(EventoMotor eventoMotor, Map.Entry<Long, List<EventoMotor>> entry, ArrayNode fields) {
-//        fields.add(entry.getKey());
-//        fields.add(eventoMotor.getTipoEvento().toString());
-//        fields.add(eventoMotor.getParams()[0].toString());
-//        fields.add(eventoMotor.getParams()[1].toString());
-//        fields.add(((DateTime)eventoMotor.getParams()[2]).getMillis());
-//        fields.add(((DateTime)eventoMotor.getParams()[3]).getMillis());
     }
 
     public IntervaloEstagio getEntreverde() {

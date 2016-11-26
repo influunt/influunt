@@ -192,6 +192,16 @@ public class ControladorForm implements Sender, DeviceBridge {
         start();
     }
 
+    @Override
+    public void modoManualAtivo() {
+
+    }
+
+    @Override
+    public void modoManualDesativado() {
+
+    }
+
     private void start() {
         labelsEstados.put(1, g1);
         g1.setOpaque(true);
