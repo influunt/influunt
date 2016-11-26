@@ -70,6 +70,11 @@
         "route": "app.relatorios_controladores_status"
       },
       {
+        "name": "relatorioPlanos",
+        "label": "relatorios.planos",
+        "route": "app.relatorios_planos"
+      },
+      {
         "name": "relatorioAuditorias",
         "label": "relatorios.auditorias",
         "route": "app.relatorios_auditorias"

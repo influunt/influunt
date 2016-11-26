@@ -1,0 +1,60 @@
+<pesquisa-lateral
+    data-ng-model="pesquisa.filtro"
+    campos="pesquisa.campos"
+    on-close="index()">
+</pesquisa-lateral>
+
+<div class="wrapper wrapper-content animated fadeInRight" data-ng-init="index()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-content">
+          <!-- botão de novo fabricante -->
+          <div class="pull-left actions">
+            <a class="btn btn-xs btn-primary" tooltips tooltip-template="Exportar CSV" data-ng-click="gerarRelatorioPlanosCSV()">
+              {{ 'relatorios.exportarCSV' | translate }}
+            </a>
+          </div>
+
+          <table datatable="ng" dt-options="datatables.options" dt-instance="datatables.instance" class="table table-bordered table-hover">
+            <div class="table">
+              <thead>
+                <tr>
+                  <th colspan="5" scope='colgroup'></th>
+                  <th colspan="3" scope='colgroup' data-ng-repeat="estagio in arrayEstagios" style="text-align: center">{{estagio + 1}}</th>
+                </tr>
+                <tr>
+                  <th>{{ 'relatorios.plano' | translate }}</th>
+                  <th>{{ 'relatorios.controlador' | translate }}</th>
+                  <th>{{ 'relatorios.local' | translate }}</th>
+                  <th>{{ 'relatorios.ciclo' | translate }}</th>
+                  <th>{{ 'relatorios.defasagem' | translate }}</th>
+                  <th data-ng-repeat-start="estagio in arrayEstagios">Inicio</th>
+                  <th>Verde</th>
+                  <th data-ng-repeat-end>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="plano in lista">
+                  <td>{{plano.numero}}</td>
+                  <td>{{plano.cla}}</td>
+                  <td>{{plano.endereco}}</td>
+                  <td>{{plano.ciclo}}</td>
+                  <td>{{plano.defasagem}}</td>
+
+                  <td data-ng-repeat-start="estagio in arrayEstagios"><strong>{{plano.estagios[estagio].estagio}}</strong> {{plano.estagios[estagio].inicio}}</td>
+                  <td>{{plano.estagios[estagio].verde}}</td>
+                  <td data-ng-repeat-end>{{plano.estagios[estagio].total}}</td>
+                </tr>
+              </tbody>
+            </div>
+          </table>
+          <ng-include src="'views/common/footer-pagination.html'"></ng-include>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

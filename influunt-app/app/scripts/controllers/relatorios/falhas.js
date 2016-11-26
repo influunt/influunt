@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($controller, $scope, $state, Restangular, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
-      $scope.inicializaNovoCrud('relatorios', 'controladores_falhas');
+      $scope.inicializaNovoCrud('relatorios', 'planos');
       $scope.relatorio = {tipoRelatorio: ''};
 
       $scope.pesquisa = {
@@ -41,7 +41,6 @@ angular.module('influuntApp')
       * Relatorio de Controladores por Status
       */
       $scope.gerarRelatorioControladoresPorFalhasCSV = function() {
-        console.log("OLA MUNDO !!!")
         $scope.pesquisa.tipoRelatorio = 'CSV';
         var pesquisa = _.cloneDeep($scope.pesquisa);
         pesquisa.per_page = null;
