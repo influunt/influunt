@@ -533,4 +533,12 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public void setDemandaPrioritaria(Boolean demandaPrioritaria) {
         this.demandaPrioritaria = demandaPrioritaria;
     }
+
+    public String getDescricaoEstagiosGruposSemaforicos() {
+        return getEstagiosGruposSemaforicos().stream().map(estagioGrupoSemaforico -> estagioGrupoSemaforico.getGrupoSemaforico().toString()).collect(Collectors.joining(", "));
+    }
+
+    public String toString() {
+        return "E".concat(getPosicao().toString());
+    }
 }

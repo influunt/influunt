@@ -120,7 +120,7 @@ public class ImposicoesController extends Controller {
 
         Map<String, String> transacoesIds = new HashMap<>();
         aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), duracao))
+            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), null, duracao))
         );
         return transacoesIds;
     }

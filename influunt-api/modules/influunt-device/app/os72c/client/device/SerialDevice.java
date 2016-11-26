@@ -74,6 +74,16 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         }
     }
 
+    @Override
+    public void modoManualDesativado() {
+        send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_DESATIVADO,sequencia));
+    }
+
+    @Override
+    public void modoManualAtivo() {
+        send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_ATIVADO,sequencia));
+    }
+
     private void send(Mensagem mensagem) {
         try {
             serialPort.writeBytes(mensagem.toByteArray());
@@ -116,7 +126,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
                 byte[] msg = ArrayUtils.addAll(size, complement);
                 Mensagem mensagem = Mensagem.toMensagem(msg);
                 mensagemRecebida(mensagem);
-
+                System.out.println(mensagem.getTipoMensagem());
             } catch (SerialPortException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -173,6 +183,15 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
             case ALARME:
                 te = TipoEvento.getByTipoECodigo(TipoEventoControlador.ALARME, ((MensagemAlarme) mensagem).getAlarme());
                 callback.onEvento(new EventoMotor(DateTime.now(), te));
+                break;
+            case INSERCAO_PLUG:
+                callback.onEvento(new EventoMotor(DateTime.now(), TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL));
+                break;
+            case REMOCAO_PLUG:
+                callback.onEvento(new EventoMotor(DateTime.now(), TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
+                break;
+            case TROCA_ESTAGIO_MANUAL:
+                callback.onEvento(new EventoMotor(DateTime.now(), TipoEvento.TROCA_ESTAGIO_MANUAL));
                 break;
         }
 

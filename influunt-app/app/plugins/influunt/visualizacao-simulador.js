@@ -37,7 +37,6 @@ var influunt;
         var offsetDeAneis = {};
         var offsetGrupo = {};
         var tempo = 0;
-        var descolamentoMaximo = 0;
         var relogio;
         var plano;
         var data;
@@ -48,6 +47,9 @@ var influunt;
         var botoes = {};
         var specBotoes = null;
         var estagios = {};
+        var modoManual = [];
+        var led;
+        var situacaoLedManual = 'desligado';
 
         var modoManualAtivado = false;
 
@@ -75,6 +77,7 @@ var influunt;
           game.load.spritesheet('veicular', '/images/simulador/sprite_veicular.png', 86, 25);
           game.load.spritesheet('estado', '/images/simulador/modos.png', 10, 25);
           game.load.spritesheet('controles', '/images/simulador/controles.png', 30, 26);
+          game.load.spritesheet('leds', '/images/simulador/leds.png', 31, 28);
           game.load.spritesheet('loading', '/images/simulador/loading.png', 200, 200);
           game.load.image('grid', '/images/simulador/grid.png');
 
@@ -88,6 +91,29 @@ var influunt;
           game.load.start();
         }
 
+        function getPlanoAtual(tempo){
+          for(var i =  planos.length - 1; i >= 0 ; i--){
+            if(tempo >= planos[i][0]){
+              return planos[i];
+            }
+          }
+        }
+
+        function getModo(modo) {
+          if (situacaoLedManual === 'ligado') {
+            return 'MAN';
+          }
+
+          switch (modo) {
+            case 'TEMPO_FIXO_ISOLADO': return 'TFI';
+            case 'TEMPO_FIXO_COORDENADO': return 'TFC';
+            case 'ATUADO': return 'ATU';
+            case 'APAGADO': return 'APA';
+            case 'INTERMITENTE': return 'INT';
+            case 'MANUAL': return 'MAN';
+          }
+        }
+
         function desenhaPlanoAtual(planoSpec) {
           plano.setText('Plano ' + planoSpec[1]);
           planoSpec[2].forEach(function(modo,index){
@@ -98,11 +124,45 @@ var influunt;
           data.setText(dataText);
         }
 
+        function verificaLed(){
+          var result = _.some(modoManual,function(e){
+            return tempo >= e[0] / 10  && tempo <= e[1] / 10; 
+          }) ? 'ligado' : 'desligado';
+
+          situacaoLedManual = result;
+
+          led.play(result);
+        }
+
+        function atualizaBotoesVisiveis() {
+          _.each(specBotoes, function(spec) {
+            if (typeof spec.visivel === 'function') {
+              var botao = botoes[spec.nome];
+              botao.visible = spec.visivel.apply(this);
+            }
+          });
+        }
+
+        function atualizaEstadosGruposSemaforicos(){
+          for(var i = 0; i < totalGruposSemaforicos; i++){
+            if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
+              gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);
+            }
+          }
+        }
+
+        function loadMore() {
+            var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
+            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
+            client.send(message);
+        }
+
         function moveToLeft() {
           if(tempo + 1 < limite){
             tempo += (velocidade);
             relogio.setText((tempo + 1) + 's');
             desenhaPlanoAtual(getPlanoAtual(tempo));
+            verificaLed();
             game.camera.x+=(10 * velocidade);
             atualizaEstadosGruposSemaforicos();
             atualizaBotoesVisiveis();
@@ -113,6 +173,7 @@ var influunt;
           tempo = Math.max(0,tempo - velocidade);
           relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
+          verificaLed();          
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();
           atualizaBotoesVisiveis();
@@ -150,10 +211,6 @@ var influunt;
             }
           }
         }
-
-        // function botaoLog(){}
-
-        // function botaoExport(){}
 
         function botaoBackward(){
             moveToRight();
@@ -201,14 +258,6 @@ var influunt;
           game.time.events.remove(repeater);
         }
 
-        function getPlanoAtual(tempo){
-          for(var i =  planos.length - 1; i >= 0 ; i--){
-            if(tempo >= planos[i][0]){
-              return planos[i];
-            }
-          }
-        }
-
         function getAlturaDiagrama() {
           var qtdeAneis = _.filter(config.aneis, function(a) { return a.tiposGruposSemaforicos.length > 0; }).length;
           var qtdeGrupos = _.chain(config.aneis).map('tiposGruposSemaforicos').flatten().value().length;
@@ -217,11 +266,7 @@ var influunt;
         }
 
         function showEstagioManual() {
-          return getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
-        }
-
-        function showEstagioManualWaiting() {
-          return modoManualAtivado && !getPlanoAtual(tempo)[2].reduce(function(a, b) { return a && b === 'MANUAL'; }, true);
+          return situacaoLedManual === 'ligado';
         }
 
         function botaoPlay(){
@@ -287,9 +332,17 @@ var influunt;
           var message = new Paho.MQTT.Message(JSON.stringify(json));
           message.destinationName = 'simulador/' + config.simulacaoId + '/trocar_estagio';
           client.send(message);
-
         }
+        
+        function criaLedManual(){
+          led = game.add.sprite(850 , 10, 'leds');
+          led.animations.add('desligado', [0], 1, false);
+          led.animations.add('ligado', [1], 1, false);
+          led.play('desligado');
 
+          led.fixedToCamera = true;
+        }
+        
         function criaControles(){
           var inicio = 200, y = 10;
           specBotoes = [
@@ -312,8 +365,8 @@ var influunt;
               {nome: 'DP3', action: botaoDetector},
               {nome: 'DP4', action: botaoDetector, incremento: 39},
 
-              {nome: 'operacaoManual', action: toggleModoManual},
-              {nome: 'trocaEstagioManualWaiting', visivel: showEstagioManualWaiting, incremento: 0},
+              {nome: 'ativaOperacaoManual', action: toggleModoManual, visivel: !showEstagioManual, incremento: -1},
+              {nome: 'desativaOperacaoManual', action: toggleModoManual, visivel: showEstagioManual},
               {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showEstagioManual}
           ];
 
@@ -350,40 +403,6 @@ var influunt;
           });
         }
 
-        function atualizaBotoesVisiveis() {
-          _.each(specBotoes, function(spec) {
-            if (typeof spec.visivel === 'function') {
-              var botao = botoes[spec.nome];
-              botao.visible = spec.visivel.apply(this);
-            }
-          });
-        }
-
-        function atualizaEstadosGruposSemaforicos(){
-          for(var i = 0; i < totalGruposSemaforicos; i++){
-            if(estadoGrupoSemaforico[tempo] && estadoGrupoSemaforico[tempo][i]){
-              gruposSemaforicos[i].sprite.play(estadoGrupoSemaforico[tempo][i]);
-            }
-          }
-        }
-
-        function getModo(modo) {
-          switch(modo){
-            case 'TEMPO_FIXO_ISOLADO': return 'TFI';
-            case 'TEMPO_FIXO_COORDENADO': return 'TFC';
-            case 'ATUADO': return 'ATU';
-            case 'APAGADO': return 'APA';
-            case 'INTERMITENTE': return 'INT';
-            case 'MANUAL': return 'MAN';
-          }
-        }
-
-        function loadMore() {
-            var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
-            message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
-            client.send(message);
-        }
-
         function desenhaAgendamento(x1, x2, y1, y2, color, hLabel) {
           var w  = x2 - x1;
           var h  = y2 - y1;
@@ -414,39 +433,6 @@ var influunt;
 
           bmd.render();
           eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x1) - 10, y1 + ALTURA_GRUPO, bmd));
-        }
-
-        function desenhaTrocaEstagioManual(x, color, label) {
-          var h = getAlturaDiagrama();
-
-          var hLabel = h/3;
-          var bmd = game.add.bitmapData(20,h);
-
-          bmd.ctx.closePath();
-          bmd.ctx.beginPath();
-            bmd.ctx.lineWidth = '2';
-            bmd.ctx.setLineDash([5, 5]);
-            bmd.ctx.strokeStyle = color;
-          bmd.ctx.closePath();
-
-          bmd.ctx.beginPath();
-            bmd.ctx.moveTo(10,0);
-            bmd.ctx.lineTo(10,h);
-            bmd.ctx.stroke();
-          bmd.ctx.closePath();
-
-          bmd.ctx.fillStyle = color;
-          bmd.ctx.arc(10, hLabel - 4, 8, 0, Math.PI*2, true);
-          bmd.ctx.fill();
-
-          bmd.ctx.fillStyle = '#fff';
-          bmd.ctx.font = '8px Open Sans';
-
-          bmd.ctx.fillText(label, 5,hLabel-1);
-
-          bmd.render();
-
-          eventosGroup.add(game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR + ALTURA_GRUPO, bmd));
         }
 
         function desenhaDetector(anel,x,color,tipo,label){
@@ -532,27 +518,27 @@ var influunt;
                                             config.aneis[anel - 1].tiposGruposSemaforicos.length - 1;
 
               desenhaAgendamento(x1,x2,y1,y2,'#2603339');
-            } else if(evento[1] === 'ACIONAMENTO_PLANO_MANUAL') {
-              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
-
-              y1 = MARGEM_SUPERIOR;
-              y2 = y1 + getAlturaDiagrama();
-              color = '#2603339';
-              desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
-            } else if (evento[1] === 'TROCA_DE_ESTAGIO_MANUAL') {
-              x1 = (evento[4] - inicioSimulacao.unix() * 1000) / 100;
-              x2 = ((evento[5] - inicioSimulacao.unix() * 1000) / 100) + 10;
-
-              y1 = MARGEM_SUPERIOR;
-              y2 = y1 + getAlturaDiagrama();
-              color = '#2603339';
-              desenhaTrocaEstagioManual(x1, color, 'E'+evento[2]);
-              desenhaAgendamento(x1, x2, y1, y2, color, (y2 - y1) / 3);
-            }else{
+            } else if(evento[1] === 'INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL') {
+              color = '#2E7D32';
+              desenhaTrocaEstagioManual((x  + (evento[0] / 100)) - MARGEM_LATERAL, color, 'CM ', evento[4]);
+            } else if (evento[1] === 'TROCA_ESTAGIO_MANUAL') {
+              color = '#2E7D32';
+              desenhaTrocaEstagioManual((x  + (evento[0] / 100)) - MARGEM_LATERAL, color, 'TE', evento[4]);
+            } else {
               var xFalha = (x  + (evento[0] / 100)) - MARGEM_LATERAL;
-              var cor = evento[3] == "FALHA" ? "#C51162" : "#F57F17";
-              desenhaFalha(xFalha,cor,evento[2],evento[4]);
+              var cor;
+              switch (evento[3]) {
+                case "FALHA":
+                  cor = "#C51162";
+                  break;
+                case "IMPOSICAO":
+                  cor = "#B11134";
+                  break;
+                default:
+                  cor = "#F57F17";
+                  break;
+              }
+              desenhaFalha(xFalha, cor, evento[2], evento[4]);
             }
           });
 
@@ -590,8 +576,8 @@ var influunt;
           bmd.render();
           var sprite = game.add.sprite(x, y, bmd);
           sprite.name = 'A' + (anel - 1) + 'E' + estagio.estagio;
-          sprite.events.onInputDown.add(estagioDown,this);
-          sprite.events.onInputOut.add(estagioOut,this);
+          sprite.events.onInputDown.add(estagioDown, this);
+          sprite.events.onInputOut.add(estagioOut, this);
           sprite.inputEnabled = true;
           intervalosGroup.add(sprite);
         }
@@ -775,13 +761,13 @@ var influunt;
           bmd.ctx.fillRect(0,0,20,20);
 
           bmd.ctx.fillStyle = '#fff';
-
+          bmd.ctx.textAlign = 'center';
           if(label.length > 1){
             bmd.ctx.font = '8px Open Sans';
-            bmd.ctx.fillText(label, 5, 14);
+            bmd.ctx.fillText(label, 10, 14);
           }else{
             bmd.ctx.font = '12px Open Sans';
-            bmd.ctx.fillText(label, 7, 15);
+            bmd.ctx.fillText(label, 10, 15);
           }
 
           bmd.render();
@@ -807,6 +793,10 @@ var influunt;
 
         function desenhaFalha(x,color,label, tooltip) { return desenhaEventoDoControlador(x, color, label, tooltip); }
 
+        function desenhaTrocaEstagioManual(x, color, label, tooltip) {
+          desenhaEventoDoControlador(x, color, label, tooltip);
+        }
+
         function processaPlanos(trocas){
           trocas.forEach(function(troca){
             var x = (troca[0] - (inicioSimulacao.unix() * 1000)) / 100;
@@ -819,6 +809,28 @@ var influunt;
           alarmes.forEach(function(alarme){
             var x = (alarme[0] - (inicioSimulacao.unix() * 1000)) / 100;
             desenhaEventoDoControlador(x,'#F9A825',alarme[1],alarme[3]);
+          });
+        }
+
+        function processaManual(manuais){
+          modoManual = [];
+          manuais.forEach(function(manual){
+            var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
+            if(modoManual.length === 0){
+              modoManual.push([x,undefined]);
+            }else if(manual[0] === 'ATIVAR'){
+              if(_.last(modoManual)[1] !== undefined){
+                modoManual.push([x,undefined]);
+              }
+            }else if(manual[0] === 'DESATIVAR'){
+              if(_.last(modoManual)[1] === undefined){
+                _.last(modoManual)[1] = x;
+              }
+            }
+          });
+          modoManual.forEach(function(m){
+            desenhaEventoDoControlador(m[0],'#2E7D32',"EM","Entrada do modo manual"); 
+            desenhaEventoDoControlador(m[1],'#2E7D32',"SM","Saída do modo manual");
           });
         }
 
@@ -857,6 +869,7 @@ var influunt;
           });
 
           criaControles();
+          criaLedManual();
 
           var onConnect = function () {
             // Once a connection has been made, make a subscription and send a message.
@@ -874,6 +887,7 @@ var influunt;
                 processaEstagios(json.aneis);
                 processaPlanos(json.trocas);
                 processaAlarmes(json.alarmes);
+                processaManual(json.manual);
               }catch(err){
                 console.log(err);
               }

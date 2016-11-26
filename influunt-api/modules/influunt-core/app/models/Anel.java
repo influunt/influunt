@@ -512,5 +512,21 @@ public class Anel extends Model implements Cloneable, Serializable {
 
         getAgrupamentos().add(agrupamento);
     }
+
+    public Long getTotalDetectoresVeicular() {
+        return getDetectores().stream().filter(detector -> detector.isVeicular()).count();
+    }
+
+    public Long getTotalDetectoresPedestre() {
+        return getDetectores().stream().filter(detector -> detector.isPedestre()).count();
+    }
+
+    public Long getTotalGrupoSemaforicosPedestre() {
+        return getGruposSemaforicos().stream().filter(grupo -> grupo.isPedestre()).count();
+    }
+
+    public Long getTotalGrupoSemaforicosVeicular() {
+        return getGruposSemaforicos().stream().filter(grupo -> grupo.isVeicular()).count();
+    }
 }
 

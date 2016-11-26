@@ -25,6 +25,7 @@
     "progDisparo": "Programar disparo de detectores",
     "progImposicao": "Programar imposição de planos",
     "progImposicaoModo": "Programar imposição de modos",
+    "progLiberacaoImposicao": "Programar liberação de imposição",
     "progAlarmes": "Programar disparo de alarmes",
     "progFalhas": "Programar falhas no controlador",
     "falha": "Falha",
@@ -54,6 +55,8 @@
     "horarioDisparo": "Horário do Disparo",
     "dataImposicao": "Data da Imposição",
     "horarioImposicao": "Horário da Imposição",
+    "dataLiberacaoImposicao": "Data da Liberação",
+    "horarioLiberacaoImposicao": "Horário da Liberação",
     "duracao": "Duração (MIN)",
     "monitorado": "Monitorado",
     "descricao": "Descrição",
@@ -88,6 +91,7 @@
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
+    "print": "Imprimir",
     "mapaControladores": {
       "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
@@ -543,6 +547,7 @@
       "voltar": "Voltar"
     },
     "tooltip": {
+      "imprimir": "Imprimir Controlador",
       "salvar": "Salvar",
       "voltarPara": "Voltar para",
       "salvarVoltarPara": "Salvar e voltar para",

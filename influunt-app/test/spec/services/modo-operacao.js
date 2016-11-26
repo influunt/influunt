@@ -28,13 +28,13 @@ describe('Service: modoOperacaoService', function () {
     });
   });
 
-  describe('getModoIdByName', function () {
+  describe('get', function () {
     it('Deve retornar o status numerico do modo de operacao a partir da constante uppercase\'d', function() {
-      expect(modoOperacaoService.getModoIdByName('APAGADO')).toBe(0);
+      expect(modoOperacaoService.get('APAGADO')).toBe(0);
     });
 
     it('Deve retornar -1 se for pesquisada uma constante não reconhecida', function() {
-      expect(modoOperacaoService.getModoIdByName('ABC')).toBe(-1);
+      expect(modoOperacaoService.get('ABC')).toBe(-1);
     });
   });
 

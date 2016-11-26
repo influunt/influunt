@@ -30,7 +30,8 @@ public abstract class GeradorDeIntervalos {
 
     public GeradorDeIntervalos(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                                ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
-                               EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde) {
+                               EstagioPlano estagioPlanoAtual,
+                               HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde) {
         this.intervalos = intervalos;
         this.modoAnterior = modoAnterior;
         this.plano = plano;
@@ -69,14 +70,18 @@ public abstract class GeradorDeIntervalos {
     public abstract Long getTempoAbatimentoCoordenado();
 
     protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde) {
-        geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, false);
+        geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, 0L, false);
     }
 
     protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde, boolean inicio) {
+        geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, 0L, inicio);
+    }
+
+    protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde, long diffEntreVerdes, boolean inicio) {
         this.intervalos = TreeRangeMap.create();
         this.intervalos.put(Range.closedOpen(0L, tempoEntreVerde),
-            new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual, inicio));
+            new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual, diffEntreVerdes, inicio));
         this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde),
-            new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual, inicio));
+            new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual, diffEntreVerdes, inicio));
     }
 }

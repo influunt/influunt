@@ -1,10 +1,16 @@
 package controllers;
 
+import com.github.jhonnymertz.wkhtmltopdf.wrapper.Pdf;
+import com.github.jhonnymertz.wkhtmltopdf.wrapper.page.PageType;
+import com.github.jhonnymertz.wkhtmltopdf.wrapper.params.Param;
 import com.google.inject.Inject;
+import models.Controlador;
 import models.TabelaEntreVerdes;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.twirl.api.Content;
 import reports.AuditoriaReportService;
 import reports.ControladoresReportService;
 import reports.ReportType;
@@ -13,10 +19,12 @@ import security.Auditoria;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntQueryResult;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -80,6 +88,26 @@ public class RelatoriosController extends Controller {
         InfluuntQueryResult result = new InfluuntQueryBuilder(TabelaEntreVerdes.class, params).fetch(Arrays.asList("grupoSemaforico", "grupoSemaforico.anel", "grupoSemaforico.anel.endereco")).query();
         InputStream input = tabelaEntreverdesReportService.generateReport(request().queryString(), result.getResult(), reportType);
         return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
+    }
+
+    public CompletionStage<Result> gerarRelatorioControlador(String id) {
+
+        Content html = views.html.report.controlador.render(Controlador.find.byId(UUID.fromString(id)));
+
+        Pdf pdf = new Pdf();
+        pdf.addPage(html.toString(), PageType.htmlAsString);
+        pdf.addParam(new Param("--no-footer-line"));
+        pdf.addParam(new Param("--enable-javascript"));
+
+
+        InputStream is = null;
+        try {
+            is = new ByteArrayInputStream(pdf.getPDF());
+        } catch (Exception e) {
+            Logger.error(e.getMessage(), e);
+        }
+
+        return CompletableFuture.completedFuture(ok(is).as("application/pdf"));
     }
 
 }

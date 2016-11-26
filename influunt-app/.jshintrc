@@ -50,6 +50,7 @@
     "ControladorBasico": true,
     "ControladorComPlanos": true,
     "ControladorComPlanoExclusivo": true,
+    "ControladorAtrasoGrupoAutomatico": true,
     "ControladorComVariosAneis": true
   }
 }
