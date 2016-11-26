@@ -43,7 +43,6 @@ public class SimuladorAkka extends Simulador {
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
 
-
     }
 
     @Override
@@ -64,6 +63,16 @@ public class SimuladorAkka extends Simulador {
     @Override
     public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
 
+    }
+
+    @Override
+    public void modoManualAtivo(DateTime timestamp) {
+        simuladorActor.ativaModoManual(timestamp);
+    }
+
+    @Override
+    public void modoManualDesativado(DateTime timestamp) {
+        simuladorActor.desativaModoManual(timestamp);
     }
 
 }

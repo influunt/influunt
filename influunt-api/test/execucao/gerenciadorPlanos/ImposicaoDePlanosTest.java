@@ -270,7 +270,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
         avancarSegundos(motor, 60);
-        motor.onEvento(new EventoMotor(inicioExecucao.plus(60), TipoEvento.IMPOSICAO_PLANO, 3, 1, 240));
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_PLANO, 3, 1, 240));
         avancarSegundos(motor, 60);
 
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
@@ -327,5 +327,21 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
 
         assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+    }
+
+    @Test
+    public void imporOMesmoPlanoVigente() throws IOException {
+        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
+        inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 60);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.IMPOSICAO_PLANO, 1, 1, 240));
+        avancarSegundos(motor, 60);
+
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+
+        assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
+        assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
     }
 }

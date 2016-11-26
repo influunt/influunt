@@ -53,6 +53,9 @@ public class ParametroSimulacao {
     private List<ParametroSimulacaoImposicaoModo> imposicoesModos = new ArrayList<>();
 
     @Valid
+    private List<ParametroSimulacaoLiberacaoImposicao> liberacoesImposicoes = new ArrayList<>();
+
+    @Valid
     private List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
 
     @Valid
@@ -61,6 +64,8 @@ public class ParametroSimulacao {
     private UUID idControlador;
 
     private List<ParametroSimulacaoManual> insercaoDePlugDeControleManual = new ArrayList<>();
+
+    private List<ParametroSimulacaoTrocaDeEstagioManual> trocasEstagioModoManual = new ArrayList<>();
 
     public ParametroSimulacao() {
         this.id = UUID.randomUUID();
@@ -139,6 +144,14 @@ public class ParametroSimulacao {
         this.imposicoesModos = imposicoesModos;
     }
 
+    public List<ParametroSimulacaoLiberacaoImposicao> getLiberacoesImposicoes() {
+        return liberacoesImposicoes;
+    }
+
+    public void setLiberacoesImposicoes(List<ParametroSimulacaoLiberacaoImposicao> liberacoesImposicoes) {
+        this.liberacoesImposicoes = liberacoesImposicoes;
+    }
+
     public List<ParametroSimulacaoFalha> getFalhas() {
         return falhas;
     }
@@ -206,4 +219,7 @@ public class ParametroSimulacao {
         return insercaoDePlugDeControleManual;
     }
 
+    public List<ParametroSimulacaoTrocaDeEstagioManual> getTrocasEstagioModoManual() {
+        return trocasEstagioModoManual;
+    }
 }
