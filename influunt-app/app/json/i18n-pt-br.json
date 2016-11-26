@@ -813,7 +813,19 @@
     "cla": "CLA",
     "local": "Local",
     "info": "Info",
-    "imporPlano": "Impor Plano",
+    "sincronizacao": {
+      "sincronizadoComSucesso": "Sincronização executada com sucesso",
+      "sincronizadoComErro": "Não foi possível finalizar a sincronização dos dados com o controlador"
+    },
+    "imporPlano": {
+      "titulo": "Impor Plano",
+      "duracao": "Duração",
+      "editar": "Editar",
+      "criarPlanoExclusivo": "Criar plano exclusivo",
+      "horarioEntrada": "Horário de Entrada",
+      "plano": "Plano",
+      "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados"
+    },
     "imporModo": "Impor Modo",
     "sincronizar": "Sincronizar",
     "plano": "Plano",

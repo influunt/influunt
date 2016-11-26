@@ -65,6 +65,7 @@ angular.module('influuntApp')
     var disconnectClient = function() {
       if (isConnected) {
         client.disconnect();
+        isConnected = false;
         subscribers = {};
       }
     };

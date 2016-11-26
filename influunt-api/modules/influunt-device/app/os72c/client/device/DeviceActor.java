@@ -177,6 +177,9 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         String modoOperacao = conteudo.get("modoOperacao").asText();
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         int duracao = conteudo.get("duracao").asInt();
+        Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
+
+        //TODO: VERIFICAR COMO AGENDAR O EVENTO
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao));
     }
 
@@ -184,6 +187,9 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         int posicaoPlano = conteudo.get("posicaoPlano").asInt();
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         int duracao = conteudo.get("duracao").asInt();
+        Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
+
+        //TODO: VERIFICAR COMO AGENDAR O EVENTO
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao));
     }
 

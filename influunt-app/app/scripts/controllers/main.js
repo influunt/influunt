@@ -127,7 +127,8 @@ angular.module('influuntApp')
           });
       };
 
-      onlineOfflineWatcher = function(payload) {
+      onlineOfflineWatcher = function(payload, topic) {
+        console.log(topic, payload);
         var mensagem = JSON.parse(payload);
         $scope.statusObj.onlines = $scope.statusObj.onlines || {};
 
@@ -146,11 +147,13 @@ angular.module('influuntApp')
           });
       };
 
-      trocaPlanoWatcher = function(payload) {
+      trocaPlanoWatcher = function(payload, topic) {
+        console.log(topic, payload);
         var mensagem = JSON.parse(payload);
 
         return getControlador(mensagem.idControlador)
           .then(function(controlador) {
+            mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
             var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -169,8 +172,10 @@ angular.module('influuntApp')
           });
       };
 
-      alarmesEFalhasWatcher = function(payload) {
+      alarmesEFalhasWatcher = function(payload, topic) {
+        console.log(topic, payload);
         var mensagem = JSON.parse(payload);
+        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         $scope.statusObj.erros = $scope.statusObj.erros || {};
 
         switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
@@ -181,7 +186,8 @@ angular.module('influuntApp')
         }
       };
 
-      statusControladoresWatcher = function(payload) {
+      statusControladoresWatcher = function(payload, topic) {
+        console.log(topic, payload);
         var mensagem = JSON.parse(payload);
         $scope.statusObj.status = $scope.statusObj.status || {};
 
@@ -267,7 +273,6 @@ angular.module('influuntApp')
       handleRecuperacaoFalhas = function(mensagem) {
         return getControlador(mensagem.idControlador)
           .then(function(controlador) {
-
             var sampleFalha;
             _.filter($scope.statusObj.erros, function(falha) {
               return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&

@@ -23,7 +23,7 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
             .findFirst().orElse(null);
         Plano plano = anel.getPlanos().get(0);
 
-        imporPlano(plano.getPosicao(), anel.getPosicao(), 30);
+        imporPlano(plano.getPosicao(), anel.getPosicao(), System.currentTimeMillis(), 30);
         assertTransacaoOk();
     }
 
@@ -33,13 +33,13 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
         startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
-        imporPlano(-1, 0, -1);
+        imporPlano(-1, 0, System.currentTimeMillis(), -1);
         assertTransacaoErro();
     }
 
-    private void imporPlano(int posicaoPlano, int numeroAnel, int duracao) {
+    private void imporPlano(int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporPlano(controlador, posicaoPlano, numeroAnel, duracao);
+        transacaoHelper.imporPlano(controlador, posicaoPlano, numeroAnel, horarioEntrada, duracao);
     }
 
 }

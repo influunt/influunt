@@ -1,0 +1,33 @@
+<div class="col-sm-12">
+  <label>{{ label }}</label>
+  <input type="text"
+         class="form-control text-center"
+         uib-datepicker-popup="dd/MM/yyyy"
+         ng-model="ngModel.data"
+         ng-click="elementController.opened = true"
+         is-open="elementController.opened"
+         datepicker-options="dateOptions"
+         ng-required="true"
+         close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
+         clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
+         current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
+</div>
+<div class="col-sm-12 m-t">
+  <div class="row">
+    <div class='col-sm-4'>
+      <select class='form-control m-b' name='hora' data-ng-model="ngModel.hora">
+        <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
+      </select>
+    </div>
+    <div class='col-sm-4'>
+      <select class='form-control m-b' name='minuto' data-ng-model="ngModel.minuto">
+        <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
+      </select>
+    </div>
+    <div class='col-sm-4'>
+      <select class='form-control m-b' name='segundo' data-ng-model="ngModel.segundo">
+        <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
+      </select>
+    </div>
+  </div>
+</div>

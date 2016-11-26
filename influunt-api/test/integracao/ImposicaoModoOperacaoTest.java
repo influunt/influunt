@@ -17,7 +17,7 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
         startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
-        imporModoOperacao(1, 30);
+        imporModoOperacao(1, System.currentTimeMillis(), 30);
         assertTransacaoOk();
     }
 
@@ -26,13 +26,12 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
         startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
-        imporModoOperacao(-1, -1);
+        imporModoOperacao(-1, System.currentTimeMillis(), -1);
         assertTransacaoErro();
     }
 
-    private void imporModoOperacao(int numeroAnel, int duracao) {
+    private void imporModoOperacao(int numeroAnel, Long horarioEntrada, int duracao) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporModoOperacao(controlador, ModoOperacaoPlano.INTERMITENTE, numeroAnel, duracao);
+        transacaoHelper.imporModoOperacao(controlador, ModoOperacaoPlano.INTERMITENTE, numeroAnel, horarioEntrada, duracao);
     }
-
 }

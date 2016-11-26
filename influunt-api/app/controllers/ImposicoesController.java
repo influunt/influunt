@@ -128,13 +128,14 @@ public class ImposicoesController extends Controller {
     private Map<String, String>  imporPlano(JsonNode params) {
         int posicaoPlano = params.get("posicaoPlano").asInt();
         int duracao = params.get("duracao").asInt();
+        Long horarioEntrada = params.get("horarioEntrada").asLong();
 
         List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
         List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
 
         Map<String, String> transacoesIds = new HashMap<>();
         aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), duracao))
+            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), horarioEntrada, duracao))
         );
         return transacoesIds;
     }

@@ -9,13 +9,6 @@
       </div>
       <div class="ibox-content">
         <p>{{ currentAnel.localizacao }}</p>
-
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="exibirTabelasHorarias(currentControlador)">
-          {{ 'controladores.mapaControladores.tabelasHorarias' | translate }}
-        </button>
       </div>
 
 
@@ -56,31 +49,17 @@
       </div>
 
       <div class="ibox-content">
-        <h3>Ações</h3>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentAnel.planos.length > 0)"
-            data-toggle="modal" data-target="#modal-imposicao-planos" aria-hidden="true">
-          {{ 'controladores.mapaControladores.imporPlanos' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentAnel.planos.length > 0)"
-            data-ng-click="enviarPlano(currentAnel)">
-          {{ 'controladores.mapaControladores.enviarPlano' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="trocarTabelaHoraria(currentControlador)">
-          {{ 'controladores.mapaControladores.trocarTabela' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="enviarTabela(currentControlador)">
-          {{ 'controladores.mapaControladores.enviarTabela' | translate }}
-        </button>
+        <h3>{{ 'controladores.mapaControladores.acoes' | translate }}</h3>
+
+        <imposicao-plano
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}">
+        </imposicao-plano>
+        <imposicao-modo
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}">
+        </imposicao-modo>
+        <sincronizacao aneis-selecionados="[currentAnel]" ids-transacoes="{}" track-transaction="true"></sincronizacao>
       </div>
     </div>
   </div>

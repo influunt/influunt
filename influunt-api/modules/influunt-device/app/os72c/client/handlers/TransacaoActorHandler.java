@@ -78,8 +78,9 @@ public class TransacaoActorHandler extends UntypedActor {
                                     payloadJson = Json.parse(transacao.payload.toString());
                                     ModoOperacaoPlano.valueOf(payloadJson.get("modoOperacao").asText());
                                     int numeroAnel = payloadJson.get("numeroAnel").asInt();
+                                    Long horarioEntrada = payloadJson.get("horarioEntrada").asLong();
                                     int duracao = payloadJson.get("duracao").asInt();
-                                    if (numeroAnel < 1 || duracao < 1) {
+                                    if (numeroAnel < 1 || duracao < 1 || horarioEntrada <= System.currentTimeMillis()) {
                                         transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                     } else {
                                         transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
@@ -93,11 +94,12 @@ public class TransacaoActorHandler extends UntypedActor {
                                 payloadJson = Json.parse(transacao.payload.toString());
                                 int posicaoPlano = payloadJson.get("posicaoPlano").asInt();
                                 int numeroAnel = payloadJson.get("numeroAnel").asInt();
+                                Long horarioEntrada = payloadJson.get("horarioEntrada").asLong();
                                 int duracao = payloadJson.get("duracao").asInt();
 
                                 controlador = storage.getControlador();
                                 boolean planoNaoConfigurado = !isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
-                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1 || planoNaoConfigurado) {
+                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1 || planoNaoConfigurado || horarioEntrada <= System.currentTimeMillis()) {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
@@ -129,6 +131,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                     idControlador,
                                     payloadJson.get("modoOperacao").asText(),
                                     payloadJson.get("numeroAnel").asInt(),
+                                    payloadJson.get("horarioEntrada").asLong(),
                                     payloadJson.get("duracao").asInt());
                                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoModo, getSelf());
 
@@ -141,6 +144,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                     idControlador,
                                     payloadJson.get("posicaoPlano").asInt(),
                                     payloadJson.get("numeroAnel").asInt(),
+                                    payloadJson.get("horarioEntrada").asLong(),
                                     payloadJson.get("duracao").asInt());
                                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoPlano, getSelf());
                                 transacao.etapaTransacao = EtapaTransacao.COMMITED;

@@ -42,17 +42,17 @@ public class TransacaoHelper {
         return transacao.transacaoId;
     }
 
-    public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, int duracao) {
+    public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, Long horarioEntrada, int duracao) {
         String controladorId = controlador.getId().toString();
-        String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, duracao)).toString();
+        String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO);
         sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;
     }
 
-    public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, int duracao) {
+    public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
         String controladorId = controlador.getId().toString();
-        String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, duracao)).toString();
+        String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
         sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;

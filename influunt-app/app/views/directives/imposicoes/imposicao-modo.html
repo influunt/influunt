@@ -1,0 +1,58 @@
+<button data-toggle="modal"
+        data-target="#modal-impor-modo"
+        class="btn btn-w-m btn-primary"
+        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
+        {{ 'imporConfig.imporModo' | translate }}
+</button>
+
+<!-- modal | imposicao de modo. -->
+<div class="modal inmodal" id="modal-impor-modo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <form role="form">
+              <div class="row">
+                <div class="col-sm-12">
+                  <p>
+                    <input type="radio" ichecks value="APAGADO" data-ng-model="configuracao.modoOperacao">
+                    {{ 'imporConfig.imporApagado' | translate }}
+                  </p>
+                  <p>
+                    <input type="radio" ichecks value="INTERMITENTE" data-ng-model="configuracao.modoOperacao">
+                    {{ 'imporConfig.imporInterm' | translate }}
+                  </p>
+                </div>
+              </div>
+              <div class="row text-left">
+                <influunt-date-time-picker
+                  label="{{ 'imporConfig.imporPlano.horarioEntrada' | translate }}"
+                  ng-model="configuracao.horarioEntrada">
+              </influunt-date-time-picker>
+              </div>
+              <div class="row text-left">
+                <div class="col-sm-12 no-padding">
+                  <div class="col-sm-12">
+                    <label>{{ 'imporConfig.duracao' | translate }}</label>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="input-group">
+                      <input type="number" class="form-control" name="duracao" ng-model="configuracao.duracao">
+                      <span class="input-group-addon ng-binding">{{ 'geral.minuto' | translate }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary " data-dismiss="modal" data-ng-click="imporModo()">
+          {{ 'imporConfig.imporModo' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

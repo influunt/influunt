@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ImporConfigCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui', 'pahoProvider', 'eventosDinamicos',
-    function ($scope, $controller, Restangular, influuntBlockui, pahoProvider, eventosDinamicos) {
+  .controller('ImporConfigCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui',
+    function ($scope, $controller, Restangular, influuntBlockui) {
 
       var setData;
 
@@ -35,8 +35,11 @@ angular.module('influuntApp')
       $scope.esconderPerPage = true;
 
       $scope.aneisSelecionados = [];
+      $scope.aneisSelecionadosObj = [];
       $scope.dataSincronizar = {};
       $scope.dataImposicaoModo = {};
+      $scope.isAnelChecked = {};
+      $scope.statusTransacoes = {};
 
       $scope.index = function() {
         var query = $scope.buildQuery($scope.pesquisa);
@@ -46,6 +49,24 @@ angular.module('influuntApp')
             setData(res);
           })
           .finally(influuntBlockui.unblock);
+      };
+
+      var filtraObjetosAneis = function() {
+        $scope.aneisSelecionadosObj = _.filter($scope.lista, function(anel) {
+          return $scope.aneisSelecionados.indexOf(anel.id) >= 0;
+        });
+
+        return $scope.aneisSelecionadosObj;
+      };
+
+      $scope.selecionaAnel = function(anelId) {
+        $scope.aneisSelecionados.push(anelId);
+        filtraObjetosAneis();
+      };
+
+      $scope.desselecionaAnel = function(anelId) {
+        _.pull($scope.aneisSelecionados, anelId);
+        filtraObjetosAneis();
       };
 
       setData = function(response) {
@@ -60,36 +81,7 @@ angular.module('influuntApp')
         });
 
         console.log('lista: ', $scope.lista)
-
         $scope.pagination.totalItems = $scope.lista.length;
       };
-
-      $scope.selecionaAnel = function(anelId) {
-        $scope.aneisSelecionados.push(anelId);
-      };
-
-      $scope.desselecionaAnel = function(anelId) {
-        _.pull($scope.aneisSelecionados, anelId);
-      };
-
-      $scope.sincronizar = function() {
-        var resource;
-        if ($scope.dataSincronizar.tipo === 'pacotePlanos') {
-          resource = 'pacote_plano';
-        } else {
-          resource = 'configuracao_completa';
-        }
-
-        return Restangular.one('imposicoes').customPOST($scope.aneisSelecionados, resource)
-          .then(function(response) {
-            console.log(response)
-
-            _.each(response.plain(), function(transacaoId, controladorId) {
-              $scope.idsTransacoes[controladorId] = transacaoId;
-            });
-
-          })
-          .finally(influuntBlockui.unblock);
-      }
 
     }]);

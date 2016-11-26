@@ -1,0 +1,71 @@
+<button data-toggle="modal"
+        data-target="#modal-impor-plano"
+        class="btn btn-w-m btn-primary"
+        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
+        {{ 'imporConfig.imporPlano.titulo' | translate }}
+</button>
+
+<!-- modal  -->
+<div class="modal inmodal" id="modal-impor-plano" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <form role="form">
+          <div class="row text-left">
+            <div class="col-sm-12">
+              <label>{{ 'imporConfig.plano' | translate }}</label>
+            </div>
+            <div class="col-sm-8">
+              <select name="eventoPlano" data-ng-model="configuracao.posicaoPlano" class="form-control">
+                <option data-ng-repeat="plano in planos track by $index" value="{{ $index+1 }}">
+                  {{ 'controladores.geral.plano' | translate }} {{$index + 1}}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <a ui-sref="app.planos_edit({id: getControlador()})"
+                  class="btn btn-primary btn-sm"
+                  data-ng-if="todosAneisDoMesmoControlador()"
+                  data-dismiss="modal">
+                {{ 'imporConfig.imporPlano.criarPlanoExclusivo' | translate }}
+              </a>
+
+              <a class="btn btn-primary btn-sm"
+                disabled="disabled"
+                data-ng-if="!todosAneisDoMesmoControlador()"
+                tooltips tooltip-side="bottom"
+                tooltip-template="<b><span>{{ 'imporConfig.imporPlano.mensagemPlanoExcluisivoNaoDisponivel' | translate }}</span></b>">
+                {{ 'imporConfig.imporPlano.criarPlanoExclusivo' | translate }}
+              </a>
+            </div>
+          </div>
+          <hr />
+          <div class="row text-left">
+            <div class="col-sm-12 no-padding">
+              <influunt-date-time-picker
+                  label="{{ 'imporConfig.imporPlano.horarioEntrada' | translate }}"
+                  ng-model="configuracao.horarioEntrada">
+              </influunt-date-time-picker>
+            </div>
+            <div class="col-sm-12 no-padding">
+              <div class="col-sm-12">
+                <label>{{ 'imporConfig.duracao' | translate }}</label>
+              </div>
+              <div class="col-sm-12">
+                <div class="input-group">
+                  <input type="number" class="form-control" name="duracao" ng-model="configuracao.duracao">
+                  <span class="input-group-addon ng-binding">{{ 'geral.minuto' | translate }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary " data-dismiss="modal" data-ng-click="imporPlano()">
+          {{ 'imporConfig.imporPlano.titulo' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
