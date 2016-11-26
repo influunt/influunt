@@ -814,8 +814,8 @@
     "local": "Local",
     "info": "Info",
     "sincronizacao": {
-      "sincronizadoComSucesso": "Sincronização executada com sucesso",
-      "sincronizadoComErro": "Não foi possível finalizar a sincronização dos dados com o controlador"
+      "sucesso": "Sincronização executada com sucesso",
+      "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
     },
     "imporPlano": {
       "titulo": "Impor Plano",
@@ -824,7 +824,13 @@
       "criarPlanoExclusivo": "Criar plano exclusivo",
       "horarioEntrada": "Horário de Entrada",
       "plano": "Plano",
-      "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados"
+      "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados",
+      "sucesso": "Imposição de plano executada com sucesso",
+      "erro": "Não foi possível finalizar a imposição de plano no controlador"
+    },
+    "imposicaoModo": {
+      "sucesso": "Imposição de modo de operação executada com sucesso",
+      "erro": "Não foi possível finalizar a imposição de modo de operação no controlador"
     },
     "imporModo": "Impor Modo",
     "sincronizar": "Sincronizar",

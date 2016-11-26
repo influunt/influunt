@@ -7,16 +7,18 @@
  * # imposicaoPlano
  */
 angular.module('influuntApp')
-  .directive('imposicaoPlano', ['HorariosService', 'Restangular', 'influuntBlockui',
-      function (HorariosService, Restangular, influuntBlockui) {
+  .directive('imposicaoPlano', ['HorariosService', 'Restangular', 'influuntBlockui', '$filter', 'toast', 'mqttTransactionStatusService',
+      function (HorariosService, Restangular, influuntBlockui, $filter, toast, mqttTransactionStatusService) {
       return {
         templateUrl: 'views/directives/imposicoes/imposicao-plano.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
-          idsTransacoes: '='
+          idsTransacoes: '=',
+          trackTransaction: '='
         },
         link: function postLink(scope) {
+          var transactionTracker;
           scope.configuracao = {};
           scope.planos = HorariosService.getPlanos();
 
@@ -38,10 +40,24 @@ angular.module('influuntApp')
               .then(function(response) {
                 _.each(response.plain(), function(transacaoId, controladorId) {
                   scope.idsTransacoes[controladorId] = transacaoId;
+                  return scope.trackTransaction && transactionTracker(transacaoId);
                 });
+
               })
               .catch(console.error)
               .finally(influuntBlockui.unblock);
+          };
+
+          transactionTracker = function(id) {
+            return mqttTransactionStatusService
+              .watchTransaction(id)
+              .then(function(transmitido) {
+                if (transmitido) {
+                  toast.success($filter('translate')('imporConfig.imposicaoPlano.sucesso'));
+                } else {
+                  toast.warn($filter('translate')('imporConfig.imposicaoPlano.erro'));
+                }
+              });
           };
 
           scope.$watch('aneisSelecionados', function(aneisSelecionados) {
