@@ -16,4 +16,14 @@ public class FakeDevice implements DeviceBridge {
     public void start(DeviceBridgeCallback callback) {
 
     }
+
+    @Override
+    public void modoManualAtivo() {
+
+    }
+
+    @Override
+    public void modoManualDesativado() {
+
+    }
 }
