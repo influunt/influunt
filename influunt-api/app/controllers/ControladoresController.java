@@ -356,6 +356,21 @@ public class ControladoresController extends Controller {
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
+    public CompletionStage<Result> instalacao(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            ObjectNode root = Json.newObject();
+            root.put("privateKey", controlador.getControladorPrivateKey());
+            root.put("publicKey", controlador.getCentralPublicKey());
+            root.put("idControlador", controlador.getId().toString());
+            return CompletableFuture.completedFuture(ok(root));
+        }
+    }
+
+    @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> podeEditar(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {

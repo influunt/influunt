@@ -164,6 +164,9 @@
     "adicionarGrupo": "Adicionar Grupo",
     "ativo": "Ativo",
     "cidade": "Cidade",
+    "id": "ID",
+    "publicKey": "Chave Pública",
+    "privateKey": "Chave Privada",
     "CLC": "CLC",
     "CLA": "CLA",
     "configuracao_grupo": "Grupos Semafóricos",
@@ -233,7 +236,8 @@
       "acoes": "Ações",
       "verTelaAnterior": "Ver Resumo",
       "simular": "Simular",
-      "msgTooltipSimular": "Simular operação do controlador"
+      "msgTooltipSimular": "Simular operação do controlador",
+      "instalacao": "Instalação"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",

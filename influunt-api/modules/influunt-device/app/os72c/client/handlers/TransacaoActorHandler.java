@@ -96,6 +96,7 @@ public class TransacaoActorHandler extends UntypedActor {
 
                                 controlador = storage.getControlador();
                                 boolean planoNaoConfigurado = !isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
+
                                 if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1 || planoNaoConfigurado || horarioEntrada <= System.currentTimeMillis()) {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 } else {

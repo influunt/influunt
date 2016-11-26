@@ -35,11 +35,14 @@ public class ImposicaoModoIntermitenteTest extends GerenciadorDeTrocasTest {
         controlador = getControlador();
         Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
 
-        avancarSegundos(motor, 10);
+        avancarSegundos(motor, 1);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10),
-            TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.INTERMITENTE.toString(), 1, 1));
+            TipoEvento.IMPOSICAO_MODO, ModoOperacaoPlano.INTERMITENTE.toString(),
+            1,
+            1,
+            inicioExecucao.plusSeconds(10).getMillis()));
         //Avancar
-        avancarSegundos(motor, 40);
+        avancarSegundos(motor, 50);
 
         int offsetEstagio = 18;
         int anel1 = 1;

@@ -1,0 +1,24 @@
+<div class="modal inmodal" id="modal-instalacao" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="ibox float-e-margins">
+                <p><strong>{{ 'controladores.id' | translate }}:</strong> {{ instalacaoControlador.id }}</p>
+                <p class="word-wrap"><strong>{{ 'controladores.publicKey' | translate }}:</strong> {{ instalacaoControlador.publicKey }}</p>
+                <p class="word-wrap"><strong>{{ 'controladores.privateKey' | translate }}:</strong> {{ instalacaoControlador.privateKey }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          {{ 'geral.crud.fechar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
