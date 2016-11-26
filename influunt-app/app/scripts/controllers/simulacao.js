@@ -225,7 +225,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var dateMoment = getMoment(date.year(), date.month()+1, date.date(), disparo.hora, disparo.minuto, disparo.segundo);
       return dateMoment;
     }
-    return undefined;
   };
 
   $scope.$watch('disparosDetectores.disparos', function(disparos) {

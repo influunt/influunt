@@ -74,7 +74,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
     }
 
     @Override
-    public void modoManualDesativo() {
+    public void modoManualDesativado() {
         send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_DESATIVADO,sequencia));
     }
 

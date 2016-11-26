@@ -12,5 +12,5 @@ public interface DeviceBridge {
     public void start(DeviceBridgeCallback callback);
 
     public void modoManualAtivo();
-    public void modoManualDesativo();
+    public void modoManualDesativado();
 }

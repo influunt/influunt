@@ -98,7 +98,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void modoManualDesativado(DateTime timestamp) {
-        device.modoManualDesativo();
+        device.modoManualDesativado();
     }
 
     @Override

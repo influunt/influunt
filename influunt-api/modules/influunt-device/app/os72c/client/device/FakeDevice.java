@@ -23,7 +23,7 @@ public class FakeDevice implements DeviceBridge {
     }
 
     @Override
-    public void modoManualDesativo() {
+    public void modoManualDesativado() {
 
     }
 }
