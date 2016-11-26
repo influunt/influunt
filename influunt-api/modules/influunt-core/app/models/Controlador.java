@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -929,5 +930,21 @@ public class Controlador extends Model implements Cloneable, Serializable {
         } else {
             return null;
         }
+    }
+
+    public List<Anel> getAneisAtivos() {
+        return getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+    }
+
+    public Integer getTotalEstagios() {
+        return getAneisAtivos().stream().mapToInt(anel -> anel.getEstagios().size()).sum();
+    }
+
+    public Long getTotalDetectoresVeicular() {
+        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isVeicular()).count()).sum();
+    }
+
+    public Long getTotalDetectoresPedestre() {
+        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count()).sum();
     }
 }

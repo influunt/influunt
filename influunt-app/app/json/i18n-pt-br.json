@@ -88,6 +88,7 @@
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
+    "print": "Imprimir",
     "mapaControladores": {
       "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
@@ -543,6 +544,7 @@
       "voltar": "Voltar"
     },
     "tooltip": {
+      "imprimir": "Imprimir Controlador",
       "salvar": "Salvar",
       "voltarPara": "Voltar para",
       "salvarVoltarPara": "Salvar e voltar para",
