@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($controller, $scope, $state, Restangular, influuntBlockui) {
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
-      $scope.inicializaNovoCrud('relatorios', 'planos');
+      $scope.inicializaNovoCrud('relatorios', 'controladores_falhas');
       $scope.relatorio = {tipoRelatorio: ''};
 
       $scope.pesquisa = {
