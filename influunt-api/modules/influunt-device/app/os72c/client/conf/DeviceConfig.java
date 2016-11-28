@@ -5,8 +5,10 @@ package os72c.client.conf;
  */
 public interface DeviceConfig {
     public String getHost();
+    public void setHost(String host);
 
     public String getPort();
+    public void setPort(String port);
 
     public String getDeviceId();
 
