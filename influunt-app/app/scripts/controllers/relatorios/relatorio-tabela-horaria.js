@@ -26,7 +26,6 @@ angular.module('influuntApp')
         return Restangular.all('controladores').customGET(null, {})
           .then(function(res) {
             $scope.lista = _.orderBy(res.data, 'CLC');
-            $scope.pagination.totalItems = res.total;
           })
           .finally(influuntBlockui.unblock);
       };
