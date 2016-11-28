@@ -9,5 +9,9 @@ var RelatoriosPage = function () {
   this.visitarRelatorio = function(local) {
       return world.visit('/app/relatorios/'+local+'');
   };
+
+  this.controladorComFalhaNaListagem = function() {
+      return world.waitForByXpath('//td[contains(text(), "Em falha")]');
+  };
 };
 module.exports = RelatoriosPage;
