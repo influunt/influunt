@@ -11,7 +11,6 @@ var clearDb = function(db, callback) {
    db.collection('troca_planos_controladores').deleteMany(
       { "_id": ObjectId("58334b5573835c48f22fb7a0") },
       function(err, results) {
-         console.log("ObjectId 58334b5573835c48f22fb7a0 apagado com sucesso.");
          callback();
       }
    );
