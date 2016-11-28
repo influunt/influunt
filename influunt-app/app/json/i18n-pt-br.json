@@ -852,7 +852,11 @@
     "controladoresEntreVerdes": "Controladores com alteração Entreverdes",
     "defasagem": "Defasagem",
     "exportarCSV": "CSV",
+    "tabelaHoraria": "Relatório de Tabela Horária",
+    "CSV": "CSV",
+    "exportarCsv": "Exportar CSV",
     "gerar": "Gerar",
+    "gerarRelatorio": "Gerar Relatório",
     "inicio": "Início",
     "falha": "Falha",
     "filtarPor": "Filtrar Por",
@@ -878,7 +882,14 @@
     "atuado": "Atuado",
     "tipo": "Tipo Relatório",
     "tipoFalha": "Tipo Falha",
-    "subareaAgrupamento": "Subarea / Agrupamento"
+    "subareaAgrupamento": "Subarea / Agrupamento",
+    "controlador": "Controlador",
+    "data": "Data",
+    "horario": "Horário",
+    "plano": "Plano",
+    "numeroPlano": "Número do Plano",
+    "modoPlano": "Modo de Operação",
+    "subarea": "Subárea"
   },
   "diff": {
     "versaoCriadaPor": "Versão criada por",

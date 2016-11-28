@@ -1,0 +1,88 @@
+<pesquisa-lateral
+    data-ng-model="pesquisa.filtro"
+    campos="pesquisa.campos"
+    on-close="index()">
+</pesquisa-lateral>
+
+
+<div class="wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-content">
+          <form class="pull-left simple_form form-horizontal" method="post" name="formRelatorioAuditoria" novalidate="novalidate" data-ng-submit="getDadosRelatorio()">
+            <div class="form-group">
+              <label class="control-label col-sm-2 control-label">{{ 'relatorios.controlador' | translate }}</label>
+              <div class="col-sm-9">
+                <select name="controlador" class="form-control"
+                  data-ng-options="controlador.id as controlador.CLC + ' - ' + controlador.nomeEndereco for controlador in lista"
+                  data-ng-model="relatorioParams.controladorId">
+                   <option value=""></option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2 control-label">{{ 'relatorios.inicio' | translate }}</label>
+              <div class="col-sm-9">
+                <input type="datetime"
+                    class="form-control data-inicio"
+                    date-time
+                    data-ng-model="relatorioParams.data"
+                    min-view="date"
+                    default-view="date"
+                    auto-close="true"
+                    format="DD/MM/YYYY"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-2">
+                <input class="btn btn-primary" name="commit" type="submit" value="{{ 'relatorios.gerar' | translate }}"
+                       data-ng-readonly="!podeGerar()"
+                       data-ng-class="{ 'disabled': !podeGerar() }"
+                       tooltips tooltip-template="{{ 'relatorios.gerarRelatorio' | translate }}">
+                <a class="btn btn-primary"
+                   tooltips tooltip-template="{{ 'relatorios.exportarCsv' | translate }}"
+                   data-ng-click="getRelatorioTabelaHorariaCSV()"
+                   data-ng-disabled="!podeGerar()"
+                   data-ng-class="{ 'disabled': !podeGerar() }">{{ 'relatorios.CSV' | translate }}</a>
+                <a class="btn btn-default" ui-sref="app.main">{{ 'geral.crud.voltar' | translate }}</a>
+              </div>
+            </div>
+          </form>
+
+          <div class="clearfix"></div>
+
+          <table datatable="ng" dt-options="datatables.options" dt-instance="datatables.instance" class="table table-bordered table-hover" data-ng-if="relatorio">
+            <div class="table">
+              <thead>
+                <tr>
+                  <th>{{ 'relatorios.horario' | translate }}</th>
+                  <th>{{ 'relatorios.plano' | translate }}</th>
+                  <th>{{ 'relatorios.numeroPlano' | translate }}</th>
+                  <th>{{ 'relatorios.modoPlano' | translate }}</th>
+                  <th>{{ 'relatorios.subarea' | translate }}</th>
+                  <!-- <th>tipo evento</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="row in relatorio">
+                  <td>{{ row.horario }}</td>
+                  <td>{{ row.plano }}</td>
+                  <td>{{ row.numeroPlano }}</td>
+                  <td>{{ row.modoOperacaoPlano }}</td>
+                  <td>{{ row.subarea }}</td>
+                  <!-- <td>{{ row.tipoEvento }}</td> -->
+                </tr>
+              </tbody>
+            </div>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
