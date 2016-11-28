@@ -13,9 +13,6 @@ angular.module('influuntApp')
 
       var loadControladores, getParams;
 
-      // Herda todo o comportamento do crud basico.
-      $controller('CrudCtrl', {$scope: $scope});
-      $scope.inicializaNovoCrud('relatorios', 'controladores_status');
       $scope.relatorioParams = {};
 
       $scope.init = function() {

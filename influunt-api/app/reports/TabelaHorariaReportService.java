@@ -105,11 +105,20 @@ public class TabelaHorariaReportService extends ReportService<Controlador> {
                 .flatMap(Collection::stream)
                 .filter(p -> Objects.equals(p.getPosicao(), evento.getPosicaoPlano()))
                 .findFirst().orElse(null);
-            datum.put("horario", evento.getHorario().toString());
-            datum.put("plano", plano.getDescricao());
+            if (plano != null) {
+                datum.put("plano", plano.getDescricao());
+            } else {
+                datum.put("plano", "");
+            }
             datum.put("numeroPlano", evento.getPosicaoPlano().toString());
+            datum.put("horario", evento.getHorario().toString());
             datum.put("modoOperacaoPlano", plano.getModoOperacao().toString());
-            datum.put("subarea", controlador.getSubarea().getNome());
+            if (controlador.getSubarea() != null) {
+                datum.put("subarea", controlador.getSubarea().getNome());
+            } else {
+                datum.put("subarea", "");
+            }
+
             datum.put("tipoEvento", evento.getTipo().toString());
             reportData.add(datum);
         });
