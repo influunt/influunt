@@ -45,7 +45,8 @@
     "run-sequence": "^1.1.1",
     "sanitize-filename": "^1.6.0",
     "selenium-webdriver": "^2.53.2",
-    "wiredep": "^2.2.2"
+    "wiredep": "^2.2.2",
+    "wkhtmltopdf": "^0.3.3"
   },
   "scripts": {
     "test": "./node_modules/.bin/gulp pre-test && ./node_modules/.bin/gulp single-test"

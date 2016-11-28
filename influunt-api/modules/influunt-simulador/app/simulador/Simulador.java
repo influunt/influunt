@@ -9,6 +9,7 @@ import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
 import models.simulador.parametros.ParametroSimulacaoManual;
+import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
@@ -53,9 +54,11 @@ public abstract class Simulador implements MotorCallback {
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoesModos().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getLiberacoesImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getFalhas().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getAlarmes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getInsercaoDePlugDeControleManual().stream().forEach(param -> addEvento(param.toEvento()));
+        this.parametros.getTrocasEstagioModoManual().stream().forEach(param -> addEvento(param.toEvento()));
         this.ponteiro = parametros.getInicioSimulacao();
     }
 
@@ -89,8 +92,6 @@ public abstract class Simulador implements MotorCallback {
             tempoSimulacao += 100;
             inicioSimulacao = inicioSimulacao.plus(100);
         }
-
-
     }
 
     private void processaEventos(DateTime inicio) throws Exception {
@@ -112,6 +113,12 @@ public abstract class Simulador implements MotorCallback {
     public void alternarModoManual(DateTime disparo, boolean ativar) {
         ParametroSimulacaoManual param = new ParametroSimulacaoManual(disparo, ativar);
         this.parametros.getInsercaoDePlugDeControleManual().add(param);
+        setup(dataInicioControlador, controlador, parametros);
+    }
+
+    public void trocarEstagioModoManual(DateTime disparo) {
+        ParametroSimulacaoTrocaDeEstagioManual param = new ParametroSimulacaoTrocaDeEstagioManual(disparo);
+        this.parametros.getTrocasEstagioModoManual().add(param);
         setup(dataInicioControlador, controlador, parametros);
     }
 }

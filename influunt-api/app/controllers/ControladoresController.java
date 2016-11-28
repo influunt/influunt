@@ -318,7 +318,7 @@ public class ControladoresController extends Controller {
             InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Collections.singletonList("aneis")).query());
             return CompletableFuture.completedFuture(ok(result.toJson("imposicoes")));
         } else if (u.getArea() != null) {
-            String[] areaId = { u.getArea().getId().toString() };
+            String[] areaId = {u.getArea().getId().toString()};
             if (params.containsKey("area.descricao")) {
                 params.remove("area.descricao");
             }
@@ -328,7 +328,6 @@ public class ControladoresController extends Controller {
         }
         return CompletableFuture.completedFuture(forbidden());
     }
-
 
 
     @Transactional
@@ -352,6 +351,21 @@ public class ControladoresController extends Controller {
         } else {
             List<VersaoControlador> versoes = VersaoControlador.versoes(controlador);
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
+        }
+    }
+
+    @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
+    public CompletionStage<Result> instalacao(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            ObjectNode root = Json.newObject();
+            root.put("privateKey", controlador.getControladorPrivateKey());
+            root.put("publicKey", controlador.getCentralPublicKey());
+            root.put("idControlador", controlador.getId().toString());
+            return CompletableFuture.completedFuture(ok(root));
         }
     }
 

@@ -7,6 +7,19 @@ describe('Controller: SimulacaoCtrl', function () {
     httpBackend,
     stateParams;
 
+  var setParametros = function(){
+    scope.parametrosSimulacao = {
+      velocidade: 1,
+      disparoDetectores: [{}],
+      imposicaoPlanos: [{}],
+      imposicaoModos: [{}],
+      liberacaoImposicoes: [{}],
+      falhasControlador: [{}],
+      alarmesControlador: [{}]
+    };
+    return ControladorSimulacao.get().controlador;
+  };
+  
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $stateParams) {
     scope = $rootScope.$new();
     SimulacaoCtrl = $controller('SimulacaoCtrl', {
@@ -31,8 +44,7 @@ describe('Controller: SimulacaoCtrl', function () {
   });
 
   it('deve adicionar novo disparo de detector ao preencher o anterior', function() {
-    var controlador = ControladorSimulacao.get().controlador;
-    scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
+    var controlador = setParametros();
     var detector = controlador.aneis[0].detectores[0];
     scope.parametrosSimulacao.disparoDetectores[0].detector = detector;
     scope.parametrosSimulacao.disparoDetectores[0].disparo = moment().format();
@@ -42,20 +54,30 @@ describe('Controller: SimulacaoCtrl', function () {
   });
 
   it('deve adicionar nova imposição de plano ao preencher o anterior', function() {
-    var controlador = ControladorSimulacao.get().controlador;
-    scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
+    var controlador = setParametros();
     var plano = controlador.aneis[0].planos[0];
     scope.parametrosSimulacao.imposicaoPlanos[0].plano = plano;
+    scope.parametrosSimulacao.imposicaoPlanos[0].anel = controlador.aneis[0];
     scope.parametrosSimulacao.imposicaoPlanos[0].disparo = moment().format();
     scope.parametrosSimulacao.imposicaoPlanos[0].duracao = 5;
     scope.$apply();
     expect(scope.parametrosSimulacao.imposicaoPlanos.length).toBe(2);
     expect(Object.keys(scope.parametrosSimulacao.imposicaoPlanos[1]).length).toBe(0);
   });
+  
+  it('deve adicionar nova imposição de modo ao preencher o anterior', function() {
+    var controlador = setParametros();
+    scope.parametrosSimulacao.imposicaoModos[0].modo = 'INTERMITENTE';
+    scope.parametrosSimulacao.imposicaoModos[0].anel = controlador.aneis[0];
+    scope.parametrosSimulacao.imposicaoModos[0].disparo = moment().format();
+    scope.parametrosSimulacao.imposicaoModos[0].duracao = 1;
+    scope.$apply();
+    expect(scope.parametrosSimulacao.imposicaoModos.length).toBe(2);
+    expect(Object.keys(scope.parametrosSimulacao.imposicaoModos[1]).length).toBe(0);
+  });
 
   it('deve adicionar novo disparo de alarme ao preencher o anterior', function() {
-    var controlador = ControladorSimulacao.get().controlador;
-    scope.parametrosSimulacao = { alarmesControlador: [{}] };
+    setParametros();
     var alarme = ControladorSimulacao.get().alarmes[0];
     scope.parametrosSimulacao.alarmesControlador[0].alarme = alarme;
     scope.parametrosSimulacao.alarmesControlador[0].disparo = moment().format();
@@ -65,7 +87,7 @@ describe('Controller: SimulacaoCtrl', function () {
   });
 
   it('deve adicionar nova falha ao preencher o horário se não precisar de parâmetro', function() {
-    scope.parametrosSimulacao = { falhasControlador: [{}] };
+    setParametros();
     var falha = ControladorSimulacao.getFalhaSemParametro();
     scope.parametrosSimulacao.falhasControlador[0].falha = falha;
     scope.parametrosSimulacao.falhasControlador[0].disparo = moment().format();
@@ -75,7 +97,7 @@ describe('Controller: SimulacaoCtrl', function () {
   });
 
   it('deve adicionar nova falha somente após preencher o horário e parâmetro', function() {
-    scope.parametrosSimulacao = { falhasControlador: [{}] };
+    setParametros();
     var falha = ControladorSimulacao.getFalhaComParametro();
     scope.parametrosSimulacao.falhasControlador[0].falha = falha;
     scope.parametrosSimulacao.falhasControlador[0].disparo = moment().format();

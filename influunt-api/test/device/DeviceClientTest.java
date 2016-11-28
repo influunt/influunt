@@ -13,7 +13,6 @@ public class DeviceClientTest extends WithLocalInfluuntApplicationNoAuthenticati
     @Test
     @Ignore
     public void execucao() throws InterruptedException {
-
         Client client = provideApp.injector().instanceOf(Client.class);
         Thread.sleep(600000000L);
 

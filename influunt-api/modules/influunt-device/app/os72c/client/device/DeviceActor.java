@@ -93,6 +93,16 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     @Override
+    public void modoManualAtivo(DateTime timestamp) {
+        device.modoManualAtivo();
+    }
+
+    @Override
+    public void modoManualDesativado(DateTime timestamp) {
+        device.modoManualDesativado();
+    }
+
+    @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         device.sendEstagio(intervalos);
     }

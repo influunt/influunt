@@ -175,4 +175,8 @@ public class Subarea extends Model implements Cloneable, Serializable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public String toString() {
+        return this.getNumero() + " - " + this.getNome();
+    }
 }

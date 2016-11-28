@@ -15,7 +15,8 @@ angular.module('influuntApp')
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert,
           $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao;
+  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao,
+            calculaDisparo;
 
   $scope.init = function() {
     var controladorId = $stateParams.id;
@@ -36,6 +37,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       disparoDetectores: [{}],
       imposicaoPlanos: [{}],
       imposicaoModos: [{}],
+      liberacaoImposicoes: [{}],
       falhasControlador: [{}],
       alarmesControlador: [{}]
     };
@@ -46,9 +48,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
+    $scope.liberacoesImposicoes = { liberacoes: [] };
     $scope.imposicoesModos = { imposicoes: [] };
     $scope.falhasControlador = { falhas: [] };
     $scope.alarmesControlador = { alarmes: [] };
+
 
     $scope.horas = HorariosService.getHoras();
     $scope.minutos = HorariosService.getMinutos();
@@ -134,7 +138,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var length = $scope.parametrosSimulacao.imposicaoPlanos.length;
       if (length > 0) {
         var imposicao = $scope.parametrosSimulacao.imposicaoPlanos[length - 1];
-        if (imposicao && imposicao.plano && imposicao.disparo && imposicao.duracao) {
+        if (imposicao && imposicao.plano && imposicao.anel && imposicao.disparo && imposicao.duracao) {
           $scope.parametrosSimulacao.imposicaoPlanos.push({});
         }
       }
@@ -146,8 +150,20 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       var length = $scope.parametrosSimulacao.imposicaoModos.length;
       if (length > 0) {
         var imposicao = $scope.parametrosSimulacao.imposicaoModos[length - 1];
-        if (imposicao && imposicao.modo && imposicao.disparo && imposicao.duracao) {
+        if (imposicao && imposicao.modo && imposicao.anel && imposicao.disparo && imposicao.duracao) {
           $scope.parametrosSimulacao.imposicaoModos.push({});
+        }
+      }
+      }
+  }, true);
+  
+  $scope.$watch('parametrosSimulacao.liberacaoImposicoes', function(parametro) {
+    if (parametro) {
+      var length = $scope.parametrosSimulacao.liberacaoImposicoes.length;
+      if (length > 0) {
+        var liberacao = $scope.parametrosSimulacao.liberacaoImposicoes[length - 1];
+        if (liberacao && liberacao.anel && liberacao.disparo) {
+          $scope.parametrosSimulacao.liberacaoImposicoes.push({});
         }
       }
       }
@@ -178,7 +194,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       }
   }, true);
 
-
   $scope.$watch('inicioControlador', function(inicioControlador) {
     if (inicioControlador && inicioControlador.date && inicioControlador.hora && inicioControlador.minuto && inicioControlador.segundo) {
       var date = moment(inicioControlador.date);
@@ -204,14 +219,18 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   }, true);
 
 
+  calculaDisparo = function(disparo) {
+    if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
+      var date = moment(disparo.date);
+      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), disparo.hora, disparo.minuto, disparo.segundo);
+      return dateMoment;
+    }
+  };
+
   $scope.$watch('disparosDetectores.disparos', function(disparos) {
     if (disparos) {
       _.forEach($scope.disparosDetectores.disparos, function(disparo, index) {
-        if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
-          var date = moment(disparo.date);
-          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), disparo.hora, disparo.minuto, disparo.segundo);
-          $scope.parametrosSimulacao.disparoDetectores[index].disparo = dateMoment;
-        }
+        $scope.parametrosSimulacao.disparoDetectores[index].disparo = calculaDisparo(disparo);
       });
     }
   }, true);
@@ -219,11 +238,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.$watch('imposicoesPlanos.imposicoes', function(imposicoes) {
     if (imposicoes) {
       _.forEach($scope.imposicoesPlanos.imposicoes, function(imposicao, index) {
-        if (imposicao.date && imposicao.hora && imposicao.minuto && imposicao.segundo) {
-          var date = moment(imposicao.date);
-          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), imposicao.hora, imposicao.minuto, imposicao.segundo);
-          $scope.parametrosSimulacao.imposicaoPlanos[index].disparo = dateMoment;
-        }
+        $scope.parametrosSimulacao.imposicaoPlanos[index].disparo = calculaDisparo(imposicao);
       });
     }
   }, true);
@@ -231,11 +246,15 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.$watch('imposicoesModos.imposicoes', function(imposicoes) {
     if (imposicoes) {
       _.forEach($scope.imposicoesModos.imposicoes, function(imposicao, index) {
-        if (imposicao.date && imposicao.hora && imposicao.minuto && imposicao.segundo) {
-          var date = moment(imposicao.date);
-          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), imposicao.hora, imposicao.minuto, imposicao.segundo);
-          $scope.parametrosSimulacao.imposicaoModos[index].disparo = dateMoment;
-        }
+        $scope.parametrosSimulacao.imposicaoModos[index].disparo = calculaDisparo(imposicao);
+      });
+    }
+  }, true);
+  
+  $scope.$watch('liberacoesImposicoes.liberacoes', function(liberacoes) {
+    if (liberacoes) {
+      _.forEach($scope.liberacoesImposicoes.liberacoes, function(disparo, index) {
+        $scope.parametrosSimulacao.liberacaoImposicoes[index].disparo = calculaDisparo(disparo);
       });
     }
   }, true);
@@ -243,11 +262,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.$watch('falhasControlador.falhas', function(falhas) {
     if (falhas) {
       _.forEach($scope.falhasControlador.falhas, function(falha, index) {
-        if (falha.date && falha.hora && falha.minuto && falha.segundo) {
-          var date = moment(falha.date);
-          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), falha.hora, falha.minuto, falha.segundo);
-          $scope.parametrosSimulacao.falhasControlador[index].disparo = dateMoment;
-        }
+        $scope.parametrosSimulacao.falhasControlador[index].disparo = calculaDisparo(falha);
       });
     }
   }, true);
@@ -255,11 +270,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.$watch('alarmesControlador.alarmes', function(alarmes) {
     if (alarmes) {
       _.forEach($scope.alarmesControlador.alarmes, function(alarme, index) {
-        if (alarme.date && alarme.hora && alarme.minuto && alarme.segundo) {
-          var date = moment(alarme.date);
-          var dateMoment = getMoment(date.year(), date.month()+1, date.date(), alarme.hora, alarme.minuto, alarme.segundo);
-          $scope.parametrosSimulacao.alarmesControlador[index].disparo = dateMoment;
-        }
+        $scope.parametrosSimulacao.alarmesControlador[index].disparo = calculaDisparo(alarme);
       });
     }
   }, true);
@@ -309,12 +320,29 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     return influuntAlert.confirm(title, text)
       .then(function(confirmado) {
         if (confirmado) {
-          if ($scope.parametrosSimulacao.imposicaoModo.length > 1) {
-            $scope.parametrosSimulacao.imposicaoModo.splice(index, 1);
-            $scope.imposicoesPlanos.imposicoes.splice(index, 1);
+          if ($scope.parametrosSimulacao.imposicaoModos.length > 1) {
+            $scope.parametrosSimulacao.imposicaoModos.splice(index, 1);
+            $scope.imposicoesModos.imposicoes.splice(index, 1);
           } else {
-            $scope.parametrosSimulacao.imposicaoModo = [{}];
+            $scope.parametrosSimulacao.imposicaoModos = [{}];
             $scope.imposicoesModos.imposicoes = [];
+          }
+        }
+      });
+  };
+
+  $scope.removerLiberacaoImposicao = function(index) {
+    var title = $filter('translate')('simulacao.planoAlert.title'),
+        text = $filter('translate')('simulacao.planoAlert.text');
+    return influuntAlert.confirm(title, text)
+      .then(function(confirmado) {
+        if (confirmado) {
+          if ($scope.parametrosSimulacao.liberacaoImposicoes.length > 1) {
+            $scope.parametrosSimulacao.liberacaoImposicoes.splice(index, 1);
+            $scope.liberacoesImposicoes.liberacoes.splice(index, 1);
+          } else {
+            $scope.parametrosSimulacao.liberacaoImposicoes = [{}];
+            $scope.liberacoesImposicoes.liberacoes = [];
           }
         }
       });
@@ -358,6 +386,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     $scope.parametrosSimulacao.disparoDetectores = _.filter($scope.parametrosSimulacao.disparoDetectores, 'detector');
     $scope.parametrosSimulacao.imposicaoPlanos = _.filter($scope.parametrosSimulacao.imposicaoPlanos, 'plano');
     $scope.parametrosSimulacao.imposicaoModos = _.filter($scope.parametrosSimulacao.imposicaoModos, 'modo');
+    $scope.parametrosSimulacao.liberacaoImposicoes = _.filter($scope.parametrosSimulacao.liberacaoImposicoes, 'anel');
     $scope.parametrosSimulacao.alarmesControlador = _.filter($scope.parametrosSimulacao.alarmesControlador, 'alarme');
     $scope.parametrosSimulacao.falhasControlador = _.filter($scope.parametrosSimulacao.falhasControlador, 'falha');
 
@@ -390,6 +419,14 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
     if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
       $scope.parametrosSimulacao.imposicaoPlanos = [{}];
+    }
+    
+    if (_.isEmpty($scope.parametrosSimulacao.imposicaoModos)) {
+      $scope.parametrosSimulacao.imposicaoModos = [{}];
+    }
+    
+    if (_.isEmpty($scope.parametrosSimulacao.liberacaoImposicoes)) {
+      $scope.parametrosSimulacao.liberacaoImposicoes = [{}];
     }
 
     if (_.isEmpty($scope.parametrosSimulacao.alarmesControlador)) {

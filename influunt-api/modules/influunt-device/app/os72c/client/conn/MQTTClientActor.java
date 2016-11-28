@@ -13,7 +13,6 @@ import akka.routing.Router;
 import com.google.gson.Gson;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
-import org.fusesource.mqtt.client.QoS;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;

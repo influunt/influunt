@@ -279,7 +279,7 @@ angular.module('influuntApp')
             }
             if(!g.ativado){
               g.intervalos.unshift({
-                status: modoOperacaoService.getModoIdByName('APAGADO'),
+                status: modoOperacaoService.get('APAGADO'),
                 duracao: fakenPlano.tempoCiclo || controlador.cicloMax
               });
             }
@@ -303,8 +303,8 @@ angular.module('influuntApp')
        * nenhum destes, deverá utilizar o diagrama produzido a partir do plugin de diagrama.
        */
       setDiagramaEstatico = function(controlador, plano, anel) {
-        var modo = modoOperacaoService.getModoIdByName(plano.modoOperacao);
-        var modoApagado = modoOperacaoService.getModoIdByName('APAGADO');
+        var modo = modoOperacaoService.get(plano.modoOperacao);
+        var modoApagado = modoOperacaoService.get('APAGADO');
         var grupos = _.map(anel.gruposSemaforicos, function(g) {
           var grupo = _.find(controlador.gruposSemaforicos, {idJson: g.idJson});
           return {

@@ -1,6 +1,5 @@
 package os72c.client.handlers;
 
-import akka.actor.ActorSelection;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -14,8 +13,6 @@ import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.*;
 import status.Transacao;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -99,6 +96,7 @@ public class TransacaoActorHandler extends UntypedActor {
 
                                 controlador = storage.getControlador();
                                 boolean planoNaoConfigurado = !isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
+
                                 if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1 || planoNaoConfigurado || horarioEntrada <= System.currentTimeMillis()) {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 } else {

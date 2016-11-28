@@ -1,6 +1,5 @@
 package protocol;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 import status.Transacao;

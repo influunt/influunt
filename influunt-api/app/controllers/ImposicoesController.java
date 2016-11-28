@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
-import org.fusesource.mqtt.client.QoS;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -15,7 +14,10 @@ import play.mvc.Security;
 import security.Secured;
 import utils.TransacaoHelper;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
@@ -91,9 +93,6 @@ public class ImposicoesController extends Controller {
     }
 
 
-
-
-
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
         List<Controlador> controladores = getControladores(aneis);
         Map<String, String> transacoesIds = new HashMap<>();
@@ -112,7 +111,7 @@ public class ImposicoesController extends Controller {
         return transacoesIds;
     }
 
-    private Map<String, String>  imporModoOperacao(JsonNode params) {
+    private Map<String, String> imporModoOperacao(JsonNode params) {
         ModoOperacaoPlano modoOperacao = ModoOperacaoPlano.valueOf(params.get("modoOperacao").asText());
         int duracao = params.get("duracao").asInt();
         Long horarioEntrada = params.get("horarioEntrada").asLong();
@@ -126,7 +125,7 @@ public class ImposicoesController extends Controller {
         return transacoesIds;
     }
 
-    private Map<String, String>  imporPlano(JsonNode params) {
+    private Map<String, String> imporPlano(JsonNode params) {
         int posicaoPlano = params.get("posicaoPlano").asInt();
         int duracao = params.get("duracao").asInt();
         Long horarioEntrada = params.get("horarioEntrada").asLong();
