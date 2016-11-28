@@ -3,7 +3,6 @@ package models.simulador.parametros;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.collect.Lists;
 import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;

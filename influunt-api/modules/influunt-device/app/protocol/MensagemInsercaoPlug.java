@@ -6,7 +6,6 @@ package protocol;
 public class MensagemInsercaoPlug extends Mensagem {
 
 
-
     public MensagemInsercaoPlug(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia) {
         super(tipoMensagem, sequencia);
     }

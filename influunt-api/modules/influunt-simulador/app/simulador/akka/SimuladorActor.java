@@ -1,7 +1,6 @@
 package simulador.akka;
 
 import akka.actor.UntypedActor;
-import akka.protobuf.ExtensionRegistry;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -50,7 +49,7 @@ public class SimuladorActor extends UntypedActor {
 
     private StringBuffer bufferTrocaDePlanos = null;
 
-    private int pagina = 0;
+    private int pagina;
 
     public SimuladorActor(String host, String port, ParametroSimulacao params) {
         this.params = params;

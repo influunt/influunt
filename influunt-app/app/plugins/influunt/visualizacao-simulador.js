@@ -168,7 +168,7 @@ var influunt;
             atualizaEstadosGruposSemaforicos();
             atualizaBotoesVisiveis();
           } else {
-            botaoFoward();
+            botaoForward();
           }
         }
 
@@ -202,7 +202,7 @@ var influunt;
 
         function botaoFastFoward(){
           for(var i =0; i < 10; i++){
-            botaoFoward();
+            botaoForward();
           }
         }
 
@@ -210,7 +210,7 @@ var influunt;
             moveToRight();
         }
 
-        function botaoFoward(){
+        function botaoForward(){
           if(((tempo + 1) % 256) === 0){
             loadingGroup.visible = true;
             limite = (parseInt(tempo / 256) + 2) * 256;
@@ -377,7 +377,7 @@ var influunt;
               {nome: 'backward', action: botaoBackward, enableOnPause: true, enableOnPlay: false},
               {nome: 'play', action: botaoPlay, enableOnPause: true, enableOnPlay: false},
               {nome: 'pause', action: botaoPause, enableOnPause: false, enableOnPlay: true},
-              {nome: 'foward', action: botaoFoward, enableOnPause: true, enableOnPlay: false},
+              {nome: 'foward', action: botaoForward, enableOnPause: true, enableOnPlay: false},
               {nome: 'fastFoward', action: botaoFastFoward, incremento: 39, enableOnPause: true, enableOnPlay: false},
               {nome: 'DV1', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
               {nome: 'DV2', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
@@ -957,11 +957,8 @@ var influunt;
 
         function render() {
           if(!started && intervalosGroup.children.length > 0){
-            //repeater = game.time.events.repeat(1000, 10000, moveToLeft, this);
             started = true;
             botaoPlay();
-            // botoes.pause.play('ON');
-            // botoes.pause.inputEnabled = true;
           }
         }
 
