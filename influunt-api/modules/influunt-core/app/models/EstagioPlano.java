@@ -458,4 +458,9 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             .max()
             .orElse(0);
     }
+
+    public Integer getInicio() {
+        return getPlano().getDefasagem() + getPlano().getEstagiosOrdenados().stream()
+            .filter(estagioPlano -> estagioPlano.getPosicao() < getPosicao()).mapToInt(EstagioPlano::getDuracaoEstagio).sum();
+    }
 }
