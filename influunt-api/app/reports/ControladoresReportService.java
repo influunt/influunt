@@ -132,7 +132,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
     public ObjectNode getControladoresFalhasReportData(Map<String, String[]> params) {
         List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
-        ;
         List<String> aneisIds = new ArrayList<>();
 
         Map<String, String[]> paramsAux = new HashMap<>();
