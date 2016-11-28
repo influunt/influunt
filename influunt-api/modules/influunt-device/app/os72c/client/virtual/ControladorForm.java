@@ -181,7 +181,6 @@ public class ControladorForm implements Sender, DeviceBridge {
         this.intervaloGrupoSemaforico = intervaloGrupoSemaforico;
         MensagemEstagio msg = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO, 0, intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         msg.addIntervalos(intervaloGrupoSemaforico);
-        //msg.print();
         onReceiveEstage(msg.toByteArray());
     }
 

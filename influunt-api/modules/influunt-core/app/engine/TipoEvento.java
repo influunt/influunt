@@ -66,7 +66,7 @@ public enum TipoEvento {
     LIBERAR_IMPOSICAO(TipoEventoControlador.IMPOSICAO, 3, "Liberação de imposição", "Anel %s: Foi liberado da imposição", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
     //Troca de PLanos
-    TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO, 1, "Troca de Plano no Anel", "Plano %s está ativo", null), ;
+    TROCA_DE_PLANO_NO_ANEL(TipoEventoControlador.TROCA_PLANO, 1, "Troca de Plano no Anel", "Plano %s está ativo", null);
 
     private final int codigo;
 
