@@ -7,7 +7,7 @@ Funcionalidade: Verificar pelo perfil quais informações o usuário tem acesso 
     Quando for desabilitada no perfil visualizar todas as áreas
     E que o sistema possua controladores cadastrados e configurados
     E que o usuário acesse a página de listagem de controladores
-    E o usuário clicar no botão "Ver no mapa"
+    E o usuário clicar em "Ver no mapa"
     Então o sistema deve redirecionar para o mapa
     Quando o usuário clicar no menu filtros para "abrir"
     E o sistema deverá mostrar no mapa "2" controladores
