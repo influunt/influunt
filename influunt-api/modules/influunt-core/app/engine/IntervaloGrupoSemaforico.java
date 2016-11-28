@@ -423,4 +423,8 @@ public class IntervaloGrupoSemaforico {
     public Integer quantidadeGruposSemaforicos() {
         return estados.keySet().size();
     }
+
+    public long getDuracao() {
+        return duracao;
+    }
 }

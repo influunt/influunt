@@ -48,6 +48,7 @@ public abstract class Simulador implements MotorCallback {
 
     private void setup(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {
         motor = new Motor(controlador, parametros.getInicioControlador(), inicioSimulado, this);
+        this.eventos.clear();
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoesModos().stream().forEach(param -> addEvento(param.toEvento()));
@@ -80,8 +81,9 @@ public abstract class Simulador implements MotorCallback {
             .collect(Collectors.toList());
     }
 
-    public void simular(DateTime inicio, DateTime fim) throws Exception {
-        DateTime inicioSimulacao = inicio;
+    public void simular(DateTime fim) throws Exception {
+        DateTime inicioSimulacao = dataInicioControlador;
+        setup(inicioSimulacao, controlador, parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
             processaEventos(inicioSimulacao);
@@ -103,19 +105,25 @@ public abstract class Simulador implements MotorCallback {
         param.setDetector(new Pair<Integer, TipoDetector>(detector, tipoDetector));
         param.setAnel(anel);
         param.setDisparo(disparo);
+
+        this.parametros.removeEventos(disparo);
+
         this.parametros.getDetectores().add(param);
-        setup(dataInicioControlador, controlador, parametros);
     }
 
     public void alternarModoManual(DateTime disparo, boolean ativar) {
         ParametroSimulacaoManual param = new ParametroSimulacaoManual(disparo, ativar);
+
+        this.parametros.removeEventos(disparo);
+
         this.parametros.getInsercaoDePlugDeControleManual().add(param);
-        setup(dataInicioControlador, controlador, parametros);
     }
 
     public void trocarEstagioModoManual(DateTime disparo) {
         ParametroSimulacaoTrocaDeEstagioManual param = new ParametroSimulacaoTrocaDeEstagioManual(disparo);
+
+        this.parametros.removeEventos(disparo);
+
         this.parametros.getTrocasEstagioModoManual().add(param);
-        setup(dataInicioControlador, controlador, parametros);
     }
 }

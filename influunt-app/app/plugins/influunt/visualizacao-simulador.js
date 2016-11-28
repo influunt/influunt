@@ -20,7 +20,6 @@ var influunt;
         var MARGEM_LATERAL = 956 ;
         var MARGEM_SUPERIOR = 70;
         var ALTURA_INTERVALOS = 0;
-        var pagina = 0;
         var limite = 256;
         var planos = [];
         var modos = [];
@@ -126,7 +125,7 @@ var influunt;
 
         function verificaLed(){
           var result = _.some(modoManual,function(e){
-            return tempo >= e[0] / 10  && tempo <= e[1] / 10; 
+            return tempo >= e[0] / 10  && tempo < e[1] / 10; 
           }) ? 'ligado' : 'desligado';
 
           situacaoLedManual = result;
@@ -152,7 +151,9 @@ var influunt;
         }
 
         function loadMore() {
-            var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
+          removeFuture(true);
+          var pagina = (parseInt(tempo / 256)+1);
+          var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
             message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
             client.send(message);
         }
@@ -166,6 +167,8 @@ var influunt;
             game.camera.x+=(10 * velocidade);
             atualizaEstadosGruposSemaforicos();
             atualizaBotoesVisiveis();
+          } else {
+            botaoFoward();
           }
         }
 
@@ -198,17 +201,8 @@ var influunt;
         }
 
         function botaoFastFoward(){
-          if(tempo + 1 >= limite){
-            loadingGroup.visible = true;
-            console.log("Carregar mais 256?");
-            pagina++;
-            limite+=256;
-            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
-            loadMore();
-          }else{
-            for(var i =0; i < 10; i++){
-              moveToLeft();
-            }
+          for(var i =0; i < 10; i++){
+            botaoFoward();
           }
         }
 
@@ -217,15 +211,13 @@ var influunt;
         }
 
         function botaoFoward(){
-          if(tempo + 1 >= limite){
+          if(((tempo + 1) % 256) === 0){
             loadingGroup.visible = true;
-            console.log("Carregar mais 256?");
-            pagina++;
-            limite+=256;
+            limite = (parseInt(tempo / 256) + 2) * 256;
+            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
             loadMore();
-          }else{
-            moveToLeft();
           }
+          moveToLeft();
         }
 
         function estagioOut(estagio){
@@ -247,14 +239,17 @@ var influunt;
         }
 
         function botaoPause(){
-          _.each(botoes, function(value,key){
-            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
-              value.inputEnabled = true;
-              value.play('ON');
+          _.each(specBotoes, function(spec) {
+            var botao = botoes[spec.nome];
+            if (spec.enableOnPause && (!botao.name.startsWith('D') || (botao.name.startsWith('D') && config.detectoresHash[botao.name]))) {
+              botao.inputEnabled = true;
+              botao.play('ON');
+            } else {
+              botao.inputEnabled = false;
+              botao.play('OFF');
             }
           });
 
-          botoes.pause.play('OFF');
           game.time.events.remove(repeater);
         }
 
@@ -270,16 +265,38 @@ var influunt;
         }
 
         function botaoPlay(){
-          botoes.pause.play('ON');
-          botoes.play.inputEnabled = true;
-
-          _.each(botoes,function(value,key){
-            if(!(key === 'pause' ||  value.name.startsWith('D') && !config.detectoresHash[value.name])){
-              value.inputEnabled = false;
-              value.play('OFF');
+          _.each(specBotoes, function(spec) {
+            var botao = botoes[spec.nome];
+            if (spec.enableOnPlay && (!botao.name.startsWith('D') || (botao.name.startsWith('D') && config.detectoresHash[botao.name]))) {
+              botao.inputEnabled = true;
+              botao.play('ON');
+            } else {
+              botao.inputEnabled = false;
+              botao.play('OFF');
             }
           });
+          
           repeater = game.time.events.repeat(1000, 1000, moveToLeft, this);
+        }
+        
+        function removeFuture(next){
+          var removeAfter;
+          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560) + MARGEM_LATERAL) : 
+                               ((parseInt(tempo / 256) * 2560) + MARGEM_LATERAL);
+          
+          for(var i = intervalosGroup.children.length - 1; i >= 0; i--) {
+            if(intervalosGroup.children[i].x >= removeAfter){
+              intervalosGroup.children[i].body = null;
+              intervalosGroup.children[i].destroy();
+            }
+          }
+
+          for(var i = eventosGroup.children.length - 1; i >= 0; i--) {
+            if(eventosGroup.children[i].x >= removeAfter){
+              eventosGroup.children[i].body = null;
+              eventosGroup.children[i].destroy();
+            }
+          }
         }
 
         function botaoDetector(detector){
@@ -290,9 +307,9 @@ var influunt;
             var json = { anel: d.anel, disparo: (disparo.unix() + 1) * 1000, posicao:d.posicao, tipo:d.tipo };
 
             loadingGroup.visible = true;
-            intervalosGroup.children.forEach(function(c){c.destroy();});
-            eventosGroup.children.forEach(function(c){c.destroy();});
 
+            removeFuture();
+            
             var message = new Paho.MQTT.Message(JSON.stringify(json));
             message.destinationName = 'simulador/' + config.simulacaoId + '/detector';
             client.send(message);
@@ -300,26 +317,36 @@ var influunt;
           }
         }
 
-        function toggleModoManual() {
+        function toggleModoManual(ativar) {
           var disparo = inicioSimulacao.clone();
           disparo.add(tempo, 'seconds');
-          modoManualAtivado = !modoManualAtivado;
+          modoManualAtivado = ativar;
 
           var json = {
             disparo: (disparo.unix() + 1) * 1000,
             ativarModoManual: modoManualAtivado
           };
+          
+          _.remove(modoManual, function(e) {
+            return tempo >= e[0] / 10  && tempo <= e[1] / 10; 
+          });
 
           loadingGroup.visible = true;
-          intervalosGroup.children.forEach(function(c){c.destroy();});
-          eventosGroup.children.forEach(function(c){c.destroy();});
-
+          removeFuture();
+          
           var message = new Paho.MQTT.Message(JSON.stringify(json));
           message.destinationName = 'simulador/' + config.simulacaoId + '/alternar_modo_manual';
           client.send(message);
-
         }
-
+        
+        function ativaModoManual() {
+          toggleModoManual(true);
+        }
+        
+        function desativaModoManual() {
+          toggleModoManual(false);
+        }
+        
         function trocarEstagioManual() {
           var disparo = inicioSimulacao.clone();
           disparo.add(tempo, 'seconds');
@@ -346,28 +373,28 @@ var influunt;
         function criaControles(){
           var inicio = 200, y = 10;
           specBotoes = [
-              {nome: 'fastBackward', action: botaoFastBackward},
-              {nome: 'backward', action: botaoBackward},
-              {nome: 'play', action: botaoPlay},
-              {nome: 'pause', action: botaoPause},
-              {nome: 'foward', action: botaoFoward},
-              {nome: 'fastFoward', action: botaoFastFoward,incremento: 39},
-              {nome: 'DV1', action: botaoDetector},
-              {nome: 'DV2', action: botaoDetector},
-              {nome: 'DV3', action: botaoDetector},
-              {nome: 'DV4', action: botaoDetector},
-              {nome: 'DV5', action: botaoDetector},
-              {nome: 'DV6', action: botaoDetector},
-              {nome: 'DV7', action: botaoDetector},
-              {nome: 'DV8', action: botaoDetector, incremento: 39},
-              {nome: 'DP1', action: botaoDetector},
-              {nome: 'DP2', action: botaoDetector},
-              {nome: 'DP3', action: botaoDetector},
-              {nome: 'DP4', action: botaoDetector, incremento: 39},
+              {nome: 'fastBackward', action: botaoFastBackward, enableOnPause: true, enableOnPlay: false},
+              {nome: 'backward', action: botaoBackward, enableOnPause: true, enableOnPlay: false},
+              {nome: 'play', action: botaoPlay, enableOnPause: true, enableOnPlay: false},
+              {nome: 'pause', action: botaoPause, enableOnPause: false, enableOnPlay: true},
+              {nome: 'foward', action: botaoFoward, enableOnPause: true, enableOnPlay: false},
+              {nome: 'fastFoward', action: botaoFastFoward, incremento: 39, enableOnPause: true, enableOnPlay: false},
+              {nome: 'DV1', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV2', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV3', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV4', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV5', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV6', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV7', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DV8', action: botaoDetector, incremento: 39, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DP1', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DP2', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DP3', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
+              {nome: 'DP4', action: botaoDetector, incremento: 39, enableOnPause: true, enableOnPlay: true},
 
-              {nome: 'ativaOperacaoManual', action: toggleModoManual, visivel: !showEstagioManual, incremento: -1},
-              {nome: 'desativaOperacaoManual', action: toggleModoManual, visivel: showEstagioManual},
-              {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showEstagioManual}
+              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: !showEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
+              {nome: 'desativaOperacaoManual', action: desativaModoManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true},
+              {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true}
           ];
 
           // valores de incremento do arquivo de sprite para os botões.
@@ -451,9 +478,9 @@ var influunt;
           bmd.ctx.strokeStyle = color;
 
           bmd.ctx.beginPath();
-            bmd.ctx.moveTo(10,0);
-            bmd.ctx.lineTo(10,h);
-            bmd.ctx.stroke();
+          bmd.ctx.moveTo(10,0);
+          bmd.ctx.lineTo(10,h);
+          bmd.ctx.stroke();
           bmd.ctx.closePath();
 
 
@@ -471,7 +498,8 @@ var influunt;
           bmd.ctx.fillText(label, 5,h/2-1);
 
           bmd.render();
-          eventosGroup.add(game.add.sprite(x, y1, bmd));
+          var sprite = game.add.sprite(x, y1, bmd);
+          eventosGroup.add(sprite);
         }
 
         function desenhaEstagio(y,estagio,anel){
@@ -744,7 +772,7 @@ var influunt;
           totalGruposSemaforicos = i;
         }
 
-        function desenhaEventoDoControlador(x,color,label, tooltip) {
+        function desenhaEventoDoControlador(x,color,label, tooltip,id) {
           var h = ALTURA_INTERVALOS - 25;
           var bmd = game.add.bitmapData(20,h);
 
@@ -773,7 +801,9 @@ var influunt;
           bmd.render();
 
           var sprite = game.add.sprite((MARGEM_LATERAL + x) - 10, MARGEM_SUPERIOR - 25, bmd);
-
+          if(id){
+            sprite.name = "evento_" + id;
+          }
           sprite.inputEnabled = true;
           eventosGroup.add(sprite);
 
@@ -813,7 +843,6 @@ var influunt;
         }
 
         function processaManual(manuais){
-          modoManual = [];
           manuais.forEach(function(manual){
             var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
             if(modoManual.length === 0){
@@ -830,7 +859,7 @@ var influunt;
           });
           modoManual.forEach(function(m){
             desenhaEventoDoControlador(m[0],'#2E7D32',"EM","Entrada do modo manual"); 
-            desenhaEventoDoControlador(m[1],'#2E7D32',"SM","Saída do modo manual");
+            desenhaEventoDoControlador(m[1],'#2E7D32',"SM","Saída do modo manual",m[1]);
           });
         }
 
@@ -928,10 +957,11 @@ var influunt;
 
         function render() {
           if(!started && intervalosGroup.children.length > 0){
-            repeater = game.time.events.repeat(1000, 10000, moveToLeft, this);
+            //repeater = game.time.events.repeat(1000, 10000, moveToLeft, this);
             started = true;
-            botoes.pause.play('ON');
-            botoes.pause.inputEnabled = true;
+            botaoPlay();
+            // botoes.pause.play('ON');
+            // botoes.pause.inputEnabled = true;
           }
         }
 

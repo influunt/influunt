@@ -3,6 +3,7 @@ package models.simulador.parametros;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
 import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
@@ -221,5 +222,11 @@ public class ParametroSimulacao {
 
     public List<ParametroSimulacaoTrocaDeEstagioManual> getTrocasEstagioModoManual() {
         return trocasEstagioModoManual;
+    }
+
+    public void removeEventos(DateTime disparo) {
+        getDetectores().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+        getInsercaoDePlugDeControleManual().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+        getTrocasEstagioModoManual().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
     }
 }
