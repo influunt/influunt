@@ -33,6 +33,12 @@
               {{ 'controladores.geral.plano' | translate}} {{ currentAnel.planoVigente.posicao }} - {{ currentAnel.planoVigente.descricao }}
             </a>
           </li>
+
+          <li data-ng-if="currentAnel.hasPlanoImposto">
+            <strong>{{ 'controladores.mapaControladores.planoImposto' | translate }}</strong>
+            <liberar-imposicao anel="currentAnel" ids-transacoes="{}"></liberar-imposicao>
+          </li>
+
         </ul>
       </div>
 

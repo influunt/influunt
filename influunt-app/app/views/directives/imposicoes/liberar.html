@@ -1,0 +1,44 @@
+<button data-toggle="modal"
+        data-target="#modal-sincronizar"
+        class="btn btn-w-m btn-primary"
+        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
+        {{ 'imporConfig.sincronizar' | translate }}
+</button>
+
+<!-- modal | sincronizar -->
+<div class="modal inmodal" id="modal-sincronizar" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <form role="form">
+              <div class="row">
+                <div class="col-sm-10">
+                  <p>
+                    <input type="radio" ichecks value="pacotePlanos" data-ng-model="dataSincronizar.tipo">
+                    {{ 'imporConfig.sincronizarHoraPlano' | translate }}
+                  </p>
+                  <p>
+                    <input type="radio" ichecks value="configuracaoCompleta" data-ng-model="dataSincronizar.tipo">
+                    {{ 'imporConfig.sincronizarHPConfig' | translate }}
+                  </p>
+                </div>
+                <div class="col-sm-2" ng-init="currentStatus = {}; idTransicao = null">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="sincronizar()" data-ng-disabled="!dataSincronizar.tipo">
+          {{ 'imporConfig.sincronizar' | translate }}
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          {{ 'crud.cancelar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

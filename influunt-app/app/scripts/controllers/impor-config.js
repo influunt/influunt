@@ -8,10 +8,10 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ImporConfigCtrl', ['$scope', '$controller', 'Restangular', 'influuntBlockui',
-    function ($scope, $controller, Restangular, influuntBlockui) {
+  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui', 'influuntAlert',
+    function ($scope, $controller, $filter, Restangular, influuntBlockui, influuntAlert) {
 
-      var setData;
+      var setData, setAneisPlanosImpostos;
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -45,9 +45,10 @@ angular.module('influuntApp')
         var query = $scope.buildQuery($scope.pesquisa);
         return Restangular.all('controladores').customGET('imposicao', query)
           .then(function(res) {
-            console.log('res: ', res)
             setData(res);
+            return Restangular.one('monitoramento', 'status_aneis').get();
           })
+          .then(setAneisPlanosImpostos)
           .finally(influuntBlockui.unblock);
       };
 
@@ -80,8 +81,20 @@ angular.module('influuntApp')
           $scope.idsTransacoes[anel.controlador.id] = null;
         });
 
-        console.log('lista: ', $scope.lista)
         $scope.pagination.totalItems = $scope.lista.length;
       };
 
+      setAneisPlanosImpostos = function(statusObj) {
+        return _.map(statusObj.statusPlanos, function(status) {
+          return _
+            .chain($scope.lista)
+            .find({controlador: {id: status.idControlador}, posicao: parseInt(status.anelPosicao)})
+            .set('hasPlanoImposto', status.hasPlanoImposto)
+            .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
+            .set('inicio', status.inicio)
+            .value();
+        });
+      };
     }]);
+
+

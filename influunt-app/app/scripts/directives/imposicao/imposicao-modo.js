@@ -18,6 +18,9 @@ angular.module('influuntApp')
           trackTransaction: '='
         },
         link: function postLink(scope) {
+          scope.LIMITE_MINIMO_DURACAO = 15;
+          scope.LIMITE_MAXIMO_DURACAO = 600;
+
           scope.configuracao = {};
           scope.planos = HorariosService.getPlanos();
 
@@ -32,6 +35,14 @@ angular.module('influuntApp')
           };
 
           scope.imporModo = function() {
+            var horarioEntrada = moment(scope.configuracao.horarioEntradaObj.data)
+              .startOf('day')
+              .add(parseInt(scope.configuracao.horarioEntradaObj.hora), 'hours')
+              .add(parseInt(scope.configuracao.horarioEntradaObj.minuto), 'minutes')
+              .add(parseInt(scope.configuracao.horarioEntradaObj.segundo), 'seconds');
+
+
+            scope.configuracao.horarioEntrada = horarioEntrada.toDate().getTime();
             // horario de entrada
             return Restangular
               .one('imposicoes', 'modo_operacao')

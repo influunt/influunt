@@ -309,8 +309,7 @@ angular.module('influuntApp')
           });
       };
 
-      onlineOfflineWatcher = function(payload, topic) {
-        console.log(topic, payload)
+      onlineOfflineWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
@@ -340,8 +339,7 @@ angular.module('influuntApp')
         return filtraDados();
       };
 
-      statusControladoresWatcher = function(payload, topic) {
-        console.log(topic, payload)
+      statusControladoresWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
@@ -362,8 +360,7 @@ angular.module('influuntApp')
         return filtraDados();
       };
 
-      trocaPlanoWatcher = function(payload, topic) {
-        console.log(topic, payload)
+      trocaPlanoWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
@@ -389,7 +386,7 @@ angular.module('influuntApp')
           };
 
           $scope.statusObj.statusPlanos = $scope.statusObj.statusPlanos || [];
-          $scope.statusObj.statusPlanos.push(statusObj)
+          $scope.statusObj.statusPlanos.push(statusObj);
         }
 
         var posicaoPlano = parseInt(mensagem.conteudo.plano.posicao);
@@ -411,8 +408,7 @@ angular.module('influuntApp')
         return filtraDados();
       };
 
-      alarmesEFalhasWatcher = function(payload, topic) {
-        console.log(topic, payload)
+      alarmesEFalhasWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         $scope.statusObj.erros = $scope.statusObj.erros || {};
@@ -583,9 +579,11 @@ angular.module('influuntApp')
               .clone()
               .value();
 
+
             return !!$scope.currentControlador && !!$scope.currentAnel;
           });
 
+          $scope.currentAnel.controlador = {id: $scope.currentControlador.id};
           $scope.currentAnel.planos = _
             .chain($scope.currentAnel.planos)
             .map(function(plano) {
@@ -642,11 +640,6 @@ angular.module('influuntApp')
         );
 
         $('#modalDiagramaIntervalos').modal('show');
-      };
-
-      $scope.imporPlano = function() {
-        $scope.currentAnel.currentPlano = $scope.planoImposto;
-        $scope.currentAnel.hasPlanoImposto = true;
       };
 
       $scope.enviarPlano = function(anel) {

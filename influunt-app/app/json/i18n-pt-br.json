@@ -145,6 +145,7 @@
         "planoVigente": "Plano vigente"
       },
       "planos": "Planos",
+      "planoImposto": "Possui plano imposto",
       "subAreas": "Subáreas",
       "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "tabelasHorarias": "Tabelas horárias",
@@ -813,6 +814,14 @@
     "cla": "CLA",
     "local": "Local",
     "info": "Info",
+    "liberacao": {
+      "confirmLiberarImposicao": "Liberar imposição?",
+      "erro": "Não foi possível finalizar a liberação",
+      "inicio": "Início",
+      "liberar": "Liberar",
+      "modoImposto": "Modo imposto",
+      "sucesso": "Liberação executada com sucesso"
+    },
     "sincronizacao": {
       "sucesso": "Sincronização executada com sucesso",
       "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
@@ -826,7 +835,10 @@
       "plano": "Plano",
       "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados",
       "sucesso": "Imposição de plano executada com sucesso",
-      "erro": "Não foi possível finalizar a imposição de plano no controlador"
+      "erro": "Não foi possível finalizar a imposição de plano no controlador",
+      "validacoes": {
+        "duracaoEntreMinimoEMaximo": "O tempo de duração deve estar entre {MINIMO} e {MAXIMO}"
+      }
     },
     "imposicaoModo": {
       "sucesso": "Imposição de modo de operação executada com sucesso",

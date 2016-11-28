@@ -7,8 +7,8 @@
  * # influuntLoading
  */
 angular.module('influuntApp')
-  .directive('influuntLoading', ['Restangular', 'toast', '$filter', 'influuntBlockui', '$state',
-    function (Restangular, toast, $filter, influuntBlockui, $state) {
+  .directive('influuntLoading', [
+    function () {
       return {
         template: '<img class="loading" src="images/loading.gif" width="{{ width }}">',
         restrict: 'E',

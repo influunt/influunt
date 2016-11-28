@@ -44,7 +44,11 @@
                       data-current-status="statusTransacoes[anel.controlador.id]"
                       data-is-active="isAnelChecked[anel.id]">
                   </influunt-mqtt-transaction-status>
-                  <!-- Modo imposto: Intermitente. Início 26/02/2016 às 16:50. Duração: 180 minutos. <a data-ng-click='liberar'>Liberar</a>. -->
+                  <div data-ng-if="anel.hasPlanoImposto">
+                    <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}
+                    <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
+                    <liberar-imposicao anel="anel" ids-transacoes="idsTransacoes"></liberar-imposicao>
+                  </div>
                 </td>
               </tr>
             </tbody>

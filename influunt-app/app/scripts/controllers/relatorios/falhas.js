@@ -41,7 +41,6 @@ angular.module('influuntApp')
       * Relatorio de Controladores por Status
       */
       $scope.gerarRelatorioControladoresPorFalhasCSV = function() {
-        console.log("OLA MUNDO !!!")
         $scope.pesquisa.tipoRelatorio = 'CSV';
         var pesquisa = _.cloneDeep($scope.pesquisa);
         pesquisa.per_page = null;

@@ -13,9 +13,10 @@ angular.module('influuntApp')
       restrict: 'E',
       scope: {
         label: '@',
-        ngModel: '='
+        ngModel: '=',
+        isRequired: '=?'
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         scope.elementController = {};
         scope.dateOptions = {
           showWeeks: false

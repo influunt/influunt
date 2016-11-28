@@ -50,7 +50,8 @@ angular.module('influuntApp')
       };
 
       $scope.loadDashboard = function() {
-        Restangular.one('monitoramento', 'status_controladores').get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
+        Restangular.one('monitoramento', 'status_controladores')
+          .get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
           .then(function(res) {
             $scope.statusObj = res;
             atualizaDadosDinamicos();

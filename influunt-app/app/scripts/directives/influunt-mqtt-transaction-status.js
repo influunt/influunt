@@ -40,7 +40,7 @@ angular.module('influuntApp')
         pahoProvider.connect()
           .then(function() {
             console.log('conectado! registrando listener no topic ' + topic)
-            pahoProvider.register(topic, function(message, topic) {
+            pahoProvider.register(topic, function(message) {
               $timeout(function() {
                 console.log('mqtt chamou!')
                 var msg = JSON.parse(message);

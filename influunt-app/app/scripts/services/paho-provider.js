@@ -11,7 +11,9 @@ angular.module('influuntApp')
   .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', function pahoProvider(MQTT_ROOT, $q, $timeout) {
 
     var isConnected = false;
-    var client = new Paho.MQTT.Client(MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-'+UUID.generate());
+    var client = new Paho.MQTT.Client(
+      MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + JSON.parse(localStorage.usuario).id
+    );
     var subscribers = {};
     var timeoutId;
 
@@ -51,7 +53,6 @@ angular.module('influuntApp')
         timeoutId = $timeout(function() {
           client.connect({
             onSuccess: function() {
-              console.log('======> connected');
               isConnected = true;
               deferred.resolve(true);
             }
