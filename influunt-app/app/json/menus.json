@@ -75,19 +75,9 @@
         "route": "app.relatorios_planos"
       },
       {
-        "name": "relatorioAuditorias",
-        "label": "relatorios.auditorias",
-        "route": "app.relatorios_auditorias"
-      },
-      {
         "name": "relatorioControladoresFalhas",
         "label": "relatorios.controladoresFalhas",
         "route": "app.relatorios_controladores_falhas"
-      },
-      {
-        "name": "relatorioControladoresEntreVerdes",
-        "label": "relatorios.controladoresEntreVerdes",
-        "route": "app.relatorios_controladores_entreverdes"
       },
       {
         "name": "relatorioTabelaHoraria",
