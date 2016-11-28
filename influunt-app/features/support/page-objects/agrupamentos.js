@@ -61,9 +61,7 @@ var AgrupamentosPage = function () {
   };
 
   this.isShow = function() {
-    return world.getElement('h5 small').getText().then(function(text) {
-      return text.match(/ - #/);
-    });
+    return world.waitForByXpath('//td[contains(text(), "Corredor da Paulista")]');
   };
 
   this.textoFieldNomeAgrupamento = function() {

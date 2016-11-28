@@ -34,7 +34,9 @@ var ObjetosComuns = function () {
 
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
-      return world.getElement('i[class="fa fa-plus"]').click();
+      return world.waitForToastMessageDisapear().then(function (){
+        return world.getElement('i[class="fa fa-plus"]').click();
+      });
     });
   };
 
@@ -55,7 +57,9 @@ var ObjetosComuns = function () {
 
   this.clicarLinkComTexto = function(texto) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.findLinkByText(texto).click();
+      return world.waitForToastMessageDisapear().then(function (){
+         return world.findLinkByText(texto).click();
+      });
     });
   };
 
