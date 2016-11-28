@@ -153,7 +153,7 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     public void saidaDoModoManual() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 7);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, inicioExecucao);
 
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);
@@ -177,7 +177,7 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         Anel anel = getAnel(2);
         anel.setAceitaModoManual(true);
         Plano plano = getPlano(anel, 11);
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, inicioExecucao);
 
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);

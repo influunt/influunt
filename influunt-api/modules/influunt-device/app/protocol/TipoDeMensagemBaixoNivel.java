@@ -17,7 +17,12 @@ public enum TipoDeMensagemBaixoNivel {
     FALHA_GRUPO_SEMAFORICO(MensagemFalhaGrupoSemaforico.class),
     FALHA_GENERICA(MensagemFalhaGenerica.class),
     ALARME(MensagemAlarme.class),
-    REMOCAO_GENERICA(MensagemRemocaoFalha.class);
+    REMOCAO_GENERICA(MensagemRemocaoFalha.class),
+    INSERCAO_PLUG(MensagemInsercaoPlug.class),
+    REMOCAO_PLUG(MensagemRemocaoPlug.class),
+    TROCA_ESTAGIO_MANUAL(MensagemTrocaEstagioManual.class),
+    MODO_MANUAL_ATIVADO(MensagemModoManualAtivado.class),
+    MODO_MANUAL_DESATIVADO(MensagemModoManualDesativado.class);
 
     private final Class clazz;
 
