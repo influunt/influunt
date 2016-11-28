@@ -34,7 +34,7 @@ angular.module('influuntApp')
         };
 
         $scope.afterIndex = function() {
-          $scope.arrayEstagios = _.chain($scope.lista).map(function(plano){return plano.estagios.length}).max().times().value();
+          $scope.arrayEstagios = _.chain($scope.lista).map(function(plano){ return plano.estagios.length; }).max().times().value();
         };
 
       /**
