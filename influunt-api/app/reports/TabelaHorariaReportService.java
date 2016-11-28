@@ -140,13 +140,12 @@ public class TabelaHorariaReportService extends ReportService<Controlador> {
         StringBuilder buffer = new StringBuilder();
 
         DateTime data = DateTime.parse(dataStr, ISODateTimeFormat.dateTimeParser());
-        buffer.append("Relatório de Tabela Horária do dia ").append(InfluuntUtils.formatDateToString(data, FORMAT_DATE_COMPLETE)).append(NEW_LINE_SEPARATOR);
+        buffer.append("Relatório da Tabela Horária do dia ").append(InfluuntUtils.formatDateToString(data, FORMAT_DATE_COMPLETE)).append(NEW_LINE_SEPARATOR)
+            .append("Gerado em: ").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE))
+            .append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR)
 
-        buffer.append("Gerado em: ").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE));
-        buffer.append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR);
-
-        // Write the CSV file header
-        buffer.append("HORÁRIO").append(COMMA_DELIMITER).append("PLANO").append(COMMA_DELIMITER)
+            // Write the CSV file header
+            .append("HORÁRIO").append(COMMA_DELIMITER).append("PLANO").append(COMMA_DELIMITER)
             .append("NÚMERO PLANO").append(COMMA_DELIMITER).append("MODO OPERAÇÃO PLANO").append(COMMA_DELIMITER)
             .append("SUBÁREA").append(NEW_LINE_SEPARATOR);
 

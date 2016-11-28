@@ -23,7 +23,9 @@ import static play.test.Helpers.route;
 
 public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentication {
 
-    Controlador controlador;
+    private Controlador controlador;
+
+    private String GET = "GET";
 
     @Before
     public void setUp() {
@@ -36,7 +38,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
     public void testRelatorioTabelaHorariaSemControladorId() {
         String queryString = "?data=" + new DateTime().toString();
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
             .uri(routes.RelatoriosController.gerarRelatorioTabelaHoraria().url() + queryString);
         Result result = route(request);
         assertEquals(UNPROCESSABLE_ENTITY, result.status());
@@ -46,7 +48,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
     public void testRelatorioTabelaHorariaSemData() {
         String queryString = "?controladorId=" + controlador.getId().toString();
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
             .uri(routes.RelatoriosController.gerarRelatorioTabelaHoraria().url() + queryString);
         Result result = route(request);
         assertEquals(UNPROCESSABLE_ENTITY, result.status());
@@ -57,7 +59,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
         String queryString = "?controladorId=" + controlador.getId().toString();
         queryString += "&data=" + new DateTime(2016, 11, 28, 0, 0, 0).toString(); // segunda-feira
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
             .uri(routes.RelatoriosController.gerarRelatorioTabelaHoraria().url() + queryString);
         Result result = route(request);
         assertEquals(OK, result.status());
@@ -73,7 +75,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
         String queryString = "?controladorId=" + controlador.getId().toString();
         queryString += "&data=" + new DateTime(2016, 12, 25, 0, 0, 0).toString(); // domingo (natal)
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
             .uri(routes.RelatoriosController.gerarRelatorioTabelaHoraria().url() + queryString);
         Result result = route(request);
         assertEquals(OK, result.status());

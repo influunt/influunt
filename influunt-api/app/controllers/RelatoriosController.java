@@ -91,6 +91,7 @@ public class RelatoriosController extends Controller {
             return CompletableFuture.completedFuture(ok(planosReportService.getPlanosReportData(request().queryString())));
         } else {
             InputStream input = planosReportService.generatePlanosCSVReport(request().queryString());
+            return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
         }
     }
 

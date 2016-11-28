@@ -761,7 +761,7 @@
     "options": {
       "corredor": "Corredor",
       "rota": "Rota",
-      "subArea": "Subarea"
+      "subArea": "Subárea"
     },
     "eventosPopup": {
       "title": "Atualizar Tabela Horária?",
@@ -882,7 +882,7 @@
     "atuado": "Atuado",
     "tipo": "Tipo Relatório",
     "tipoFalha": "Tipo Falha",
-    "subareaAgrupamento": "Subarea / Agrupamento",
+    "subareaAgrupamento": "Subárea / Agrupamento",
     "controlador": "Controlador",
     "data": "Data",
     "horario": "Horário",

@@ -49,7 +49,7 @@ describe('Controller: RelatorioTabelaHorariaCtrl', function () {
     var controladorId = '1234',
         data = moment();
     scope.relatorioParams = { data: data, controladorId: controladorId };
-    var relatorioData = [{ horario: "08:00:00", plano: "PLANO 1", numeroPlano: "1", modoOperacaoPlano: "ISOLADO", subarea: "Paulista", tipoEvento: "NORMAL" }];
+    var relatorioData = [{ horario: '08:00:00', plano: 'PLANO 1', numeroPlano: '1', modoOperacaoPlano: 'ISOLADO', subarea: 'Paulista', tipoEvento: 'NORMAL' }];
     var queryString = '?controladorId=' + controladorId + '&data=' + data.format();
     httpBackend.expectGET('/relatorios/tabela_horaria' + queryString).respond(relatorioData);
     scope.getDadosRelatorio();
@@ -57,8 +57,8 @@ describe('Controller: RelatorioTabelaHorariaCtrl', function () {
     scope.$apply();
     expect(scope.relatorio).toBeDefined();
     expect(scope.relatorio.length).toBe(1);
-    expect(scope.relatorio[0].horario).toBe("08:00:00");
-    expect(scope.relatorio[0].plano).toBe("PLANO 1");
+    expect(scope.relatorio[0].horario).toBe('08:00:00');
+    expect(scope.relatorio[0].plano).toBe('PLANO 1');
   });
 
 });

@@ -1061,11 +1061,11 @@ angular
           controller: 'RelatorioTabelaHorariaCtrl',
           controllerAs: 'relatorios',
           data: {
-            title: 'relatorios.tabelaHoraria'
-            // permissions: {
-            //   only: 'gerarRelatorioTabelaHoraria',
-            //   redirectTo: 'app.main'
-            // }
+            title: 'relatorios.tabelaHoraria',
+            permissions: {
+              only: 'gerarRelatorioTabelaHoraria',
+              redirectTo: 'app.main'
+            }
           }
         })
       ;
