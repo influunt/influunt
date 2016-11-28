@@ -2,9 +2,6 @@
 
 describe('Controller: RelatoriosPlanosCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('influuntApp'));
-
   var RelatoriosPlanosCtrl,
     scope;
 
@@ -17,7 +14,4 @@ describe('Controller: RelatoriosPlanosCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(RelatoriosPlanosCtrl.awesomeThings.length).toBe(3);
-  });
 });

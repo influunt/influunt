@@ -27,7 +27,7 @@ public class PlanosReportService extends ReportService<Plano> {
 
     @Override
     public InputStream generateReport(Map<String, String[]> stringMap, List<Plano> lista, ReportType reportType) {
-        throw new NotImplementedException("Metodo nao implentado. Favor utilizar outro metodo gerador.");
+        throw new NotImplementedException("Metodo nao implementado. Favor utilizar outro metodo gerador.");
     }
 
     public ObjectNode getPlanosReportData(Map<String, String[]> params) {
@@ -97,15 +97,9 @@ public class PlanosReportService extends ReportService<Plano> {
         ObjectNode retorno = getPlanosReportData(params);
 
         // Write the CSV file header
-        buffer.append("").append(COMMA_DELIMITER).append("").append(COMMA_DELIMITER)
-            .append("").append(COMMA_DELIMITER).append("").append(COMMA_DELIMITER)
-            .append("").append(NEW_LINE_SEPARATOR);
-
         buffer.append("PLANO").append(COMMA_DELIMITER).append("CONTROLADOR").append(COMMA_DELIMITER)
             .append("LOCAL").append(COMMA_DELIMITER).append("CICLO").append(COMMA_DELIMITER)
             .append("DEFASAGEM").append(NEW_LINE_SEPARATOR);
-
-
 
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("numero").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)

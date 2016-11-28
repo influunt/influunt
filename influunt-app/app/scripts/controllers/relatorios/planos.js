@@ -16,9 +16,6 @@ angular.module('influuntApp')
         $scope.relatorio = {tipoRelatorio: ''};
         $scope.arrayEstagios = [];
 
-        var str = "abcdefghijklmnopqrstuvwxyz";
-        $scope.alphabet = str.toUpperCase().split("");
-
         $scope.pesquisa = {
           tipoRelatorio: '',
           campos: [
