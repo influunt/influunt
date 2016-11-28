@@ -20,7 +20,6 @@ public class AtivaModoManualHandle extends GerenciadorDeEventos {
         Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
 
 
-
         if (anel.isAceitaModoManual()) {
             Plano plano = anel.getPlanos().stream().filter(Plano::isManual).findFirst().orElse(null);
             if (plano == null && gerenciadorDeEstagios.getPlano().isModoOperacaoVerde()) {

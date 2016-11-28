@@ -92,7 +92,7 @@ public class MonitoramentoController extends Controller {
     }
 
     private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {
-        List<String> ids =  erros.stream().map(erro -> erro.getIdControlador()).distinct().collect(Collectors.toList());
+        List<String> ids = erros.stream().map(erro -> erro.getIdControlador()).distinct().collect(Collectors.toList());
         List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("aneis.endereco").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
 
