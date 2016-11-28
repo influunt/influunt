@@ -88,6 +88,11 @@
         "name": "relatorioControladoresEntreVerdes",
         "label": "relatorios.controladoresEntreVerdes",
         "route": "app.relatorios_controladores_entreverdes"
+      },
+      {
+        "name": "relatorioTabelaHoraria",
+        "label": "relatorios.tabelaHoraria",
+        "route": "app.relatorios_tabela_horaria"
       }
     ]
   }

@@ -1,0 +1,75 @@
+<div class="wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-content">
+          <form class="simple_form form-horizontal" method="post" name="formRelatorioAuditoria" novalidate="novalidate" data-ng-submit="getDadosRelatorio()">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label">{{ 'relatorios.controlador' | translate }}</label>
+                  <select name="controlador" class="form-control"
+                          select2
+                          data-ng-options="controlador.id as controlador.CLC + ' - ' + controlador.nomeEndereco for controlador in lista"
+                          data-ng-model="relatorioParams.controladorId"></select>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label">{{ 'relatorios.data' | translate }}</label>
+                  <input type="datetime"
+                      class="form-control data-inicio"
+                      date-time
+                      data-ng-model="relatorioParams.data"
+                      min-view="date"
+                      default-view="date"
+                      auto-close="true"
+                      format="DD/MM/YYYY"/>
+              </div>
+
+              <div class="form-group">
+                  <input class="btn btn-primary" name="commit" type="submit" value="{{ 'relatorios.gerar' | translate }}"
+                         data-ng-readonly="!podeGerar()"
+                         data-ng-class="{ 'disabled': !podeGerar() }"
+                         tooltips tooltip-template="{{ 'relatorios.gerarRelatorio' | translate }}">
+                  <a class="btn btn-primary"
+                     tooltips tooltip-template="{{ 'relatorios.exportarCsv' | translate }}"
+                     data-ng-click="getRelatorioTabelaHorariaCSV()"
+                     data-ng-disabled="!podeGerar()"
+                     data-ng-class="{ 'disabled': !podeGerar() }">{{ 'relatorios.CSV' | translate }}</a>
+                  <a class="btn btn-default" ui-sref="app.main">{{ 'geral.crud.voltar' | translate }}</a>
+              </div>
+            </div>
+
+          </form>
+
+          <div class="clearfix"></div>
+
+          <table datatable="ng" dt-options="datatables.options" dt-instance="datatables.instance" class="table table-bordered table-hover" data-ng-if="relatorio">
+            <div class="table">
+              <thead>
+                <tr>
+                  <th>{{ 'relatorios.horario' | translate }}</th>
+                  <th>{{ 'relatorios.plano' | translate }}</th>
+                  <th>{{ 'relatorios.numeroPlano' | translate }}</th>
+                  <th>{{ 'relatorios.modoPlano' | translate }}</th>
+                  <th>{{ 'relatorios.subarea' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="row in relatorio">
+                  <td>{{ row.horario }}</td>
+                  <td>{{ row.plano }}</td>
+                  <td>{{ row.numeroPlano }}</td>
+                  <td>{{ row.modoOperacaoPlano }}</td>
+                  <td>{{ row.subarea }}</td>
+                </tr>
+              </tbody>
+            </div>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1054,6 +1054,20 @@ angular
             }
           }
         })
+
+        .state('app.relatorios_tabela_horaria', {
+          url: '/relatorios/tabela_horaria',
+          templateUrl: 'views/relatorios/tabelaHoraria.html',
+          controller: 'RelatorioTabelaHorariaCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.tabelaHoraria',
+            permissions: {
+              only: 'gerarRelatorioTabelaHoraria',
+              redirectTo: 'app.main'
+            }
+          }
+        })
       ;
 
       // Prevent router from automatic state resolving
