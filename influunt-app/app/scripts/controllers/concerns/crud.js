@@ -53,6 +53,7 @@ angular.module('influuntApp')
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
+          $scope.afterIndex();
         })
         .finally(influuntBlockui.unblock);
     };
@@ -230,5 +231,10 @@ angular.module('influuntApp')
      * Implementação de callbacks para o crud base.
      */
     $scope.afterShow = function() {};
+
+    /**
+     * Implementação de callbacks para o crud base.
+     */
+    $scope.afterIndex = function() {};
 
   }]);

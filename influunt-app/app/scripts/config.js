@@ -1013,21 +1013,6 @@ angular
           }
         })
 
-        // RELATORIOS
-        .state('app.relatorios_auditorias', {
-          url: '/relatorios/auditorias',
-          templateUrl: 'views/relatorios/auditorias.html',
-          controller: 'RelatoriosCtrl',
-          controllerAs: 'relatorios',
-          data: {
-            title: 'relatorios.auditorias',
-            permissions: {
-              only: 'gerarRelatorioAuditorias',
-              redirectTo: 'app.main'
-            }
-          }
-        })
-
         .state('app.relatorios_controladores_status', {
           url: '/relatorios/controladores_status',
           templateUrl: 'views/relatorios/status.html',
@@ -1042,6 +1027,20 @@ angular
           }
         })
 
+        .state('app.relatorios_planos', {
+          url: '/relatorios/planos',
+          templateUrl: 'views/relatorios/planos.html',
+          controller: 'RelatoriosPlanosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.planos',
+            permissions: {
+              only: 'gerarRelatorioPlanos',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
         .state('app.relatorios_controladores_falhas', {
           url: '/relatorios/controladores_falhas',
           templateUrl: 'views/relatorios/falhas.html',
@@ -1051,20 +1050,6 @@ angular
             title: 'relatorios.controladoresFalhas',
             permissions: {
               only: 'gerarRelatorioControladoresFalhas',
-              redirectTo: 'app.main'
-            }
-          }
-        })
-
-        .state('app.relatorios_controladores_entreverdes', {
-          url: '/relatorios/controladores_entreverdes',
-          templateUrl: 'views/relatorios/controladoresEntreverdes.html',
-          controller: 'RelatoriosCtrl',
-          controllerAs: 'relatorios',
-          data: {
-            title: 'relatorios.controladoresEntreVerdes',
-            permissions: {
-              only: 'gerarRelatorioControladoresEntreverdes',
               redirectTo: 'app.main'
             }
           }

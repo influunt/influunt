@@ -186,9 +186,8 @@ POST       /api/v1/simulacao                                                    
 GET       /assets/*file                                                                         controllers.Assets.at(path="/public", file)
 
 # RELATORIOS
-GET       /api/v1/relatorios/auditoria                                                          controllers.RelatoriosController.gerarRelatorioAuditoria()
 GET       /api/v1/relatorios/controladores_status                                               controllers.RelatoriosController.gerarRelatorioControladoresStatus()
 GET       /api/v1/relatorios/controladores_falhas                                               controllers.RelatoriosController.gerarRelatorioControladoresFalhas()
-GET       /api/v1/relatorios/controladores_entreverdes                                          controllers.RelatoriosController.gerarRelatorioControladoresEntreverdes()
 GET       /api/v1/relatorios/controlador/:id                                                    controllers.RelatoriosController.gerarRelatorioControlador(id)
+GET       /api/v1/relatorios/planos                                                             controllers.RelatoriosController.gerarRelatorioPlanos()
 

@@ -11,14 +11,28 @@ public class TestDeviceConfig implements DeviceConfig {
 
     private String privateKey;
 
+    private String host = "127.0.0.1";
+
+    private String port = "1883";
+
     @Override
     public String getHost() {
-        return "127.0.0.1";
+        return host;
+    }
+
+    @Override
+    public void setHost(String host) {
+        this.host = host;
     }
 
     @Override
     public String getPort() {
-        return "1883";
+        return port;
+    }
+
+    @Override
+    public void setPort(String port) {
+        this.port = port;
     }
 
     @Override
