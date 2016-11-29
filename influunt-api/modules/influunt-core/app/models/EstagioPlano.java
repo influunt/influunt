@@ -382,7 +382,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             }
             return getTempoVerdeMinimo();
         } else if (getPlano().isManual() && !getEstagio().isDemandaPrioritaria()) {
-            return getEstagio().isTempoMaximoPermanenciaAtivado() ? getEstagio().getTempoMaximoPermanencia() : 255;
+            return 255;
         }
         return getTempoVerde();
     }

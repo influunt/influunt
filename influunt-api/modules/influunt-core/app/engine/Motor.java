@@ -169,7 +169,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void desativaModoManual() {
-        if (estagios.stream().filter(gerenciador -> !gerenciador.getPlano().isManual()).count() == 1) {
+        if (estagios.stream().filter(gerenciador -> gerenciador.getPlano().isManual()).count() == 1) {
             callback.modoManualDesativado(instante);
             emModoManual = false;
         }
