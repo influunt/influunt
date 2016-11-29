@@ -94,7 +94,12 @@ public class TabelaHorariaReportService extends ReportService<Controlador> {
 
         TabelaHorario tabela = versaoTabelaHoraria.getTabelaHoraria();
         DateTime data = DateTime.parse(dataStr, ISODateTimeFormat.dateTimeParser());
-        List<Evento> eventos = tabela.getEventos().stream().filter(evento -> isEventoNoDia(evento, data)).collect(Collectors.toList());
+        List<Evento> eventos = tabela.getEventos().stream()
+            .filter(evento -> isEventoNoDia(evento, data))
+            .sorted((e1, e2) -> e1.getHorario().compareTo(e2.getHorario()))
+            .collect(Collectors.toList());
+
+        removeEventosNormaisSeTemEventoEspecial(eventos);
 
         List<Map<String, String>> reportData = new ArrayList<>();
         eventos.forEach(evento -> {
@@ -107,18 +112,19 @@ public class TabelaHorariaReportService extends ReportService<Controlador> {
                 .findFirst().orElse(null);
             if (plano != null) {
                 datum.put("plano", plano.getDescricao());
+                datum.put("modoOperacaoPlano", plano.getModoOperacao().toString());
             } else {
                 datum.put("plano", "");
+                datum.put("modoOperacaoPlano", "");
             }
-            datum.put("numeroPlano", evento.getPosicaoPlano().toString());
-            datum.put("horario", evento.getHorario().toString());
-            datum.put("modoOperacaoPlano", plano.getModoOperacao().toString());
             if (controlador.getSubarea() != null) {
                 datum.put("subarea", controlador.getSubarea().getNome());
             } else {
                 datum.put("subarea", "");
             }
 
+            datum.put("numeroPlano", evento.getPosicaoPlano().toString());
+            datum.put("horario", evento.getHorario().toString());
             datum.put("tipoEvento", evento.getTipo().toString());
             reportData.add(datum);
         });
@@ -136,6 +142,21 @@ public class TabelaHorariaReportService extends ReportService<Controlador> {
             isMesmaData = data.toDate().equals(evento.getData());
         }
         return isMesmoDiaSemana || isMesmaData;
+    }
+
+    private void removeEventosNormaisSeTemEventoEspecial(List<Evento> eventos) {
+        Iterator<Evento> it = eventos.iterator();
+        boolean deveRemoverEventoNormal = false;
+        while (it.hasNext()) {
+            Evento evento = it.next();
+            if (TipoEvento.NORMAL.equals(evento.getTipo())) {
+                if (deveRemoverEventoNormal) {
+                    it.remove();
+                }
+            } else {
+                deveRemoverEventoNormal = true;
+            }
+        }
     }
 
     /**
