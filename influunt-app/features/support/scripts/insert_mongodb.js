@@ -1,3 +1,4 @@
+'use strict';
 var mongo = require('mongodb');
 var assert = require('assert');
 var Long = require('mongodb').Long;
@@ -8,7 +9,6 @@ var ObjectId = mongo.ObjectID;
 var NumberLong = Long.fromString('1479756629334');
 
 var clearDb = function(db, callback) {
-	'use strict';
    db.collection('trocaPlanosControladores').deleteMany(
       { '_id': ObjectId('58334b5573835c48f22fb7a0') },
       function() {
@@ -19,7 +19,6 @@ var clearDb = function(db, callback) {
 };
 
 var insertDocuments = (db, callback) => {
-		'use strict';
     var collection = db.collection('trocaPlanosControladores');
 
     var trocaPlanosControladores = [ {'_id' : ObjectId('58334b5573835c48f22fb7a0'),
@@ -46,16 +45,13 @@ var insertDocuments = (db, callback) => {
 };
 
 MongoClient.connect(url, (err, db) => {
-	'use strict';
-	
   assert.equal(null, err);
-
-
+  
   clearDb(db, function() {
-  	db.close();
+    db.close();
   });
 
   insertDocuments(db, () => {
-		db.close();
+    db.close();
   });
 });
