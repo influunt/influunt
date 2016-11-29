@@ -6,7 +6,6 @@ package protocol;
 public class MensagemTrocaEstagioManual extends Mensagem {
 
 
-
     public MensagemTrocaEstagioManual(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia) {
         super(tipoMensagem, sequencia);
     }

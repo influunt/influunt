@@ -131,14 +131,13 @@ public class ControladoresReportService extends ReportService<Controlador> {
     }
 
     public ObjectNode getControladoresFalhasReportData(Map<String, String[]> params) {
-        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);;
-        List<String> aneisIds = new ArrayList<>();
+        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
 
         Map<String, String[]> paramsAux = new HashMap<>();
         paramsAux.putAll(params);
         paramsAux.remove("tipoRelatorio");
 
-        if(params.containsKey("filtrarPor_eq")) {
+        if (params.containsKey("filtrarPor_eq")) {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
                     paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
@@ -153,7 +152,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("filtrarPor_eq");
         }
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
-        controladores.stream().forEach(c -> c.getAneis().forEach(a -> aneisIds.add(a.getId().toString())));
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         falhas.forEach(falha -> {
@@ -161,7 +159,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
             Controlador controlador;
             Anel anel = null;
             controlador = controladores.stream().filter(c -> c.getId().toString().equals(idControlador)).findFirst().orElse(null);
-            if(controlador != null) {
+            if (controlador != null) {
                 if (falha.getIdAnel() != null && StringUtils.isNotEmpty(falha.getIdAnel())) {
                     String idAnel = falha.getIdAnel();
                     anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
@@ -185,7 +183,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
     /**
      * Retorna um CSV com dados dos {@link models.Controlador} por Falhas
-     *
+     * <p>
      * FORMATO: CLA | ENDERECO | FALHA | TIPO FALHA
      *
      * @return {@link InputStream} do csv

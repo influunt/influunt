@@ -71,7 +71,7 @@
               <td>Grupo @grupo.getPosicao</td>
               <td>@grupo.getDescricao</td>
               <td>@grupo.getTipo</td>
-              <td>TODO - Colocar em amarelo intermitente</td>
+              <td>@if(grupo.isFaseVermelhaApagadaAmareloIntermitente) { "Colocar em amarelo intermitente" } else { "Não colocar em amarelo intermitente" }</td>
               <td>@grupo.getTempoVerdeSeguranca</td>
           </tr>
       }

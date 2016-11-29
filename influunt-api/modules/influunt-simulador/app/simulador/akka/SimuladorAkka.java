@@ -27,12 +27,16 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.storeEstagio(anel, timestamp.plus(intervalos.getDuracao()), intervalos);
+        }
     }
 
     @Override
     public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-        simuladorActor.storeEstagio(anel, timestamp, intervalos);
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.storeEstagio(anel, timestamp, intervalos);
+        }
     }
 
     @Override
@@ -47,12 +51,16 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-        simuladorActor.storeTrocaDePlano(timestamp, eventoAnterior, eventoAtual, modos);
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.storeTrocaDePlano(timestamp, eventoAnterior, eventoAtual, modos);
+        }
     }
 
     @Override
     public void onAlarme(DateTime timestamp, EventoMotor eventoMotor) {
-        simuladorActor.storeAlarme(timestamp, eventoMotor);
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.storeAlarme(timestamp, eventoMotor);
+        }
     }
 
     @Override
@@ -67,12 +75,16 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void modoManualAtivo(DateTime timestamp) {
-        simuladorActor.ativaModoManual(timestamp);
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.ativaModoManual(timestamp);
+        }
     }
 
     @Override
     public void modoManualDesativado(DateTime timestamp) {
-        simuladorActor.desativaModoManual(timestamp);
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.desativaModoManual(timestamp);
+        }
     }
 
 }

@@ -382,7 +382,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             }
             return getTempoVerdeMinimo();
         } else if (getPlano().isManual() && !getEstagio().isDemandaPrioritaria()) {
-            return getEstagio().isTempoMaximoPermanenciaAtivado() ? getEstagio().getTempoMaximoPermanencia() : 255;
+            return 255;
         }
         return getTempoVerde();
     }
@@ -457,5 +457,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
             .max()
             .orElse(0);
+    }
+
+    public Integer getInicio() {
+        return getPlano().getDefasagem() + getPlano().getEstagiosOrdenados().stream()
+            .filter(estagioPlano -> estagioPlano.getPosicao() < getPosicao()).mapToInt(EstagioPlano::getDuracaoEstagio).sum();
     }
 }

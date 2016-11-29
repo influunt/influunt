@@ -34,7 +34,9 @@ var MapasPage = function () {
   this.clicarMenuFiltros = function(acao) {
     var classToClick = acao === 'fechar' ? 'a-angle-left' : 'fa-map';
     return world.sleep(500).then(function(){
-      return world.getElementByXpath('//i[contains(@class, "'+classToClick+'")]').click();
+      return world.waitForSweetOverlayDisappear().then(function() {
+        return world.getElementByXpath('//i[contains(@class, "'+classToClick+'")]').click();
+      });
     });
   };
 

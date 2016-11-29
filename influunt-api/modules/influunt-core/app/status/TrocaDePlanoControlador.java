@@ -117,7 +117,7 @@ public class TrocaDePlanoControlador {
         String sortQuery = "{ $sort: {timestamp: -1} }";
         String groupQuery = "{ $group: { _id: { $concat: ['$idControlador', '-', '$conteudo.anel.posicao'] }, idControlador: { $first: '$idControlador' }, anelPosicao: { $first: '$conteudo.anel.posicao' }, hasPlanoImposto: { $first: '$conteudo.imposicaoDePlano' }, modoOperacao: { $first: '$conteudo.plano.modoOperacao' }, planoPosicao: { $first: '$conteudo.plano.posicao' } } }";
 
-        Aggregate.ResultsIterator<Map> ultimoStatus =trocas().aggregate(sortQuery).and(groupQuery).as(Map.class);
+        Aggregate.ResultsIterator<Map> ultimoStatus = trocas().aggregate(sortQuery).and(groupQuery).as(Map.class);
         List<HashMap> resultado = new ArrayList<>();
         for (Map m : ultimoStatus) {
             resultado.add((HashMap) m);

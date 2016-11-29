@@ -659,7 +659,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public StatusVersao getStatusControladorReal() {
         StatusVersao statusVersaoControlador = getStatusVersao();
-        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador)) {
+        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador) || StatusVersao.ATIVO.equals(statusVersaoControlador)) {
             TabelaHorario tabela = getTabelaHoraria();
             if (tabela != null) {
                 VersaoTabelaHoraria versaoTabelaHoraria = tabela.getVersaoTabelaHoraria();

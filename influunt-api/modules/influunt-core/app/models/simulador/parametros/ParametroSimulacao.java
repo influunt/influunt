@@ -222,4 +222,10 @@ public class ParametroSimulacao {
     public List<ParametroSimulacaoTrocaDeEstagioManual> getTrocasEstagioModoManual() {
         return trocasEstagioModoManual;
     }
+
+    public void removeEventos(DateTime disparo) {
+        getDetectores().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+        getInsercaoDePlugDeControleManual().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+        getTrocasEstagioModoManual().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+    }
 }
