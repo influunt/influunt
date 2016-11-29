@@ -33,10 +33,15 @@ public class PlanosReportService extends ReportService<Plano> {
     public ObjectNode getPlanosReportData(Map<String, String[]> params) {
 
         Map<String, String[]> paramsAux = new HashMap<>();
+        String[] sort = new String[1];
+        sort[0] = "versaoPlano.anel.controlador.area.descricao asc, versaoPlano.anel.controlador.sequencia asc, versaoPlano.anel.posicao";
+        String[] sortType = new String[1];
+        sortType[0] = "asc";
+
         paramsAux.putAll(params);
         paramsAux.remove("tipoRelatorio");
 
-        if(params.containsKey("filtrarPor_eq")) {
+        if (params.containsKey("filtrarPor_eq")) {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
                     paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
@@ -51,17 +56,20 @@ public class PlanosReportService extends ReportService<Plano> {
             paramsAux.remove("filtrarPor_eq");
         }
 
+        paramsAux.put("sort", sort);
+        paramsAux.put("sort_type", sortType);
+
         List<Plano> planos = (List<Plano>) new InfluuntQueryBuilder(Plano.class, paramsAux).fetch(Arrays.asList("versaoPlano.anel")).query().getResult();
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
-        planos.forEach(plano -> {
+        planos.stream().filter(plano -> !plano.isManual()).forEach(plano -> {
             ArrayNode estagios = JsonNodeFactory.instance.arrayNode();
             Anel anel = plano.getAnel();
             plano.getEstagiosOrdenados().forEach(estagio -> {
                 estagios.addObject().put("estagio", estagio.getEstagio().toString())
-                                    .put("inicio", estagio.getInicio().toString())
-                                    .put("verde", estagio.getTempoVerdeEstagio().toString())
-                                    .put("total", estagio.getDuracaoEstagio().toString());
+                    .put("inicio", estagio.getInicio().toString())
+                    .put("verde", estagio.getTempoVerdeEstagio().toString())
+                    .put("total", estagio.getDuracaoEstagio().toString());
             });
             itens.addObject()
                 .put("numero", plano.getPosicao())
@@ -84,7 +92,7 @@ public class PlanosReportService extends ReportService<Plano> {
      * FORMATO: CLA | ENDERECO | ESTADO | PLANO | MODO
      *
      * @return {@link InputStream} do csv
-    **/
+     **/
     public InputStream generatePlanosCSVReport(Map<String, String[]> params) {
 
         StringBuilder buffer = new StringBuilder();
