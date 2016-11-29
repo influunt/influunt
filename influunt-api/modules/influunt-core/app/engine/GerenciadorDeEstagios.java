@@ -320,7 +320,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         } else {
             estagiosOrdenados.stream().forEach(estagioPlano -> {
                 final long duracaoEstagio = estagioPlano.getDuracaoEstagio() * 1000L;
-                if (tempoRestante[0] >= duracaoEstagio) {
+                //Faz abatimento até enquanto a lista estiver vazia
+                if (tempoRestante[0] >= duracaoEstagio && novaLista.isEmpty()) {
                     tempoRestante[0] -= duracaoEstagio;
                 } else {
                     novaLista.add(estagioPlano);

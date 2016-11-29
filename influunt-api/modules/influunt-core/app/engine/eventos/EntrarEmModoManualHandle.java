@@ -1,9 +1,10 @@
 package engine.eventos;
 
 import com.google.common.collect.RangeMap;
-import engine.*;
+import engine.EventoMotor;
+import engine.GerenciadorDeEstagios;
+import engine.IntervaloEstagio;
 import models.EstagioPlano;
-import models.Plano;
 
 /**
  * Created by rodrigosol on 11/8/16.

@@ -831,7 +831,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         criarEvento(tabelaHoraria, 20, DiaDaSemana.QUINTA, LocalTime.parse("23:00:00"), 16);
 
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
-        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
+        criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 3, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
 
         controlador.save();
     }

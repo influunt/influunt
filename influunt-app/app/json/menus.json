@@ -47,11 +47,6 @@
         "name": "faixasDeValores",
         "label": "faixas_de_valores.titulo",
         "route": "app.faixas_de_valores_edit"
-      },
-      {
-        "name": "imporConfig",
-        "label": "imporConfig.titulo",
-        "route": "app.impor_config"
       }
     ]
   },
@@ -70,9 +65,9 @@
         "route": "app.relatorios_controladores_status"
       },
       {
-        "name": "relatorioAuditorias",
-        "label": "relatorios.auditorias",
-        "route": "app.relatorios_auditorias"
+        "name": "relatorioPlanos",
+        "label": "relatorios.planos",
+        "route": "app.relatorios_planos"
       },
       {
         "name": "relatorioControladoresFalhas",
@@ -80,9 +75,9 @@
         "route": "app.relatorios_controladores_falhas"
       },
       {
-        "name": "relatorioControladoresEntreVerdes",
-        "label": "relatorios.controladoresEntreVerdes",
-        "route": "app.relatorios_controladores_entreverdes"
+        "name": "relatorioTabelaHoraria",
+        "label": "relatorios.tabelaHoraria",
+        "route": "app.relatorios_tabela_horaria"
       }
     ]
   }

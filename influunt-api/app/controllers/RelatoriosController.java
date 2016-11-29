@@ -1,28 +1,28 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Dynamic;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.Pdf;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.page.PageType;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.params.Param;
 import com.google.inject.Inject;
 import models.Controlador;
-import models.TabelaEntreVerdes;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
+import play.db.ebean.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import play.twirl.api.Content;
-import reports.AuditoriaReportService;
 import reports.ControladoresReportService;
+import reports.PlanosReportService;
 import reports.ReportType;
-import reports.TabelaEntreverdesReportService;
-import security.Auditoria;
-import utils.InfluuntQueryBuilder;
-import utils.InfluuntQueryResult;
+import reports.TabelaHorariaReportService;
+import security.Secured;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -31,29 +31,19 @@ import java.util.concurrent.CompletionStage;
 /**
  * Created by lesiopinheiro on 04/10/16.
  */
+@Security.Authenticated(Secured.class)
+@Dynamic("Influunt")
 public class RelatoriosController extends Controller {
-
-    @Inject
-    public AuditoriaReportService auditoriaReportService;
 
     @Inject
     public ControladoresReportService controladoresReportService;
 
     @Inject
-    public TabelaEntreverdesReportService tabelaEntreverdesReportService;
+    public PlanosReportService planosReportService;
 
-    public CompletionStage<Result> gerarRelatorioAuditoria() {
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
+    @Inject
+    private TabelaHorariaReportService tabelaHorariaReportService;
 
-        Map<String, String[]> params = new HashMap<>();
-        params.putAll(request().queryString());
-        if (params.containsKey("tipoRelatorio")) {
-            params.remove("tipoRelatorio");
-        }
-        InfluuntQueryResult result = new InfluuntQueryBuilder(Auditoria.class, params).reportMode().auditoriaQuery();
-        InputStream input = auditoriaReportService.generateReport(request().queryString(), result.getResult(), reportType);
-        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
-    }
 
     public CompletionStage<Result> gerarRelatorioControladoresStatus() {
 
@@ -75,21 +65,6 @@ public class RelatoriosController extends Controller {
         }
     }
 
-    public CompletionStage<Result> gerarRelatorioControladoresEntreverdes() {
-        ReportType reportType = ReportType.valueOf(request().getQueryString("tipoRelatorio"));
-
-        Map<String, String[]> params = new HashMap<>();
-        params.putAll(request().queryString());
-        if (params.containsKey("tipoRelatorio")) {
-            params.remove("tipoRelatorio");
-        }
-        params.put("sort", new String[]{"dataAtualizacao"});
-        params.put("sort_type", new String[]{"ASC"});
-        InfluuntQueryResult result = new InfluuntQueryBuilder(TabelaEntreVerdes.class, params).fetch(Arrays.asList("grupoSemaforico", "grupoSemaforico.anel", "grupoSemaforico.anel.endereco")).query();
-        InputStream input = tabelaEntreverdesReportService.generateReport(request().queryString(), result.getResult(), reportType);
-        return CompletableFuture.completedFuture(ok(input).as(reportType.getContentType()));
-    }
-
     public CompletionStage<Result> gerarRelatorioControlador(String id) {
 
         Content html = views.html.report.controlador.render(Controlador.find.byId(UUID.fromString(id)));
@@ -108,6 +83,40 @@ public class RelatoriosController extends Controller {
         }
 
         return CompletableFuture.completedFuture(ok(is).as("application/pdf"));
+    }
+
+    @Transactional
+    public CompletionStage<Result> gerarRelatorioPlanos() {
+        if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
+            return CompletableFuture.completedFuture(ok(planosReportService.getPlanosReportData(request().queryString())));
+        } else {
+            InputStream input = planosReportService.generatePlanosCSVReport(request().queryString());
+            return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
+        }
+    }
+
+    @Transactional
+    public CompletionStage<Result> gerarRelatorioTabelaHoraria() {
+        String controladorId = null;
+        String dataStr = null;
+        if (request().queryString().containsKey("controladorId")) {
+            controladorId = request().queryString().get("controladorId")[0];
+        }
+        if (request().queryString().containsKey("data")) {
+            dataStr = request().queryString().get("data")[0];
+        }
+
+        if (controladorId == null || dataStr == null) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
+        }
+
+        if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
+            List<Map<String, String>> reportData = tabelaHorariaReportService.reportData(controladorId, dataStr);
+            return CompletableFuture.completedFuture(ok(Json.toJson(reportData)));
+        } else {
+            InputStream input = tabelaHorariaReportService.generateTabelaHorariaCSVReport(controladorId, dataStr);
+            return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
+        }
     }
 
 }

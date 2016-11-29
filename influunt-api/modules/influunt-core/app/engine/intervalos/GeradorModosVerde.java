@@ -2,7 +2,6 @@ package engine.intervalos;
 
 import com.google.common.collect.RangeMap;
 import engine.IntervaloEstagio;
-import engine.services.PlanoService;
 import helpers.GerenciadorEstagiosHelper;
 import models.Estagio;
 import models.EstagioPlano;
@@ -19,10 +18,8 @@ import java.util.List;
 public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private final boolean inicio;
-
-    private Long tempoAbatimentoCoordenado = 0L;
-
     private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
+    private Long tempoAbatimentoCoordenado = 0L;
 
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,

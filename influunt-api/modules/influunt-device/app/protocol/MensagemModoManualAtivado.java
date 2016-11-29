@@ -6,7 +6,6 @@ package protocol;
 public class MensagemModoManualAtivado extends Mensagem {
 
 
-
     public MensagemModoManualAtivado(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia) {
         super(tipoMensagem, sequencia);
     }
