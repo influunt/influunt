@@ -10,6 +10,7 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
+import play.Logger;
 import protocol.AlarmeFalha;
 import protocol.Envelope;
 import protocol.RemocaoFalha;
@@ -43,9 +44,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private synchronized void start() {
+
         if (!iniciado) {
+            Logger.info("Tentando iniciar o motor...");
             this.controlador = storage.getControlador();
             if (controlador != null) {
+                Logger.info("Configuracao de controlador encontrada.");
                 iniciado = true;
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
@@ -58,6 +62,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
+                Logger.info("O motor foi iniciado");
+            }else{
+                Logger.info("Não existe configuracao para iniciar o motor.");
+                Logger.warn("Aguardando configuracao.");
             }
         }
     }

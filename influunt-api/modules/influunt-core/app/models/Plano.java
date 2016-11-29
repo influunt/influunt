@@ -302,7 +302,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de ciclo deve estar entre {min} e {max}")
     public boolean isTempoCiclo() {
         if (isTempoFixoIsolado() || isTempoFixoCoordenado()) {
-            return getTempoCiclo() != null && RangeUtils.getInstance(null).TEMPO_CICLO.contains(getTempoCiclo());
+            return getTempoCiclo() != null && getAnel().getControlador().getRangeUtils().TEMPO_CICLO.contains(getTempoCiclo());
         }
         return true;
     }
@@ -314,7 +314,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Defasagem deve estar entre {min} e o tempo de ciclo")
     public boolean isDefasagem() {
         if (isTempoFixoCoordenado() && getTempoCiclo() != null) {
-            return getDefasagem() != null && RangeUtils.getInstance(null).TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
+            return getDefasagem() != null && getAnel().getControlador().getRangeUtils().TEMPO_DEFASAGEM.contains(getDefasagem()) && Range.between(0, getTempoCiclo()).contains(getDefasagem());
         }
         return true;
     }
@@ -327,7 +327,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     public boolean isUltrapassaTempoCiclo() {
         boolean estagiosValidos = !this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaValida();
         boolean isoladoOuCoordenado = isTempoFixoIsolado() || isTempoFixoCoordenado();
-        if (estagiosValidos && isoladoOuCoordenado && RangeUtils.getInstance(null).TEMPO_CICLO.contains(getTempoCiclo())) {
+        if (estagiosValidos && isoladoOuCoordenado && getAnel().getControlador().getRangeUtils().TEMPO_CICLO.contains(getTempoCiclo())) {
             int tempoEstagios = getEstagiosPlanos().stream().filter(ep -> !ep.isDestroy()).mapToInt(this::getTempoEstagio).sum();
             return getTempoCiclo() == tempoEstagios;
         }
