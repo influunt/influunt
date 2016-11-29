@@ -15,6 +15,7 @@ import play.libs.Json;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -68,6 +69,28 @@ public class ModoManualCoordenadoInicioTest extends GerenciadorDeTrocasTest {
 
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 3, 0, 7000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 3, 7000, 11000, EstadoGrupoSemaforico.VERDE));
+    }
+
+    @Test
+    public void bug2() throws IOException {
+        inicioControlador = new DateTime(2016, 11, 28, 0, 0, 0);
+        inicioExecucao = new DateTime(2016, 11, 28, 0, 0, 0);
+        controlador = getControlador();
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 4);
+        acionarModoManual(motor);
+        avancarSegundos(motor, 500);
+
+        int anel1 = 1;
+        assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel1).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(anel1).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(29)).get(anel1).getEstagio().getPosicao().intValue());
+
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(171)).get(anel1).getEstagio().getPosicao().intValue());
+
+        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(29)));
+        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(171)));
     }
 
 }
