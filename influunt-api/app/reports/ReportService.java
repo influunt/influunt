@@ -26,6 +26,8 @@ public abstract class ReportService<T> {
 
     protected final String FORMAT_DATE_HOUR_COMPLETE = "dd/MM/yyyy HH:mm:ss";
 
+    protected final String FORMAT_DATE_COMPLETE = "dd/MM/yyyy";
+
     // Delimiter used in CSV file
     protected final String COMMA_DELIMITER = ";";
 

@@ -27,7 +27,7 @@ import static play.libs.Json.newObject;
  */
 public class SimuladorActor extends UntypedActor {
 
-    private final static int SEGUNDOS_POR_PAGINA = 600;
+    private final static int SEGUNDOS_POR_PAGINA = 256;
 
     private final ParametroSimulacao params;
 
@@ -48,6 +48,8 @@ public class SimuladorActor extends UntypedActor {
     private String jsonTrocas;
 
     private StringBuffer bufferTrocaDePlanos = null;
+
+    private int pagina;
 
     public SimuladorActor(String host, String port, ParametroSimulacao params) {
         this.params = params;
@@ -127,9 +129,10 @@ public class SimuladorActor extends UntypedActor {
     }
 
     private void proximaPagina(int pagina) throws Exception {
-        DateTime inicio = params.getInicioSimulacao();
-        DateTime fim = inicio.plusSeconds((pagina + 1) * SEGUNDOS_POR_PAGINA);
-        simulador.simular(inicio, fim);
+        this.pagina = pagina;
+        DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
+        DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
+        simulador.simular(fim);
         send();
     }
 
@@ -226,5 +229,9 @@ public class SimuladorActor extends UntypedActor {
         manual.add("DESATIVAR");
         manual.add(timestamp.getMillis());
         modoManual.add(manual);
+    }
+
+    public DateTime getPagina() {
+        return params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
     }
 }

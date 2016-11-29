@@ -118,9 +118,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
 
-            router.route(envelope, getSender());
+            router.route(envelope, getSelf());
 
         } catch (DecoderException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (com.google.gson.JsonSyntaxException e) {
             e.printStackTrace();
         }
 
@@ -147,7 +149,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
         client.subscribe("controladores/conn/offline", 1, (topic, message) -> sendToBroker(message));
 
-        client.subscribe("central/+", 1, (topic, message) -> sendToBroker(message));
+        client.subscribe("central/+", 1, (topic, message) -> {
+            if (!"central/morreu".equals(topic)) {
+                sendToBroker(message);
+            }
+        });
 
         client.subscribe("central/transacoes/+", 1, (topic, message) -> sendToBroker(message));
 

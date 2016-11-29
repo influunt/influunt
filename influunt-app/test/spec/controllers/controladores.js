@@ -71,7 +71,7 @@ describe('Controller: ControladoresCtrl', function () {
       });
     });
 
-    describe('controaldor em edição', function () {
+    describe('controlador em edição', function () {
       var helpers, id, objeto;
       beforeEach(inject(function($state) {
         id = 'id';

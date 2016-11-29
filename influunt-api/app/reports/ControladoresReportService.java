@@ -132,8 +132,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
     public ObjectNode getControladoresFalhasReportData(Map<String, String[]> params) {
         List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
-        ;
-        List<String> aneisIds = new ArrayList<>();
 
         Map<String, String[]> paramsAux = new HashMap<>();
         paramsAux.putAll(params);
@@ -154,7 +152,6 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("filtrarPor_eq");
         }
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
-        controladores.stream().forEach(c -> c.getAneis().forEach(a -> aneisIds.add(a.getId().toString())));
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         falhas.forEach(falha -> {

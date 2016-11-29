@@ -61,9 +61,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de agrupamentos$/, function() {
-    return agrupamentosPage.isShow().then(function(resp) {
-      return expect(resp).to.not.be.null;
-    });
+    return agrupamentosPage.isShow();
   });
 
   this.Given(/^clicar no botão de editar um agrupamento$/, function() {
