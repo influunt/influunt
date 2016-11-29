@@ -1787,9 +1787,8 @@ public class ControladorCustomDeserializer {
                             // assert falhou (fica desligado em DEV e PROD), por isso esse `if`.
                             assert map.containsKey(id);
                         }
-//                        if (map.containsKey(id)) {
-                            list.add(map.get(id));
-//                        }
+
+                        list.add(map.get(id));
                     };
 
                     runLater(c);

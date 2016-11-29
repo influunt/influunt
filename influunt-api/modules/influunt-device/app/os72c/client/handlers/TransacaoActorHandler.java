@@ -62,8 +62,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                 if (controlador != null) {
                                     storage.setControlador(controlador);
                                     storage.setPlanos(planoJson);
-                                    // Esse status é o correto? Ou deveria ser ATIVO?
-                                    storage.setStatus(StatusDevice.CONFIGURADO);
+                                    storage.setStatus(StatusDevice.ATIVO);
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;

@@ -497,12 +497,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 it.remove();
             }
         }
-
-//        eventosAgendados.asMapOfRanges().entrySet().stream().forEach(entry -> {
-//            if (TipoEvento.LIBERAR_IMPOSICAO.equals(entry.getValue().getTipoEvento())) {
-//                eventosAgendados.remove(entry.getKey());
-//            }
-//        });
     }
 
     public RangeMap<Long, EventoMotor> getEventosAgendados() {
