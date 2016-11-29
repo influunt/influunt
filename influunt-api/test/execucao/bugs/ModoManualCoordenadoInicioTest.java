@@ -32,7 +32,7 @@ public class ModoManualCoordenadoInicioTest extends GerenciadorDeTrocasTest {
     }
 
     @Test
-    public void bug1() throws IOException {
+    public void manualComTempoDoSegundoEstagioMenor() throws IOException {
         inicioControlador = new DateTime(2016, 11, 28, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 28, 0, 0, 0);
         controlador = getControlador();
@@ -72,7 +72,7 @@ public class ModoManualCoordenadoInicioTest extends GerenciadorDeTrocasTest {
     }
 
     @Test
-    public void bug2() throws IOException {
+    public void marcaAtivacaoEDesativacaoDoModoManual() throws IOException {
         inicioControlador = new DateTime(2016, 11, 28, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 28, 0, 0, 0);
         controlador = getControlador();
