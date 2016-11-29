@@ -20,6 +20,7 @@ angular.module('influuntApp')
         link: function sincronizacao(scope) {
           var transactionTracker;
           scope.sincronizar = function() {
+            scope.idsTransacoes = {};
             var resource = scope.dataSincronizar.tipo === 'pacotePlanos' ? 'pacote_plano' : 'configuracao_completa';
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
             return Restangular.one('imposicoes').customPOST(idsAneisSelecionados, resource)
@@ -37,9 +38,9 @@ angular.module('influuntApp')
               .watchTransaction(id)
               .then(function(transmitido) {
                 if (transmitido) {
-                  toast.success($filter('translate')('imporConfig.imposicaoPlano.sucesso'));
+                  toast.success($filter('translate')('imporConfig.sincronizacao.sucesso'));
                 } else {
-                  toast.warn($filter('translate')('imporConfig.imposicaoPlano.erro'));
+                  toast.warn($filter('translate')('imporConfig.sincronizacao.erro'));
                 }
               });
           };

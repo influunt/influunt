@@ -35,14 +35,13 @@
                     </label>
                   </div>
                 </td>
-                <td>{{ anel.controlador.statusControladorReal | translate }}</td>
+                <td>{{ anel.status | translate }}</td>
                 <td>{{ anel.CLA }}</td>
-                <td>{{ anel.endereco | nomeEndereco }}</td>
+                <td>{{ anel.endereco }}</td>
                 <td>
                   <influunt-mqtt-transaction-status
-                      data-transaction-id="idsTransacoes[anel.controlador.id]"
-                      data-current-status="statusTransacoes[anel.controlador.id]"
-                      data-is-active="isAnelChecked[anel.id]">
+                    ng-if="!!idsTransacoes[anel.id] || !!idsTransacoes[anel.controlador.id]"
+                    data-transaction-id="idsTransacoes[anel.id] || idsTransacoes[anel.controlador.id]">
                   </influunt-mqtt-transaction-status>
                   <div data-ng-if="anel.hasPlanoImposto">
                     <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}

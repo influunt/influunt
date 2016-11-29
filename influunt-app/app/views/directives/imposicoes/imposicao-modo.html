@@ -27,7 +27,7 @@
               </div>
               <div class="row text-left">
                 <influunt-date-time-picker
-                  label="{{ 'imporConfig.imporPlano.horarioEntrada' | translate }}"
+                  label="{{ 'imporConfig.plano.horarioEntrada' | translate }}"
                   is-required="true"
                   name="horarioEntrada"
                   ng-model="configuracao.horarioEntradaObj">
@@ -50,7 +50,7 @@
                       <span class="input-group-addon ng-binding">{{ 'geral.minuto' | translate }}</span>
                     </div>
                     <p class="help-block error-msg" data-ng-if="!formImposicaoDeModo.duracao.$pristine && !formImposicaoDeModo.duracao.$valid">
-                      {{ 'imporConfig.imporPlano.validacoes.duracaoEntreMinimoEMaximo' | translate: {MINIMO: LIMITE_MINIMO_DURACAO, MAXIMO: LIMITE_MAXIMO_DURACAO} }}
+                      {{ 'imporConfig.plano.validacoes.duracaoEntreMinimoEMaximo' | translate: {MINIMO: LIMITE_MINIMO_DURACAO, MAXIMO: LIMITE_MAXIMO_DURACAO} }}
                     </p>
                   </div>
                 </div>

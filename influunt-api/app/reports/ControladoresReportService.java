@@ -52,9 +52,9 @@ public class ControladoresReportService extends ReportService<Controlador> {
                     paramsAux.remove("subareaAgrupamento");
                     paramsAux.remove("filtrarPor_eq");
                 }
+
                 List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
                 controladores.stream().forEach(c -> c.getAneis().forEach(a -> aneisIds.add(a.getId().toString())));
-
             } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
                     paramsAux.put("agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});

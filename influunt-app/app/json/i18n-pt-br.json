@@ -370,6 +370,7 @@
   "subareas": {
     "area": "Área",
     "associarControladores": "Associar controladores",
+    "controladores": "Controladores",
     "editar": "Editar Subárea",
     "mostrar": "Visualizar Subárea",
     "nome": "Nome",
@@ -835,7 +836,7 @@
       "sucesso": "Sincronização executada com sucesso",
       "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
     },
-    "imporPlano": {
+    "plano": {
       "titulo": "Impor Plano",
       "duracao": "Duração",
       "editar": "Editar",
@@ -849,13 +850,12 @@
         "duracaoEntreMinimoEMaximo": "O tempo de duração deve estar entre {MINIMO} e {MAXIMO}"
       }
     },
-    "imposicaoModo": {
+    "modo_operacao": {
       "sucesso": "Imposição de modo de operação executada com sucesso",
       "erro": "Não foi possível finalizar a imposição de modo de operação no controlador"
     },
     "imporModo": "Impor Modo",
     "sincronizar": "Sincronizar",
-    "plano": "Plano",
     "entrada": "Entrada",
     "horaEntrada": "Hora de Entrada",
     "duracao": "Duração",

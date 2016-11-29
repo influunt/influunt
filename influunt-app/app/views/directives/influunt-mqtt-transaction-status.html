@@ -1,5 +1,3 @@
-<div data-ng-if="isActive">
-  <span data-ng-if="isTransacaoNova()"><i class="fa fa-clock-o"></i></span>
-  <influunt-loading data-ng-if="isTransacaoIniciada()"></influunt-loading>
-  <span data-ng-if="isTransacaoFinalizada()" data-ng-bind-html="currentStatusAsBoolean() | trueOrFalseIcon"></span>
-</div>
+<span data-ng-if="isTransacaoNova()"><i class="fa fa-clock-o"></i></span>
+<influunt-loading data-ng-if="isTransacaoIniciada()"></influunt-loading>
+<span data-ng-if="isTransacaoFinalizada()" data-ng-bind-html="currentStatusAsBoolean() | trueOrFalseIcon"></span>

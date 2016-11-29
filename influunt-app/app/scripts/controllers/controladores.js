@@ -573,6 +573,6 @@ angular.module('influuntApp')
             saveAs(blob, 'controlador.pdf');
           })
           .finally(influuntBlockui.unblock);
-      }
+      };
 
     }]);

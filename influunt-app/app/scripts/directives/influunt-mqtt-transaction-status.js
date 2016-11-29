@@ -37,26 +37,23 @@ angular.module('influuntApp')
         var deferred = $q.defer();
         possuiTransaction = true;
         var topic = eventosDinamicos.STATUS_TRANSACAO.replace(':transacaoId', transactionId);
+
         pahoProvider.connect()
           .then(function() {
-            console.log('conectado! registrando listener no topic ' + topic)
             pahoProvider.register(topic, function(message) {
               $timeout(function() {
-                console.log('mqtt chamou!')
                 var msg = JSON.parse(message);
-                console.log('message: ', msg)
                 var conteudo = JSON.parse(msg.conteudo);
                 currentStatus = _.get(conteudo, 'status') || ERRO;
-                console.log('current status: ' + currentStatus)
 
                 if (isTransacaoFinalizada()) {
-                  pahoProvider.disconnect();
+                  pahoProvider.unregister(topic);
                   deferred.resolve(currentStatusAsBoolean());
                 }
               });
             }, true);
           })
-          .catch(function(e) { console.log('erro ao se conectar com o paho: ', e) });
+          .catch(function(e) { console.log('erro ao se conectar com o paho: ', e); });
 
         return deferred.promise;
       };
@@ -67,7 +64,7 @@ angular.module('influuntApp')
         isTransacaoFinalizada: isTransacaoFinalizada,
         currentStatusAsBoolean: currentStatusAsBoolean,
         watchTransaction: watchTransaction
-      }
+      };
 
     }])
   .directive('influuntMqttTransactionStatus', ['mqttTransactionStatusService',
@@ -76,9 +73,7 @@ angular.module('influuntApp')
         templateUrl: 'views/directives/influunt-mqtt-transaction-status.html',
         restrict: 'E',
         scope: {
-          transactionId: '=',
-          currentStatus: '=',
-          isActive: '='
+          transactionId: '='
         },
         link: function(scope) {
 

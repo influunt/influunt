@@ -8,8 +8,8 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui', 'influuntAlert',
-    function ($scope, $controller, $filter, Restangular, influuntBlockui, influuntAlert) {
+  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui',
+    function ($scope, $controller, $filter, Restangular, influuntBlockui) {
 
       var setData, setAneisPlanosImpostos;
 
@@ -20,16 +20,26 @@ angular.module('influuntApp')
       $scope.pesquisa = {
         campos: [
           {
-            nome: 'nomeEndereco',
+            nome: 'filtrarPor',
+            label: 'relatorios.filtarPor',
+            tipo: 'select',
+            options: ['Subarea', 'Agrupamento']
+          },
+          {
+            nome: 'subareaAgrupamento',
+            label: 'relatorios.subareaAgrupamento',
+            tipo: 'texto'
+          },
+          {
+            nome: 'nomeDoEndereco',
             label: 'controladores.nomeEndereco',
-            tipo: 'texto',
-            resource: 'controladores'
+            tipo: 'texto'
           }
         ]
       };
 
       $scope.pagination = {
-        perPage: 10,
+        perPage: 30,
         current: 1
       };
       $scope.esconderPerPage = true;
@@ -71,14 +81,11 @@ angular.module('influuntApp')
       };
 
       setData = function(response) {
-        $scope.lista = _.chain(response.data)
-          .map('aneis')
-          .flatten()
-          .value();
+        $scope.lista = response.data;
 
         $scope.idsTransacoes = {};
         _.each($scope.lista, function(anel) {
-          $scope.idsTransacoes[anel.controlador.id] = null;
+          $scope.idsTransacoes[anel.controlador] = null;
         });
 
         $scope.pagination.totalItems = $scope.lista.length;

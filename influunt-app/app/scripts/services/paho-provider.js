@@ -84,10 +84,20 @@ angular.module('influuntApp')
       }
     };
 
+    var unregister = function(subscribedUrl) {
+      if (!isConnected) {
+        throw new Error('Client is not connected.');
+      }
+
+      client.unsubscribe(subscribedUrl);
+      client.unsubscribe(subscribedUrl + '/+');
+    };
+
     return {
-      register: register,
       connect: connectClient,
-      disconnect: disconnectClient
+      disconnect: disconnectClient,
+      register: register,
+      unregister: unregister
     };
 
   }]);

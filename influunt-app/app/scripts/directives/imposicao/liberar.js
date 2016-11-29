@@ -17,6 +17,7 @@ angular.module('influuntApp')
           idsTransacoes: '='
         },
         link: function liberar(scope) {
+          scope.idsTransacoes = {};
           var transactionTracker;
           scope.liberarPlanoImposto = function() {
             return influuntAlert.confirm($filter('translate')('imporConfig.liberacao.confirmLiberarImposicao'))
