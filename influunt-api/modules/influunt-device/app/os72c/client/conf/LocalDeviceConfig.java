@@ -1,5 +1,8 @@
 package os72c.client.conf;
 
+import os72c.client.device.DeviceBridge;
+import os72c.client.device.FakeDevice;
+
 /**
  * Created by rodrigosol on 11/15/16.
  */
@@ -42,5 +45,10 @@ public class LocalDeviceConfig implements DeviceConfig {
     @Override
     public void setPrivateKey(String publicKey) {
 
+    }
+
+    @Override
+    public DeviceBridge getDeviceBridge() {
+        return new FakeDevice();
     }
 }
