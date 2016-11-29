@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .factory('planoService', ['validaTransicao', 'modoOperacaoService', 'geraDadosDiagramaIntervalo', 'PermissionsService',
     function planoService(validaTransicao, modoOperacaoService, geraDadosDiagramaIntervalo, PermissionsService) {
 
-      var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, adicionar,
+      var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, criarPlanoExclusivoTemporario, adicionar,
           verdeMinimoDoEstagio, setDiagramaEstatico, podeEditarControlador, getGruposNaoAssociados,
           isGrupoDemandaPrioritaria, isGrupoNemAssociadoNemDemandaPrioritaria;
 
@@ -47,6 +47,17 @@ angular.module('influuntApp')
           plano = criarPlano(controlador, anel, 0, 'Exclusivo', 'MANUAL');
         }
         plano.manualExclusivo = true;
+        delete plano.cicloMin;
+      };
+
+      criarPlanoExclusivoTemporario = function(controlador, anel) {
+        var plano = _.find(controlador.planos, {posicao: (controlador.limitePlanos + 1), anel: {idJson: anel.idJson}});
+        if (plano) {
+          plano.configurado = true;
+        } else {
+          plano = criarPlano(controlador, anel, controlador.limitePlanos + 1, 'Plano temporário');
+        }
+        plano.planoTemporario = true;
         delete plano.cicloMin;
       };
 
@@ -399,6 +410,7 @@ angular.module('influuntApp')
         adicionar: adicionar,
         verdeMinimoDoEstagio: verdeMinimoDoEstagio,
         criarPlanoManualExclusivo: criarPlanoManualExclusivo,
+        criarPlanoExclusivoTemporario: criarPlanoExclusivoTemporario,
         atualizaPlanos: atualizaPlanos,
         atualizaGruposSemaforicos: atualizaGruposSemaforicos,
         atualizaEstagios: atualizaEstagios,

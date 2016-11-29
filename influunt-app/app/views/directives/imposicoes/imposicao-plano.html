@@ -21,8 +21,8 @@
                   data-ng-model="configuracao.posicaoPlano"
                   class="form-control"
                   required="required">
-                <option data-ng-repeat="plano in planos track by $index" value="{{ $index+1 }}">
-                  {{ 'controladores.geral.plano' | translate }} {{$index + 1}}
+                <option data-ng-repeat="plano in planos track by $index" value="{{ $index + 1 }}">
+                  {{ 'controladores.geral.plano' | translate }} {{ plano }}
                 </option>
               </select>
               <p class="help-block error-msg" data-ng-if="!formImposicaoDePlanos.eventoPlano.$pristine && !formImposicaoDePlanos.eventoPlano.$valid">

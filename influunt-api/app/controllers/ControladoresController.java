@@ -375,6 +375,7 @@ public class ControladoresController extends Controller {
                         itens.addObject()
                             .put("id", anel.getId().toString())
                             .put("CLA", anel.getCLA())
+                            .put("posicao", anel.getPosicao())
                             .put("endereco", anel.getEndereco().nomeEndereco())
                             .putPOJO("controlador", controlador)
                             .put("status", anel.getControlador().getStatusControladorReal().toString());

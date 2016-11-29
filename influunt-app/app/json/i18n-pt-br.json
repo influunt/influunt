@@ -837,15 +837,16 @@
       "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
     },
     "plano": {
-      "titulo": "Impor Plano",
+      "criarPlanoExclusivo": "Criar plano exclusivo",
       "duracao": "Duração",
       "editar": "Editar",
-      "criarPlanoExclusivo": "Criar plano exclusivo",
-      "horarioEntrada": "Horário de Entrada",
-      "plano": "Plano",
-      "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados",
-      "sucesso": "Imposição de plano executada com sucesso",
       "erro": "Não foi possível finalizar a imposição de plano no controlador",
+      "horarioEntrada": "Horário de Entrada",
+      "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados",
+      "plano": "Plano",
+      "planoTemporario": "Temporário",
+      "sucesso": "Imposição de plano executada com sucesso",
+      "titulo": "Impor Plano",
       "validacoes": {
         "duracaoEntreMinimoEMaximo": "O tempo de duração deve estar entre {MINIMO} e {MAXIMO}"
       }

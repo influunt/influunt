@@ -70,7 +70,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(7465, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
         verificaGruposSemaforicos(7465, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        assertFalse(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertFalse(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 3000, 13000, EstadoGrupoSemaforico.VERDE));
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 3000, 13000, EstadoGrupoSemaforico.VERDE));
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -198,7 +198,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         assertEquals(ModoOperacaoPlano.APAGADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
-        assertFalse(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertFalse(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -246,7 +246,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 8000, 18000, EstadoGrupoSemaforico.VERDE));
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -292,7 +292,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(120, new GrupoCheck(1, 5, 8000, 18000, EstadoGrupoSemaforico.VERDE));
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -318,7 +318,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
-        assertFalse(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertFalse(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -347,7 +347,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -373,7 +373,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());
 
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
     }
 
     @Test
@@ -391,7 +391,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
             inicioExecucao.plusSeconds(60).getMillis()));
         avancarSegundos(motor, 60);
 
-        assertTrue(motor.getEstagios().get(0).getEventosAgendados().isEmpty());
+        assertTrue(motor.getEstagios().get(0).getEventosAgendados().asMapOfRanges().isEmpty());
 
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(0).getPlano().getModoOperacao());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, motor.getEstagios().get(1).getPlano().getModoOperacao());

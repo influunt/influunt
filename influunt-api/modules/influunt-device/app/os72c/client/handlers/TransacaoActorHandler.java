@@ -77,7 +77,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                     int numeroAnel = payloadJson.get("numeroAnel").asInt();
                                     Long horarioEntrada = payloadJson.get("horarioEntrada").asLong();
                                     int duracao = payloadJson.get("duracao").asInt();
-                                    if (numeroAnel < 1 || duracao < 1 || horarioEntrada <= System.currentTimeMillis()) {
+                                    if (numeroAnel < 1 || duracao < 15 || duracao > 600 || horarioEntrada <= System.currentTimeMillis()) {
                                         transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                     } else {
                                         transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
@@ -97,7 +97,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                 controlador = storage.getControlador();
                                 boolean planoNaoConfigurado = !isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
 
-                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 1 || planoNaoConfigurado || horarioEntrada <= System.currentTimeMillis()) {
+                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 15 || duracao > 600 || planoNaoConfigurado || horarioEntrada <= System.currentTimeMillis()) {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;

@@ -190,7 +190,9 @@ public class MotorEventoHandler {
 
     private void handleAgendarImposicao(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[1];
+        Integer duracao = (Integer) eventoMotor.getParams()[2];
         Long horarioEntrada = (Long) eventoMotor.getParams()[3];
-        motor.getEstagios().get(anel - 1).agendarEvento(new DateTime(horarioEntrada), eventoMotor);
+        DateTime inicio = new DateTime(horarioEntrada);
+        motor.getEstagios().get(anel - 1).agendarEvento(inicio, inicio.plusMinutes(duracao), eventoMotor);
     }
 }

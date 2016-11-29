@@ -7,8 +7,8 @@
  * # imposicaoPlano
  */
 angular.module('influuntApp')
-  .directive('imposicaoPlano', ['HorariosService', 'imposicoesService',
-      function (HorariosService, imposicoesService) {
+  .directive('imposicaoPlano', ['HorariosService', 'imposicoesService', '$filter',
+      function (HorariosService, imposicoesService, $filter) {
       return {
         templateUrl: 'views/directives/imposicoes/imposicao-plano.html',
         restrict: 'E',
@@ -25,6 +25,8 @@ angular.module('influuntApp')
 
           scope.configuracao = {};
           scope.planos = HorariosService.getPlanos();
+          scope.planos = scope.planos.map(function(plano) {return ++plano});
+          scope.planos.push($filter('translate')('imporConfig.plano.planoTemporario'));
 
           var getControladores;
           scope.imporPlano = function() {

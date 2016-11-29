@@ -208,7 +208,7 @@ public class ControladorCustomDeserializer {
         parseVersoesPlanos(node);
         parseVersoesTabelasHorarias(node);
 
-        consumers.stream().forEach(c -> c.accept(caches));
+        consumers.forEach(c -> c.accept(caches));
 
         return controlador;
     }
@@ -1787,7 +1787,9 @@ public class ControladorCustomDeserializer {
                             // assert falhou (fica desligado em DEV e PROD), por isso esse `if`.
                             assert map.containsKey(id);
                         }
-                        list.add(map.get(id));
+//                        if (map.containsKey(id)) {
+                            list.add(map.get(id));
+//                        }
                     };
 
                     runLater(c);

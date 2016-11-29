@@ -8,10 +8,12 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui',
-    function ($scope, $controller, $filter, Restangular, influuntBlockui) {
+  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular',
+                                  'influuntBlockui', 'pahoProvider', 'eventosDinamicos',
+    function ($scope, $controller, $filter, Restangular,
+              influuntBlockui, pahoProvider, eventosDinamicos) {
 
-      var setData, setAneisPlanosImpostos;
+      var setData, setAneisPlanosImpostos, updateImposicoesEmAneis, registerWatcher;
 
       // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
@@ -59,6 +61,7 @@ angular.module('influuntApp')
             return Restangular.one('monitoramento', 'status_aneis').get();
           })
           .then(setAneisPlanosImpostos)
+          .then(registerWatcher)
           .finally(influuntBlockui.unblock);
       };
 
@@ -92,7 +95,11 @@ angular.module('influuntApp')
       };
 
       setAneisPlanosImpostos = function(statusObj) {
-        return _.map(statusObj.statusPlanos, function(status) {
+        return updateImposicoesEmAneis(statusObj.statusPlanos);
+      };
+
+      updateImposicoesEmAneis = function(statuses) {
+        return _.map(statuses, function(status) {
           return _
             .chain($scope.lista)
             .find({controlador: {id: status.idControlador}, posicao: parseInt(status.anelPosicao)})
@@ -101,6 +108,20 @@ angular.module('influuntApp')
             .set('inicio', status.inicio)
             .value();
         });
+      };
+
+      registerWatcher = function() {
+        pahoProvider.connect()
+          .then(function() {
+            pahoProvider.register(eventosDinamicos.TROCA_PLANO, function(payload) {
+              var message = JSON.parse(payload);
+              message.conteudo = _.isString(message.conteudo) ? JSON.parse(message.conteudo) : message.conteudo;
+              message.hasPlanoImposto = _.get(message, 'conteudo.imposicaoDePlano');
+              message.anelPosicao = parseInt(_.get(message, 'conteudo.anel.posicao'));
+              message.inicio = _.get(message, 'conteudo.momentoDaTroca');
+              return updateImposicoesEmAneis([message]);
+            });
+          });
       };
     }]);
 

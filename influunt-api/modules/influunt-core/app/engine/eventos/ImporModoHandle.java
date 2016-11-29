@@ -1,5 +1,6 @@
 package engine.eventos;
 
+import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.*;
 import engine.services.PlanoService;

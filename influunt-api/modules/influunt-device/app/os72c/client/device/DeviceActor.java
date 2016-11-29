@@ -189,8 +189,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         int duracao = conteudo.get("duracao").asInt();
         Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
 
-        //TODO: VERIFICAR COMO AGENDAR O EVENTO
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao));
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada ));
     }
 
     private void imporPlano(JsonNode conteudo) {
@@ -199,8 +198,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         int duracao = conteudo.get("duracao").asInt();
         Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
 
-        //TODO: VERIFICAR COMO AGENDAR O EVENTO
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao));
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada ));
     }
 
     private void liberarImposicao(JsonNode conteudo) {
