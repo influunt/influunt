@@ -8,15 +8,18 @@ var ObjectId = mongo.ObjectID;
 var NumberLong = Long.fromString("1479756629334");
 
 var clearDb = function(db, callback) {
+	"use strict";
    db.collection('troca_planos_controladores').deleteMany(
       { "_id": ObjectId("58334b5573835c48f22fb7a0") },
-      function(err, results) {
+      function() {
+         console.log("ObjectId 58334b5573835c48f22fb7a0 apagado com sucesso.");
          callback();
       }
    );
 };
 
 var insertDocuments = (db, callback) => {
+		"use strict";
     var collection = db.collection('troca_planos_controladores');
 
     var troca_planos_controladores = [ {"_id" : ObjectId("58334b5573835c48f22fb7a0"),
@@ -43,6 +46,8 @@ var insertDocuments = (db, callback) => {
 };
 
 MongoClient.connect(url, (err, db) => {
+	"use strict";
+	
   assert.equal(null, err);
 
 
