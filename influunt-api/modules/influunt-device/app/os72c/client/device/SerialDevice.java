@@ -21,9 +21,6 @@ import protocol.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import static javax.swing.UIManager.getInt;
-import static jssc.SerialPort.*;
-
 /**
  * Created by rodrigosol on 11/4/16.
  */
@@ -34,21 +31,26 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     private final int startDelay;
 
+    private final String porta;
+
+    private final Integer baudrate;
+
+    private final Integer databits;
+
+    private final Integer stopbits;
+
+    private final Integer parity;
+
     private DeviceBridgeCallback callback;
 
     private SerialPort serialPort;
-
-    private final String porta;
-    private final Integer baudrate;
-    private final Integer databits;
-    private final Integer stopbits;
-    private final Integer parity;
 
     private ScheduledExecutorService executor;
 
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;
+
     private int sequencia = 0;
 
     public SerialDevice() {
@@ -57,15 +59,15 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         baudrate = settings.getInt("baudrate");
         databits = settings.getInt("databits");
         stopbits = settings.getInt("stopbits");
-        parity   = settings.getInt("parity");
-        startDelay   = settings.getInt("startdelay");
+        parity = settings.getInt("parity");
+        startDelay = settings.getInt("startdelay");
 
         Logger.info(String.format("Iniciando a municacao serial"));
         Logger.info(String.format("PORTA    :%s", porta));
-        Logger.info(String.format("BAUDRATE :%d",  baudrate));
-        Logger.info(String.format("DATABITS :%d",  databits));
-        Logger.info(String.format("STOPBITS :%d",  stopbits));
-        Logger.info(String.format("PARITY   :%d",  parity));
+        Logger.info(String.format("BAUDRATE :%d", baudrate));
+        Logger.info(String.format("DATABITS :%d", databits));
+        Logger.info(String.format("STOPBITS :%d", stopbits));
+        Logger.info(String.format("PARITY   :%d", parity));
         Logger.info(String.format("STAR DELAY :%s", startDelay));
 
 

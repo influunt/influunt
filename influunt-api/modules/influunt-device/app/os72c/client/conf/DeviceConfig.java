@@ -7,9 +7,11 @@ import os72c.client.device.DeviceBridge;
  */
 public interface DeviceConfig {
     public String getHost();
+
     public void setHost(String host);
 
     public String getPort();
+
     public void setPort(String port);
 
     public String getDeviceId();
@@ -25,4 +27,6 @@ public interface DeviceConfig {
     public void setPrivateKey(String publicKey);
 
     public DeviceBridge getDeviceBridge();
+
+    public void setDeviceBridge(DeviceBridge deviceBridge);
 }

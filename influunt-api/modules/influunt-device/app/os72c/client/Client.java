@@ -8,8 +8,6 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import os72c.client.conf.DeviceConfig;
-import os72c.client.conf.LocalDeviceConfig;
-import os72c.client.conf.TestDeviceConfig;
 import os72c.client.conn.ClientActor;
 import os72c.client.device.DeviceBridge;
 import os72c.client.storage.MapStorage;
@@ -27,9 +25,10 @@ import java.util.Map;
 import static play.inject.Bindings.bind;
 
 
-@Singleton
 public class Client {
 
+
+    private static Config config72c;
 
     private final ActorSystem system;
 
@@ -42,8 +41,6 @@ public class Client {
     private final String centralPublicKey;
 
     private final String privateKey;
-
-    private static Config config72c;
 
     private ActorRef servidor;
 
@@ -60,7 +57,7 @@ public class Client {
 
         Logger.info(String.format("Subsistema Akka:%s", this.system.name()));
 
-        if (deviceConfig instanceof TestDeviceConfig || deviceConfig instanceof LocalDeviceConfig) {
+        if (deviceConfig != null) {
             Logger.info(String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
@@ -104,10 +101,6 @@ public class Client {
         return config72c;
     }
 
-    public void finish() {
-        system.terminate();
-    }
-
     public static void main(String args[]) {
         Application app = createApplication(new HashMap());
         Play.start(app.getWrappedApplication());
@@ -115,10 +108,14 @@ public class Client {
         new Client(null);
     }
 
-    private static Application createApplication(Map configuration) {
+    public static Application createApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
             .build();
+    }
+
+    public void finish() {
+        system.terminate();
     }
 }

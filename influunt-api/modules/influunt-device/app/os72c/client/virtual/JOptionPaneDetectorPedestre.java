@@ -1,7 +1,6 @@
 package os72c.client.virtual;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class JOptionPaneDetectorPedestre extends GenericJOptionPane implements ActionListener {
@@ -11,7 +10,7 @@ public class JOptionPaneDetectorPedestre extends GenericJOptionPane implements A
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Selecione o Detector de Pedestre");
 
-        String[] aneis = { "1", "2", "3", "4"};
+        String[] aneis = {"1", "2", "3", "4"};
 
         JComboBox aneisList = new JComboBox(aneis);
         aneisList.setSelectedIndex(0);

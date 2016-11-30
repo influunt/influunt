@@ -8,6 +8,7 @@ public class MensagemInicio extends Mensagem {
 
 
     public long grupos;
+
     public int aneis[] = new int[16];
 
     public MensagemInicio(TipoDeMensagemBaixoNivel tipoMensagem, Integer sequencia) {
