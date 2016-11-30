@@ -1,6 +1,7 @@
 package models;
 
 import org.joda.time.LocalTime;
+import utils.RangeUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -37,7 +38,9 @@ public class ControladorTestUtil {
     }
 
     public Controlador getControlador() {
-        return new Controlador();
+        Controlador controlador = new Controlador();
+        controlador.setRangeUtils(RangeUtils.getInstance(null));
+        return controlador;
     }
 
     public Controlador getControladorDadosBasicos() {
