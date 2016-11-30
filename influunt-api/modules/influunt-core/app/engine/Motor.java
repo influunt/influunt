@@ -64,7 +64,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
 
-    public void tick() throws Exception {
+    public void tick() {
         Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {

@@ -563,7 +563,9 @@ angular.module('influuntApp')
       };
 
       $scope.podeSimular = function(controlador) {
-        return $scope.podeFinalizar(controlador);
+        return controlador.controladorConfigurado &&
+          controlador.planoConfigurado &&
+          controlador.tabelaHorariaConfigurado;
       };
 
       $scope.imprimir = function(controlador) {

@@ -14,7 +14,7 @@ public class GerenciadorDeEstagiosHelper {
                                            RangeMap<Long, IntervaloEstagio> intervalos,
                                            long contadorIntervalo,
                                            EstagioPlano estagioPlanoAtual) {
-        long upperEndpoint = 0L;
+        long upperEndpoint = contadorIntervalo;
         if (intervalos.get(contadorIntervalo) != null) {
             final long contador;
             Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo);
