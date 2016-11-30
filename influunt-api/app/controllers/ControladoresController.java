@@ -317,7 +317,8 @@ public class ControladoresController extends Controller {
 
         List<String> aneisIds = new ArrayList<>();
 
-        if (!u.isRoot()) {
+        // Dado que seja um usuário sob uma área.
+        if (!u.isRoot() && u.getArea() != null) {
             String[] areaId = {u.getArea().getId().toString()};
             if (params.containsKey("area.descricao")) {
                 params.remove("area.descricao");
@@ -327,6 +328,7 @@ public class ControladoresController extends Controller {
 
         final String nomeEndereco = params.containsKey("nomeDoEndereco") ? params.get("nomeDoEndereco")[0] : null;
 
+        // Dado que seja um usuário root ou um usuário sob uma área.
         params.remove("nomeDoEndereco");
         if (u.isRoot() || u.getArea() != null) {
             if (params.containsKey("filtrarPor_eq")) {
@@ -347,7 +349,6 @@ public class ControladoresController extends Controller {
                         params.remove("subareaAgrupamento");
 
                         params.remove("filtrarPor_eq");
-                        // faz query por nome do agrupamento
                     }
 
                     List<Anel> aneis = (List<Anel>) new InfluuntQueryBuilder(Anel.class, params).fetch(Arrays.asList("agrupamentos", "endereco")).query().getResult();
@@ -388,6 +389,7 @@ public class ControladoresController extends Controller {
 
             return CompletableFuture.completedFuture(ok(retorno));
         }
+
         return CompletableFuture.completedFuture(forbidden());
     }
 

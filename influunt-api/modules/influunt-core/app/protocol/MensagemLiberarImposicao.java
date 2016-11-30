@@ -16,7 +16,7 @@ public class MensagemLiberarImposicao {
 
     public static Envelope getMensagem(String controladorId, int numeroAnel) {
         String payload = Json.toJson(new MensagemLiberarImposicao(numeroAnel)).toString();
-        Envelope envelope = new Envelope(TipoMensagem.LIBERAR_IMPOSICAO, controladorId, null, QoS.AT_LEAST_ONCE, payload, null);
+        Envelope envelope = new Envelope(TipoMensagem.LIBERAR_IMPOSICAO, controladorId, null, QoS.EXACTLY_ONCE, payload, null);
         envelope.setCriptografado(false);
         return envelope;
     }

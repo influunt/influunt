@@ -22,7 +22,7 @@ public class MensagemImposicaoModoOperacao {
 
     public static Envelope getMensagem(String controladorId, String modoOperacao, int numeroAnel, Long horarioEntrada, int duracao) {
         String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao, numeroAnel, horarioEntrada, duracao)).toString();
-        Envelope envelope = new Envelope(TipoMensagem.IMPOSICAO_DE_MODO_OPERACAO, controladorId, null, QoS.AT_LEAST_ONCE, payload, null);
+        Envelope envelope = new Envelope(TipoMensagem.IMPOSICAO_DE_MODO_OPERACAO, controladorId, null, QoS.EXACTLY_ONCE, payload, null);
         envelope.setCriptografado(false);
         return envelope;
     }

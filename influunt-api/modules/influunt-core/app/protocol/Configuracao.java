@@ -25,14 +25,14 @@ public class Configuracao {
             return new Envelope(TipoMensagem.CONFIGURACAO,
                 envelope.getIdControlador(),
                 "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
-                QoS.AT_LEAST_ONCE,
+                QoS.EXACTLY_ONCE,
                 new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), rangeUtils).toString(),
                 envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,
                 envelope.getIdControlador(),
                 "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
-                QoS.AT_LEAST_ONCE,
+                QoS.EXACTLY_ONCE,
                 null,
                 envelope.getIdMensagem());
         }

@@ -144,22 +144,16 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
                 Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-
         client.subscribe("controladores/conn/online", 1, (topic, message) -> sendToBroker(message));
-
         client.subscribe("controladores/conn/offline", 1, (topic, message) -> sendToBroker(message));
-
+        client.subscribe("central/transacoes/+", 1, (topic, message) -> sendToBroker(message));
+        client.subscribe("central/alarmes_falhas/+", 1, (topic, message) -> sendToBroker(message));
+        client.subscribe("central/troca_plano/+", 1, (topic, message) -> sendToBroker(message));
         client.subscribe("central/+", 1, (topic, message) -> {
             if (!"central/morreu".equals(topic)) {
                 sendToBroker(message);
             }
         });
-
-        client.subscribe("central/transacoes/+", 1, (topic, message) -> sendToBroker(message));
-
-        client.subscribe("central/alarmes_falhas/+", 1, (topic, message) -> sendToBroker(message));
-
-        client.subscribe("central/troca_plano/+", 1, (topic, message) -> sendToBroker(message));
     }
 
     @Override

@@ -608,7 +608,7 @@ public class ControladorCustomSerializer {
                     enderecoJson.put("referencia", endereco.getReferencia());
                 }
                 if (endereco.getLatitude() != null) {
-                    enderecoJson.put("latituda", endereco.getLatitude());
+                    enderecoJson.put("latitude", endereco.getLatitude());
                 }
                 if (endereco.getLongitude() != null) {
                     enderecoJson.put("longitude", endereco.getLongitude());

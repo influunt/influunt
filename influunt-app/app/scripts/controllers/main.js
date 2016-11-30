@@ -128,8 +128,7 @@ angular.module('influuntApp')
           });
       };
 
-      onlineOfflineWatcher = function(payload, topic) {
-        console.log(topic, payload);
+      onlineOfflineWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         $scope.statusObj.onlines = $scope.statusObj.onlines || {};
 
@@ -148,8 +147,7 @@ angular.module('influuntApp')
           });
       };
 
-      trocaPlanoWatcher = function(payload, topic) {
-        console.log(topic, payload);
+      trocaPlanoWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
 
         return getControlador(mensagem.idControlador)
@@ -173,8 +171,7 @@ angular.module('influuntApp')
           });
       };
 
-      alarmesEFalhasWatcher = function(payload, topic) {
-        console.log(topic, payload);
+      alarmesEFalhasWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         $scope.statusObj.erros = $scope.statusObj.erros || {};
@@ -187,8 +184,7 @@ angular.module('influuntApp')
         }
       };
 
-      statusControladoresWatcher = function(payload, topic) {
-        console.log(topic, payload);
+      statusControladoresWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
         $scope.statusObj.status = $scope.statusObj.status || {};
 
