@@ -13,6 +13,8 @@ import akka.routing.Router;
 import com.google.gson.Gson;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
+import org.slf4j.LoggerFactory;
+import os72c.client.logger.InfluuntLogger;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -43,7 +45,6 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     private final String port;
 
-    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private Router router;
 
@@ -65,8 +66,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         this.port = port;
         this.storage = storage;
 
-        Logger.info("Iniciando a comunicacao MQTT");
-        Logger.info("Criando referencia para o messagebroker");
+        InfluuntLogger.logger.info("Iniciando a comunicacao MQTT");
+        InfluuntLogger.logger.info("Criando referencia para o messagebroker");
 
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
@@ -155,12 +156,12 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         String parsedBytes = new String(message.getPayload());
 
         Map msg = new Gson().fromJson(parsedBytes, Map.class);
-        Logger.info("Mensagem recebida da central:");
+        InfluuntLogger.logger.info("Mensagem recebida da central:");
 
         String privateKey = storage.getPrivateKey();
         try {
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
-            Logger.info(envelope.toJson());
+            InfluuntLogger.logger.info(envelope.toJson());
             router.route(envelope, getSender());
         } catch (DecoderException e) {
             e.printStackTrace();
@@ -210,8 +211,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         message.setQos(envelope.getQos());
         message.setRetained(true);
         String publicKey = storage.getCentralPublicKey();
-        Logger.info("Enviando mensagem para a central:");
-        Logger.info(envelope.toJson());
+        InfluuntLogger.logger.info("Enviando mensagem para a central:");
+        InfluuntLogger.logger.info(envelope.toJson());
         message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);
     }
