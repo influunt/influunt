@@ -13,8 +13,8 @@ public class LiberarImposicaoTest extends BasicMQTTTest {
 
     @Test
     public void liberarImposicaoOK() {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
         Anel anel = controlador.getAneis().stream()
@@ -27,8 +27,8 @@ public class LiberarImposicaoTest extends BasicMQTTTest {
 
     @Test
     public void imporPlanoComErro() {
-        startClient();
         controlador = new ControladorHelper().setPlanos(controlador);
+        startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
         liberarImposicao(-1);
