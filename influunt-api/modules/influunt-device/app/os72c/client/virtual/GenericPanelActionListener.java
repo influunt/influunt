@@ -3,9 +3,7 @@ package os72c.client.virtual;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import org.joda.time.DateTime;
-import os72c.client.device.DeviceBridgeCallback;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,7 +18,6 @@ public abstract class GenericPanelActionListener implements ActionListener {
     private final TipoEvento tipoRemocaoFalha;
 
 
-
     public GenericPanelActionListener(ControladorForm callback, TipoEvento tipoFalha, TipoEvento tipoRemocaoFalha) {
         this.controladorForm = callback;
         this.tipoFalha = tipoFalha;
@@ -31,11 +28,11 @@ public abstract class GenericPanelActionListener implements ActionListener {
     public abstract void actionPerformed(ActionEvent e);
 
     public void onFalha(String anel) {
-        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(),tipoFalha,Integer.valueOf(anel)));
+        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoFalha, Integer.valueOf(anel)));
     }
 
     public void onRemocaoFalha(String anel) {
-        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(),tipoRemocaoFalha,Integer.valueOf(anel)));
+        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoRemocaoFalha, Integer.valueOf(anel)));
     }
 
     public TipoEvento getTipoRemocaoFalha() {

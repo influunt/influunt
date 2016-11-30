@@ -3,7 +3,6 @@ package os72c.client.virtual;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import org.joda.time.DateTime;
-import os72c.client.device.DeviceBridgeCallback;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,7 +32,7 @@ public class ControladorActionListener extends GenericPanelActionListener {
 
     @Override
     public void onFalha(String anel) {
-        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(),tipoFalha));
+        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoFalha));
     }
 
 

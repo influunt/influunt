@@ -29,7 +29,9 @@ import static engine.TipoEventoParamsTipoDeDado.*;
 public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBridgeCallback {
 
     private final Storage storage;
+
     private Controlador controlador;
+
     private Motor motor;
 
     private DeviceBridge device;
@@ -63,7 +65,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
                 Logger.info("O motor foi iniciado");
-            }else{
+            } else {
                 Logger.info("Não existe configuracao para iniciar o motor.");
                 Logger.warn("Aguardando configuracao.");
             }

@@ -17,6 +17,8 @@ public class TestDeviceConfig implements DeviceConfig {
 
     private String port = "1883";
 
+    private DeviceBridge bridge;
+
     @Override
     public String getHost() {
         return host;
@@ -69,7 +71,12 @@ public class TestDeviceConfig implements DeviceConfig {
 
     @Override
     public DeviceBridge getDeviceBridge() {
-        return new FakeDevice();
+        return this.bridge != null ? this.bridge : new FakeDevice();
+    }
+
+    @Override
+    public void setDeviceBridge(DeviceBridge deviceBridge) {
+        this.bridge = deviceBridge;
     }
 
 }

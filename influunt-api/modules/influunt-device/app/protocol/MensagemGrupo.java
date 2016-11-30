@@ -13,11 +13,17 @@ import java.util.Map;
 public class MensagemGrupo {
 
     private int grupo;
+
     private boolean flagPedestreVeicular = false;
+
     private FlagUltimoTempo flagUltimoTempo;
+
     private int tempoAtrasoDeGrupo = 0;
+
     private int tempoAmareloOuVermelhoIntermitente = 0;
+
     private int tempoVermelhoLimpeza = 0;
+
     private int tempoVerdeOuVermelho = 0;
 
     public MensagemGrupo(int grupo, int tempoAtrasoDeGrupo, int tempoAmareloOuVermelhoIntermitente,

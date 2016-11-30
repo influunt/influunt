@@ -11,3 +11,4 @@ target
 imagens/*
 /bin/
 local
+form.properties

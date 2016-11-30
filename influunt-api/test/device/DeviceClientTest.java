@@ -1,12 +1,10 @@
 package device;
 
-import config.WithLocalInfluuntApplicationNoAuthentication;
 import integracao.BasicMQTTTest;
 import integracao.ControladorHelper;
 import org.junit.Ignore;
 import org.junit.Test;
 import os72c.client.Client;
-import os72c.client.conf.TestDeviceConfig;
 
 /**
  * Created by rodrigosol on 11/15/16.
