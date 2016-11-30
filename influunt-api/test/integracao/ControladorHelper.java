@@ -4,6 +4,7 @@ import config.WithInfluuntApplicationNoAuthentication;
 import models.*;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import utils.RangeUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
     public Controlador getControlador(boolean comVerdeConflitante) {
         controlador = new Controlador();
+        controlador.setRangeUtils(RangeUtils.getInstance(null));
 
         criaRelacaoDadosBasicos();
 

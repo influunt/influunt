@@ -352,8 +352,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Tempo máximo de permanência deve estar entre {min} e {max}")
     public boolean isTempoMaximoPermanenciaOk() {
         if (isTempoMaximoPermanenciaAtivado()) {
-            return getTempoMaximoPermanencia() != null &&
-                RangeUtils.getInstance(null).TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
+            return getTempoMaximoPermanencia() != null && getRangeUtils().TEMPO_MAXIMO_PERMANENCIA_ESTAGIO.contains(getTempoMaximoPermanencia());
         }
         return true;
     }
@@ -363,7 +362,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         if (isTempoMaximoPermanenciaAtivado() && isTempoMaximoPermanenciaOk()) {
             return getTempoMaximoPermanencia() > getGruposSemaforicos()
                 .stream()
-                .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
+                .mapToInt(GrupoSemaforico::getTempoVerdeSeguranca)
                 .min()
                 .orElse(0);
         }
@@ -374,7 +373,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
     public boolean isTempoVerdeDemandaPrioritaria() {
         if (isDemandaPrioritaria()) {
             return getTempoVerdeDemandaPrioritaria() != null &&
-                RangeUtils.getInstance(null).TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
+                getAnel().getControlador().getRangeUtils().TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
         }
         return true;
     }
@@ -540,5 +539,9 @@ public class Estagio extends Model implements Serializable, Cloneable {
 
     public String toString() {
         return "E".concat(getPosicao().toString());
+    }
+
+    private RangeUtils getRangeUtils() {
+        return getAnel().getControlador().getRangeUtils();
     }
 }

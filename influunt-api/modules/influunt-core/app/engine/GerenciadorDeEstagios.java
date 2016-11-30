@@ -187,13 +187,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (intervaloGrupoSemaforicoAtual != null) {
                 IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
                 callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
+
+                estagioPlanoAnterior = estagioPlanoAtual;
             }
 
             intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
             callback.onEstagioChange(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
                 new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde()));
 
-            estagioPlanoAnterior = estagioPlanoAtual;
             estagioPlanoAtual = estagioPlano;
         }
     }

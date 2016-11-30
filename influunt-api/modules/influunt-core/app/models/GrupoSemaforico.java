@@ -378,7 +378,8 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança veicular deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldVeicular() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.VEICULAR)) {
-            return RangeUtils.getInstance(null).TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
+            RangeUtils rangeUtils = getRangeUtils();
+            return rangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
         }
         return true;
     }
@@ -386,7 +387,8 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança pedestre deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldPedestre() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)) {
-            return RangeUtils.getInstance(null).TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
+            RangeUtils rangeUtils = getRangeUtils();
+            return rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
         }
         return true;
     }
@@ -540,13 +542,15 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
         int tempoDecorrido = 0;
-        if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
-            tempoDecorrido += estagioPlanoAnterior.getTempoVerdeEstagio();
-            tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
-        } else {
-            Transicao transicao = findTransicaoComGanhoDePassagemByOrigemDestino(estagioPlanoAnterior.getEstagio(), estagioPlano.getEstagio());
-            if (transicao != null) {
-                tempoDecorrido += transicao.getTempoAtrasoGrupo();
+        if(estagioPlanoAnterior != null) {
+            if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
+                tempoDecorrido += estagioPlanoAnterior.getTempoVerdeEstagio();
+                tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
+            } else {
+                Transicao transicao = findTransicaoComGanhoDePassagemByOrigemDestino(estagioPlanoAnterior.getEstagio(), estagioPlano.getEstagio());
+                if (transicao != null) {
+                    tempoDecorrido += transicao.getTempoAtrasoGrupo();
+                }
             }
         }
         return Math.max(0, getTempoVerdeSeguranca() - tempoDecorrido);
@@ -555,6 +559,10 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @Override
     public String toString() {
         return "G" + getPosicao();
+    }
+
+    private RangeUtils getRangeUtils() {
+        return getAnel().getControlador().getRangeUtils();
     }
 }
 

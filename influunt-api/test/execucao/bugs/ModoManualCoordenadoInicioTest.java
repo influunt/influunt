@@ -1,13 +1,10 @@
 package execucao.bugs;
 
-import engine.EventoMotor;
 import engine.Motor;
-import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
 import models.Controlador;
 import models.EstadoGrupoSemaforico;
-import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import play.libs.Json;

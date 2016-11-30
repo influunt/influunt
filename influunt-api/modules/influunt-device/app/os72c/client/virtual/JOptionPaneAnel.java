@@ -1,12 +1,7 @@
 package os72c.client.virtual;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import javax.swing.*;
-import javax.imageio.ImageIO;
+import java.awt.event.ActionListener;
 
 public class JOptionPaneAnel extends GenericJOptionPane implements ActionListener {
 
@@ -14,7 +9,7 @@ public class JOptionPaneAnel extends GenericJOptionPane implements ActionListene
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Selecione o Anel");
 
-        String[] aneis = { "1", "2", "3", "4"};
+        String[] aneis = {"1", "2", "3", "4"};
 
         JComboBox aneisList = new JComboBox(aneis);
         aneisList.setSelectedIndex(0);
