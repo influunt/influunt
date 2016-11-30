@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Anel;
+import models.Area;
 import models.Plano;
 import models.StatusDevice;
 import org.apache.commons.lang3.NotImplementedException;
@@ -30,8 +31,7 @@ public class PlanosReportService extends ReportService<Plano> {
         throw new NotImplementedException("Metodo nao implementado. Favor utilizar outro metodo gerador.");
     }
 
-    public ObjectNode getPlanosReportData(Map<String, String[]> params) {
-
+    public ObjectNode getPlanosReportData(Map<String, String[]> params, Area area) {
         Map<String, String[]> paramsAux = new HashMap<>();
         String[] sort = new String[1];
         sort[0] = "versaoPlano.anel.controlador.area.descricao asc, versaoPlano.anel.controlador.sequencia asc, versaoPlano.anel.posicao";
@@ -59,7 +59,13 @@ public class PlanosReportService extends ReportService<Plano> {
         paramsAux.put("sort", sort);
         paramsAux.put("sort_type", sortType);
 
-        List<Plano> planos = (List<Plano>) new InfluuntQueryBuilder(Plano.class, paramsAux).fetch(Arrays.asList("versaoPlano.anel")).query().getResult();
+        if (area != null) {
+            String[] areaId = { area.getId().toString() };
+            paramsAux.put("versaoPlano.anel.controlador.area.id", areaId);
+        }
+
+        List<String> fetches = Arrays.asList("versaoPlano.anel", "versaoPlano.anel.controlador.area");
+        List<Plano> planos = (List<Plano>) new InfluuntQueryBuilder(Plano.class, paramsAux).fetch(fetches).query().getResult();
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         planos.stream().filter(plano -> !plano.isManual()).forEach(plano -> {
@@ -93,7 +99,7 @@ public class PlanosReportService extends ReportService<Plano> {
      *
      * @return {@link InputStream} do csv
      **/
-    public InputStream generatePlanosCSVReport(Map<String, String[]> params) {
+    public InputStream generatePlanosCSVReport(Map<String, String[]> params, Area area) {
 
         StringBuilder buffer = new StringBuilder();
 
@@ -102,7 +108,7 @@ public class PlanosReportService extends ReportService<Plano> {
         buffer.append("Gerado em:").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE));
         buffer.append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR);
 
-        ObjectNode retorno = getPlanosReportData(params);
+        ObjectNode retorno = getPlanosReportData(params, area);
 
         // Write the CSV file header
         buffer.append("PLANO").append(COMMA_DELIMITER).append("CONTROLADOR").append(COMMA_DELIMITER)
