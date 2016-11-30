@@ -51,7 +51,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             Logger.info("Tentando iniciar o motor...");
             this.controlador = storage.getControlador();
             if (controlador != null) {
-                Logger.info("Configuracao de controlador encontrada.");
+                Logger.info("Configuração de controlador encontrada.");
                 iniciado = true;
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
@@ -66,8 +66,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     }, 0, 100, TimeUnit.MILLISECONDS);
                 Logger.info("O motor foi iniciado");
             } else {
-                Logger.info("Não existe configuracao para iniciar o motor.");
-                Logger.warn("Aguardando configuracao.");
+                Logger.info("Não existe configuração para iniciar o motor.");
+                Logger.warn("Aguardando configuração.");
             }
         }
     }

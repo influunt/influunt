@@ -68,7 +68,7 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         Logger.info(String.format("DATABITS :%d", databits));
         Logger.info(String.format("STOPBITS :%d", stopbits));
         Logger.info(String.format("PARITY   :%d", parity));
-        Logger.info(String.format("STAR DELAY :%s", startDelay));
+        Logger.info(String.format("START DELAY :%s", startDelay));
 
 
     }

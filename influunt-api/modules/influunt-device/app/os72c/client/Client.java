@@ -101,13 +101,6 @@ public class Client {
         return config72c;
     }
 
-    public static void main(String args[]) {
-        Application app = createApplication(new HashMap());
-        Play.start(app.getWrappedApplication());
-        Materializer mat = app.getWrappedApplication().materializer();
-        new Client(null);
-    }
-
     public static Application createApplication(Map configuration) {
         return new GuiceApplicationBuilder().configure(configuration)
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))

@@ -65,8 +65,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         this.port = port;
         this.storage = storage;
 
-        Logger.info("Iniciando a comunicacao MQTT");
-        Logger.info("Criando referencia para o messagebroker");
+        Logger.info("Iniciando a comunicação MQTT");
+        Logger.info("Criando referência para o messagebroker");
 
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
