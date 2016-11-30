@@ -5,7 +5,6 @@ import engine.TipoEvento;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import os72c.client.device.DeviceBridgeCallback;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,6 +34,6 @@ public class DetectorPedestreActionListener extends GenericPanelActionListener {
 
     @Override
     public void onFalha(String param) {
-        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(),tipoFalha, new Pair<Integer, TipoDetector>(Integer.valueOf(param),TipoDetector.PEDESTRE)));
+        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoFalha, new Pair<Integer, TipoDetector>(Integer.valueOf(param), TipoDetector.PEDESTRE)));
     }
 }

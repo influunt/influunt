@@ -4,7 +4,6 @@ import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
-import com.typesafe.config.ConfigFactory;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
 import os72c.client.storage.Storage;
@@ -59,12 +58,6 @@ public class ClientActor extends UntypedActor {
     }
 
 
-    public static void main(String args[]) {
-        ActorSystem system = ActorSystem.create("InfluuntControlador", ConfigFactory.load());
-        system.actorOf(Props.create(ClientActor.class), "ClientActor");
-        system.awaitTermination();
-    }
-
     @Override
     public void preStart() throws Exception {
         super.preStart();
@@ -72,6 +65,7 @@ public class ClientActor extends UntypedActor {
     }
 
     private void setup() {
+
         mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, storage), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());

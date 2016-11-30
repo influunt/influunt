@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import os72c.client.Client;
 import os72c.client.conf.DeviceConfig;
+import os72c.client.conf.TestDeviceConfig;
 import server.Central;
 import status.StatusConexaoControlador;
 import status.StatusControladorFisico;
@@ -49,14 +50,17 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
     protected String idControlador;
 
+    protected DeviceConfig deviceConfig;
+
 
     @Before
     public void setup() throws IOException, InterruptedException {
         controlador = new ControladorHelper().getControlador();
         idControlador = controlador.getId().toString();
-        provideApp.injector().instanceOf(DeviceConfig.class).setDeviceId(controlador.getId().toString());
-        provideApp.injector().instanceOf(DeviceConfig.class).setCentralPublicKey(controlador.getCentralPublicKey());
-        provideApp.injector().instanceOf(DeviceConfig.class).setPrivateKey(controlador.getControladorPrivateKey());
+        this.deviceConfig = new TestDeviceConfig();
+        this.deviceConfig.setDeviceId(controlador.getId().toString());
+        this.deviceConfig.setCentralPublicKey(controlador.getCentralPublicKey());
+        this.deviceConfig.setPrivateKey(controlador.getControladorPrivateKey());
 
         setConfig();
     }
@@ -121,7 +125,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     protected void startClient() {
-        client = provideApp.injector().instanceOf(Client.class);
+        client = new Client(this.deviceConfig);
     }
 
 }

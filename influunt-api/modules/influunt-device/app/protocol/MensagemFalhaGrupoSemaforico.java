@@ -7,6 +7,7 @@ public class MensagemFalhaGrupoSemaforico extends Mensagem {
 
 
     private int posicao;
+
     private int falha;
 
     public MensagemFalhaGrupoSemaforico(TipoDeMensagemBaixoNivel tipoMensagem,

@@ -1,5 +1,7 @@
 package utils;
 
+import models.Controlador;
+
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ public class InfluuntQueryResult {
         this.result = result;
         this.total = total;
         this.klass = klass;
+        setRangeUtils();
     }
 
     public List getResult() {
@@ -41,5 +44,12 @@ public class InfluuntQueryResult {
 
     public void setKlass(Class klass) {
         this.klass = klass;
+    }
+
+    private void setRangeUtils() {
+        if (Controlador.class.equals(klass)) {
+            RangeUtils rangeUtils = RangeUtils.getInstance(null);
+            ((List<Controlador>) result).forEach(controlador -> controlador.setRangeUtils(rangeUtils));
+        }
     }
 }

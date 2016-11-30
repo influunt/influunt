@@ -8,8 +8,11 @@ public abstract class Mensagem {
     protected byte[] contents;
 
     private TipoDeMensagemBaixoNivel tipoMensagem;
+
     private int sequencia;
+
     private int checksum;
+
     private int tamanho;
 
     private Integer codigo;

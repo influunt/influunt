@@ -2,6 +2,8 @@ package os72c.client.conf;
 
 
 import com.google.inject.Singleton;
+import os72c.client.device.DeviceBridge;
+import os72c.client.device.FakeDevice;
 
 @Singleton
 public class TestDeviceConfig implements DeviceConfig {
@@ -14,6 +16,8 @@ public class TestDeviceConfig implements DeviceConfig {
     private String host = "127.0.0.1";
 
     private String port = "1883";
+
+    private DeviceBridge bridge;
 
     @Override
     public String getHost() {
@@ -63,6 +67,16 @@ public class TestDeviceConfig implements DeviceConfig {
     @Override
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
+    }
+
+    @Override
+    public DeviceBridge getDeviceBridge() {
+        return this.bridge != null ? this.bridge : new FakeDevice();
+    }
+
+    @Override
+    public void setDeviceBridge(DeviceBridge deviceBridge) {
+        this.bridge = deviceBridge;
     }
 
 }
