@@ -170,10 +170,10 @@ public class IntervaloGrupoSemaforico {
 
     private void loadEstadosModoIntermitenteOuApagado() {
         RangeMap<Long, EstadoGrupoSemaforico> intervaloVeicular = TreeRangeMap.create();
-        intervaloVeicular.put(Range.closedOpen(0L, 255000L), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
+        intervaloVeicular.put(Range.closedOpen(0L, verde.getDuracao()), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
 
         RangeMap<Long, EstadoGrupoSemaforico> intervaloPedestre = TreeRangeMap.create();
-        intervaloPedestre.put(Range.closedOpen(0L, 255000L), EstadoGrupoSemaforico.DESLIGADO);
+        intervaloPedestre.put(Range.closedOpen(0L, verde.getDuracao()), EstadoGrupoSemaforico.DESLIGADO);
 
         plano.getGruposSemaforicosPlanos().stream()
             .forEach(grupoSemaforicoPlano -> {
