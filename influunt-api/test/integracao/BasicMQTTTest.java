@@ -125,7 +125,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     protected void startClient() {
-        client = provideApp.injector().instanceOf(Client.class);
+        client = new Client(this.deviceConfig);
     }
 
 }
