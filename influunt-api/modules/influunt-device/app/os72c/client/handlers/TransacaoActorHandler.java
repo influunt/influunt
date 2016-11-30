@@ -36,8 +36,8 @@ public class TransacaoActorHandler extends UntypedActor {
             if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
-                Controlador controlador = null;
-                JsonNode payloadJson = null;
+                Controlador controlador;
+                JsonNode payloadJson;
                 log.info("DEVICE - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:

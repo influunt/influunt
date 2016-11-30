@@ -16,10 +16,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -126,10 +123,10 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         startClient();
         await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
 
-        List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
-//        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
-//        List<String> aneisIds = new ArrayList<>();
-//        aneisIds.add(aneis.get(0).getId().toString());
+//        List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
+        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+        List<String> aneisIds = new ArrayList<>();
+        aneisIds.add(aneis.get(0).getId().toString());
 
         Map<String, Object> params = new HashMap<>();
         params.put("aneis", aneisIds.toArray());

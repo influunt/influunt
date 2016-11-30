@@ -55,7 +55,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         startClient();
 
-        await().until(() -> onPublishFutureList.size() > 3);
+        await().until(() -> onPublishFutureList.size() > 4);
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
         Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
@@ -66,7 +66,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         String idMensagem = envelope.getIdMensagem();
         Storage storage = app.injector().instanceOf(Storage.class);
-        map = new Gson().fromJson(new String(onPublishFutureList.get(2)), Map.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
         assertEquals(TipoMensagem.CONFIGURACAO, envelope.getTipoMensagem());
@@ -75,7 +75,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         idMensagem = envelope.getIdMensagem();
 
-        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(4)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
         assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());
@@ -97,7 +97,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         String idMensagem = envelope.getIdMensagem();
         Storage storage = app.injector().instanceOf(Storage.class);
-        map = new Gson().fromJson(new String(onPublishFutureList.get(2)), Map.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
         assertEquals(TipoMensagem.CONFIGURACAO, envelope.getTipoMensagem());
@@ -106,13 +106,13 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         idMensagem = envelope.getIdMensagem();
 
-        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(4)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
         assertEquals(TipoMensagem.OK, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(idMensagem, envelope.getEmResposta());
 
-        map = new Gson().fromJson(new String(onPublishFutureList.get(4)), Map.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(5)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
 
@@ -130,7 +130,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         versaoControlador.update();
         startClient();
 
-        await().until(() -> onPublishFutureList.size() > 2);
+        await().until(() -> onPublishFutureList.size() > 3);
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
         Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
@@ -141,7 +141,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         String idMensagem = envelope.getIdMensagem();
         Storage storage = app.injector().instanceOf(Storage.class);
-        map = new Gson().fromJson(new String(onPublishFutureList.get(2)), Map.class);
+        map = new Gson().fromJson(new String(onPublishFutureList.get(3)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
         assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());

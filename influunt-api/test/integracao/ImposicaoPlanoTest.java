@@ -23,7 +23,8 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
             .findFirst().orElse(null);
         Plano plano = anel.getPlanos().get(0);
 
-        imporPlano(plano.getPosicao(), anel.getPosicao(), System.currentTimeMillis(), 30);
+        long horarioEntrada = System.currentTimeMillis() + 60000L;
+        imporPlano(plano.getPosicao(), anel.getPosicao(), horarioEntrada, 30);
         assertTransacaoOk();
     }
 

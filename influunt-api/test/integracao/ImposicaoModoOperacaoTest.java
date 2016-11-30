@@ -17,7 +17,8 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
         startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
-        imporModoOperacao(1, System.currentTimeMillis(), 30);
+        long horarioEntrada = System.currentTimeMillis() + 60000L;
+        imporModoOperacao(1, horarioEntrada, 30);
         assertTransacaoOk();
     }
 
@@ -26,7 +27,8 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
         startClient();
         await().until(() -> onPublishFutureList.size() > 5);
 
-        imporModoOperacao(-1, System.currentTimeMillis(), -1);
+        long horarioEntrada = System.currentTimeMillis() + 60000L;
+        imporModoOperacao(-1, horarioEntrada, -1);
         assertTransacaoErro();
     }
 
