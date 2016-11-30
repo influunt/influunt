@@ -10,3 +10,5 @@ target
 /RUNNING_PID
 imagens/*
 /bin/
+local
+form.properties

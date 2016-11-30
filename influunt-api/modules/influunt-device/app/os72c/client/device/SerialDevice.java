@@ -1,5 +1,6 @@
 package os72c.client.device;
 
+import com.typesafe.config.Config;
 import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
 import engine.TipoEvento;
@@ -12,7 +13,9 @@ import models.TipoDetector;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import os72c.client.Client;
 import os72c.client.exceptions.HardwareFailureException;
+import play.Logger;
 import protocol.*;
 
 import java.util.concurrent.Executors;
@@ -24,27 +27,48 @@ import java.util.concurrent.ScheduledExecutorService;
 public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
 
+    private final Config settings;
+
+    private final int startDelay;
+
+    private final String porta;
+
+    private final Integer baudrate;
+
+    private final Integer databits;
+
+    private final Integer stopbits;
+
+    private final Integer parity;
+
     private DeviceBridgeCallback callback;
 
     private SerialPort serialPort;
-
-    private String porta = "/dev/tty.usbmodem1411";
-    private Integer baudrate = 115200;
-
-    private Integer databits = 8;
-
-    private Integer stopbits = 1;
-
-    private Integer parity = 0;
 
     private ScheduledExecutorService executor;
 
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;
+
     private int sequencia = 0;
 
     public SerialDevice() {
+        settings = Client.getConfig().getConfig("serial");
+        porta = settings.getString("porta");
+        baudrate = settings.getInt("baudrate");
+        databits = settings.getInt("databits");
+        stopbits = settings.getInt("stopbits");
+        parity = settings.getInt("parity");
+        startDelay = settings.getInt("startdelay");
+
+        Logger.info(String.format("Iniciando a municacao serial"));
+        Logger.info(String.format("PORTA    :%s", porta));
+        Logger.info(String.format("BAUDRATE :%d", baudrate));
+        Logger.info(String.format("DATABITS :%d", databits));
+        Logger.info(String.format("STOPBITS :%d", stopbits));
+        Logger.info(String.format("PARITY   :%d", parity));
+        Logger.info(String.format("START DELAY :%s", startDelay));
 
 
     }
@@ -56,16 +80,21 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
         serialPort = new SerialPort(porta);
 
         try {
+            Logger.info("Abrindo a porta de comunicação");
             serialPort.openPort();//Open serial port
 
             serialPort.setParams(baudrate, databits, stopbits, parity);
-            Thread.sleep(2000);
+            Logger.info("Cumprindo delay");
+            Thread.sleep(startDelay);
+            Logger.info("Limpando buffer");
             serialPort.readBytes();
             serialPort.purgePort(SerialPort.PURGE_RXCLEAR);
             serialPort.purgePort(SerialPort.PURGE_TXCLEAR);
             serialPort.readBytes();
             serialPort.addEventListener(this);
+            Logger.info("Comunicação serial pronta para iniciar");
         } catch (SerialPortException spe) {
+            Logger.error("Não foi possível iniciar a comunicação serial");
             spe.printStackTrace();
             throw new HardwareFailureException(spe.getMessage());
         } catch (Exception e) {
@@ -92,9 +121,6 @@ public class SerialDevice implements DeviceBridge, SerialPortEventListener {
 
     }
 
-    private void noResponse(int sequencia) {
-
-    }
 
     @Override
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico) {

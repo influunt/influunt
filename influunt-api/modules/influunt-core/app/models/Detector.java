@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -196,7 +195,7 @@ public class Detector extends Model implements Cloneable, Serializable {
         message = "O tempo de ausência de detecção deve estar entre {min} e {max}.")
     public boolean isTempoAusenciaDeteccaoEstaDentroDaFaixa() {
         if (isMonitorado()) {
-            return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance(null).TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
+            return getTempoAusenciaDeteccao() != null && getAnel().getControlador().getRangeUtils().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
         }
         return true;
     }
@@ -206,7 +205,7 @@ public class Detector extends Model implements Cloneable, Serializable {
         message = "O tempo de detecção permanente deve estar entre {min} e {max}.")
     public boolean isTempoDeteccaoPermanenteEstaDentroDaFaixa() {
         if (isMonitorado()) {
-            return getTempoDeteccaoPermanente() != null && RangeUtils.getInstance(null).TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
+            return getTempoDeteccaoPermanente() != null && getAnel().getControlador().getRangeUtils().TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
         }
         return true;
     }
