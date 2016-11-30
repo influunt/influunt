@@ -4,8 +4,6 @@ package config;
 import be.objectify.deadbolt.java.cache.HandlerCache;
 import com.google.inject.Singleton;
 import config.auth.TestDeadboltHandlerCache;
-import os72c.client.conf.DeviceConfig;
-import os72c.client.conf.LocalDeviceConfig;
 import os72c.client.device.DeviceBridge;
 import os72c.client.device.FakeDevice;
 import os72c.client.storage.MapStorage;
@@ -33,7 +31,6 @@ public class WithLocalInfluuntApplicationNoAuthentication extends WithInfluuntAp
         return new GuiceApplicationBuilder().configure(configuration)
             .overrides(bind(Authenticator.class).to(AllowAllAuthenticator.class).in(Singleton.class))
             .overrides(bind(HandlerCache.class).to(TestDeadboltHandlerCache.class).in(Singleton.class))
-            .overrides(bind(DeviceConfig.class).to(LocalDeviceConfig.class).in(Singleton.class))
             .overrides(bind(DeviceBridge.class).to(ControladorForm.class).in(Singleton.class))
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
