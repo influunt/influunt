@@ -16,6 +16,7 @@ import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
@@ -402,33 +403,34 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
 
-        FaixasDeValores faixaDeValores = FaixasDeValores.getInstance();
-        faixaDeValores.setTempoMaximoPermanenciaEstagioMin(1);
-        faixaDeValores.save();
+        controlador.getRangeUtils();
 
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         assertEquals(2, anelCom4Estagios.getGruposSemaforicos().size());
 
         Estagio estagio1 = (Estagio) anelCom4Estagios.getEstagios().toArray()[0];
-        estagio1.setTempoMaximoPermanencia(5);
+        estagio1.setTempoMaximoPermanencia(20);
 
         GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.getGruposSemaforicos().get(0);
         EstagioGrupoSemaforico estagioGrupoSemaforico1 = new EstagioGrupoSemaforico(estagio1, grupoSemaforico1);
         estagio1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
         grupoSemaforico1.addEstagioGrupoSemaforico(estagioGrupoSemaforico1);
+        grupoSemaforico1.setTempoVerdeSeguranca(30);
+        grupoSemaforico1.setTipo(TipoGrupoSemaforico.VEICULAR);
 
-        List<Erro> erros = getErros(controlador);
+        List<Erro> erros = getErros(controlador).stream().sorted((e1, e2) -> e1.path.compareTo(e2.path)).collect(Collectors.toList());
 
         assertEquals(7, erros.size());
         assertThat(erros, Matchers.hasItems(
-            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
-            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
-            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.", "aneis[0].estagios[0].tempoMaximoPermanenciaMaiorQueVerdeDeSeguranca"),
             new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[1].aoMenosUmEstagioGrupoSemaforico"),
             new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[2].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[0].estagios[3].aoMenosUmEstagioGrupoSemaforico"),
             new Erro(CONTROLADOR, "Esse grupo semafórico deve estar associado a pelo menos um estágio", "aneis[0].gruposSemaforicos[1].associadoAoMenosAUmEstágio"),
-            new Erro(CONTROLADOR, "Tempo máximo de permanência deve ser maior que o verde de segurança dos grupos semafóricos associados ao estágio.", "aneis[0].estagios[0].tempoMaximoPermanenciaMaiorQueVerdeDeSeguranca")
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[0].aoMenosUmEstagioGrupoSemaforico"),
+            new Erro(CONTROLADOR, "Este estágio deve ser associado a pelo menos 1 grupo semafórico", "aneis[1].estagios[1].aoMenosUmEstagioGrupoSemaforico")
+
         ));
 
     }
