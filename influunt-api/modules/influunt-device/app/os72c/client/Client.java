@@ -24,7 +24,6 @@ import play.inject.guice.GuiceApplicationBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.eclipse.collections.impl.block.factory.Predicates.in;
 import static play.inject.Bindings.bind;
 
 
@@ -44,7 +43,7 @@ public class Client {
 
     private final String privateKey;
 
-    private static  Config config72c;
+    private static Config config72c;
 
     private ActorRef servidor;
 
@@ -53,12 +52,11 @@ public class Client {
     private DeviceBridge device;
 
 
-
     public Client(DeviceConfig deviceConfig) {
         Logger.info("Iniciando O 72C");
         Config configuration = ConfigFactory.load();
         config72c = configuration.getConfig("72c");
-        this.system = ActorSystem.create("InfluuntSystem",configuration);
+        this.system = ActorSystem.create("InfluuntSystem", configuration);
 
         Logger.info(String.format("Subsistema Akka:%s", this.system.name()));
 
@@ -91,10 +89,10 @@ public class Client {
         }
 
         Logger.info(String.format("ID CONTROLADOR  :%s", id));
-        Logger.info(String.format("MQTT HOST       :%s",  host));
-        Logger.info(String.format("MQTT PORT       :%s",  port));
-        Logger.info(String.format("CHAVE PUBLICA   :%s...%s",  centralPublicKey.substring(0,5),centralPublicKey.substring(centralPublicKey.length()-5,centralPublicKey.length())));
-        Logger.info(String.format("CHAVE PRIVADA   :%s...%s",  privateKey.substring(0,5),privateKey.substring(centralPublicKey.length()-5,centralPublicKey.length())));
+        Logger.info(String.format("MQTT HOST       :%s", host));
+        Logger.info(String.format("MQTT PORT       :%s", port));
+        Logger.info(String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
+        Logger.info(String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
         Logger.info(String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
         servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage, device), id);
@@ -110,7 +108,7 @@ public class Client {
         system.terminate();
     }
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Application app = createApplication(new HashMap());
         Play.start(app.getWrappedApplication());
         Materializer mat = app.getWrappedApplication().materializer();

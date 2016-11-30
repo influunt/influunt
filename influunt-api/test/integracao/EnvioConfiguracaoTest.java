@@ -80,7 +80,6 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(idMensagem, envelope.getEmResposta());
-
     }
 
     @Test
