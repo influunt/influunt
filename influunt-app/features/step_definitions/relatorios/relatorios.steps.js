@@ -9,7 +9,7 @@ module.exports = function() {
     return relatoriosPage.visitarRelatorio(localizacao);
   });
 
-  this.Given(/^o sistema deverá apresentar o controlador com status em falha$/, function () {
-    return relatoriosPage.controladorComFalhaNaListagem();
+  this.Given(/^o sistema deverá apresentar na listagem controlador "([^"]*)"$/, function (mensagem) {
+    return relatoriosPage.controladorComFalhaNaListagem(mensagem);
   });
 };
