@@ -136,4 +136,45 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
         assertEquals("Primeiro Estágio da Sequência - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
     }
+
+    @Test
+    public void saidaManualParaCoordenado() throws IOException {
+        inicioControlador = new DateTime(2016, 11, 30, 0, 0, 0);
+        inicioExecucao = new DateTime(2016, 11, 30, 0, 0, 0);
+        controlador = getControlador();
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 5);
+        acionarModoManual(motor);
+        avancarSegundos(motor, 30);
+        desativarModoManual(motor);
+        avancarSegundos(motor, 500);
+
+        int anel = 1;
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(50)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(70)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(anel).getEstagio().getPosicao().intValue());
+
+        anel = 2;
+        assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(12)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(48)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(86)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(130)).get(anel).getEstagio().getPosicao().intValue());
+
+        anel = 3;
+        assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(80)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(140)).get(anel).getEstagio().getPosicao().intValue());
+
+
+        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(18)));
+        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(35)));
+    }
 }
