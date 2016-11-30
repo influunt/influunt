@@ -3,7 +3,6 @@ package os72c.client;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.stream.Materializer;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -19,7 +18,6 @@ import play.Logger;
 import play.api.Play;
 import play.inject.guice.GuiceApplicationBuilder;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static play.inject.Bindings.bind;
