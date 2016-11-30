@@ -80,6 +80,9 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
 
             if (plano.isManual()) {
                 listaEstagioPlanos.clear();
+                if (!estagioPlanoAtual.equals(estagioPlanoAnterior)) {
+                    listaEstagioPlanos.add(estagioPlanoAtual);
+                }
                 listaEstagioPlanos.add(estagioPlanoAnterior);
                 listaEstagioPlanos.add(estagioPlano);
                 gerenciadorDeEstagios.reiniciaContadorEstagio();

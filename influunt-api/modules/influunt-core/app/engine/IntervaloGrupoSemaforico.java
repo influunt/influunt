@@ -207,7 +207,7 @@ public class IntervaloGrupoSemaforico {
 
                 Transicao transicao = grupoSemaforico.findTransicaoComGanhoDePassagemByOrigemDestino(estagioAnterior, estagioAtual);
 
-                if (entreverde.getDiffEntreVerde() > 0L && duracaoEntreverde > 0L) {
+                if (entreverde != null && entreverde.getDiffEntreVerde() > 0L && duracaoEntreverde > 0L) {
                     int atraso = (((Long) duracaoEntreverde).intValue() / 1000) -
                         plano.getTempoEntreVerdeQueConflitaComGrupoSemaforico(estagioAtual, estagioAnterior, grupoSemaforico);
                     if (atraso > 0) {
