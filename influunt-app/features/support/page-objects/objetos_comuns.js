@@ -302,6 +302,14 @@ var ObjetosComuns = function () {
       return world.getElementByXpath('//li[contains(text(), "'+valor+'")]');
     });
   };
+
+  this.verificarTabelaPorThETd = function(thText, tdText) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('//th[contains(text(), "'+thText+'")]').then(function() {
+        return world.waitForByXpath('//td[contains(text(), "'+tdText+'")]');
+      });
+    });
+  };
 };
 
 module.exports = ObjetosComuns;

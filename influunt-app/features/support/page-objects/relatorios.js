@@ -7,11 +7,11 @@ var RelatoriosPage = function () {
   this.world = world;
 
   this.visitarRelatorio = function(local) {
-      return world.visit('/app/relatorios/'+local+'');
+    return world.visit('/app/relatorios/'+local+'');
   };
 
-  this.controladorComFalhaNaListagem = function() {
-      return world.waitForByXpath('//td[contains(text(), "Em falha")]');
+  this.controladorComFalhaNaListagem = function(mensagem) {
+    return world.waitForByXpath('//td[contains(text(), "'+mensagem+'")]');
   };
 };
 module.exports = RelatoriosPage;
