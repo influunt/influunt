@@ -49,9 +49,6 @@ describe('Filter: resourceListToString', function () {
 });
 
 describe('Filter: resourceListToLink', function () {
-
-  var resourceListToLink;
-
   // initialize a new instance of the filter before each test
   var resourceListToLink, resources;
   beforeEach(inject(function ($filter) {

@@ -157,7 +157,7 @@ public class RelatoriosController extends Controller {
     }
 
     private Usuario getCurrentUsuario() {
-        Usuario currentUsuario =  contextManager.getUsuario(Http.Context.current());
+        Usuario currentUsuario = contextManager.getUsuario(Http.Context.current());
         if (!currentUsuario.isRoot() && !currentUsuario.podeAcessarTodasAreas() && currentUsuario.getArea() == null) {
             return null;
         }

@@ -30,6 +30,8 @@ public class ControladoresReportService extends ReportService<Controlador> {
     @Inject
     private BaseJasperReport baseJasperReport;
 
+    private String ENDERECO = "endereco";
+
     @Override
     public InputStream generateReport(Map<String, String[]> params, List<Controlador> lista, ReportType reportType) {
         throw new NotImplementedException("Metodo nao implentado. Favor utilizar outro metodo gerador.");
@@ -71,7 +73,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
             .where().in("id", trocas.stream().map(TrocaDePlanoControlador::getIdAnel).collect(Collectors.toList()));
 
         List<Anel> aneis;
-        if (area != null) { // filtrar a query pela área do usuário
+        if (area != null) {
             aneis = query.where().eq("controlador.area", area).findList();
         } else {
             aneis = query.findList();
@@ -96,7 +98,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
                     estado = "Sob plano vigente";
                     descricaoPlano = troca.getConteudo().get("plano").get("descricao").asText();
                 }
-                itens.addObject().put("cla", anel.getCLA()).putPOJO("endereco", anel.getEndereco().nomeEndereco()).put("estado", estado).put("plano", descricaoPlano).put("modo", troca.getConteudo().get("plano").get("modoOperacao").asText());
+                itens.addObject().put("cla", anel.getCLA()).putPOJO(ENDERECO, anel.getEndereco().nomeEndereco()).put("estado", estado).put("plano", descricaoPlano).put("modo", troca.getConteudo().get("plano").get("modoOperacao").asText());
             }
         });
 
@@ -129,7 +131,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         ObjectNode retorno = getControladoresStatusReportData(params, area);
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("cla").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                .append(StringUtils.defaultIfBlank(jsonNode.get("endereco").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get(ENDERECO).asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("estado").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("plano").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("modo").asText(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
@@ -182,7 +184,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
                 itens.addObject()
                     .put("clc", controlador.getCLC())
                     .put("cla", anel != null ? anel.getCLA() : "TODOS OS ANÉIS APRESENTAM FALHAS")
-                    .putPOJO("endereco", endereco.nomeEndereco())
+                    .putPOJO(ENDERECO, endereco.nomeEndereco())
                     .put("falha", anel != null ? "Falha no Anel" : "Falha no Controlador")
                     .put("tipo", falha.getConteudo().get("tipoEvento").get("descricao").asText());
             }
@@ -218,7 +220,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("clc").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("cla").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                .append(StringUtils.defaultIfBlank(jsonNode.get("endereco").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get(ENDERECO).asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("falha").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("tipo").asText(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
         });
