@@ -154,6 +154,15 @@ public class TransicaoProibida extends Model implements Serializable {
         return true;
     }
 
+    @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,
+        message = "O estágio de origem deve ser diferente do alternativo se o estágio de destino for demanda prioritária.")
+    public boolean isOrigemDiferenteDeAlternativoSeDestinoEhDemandaPrioritaria() {
+        if (getDestino() != null && getDestino().isDemandaPrioritaria()) {
+            return getOrigem() != getAlternativo();
+        }
+        return true;
+    }
+
     public boolean isDestroy() {
         return destroy;
     }
