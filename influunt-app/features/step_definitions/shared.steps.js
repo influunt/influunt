@@ -177,7 +177,11 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema não deverá mostrar o botão "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
-    return sharedSteps.naoPodeMostraBotao(botao, controlador);
+    return sharedSteps.naoPodeMostraBotaoControlador(botao, controlador);
+  });
+
+  this.Given(/^o sistema não deverá mostrar o botão "([^"]*)"$/, function (botao) {
+    return sharedSteps.naoPodeMostraBotao(botao);
   });
 
   this.Given(/^o usuário clicar em fechar o modal "([^"]*)"$/, function (modal) {

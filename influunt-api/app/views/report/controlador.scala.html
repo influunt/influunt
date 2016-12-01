@@ -12,7 +12,7 @@
 <!-- DADOS BASICOS -->
 <table class="table basicos">
   <h3>Dados Básicos</h3>
-  <p><b>Cidade:</b> @controlador.getArea().getCidade().getNome | <b>Área:</b> @controlador.getArea().getDescricao | <b>Subárea:</b> @controlador.getSubarea().toString() | <b>Número SMEE:</b> @controlador.getNumeroSMEE() | <b>CLC:</b> @controlador.getCLC()</p>
+  <p><b>Cidade:</b> @controlador.getArea().getCidade().getNome | <b>Área:</b> @controlador.getArea().getDescricao | <b>Subárea:</b> @controlador.getSubarea() | <b>Número SMEE:</b> @controlador.getNumeroSMEE() | <b>CLC:</b> @controlador.getCLC()</p>
   <tbody>
     <tr>
       <td>
@@ -211,12 +211,12 @@
 <style media="">
   * {
     font-family: Arial, Verdana, sans-serif;
-    font-size: 12px;
+    font-size: 40px;
   }
 
   h3 {
     padding: 0.2rem;
-    font-size: 16px;
+    font-size: 45px;
     text-transform: uppercase;
   }
   .logo {
@@ -241,7 +241,7 @@
   .table thead th {
     vertical-align: bottom;
     text-align: left;
-    font-size: 14px;
+    font-size: 40px;
   }
 
   .table-striped tbody tr:nth-of-type(odd) {
@@ -249,7 +249,6 @@
   }
   .basicos td p {
     margin-bottom: 5px;
-
   }
   tr {
     page-break-inside: avoid !important;
