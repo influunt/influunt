@@ -1069,6 +1069,14 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controlador/$id<[^/]+>', '[Relatórios] - Imprimir PDF Controlador', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+SET @permAppId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'gerarRelatorioControlador', '[Relatórios] - Gerar Relatório do Controlador em PDF', 'O usuário com essa permissão pode gerar relatórios de controladores e fazer o download em PDF.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/tabela_horaria', '[Relatórios] - Relatório de Tabela Horária em um determinado dia.', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);

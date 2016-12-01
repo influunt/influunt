@@ -1,13 +1,11 @@
 package reports;
 
+import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import models.Anel;
-import models.Controlador;
-import models.Endereco;
-import models.StatusDevice;
+import models.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -32,13 +30,14 @@ public class ControladoresReportService extends ReportService<Controlador> {
     @Inject
     private BaseJasperReport baseJasperReport;
 
+    private String ENDERECO = "endereco";
+
     @Override
     public InputStream generateReport(Map<String, String[]> params, List<Controlador> lista, ReportType reportType) {
         throw new NotImplementedException("Metodo nao implentado. Favor utilizar outro metodo gerador.");
     }
 
-    public ObjectNode getControladoresStatusReportData(Map<String, String[]> params) {
-        List<TrocaDePlanoControlador> trocas = TrocaDePlanoControlador.ultimasTrocasDePlanosDosControladores();
+    public ObjectNode getControladoresStatusReportData(Map<String, String[]> params, Area area) {
         List<String> aneisIds = new ArrayList<>();
 
         Map<String, String[]> paramsAux = new HashMap<>();
@@ -67,7 +66,18 @@ public class ControladoresReportService extends ReportService<Controlador> {
             }
         }
 
-        List<Anel> aneis = Anel.find.select("id, descricao, posicao, endereco").fetch("controlador.subarea").where().in("id", trocas.stream().map((TrocaDePlanoControlador troca) -> troca.getIdAnel()).collect(Collectors.toList())).findList();
+        List<TrocaDePlanoControlador> trocas = TrocaDePlanoControlador.ultimasTrocasDePlanosDosControladores();
+        ExpressionList<Anel> query = Anel.find
+            .select("id, descricao, posicao, endereco")
+            .fetch("controlador.subarea")
+            .where().in("id", trocas.stream().map(TrocaDePlanoControlador::getIdAnel).collect(Collectors.toList()));
+
+        List<Anel> aneis;
+        if (area != null) {
+            aneis = query.where().eq("controlador.area", area).findList();
+        } else {
+            aneis = query.findList();
+        }
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         aneis.forEach(anel -> {
@@ -88,7 +98,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
                     estado = "Sob plano vigente";
                     descricaoPlano = troca.getConteudo().get("plano").get("descricao").asText();
                 }
-                itens.addObject().put("cla", anel.getCLA().toString()).putPOJO("endereco", anel.getEndereco().nomeEndereco()).put("estado", estado).put("plano", descricaoPlano).put("modo", troca.getConteudo().get("plano").get("modoOperacao").asText());
+                itens.addObject().put("cla", anel.getCLA()).putPOJO(ENDERECO, anel.getEndereco().nomeEndereco()).put("estado", estado).put("plano", descricaoPlano).put("modo", troca.getConteudo().get("plano").get("modoOperacao").asText());
             }
         });
 
@@ -105,7 +115,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
      *
      * @return {@link InputStream} do csv
      */
-    public InputStream generateControladoresStatusCSVReport(Map<String, String[]> params) {
+    public InputStream generateControladoresStatusCSVReport(Map<String, String[]> params, Area area) {
         StringBuilder buffer = new StringBuilder();
 
         buffer.append("Relatório de Controladores por Status").append(NEW_LINE_SEPARATOR);
@@ -118,10 +128,10 @@ public class ControladoresReportService extends ReportService<Controlador> {
             .append("ESTADO").append(COMMA_DELIMITER).append("PLANO").append(COMMA_DELIMITER)
             .append("MODO").append(NEW_LINE_SEPARATOR);
 
-        ObjectNode retorno = getControladoresStatusReportData(params);
+        ObjectNode retorno = getControladoresStatusReportData(params, area);
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("cla").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                .append(StringUtils.defaultIfBlank(jsonNode.get("endereco").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get(ENDERECO).asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("estado").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("plano").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("modo").asText(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
@@ -130,9 +140,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
     }
 
-    public ObjectNode getControladoresFalhasReportData(Map<String, String[]> params) {
-        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
-
+    public ObjectNode getControladoresFalhasReportData(Map<String, String[]> params, Area area) {
         Map<String, String[]> paramsAux = new HashMap<>();
         paramsAux.putAll(params);
         paramsAux.remove("tipoRelatorio");
@@ -151,8 +159,15 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("subareaAgrupamento");
             paramsAux.remove("filtrarPor_eq");
         }
+
+        if (area != null) {
+            String[] areaId = {area.getId().toString()};
+            paramsAux.put("area.id", areaId);
+        }
+
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
 
+        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         falhas.forEach(falha -> {
             String idControlador = falha.getIdControlador();
@@ -169,7 +184,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
                 itens.addObject()
                     .put("clc", controlador.getCLC())
                     .put("cla", anel != null ? anel.getCLA() : "TODOS OS ANÉIS APRESENTAM FALHAS")
-                    .putPOJO("endereco", endereco.nomeEndereco())
+                    .putPOJO(ENDERECO, endereco.nomeEndereco())
                     .put("falha", anel != null ? "Falha no Anel" : "Falha no Controlador")
                     .put("tipo", falha.getConteudo().get("tipoEvento").get("descricao").asText());
             }
@@ -188,7 +203,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
      *
      * @return {@link InputStream} do csv
      */
-    public InputStream generateControladoresFalhasCSVReport(Map<String, String[]> params) {
+    public InputStream generateControladoresFalhasCSVReport(Map<String, String[]> params, Area area) {
         StringBuilder buffer = new StringBuilder();
 
         buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
@@ -201,11 +216,11 @@ public class ControladoresReportService extends ReportService<Controlador> {
             .append("FALHA").append(COMMA_DELIMITER).append("TIPO FALHA").append(NEW_LINE_SEPARATOR);
 
 
-        ObjectNode retorno = getControladoresFalhasReportData(params);
+        ObjectNode retorno = getControladoresFalhasReportData(params, area);
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("clc").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("cla").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
-                .append(StringUtils.defaultIfBlank(jsonNode.get("endereco").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get(ENDERECO).asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("falha").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("tipo").asText(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
         });

@@ -39,7 +39,7 @@
                 <tr data-ng-repeat="plano in lista">
                   <td>{{plano.numero}}</td>
                   <td>{{plano.cla}}</td>
-                  <td>{{plano.endereco}}</td>
+                  <td ng-bind-html="plano | resourceToLink: 'endereco':'app.controladores_show':'controlador_id':'id'"></td>
                   <td>{{plano.ciclo}}</td>
                   <td>{{plano.defasagem}}</td>
 
