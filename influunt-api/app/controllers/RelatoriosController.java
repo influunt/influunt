@@ -156,6 +156,16 @@ public class RelatoriosController extends Controller {
         }
     }
 
+    @Transactional
+    public CompletionStage<Result> gerarRelatorioLogControladores() {
+        if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
+            return CompletableFuture.completedFuture(ok(controladoresReportService.getLogsReportData(request().queryString())));
+        } else {
+            InputStream input = controladoresReportService.generateLogCSVReport(request().queryString());
+            return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
+        }
+    }
+
     private Usuario getCurrentUsuario() {
         Usuario currentUsuario = contextManager.getUsuario(Http.Context.current());
         if (!currentUsuario.isRoot() && !currentUsuario.podeAcessarTodasAreas() && currentUsuario.getArea() == null) {
