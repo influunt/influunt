@@ -6,7 +6,7 @@ import ch.qos.logback.classic.LoggerContext;
 import org.slf4j.LoggerFactory;
 import os72c.client.Client;
 import os72c.client.conf.TestDeviceConfig;
-import os72c.client.logger.InfluuntLogger;
+import logger.InfluuntLogger;
 import play.Application;
 import play.api.Play;
 
