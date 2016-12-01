@@ -1,6 +1,5 @@
 package reports;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -20,8 +19,6 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.ibm.icu.impl.ValidIdentifiers.Datatype.u;
 
 /**
  * Created by lesiopinheiro on 10/10/16.
@@ -162,7 +159,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         }
 
         if (area != null) {
-            String[] areaId = { area.getId().toString() };
+            String[] areaId = {area.getId().toString()};
             paramsAux.put("area.id", areaId);
         }
 
