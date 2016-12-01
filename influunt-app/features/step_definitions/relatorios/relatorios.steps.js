@@ -12,4 +12,12 @@ module.exports = function() {
   this.Given(/^o sistema deverá apresentar na listagem controlador "([^"]*)"$/, function (mensagem) {
     return relatoriosPage.controladorComFalhaNaListagem(mensagem);
   });
+
+  this.Given(/^o usuário selecionar no campo "([^"]*)" selecionar o label "([^"]*)"$/, function (campo, valor) {
+    return relatoriosPage.selecionarValor(campo, valor);
+  });
+
+  this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
+    return relatoriosPage.setarData(valor);
+  });
 };

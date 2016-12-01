@@ -13,5 +13,22 @@ var RelatoriosPage = function () {
   this.controladorComFalhaNaListagem = function(mensagem) {
     return world.waitForByXpath('//td[contains(text(), "'+mensagem+'")]');
   };
+
+  this.selecionarValor = function(campo, valor) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.selectByOptionAtribute('div', '[name="'+campo+'"]', 'label', valor);
+    });
+  };
+
+
+
+  this.setarData = function(valor){
+    var xpath = '//input[contains(@type, "datetime")]';
+    return world.waitForOverlayDisappear().then(function (){
+      return world.waitToggle().then(function(){
+        return world.setValueByXpath(xpath, valor);
+      });
+    });
+  };
 };
 module.exports = RelatoriosPage;
