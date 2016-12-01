@@ -149,6 +149,7 @@
         "planoVigente": "Plano vigente"
       },
       "planos": "Planos",
+      "planoImposto": "Possui plano imposto",
       "subAreas": "Subáreas",
       "sucessoEnvioPlano": "{PLANO} enviado com sucesso ao anel {ANEL}",
       "tabelasHorarias": "Tabelas horárias",
@@ -164,6 +165,9 @@
     "adicionarGrupo": "Adicionar Grupo",
     "ativo": "Ativo",
     "cidade": "Cidade",
+    "id": "ID",
+    "publicKey": "Chave Pública",
+    "privateKey": "Chave Privada",
     "CLC": "CLC",
     "CLA": "CLA",
     "configuracao_grupo": "Grupos Semafóricos",
@@ -233,7 +237,8 @@
       "acoes": "Ações",
       "verTelaAnterior": "Ver Resumo",
       "simular": "Simular",
-      "msgTooltipSimular": "Simular operação do controlador"
+      "msgTooltipSimular": "Simular operação do controlador",
+      "instalacao": "Instalação"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",
@@ -365,6 +370,7 @@
   "subareas": {
     "area": "Área",
     "associarControladores": "Associar controladores",
+    "controladores": "Controladores",
     "editar": "Editar Subárea",
     "mostrar": "Visualizar Subárea",
     "nome": "Nome",
@@ -813,15 +819,44 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
-    "titulo": "Impor Configuração",
+    "titulo": "Painel de Facilidades",
     "status": "Status",
     "cla": "CLA",
     "local": "Local",
     "info": "Info",
-    "imporPlano": "Impor Plano",
+    "liberacao": {
+      "confirmLiberarImposicao": "Liberar imposição?",
+      "erro": "Não foi possível finalizar a liberação",
+      "inicio": "Início",
+      "liberar": "Liberar",
+      "modoImposto": "Modo imposto",
+      "sucesso": "Liberação executada com sucesso"
+    },
+    "sincronizacao": {
+      "sucesso": "Sincronização executada com sucesso",
+      "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
+    },
+    "plano": {
+      "criarPlanoExclusivo": "Criar plano exclusivo",
+      "duracao": "Duração",
+      "editar": "Editar",
+      "erro": "Não foi possível finalizar a imposição de plano no controlador",
+      "horarioEntrada": "Horário de Entrada",
+      "mensagemPlanoExcluisivoNaoDisponivel": "Planos exclusivos podem ser criados quando aneis de somente um controlador são selecionados",
+      "plano": "Plano",
+      "planoTemporario": "Temporário",
+      "sucesso": "Imposição de plano executada com sucesso",
+      "titulo": "Impor Plano",
+      "validacoes": {
+        "duracaoEntreMinimoEMaximo": "O tempo de duração deve estar entre {MINIMO} e {MAXIMO}"
+      }
+    },
+    "modo_operacao": {
+      "sucesso": "Imposição de modo de operação executada com sucesso",
+      "erro": "Não foi possível finalizar a imposição de modo de operação no controlador"
+    },
     "imporModo": "Impor Modo",
     "sincronizar": "Sincronizar",
-    "plano": "Plano",
     "entrada": "Entrada",
     "horaEntrada": "Hora de Entrada",
     "duracao": "Duração",
@@ -843,6 +878,8 @@
   "INATIVO": "Inativo",
   "INOPERANTE": "Inoperante",
   "OPERANDO_COM_FALHAS": "Operando com falhas",
+  "ONLINE": "Online",
+  "OFFLINE": "Offline",
   "relatorios": {
     "auditorias": "Auditorias",
     "ciclo": "Ciclo",
@@ -852,7 +889,7 @@
     "controladoresEntreVerdes": "Controladores com alteração Entreverdes",
     "defasagem": "Defasagem",
     "exportarCSV": "CSV",
-    "tabelaHoraria": "Relatório de Tabela Horária",
+    "tabelaHoraria": "Tabela Horária",
     "CSV": "CSV",
     "exportarCsv": "Exportar CSV",
     "gerar": "Gerar",

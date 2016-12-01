@@ -62,6 +62,8 @@ angular.module('influuntApp')
               for (var i = 0; i < $scope.objeto.limitePlanos; i++) {
                 planoService.adicionar($scope.objeto, anel, i + 1);
               }
+
+              planoService.criarPlanoExclusivoTemporario($scope.objeto, anel);
             });
 
             $scope.configuraModoManualExclusivo();
@@ -648,6 +650,8 @@ angular.module('influuntApp')
 
         if(plano.manualExclusivo) {
           planoService.criarPlanoManualExclusivo($scope.objeto, $scope.currentAnel);
+        } else if (plano.planoTemporario) {
+          planoService.criarPlanoExclusivoDeImposicao($scope.objeto, $scope.currentAnel);
         } else {
           planoService.adicionar($scope.objeto, $scope.currentAnel, plano.posicao);
         }

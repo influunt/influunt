@@ -3,6 +3,7 @@ package protocol;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusVersao;
+import org.fusesource.mqtt.client.QoS;
 import utils.RangeUtils;
 
 import java.util.Collections;
@@ -24,14 +25,14 @@ public class Configuracao {
             return new Envelope(TipoMensagem.CONFIGURACAO,
                 envelope.getIdControlador(),
                 "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
-                2,
+                QoS.EXACTLY_ONCE,
                 new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), rangeUtils).toString(),
                 envelope.getIdMensagem());
         } else {
             return new Envelope(TipoMensagem.ERRO,
                 envelope.getIdControlador(),
                 "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
-                2,
+                QoS.EXACTLY_ONCE,
                 null,
                 envelope.getIdMensagem());
         }

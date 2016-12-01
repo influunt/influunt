@@ -57,4 +57,43 @@ public class Auditoria {
         auditorias().insert(this);
     }
 
+    public static PlayJongo getJongo() {
+        return jongo;
+    }
+
+    public static void setJongo(PlayJongo jongo) {
+        Auditoria.jongo = jongo;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public BeanChange getChange() {
+        return change;
+    }
+
+    public void setChange(BeanChange change) {
+        this.change = change;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

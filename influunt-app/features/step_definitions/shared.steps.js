@@ -177,7 +177,11 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema não deverá mostrar o botão "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
-    return sharedSteps.naoPodeMostraBotao(botao, controlador);
+    return sharedSteps.naoPodeMostraBotaoControlador(botao, controlador);
+  });
+
+  this.Given(/^o sistema não deverá mostrar o botão "([^"]*)"$/, function (botao) {
+    return sharedSteps.naoPodeMostraBotao(botao);
   });
 
   this.Given(/^o usuário clicar em fechar o modal "([^"]*)"$/, function (modal) {
@@ -190,5 +194,9 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá mostrar em linhas com valor "([^"]*)" na tabela$/, function (valorLinha) {
     return sharedSteps.verificarValoresEmLinhasNaTabela(valorLinha);
+  });
+
+  this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" com valor "([^"]*)"$/, function (coluna, valor) {
+    return sharedSteps.verificarTabelaPorThETd(coluna, valor);
   });
 };

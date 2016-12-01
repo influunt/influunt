@@ -1,6 +1,7 @@
 package os72c.client.device;
 
 import akka.actor.UntypedActor;
+import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import models.Anel;
 import models.Controlador;
@@ -138,13 +139,26 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
+            System.out.println("Mensagem recebida no device actor: " + envelope.getTipoMensagem());
             switch (envelope.getTipoMensagem()) {
                 case OK:
                     start();
                     break;
+
+                case IMPOSICAO_DE_MODO_OPERACAO:
+                    imporModoOperacao(envelope.getConteudoParsed());
+                    break;
+
+                case IMPOSICAO_DE_PLANO:
+                    imporPlano(envelope.getConteudoParsed());
+                    Thread.sleep(1000);
+                    break;
+
+                case LIBERAR_IMPOSICAO:
+                    liberarImposicao(envelope.getConteudoParsed());
+                    break;
             }
         }
-        System.out.println("Menssagem recebida no device actor");
     }
 
     @Override
@@ -154,7 +168,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        boolean disparar = true;
         Anel anel = null;
         if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
             if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
@@ -178,5 +191,28 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Anel buscarAnelPorGrupo(Integer posicao) {
         return controlador.findAnelByGrupoSemaforico(posicao);
+    }
+
+    private void imporModoOperacao(JsonNode conteudo) {
+        String modoOperacao = conteudo.get("modoOperacao").asText();
+        int numeroAnel = conteudo.get("numeroAnel").asInt();
+        int duracao = conteudo.get("duracao").asInt();
+        Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
+
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada ));
+    }
+
+    private void imporPlano(JsonNode conteudo) {
+        int posicaoPlano = conteudo.get("posicaoPlano").asInt();
+        int numeroAnel = conteudo.get("numeroAnel").asInt();
+        int duracao = conteudo.get("duracao").asInt();
+        Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
+
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada ));
+    }
+
+    private void liberarImposicao(JsonNode conteudo) {
+        int numeroAnel = conteudo.get("numeroAnel").asInt();
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
     }
 }

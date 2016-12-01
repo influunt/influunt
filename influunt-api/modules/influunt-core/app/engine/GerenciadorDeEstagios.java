@@ -2,6 +2,7 @@ package engine;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
+import com.google.common.collect.TreeRangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
 import helpers.GerenciadorEstagiosHelper;
@@ -9,10 +10,7 @@ import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rodrigosol on 10/11/16.
@@ -61,7 +59,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private Long tempoAbatimentoCoordenado = null;
 
-    private HashMap<DateTime, EventoMotor> eventosAgendados = new HashMap<>();
+    private RangeMap<Long, EventoMotor> eventosAgendados = TreeRangeMap.create();
 
 
     public GerenciadorDeEstagios(int anel,
@@ -104,10 +102,21 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         monitoraTempoMaximoDePermanenciaDoEstagio();
 
-        if (eventosAgendados.containsKey(inicioExecucao.plus(tempoDecorrido))) {
-            motor.onEvento(eventosAgendados.get(inicioExecucao.plus(tempoDecorrido)));
-            eventosAgendados.remove(inicioExecucao.plus(tempoDecorrido));
+        if (eventosAgendados.get(inicioExecucao.plus(tempoDecorrido).getMillis()) != null) {
+            executaEventoAgendamento();
         }
+    }
+
+    private void executaEventoAgendamento() {
+        Map.Entry<Range<Long>, EventoMotor> range = eventosAgendados.getEntry(inicioExecucao.plus(tempoDecorrido).getMillis());
+        EventoMotor evento = range.getValue();
+        if (TipoEvento.IMPOSICAO_PLANO.equals(evento.getTipoEvento()) ||
+            TipoEvento.IMPOSICAO_MODO.equals(evento.getTipoEvento())) {
+            onEvento(evento);
+        } else {
+            motor.onEvento(evento);
+        }
+        eventosAgendados.remove(range.getKey());
     }
 
     private Long verificarETrocaCoordenado() {
@@ -474,15 +483,25 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }).findFirst().orElse(null);
     }
 
-    public void agendarEvento(DateTime timestamp, EventoMotor eventoMotor) {
-        eventosAgendados.put(timestamp, eventoMotor);
+    public void agendarEvento(DateTime inicio, EventoMotor eventoMotor) {
+        eventosAgendados.put(Range.atLeast(inicio.getMillis()), eventoMotor);
+    }
+
+    public void agendarEvento(DateTime inicio, DateTime fim, EventoMotor eventoMotor) {
+        eventosAgendados.put(Range.closedOpen(inicio.getMillis(), fim.getMillis()), eventoMotor);
     }
 
     public void limparAgendamentos(TipoEvento liberarImposicao) {
-        eventosAgendados.entrySet().removeIf(entry -> liberarImposicao.equals(entry.getValue().getTipoEvento()));
+        Iterator<Map.Entry<Range<Long>, EventoMotor>> it = eventosAgendados.asMapOfRanges().entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Range<Long>, EventoMotor> entry = it.next();
+            if (TipoEvento.LIBERAR_IMPOSICAO.equals(entry.getValue().getTipoEvento())) {
+                it.remove();
+            }
+        }
     }
 
-    public HashMap<DateTime, EventoMotor> getEventosAgendados() {
+    public RangeMap<Long, EventoMotor> getEventosAgendados() {
         return eventosAgendados;
     }
 

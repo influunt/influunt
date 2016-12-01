@@ -3,6 +3,8 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
@@ -306,6 +308,93 @@ public class ControladoresController extends Controller {
     }
 
     @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForImposicao() {
+        Usuario u = getUsuario();
+        Map<String, String[]> params = new HashMap<>();
+        params.putAll(ctx().request().queryString());
+        String[] status = {"[ATIVO]"};
+
+        List<String> aneisIds = new ArrayList<>();
+
+        // Dado que seja um usuário sob uma área.
+        if (!u.isRoot() && u.getArea() != null) {
+            String[] areaId = {u.getArea().getId().toString()};
+            if (params.containsKey("area.descricao")) {
+                params.remove("area.descricao");
+            }
+            params.put("area.id", areaId);
+        }
+
+        final String nomeEndereco = params.containsKey("nomeDoEndereco") ? params.get("nomeDoEndereco")[0] : null;
+
+        // Dado que seja um usuário root ou um usuário sob uma área.
+        params.remove("nomeDoEndereco");
+        if (u.isRoot() || u.getArea() != null) {
+            if (params.containsKey("filtrarPor_eq")) {
+                if ((params.containsKey("filtrarPor_eq") && "Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
+                    if (params.containsKey("subareaAgrupamento")) {
+                        params.put("versaoControlador.statusVersao_in", status);
+                        params.put("subarea.nome", params.get("subareaAgrupamento"));
+                        params.remove("subareaAgrupamento");
+                        params.remove("filtrarPor_eq");
+                    }
+
+                    List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "subarea", "aneis")).query().getResult();
+                    controladores.stream().forEach(c -> c.getAneis().forEach(a -> aneisIds.add(a.getId().toString())));
+                } else if ((params.containsKey("filtrarPor_eq") && "Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
+                    if (params.containsKey("subareaAgrupamento")) {
+                        params.put("controlador.versaoControlador.statusVersao_in", status);
+                        params.put("agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
+                        params.remove("subareaAgrupamento");
+
+                        params.remove("filtrarPor_eq");
+                    }
+
+                    List<Anel> aneis = (List<Anel>) new InfluuntQueryBuilder(Anel.class, params).fetch(Arrays.asList("agrupamentos", "endereco")).query().getResult();
+                    aneis.stream().forEach(a -> aneisIds.add(a.getId().toString()));
+                }
+            }
+
+            List<Anel> aneis = new ArrayList<>();
+            if (!aneisIds.isEmpty()) {
+                aneis = Anel.find.select("id, descricao, posicao, endereco").fetch("controlador.subarea").where().in("id", aneisIds).findList();
+            } else if (!params.containsKey("subarea.nome") && !params.containsKey("agrupamentos.nome") && !params.containsKey("nomeDoEndereco")) {
+                params.put("controlador.versaoControlador.statusVersao_in", status);
+                aneis = (List<Anel>) new InfluuntQueryBuilder(Anel.class, params)
+                    .fetch(Arrays.asList("controlador.versaoControlador"))
+                    .query()
+                    .getResult();
+            }
+
+            ArrayNode itens = JsonNodeFactory.instance.arrayNode();
+            aneis.forEach(anel -> {
+                if (anel.isAtivo() && (aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString()))) {
+                    if(nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) {
+                        ObjectNode controlador = JsonNodeFactory.instance.objectNode();
+                        controlador.put("id", anel.getControlador().getId().toString());
+                        itens.addObject()
+                            .put("id", anel.getId().toString())
+                            .put("CLA", anel.getCLA())
+                            .put("posicao", anel.getPosicao())
+                            .put("endereco", anel.getEndereco().nomeEndereco())
+                            .putPOJO("controlador", controlador)
+                            .put("status", anel.getControlador().getStatusControladorReal().toString());
+                    }
+                }
+            });
+
+            ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+            retorno.putArray("data").addAll(itens);
+
+            return CompletableFuture.completedFuture(ok(retorno));
+        }
+
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+
+    @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
@@ -326,6 +415,21 @@ public class ControladoresController extends Controller {
         } else {
             List<VersaoControlador> versoes = VersaoControlador.versoes(controlador);
             return CompletableFuture.completedFuture(ok(Json.toJson(versoes)));
+        }
+    }
+
+    @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
+    public CompletionStage<Result> instalacao(String id) {
+        Controlador controlador = Controlador.find.byId(UUID.fromString(id));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            ObjectNode root = Json.newObject();
+            root.put("privateKey", controlador.getControladorPrivateKey());
+            root.put("publicKey", controlador.getCentralPublicKey());
+            root.put("idControlador", controlador.getId().toString());
+            return CompletableFuture.completedFuture(ok(root));
         }
     }
 

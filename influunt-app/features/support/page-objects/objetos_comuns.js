@@ -221,10 +221,16 @@ var ObjetosComuns = function () {
     return world.getElementByXpath(_this.xpathBotoesControladores(botao,controlador));
   };
 
-  this.naoPodeMostraBotao = function(botao, controlador) {
+  this.naoPodeMostraBotaoControlador = function(botao, controlador) {
     var _this = this;
     return world.waitForOverlayDisappear().then(function() {
       return world.waitForByXpathInverse(_this.xpathBotoesControladores(botao,controlador));
+    });
+  };
+
+  this.naoPodeMostraBotao = function(botao) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.shoulNotFindLinkByText(botao);
     });
   };
 
@@ -300,6 +306,14 @@ var ObjetosComuns = function () {
       return world.sleep(1000);
     }).then(function() {
       return world.getElementByXpath('//li[contains(text(), "'+valor+'")]');
+    });
+  };
+
+  this.verificarTabelaPorThETd = function(thText, tdText) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('//th[contains(text(), "'+thText+'")]').then(function() {
+        return world.waitForByXpath('//td[contains(text(), "'+tdText+'")]');
+      });
     });
   };
 };

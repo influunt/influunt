@@ -102,7 +102,7 @@ angular.module('influuntApp')
       if (typeof limitePlanos !== 'number') {
         limitePlanos = 16;
       }
-      return getTimes(parseInt(limitePlanos));
+      return _.times(parseInt(limitePlanos));
     };
 
 

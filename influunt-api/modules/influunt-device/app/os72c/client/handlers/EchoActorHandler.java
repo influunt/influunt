@@ -21,7 +21,7 @@ public class EchoActorHandler extends UntypedActor {
 
                 if (envelope.getEmResposta() == null) {
                     log.info("Respondento echo para central: {}", envelope.getConteudo().toString());
-                    Envelope envelope1 = envelope.replayWithSameMenssage("central/echo");
+                    Envelope envelope1 = envelope.replayWithSameMessage("central/echo");
                     getSender().tell(envelope1, getSelf());
                 } else {
                     log.info("Central respondeu o echo: {}", envelope.getConteudo().toString());

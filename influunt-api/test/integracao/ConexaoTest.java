@@ -34,24 +34,22 @@ public class ConexaoTest extends BasicMQTTTest {
         //A central conectou
         assertEquals("central", onConnectFutureList.get(0));
 
-        assertEquals("central", onConnectFutureList.get(0));
-
         assertEquals("controladores/conn/online", onSubscribeFutureList.get(0));
 
         //A central se increveu para receber informação de quando um controlador fica offline
         assertEquals("controladores/conn/offline", onSubscribeFutureList.get(1));
 
-        //A central se increveu para receber informação de central
-        assertEquals("central/+", onSubscribeFutureList.get(2));
-
         //A central se increveu para receber informação de transações
-        assertEquals("central/transacoes/+", onSubscribeFutureList.get(3));
+        assertEquals("central/transacoes/+", onSubscribeFutureList.get(2));
 
         //A cliente se inscreve para receber informações de alarmes e falhas
-        assertEquals("central/alarmes_falhas/+", onSubscribeFutureList.get(4));
+        assertEquals("central/alarmes_falhas/+", onSubscribeFutureList.get(3));
 
         //A cliente se inscreve para receber informações de trocas de planos
-        assertEquals("central/troca_plano/+", onSubscribeFutureList.get(5));
+        assertEquals("central/troca_plano/+", onSubscribeFutureList.get(4));
+
+        //A central se increveu para receber informação de central
+        assertEquals("central/+", onSubscribeFutureList.get(5));
 
         //O cliente se conectou
         assertEquals(idControlador, onConnectFutureList.get(1));

@@ -28,7 +28,7 @@ public class ServerActor extends UntypedActor {
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    private ActorRef mqqtCentral;
+    private ActorRef mqttCentral;
 
 
     public ServerActor(final String mqttHost, final String mqttPort) {
@@ -43,9 +43,9 @@ public class ServerActor extends UntypedActor {
     }
 
     private void setup() {
-        mqqtCentral = getContext().actorOf(Props.create(MQTTServerActor.class, mqttHost, mqttPort), "CentralMQTT");
-        this.getContext().watch(mqqtCentral);
-        mqqtCentral.tell("CONNECT", getSelf());
+        mqttCentral = getContext().actorOf(Props.create(MQTTServerActor.class, mqttHost, mqttPort), "CentralMQTT");
+        this.getContext().watch(mqttCentral);
+        mqttCentral.tell("CONNECT", getSelf());
     }
 
     @Override

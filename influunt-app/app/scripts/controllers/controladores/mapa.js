@@ -96,7 +96,7 @@ angular.module('influuntApp')
         var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
         controladores.forEach(function(controlador) {
           controlador.status = $scope.statusObj.status[controlador.id];
-          controlador.online = $scope.statusObj.onlines[controlador.id];
+          controlador.online = !!$scope.statusObj.onlines[controlador.id];
 
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
           $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
@@ -319,12 +319,15 @@ angular.module('influuntApp')
         }
 
         var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
+        var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
+        $scope.statusObj.onlines[controlador.id] = isOnline;
+        $scope.statusObj.status[controlador.id] = status;
         controlador.online = isOnline;
-        controlador.status = isOnline ? ONLINE : OFFLINE;
+        controlador.status = status;
 
         controlador.aneis.forEach(function(anel) {
           anel.online = isOnline;
-          anel.status = isOnline ? ONLINE : OFFLINE;
+          anel.status = isOnline ? (anel.status || ONLINE) : OFFLINE;
         });
 
         var msg = isOnline ?
@@ -338,6 +341,7 @@ angular.module('influuntApp')
 
       statusControladoresWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
+        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
         if (!controlador) {
@@ -346,6 +350,7 @@ angular.module('influuntApp')
         }
 
         controlador.status = mensagem.conteudo.status;
+        $scope.statusObj.status[controlador.id] = mensagem.conteudo.status;
 
         var msg = $filter('translate')(
           'controladores.mapaControladores.alertas.mudancaStatusControlador',
@@ -357,6 +362,7 @@ angular.module('influuntApp')
 
       trocaPlanoWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
+        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
 
         if (!controlador) {
@@ -364,18 +370,38 @@ angular.module('influuntApp')
           return false;
         }
 
+        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
         var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
-        anel.hasPlanoImposto = mensagem.conteudo.imposicaoDePlano;
-        anel.modoOperacao = mensagem.conteudo.plano.modoOperacao;
-        anel.tipoControleVigente = mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL';
+        var statusObj = _.find($scope.statusObj.statusPlanos, function(obj) {
+          return obj.idControlador === mensagem.idControlador &&
+            parseInt(obj.anelPosicao) === parseInt(posicaoAnel);
+        });
+
+        if (statusObj) {
+          statusObj = {
+            idControlador: mensagem.idControlador,
+            anelPosicao: posicaoAnel
+          };
+
+          $scope.statusObj.statusPlanos = $scope.statusObj.statusPlanos || [];
+          $scope.statusObj.statusPlanos.push(statusObj);
+        }
 
         var posicaoPlano = parseInt(mensagem.conteudo.plano.posicao);
         var ids = _.map(anel.planos, 'idJson');
         anel.planoVigente = _.find(controlador.planos, function(plano) {
           return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
         });
+
+        anel.hasPlanoImposto = mensagem.conteudo.imposicaoDePlano;
+        anel.modoOperacao = mensagem.conteudo.plano.modoOperacao;
+        anel.tipoControleVigente = mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL';
+
+        statusObj.hasPlanoImposto = anel.hasPlanoImposto;
+        statusObj.modoOperacao = anel.modoOperacao;
+        statusObj.planoPosicao = posicaoPlano;
 
         var msg = $filter('translate')('controladores.mapaControladores.alertas.trocaPlanoAnel', {ANEL: anel.CLA});
         exibirAlerta(msg, anel);
@@ -384,6 +410,7 @@ angular.module('influuntApp')
 
       alarmesEFalhasWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
+        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         $scope.statusObj.erros = $scope.statusObj.erros || {};
 
         var controlador = _.find($scope.listaControladores, {id: mensagem.idControlador});
@@ -552,9 +579,11 @@ angular.module('influuntApp')
               .clone()
               .value();
 
+
             return !!$scope.currentControlador && !!$scope.currentAnel;
           });
 
+          $scope.currentAnel.controlador = {id: $scope.currentControlador.id};
           $scope.currentAnel.planos = _
             .chain($scope.currentAnel.planos)
             .map(function(plano) {
@@ -611,11 +640,6 @@ angular.module('influuntApp')
         );
 
         $('#modalDiagramaIntervalos').modal('show');
-      };
-
-      $scope.imporPlano = function() {
-        $scope.currentAnel.currentPlano = $scope.planoImposto;
-        $scope.currentAnel.hasPlanoImposto = true;
       };
 
       $scope.enviarPlano = function(anel) {

@@ -1,11 +1,13 @@
 package engine.eventos;
 
+import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import engine.*;
 import engine.services.PlanoService;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
 import models.Plano;
+import org.joda.time.DateTime;
 
 /**
  * Created by rodrigosol on 11/8/16.
@@ -46,10 +48,12 @@ public class ImporModoHandle extends GerenciadorDeEventos {
             agendamentoTrocaPlano.setImposicaoPlano(true);
             gerenciadorDeEstagios.trocarPlano(agendamentoTrocaPlano);
 
+            Long horarioEntrada = (Long) eventoMotor.getParams()[3];
             Integer duracao = (Integer) eventoMotor.getParams()[2];
-            EventoMotor liberacao = new EventoMotor(eventoMotor.getTimestamp().plusMinutes(duracao),
+            Integer anel = (Integer) eventoMotor.getParams()[1];
+            EventoMotor liberacao = new EventoMotor(new DateTime(horarioEntrada).plusMinutes(duracao),
                 TipoEvento.LIBERAR_IMPOSICAO,
-                eventoMotor.getParams()[1]);
+                anel);
             gerenciadorDeEstagios.agendarEvento(liberacao.getTimestamp(), liberacao);
         }
     }

@@ -51,8 +51,8 @@ public class EncryptionUtil {
     }
 
     public static String decryptJson(Map msg, String privateKey) throws DecoderException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException {
-        PrivateKey pk =
-            KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Hex.decodeHex(privateKey.toCharArray())));
+        PrivateKey pk = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Hex.decodeHex(privateKey.toCharArray())));
+
 
         byte[] aesKey = decryptRSA(Hex.decodeHex(msg.get("key").toString().toCharArray()), pk);
         SecretKey secretKey = new SecretKeySpec(aesKey, 0, aesKey.length, "AES");
@@ -75,20 +75,20 @@ public class EncryptionUtil {
     }
 
     public static byte[] decryptRSA(byte[] text, PrivateKey key) {
-        byte[] dectyptedText = null;
+        byte[] decryptedText = null;
         try {
             // get an RSA cipher object and print the provider
             final Cipher cipher = Cipher.getInstance("RSA");
 
             // decrypt the text using the private key
             cipher.init(Cipher.DECRYPT_MODE, key);
-            dectyptedText = cipher.doFinal(text);
+            decryptedText = cipher.doFinal(text);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return dectyptedText;
+        return decryptedText;
     }
 
 }

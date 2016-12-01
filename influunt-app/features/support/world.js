@@ -254,6 +254,12 @@ var World = function () {
     return driver.findElement(webdriver.By.linkText(text));
   };
 
+  this.shoulNotFindLinkByText = function(text) {
+    return driver.isElementPresent(webdriver.By.linkText(text)).then(function(isElementPresent) {
+        return !isElementPresent;
+    });
+  };
+
   this.waitToggle = function() {
     var _this = this;
     return _this.sleep(300);

@@ -50,7 +50,8 @@ angular.module('influuntApp')
       };
 
       $scope.loadDashboard = function() {
-        Restangular.one('monitoramento', 'status_controladores').get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
+        Restangular.one('monitoramento', 'status_controladores')
+          .get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
           .then(function(res) {
             $scope.statusObj = res;
             atualizaDadosDinamicos();
@@ -151,6 +152,7 @@ angular.module('influuntApp')
 
         return getControlador(mensagem.idControlador)
           .then(function(controlador) {
+            mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
             var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -171,6 +173,7 @@ angular.module('influuntApp')
 
       alarmesEFalhasWatcher = function(payload) {
         var mensagem = JSON.parse(payload);
+        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
         $scope.statusObj.erros = $scope.statusObj.erros || {};
 
         switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
@@ -267,7 +270,6 @@ angular.module('influuntApp')
       handleRecuperacaoFalhas = function(mensagem) {
         return getControlador(mensagem.idControlador)
           .then(function(controlador) {
-
             var sampleFalha;
             _.filter($scope.statusObj.erros, function(falha) {
               return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&

@@ -98,11 +98,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
                 throw new Exception("Conexao morreu");
             }
         } else if (message instanceof Envelope) {
-            sendMenssage((Envelope) message);
+            sendMessage((Envelope) message);
         }
     }
 
-    private void sendMenssage(Envelope envelope) throws MqttException {
+    private void sendMessage(Envelope envelope) throws MqttException {
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);
@@ -120,27 +120,15 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
             router.route(envelope, getSelf());
 
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | InvalidKeyException e) {
             e.printStackTrace();
         } catch (com.google.gson.JsonSyntaxException e) {
             e.printStackTrace();
         }
+
     }
 
     private void connect() throws MqttException {
-
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
@@ -156,32 +144,21 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
                 Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-
-        client.subscribe("controladores/conn/online", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
-
-        client.subscribe("controladores/conn/offline", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        subscribe("controladores/conn/online");
+        subscribe("controladores/conn/offline");
+        subscribe("central/transacoes/+");
+        subscribe("central/alarmes_falhas/+");
+        subscribe("central/troca_plano/+");
 
         client.subscribe("central/+", 1, (topic, message) -> {
             if (!"central/morreu".equals(topic)) {
                 sendToBroker(message);
             }
         });
+    }
 
-        client.subscribe("central/transacoes/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
-
-        client.subscribe("central/alarmes_falhas/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
-
-        client.subscribe("central/troca_plano/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+    public void subscribe(String route) throws MqttException {
+        client.subscribe(route, 1, (topic, message) -> sendToBroker(message));
     }
 
     @Override

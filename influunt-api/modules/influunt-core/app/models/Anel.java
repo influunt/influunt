@@ -250,7 +250,9 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoAtivo() {
         if (versaoPlanoAtivo == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
-                this.versaoPlanoAtivo = getVersoesPlanos().stream().filter(VersaoPlano::isAtivo).findFirst().orElse(null);
+                this.versaoPlanoAtivo = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isAtivo())
+                    .findFirst().orElse(null);
             }
         }
         return versaoPlanoAtivo;
@@ -264,7 +266,8 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
-                this.versaoPlanoEdicao = getVersoesPlanos().stream().filter(VersaoPlano::isEditando).findFirst().orElse(null);
+                this.versaoPlanoEdicao = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isEditando()).findFirst().orElse(null);
             }
         }
         return versaoPlanoEdicao;
@@ -274,7 +277,8 @@ public class Anel extends Model implements Cloneable, Serializable {
     public VersaoPlano getVersaoPlanoConfigurado() {
         if (versaoPlanoConfigurado == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
-                this.versaoPlanoConfigurado = getVersoesPlanos().stream().filter(VersaoPlano::isConfigurado).findFirst().orElse(null);
+                this.versaoPlanoConfigurado = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isConfigurado()).findFirst().orElse(null);
             }
         }
         return versaoPlanoConfigurado;
@@ -317,7 +321,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         message = "O anel ativo deve ter somente um estágio de demanda prioritária.")
     public boolean isSomenteUmEstagioDeDemandaPrioritaria() {
         if (this.isAtivo()) {
-            return this.getEstagios().stream().filter(estagio -> estagio.isDemandaPrioritaria()).count() <= 1;
+            return this.getEstagios().stream().filter(Estagio::isDemandaPrioritaria).count() <= 1;
         }
         return true;
     }
@@ -326,7 +330,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         message = "O anel ativo deve ter pelo menos 1 plano configurado.")
     public boolean isAoMenosUmPlanoConfigurado() {
         if (this.isAtivo()) {
-            return !this.getPlanos().isEmpty();
+            return getPlanos() != null && !getPlanos().isEmpty();
         }
         return true;
     }

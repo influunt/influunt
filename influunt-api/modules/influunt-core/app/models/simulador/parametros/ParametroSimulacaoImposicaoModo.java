@@ -62,6 +62,6 @@ public class ParametroSimulacaoImposicaoModo {
     }
 
     public EventoMotor toEvento() {
-        return new EventoMotor(disparo, TipoEvento.IMPOSICAO_MODO, modoOperacao, anel, duracao);
+        return new EventoMotor(disparo.minus(200), TipoEvento.IMPOSICAO_MODO, modoOperacao, anel, duracao, disparo.getMillis());
     }
 }

@@ -58,11 +58,14 @@ describe('Controller: PlanosCtrl', function () {
       expect(scope.objeto.versoesPlanos.length).toBe(aneis.length);
     });
 
-    it('Deve criar n planos por anel, sendo n igual ao limite de planos do controlador', function() {
+    it('Deve criar n planos por anel, sendo n igual ao limite de planos do controlador + 1 controlador de configuracao temporaria', function() {
       var aneis = _.filter(scope.objeto.aneis, 'ativo');
       aneis.forEach(function(anel) {
         expect(anel.planos).toBeDefined();
-        expect(anel.planos.length).toBe(scope.objeto.limitePlanos);
+        expect(anel.planos.length).toBe(scope.objeto.limitePlanos + 1);
+
+        var planos = _.filter(scope.objeto.planos, function(p) { return _.map(anel.planos, 'idJson').indexOf(p.idJson) >= 0 });
+        expect(_.find(planos, 'planoTemporario')).toBeDefined();
       });
     });
   });
@@ -101,7 +104,7 @@ describe('Controller: PlanosCtrl', function () {
         var planosConfigurados = _.filter(scope.objeto.planos, 'configurado');
 
         expect(anel.planos).toBeDefined();
-        expect(anel.planos.length).toBe(scope.objeto.limitePlanos);
+        expect(anel.planos.length).toBe(scope.objeto.limitePlanos + 1);
         expect(planosConfigurados.length).toBe(controlador.planos.length);
         expect(_.map(planosConfigurados, 'id')).toEqual(_.map(controlador.planos, 'id'));
       });
@@ -866,7 +869,7 @@ describe('Controller: PlanosCtrl', function () {
         scope.selecionaAnelPlanos(0);
 
         expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
-        expect(scope.currentPlanos.length).toBe(17);
+        expect(scope.currentPlanos.length).toBe(18);
         var plano = scope.currentPlanos[6];
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
@@ -884,7 +887,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.currentPlanos[16].posicao).toBe(16);
         expect(scope.currentPlano.posicao).toBe(6);
 
-        expect(scope.currentPlanos.length).toBe(17);
+        expect(scope.currentPlanos.length).toBe(18);
 
         _.each(scope.currentPlanos, function(plano, index){
           expect(plano.posicao).toBe(index);
@@ -895,7 +898,7 @@ describe('Controller: PlanosCtrl', function () {
         scope.selecionaAnelPlanos(0);
 
         expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
-        expect(scope.currentPlanos.length).toBe(17);
+        expect(scope.currentPlanos.length).toBe(18);
         var plano = scope.currentPlanos[6];
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
@@ -915,7 +918,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.currentPlanos[16].posicao).toBe(16);
         expect(scope.currentPlano.posicao).toBe(6);
 
-        expect(scope.currentPlanos.length).toBe(17);
+        expect(scope.currentPlanos.length).toBe(18);
 
         _.each(scope.currentPlanos, function(plano, index){
           expect(plano.posicao).toBe(index);
@@ -935,13 +938,13 @@ describe('Controller: PlanosCtrl', function () {
         scope.selecionaAnelPlanos(0);
 
         expect(scope.currentAnel.aceitaModoManual).toBeTruthy();
-        expect(scope.currentPlanos.length).toBe(17);
+        expect(scope.currentPlanos.length).toBe(18);
         var plano = scope.currentPlanos[1];
         scope.planoCopiado = plano;
         scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[16]];
         scope.confirmacaoCopiarPlano();
 
-        expect(scope.currentPlanos.length).toBe(17);
+        expect(scope.currentPlanos.length).toBe(18);
 
         _.each(scope.currentPlanos, function(plano, index){
           expect(plano.posicao).toBe(index);
@@ -961,7 +964,7 @@ describe('Controller: PlanosCtrl', function () {
         scope.selecionaAnelPlanos(0);
 
         expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
-        expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
         var plano = scope.currentPlanos[10];
         plano.configurado = true;
         scope.selecionaPlano(plano, 10);
@@ -979,7 +982,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.currentPlanos[15].posicao).toBe(16);
         expect(scope.currentPlano.posicao).toBe(11);
 
-        expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
 
         _.each(scope.currentPlanos, function(plano, index){
           expect(plano.posicao).toBe(index+1);
@@ -990,7 +993,7 @@ describe('Controller: PlanosCtrl', function () {
         scope.selecionaAnelPlanos(0);
 
         expect(scope.currentAnel.aceitaManual).toBeFalsy();
-        expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
         var plano = scope.currentPlanos[6];
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
@@ -1010,7 +1013,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(scope.currentPlanos[15].posicao).toBe(16);
         expect(scope.currentPlano.posicao).toBe(7);
 
-        expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
 
         _.each(scope.currentPlanos, function(plano, index){
           expect(plano.posicao).toBe(index+1);
@@ -1030,13 +1033,13 @@ describe('Controller: PlanosCtrl', function () {
         scope.selecionaAnelPlanos(0);
 
         expect(scope.currentAnel.aceitaModoManual).toBeFalsy();
-        expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
         var plano = scope.currentPlanos[1];
         scope.planoCopiado = plano;
         scope.planosDestino = [scope.currentPlanos[6], scope.currentPlanos[12], scope.currentPlanos[15]];
         scope.confirmacaoCopiarPlano();
 
-        expect(scope.currentPlanos.length).toBe(16);
+        expect(scope.currentPlanos.length).toBe(17);
 
         _.each(scope.currentPlanos, function(plano, index){
           expect(plano.posicao).toBe(index+1);
