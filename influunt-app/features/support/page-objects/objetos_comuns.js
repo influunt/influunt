@@ -221,10 +221,16 @@ var ObjetosComuns = function () {
     return world.getElementByXpath(_this.xpathBotoesControladores(botao,controlador));
   };
 
-  this.naoPodeMostraBotao = function(botao, controlador) {
+  this.naoPodeMostraBotaoControlador = function(botao, controlador) {
     var _this = this;
     return world.waitForOverlayDisappear().then(function() {
       return world.waitForByXpathInverse(_this.xpathBotoesControladores(botao,controlador));
+    });
+  };
+
+  this.naoPodeMostraBotao = function(botao) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.shoulNotFindLinkByText(botao);
     });
   };
 
