@@ -132,6 +132,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 contadorDeCiclos++;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
                 executaAgendamentoTrocaDePlano();
+            } else if (this.plano.isModoOperacaoVerde() && estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
+                reconhecePlano(this.plano);
             } else if (contadorEstagio == listaEstagioPlanos.size()) {
                 reiniciaContadorEstagio();
                 verificaEAjustaIntermitenteCasoDemandaPrioritaria();
@@ -292,7 +294,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             geraIntervalos(0, inicio);
 
-            if (!inicio) {
+            if (!inicio && this.agendamento != null) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
                 EventoMotor eventoMotor = new EventoMotor(null, TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
 
@@ -382,7 +384,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         List<EstagioPlano> novaLista = new ArrayList<>();
         final Boolean[] adicionado = {false};
         listaEstagioPlanos.forEach(item -> {
-            if (item.getPosicao() >= estagioPlano.getPosicao() && !adicionado[0]) {
+            if (item.getPosicao() != null && item.getPosicao() >= estagioPlano.getPosicao() && !adicionado[0]) {
                 novaLista.add(estagioPlano);
                 adicionado[0] = true;
             }
