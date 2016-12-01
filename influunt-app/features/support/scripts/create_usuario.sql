@@ -1082,9 +1082,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'gerarRelatorioControlador', '[Relatórios] - Gerar Relatório Controlador', 'O usuário com essa permissão pode imprimir relatório de controlador.', NOW(), NOW());
+  (@permAppId, 'gerarRelatorioControlador', '[Relatórios] - Gerar Relatório do Controlador em PDF', 'O usuário com essa permissão pode gerar relatórios de controladores e fazer o download em PDF.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
-
 
 -- # Permissao Simulação
 Set @SimularId = RANDOM_UUID();
