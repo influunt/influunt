@@ -15,7 +15,7 @@ angular
 
       $urlRouterProvider.otherwise(function($injector) {
         var $state = $injector.get('$state');
-        $state.go('app.main');
+        $state.go('login');
       });
 
       $stateProvider
@@ -874,6 +874,20 @@ angular
           data: {
             title: 'usuarios.access_log',
             breadcrumb: 'usuarios.access_log',
+            permissions: {
+              only: 'verLogAcessoUsuarios',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
+        .state('app.alarmes_e_falhas', {
+          url: '/usuarios/:id/alarmes-e-falhas',
+          templateUrl: 'views/usuarios/alarmes-e-falhas.html',
+          controller: 'AlarmesEFalhasCtrl',
+          data: {
+            title: 'alarmesEFalhas.titulo',
+            breadcrumb: 'alarmesEFalhas.titulo',
             permissions: {
               only: 'verLogAcessoUsuarios',
               redirectTo: 'app.main'

@@ -20,7 +20,7 @@ angular.module('influuntApp')
 
       var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, exibirAlerta,
           statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher,
-          handleAlarmesEFalhas, handleRecuperacaoFalhas, logout;
+          handleAlarmesEFalhas, handleRecuperacaoFalhas, logout, loadAlarmesEFalhas;
 
       var LIMITE_ALARMES_FALHAS = 10;
       var FALHA = 'FALHA';
@@ -300,6 +300,17 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
+      loadAlarmesEFalhas = function() {
+        $scope.$root.alarmesAtivados = {};
+        var usuarioId = $scope.getUsuario().id;
+        return Restangular.one('usuarios', usuarioId).all('alarmes_e_falhas').getList()
+          .then(function(res) {
+            _.each(res, function(obj) {
+              $scope.$root.alarmesAtivados[obj.chave] = true;
+            });
+          });
+      };
+
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);
       };
@@ -327,4 +338,7 @@ angular.module('influuntApp')
         $scope.menus = res.data;
         checkRoleForMenus();
       });
+
+      loadAlarmesEFalhas();
+
     }]);

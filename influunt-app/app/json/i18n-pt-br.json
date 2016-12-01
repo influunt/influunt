@@ -5,6 +5,10 @@
     "aviso": "Você está utilizado o navegador <strong id='nav'>Internet Explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
     "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
   },
+  "alarmesEFalhas": {
+    "titulo": "Desarme de Alarmes",
+    "descricao": "Descrição"
+  },
   "auditorias": {
     "classe": "Classe",
     "titulo": "Auditoria",
