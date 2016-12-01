@@ -60,7 +60,7 @@ public class RelatoriosController extends Controller {
         }
 
         Area area = null;
-        if (currentUsuario.getArea() != null) {
+        if (!currentUsuario.isRoot() && !currentUsuario.podeAcessarTodasAreas()) {
             area = currentUsuario.getArea();
         }
 
@@ -80,7 +80,7 @@ public class RelatoriosController extends Controller {
         }
 
         Area area = null;
-        if (currentUsuario.getArea() != null) {
+        if (!currentUsuario.isRoot() && !currentUsuario.podeAcessarTodasAreas()) {
             area = currentUsuario.getArea();
         }
 
@@ -120,7 +120,7 @@ public class RelatoriosController extends Controller {
         }
 
         Area area = null;
-        if (currentUsuario.getArea() != null) {
+        if (!currentUsuario.isRoot() && !currentUsuario.podeAcessarTodasAreas()) {
             area = currentUsuario.getArea();
         }
 

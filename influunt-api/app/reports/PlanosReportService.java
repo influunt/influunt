@@ -60,7 +60,7 @@ public class PlanosReportService extends ReportService<Plano> {
         paramsAux.put("sort_type", sortType);
 
         if (area != null) {
-            String[] areaId = { area.getId().toString() };
+            String[] areaId = {area.getId().toString()};
             paramsAux.put("versaoPlano.anel.controlador.area.id", areaId);
         }
 
@@ -83,7 +83,8 @@ public class PlanosReportService extends ReportService<Plano> {
                 .put("endereco", anel.getEndereco().nomeEndereco())
                 .put("ciclo", plano.getTempoCiclo().toString())
                 .put("defasagem", plano.getDefasagem().toString())
-                .putPOJO("estagios", estagios);
+                .putPOJO("estagios", estagios)
+                .put("controlador_id", anel.getControlador().getId().toString());
 
         });
 
