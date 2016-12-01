@@ -15,7 +15,7 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
     public void imporModoOK() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 5);
+        await().until(() -> onPublishFutureList.size() > 8);
 
         long horarioEntrada = System.currentTimeMillis() + 60000L;
         imporModoOperacao(1, horarioEntrada, 30);
@@ -25,7 +25,7 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
     @Test
     public void imporModoComErro() {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 5);
+        await().until(() -> onPublishFutureList.size() > 8);
 
         long horarioEntrada = System.currentTimeMillis() + 60000L;
         imporModoOperacao(-1, horarioEntrada, -1);

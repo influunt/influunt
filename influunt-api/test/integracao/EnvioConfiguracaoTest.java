@@ -21,6 +21,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.awaitility.Awaitility.await;
@@ -40,13 +41,6 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
 
-
-    public void execucaoDevice() {
-        startClient();
-        List<Erro> erros = getErros(controlador);
-        assertThat(erros, org.hamcrest.Matchers.empty());
-    }
-
     @Test
     public void configuracaoErro() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().get();
@@ -55,7 +49,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         startClient();
 
-        await().until(() -> onPublishFutureList.size() > 4);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 4);
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
         Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
@@ -85,7 +79,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
     @Test
     public void configuracaoOK() throws InterruptedException, ExecutionException, TimeoutException, BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 5);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 5);
 
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
@@ -128,9 +122,10 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
         versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
         versaoControlador.update();
+
         startClient();
 
-        await().until(() -> onPublishFutureList.size() > 3);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 3);
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
         Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
