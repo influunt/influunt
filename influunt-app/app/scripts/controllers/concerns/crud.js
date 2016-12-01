@@ -108,13 +108,9 @@ angular.module('influuntApp')
       }
     };
 
-    var perPageTimeout = null;
-    $scope.onPerPageChange = function() {
-      $timeout.cancel(perPageTimeout);
-      perPageTimeout = $timeout(function() {
-        $scope.index();
-      }, 500);
-    };
+    $scope.onPerPageChange = _.debounce(function() {
+      $scope.index();
+    }, 500);
 
     $scope.onPageChange = function() {
       return $scope.index();

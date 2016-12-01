@@ -80,5 +80,10 @@
         "route": "app.relatorios_tabela_horaria"
       }
     ]
+  },
+  {
+    "name": "imporConfig",
+    "label": "imporConfig.titulo",
+    "route": "app.impor_config"
   }
 ]

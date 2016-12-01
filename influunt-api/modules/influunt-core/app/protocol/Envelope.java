@@ -1,9 +1,12 @@
 package protocol;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.fusesource.mqtt.client.QoS;
+import play.libs.Json;
 import utils.EncryptionUtil;
 
 import javax.crypto.BadPaddingException;
@@ -42,6 +45,7 @@ public class Envelope {
     private Object conteudo;
 
     private String emResposta;
+    private Boolean criptografado = true;
 
     public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, int qos,
                     Object conteudo, String emResposta) {
@@ -53,6 +57,15 @@ public class Envelope {
         this.emResposta = emResposta;
         this.carimboDeTempo = System.currentTimeMillis();
         this.idMensagem = UUID.randomUUID().toString();
+    }
+
+    public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, QoS qos,
+                    Object conteudo, String emResposta) {
+        this(tipoMensagem, idControlador, destino, qos.ordinal(), conteudo, emResposta);
+    }
+
+    public Boolean isCriptografado() {
+        return criptografado;
     }
 
     public String getIdMensagem() {
@@ -92,6 +105,10 @@ public class Envelope {
         this.conteudo = conteudo;
     }
 
+    public JsonNode getConteudoParsed() {
+        return Json.parse(getConteudo().toString());
+    }
+
     public String getEmResposta() {
         return emResposta;
     }
@@ -119,15 +136,18 @@ public class Envelope {
         return gson.toJson(this);
     }
 
-    public Envelope replayWithSameMenssage(String detino) {
-        return new Envelope(this.tipoMensagem, this.idControlador, detino, this.qos, this.conteudo, this.idMensagem);
+    public Envelope replayWithSameMessage(String destino) {
+        return new Envelope(this.tipoMensagem, this.idControlador, destino, this.qos, this.conteudo, this.idMensagem);
     }
 
 
     public String toJsonCriptografado(String publicKey) {
+        if (!criptografado) {
+            return toJson();
+        }
+
         try {
-            PublicKey pk =
-                KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Hex.decodeHex(publicKey.toCharArray())));
+            PublicKey pk = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Hex.decodeHex(publicKey.toCharArray())));
             SecretKey secretKey = EncryptionUtil.generateAESKey();
             String key = Hex.encodeHexString(EncryptionUtil.encryptRSA(secretKey.getEncoded(), pk));
             String json = Hex.encodeHexString(EncryptionUtil.encryptAES(toJson(), secretKey));
@@ -136,22 +156,14 @@ public class Envelope {
             root.put("idControlador", this.getIdControlador());
             root.put("content", json);
             return root.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | NoSuchPaddingException | InvalidKeyException | DecoderException | IllegalBlockSizeException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void setCriptografado(Boolean criptografado) {
+        this.criptografado = criptografado;
     }
 
 }

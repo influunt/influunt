@@ -21,10 +21,10 @@ public class ConfiguracaoActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getEmResposta() == null) {
                 Envelope envelope1 = Configuracao.getMensagem(envelope);
-                log.info("ENVIANDO CONFIGURACAO");
+                log.info("[CENTRAL] - ENVIANDO CONFIGURACAO: " + envelope1.getTipoMensagem());
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope1, getSelf());
             } else {
-                log.info("Controlador confirmando o recebindo da configuração: {}", envelope.getConteudo().toString());
+                log.info("[CENTRAL] - Controlador confirmando o recebimento da configuração: {}", envelope.getConteudo().toString());
             }
         }
     }

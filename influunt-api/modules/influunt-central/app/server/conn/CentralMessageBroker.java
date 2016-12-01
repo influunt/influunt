@@ -43,11 +43,11 @@ public class CentralMessageBroker extends UntypedActor {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (routers.containsKey(envelope.getTipoMensagem())) {
-                routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
                 log.error("CENTRAL RECEBEU: " + envelope.getTipoMensagem());
+                routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
             } else {
-                log.error("MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
-                throw new RuntimeException("MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());
+                log.error("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
+                throw new RuntimeException("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());
             }
         }
     }

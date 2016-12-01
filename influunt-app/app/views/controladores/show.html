@@ -6,6 +6,13 @@
           <fieldset>
             <div class="row margin-top-20">
               <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+                <div class="left">
+                  <a class="btn btn-success"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.instalacao' | translate }}"
+                      type="button" data-target="#modal-instalacao" data-toggle="modal">
+                    <i class="fa fa-wrench"></i> {{ 'controladores.geral.instalacao' | translate }}
+                  </a>
+                </div>
                 <div class="right">
                   <a class="btn btn-primary"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.imprimir' | translate }} {{ 'controladores.controlador' | translate }}"
@@ -65,9 +72,14 @@
             </div>
 
             <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl"></influunt-revisao>
+
             <influunt-modal-timeline
               resource="'controladores'"
               resource-id="$state.params.id"></influunt-modal-timeline>
+
+            <influunt-modal-instalacao
+              resource="'controladores'"
+              resource-id="$state.params.id"></influunt-modal-instalacao>
           </fieldset>
 
 

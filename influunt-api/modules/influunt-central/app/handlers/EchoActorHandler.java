@@ -19,7 +19,7 @@ public class EchoActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getEmResposta() == null) {
                 log.info("Respondendo echo para controlador: {}", envelope.getConteudo().toString());
-                Envelope envelope1 = envelope.replayWithSameMenssage("controlador/" + envelope.getIdControlador() + "/echo");
+                Envelope envelope1 = envelope.replayWithSameMessage("controlador/" + envelope.getIdControlador() + "/echo");
 
                 getContext().actorSelection("akka://application/user/servidor/CentralMQTT").tell(envelope1, getSelf());
             } else {

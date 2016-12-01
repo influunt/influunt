@@ -31,6 +31,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     }
 
     public ControladorHelper() {
+
     }
 
     public Controlador getControlador() {

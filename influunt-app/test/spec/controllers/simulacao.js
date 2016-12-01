@@ -59,7 +59,7 @@ describe('Controller: SimulacaoCtrl', function () {
     scope.parametrosSimulacao.imposicaoPlanos[0].plano = plano;
     scope.parametrosSimulacao.imposicaoPlanos[0].anel = controlador.aneis[0];
     scope.parametrosSimulacao.imposicaoPlanos[0].disparo = moment().format();
-    scope.parametrosSimulacao.imposicaoPlanos[0].duracao = 1;
+    scope.parametrosSimulacao.imposicaoPlanos[0].duracao = 5;
     scope.$apply();
     expect(scope.parametrosSimulacao.imposicaoPlanos.length).toBe(2);
     expect(Object.keys(scope.parametrosSimulacao.imposicaoPlanos[1]).length).toBe(0);

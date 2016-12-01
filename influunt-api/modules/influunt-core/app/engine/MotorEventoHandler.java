@@ -4,6 +4,7 @@ import models.Anel;
 import models.GrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
+import org.joda.time.DateTime;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,10 @@ public class MotorEventoHandler {
 
     public MotorEventoHandler(Motor motor) {
         this.motor = motor;
+    }
+
+    public Motor getMotor() {
+        return motor;
     }
 
     public void handle(EventoMotor eventoMotor) {
@@ -95,7 +100,7 @@ public class MotorEventoHandler {
 
             case IMPOSICAO_PLANO:
             case IMPOSICAO_MODO:
-                handleAnel(eventoMotor, 1);
+                handleAgendarImposicao(eventoMotor);
                 break;
 
             case LIBERAR_IMPOSICAO:
@@ -178,13 +183,16 @@ public class MotorEventoHandler {
         });
     }
 
-
-    private void handleAnel(EventoMotor eventoMotor, Integer posicaoAnel) {
-        Integer anel = (Integer) eventoMotor.getParams()[posicaoAnel];
+    private void handleAnel(EventoMotor eventoMotor, Integer posicaoParamAnel) {
+        Integer anel = (Integer) eventoMotor.getParams()[posicaoParamAnel];
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
     }
 
-    public Motor getMotor() {
-        return motor;
+    private void handleAgendarImposicao(EventoMotor eventoMotor) {
+        Integer anel = (Integer) eventoMotor.getParams()[1];
+        Integer duracao = (Integer) eventoMotor.getParams()[2];
+        Long horarioEntrada = (Long) eventoMotor.getParams()[3];
+        DateTime inicio = new DateTime(horarioEntrada);
+        motor.getEstagios().get(anel - 1).agendarEvento(inicio, inicio.plusMinutes(duracao), eventoMotor);
     }
 }

@@ -11,8 +11,11 @@ angular.module('influuntApp')
   .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', function pahoProvider(MQTT_ROOT, $q, $timeout) {
 
     var isConnected = false;
-    var client = new Paho.MQTT.Client(MQTT_ROOT.url, MQTT_ROOT.port, UUID.generate());
+    var client = new Paho.MQTT.Client(
+      MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + JSON.parse(localStorage.usuario).id
+    );
     var subscribers = {};
+    var timeoutId;
 
     client.onConnectionLost = function(res) {
       isConnected = false;
@@ -31,7 +34,7 @@ angular.module('influuntApp')
       });
 
       if (!_.isFunction(fn)) {
-        console.warn('Função de callback para o topic', message.destinationName, 'não implementada.');
+        console.warn('Função de callback para o topic ', message.destinationName, ' não implementada.');
         return false;
       }
 
@@ -46,13 +49,15 @@ angular.module('influuntApp')
       if (isConnected) {
         deferred.resolve(true);
       } else {
-        client.connect({
-          onSuccess: function() {
-            console.log('======> connected');
-            isConnected = true;
-            deferred.resolve(true);
-          }
-        });
+        $timeout.cancel(timeoutId);
+        timeoutId = $timeout(function() {
+          client.connect({
+            onSuccess: function() {
+              isConnected = true;
+              deferred.resolve(true);
+            }
+          });
+        }, 200);
       }
 
       return deferred.promise;
@@ -61,24 +66,38 @@ angular.module('influuntApp')
     var disconnectClient = function() {
       if (isConnected) {
         client.disconnect();
+        isConnected = false;
         subscribers = {};
       }
     };
 
-    var register = function(subscribedUrl, onMessageArrivedCallback) {
+    var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
       if (!isConnected) {
         throw new Error('Client is not connected.');
       }
 
+      var listenToAll = !dontListenToAll;
       subscribers[subscribedUrl] = onMessageArrivedCallback;
-      client.subscribe(subscribedUrl + '/+');
       client.subscribe(subscribedUrl);
+      if (listenToAll) {
+        client.subscribe(subscribedUrl + '/+');
+      }
+    };
+
+    var unregister = function(subscribedUrl) {
+      if (!isConnected) {
+        throw new Error('Client is not connected.');
+      }
+
+      client.unsubscribe(subscribedUrl);
+      client.unsubscribe(subscribedUrl + '/+');
     };
 
     return {
-      register: register,
       connect: connectClient,
-      disconnect: disconnectClient
+      disconnect: disconnectClient,
+      register: register,
+      unregister: unregister
     };
 
   }]);

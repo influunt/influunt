@@ -27,6 +27,7 @@ public class Central {
         servidor = system.actorOf(Props.create(ServerActor.class,
             mqttSettings.getString("host"),
             mqttSettings.getString("port")), "servidor");
+        System.out.println("\nConfiguração MQTT central:\n  host: " + mqttSettings.getString("host") + "\n  port: " + mqttSettings.getString("port") + "\n");
 
     }
 

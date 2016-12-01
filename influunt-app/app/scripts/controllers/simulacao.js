@@ -116,7 +116,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         .value();
     }
   };
-  
+
   carregaModos = function() {
     $scope.modos = ["INTERMITENTE", "APAGADO"];
   };
@@ -242,7 +242,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       });
     }
   }, true);
-  
+
   $scope.$watch('imposicoesModos.imposicoes', function(imposicoes) {
     if (imposicoes) {
       _.forEach($scope.imposicoesModos.imposicoes, function(imposicao, index) {

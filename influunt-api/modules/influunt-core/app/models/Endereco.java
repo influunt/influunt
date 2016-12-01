@@ -204,6 +204,7 @@ public class Endereco extends Model implements Serializable {
         this.outraLocalizacao = outraLocalizacao;
     }
 
+    @Transient
     public String nomeEndereco() {
         StringBuilder nomeEndereco = new StringBuilder(getLocalizacao());
         if (getAlturaNumerica() != null) {

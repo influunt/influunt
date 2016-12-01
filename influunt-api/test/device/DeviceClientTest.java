@@ -17,7 +17,6 @@ public class DeviceClientTest extends BasicMQTTTest {
         controlador = new ControladorHelper().setPlanos(controlador);
 
         Client client = new Client(this.deviceConfig);
-        Thread.sleep(600000l);
-
+        Thread.sleep(600000000L);
     }
 }

@@ -270,7 +270,7 @@ public class InfluuntQueryBuilder {
     private BiConsumer<String, Object> buildSearchStatement(ArrayList<SearchFieldDefinition> searchFieldDefinitions) {
         return (key, value) -> {
             String[] keyExpression = key.split("_");
-            if (!key.contains(SearchFieldDefinition.START) && !key.contains(SearchFieldDefinition.END)) {
+            if (!key.endsWith(SearchFieldDefinition.START) && !key.endsWith(SearchFieldDefinition.END)) {
                 if (keyExpression.length > 1) {
                     searchFieldDefinitions.add(new SearchFieldDefinition(keyExpression[0], keyExpression[1], value));
                 } else {
