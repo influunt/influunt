@@ -22,12 +22,13 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_ONLINE)) {
                 log.info("O controlador: {} esta online", envelope.getIdControlador());
-                StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), true);
 
                 // enviar msg APP controlador online
                 envelope.setDestino(DestinoApp.controladorOnline());
                 envelope.setCriptografado(false);
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+
+                StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), true);
             }
         }
     }

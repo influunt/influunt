@@ -14,9 +14,10 @@
                   </a>
                 </div>
                 <div class="right">
-                  <a class="btn btn-primary"
+                  <a type="button" class="btn btn-primary"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.imprimir' | translate }} {{ 'controladores.controlador' | translate }}"
-                      type="button" data-ng-click="imprimir(objeto.id)">
+                      data-ng-click="imprimir(objeto.id)"
+                      permission permission-only="'gerarRelatorioControlador'">
                     <i class="fa fa-print"></i> {{ 'controladores.print' | translate }}
                   </a>
                   <a class="btn btn-primary"

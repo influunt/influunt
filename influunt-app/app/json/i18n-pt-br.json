@@ -819,7 +819,7 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
-    "titulo": "Impor Configuração",
+    "titulo": "Painel de Facilidades",
     "status": "Status",
     "cla": "CLA",
     "local": "Local",
@@ -889,7 +889,7 @@
     "controladoresEntreVerdes": "Controladores com alteração Entreverdes",
     "defasagem": "Defasagem",
     "exportarCSV": "CSV",
-    "tabelaHoraria": "Relatório de Tabela Horária",
+    "tabelaHoraria": "Tabela Horária",
     "CSV": "CSV",
     "exportarCsv": "Exportar CSV",
     "gerar": "Gerar",
