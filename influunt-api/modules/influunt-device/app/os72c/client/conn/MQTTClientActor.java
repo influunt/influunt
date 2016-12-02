@@ -152,12 +152,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         String parsedBytes = new String(message.getPayload());
 
         Map msg = new Gson().fromJson(parsedBytes, Map.class);
-        InfluuntLogger.logger.info("Mensagem recebida da central:");
 
         String privateKey = storage.getPrivateKey();
         try {
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
-            InfluuntLogger.logger.info(envelope.toJson());
             router.route(envelope, getSender());
         } catch (DecoderException e) {
             e.printStackTrace();
