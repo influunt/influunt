@@ -143,7 +143,7 @@ public class TrocaDePlanoControlador {
 
     public static void log(long carimboDeTempo, String idControlador, String idAnel, JsonNode conteudo) {
         new TrocaDePlanoControlador(carimboDeTempo, idControlador, idAnel, conteudo).save();
-        LogControlador.log(idControlador, carimboDeTempo, conteudo.get("conteudo").get("descricaoEvento").asText(), TipoLogControlador.TROCA_PLANO);
+        LogControlador.log(idControlador, carimboDeTempo, conteudo.get("descricaoEvento").asText(), TipoLogControlador.TROCA_PLANO);
     }
 
     public ModoOperacaoPlano getModoOperacao() {

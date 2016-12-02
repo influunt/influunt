@@ -9,6 +9,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import status.LogControlador;
 import status.StatusConexaoControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
@@ -39,6 +40,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
         jongo = provideApplication().injector().instanceOf(PlayJongo.class);
         StatusConexaoControlador.jongo = jongo;
+        LogControlador.jongo = jongo;
 
         jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
 

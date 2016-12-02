@@ -141,7 +141,7 @@ public class AlarmesFalhasControlador {
 
     public static void log(Long timestamp, String idControlador, String idAnel, JsonNode objeto) {
         new AlarmesFalhasControlador(idControlador, timestamp, idAnel, objeto).save();
-        LogControlador.log(idControlador, timestamp, objeto.get("conteudo").get("descricaoEvento").asText(), TipoLogControlador.ALARME_FALHA);
+        LogControlador.log(idControlador, timestamp, objeto.get("descricaoEvento").asText(), TipoLogControlador.ALARME_FALHA);
     }
 
     public static void logRemocao(long carimboDeTempo, String idControlador, String idAnel, JsonNode jsonConteudo) {

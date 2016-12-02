@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
 import status.AlarmesFalhasControlador;
+import status.LogControlador;
 import status.TrocaDePlanoControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
@@ -28,6 +29,7 @@ public class TrocaDePlanosControladorTest extends WithInfluuntApplicationNoAuthe
     public void setUp() throws InterruptedException {
         jongo = provideApplication().injector().instanceOf(PlayJongo.class);
         TrocaDePlanoControlador.jongo = jongo;
+        LogControlador.jongo = jongo;
 
         jongo.getCollection(AlarmesFalhasControlador.COLLECTION).drop();
 
