@@ -157,7 +157,6 @@ public class AlarmesFalhasControlador {
             .with("{ $set: { recuperado: true } }");
 
         log(carimboDeTempo, idControlador, idAnel, jsonConteudo);
-        // TODO verificar mensagem
         LogControlador.log(idControlador, carimboDeTempo, evento.getDescricao(), TipoLogControlador.REMOCAO_FALHA);
     }
 

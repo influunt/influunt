@@ -36,7 +36,7 @@
 
   <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
   <logger name="org.avaje.ebean.TXN" level="WARN" />
-  <logger name="org.avaje.ebean.SQL" level="INFO"/>
+  <logger name="org.avaje.ebean.SQL" level="WARN"/>
   <logger name="com.avaje.ebeaninternal.server.deploy.parse.DeployCreateProperties" level="WARN" />
   <logger name="com.avaje.ebeaninternal.server.deploy.BeanDescriptorManager" level="WARN" />
   <logger name="com.avaje.ebeaninternal.server.core.DefaultContainer" level="WARN" />

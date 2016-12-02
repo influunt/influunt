@@ -4,7 +4,8 @@ package utils;
  *
  * ATENÇÃO !!!!
  *
- * QUALQUER ALTERAÇÃO NOS TIPOS DEVE SER REFLETIDA NA BUSCA DE LOGS NA WEB.
+ * QUALQUER ALTERAÇÃO NOS TIPOS DEVE SER REFLETIDA NA BUSCA DE LOGS NA WEB
+ * (APP o I18n e as constantes TIPO_LOG).
  *
  * Created by lesiopinheiro on 29/11/16.
  */
