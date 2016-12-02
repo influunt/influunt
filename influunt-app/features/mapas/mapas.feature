@@ -61,13 +61,14 @@ Funcionalidade: Vizualisar Controladores em um Mapa
     Então o sistema deve mostrar um alert com a mensagem atuado não possue diagrama
     E o usuário confirmar
 
-  Cenário: Enviar plano
-    Dado o painel com opções esteja aberto
-    Quando no painel clicar no botão "Enviar plano"
-    Então o sistema deve mostrar um alert para o usuário com a mensagem "Tem certeza que você deseja enviar o PLANO 1 para o anel da Alameda Campinas com Av. Paulista?"
-    E o usuário confirmar
-    Quando o usuário preencha o alert com "Plano Enviado para ativação"
-    E o usuário confirmar
-    Então o sistema deve mostrar um alert para o usuário com a mensagem "PLANO 1 enviado com sucesso ao anel Alameda Campinas com Av. Paulista"
-    Quando o usuário confirmar
-    Então o sistema deve redirecionar para o mapa
+  #TODO REfazer impor plano
+  # Cenário: Enviar plano
+  #   Dado o painel com opções esteja aberto
+  #   Quando no painel clicar no botão "Enviar plano"
+  #   Então o sistema deve mostrar um alert para o usuário com a mensagem "Tem certeza que você deseja enviar o PLANO 1 para o anel da Alameda Campinas com Av. Paulista?"
+  #   E o usuário confirmar
+  #   Quando o usuário preencha o alert com "Plano Enviado para ativação"
+  #   E o usuário confirmar
+  #   Então o sistema deve mostrar um alert para o usuário com a mensagem "PLANO 1 enviado com sucesso ao anel Alameda Campinas com Av. Paulista"
+  #   Quando o usuário confirmar
+  #   Então o sistema deve redirecionar para o mapa
