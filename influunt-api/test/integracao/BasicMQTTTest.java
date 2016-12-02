@@ -94,12 +94,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         onDisconectFutureList.clear();
         onSubscribeFutureList.clear();
         onPublishFutureList.clear();
-//        System.gc();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.gc();
     }
 
     protected void setConfig() throws IOException, InterruptedException {
@@ -146,10 +141,16 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         mqttBroker.startServer(classPathConfig, userHandlers);
         Thread.sleep(100);
         central = provideApp.injector().instanceOf(Central.class);
+        Thread.sleep(2000);
     }
 
     protected void startClient() {
         client = new Client(this.deviceConfig);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void assertTransacaoOk() {
