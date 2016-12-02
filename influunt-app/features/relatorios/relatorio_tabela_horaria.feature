@@ -3,6 +3,7 @@
 Funcionalidade: Realizar o relatório da tabela horária
 
   Cenário: Acessar a tela de relatório tabela horária
+    Dado o usuário logue no sistema com usuário "mobilab" e perfil administrador
     Dado que o sistema possua controladores cadastrados e configurados
     Quando o usuário acessar o relatório "tabela_horaria"
     Então o sistema deverá redirecionar para o formulário "RelatorioTabelaHoraria"
