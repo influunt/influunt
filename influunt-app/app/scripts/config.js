@@ -15,7 +15,7 @@ angular
 
       $urlRouterProvider.otherwise(function($injector) {
         var $state = $injector.get('$state');
-        $state.go('app.main');
+        $state.go('login');
       });
 
       $stateProvider
