@@ -21,6 +21,5 @@ Funcionalidade: Realizar o relatório de status dos controladores
 
   Cenário: Acessar a tela de relatório dos planos
     Dado o usuário acessar o relatório "planos"
-    Então o sistema deverá mostrar na coluna "Local" com valor "Av. Paulista, nº 0 com R. Pamplona"
     Então o sistema deverá mostrar na coluna "Controlador" com valor "1.000.0001.1"
     E o usuário clicar em "CSV"
