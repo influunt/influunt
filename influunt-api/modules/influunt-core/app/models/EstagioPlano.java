@@ -367,10 +367,16 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             estagioPlanoAnterior = estagioPlanoAnterior.getEstagioPlanoAnterior(listaEstagioPlanos);
         }
         EstagioPlano estagioPlanoProximo = this.getEstagioPlanoProximo(listaEstagioPlanos);
-        while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
-            tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
-            estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+        if (!estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+            Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(this.getEstagio(), estagioPlanoProximo.getEstagio());
+            tempoVerde += transicao.getTempoAtrasoGrupo();
+        } else {
+            while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+                tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
+                estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+            }
         }
+
         tempoVerde += this.getTempoVerdeEstagio();
         return tempoVerde;
     }
