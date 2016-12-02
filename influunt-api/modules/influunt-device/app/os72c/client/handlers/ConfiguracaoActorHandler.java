@@ -44,16 +44,16 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
+
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
                     if (envelopeStatus != null) {
                         getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                     }
-                    //Se OK, avisa o motor para colocar o controlador no ar
-                    if (envelopeSinal.getTipoMensagem().equals(TipoMensagem.OK)) {
+
+                    //Se controlador completo, avisa o motor para colocar o controlador no ar
+                    if (storage.getControlador() != null && storage.getControlador().isCompleto()) {
                         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
                     }
-
-                    getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                 }
             }
         } else if (message instanceof String) {

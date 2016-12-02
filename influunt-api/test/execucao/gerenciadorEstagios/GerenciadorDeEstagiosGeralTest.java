@@ -102,13 +102,13 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         Pair<Integer, TipoDetector> detector2 = getDetector(anel, 2);
 
         avancar(gerenciadorDeEstagios, 70);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2,anel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(70), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector,anel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(80), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detectoranel.getPosicao()));
         avancar(gerenciadorDeEstagios, 164);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector,anel.getPosicao()));
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector,anel.getPosicao()));
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2,anel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detectoranel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detectoranel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 500);
         imprimirListaEstagios(listaEstagios);
         plano.imprimirTabelaEntreVerde();
@@ -217,13 +217,13 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         verificaGruposSemaforicos(86, new GrupoCheck(10, 4000, 9000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(86, new GrupoCheck(10, 9000, 39000, EstadoGrupoSemaforico.VERMELHO));
 
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(125)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(150)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(168)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(193)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(221)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(243)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(125)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(155)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(177)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(195)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(223)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(244)).getEstagio().getPosicao().intValue());
+
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(283)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(313)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(335)).getEstagio().getPosicao().intValue());

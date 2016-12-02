@@ -36,7 +36,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoPacotePlanosTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     @Test
     public void imposicaoPacotePlanosTestErro() {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
@@ -76,7 +76,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void envioConfiguracaoCompletaTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
@@ -97,7 +97,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void envioConfiguracaoCompletaTestErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().orElse(null);
         anel.setAtivo(true);
@@ -121,9 +121,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoModoOperacaoTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
-//        List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
         List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
         List<String> aneisIds = new ArrayList<>();
         aneisIds.add(aneis.get(0).getId().toString());
@@ -142,8 +141,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
 
         await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
 
-//TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 7 * aneisIds.size(), onPublishFutureList.size()/**/);
+        assertEquals(7 + 7 * aneisIds.size(), onPublishFutureList.size()/**/);
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -154,12 +152,9 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoModoOperacaoTestErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
-//        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
-//        List<String> aneisIds = new ArrayList<>();
-//        aneisIds.add(aneis.get(0).getId().toString());
 
         Map<String, Object> params = new HashMap<>();
         params.put("aneis", aneisIds.toArray());
@@ -173,9 +168,9 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
-//TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() > 6 + 5 * aneisIds.size());
+
+        assertEquals(7 + 5 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -186,7 +181,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoPlanoTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
         List<String> aneisIds = aneis.stream().map(anel -> anel.getId().toString()).collect(Collectors.toList());
@@ -210,13 +205,12 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        // 6 -> configuração inicial
+        // 7 -> configuração inicial
         // 5 * aneis -> 5 mensagens para cada transaçao
         // 1 -> mensagem de troca de plano
-        await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
+        await().until(() -> onPublishFutureList.size() > 6 + 7 * aneisIds.size());
 
-        //TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 7 * aneisIds.size(), onPublishFutureList.size());
+        assertEquals(7 + 7 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -227,7 +221,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoPlanoTestErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
         List<String> aneisIds = aneis.stream().map(anel -> anel.getId().toString()).collect(Collectors.toList());
@@ -244,9 +238,11 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
-//TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() > 6 + 5 * aneisIds.size());
+
+        // 7 - Mensagens iniciais
+        // 5 para cada anel
+        assertEquals(7 + 5 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -257,7 +253,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void liberarImposicaoTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
         Map<String, Object> params = new HashMap<>();
@@ -269,6 +265,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
+        assertEquals(7, onPublishFutureList.size());
+
         assertTransacaoOk();
     }
 
@@ -276,7 +274,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void liberarImposicaoTestAnelNaoExistente() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         Map<String, Object> params = new HashMap<>();
         params.put("anelId", "1234");
@@ -287,8 +285,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(NOT_FOUND, result.status());
 
-        //TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6, onPublishFutureList.size());
+        assertEquals(7, onPublishFutureList.size());
     }
 
     protected List<Erro> getErros(Controlador controlador) {
