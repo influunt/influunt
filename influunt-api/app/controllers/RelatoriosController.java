@@ -158,8 +158,18 @@ public class RelatoriosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> gerarRelatorioLogControladores() {
+        Usuario currentUsuario = getCurrentUsuario();
+        if (currentUsuario == null) {
+            return CompletableFuture.completedFuture(forbidden());
+        }
+
+        Area area = null;
+        if (!currentUsuario.isRoot() && !currentUsuario.podeAcessarTodasAreas()) {
+            area = currentUsuario.getArea();
+        }
+
         if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
-            return CompletableFuture.completedFuture(ok(controladoresReportService.getLogsReportData(request().queryString())));
+            return CompletableFuture.completedFuture(ok(controladoresReportService.getLogsReportData(request().queryString(), area)));
         } else {
             InputStream input = controladoresReportService.generateLogCSVReport(request().queryString());
             return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));

@@ -235,7 +235,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         return params;
     }
 
-    public ObjectNode getLogsReportData(Map<String, String[]> params) {
+    public ObjectNode getLogsReportData(Map<String, String[]> params, Area area) {
         Map<String, String[]> paramsAux = new HashMap<>();
         paramsAux.putAll(params);
         paramsAux.remove("tipoRelatorio");
@@ -245,6 +245,10 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("tipoLog_eq");
         }
 
+        if (area != null) {
+            String[] areaId = {area.getId().toString()};
+            paramsAux.put("area.id", areaId);
+        }
 
         if (params.containsKey("filtrarPor_eq")) {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
