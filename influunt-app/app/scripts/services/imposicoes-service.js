@@ -61,4 +61,4 @@ angular.module('influuntApp')
         imposicao: imposicao,
         setTrackTransaction: setTrackTransaction
       };
-    }])
+    }]);

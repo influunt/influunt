@@ -13,7 +13,8 @@ var MapasPage = function () {
 
   this.clicarAnelMapa = function(anel) {
     return world.sleep(1000).then(function(){
-      return world.getElementByXpath('//img[contains(@src, "images/leaflet/influunt-icons/anel-controle-central.svg")]['+anel+']').click();
+      return world.getElementByXpath(
+        '//img[contains(@src, "images/leaflet/influunt-icons/anel-controle-central.svg")][contains(@class, "leaflet-marker-icon")]['+anel+']').click();
     });
   };
 
