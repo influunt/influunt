@@ -7,7 +7,13 @@
   },
   "alarmesEFalhas": {
     "titulo": "Desarme de Alarmes",
-    "descricao": "Descrição"
+    "descricao": "Descrição",
+    "tiposEventos": {
+      "falhas": "Falhas",
+      "remocaoFalhas": "Remoção de falhas",
+      "alarmes": "Alarmes",
+      "trocaPlano": "Troca de Plano"
+    }
   },
   "auditorias": {
     "classe": "Classe",

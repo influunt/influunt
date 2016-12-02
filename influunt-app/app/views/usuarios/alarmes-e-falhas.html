@@ -27,8 +27,7 @@
                     </thead>
                     <tbody data-ng-repeat="(labelGrupo, grupo) in alarmesEFalhas">
                       <tr>
-                        <th colspan="2">{{ labelGrupo }}</th>
-
+                        <th colspan="2">{{ 'alarmesEFalhas.tiposEventos.' + labelGrupo | translate }}</th>
                       </tr>
                       <tr data-ng-repeat="obj in grupo | orderBy: 'descricao'">
                         <td class="text-center" width="5%">

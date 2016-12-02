@@ -181,7 +181,8 @@ public class StatusConexaoControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Object> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+                and("{$match: {'conectado': " + online + "}}").
                 as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), m);

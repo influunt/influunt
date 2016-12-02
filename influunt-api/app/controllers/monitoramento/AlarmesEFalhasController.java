@@ -32,7 +32,9 @@ public class AlarmesEFalhasController extends Controller {
     public CompletionStage<Result> findAll() {
         ObjectNode response = Json.newObject();
         response.set("falhas", Json.toJson(FalhasEAlertasService.getFalhas()));
+        response.set("remocaoFalhas", Json.toJson(FalhasEAlertasService.getRemocaoDeFalhas()));
         response.set("alarmes", Json.toJson(FalhasEAlertasService.getAlarmes()));
+        response.set("trocaPlano", Json.toJson(FalhasEAlertasService.getEventosTrocaDePlano()));
 
         return CompletableFuture.completedFuture(ok(response));
     }

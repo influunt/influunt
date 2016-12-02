@@ -143,7 +143,7 @@ angular.module('influuntApp')
               'controladores.mapaControladores.alertas.controladorOffline';
 
             msg = $filter('translate')(msg, {CONTROLADOR: controlador.CLC});
-            exibirAlerta(msg, !isOnline);
+            return isAlertaAtivado(mensagem.tipoMensagem) && exibirAlerta(msg);
           });
       };
 
@@ -167,7 +167,8 @@ angular.module('influuntApp')
               'controladores.mapaControladores.alertas.trocaPlanoAnelEControlador',
               {ANEL: anel.CLA, CONTROLADOR: controlador.CLC}
             );
-            exibirAlerta(msg);
+
+            return isAlertaAtivado('TROCA_DE_PLANO_NO_ANEL') && exibirAlerta(msg);
           });
       };
 
@@ -197,7 +198,7 @@ angular.module('influuntApp')
               'controladores.mapaControladores.alertas.mudancaStatusControlador',
               {CONTROLADOR: controlador.CLC}
             );
-            exibirAlerta(msg);
+            isAlertaAtivado(mensagem.tipoMensagem) && exibirAlerta(msg);
           });
       };
 
@@ -209,11 +210,13 @@ angular.module('influuntApp')
         $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
       };
 
-      exibirAlerta = function(msg, isPrioritario) {
-        if ($scope.eventos.exibirAlertas || isPrioritario) {
-          toast.warn(msg);
-          audioNotifier.notify();
-        }
+      exibirAlerta = function(msg) {
+        toast.warn(msg);
+        audioNotifier.notify();
+      };
+
+      var isAlertaAtivado = function(chave) {
+        return $scope.$root.alarmesAtivados[chave] || $scope.eventos.exibirTodosAlertas;
       };
 
       getControlador = function(idControlador) {
@@ -249,7 +252,9 @@ angular.module('influuntApp')
               data: mensagem.carimboDeTempo,
               endereco: $filter('nomeEndereco')(endereco),
               id: mensagem.idControlador,
-              descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento')
+              descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento'),
+              tipo: _.get(mensagem, 'conteudo.tipoEvento.tipo'),
+              tipoEventoControlador: _.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')
             };
 
             $scope.statusObj.erros = $scope.statusObj.erros || [];
@@ -262,7 +267,7 @@ angular.module('influuntApp')
               msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
             }
 
-            exibirAlerta(msg, true);
+            return isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo) && exibirAlerta(msg);
           })
           .finally(influuntBlockui.unblock);
       };
@@ -280,22 +285,24 @@ angular.module('influuntApp')
               falha.recuperado = true;
             });
 
-            var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
-            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-            atualizaDadosDinamicos();
+            if (sampleFalha) {
+              var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+              var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+              atualizaDadosDinamicos();
 
-            var msg = $filter('translate')(
-              'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
-              {CONTROLADOR: controlador.CLC, FALHA: sampleFalha.descricaoEvento}
-            );
-            if (anel) {
-              msg = $filter('translate')(
-                'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
-                {ANEL: anel.CLA, FALHA: sampleFalha.descricaoEvento}
+              var msg = $filter('translate')(
+                'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
+                {CONTROLADOR: controlador.CLC, FALHA: sampleFalha.descricaoEvento}
               );
-            }
+              if (anel) {
+                msg = $filter('translate')(
+                  'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
+                  {ANEL: anel.CLA, FALHA: sampleFalha.descricaoEvento}
+                );
+              }
 
-            exibirAlerta(msg, true);
+              return isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo) && exibirAlerta(msg);
+            }
           })
           .finally(influuntBlockui.unblock);
       };

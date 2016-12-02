@@ -53,6 +53,7 @@ angular.module('influuntApp')
         timeoutId = $timeout(function() {
           client.connect({
             onSuccess: function() {
+              console.log('onSuccess');
               isConnected = true;
               deferred.resolve(true);
             }
