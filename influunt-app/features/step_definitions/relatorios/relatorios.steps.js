@@ -20,4 +20,12 @@ module.exports = function() {
   this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
     return relatoriosPage.setarData(valor);
   });
+
+  this.Given(/^o usuário clicar em Gerar$/, function () {
+    return relatoriosPage.clicarBotaoGerar();
+  });
+
+  this.Given(/^o botão gerar deverá estar desabilitado$/, function () {
+    return relatoriosPage.botaoGerarDisabled();
+  });
 };
