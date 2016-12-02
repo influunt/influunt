@@ -9,6 +9,7 @@ import utils.TransacaoHelper;
 import javax.validation.groups.Default;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.awaitility.Awaitility.await;
@@ -28,11 +29,10 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void envioConfiguracaoCompletaOk() {
+    public void envioConfiguracaoCompletaOk() throws InterruptedException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
         await().until(() -> onPublishFutureList.size() > 6);
-
         enviarConfiguracaoCompleta(controlador);
         assertTransacaoOk();
     }

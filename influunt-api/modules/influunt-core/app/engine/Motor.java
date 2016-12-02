@@ -200,4 +200,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public boolean isEmModoManual() {
         return emModoManual;
     }
+
+    public void stop() {
+        InfluuntLogger.log("Terminando a execução do motor");
+    }
 }
