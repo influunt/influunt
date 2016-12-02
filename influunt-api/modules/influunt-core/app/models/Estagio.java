@@ -369,7 +369,7 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}")
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda prioritária deve estar entre {min} e {max}")
     public boolean isTempoVerdeDemandaPrioritaria() {
         if (isDemandaPrioritaria()) {
             return getTempoVerdeDemandaPrioritaria() != null &&

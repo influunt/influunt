@@ -125,8 +125,8 @@ var PlanosPage = function () {
   };
 
   this.selecionarPlano = function(valor) {
-    var campo = 'select[name="controladores"]';
-    return world.selectOption(campo, valor);
+    var campo = 'controladores';
+    return world.select2OptionByXpath(campo, valor);
   };
 
   this.nomePlanoAlterado = function(plano) {

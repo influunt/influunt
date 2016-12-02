@@ -108,12 +108,13 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertEquals(4, erros.size());
+        assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do estágio de destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemEDestinoDiferentes"),
             new Erro(CONTROLADOR, "Esse estágio não pode ter um estágio de destino e alternativo ao mesmo tempo.", "aneis[1].estagios[0].aoMesmoTempoDestinoEAlternativo"),
             new Erro(CONTROLADOR, "O Estágio alternativo deve ser diferente do destino.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].estagioAlternativoDiferenteOrigemEDestino"),
-            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo")
+            new Erro(CONTROLADOR, "O Estágio de origem não pode ter transição proibida para estágio alternativo.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemNaoPossuiTransicaoProibidaParaAlternativo"),
+            new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do alternativo se o estágio de destino for demanda prioritária.", "aneis[1].estagios[0].origemDeTransicoesProibidas[0].origemDiferenteDeAlternativoSeDestinoEhDemandaPrioritaria")
         ));
 
         estagio1AnelCom2Estagios.setDestinoDeTransicoesProibidas(null);
@@ -248,6 +249,38 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         transicaoProibida.setOrigem(null);
         transicaoProibida.setDestino(null);
         transicaoProibida.setAlternativo(null);
+
+        erros = getErros(controlador);
+        assertEquals(0, erros.size());
+
+
+        estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(null);
+        estagio1AnelCom4Estagios.setDestinoDeTransicoesProibidas(null);
+        estagio1AnelCom4Estagios.setAlternativaDeTransicoesProibidas(null);
+
+        estagio2AnelCom4Estagios.setOrigemDeTransicoesProibidas(null);
+        estagio2AnelCom4Estagios.setDestinoDeTransicoesProibidas(null);
+        estagio2AnelCom4Estagios.setAlternativaDeTransicoesProibidas(null);
+
+        estagio2AnelCom4Estagios.setDemandaPrioritaria(true);
+        estagio2AnelCom4Estagios.setTempoVerdeDemandaPrioritaria(30);
+
+        transicaoProibida.setOrigem(estagio1AnelCom4Estagios);
+        transicaoProibida.setDestino(estagio2AnelCom4Estagios);
+        transicaoProibida.setAlternativo(estagio1AnelCom4Estagios);
+        estagio1AnelCom4Estagios.setOrigemDeTransicoesProibidas(Collections.singletonList(transicaoProibida));
+        estagio2AnelCom4Estagios.setDestinoDeTransicoesProibidas(Collections.singletonList(transicaoProibida));
+        estagio1AnelCom4Estagios.setAlternativaDeTransicoesProibidas(Collections.singletonList(transicaoProibida));
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do alternativo se o estágio de destino for demanda prioritária.", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].origemDiferenteDeAlternativoSeDestinoEhDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio")
+        ));
+
+        estagio2AnelCom4Estagios.setDemandaPrioritaria(false);
 
         erros = getErros(controlador);
         assertEquals(0, erros.size());

@@ -65,19 +65,19 @@ VALUES
 
 INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('21440a8c-764d-4605-a23e-ef3103c9f544',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,0,0,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
+  ('3d86335e-05e7-4921-8cdf-42ed03821f62',NULL, 'c52b3617-d233-40d6-8d07-b0284f6717ed', 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL,'24c6f1e4-8661-11e6-9678-1f0de452edaf','24bc8524-8661-11e6-9678-1f0de452edaf',NULL,0,0,'2016-09-29 13:25:30.457000','2016-09-29 13:30:42.648000');
 
 INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `aceita_modo_manual`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('287415c8-1d96-4ab1-a04f-377b19cd9238','5f5cfcb3-9d03-47f9-b0c4-86345d64760e',1,NULL,1,'-', '0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.463000','2016-09-29 13:30:42.650000'),
-  ('4d3c3682-75d0-4944-8212-6f321718a951','20656ac9-27dd-4782-937b-28cb691dbdb3',0,NULL,3,NULL,'0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.465000','2016-09-29 13:30:42.733000'),
-  ('dc415c07-60aa-4048-8c7d-0714745324af','9e816e30-b0d5-4608-a874-abd3ff8ca609',0,NULL,4,NULL,'0','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.467000','2016-09-29 13:30:42.912000'),
-  ('e4aea91d-790d-496f-b70e-887060734fd7','af5d0c03-c248-419d-b052-cbe20bc97b3b',1,NULL,2,NULL,'1','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'2016-09-29 13:25:30.464000','2016-09-29 13:30:42.713000');
+  ('287415c8-1d96-4ab1-a04f-377b19cd9238','5f5cfcb3-9d03-47f9-b0c4-86345d64760e',1,NULL,1,'-', '0','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'2016-09-29 13:25:30.463000','2016-09-29 13:30:42.650000'),
+  ('4d3c3682-75d0-4944-8212-6f321718a951','20656ac9-27dd-4782-937b-28cb691dbdb3',0,NULL,3,NULL,'0','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'2016-09-29 13:25:30.465000','2016-09-29 13:30:42.733000'),
+  ('dc415c07-60aa-4048-8c7d-0714745324af','9e816e30-b0d5-4608-a874-abd3ff8ca609',0,NULL,4,NULL,'0','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'2016-09-29 13:25:30.467000','2016-09-29 13:30:42.912000'),
+  ('e4aea91d-790d-496f-b70e-887060734fd7','af5d0c03-c248-419d-b052-cbe20bc97b3b',1,NULL,2,NULL,'1','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'2016-09-29 13:25:30.464000','2016-09-29 13:30:42.713000');
 
 INSERT INTO `enderecos` (`id`, `id_json`, `controlador_id`, `anel_id`, `localizacao`, `latitude`, `longitude`, `localizacao2`, `altura_numerica`, `referencia`, `data_criacao`, `data_atualizacao`)
 VALUES
   ('17e77589-b5fd-4503-b40d-54c07ab2684e','0bca10bf-3e4c-4246-a073-a3a07eb5ccb0',NULL,'e4aea91d-790d-496f-b70e-887060734fd7','Alameda Campinas',-23.5681006,-46.65531850000002 ,'Av. Paulista',NULL,NULL,NOW(),NOW()),
-  ('2c31b9e1-15b5-4181-a750-4a230865d552','76a14e10-9eaa-43d3-8c7a-6b877d969f80','21440a8c-764d-4605-a23e-ef3103c9f544',NULL,'Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,NOW(),NOW()),
+  ('2c31b9e1-15b5-4181-a750-4a230865d552','76a14e10-9eaa-43d3-8c7a-6b877d969f80','3d86335e-05e7-4921-8cdf-42ed03821f62',NULL,'Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,NOW(),NOW()),
   ('d2e14ef2-577d-4a1a-8ba9-fb94e74d4196','64c02bdc-e7b1-4b0d-8089-191819f5e47c',NULL,'287415c8-1d96-4ab1-a04f-377b19cd9238','Av. Paulista',-23.5631141,-46.65439200000003,'R. Bela Cintra',NULL,NULL,NOW(),NOW());
 
 INSERT INTO `controladores_fisicos` (`id`, `id_json`, `area_id`, `data_criacao`, `data_atualizacao`)
@@ -220,4 +220,4 @@ VALUES
 
 INSERT INTO `versoes_controladores` (`id`, `id_json`, `controlador_origem_id`, `controlador_id`, `controlador_fisico_id`, `usuario_id`, `descricao`, `status_versao`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'21440a8c-764d-4605-a23e-ef3103c9f544','fbac66f8-7d51-4a27-98e5-6a290aa48a45','90574f0a-cd7b-477c-9fa6-98c426813ea8','Controlador criado pelo usuário: Administrador Geral','EDITANDO',NOW(),NOW());
+  ('45a311d6-f7c1-4231-a851-13851641121b',NULL,NULL,'3d86335e-05e7-4921-8cdf-42ed03821f62','fbac66f8-7d51-4a27-98e5-6a290aa48a45','90574f0a-cd7b-477c-9fa6-98c426813ea8','Controlador criado pelo usuário: Administrador Geral','EDITANDO',NOW(),NOW());
