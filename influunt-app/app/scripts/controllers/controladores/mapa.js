@@ -301,9 +301,9 @@ angular.module('influuntApp')
       registerWatchers = function() {
         pahoProvider.connect()
           .then(function() {
+            pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
             pahoProvider.register(eventosDinamicos.ALARMES_FALHAS, alarmesEFalhasWatcher);
             pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
-            pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
             pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
             pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
           });
