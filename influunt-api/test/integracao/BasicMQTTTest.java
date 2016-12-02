@@ -95,7 +95,11 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         onSubscribeFutureList.clear();
         onPublishFutureList.clear();
 //        System.gc();
-        Thread.sleep(100);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void setConfig() throws IOException, InterruptedException {
