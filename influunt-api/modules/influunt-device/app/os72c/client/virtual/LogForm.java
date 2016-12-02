@@ -35,7 +35,6 @@ public class LogForm {
             @Override
             public void flush() {
                 System.out.println("flush");
-                //System.out.println(record);
             }
 
             @Override
