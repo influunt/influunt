@@ -205,8 +205,6 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         message.setQos(envelope.getQos());
         message.setRetained(true);
         String publicKey = storage.getCentralPublicKey();
-        InfluuntLogger.logger.info("Enviando mensagem para a central:");
-        InfluuntLogger.logger.info(envelope.toJson());
         message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);
     }
