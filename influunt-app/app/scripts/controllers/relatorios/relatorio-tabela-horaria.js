@@ -35,7 +35,7 @@ angular.module('influuntApp')
       };
 
       parseData = function (data) {
-        return moment.isMoment(data) ? data.format() : moment(new Date (data).toLocaleDateString()).format();
+        return moment.isMoment(data) ? data.format() : moment((new Date (data).toLocaleString()), "MM-DD-YYYY HH:mm").format();
       };
 
       /**
