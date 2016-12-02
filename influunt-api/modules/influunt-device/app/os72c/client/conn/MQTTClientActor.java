@@ -155,7 +155,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         String parsedBytes = new String(message.getPayload());
 
         Map msg = new Gson().fromJson(parsedBytes, Map.class);
-        Logger.info("Mensagem recebida da central:");
+        System.out.println(msg);
 
         String privateKey = storage.getPrivateKey();
         try {
