@@ -1,24 +1,21 @@
 package os72c.client.conn;
 
+
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
+import logger.InfluuntLogger;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
-import org.slf4j.LoggerFactory;
-import os72c.client.logger.InfluuntLogger;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
-import play.Logger;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
