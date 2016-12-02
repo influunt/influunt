@@ -161,7 +161,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = SubareasCheck.class,
-        message = "Já existe uma Subarea cadastrada com esse nome.")
+        message = "Já existe uma subárea cadastrada com esse nome.")
     public boolean isNomeUnique() {
         if (Objects.nonNull(getNome())) {
             Subarea subareaAux = Subarea.find.where().eq("area_id", getArea().getId().toString()).ieq("nome", getNome().toString()).findUnique();
