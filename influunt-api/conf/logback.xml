@@ -31,6 +31,7 @@
   <logger name="org.hibernate.SQL"  level="WARN" />
   <logger name="com.zaxxer.hikari" level="WARN"/>
   <logger name="org.mongodb.driver" level="WARN"/>
+  <logger name="Influunt" level="INFO"/>
 
 
   <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
@@ -52,9 +53,9 @@
   <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
 
 
-  <logger name="org.jdbcdslog.ConnectionLogger" level="OFF"  /> <!-- Won' log connections -->
-  <logger name="org.jdbcdslog.StatementLogger"  level="OFF" /> <!-- Will log all statements -->
-  <logger name="org.jdbcdslog.ResultSetLogger"  level="OFF"  /> <!-- Won' log result sets -->
+  <logger name="org.jdbcdslog.ConnectionLogger" level="OFF"  /> <!-- Won' logger connections -->
+  <logger name="org.jdbcdslog.StatementLogger"  level="OFF" /> <!-- Will logger all statements -->
+  <logger name="org.jdbcdslog.ResultSetLogger"  level="OFF"  /> <!-- Won' logger result sets -->
 
   <root level="WARN">
     <appender-ref ref="ASYNCFILE" />

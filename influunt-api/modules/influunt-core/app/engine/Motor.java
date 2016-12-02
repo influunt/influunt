@@ -1,6 +1,7 @@
 package engine;
 
 import engine.eventos.GerenciadorDeEventos;
+import logger.InfluuntLogger;
 import models.Anel;
 import models.Controlador;
 import models.Evento;
@@ -162,6 +163,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public void onAlarme(EventoMotor eventoMotor) {
         callback.onAlarme(instante, eventoMotor);
+        InfluuntLogger.log(eventoMotor);
     }
 
     public MotorCallback getCallback() {
@@ -197,5 +199,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public boolean isEmModoManual() {
         return emModoManual;
+    }
+
+    public void stop() {
+        InfluuntLogger.log("Terminando a execução do motor");
     }
 }

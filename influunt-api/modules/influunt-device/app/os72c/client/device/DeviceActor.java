@@ -1,6 +1,7 @@
 package os72c.client.device;
 
 import akka.actor.UntypedActor;
+import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import models.Anel;
@@ -19,9 +20,11 @@ import protocol.TrocaPlanoEfetiva;
 
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static engine.TipoEventoParamsTipoDeDado.*;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 
 /**
@@ -39,11 +42,20 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private boolean iniciado = false;
 
+    private UntypedActorContext context;
+
+    private ScheduledFuture<?> executor;
+
 
     public DeviceActor(Storage mapStorage, DeviceBridge device) {
         this.storage = mapStorage;
         this.device = device;
         start();
+    }
+
+    @Override
+    public void preStart() throws Exception {
+        this.context = getContext();
     }
 
     private synchronized void start() {
@@ -57,7 +69,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
 
-                Executors.newScheduledThreadPool(1)
+                executor =  Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
                         try {
                             motor.tick();
@@ -132,7 +144,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private void sendMessage(Envelope envelope) {
-        getContext().actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope, getSelf());
+        context.actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope, getSelf());
     }
 
     @Override
@@ -214,5 +226,16 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private void liberarImposicao(JsonNode conteudo) {
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+    }
+
+
+    @Override
+    public void aroundPostStop() {
+
+        if(motor!= null) {
+            motor.stop();
+            executor.cancel(true);
+        }
+        super.aroundPostStop();
     }
 }

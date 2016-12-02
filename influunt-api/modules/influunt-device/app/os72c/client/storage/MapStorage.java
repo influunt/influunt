@@ -67,12 +67,10 @@ public class MapStorage implements Storage {
 
     @Override
     public Controlador getControlador() {
-        String json = this.controlador.get("atual");
-        if (json != null) {
-            return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(json));
-        } else {
-            return null;
+        if (this.controlador.containsKey("atual")) {
+            return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(this.controlador.get("atual")));
         }
+        return null;
     }
 
     @Override
@@ -83,7 +81,10 @@ public class MapStorage implements Storage {
 
     @Override
     public Controlador getControladorStaging() {
-        return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(this.controlador.get("temp")));
+        if (this.controlador.containsKey("temp")) {
+            return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(this.controlador.get("temp")));
+        }
+        return null;
     }
 
     @Override
@@ -94,17 +95,26 @@ public class MapStorage implements Storage {
 
     @Override
     public JsonNode getControladorJson() {
-        return play.libs.Json.parse(this.controlador.get("atual"));
+        if (this.controlador.containsKey("atual")) {
+            return play.libs.Json.parse(this.controlador.get("atual"));
+        }
+        return null;
     }
 
     @Override
     public JsonNode getControladorJsonStaging() {
-        return play.libs.Json.parse(this.controlador.get("temp"));
+        if (this.controlador.containsKey("temp")) {
+            return play.libs.Json.parse(this.controlador.get("temp"));
+        }
+        return null;
     }
 
     @Override
     public JsonNode getPlanos() {
-        return play.libs.Json.parse(this.controlador.get("atualPlanos"));
+        if (this.controlador.containsKey("atualPlanos")){
+            return play.libs.Json.parse(this.controlador.get("atualPlanos"));
+        }
+        return null;
     }
 
     @Override
@@ -115,7 +125,10 @@ public class MapStorage implements Storage {
 
     @Override
     public JsonNode getPlanosStaging() {
-        return play.libs.Json.parse(this.controlador.get("tempPlanos"));
+        if (this.controlador.containsKey("tempPlanos")) {
+            return play.libs.Json.parse(this.controlador.get("tempPlanos"));
+        }
+        return null;
     }
 
     @Override
