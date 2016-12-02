@@ -120,7 +120,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, Matchers.hasItems(
-            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[1].estagios[0].tempoVerdeDemandaPrioritaria")
+            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda prioritária deve estar entre {min} e {max}", "aneis[1].estagios[0].tempoVerdeDemandaPrioritaria")
         ));
 
         estagioNovo.setTempoVerdeDemandaPrioritaria(10);
@@ -134,8 +134,8 @@ public class ControladorAssociacoesTest extends ControladorTest {
             new Erro(CONTROLADOR, "O anel ativo deve ter somente um estágio de demanda prioritária.", "aneis[0].somenteUmEstagioDeDemandaPrioritaria"),
             new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[0].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
             new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio"),
-            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoVerdeDemandaPrioritaria"),
-            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda priortária deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoVerdeDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda prioritária deve estar entre {min} e {max}", "aneis[0].estagios[0].tempoVerdeDemandaPrioritaria"),
+            new Erro(CONTROLADOR, "O Tempo de verde do estágio de demanda prioritária deve estar entre {min} e {max}", "aneis[0].estagios[1].tempoVerdeDemandaPrioritaria"),
             new Erro(CONTROLADOR, "Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.", "aneis[0].estagios[0].umGrupoSemaforicoVeicularEmDemandaPrioritaria")
         ));
 
