@@ -33,6 +33,9 @@ drop index if exists ix_detectores_anel_id;
 
 alter table detectores drop constraint if exists fk_detectores_estagio_id;
 
+alter table disparos_alarmes drop constraint if exists fk_disparos_alarmes_usuario_id;
+drop index if exists ix_disparos_alarmes_usuario_id;
+
 alter table enderecos drop constraint if exists fk_enderecos_controlador_id;
 
 alter table enderecos drop constraint if exists fk_enderecos_anel_id;
@@ -189,6 +192,8 @@ drop table if exists controladores;
 drop table if exists controladores_fisicos;
 
 drop table if exists detectores;
+
+drop table if exists disparos_alarmes;
 
 drop table if exists enderecos;
 

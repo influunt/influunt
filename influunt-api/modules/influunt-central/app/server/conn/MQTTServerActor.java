@@ -52,7 +52,10 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     private ActorRef messageBroker;
 
-    {
+    public MQTTServerActor(final String host, final String port) {
+        this.host = host;
+        this.port = port;
+
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
             ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class));
@@ -60,11 +63,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
             routees.add(new ActorRefRoutee(r));
         }
         router = new Router(new RoundRobinRoutingLogic(), routees);
-    }
 
-    public MQTTServerActor(final String host, final String port) {
-        this.host = host;
-        this.port = port;
     }
 
     @Override
@@ -114,6 +113,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     private void sendToBroker(MqttMessage message) throws MqttException {
         try {
             String parsedBytes = new String(message.getPayload());
+            System.out.println("Payload:" + parsedBytes);
             Map msg = new Gson().fromJson(parsedBytes, Map.class);
             String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
@@ -133,7 +133,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
         opts.setConnectionTimeout(0);
-        opts.setWill("central/morreu", "1".getBytes(), 1, true);
         client.setCallback(this);
         client.connect(opts);
 
@@ -149,12 +148,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         subscribe("central/transacoes/+");
         subscribe("central/alarmes_falhas/+");
         subscribe("central/troca_plano/+");
+        subscribe("central/+");
 
-        client.subscribe("central/+", 1, (topic, message) -> {
-            if (!"central/morreu".equals(topic)) {
-                sendToBroker(message);
-            }
-        });
     }
 
     public void subscribe(String route) throws MqttException {

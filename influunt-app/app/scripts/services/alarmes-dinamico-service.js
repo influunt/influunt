@@ -15,10 +15,15 @@ angular.module('influuntApp')
         var FALHA = 'FALHA';
         var REMOCAO_FALHA = 'REMOCAO_FALHA';
 
+        var OFFLINE = 'OFFLINE';
+        var ONLINE = 'ONLINE';
+
         // métodos privados;
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
-            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher;
-        var statusObj, _fnOnEventTriggered, _fnOnEventTriggered, controladores;
+            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
+            removeFalha, setStatus;
+        var statusObj, _fnOnEventTriggered, controladores;
+        var _fnonClickToast = function(){};
 
         var registerWatchers = function() {
           pahoProvider.connect()
@@ -48,7 +53,8 @@ angular.module('influuntApp')
         var setListaControladores = function(_refControladores) { controladores = _refControladores; };
 
         // watchers.
-        statusControladoresWatcher = function(payload) {
+        statusControladoresWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.status = statusObj.status || {};
@@ -75,20 +81,29 @@ angular.module('influuntApp')
           });
         };
 
-        alarmesEFalhasWatcher = function(payload) {
+        alarmesEFalhasWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.erros = statusObj.erros || {};
 
-          switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
-            case FALHA:
-              return handleAlarmesEFalhas(mensagem);
-            case REMOCAO_FALHA:
-              return handleRecuperacaoFalhas(mensagem);
-          }
+          getControlador(mensagem.idControlador).then(function(controlador) {
+            var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
+            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+
+            switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
+              case FALHA:
+                return handleAlarmesEFalhas(mensagem, controlador, anel);
+              case REMOCAO_FALHA:
+                return handleRecuperacaoFalhas(mensagem, controlador, anel);
+            }
+          });
+
         };
 
-        trocaPlanoWatcher = function(payload) {
+        /// obs.: ainda não foi unificado.
+        trocaPlanoWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
 
           return getControlador(mensagem.idControlador)
@@ -117,14 +132,26 @@ angular.module('influuntApp')
             });
         };
 
-        onlineOfflineWatcher = function(payload) {
+        onlineOfflineWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
+          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.onlines = statusObj.onlines || {};
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
               var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
+              var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
+
               statusObj.onlines[mensagem.idControlador] = isOnline;
+              statusObj.status[controlador.id] = status;
+              controlador.online = isOnline;
+              controlador.status = status;
+
+              controlador.aneis.forEach(function(anel) {
+                anel.online = isOnline;
+                anel.status = isOnline ? (anel.status || ONLINE) : OFFLINE;
+              });
 
               if (isAlertaAtivado(mensagem.tipoMensagem)) {
                 var msg = isOnline ?
@@ -141,81 +168,101 @@ angular.module('influuntApp')
 
 
         // helpers.
-        handleAlarmesEFalhas = function(mensagem) {
-          return getControlador(mensagem.idControlador)
-            .then(function(controlador) {
-              var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
-              var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-              var endereco = anel !== null ? anel.endereco : controlador.endereco;
-              endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+        handleAlarmesEFalhas = function(mensagem, controlador, anel) {
+          var msg;
+          var obj = anel || controlador;
+          addFalha(mensagem, controlador, anel);
 
-              var falha = {
-                clc: controlador.CLC,
-                data: mensagem.carimboDeTempo,
-                endereco: $filter('nomeEndereco')(endereco),
-                id: mensagem.idControlador,
-                descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento'),
-                tipo: _.get(mensagem, 'conteudo.tipoEvento.tipo'),
-                tipoEventoControlador: _.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')
-              };
+          if (mensagem.conteudo.tipoEvento.tipoEventoControlador === FALHA) {
+            setStatus(FALHA, obj, controlador, anel);
+          }
 
-              statusObj.erros = statusObj.erros || [];
-              statusObj.erros.push(falha);
+          if(isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo)) {
+            msg = $filter('translate')(
+              'controladores.mapaControladores.alertas.controladorEmFalha',
+              {CONTROLADOR: controlador.CLC}
+            );
+            if (anel) {
+              msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+            }
 
+            exibirAlerta(msg);
+          }
 
-              var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
-              if (anel) {
-                msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
-              }
-
-              if(isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo)) {
-                exibirAlerta(msg);
-              }
-
-              return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
-            });
+          return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
         };
 
-        handleRecuperacaoFalhas = function(mensagem) {
-          return getControlador(mensagem.idControlador)
-            .then(function(controlador) {
-              var sampleFalha;
-              _.filter(statusObj.erros, function(falha) {
-                return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&
-                  !!mensagem.conteudo.tipoEvento.tipoEventoControlador.match(new RegExp(falha.tipoEventoControlador + '$'));
-              })
-              .map(function(falha) {
-                sampleFalha = falha;
-                falha.recuperado = true;
-              });
+        handleRecuperacaoFalhas = function(mensagem, controlador, anel) {
+          var sampleFalha = removeFalha(mensagem);
 
-              if (sampleFalha) {
-                var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
-                var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
+          if (sampleFalha) {
+            var msg = $filter('translate')(
+              'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
+              {CONTROLADOR: controlador.CLC, FALHA: sampleFalha.descricaoEvento}
+            );
+            if (anel) {
+              msg = $filter('translate')(
+                'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
+                {ANEL: anel.CLA, FALHA: sampleFalha.descricaoEvento}
+              );
+            }
 
-                var msg = $filter('translate')(
-                  'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
-                  {CONTROLADOR: controlador.CLC, FALHA: sampleFalha.descricaoEvento}
-                );
-                if (anel) {
-                  msg = $filter('translate')(
-                    'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
-                    {ANEL: anel.CLA, FALHA: sampleFalha.descricaoEvento}
-                  );
-                }
+            if(isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo)) {
+              exibirAlerta(msg);
+            }
 
-                if(isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo)) {
-                  exibirAlerta(msg);
-                }
+            return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+          }
+        };
 
-                return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
-              }
+        removeFalha = function(mensagem) {
+          var sampleFalha;
+          _.filter(statusObj.erros, function(falha) {
+            return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&
+              !!mensagem.conteudo.tipoEvento.tipoEventoControlador.match(new RegExp(falha.tipoEventoControlador + '$'));
+          })
+          .map(function(falha) {
+            sampleFalha = falha;
+            falha.recuperado = true;
+          });
+
+          return sampleFalha;
+        };
+
+        addFalha = function(mensagem, controlador, anel) {
+          var endereco = anel !== null ? anel.endereco : controlador.endereco;
+          endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+
+          var objErro = {
+            cla: _.get(anel, 'CLA'),
+            clc: controlador.CLC,
+            data: mensagem.carimboDeTempo,
+            endereco: 'endereco',
+            idAnel: _.get(anel, 'id'),
+            idControlador: controlador.id,
+            descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento'),
+            tipo: mensagem.conteudo.tipoEvento.tipo,
+            tipoEventoControlador: mensagem.conteudo.tipoEvento.tipoEventoControlador
+          };
+
+          statusObj.erros = statusObj.erros || [];
+          statusObj.erros.push(objErro);
+        };
+
+        setStatus = function(status, obj, controlador, anel) {
+          obj.status = status;
+
+          if (!anel) {
+            statusObj.status[obj.id] = status;
+            controlador.aneis = controlador.aneis.map(function(anel) {
+              anel.status = status;
+              return anel;
             });
+          }
         };
 
         getControlador = function(idControlador) {
           var deferred = $q.defer();
-          debugger;
           if (_.isArray(controladores) && controladores.length > 0) {
             deferred.resolve(controladores);
           } else {
@@ -234,7 +281,10 @@ angular.module('influuntApp')
         };
 
         exibirAlerta = function(msg) {
-          toast.warn(msg);
+          toast.warn(msg, null,{
+            onclick: _fnonClickToast
+          });
+
           audioNotifier.notify();
         };
 
