@@ -1041,7 +1041,7 @@ public class ControladorCustomDeserializer {
         return versaoPlano;
     }
 
-    public Plano parsePlano(JsonNode node) {
+    private Plano parsePlano(JsonNode node) {
         Plano plano = new Plano();
 
         if (node.has("id")) {

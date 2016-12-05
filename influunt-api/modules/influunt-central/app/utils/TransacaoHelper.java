@@ -51,7 +51,8 @@ public class TransacaoHelper {
     }
 
     public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
-        if (posicaoPlano == 17) {
+        int posicaoPlanoTemporario = controlador.getModelo().getLimitePlanos() + 1;
+        if (posicaoPlano == posicaoPlanoTemporario) {
             // plano temporário
             return imporPlanoTemporario(controlador, posicaoPlano, numeroAnel, horarioEntrada, duracao);
         }
@@ -63,7 +64,7 @@ public class TransacaoHelper {
         return transacao.transacaoId;
     }
 
-    public String imporPlanoTemporario(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
+    private String imporPlanoTemporario(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
         String controladorId = controlador.getId().toString();
         String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO);
@@ -87,4 +88,6 @@ public class TransacaoHelper {
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
     }
+
+
 }
