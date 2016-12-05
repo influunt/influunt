@@ -104,7 +104,7 @@ public class MonitoramentoController extends Controller {
             if (controlador != null) {
                 if (erro.getIdAnel() != null) {
                     String idAnel = erro.getIdAnel();
-                    anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
+                    anel = controlador.getAneis().stream().filter(a -> a.isAtivo() && a.getId().toString().equals(idAnel)).findFirst().orElse(null);
                 }
 
                 Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();

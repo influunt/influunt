@@ -51,9 +51,22 @@ public class TransacaoHelper {
     }
 
     public String imporPlano(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
+        if (posicaoPlano == 17) {
+            // plano temporário
+            return imporPlanoTemporario(controlador, posicaoPlano, numeroAnel, horarioEntrada, duracao);
+        }
+
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
+        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        return transacao.transacaoId;
+    }
+
+    public String imporPlanoTemporario(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
+        String controladorId = controlador.getId().toString();
+        String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
+        Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO);
         sendTransaction(transacao, QoS.AT_LEAST_ONCE);
         return transacao.transacaoId;
     }
