@@ -1076,6 +1076,20 @@ angular
             }
           }
         })
+
+        .state('app.relatorios_log_controladores', {
+          url: '/relatorios/log_controladores',
+          templateUrl: 'views/relatorios/logControladores.html',
+          controller: 'RelatoriosLogControladoresCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.logControladores',
+            permissions: {
+              only: 'gerarRelatorioLogControladores',
+              redirectTo: 'app.main'
+            }
+          }
+        })
       ;
 
       // Prevent router from automatic state resolving
