@@ -3,7 +3,7 @@ Toda a comunicação entre os controladores e a central é criptografada. Para i
 
 Cada mensagem é criptografada com uma chave simétrica que é criptografada pela chave privada assimétrica. 
 
-As chaves simétricas são geradas automaticamente no cadastro da controlador na central. Cada controlador deve conhecer sua chave privada e a chave pública da central. As chaves assímetricas devem ser geradas a cada nova mensagem trafegada.
+As chaves assimétricas são geradas automaticamente no cadastro da controlador na central. Cada controlador deve conhecer sua chave privada e a chave pública da central. As chaves simétricas devem ser geradas a cada nova mensagem trafegada.
 
 Dessa forma, toda a mensagem recebida no controlador deve ser descriptografada com a chave assímetrica após essa ser descriptografada pela chave privada assimétrica. O mesmo acontece no sentido contrário, ou seja, quando uma mensagem é recebida no controlador.
 
@@ -20,7 +20,7 @@ Como a conteúdo é criptografado, qualquer alteração fará que a mensagem nã
 
 
 ##Envelope Seguro
-Toda a comunicação em ambos os sentidos devem ser empacotadas em um envolope seguro. O evelope seguro contém 3 campos: a senha, o conteúdo e o id do controlador. A seguir um exemplo de um envelope seguro:
+Toda a comunicação em ambos os sentidos deve ser empacotada em um envolope seguro. O evelope seguro contém 3 campos: a senha, o conteúdo e o id do controlador. A seguir um exemplo de um envelope seguro:
 
 
 ```JSON

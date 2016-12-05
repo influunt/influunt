@@ -6,10 +6,11 @@ pages:
     - 'Introdução': 'comunicacao/introducao.md'
     - 'Envelope': 'comunicacao/envelope.md'
     - 'Segurança': 'comunicacao/seguranca.md'
-    - 'Mensagens':
-      - 'Ciclo de Vida': 'comunicacao/mensagens/ciclo_vida.md'
-      - 'Conectividade': 'comunicacao/mensagens/conectividade.md'
-      - 'Planos e Tabela Horária': 'comunicacao/mensagens/planos.md'
-      - 'Telemetria e Status': 'comunicacao/mensagens/status.md'
-      - 'Simulação': 'comunicacao/mensagens/simulacao.md'
+- Protocolos:
+  - Alto Nível:
+    - 'Introdução': 'protocolos/alto_nivel/introducao.md'
+    - 'Conectividade': 'protocolos/alto_nivel/conectividade.md'
+    - 'Ciclo de Vida': 'protocolos/alto_nivel/ciclo_vida.md'
+    - 'Planos e Tabela Horária': 'protocolos/alto_nivel/planos.md'
+    - 'Alertas e Falhas': 'protocolos/alto_nivel/alertas_e_falhas.md'
 

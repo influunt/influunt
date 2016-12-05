@@ -47,11 +47,10 @@ A tabela baixo lista as possíveis transições entre os estados do controlador.
 ### CONFIGURACAO INCIAL
 Quando um controlador com status NOVO conectar com a internet ele deve solicitar a central sua configuração. Para isso deve enviar a mensagem CONFIGURACAO_INICIAL [CONFIGURACAO_INICIAL](#CONFIGURACAO_INICIAL) para o tópico[/central/configuracao](comunicao/topicos#central_echo).
 
-| Campo| Tipo | Obrigatorio| Descrição |
-| ------------ | ------------- | ------------ |
-
+O conteúdo da mensagem é vazio.
 
 ```JSON
+{}
 ```
 
 ### CONFIGURACAO
