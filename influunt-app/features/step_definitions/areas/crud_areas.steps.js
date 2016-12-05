@@ -98,6 +98,6 @@ module.exports = function() {
   });
 
   this.Given(/^que o usuário limpe o campo área$/, function () {
-    return objetosComuns.limparCampo("area");
+    return objetosComuns.limparCampo('area');
   });
 };
