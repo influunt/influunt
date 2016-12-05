@@ -10,6 +10,7 @@ import org.jongo.MongoCursor;
 import play.api.Play;
 import play.libs.Json;
 import uk.co.panaxiom.playjongo.PlayJongo;
+import utils.TipoLogControlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -140,6 +141,7 @@ public class AlarmesFalhasControlador {
 
     public static void log(Long timestamp, String idControlador, String idAnel, JsonNode objeto) {
         new AlarmesFalhasControlador(idControlador, timestamp, idAnel, objeto).save();
+        LogControlador.log(idControlador, timestamp, objeto.get("descricaoEvento").asText(), TipoLogControlador.ALARME_FALHA);
     }
 
     public static void logRemocao(long carimboDeTempo, String idControlador, String idAnel, JsonNode jsonConteudo) {
@@ -155,6 +157,7 @@ public class AlarmesFalhasControlador {
             .with("{ $set: { recuperado: true } }");
 
         log(carimboDeTempo, idControlador, idAnel, jsonConteudo);
+        LogControlador.log(idControlador, carimboDeTempo, evento.getDescricao(), TipoLogControlador.REMOCAO_FALHA);
     }
 
     public void insert() {

@@ -10,6 +10,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import status.AlarmesFalhasControlador;
+import status.LogControlador;
 import status.TrocaDePlanoControlador;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntUtils;
@@ -228,39 +229,91 @@ public class ControladoresReportService extends ReportService<Controlador> {
         return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
     }
 
-    private List<ControladorFalhasVO> getControladoresPorFalhas() {
-//        Gson gson = new Gson();
-//        ArrayList<ControladorStatusVO> controladores = new ArrayList<>();
-//        for (String erro : errosPorFabricantes) {
-//            JsonObject jobj = gson.fromJson(erro, JsonObject.class);
-//            JsonObject controladorJson = jobj.get("_id").getAsJsonObject();
-//            ControladorStatusVO statusVO = new ControladorStatusVO(controladorJson.get("status").getAsString(), jobj.get("total").getAsInt());
-//            statusVO.setIdFabricante(controladorJson.get("idFabricante").getAsString());
-//            controladores.add(statusVO);
-//        }
-//
-//        Map<String, List<ControladorStatusVO>> controladoresAux = controladores.stream().collect(Collectors.groupingBy(ControladorStatusVO::getIdFabricante));
-//
-//        ArrayList<ControladorFalhasVO> controladoresFalhas = new ArrayList<>();
-//        for (Map.Entry<String, List<ControladorStatusVO>> entry : controladoresAux.entrySet()) {
-//            Fabricante fabricante = Fabricante.find.byId(UUID.fromString(entry.getKey()));
-//            ControladorFalhasVO controladorFalha = new ControladorFalhasVO();
-//            controladorFalha.setIdFabricante(entry.getKey());
-//            controladorFalha.setNomeFabricante(fabricante.getNome());
-//            for (ControladorStatusVO statusAux : entry.getValue()) {
-//                controladorFalha.addFalha(new FalhaPorFabricanteVO(statusAux.getStatus(), statusAux.getTotal()));
-//            }
-//
-//            controladoresFalhas.add(controladorFalha);
-//        }
-//
-//        return controladoresFalhas;
-        return null;
-    }
-
     private Map<String, Object> controladoresFalhasReportParams(Map<String, String[]> queryStringParams) {
         Map<String, Object> params = getBasicReportMetadata();
         params.put("relatorioPor", "Fabricante");
         return params;
     }
+
+    public ObjectNode getLogsReportData(Map<String, String[]> params, Area area) {
+        Map<String, String[]> paramsAux = new HashMap<>();
+        paramsAux.putAll(params);
+        paramsAux.remove("tipoRelatorio");
+
+        final String tipoLog = (params.containsKey("tipoLog_eq")) ? String.valueOf(params.get("tipoLog_eq")[0]) : "";
+        if(params.containsKey("tipoLog_eq")) {
+            paramsAux.remove("tipoLog_eq");
+        }
+
+        if (area != null) {
+            String[] areaId = {area.getId().toString()};
+            paramsAux.put("area.id", areaId);
+        }
+
+        if (params.containsKey("filtrarPor_eq")) {
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                if (params.containsKey("subareaAgrupamento")) {
+                    paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
+                    paramsAux.remove("subareaAgrupamento");
+                    paramsAux.remove("filtrarPor_eq");
+                }
+
+            } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                if (params.containsKey("subareaAgrupamento")) {
+                    paramsAux.put("aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
+                    paramsAux.remove("subareaAgrupamento");
+                    paramsAux.remove("filtrarPor_eq");
+                }
+            }
+        }
+        List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
+        List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+
+        ArrayNode itens = JsonNodeFactory.instance.arrayNode();
+        logs.forEach(log -> {
+            if(tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
+                Controlador controlador = controladores.stream().filter((c -> c.getId().toString().equals(log.getIdControlador()))).findFirst().get();
+                itens.addObject().put("horario", log.getTimestamp()).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
+                    .put("tipo", log.getTipoLogControlador().toString()).put("mensagem", log.getMensagem());
+            }
+        });
+
+        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+        retorno.putArray("data").addAll(itens);
+
+        return retorno;
+    }
+
+    /**
+     * Retorna um CSV com dados dos {@link LogControlador}
+     * <p>
+     * FORMATO: HORARIO | CLC | ENDERECO | MENSAGEM | TIPO FALHA
+     *
+     * @return {@link InputStream} do csv
+     */
+    public InputStream generateLogCSVReport(Map<String, String[]> params, Area area) {
+        StringBuilder buffer = new StringBuilder();
+
+        buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
+
+        buffer.append("Gerado em:").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE));
+        buffer.append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR);
+
+        // Write the CSV file header
+        buffer.append("HORARIO").append(COMMA_DELIMITER).append("CLC").append(COMMA_DELIMITER).append("ENDEREÇO").append(COMMA_DELIMITER)
+            .append("MENSAGEM").append(COMMA_DELIMITER).append("TIPO FALHA").append(NEW_LINE_SEPARATOR);
+
+
+        ObjectNode retorno = getLogsReportData(params, area);
+        retorno.get("data").forEach(jsonNode -> {
+            buffer.append(StringUtils.defaultIfBlank(jsonNode.get("horario").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("clc").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("endereco").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("mensagem").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
+                .append(StringUtils.defaultIfBlank(jsonNode.get("tipo").asText(), StringUtils.EMPTY)).append(NEW_LINE_SEPARATOR);
+        });
+
+        return new ByteArrayInputStream(buffer.toString().getBytes(Charset.forName("UTF-8")));
+    }
+
 }

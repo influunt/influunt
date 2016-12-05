@@ -94,7 +94,6 @@ public class StatusControladorFisico {
 
     public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice) {
         new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice).save();
-
     }
 
     public StatusDevice getStatusDevice() {

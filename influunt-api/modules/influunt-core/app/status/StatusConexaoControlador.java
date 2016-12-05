@@ -8,6 +8,7 @@ import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import play.api.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
+import utils.TipoLogControlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,6 +176,8 @@ public class StatusConexaoControlador {
 
     public static void log(String idControlador, long carimboDeTempo, boolean online) {
         new StatusConexaoControlador(idControlador, carimboDeTempo, online).save();
+        String mensagem = online ? "Conectado" : "Desconectado";
+        LogControlador.log(idControlador, carimboDeTempo, mensagem, TipoLogControlador.REMOCAO_FALHA);
     }
 
     private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(Boolean online) {

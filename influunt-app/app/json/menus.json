@@ -78,6 +78,11 @@
         "name": "relatorioTabelaHoraria",
         "label": "relatorios.tabelaHoraria",
         "route": "app.relatorios_tabela_horaria"
+      },
+      {
+        "name": "relatorioLogControladores",
+        "label": "relatorios.logControladores",
+        "route": "app.relatorios_log_controladores"
       }
     ]
   },

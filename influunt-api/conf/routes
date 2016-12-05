@@ -194,6 +194,7 @@ GET       /api/v1/relatorios/controladores_falhas                               
 GET       /api/v1/relatorios/controlador/:id                                                    controllers.RelatoriosController.gerarRelatorioControlador(id)
 GET       /api/v1/relatorios/planos                                                             controllers.RelatoriosController.gerarRelatorioPlanos()
 GET       /api/v1/relatorios/tabela_horaria                                                     controllers.RelatoriosController.gerarRelatorioTabelaHoraria
+GET       /api/v1/relatorios/log_controladores                                                  controllers.RelatoriosController.gerarRelatorioLogControladores()
 
 # Imposições
 POST       /api/v1/imposicoes/pacote_plano                                                      controllers.ImposicoesController.pacotePlano
