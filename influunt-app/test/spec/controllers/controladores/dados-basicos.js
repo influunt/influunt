@@ -25,5 +25,4 @@ describe('Controller: ControladoresDadosBasicosCtrl', function () {
     scope.$apply();
     expect(scope.objeto.nomeEndereco).toBe('endereco 1 com endereco 2');
   });
-
 });
