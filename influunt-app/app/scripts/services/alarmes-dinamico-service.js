@@ -9,8 +9,8 @@
  */
 angular.module('influuntApp')
   .provider('alarmesDinamicoService', function() {
-    this.$get = ['$rootScope', 'pahoProvider', 'eventosDinamicos', 'Restangular', '$filter', 'toast', 'audioNotifier', '$q',
-      function ($rootScope, pahoProvider, eventosDinamicos, Restangular, $filter, toast, audioNotifier, $q) {
+    this.$get = ['$rootScope', 'pahoProvider', 'eventosDinamicos', 'Restangular', '$filter', 'toast', 'audioNotifier', '$q', '$state',
+      function alarmesDinamicoService($rootScope, pahoProvider, eventosDinamicos, Restangular, $filter, toast, audioNotifier, $q, $state) {
 
         var FALHA = 'FALHA';
         var REMOCAO_FALHA = 'REMOCAO_FALHA';
@@ -21,7 +21,7 @@ angular.module('influuntApp')
         // métodos privados;
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
             trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
-            removeFalha, setStatus;
+            removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
         var statusObj, _fnOnEventTriggered, controladores;
         var _fnonClickToast = function(){};
 
@@ -47,14 +47,9 @@ angular.module('influuntApp')
             });
         };
 
-        var onEventTriggered = function(fn) { _fnOnEventTriggered = fn; };
-        var onClickToast = function(fn) { _fnonClickToast = fn; };
-
-        var setListaControladores = function(_refControladores) { controladores = _refControladores; };
 
         // watchers.
-        statusControladoresWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        statusControladoresWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.status = statusObj.status || {};
@@ -74,20 +69,24 @@ angular.module('influuntApp')
                 {CONTROLADOR: controlador.CLC}
               );
 
-              exibirAlerta(msg);
+              exibirAlerta(msg, controlador);
             }
 
             return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, mensagem);
           });
         };
 
-        alarmesEFalhasWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        alarmesEFalhasWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.erros = statusObj.erros || {};
 
           getControlador(mensagem.idControlador).then(function(controlador) {
+            if (!controlador) {
+              console.log('controlador', mensagem.idControlador, 'não existe.');
+              return false;
+            }
+
             var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -98,48 +97,53 @@ angular.module('influuntApp')
                 return handleRecuperacaoFalhas(mensagem, controlador, anel);
             }
           });
-
         };
 
-        /// obs.: ainda não foi unificado.
-        trocaPlanoWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        trocaPlanoWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
+          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
-              mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
+              if (!controlador) {
+                console.log('controlador', mensagem.idControlador, 'não existe.');
+                return false;
+              }
+
               var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
               var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
-              statusObj.imposicaoPlanos = statusObj.imposicaoPlanos || {};
-              statusObj.modosOperacoes  = statusObj.modosOperacoes || {};
-
-              statusObj.modosOperacoes[mensagem.idControlador] = _.get(mensagem, 'conteudo.plano.modoOperacao');
-              statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.imposicaoDePlano');
-
-              var msg = $filter('translate')(
-                'controladores.mapaControladores.alertas.trocaPlanoAnelEControlador',
-                {ANEL: anel.CLA, CONTROLADOR: controlador.CLC}
-              );
-
-              if (isAlertaAtivado('TROCA_DE_PLANO_NO_ANEL')) {
-                exibirAlerta(msg);
+              if ($state.current.name === 'app.mapa_controladores') {
+                trocaPlanosMapa(mensagem, controlador, anel, posicaoAnel);
+              } else {
+                trocaPlanosDashboard(mensagem, controlador, anel, posicaoAnel);
               }
 
+              if (isAlertaAtivado('TROCA_DE_PLANO_NO_ANEL')) {
+                var msg = $filter('translate')(
+                  'controladores.mapaControladores.alertas.trocaPlanoAnelEControlador',
+                  {ANEL: anel.CLA, CONTROLADOR: controlador.CLC}
+                );
+
+                exibirAlerta(msg, anel);
+              }
 
               return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
             });
         };
 
-        onlineOfflineWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        onlineOfflineWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.onlines = statusObj.onlines || {};
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
+              if (!controlador) {
+                console.log('controlador', mensagem.idControlador, 'não existe.');
+                return false;
+              }
+
               var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
               var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
 
@@ -150,7 +154,7 @@ angular.module('influuntApp')
 
               controlador.aneis.forEach(function(anel) {
                 anel.online = isOnline;
-                anel.status = isOnline ? (anel.status || ONLINE) : OFFLINE;
+                anel.status = isOnline ? ONLINE : OFFLINE;
               });
 
               if (isAlertaAtivado(mensagem.tipoMensagem)) {
@@ -159,7 +163,7 @@ angular.module('influuntApp')
                   'controladores.mapaControladores.alertas.controladorOffline';
                 msg = $filter('translate')(msg, {CONTROLADOR: controlador.CLC});
 
-                exibirAlerta(msg);
+                exibirAlerta(msg, controlador);
               }
 
               return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
@@ -168,6 +172,54 @@ angular.module('influuntApp')
 
 
         // helpers.
+        var onEventTriggered = function(fn) { _fnOnEventTriggered = fn; };
+        var onClickToast = function(fn) { _fnonClickToast = fn; };
+        var setListaControladores = function(_refControladores) { controladores = _refControladores; };
+
+        /**
+         * Processamento das trocas de plano para a tela de mapas.
+         */
+        trocaPlanosMapa = function(mensagem, controlador, anel, posicaoAnel) {
+          var obj = _.find(statusObj.statusPlanos, function(obj) {
+            return obj.idControlador === mensagem.idControlador && parseInt(obj.anelPosicao) === parseInt(posicaoAnel);
+          });
+
+          if (!obj) {
+            obj = {
+              idControlador: mensagem.idControlador,
+              anelPosicao: posicaoAnel
+            };
+
+            statusObj.statusPlanos = statusObj.statusPlanos || [];
+            statusObj.statusPlanos.push(obj);
+          }
+
+          var posicaoPlano = parseInt(mensagem.conteudo.plano.posicao);
+          var ids = _.map(anel.planos, 'idJson');
+          anel.planoVigente = _.find(controlador.planos, function(plano) {
+            return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
+          });
+
+          anel.hasPlanoImposto = mensagem.conteudo.imposicaoDePlano;
+          anel.modoOperacao = mensagem.conteudo.plano.modoOperacao;
+          anel.tipoControleVigente = mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL';
+
+          obj.hasPlanoImposto = anel.hasPlanoImposto;
+          obj.modoOperacao = anel.modoOperacao;
+          obj.planoPosicao = posicaoPlano;
+        };
+
+        /**
+         * Processamento das trocas de plano para a tela de dashboard,
+         */
+        trocaPlanosDashboard = function(mensagem) {
+          statusObj.imposicaoPlanos = statusObj.imposicaoPlanos || {};
+          statusObj.modosOperacoes  = statusObj.modosOperacoes || {};
+
+          statusObj.modosOperacoes[mensagem.idControlador] = _.get(mensagem, 'conteudo.plano.modoOperacao');
+          statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.imposicaoDePlano');
+        };
+
         handleAlarmesEFalhas = function(mensagem, controlador, anel) {
           var msg;
           var obj = anel || controlador;
@@ -186,7 +238,7 @@ angular.module('influuntApp')
               msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
             }
 
-            exibirAlerta(msg);
+            exibirAlerta(msg, controlador);
           }
 
           return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
@@ -208,7 +260,7 @@ angular.module('influuntApp')
             }
 
             if(isAlertaAtivado(mensagem.conteudo.tipoEvento.tipo)) {
-              exibirAlerta(msg);
+              exibirAlerta(msg, controlador);
             }
 
             return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
@@ -264,7 +316,8 @@ angular.module('influuntApp')
         getControlador = function(idControlador) {
           var deferred = $q.defer();
           if (_.isArray(controladores) && controladores.length > 0) {
-            deferred.resolve(controladores);
+            var controlador = _.find(controladores, {id: idControlador});
+            deferred.resolve(controlador);
           } else {
             Restangular
               .one('controladores', idControlador)
@@ -277,12 +330,14 @@ angular.module('influuntApp')
         };
 
         isAlertaAtivado = function(chave) {
-          return $rootScope.alarmesAtivados[chave] || ($rootScope.eventos && $rootScope.eventos.exibirTodosAlertas);
+          return $rootScope.alarmesAtivados[chave] ||
+                 ($rootScope.eventos && $rootScope.eventos.exibirTodosAlertas)
+                 ;
         };
 
-        exibirAlerta = function(msg) {
+        exibirAlerta = function(msg, target) {
           toast.warn(msg, null,{
-            onclick: _fnonClickToast
+            onclick: function() { return _fnonClickToast(target); }
           });
 
           audioNotifier.notify();

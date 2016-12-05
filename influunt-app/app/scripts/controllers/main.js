@@ -184,6 +184,7 @@ angular.module('influuntApp')
         checkRoleForMenus();
       });
 
+      $scope.loadDashboard();
       loadAlarmesEFalhas();
 
     }]);

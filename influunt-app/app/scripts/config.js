@@ -63,10 +63,7 @@ angular
 
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html',
-          onExit: ['pahoProvider', function(pahoProvider) {
-            pahoProvider.disconnect();
-          }]
+          templateUrl: 'views/main.html'
         })
 
         .state('app.dashboard_detalhe_controlador', {
@@ -584,10 +581,7 @@ angular
               only: 'verNoMapa',
               redirectTo: 'app.main'
             }
-          },
-          onExit: ['pahoProvider', function(pahoProvider) {
-            pahoProvider.disconnect();
-          }]
+          }
         })
 
         .state('app.planos', {
