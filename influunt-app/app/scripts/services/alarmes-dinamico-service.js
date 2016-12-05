@@ -60,6 +60,7 @@ angular.module('influuntApp')
               return false;
             }
 
+            controlador.statusControlador = mensagem.conteudo.status;
             controlador.status = mensagem.conteudo.status;
             statusObj.status[mensagem.idControlador] = _.get(mensagem, 'conteudo.status');
 
