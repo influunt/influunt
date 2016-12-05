@@ -25,7 +25,7 @@ angular.module('influuntApp')
 
           scope.configuracao = {};
           scope.planos = HorariosService.getPlanos();
-          scope.planos = scope.planos.map(function(plano) {return ++plano});
+          scope.planos = scope.planos.map(function(plano) { return ++plano; });
           scope.planos.push($filter('translate')('imporConfig.plano.planoTemporario'));
 
           var getControladores;

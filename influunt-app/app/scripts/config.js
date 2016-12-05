@@ -63,10 +63,7 @@ angular
 
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html',
-          onExit: ['pahoProvider', function(pahoProvider) {
-            pahoProvider.disconnect();
-          }]
+          templateUrl: 'views/main.html'
         })
 
         .state('app.dashboard_detalhe_controlador', {
@@ -584,10 +581,7 @@ angular
               only: 'verNoMapa',
               redirectTo: 'app.main'
             }
-          },
-          onExit: ['pahoProvider', function(pahoProvider) {
-            pahoProvider.disconnect();
-          }]
+          }
         })
 
         .state('app.planos', {
@@ -874,6 +868,20 @@ angular
           data: {
             title: 'usuarios.access_log',
             breadcrumb: 'usuarios.access_log',
+            permissions: {
+              only: 'verLogAcessoUsuarios',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
+        .state('app.alarmes_e_falhas', {
+          url: '/usuarios/:id/alarmes-e-falhas',
+          templateUrl: 'views/usuarios/alarmes-e-falhas.html',
+          controller: 'AlarmesEFalhasCtrl',
+          data: {
+            title: 'alarmesEFalhas.titulo',
+            breadcrumb: 'alarmesEFalhas.titulo',
             permissions: {
               only: 'verLogAcessoUsuarios',
               redirectTo: 'app.main'

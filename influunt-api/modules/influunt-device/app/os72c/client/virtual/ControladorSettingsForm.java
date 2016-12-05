@@ -5,10 +5,10 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import logger.InfluuntLogger;
 import org.slf4j.LoggerFactory;
 import os72c.client.Client;
 import os72c.client.conf.TestDeviceConfig;
-import logger.InfluuntLogger;
 import play.Application;
 import play.api.Play;
 
@@ -49,8 +49,6 @@ public class ControladorSettingsForm {
     }
 
     public static void main(String args[]) throws IOException {
-
-
         JFrame frame = new JFrame("Controlador Virtual");
         ControladorSettingsForm c = new ControladorSettingsForm();
         frame.setContentPane(c.form);
@@ -116,7 +114,6 @@ public class ControladorSettingsForm {
             appender.start();
 
             new Client(deviceConfig);
-
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
