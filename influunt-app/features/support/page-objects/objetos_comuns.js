@@ -71,7 +71,7 @@ var ObjetosComuns = function () {
   };
 
   this.limparCampo = function(campo) {
-    return world.clearField(campo);
+    return world.clearFieldByXpath('//input[contains(@name, "'+campo+'")]');
   };
 
   this.errosImpeditivos = function(texto){

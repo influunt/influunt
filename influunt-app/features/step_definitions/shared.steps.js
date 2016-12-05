@@ -199,4 +199,8 @@ module.exports = function() {
   this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" com valor "([^"]*)"$/, function (coluna, valor) {
     return sharedSteps.verificarTabelaPorThETd(coluna, valor);
   });
+
+  this.Given(/^o usuário limpar o campo "([^"]*)"$/, function (campo) {
+    return sharedSteps.limparCampo(campo);
+  });
 };
