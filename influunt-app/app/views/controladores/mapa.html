@@ -76,30 +76,3 @@
     </div>
   </div>
 </div>
-
-<!-- modal para selecionar planos para imposição. -->
-<div class="modal inmodal" id="modal-imposicao-planos" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content animated bounceInRight">
-      <div class="modal-header">
-        <h3>{{ 'controladores.mapaControladores.imposicaoPlano.mensagem' | translate }}</h3>
-        <div class="form-group">
-          <div class="col-sm-12 form-group">
-            <select
-                name="controladores" class="form-control"
-                data-ng-options="option as option.descricao for option in currentAnel.planos track by option.idJson"
-                data-ng-model="planoImposto"
-                style="width: 100%;">
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="imporPlano()">
-          {{ 'controladores.mapaControladores.imporPlano' | translate }}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

@@ -982,7 +982,7 @@ public class ControladorCustomSerializer {
         }
 
         if (versaoPlano.getIdJson() != null) {
-            versaoPlanoJson.put(ID_JSON, versaoPlano.getIdJson().toString());
+            versaoPlanoJson.put(ID_JSON, versaoPlano.getIdJson());
         }
 
         if (versaoPlano.getStatusVersao() != null) {
@@ -990,7 +990,7 @@ public class ControladorCustomSerializer {
         }
 
         if (versaoPlano.getAnel() != null && versaoPlano.getAnel().getIdJson() != null) {
-            versaoPlanoJson.putObject("anel").put(ID_JSON, versaoPlano.getAnel().getIdJson().toString());
+            versaoPlanoJson.putObject("anel").put(ID_JSON, versaoPlano.getAnel().getIdJson());
         }
 
         refPlanos("planos", versaoPlano.getPlanos(), versaoPlanoJson);
@@ -1041,6 +1041,60 @@ public class ControladorCustomSerializer {
         return planoJson;
     }
 
+    public JsonNode getPlanoCompletoJson(Plano plano) {
+        ObjectNode planoJson = Json.newObject();
+
+        if (plano.getId() != null) {
+            planoJson.put("id", plano.getId().toString());
+        }
+        if (plano.getIdJson() != null) {
+            planoJson.put(ID_JSON, plano.getIdJson());
+        }
+        if (plano.getPosicao() != null) {
+            planoJson.put("posicao", plano.getPosicao());
+        }
+        if (plano.getDescricao() != null) {
+            planoJson.put("descricao", plano.getDescricao());
+        }
+        if (plano.getTempoCiclo() != null) {
+            planoJson.put("tempoCiclo", plano.getTempoCiclo());
+        }
+        if (plano.getDefasagem() != null) {
+            planoJson.put("defasagem", plano.getDefasagem());
+        }
+        if (plano.getPosicaoTabelaEntreVerde() != null) {
+            planoJson.put("posicaoTabelaEntreVerde", plano.getPosicaoTabelaEntreVerde());
+        }
+        if (plano.getModoOperacao() != null) {
+            planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+        }
+        if (plano.getDataCriacao() != null) {
+            planoJson.put(DATA_CRIACAO, InfluuntDateTimeSerializer.parse(plano.getDataCriacao()));
+        }
+        if (plano.getDataAtualizacao() != null) {
+            planoJson.put(DATA_ATUALIZACAO, InfluuntDateTimeSerializer.parse(plano.getDataAtualizacao()));
+        }
+        if (plano.getAnel() != null && plano.getAnel().getIdJson() != null) {
+            planoJson.putObject("anel").put(ID_JSON, plano.getAnel().getIdJson());
+        }
+
+        if (plano.getEstagiosPlanos() != null) {
+            ArrayNode epJson = planoJson.putArray("estagiosPlanos");
+            plano.getEstagiosPlanos().forEach(estagioPlano -> epJson.add(getEstagioPlanoJson(estagioPlano)));
+        }
+
+        if (plano.getGruposSemaforicosPlanos() != null) {
+            ArrayNode gspJson = planoJson.putArray("gruposSemaforicosPlanos");
+            plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> gspJson.add(getGrupoSemaforicoPlanoJson(grupoSemaforicoPlano)));
+        }
+
+        if (plano.getVersaoPlano() != null) {
+            planoJson.set("versaoPlano", getVersaoPlanoJson(plano.getVersaoPlano()));
+        }
+
+        return planoJson;
+    }
+
     private JsonNode getGrupoSemaforicoPlanoJson(GrupoSemaforicoPlano grupoSemaforicoPlano) {
         ObjectNode grupoSemaforicoPlanoJson = Json.newObject();
 
@@ -1071,7 +1125,7 @@ public class ControladorCustomSerializer {
             estagioPlanoJson.put("id", estagioPlano.getId().toString());
         }
         if (estagioPlano.getIdJson() != null) {
-            estagioPlanoJson.put(ID_JSON, estagioPlano.getIdJson().toString());
+            estagioPlanoJson.put(ID_JSON, estagioPlano.getIdJson());
         }
         if (estagioPlano.getPosicao() != null) {
             estagioPlanoJson.put("posicao", estagioPlano.getPosicao());
@@ -1094,15 +1148,15 @@ public class ControladorCustomSerializer {
         estagioPlanoJson.put("dispensavel", estagioPlano.isDispensavel());
 
         if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null && estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson() != null) {
-            estagioPlanoJson.putObject("estagioQueRecebeEstagioDispensavel").put(ID_JSON, estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson().toString());
+            estagioPlanoJson.putObject("estagioQueRecebeEstagioDispensavel").put(ID_JSON, estagioPlano.getEstagioQueRecebeEstagioDispensavel().getIdJson());
         }
 
         if (estagioPlano.getPlano() != null && estagioPlano.getPlano().getIdJson() != null) {
-            estagioPlanoJson.putObject("plano").put(ID_JSON, estagioPlano.getPlano().getIdJson().toString());
+            estagioPlanoJson.putObject("plano").put(ID_JSON, estagioPlano.getPlano().getIdJson());
         }
 
         if (estagioPlano.getEstagio() != null && estagioPlano.getEstagio().getIdJson() != null) {
-            estagioPlanoJson.putObject("estagio").put(ID_JSON, estagioPlano.getEstagio().getIdJson().toString());
+            estagioPlanoJson.putObject("estagio").put(ID_JSON, estagioPlano.getEstagio().getIdJson());
         }
 
         return estagioPlanoJson;
@@ -1119,11 +1173,11 @@ public class ControladorCustomSerializer {
         if (tabelaHoraria.getIdJson() == null) {
             tabelaHorariaJson.putNull(ID_JSON);
         } else {
-            tabelaHorariaJson.put(ID_JSON, tabelaHoraria.getIdJson().toString());
+            tabelaHorariaJson.put(ID_JSON, tabelaHoraria.getIdJson());
         }
 
         if (tabelaHoraria.getVersaoTabelaHoraria() != null && tabelaHoraria.getVersaoTabelaHoraria().getIdJson() != null) {
-            tabelaHorariaJson.putObject("versaoTabelaHoraria").put(ID_JSON, tabelaHoraria.getVersaoTabelaHoraria().getIdJson().toString());
+            tabelaHorariaJson.putObject("versaoTabelaHoraria").put(ID_JSON, tabelaHoraria.getVersaoTabelaHoraria().getIdJson());
         }
 
         refEventos("eventos", tabelaHoraria.getEventos(), tabelaHorariaJson);
@@ -1792,9 +1846,9 @@ public class ControladorCustomSerializer {
         ArrayNode planosJson = Json.newArray();
         for (Plano plano : planos) {
             if (plano != null && plano.getIdJson() != null) {
-                planosMap.put(plano.getIdJson().toString(), plano);
+                planosMap.put(plano.getIdJson(), plano);
                 ObjectNode planoJson = Json.newObject();
-                planoJson.put(ID_JSON, plano.getIdJson().toString());
+                planoJson.put(ID_JSON, plano.getIdJson());
                 planosJson.add(planoJson);
             }
         }
@@ -1806,9 +1860,9 @@ public class ControladorCustomSerializer {
         ArrayNode estagioPlanosJson = Json.newArray();
         for (EstagioPlano estagioPlano : estagioPlanos) {
             if (estagioPlano != null && estagioPlano.getIdJson() != null) {
-                estagioPlanoMap.put(estagioPlano.getIdJson().toString(), estagioPlano);
+                estagioPlanoMap.put(estagioPlano.getIdJson(), estagioPlano);
                 ObjectNode estagioJson = Json.newObject();
-                estagioJson.put(ID_JSON, estagioPlano.getIdJson().toString());
+                estagioJson.put(ID_JSON, estagioPlano.getIdJson());
                 estagioPlanosJson.add(estagioJson);
             }
         }
