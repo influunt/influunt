@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .controller('RelatorioTabelaHorariaCtrl', ['$controller', '$scope', '$state', 'Restangular', 'influuntBlockui',
     function ($controller, $scope, $state, Restangular, influuntBlockui) {
 
-      var loadControladores, getParams;
+      var loadControladores, getParams, parseData;
 
       $scope.relatorioParams = {};
 
@@ -30,8 +30,12 @@ angular.module('influuntApp')
       getParams = function() {
         return {
           controladorId: $scope.relatorioParams.controladorId,
-          data: $scope.relatorioParams.data.format()
+          data: parseData($scope.relatorioParams.data)
         };
+      };
+
+      parseData = function (data) {
+        return moment.isMoment(data) ? data.format() : moment((new Date (data).toLocaleString()), 'MM-DD-YYYY HH:mm').format();
       };
 
       /**
