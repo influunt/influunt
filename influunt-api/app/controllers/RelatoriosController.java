@@ -171,7 +171,7 @@ public class RelatoriosController extends Controller {
         if (StringUtils.isEmpty(request().getQueryString("tipoRelatorio"))) {
             return CompletableFuture.completedFuture(ok(controladoresReportService.getLogsReportData(request().queryString(), area)));
         } else {
-            InputStream input = controladoresReportService.generateLogCSVReport(request().queryString());
+            InputStream input = controladoresReportService.generateLogCSVReport(request().queryString(), area);
             return CompletableFuture.completedFuture(ok(input).as(ReportType.CSV.getContentType()));
         }
     }

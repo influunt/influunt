@@ -291,7 +291,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
      *
      * @return {@link InputStream} do csv
      */
-    public InputStream generateLogCSVReport(Map<String, String[]> params) {
+    public InputStream generateLogCSVReport(Map<String, String[]> params, Area area) {
         StringBuilder buffer = new StringBuilder();
 
         buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
@@ -304,7 +304,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
             .append("MENSAGEM").append(COMMA_DELIMITER).append("TIPO FALHA").append(NEW_LINE_SEPARATOR);
 
 
-        ObjectNode retorno = getLogsReportData(params);
+        ObjectNode retorno = getLogsReportData(params, area);
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("horario").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
                 .append(StringUtils.defaultIfBlank(jsonNode.get("clc").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)
