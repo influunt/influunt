@@ -11,6 +11,9 @@ pages:
     - 'Introdução': 'protocolos/alto_nivel/introducao.md'
     - 'Conectividade': 'protocolos/alto_nivel/conectividade.md'
     - 'Ciclo de Vida': 'protocolos/alto_nivel/ciclo_vida.md'
-    - 'Planos e Tabela Horária': 'protocolos/alto_nivel/planos.md'
+    - 'Configuração do Controlador': 'protocolos/alto_nivel/configuracao.md'
+    - 'Transações': 'protocolos/alto_nivel/transacoes.md'
     - 'Alertas e Falhas': 'protocolos/alto_nivel/alertas_e_falhas.md'
+  - Baixo Nível:
+    - 'Introdução': 'protocolos/baixo_nivel/introducao.md'
 

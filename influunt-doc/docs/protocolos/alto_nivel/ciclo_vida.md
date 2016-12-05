@@ -56,12 +56,7 @@ O conteúdo da mensagem é vazio.
 ### CONFIGURACAO
 Essa mensagem contém todas as configurações necessárias para a operação de um controlador. Pode ser enviada como resposta a mensagem [CONFIGURACAO_INICIAL] ou quando o controlador está no estado EM_MANUTENÇÃO para atualizar sua configuração.
 
-| Campo| Tipo | Obrigatorio| Descrição |
-| ------------ | ------------- | ------------ |
-
-
-```JSON
-```
+O conteúdo dessa mensagem está especificado no tópico [Configuração do Controlador](/protocolos/alto_nivel/configuracao/)
 
 ### ATIVAR
 Mensagem enviada para colocar o controlador no modo de operação ATIVO. Pode ser enviada manualmente pelo operador para tirar o controlador dos estados de INATIVO e EM_MANUTENCAO, ou pelo próprio controlador ao se recuperar de uma falaha.

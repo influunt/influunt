@@ -19,7 +19,8 @@ Os controladores publicam nesse tópico para solicitar sua configuração inicia
 
 
 ### central/transacoes/+
-Gerencia transações entre de envio de dadods para o controlador. O + é substituido pelo id da transação que é gerado na central e informado ao controlador.
+Gerencia transações entre de envio de dadods para o controlador. O + é substituido pelo id da transação que é gerado na central e informado ao controlador. Garante que o controlador fique em estado consistente. Ver tópico [transações](/protocolos/alto_nivel/transações/)
+
 
 ### central/alarmes_falhas/
 Os controladores publicam alarmes e falhas nesse tópico para que a central tenham conhecimento.
