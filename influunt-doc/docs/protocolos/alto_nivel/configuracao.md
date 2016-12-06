@@ -890,7 +890,7 @@ Versão de um tabela horária do controlador
 | -----|----- | ---------- | --------- |
 | id | Texto _UUID_ |S| Identificador da Versão Tabela Horária|
 | idJson | Texto _UUID_ |S| Identificador da Versão Tabela Horária para referências dentro do _JSON_ |
-| tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência a tabela horária |
+| tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência à tabela horária |
 
 ### Exemplo JSON
 
