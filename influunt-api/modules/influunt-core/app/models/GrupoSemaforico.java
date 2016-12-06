@@ -556,6 +556,26 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         return Math.max(0, getTempoVerdeSeguranca() - tempoDecorrido);
     }
 
+    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano,
+                                                  EstagioPlano estagioPlanoAnterior,
+                                                  EstagioPlano estagioPlanoProximo) {
+        int verdeSegurancaFaltante = getTempoVerdeSegurancaFaltante(estagioPlano, estagioPlanoAnterior);
+        int tempoQueVaiDecorrido = 0;
+        if(estagioPlanoProximo != null) {
+            if (estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(this)) {
+                tempoQueVaiDecorrido += estagioPlanoProximo.getTempoVerdeEstagio();
+                tempoQueVaiDecorrido += estagioPlanoProximo.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlanoProximo.getEstagio(), estagioPlano.getEstagio());
+            } else {
+                Transicao transicao = findTransicaoByOrigemDestino(estagioPlano.getEstagio(), estagioPlanoProximo.getEstagio());
+                if (transicao != null) {
+                    tempoQueVaiDecorrido += transicao.getTempoAtrasoGrupo();
+                }
+            }
+        }
+        return Math.max(0, verdeSegurancaFaltante - tempoQueVaiDecorrido);
+    }
+
+
     @Override
     public String toString() {
         return "G" + getPosicao();

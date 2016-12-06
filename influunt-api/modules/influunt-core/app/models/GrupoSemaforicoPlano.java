@@ -134,7 +134,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável")
     public boolean isRespeitaVerdesDeSegurancaSemDispensavel() {
-        if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
+        if (isRespeitaVerdesDeSeguranca() && isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
             List<EstagioPlano> listaEstagioPlanosSemDipensavel = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
             return !this.getPlano().getEstagiosPlanosSemEstagioDispensavel().stream()
                     .filter(estagioPlano -> !estagioPlano.isDestroy() && estagioPlano.getEstagio().getGruposSemaforicos()

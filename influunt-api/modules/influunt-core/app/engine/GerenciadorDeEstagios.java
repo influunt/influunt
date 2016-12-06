@@ -82,12 +82,15 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public void tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
-        if (this.agendamento != null && intervalo != null && (this.plano.isIntermitente() || this.plano.isApagada()) && !intervalo.isEntreverde()) {
+        if (this.agendamento != null && intervalo != null &&
+            (this.plano.isIntermitente() || this.plano.isApagada()) &&
+            !intervalo.isEntreverde()) {
             Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
             intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
             executaAgendamentoTrocaDePlano();
             intervalo = this.intervalos.get(contadorIntervalo);
-        } else if (this.agendamento != null && this.agendamento.isPlanoCoordenado() && !this.agendamento.isTempoDeEntradaCalculado()) {
+        } else if (this.agendamento != null && this.agendamento.isPlanoCoordenado() &&
+            !this.agendamento.isTempoDeEntradaCalculado()) {
             tempoAbatimentoCoordenado = verificarETrocaCoordenado();
             this.agendamento.setTempoDeEntradaCalculado(true);
             intervalo = verificaETrocaIntervalo(intervalo);
@@ -125,6 +128,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
         if (intervalo == null) {
+            if (verificaTempoVerdeSeguranca()) {
+                intervalo = this.intervalos.get(contadorIntervalo);
+                return intervalo;
+            }
+
             contadorIntervalo = 0L;
             contadorEstagio++;
             if (this.agendamento != null && temQueExecutarOAgendamento()) {
@@ -152,6 +160,29 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo = this.intervalos.get(contadorIntervalo);
         }
         return intervalo;
+    }
+
+    private boolean verificaTempoVerdeSeguranca() {
+        IntervaloEstagio intervalo = this.intervalos.get(this.contadorIntervalo - 100L);
+        if (this.agendamento != null && intervalo != null &&
+            !this.agendamento.isImpostoPorFalha() &&
+            intervalo.getDuracao() < (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L)) {
+            Plano plano = this.agendamento.getPlano();
+            List<EstagioPlano> estagios = plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+            List<EstagioPlano> lista = new ArrayList<>();
+            lista.add(estagioPlanoAnterior);
+            lista.add(estagioPlanoAtual);
+            if (!estagios.isEmpty()) {
+                lista.add(estagios.get(0));
+            }
+            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpriTempoVerdeSegurancao(lista)) {
+                GerenciadorDeEstagiosHelper.aumentarTempoEstagio(this.intervalos,
+                    this.contadorIntervalo,
+                    estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean temQueExecutarOAgendamento() {
