@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
 
       $scope.isAtrasoDeGrupo = true;
-      var inicializaTransicoes, getTransicoesDoAnel, getTransicoesComGanhoDePassagemDoAnel;
+      var inicializaTransicoes, getTransicoesDoAnel;
 
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
@@ -95,17 +95,17 @@ angular.module('influuntApp')
       $scope.possuiInformacoesPreenchidas = function() {
         var totalNaoPreenchido, total, totalNaoPreenchidoComGanhoDePassagem, totalComGanhoDePassagem;
         if($scope.currentTransicoes && $scope.currentTransicoesComGanhoDePassagem){
-          var transicoesDoAnel = getTransicoesDoAnel();
-          var transicoesComGanhoDePassagemDoAnel = getTransicoesComGanhoDePassagemDoAnel();
+          var transicoesDoAnel = getTransicoesDoAnel('transicoes');
+          var transicoesComGanhoDePassagemDoAnel = getTransicoesDoAnel('transicoesComGanhoDePassagem');
 
           totalNaoPreenchido = _.filter(transicoesDoAnel, function(i) {
             return parseInt(i.atrasoDeGrupo.atrasoDeGrupo) === 0;
-          }).length;;
+          }).length;
           total = _.values(transicoesDoAnel).length;
 
           totalNaoPreenchidoComGanhoDePassagem = _.filter(transicoesComGanhoDePassagemDoAnel, function(i) {
             return parseInt(i.atrasoDeGrupo.atrasoDeGrupo) === 0;
-          }).length;;
+          }).length;
           totalComGanhoDePassagem = _.values(transicoesComGanhoDePassagemDoAnel).length;
 
           return totalNaoPreenchido < total || totalNaoPreenchidoComGanhoDePassagem < totalComGanhoDePassagem;
@@ -130,35 +130,18 @@ angular.module('influuntApp')
         });
       };
 
-      getTransicoesDoAnel = function() {
+      getTransicoesDoAnel = function(tipoTransicao) {
         var gruposIds = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
         return _
           .chain($scope.objeto.gruposSemaforicos)
           .filter(function(g) {
             return gruposIds.indexOf(g.idJson) >= 0;
           })
-          .map('transicoes')
+          .map(tipoTransicao)
           .flatten()
           .map(function(i){
-            return _.find($scope.objeto.transicoes, {idJson: i.idJson});
-          })
-          .value();
-
-      };
-
-      getTransicoesComGanhoDePassagemDoAnel = function() {
-        var gruposIds = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
-        return _
-          .chain($scope.objeto.gruposSemaforicos)
-          .filter(function(g) {
-            return gruposIds.indexOf(g.idJson) >= 0;
-          })
-          .map('transicoesComGanhoDePassagem')
-          .flatten()
-          .map(function(i){
-            return _.find($scope.objeto.transicoesComGanhoDePassagem, {idJson: i.idJson});
+            return _.find($scope.objeto[tipoTransicao], {idJson: i.idJson});
           })
           .value();
       };
-
     }]);
