@@ -49,6 +49,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private long contadorIntervalo = 0L;
 
+    private long contadorTempoEstagio = 0L;
+
     private int contadorEstagio = 0;
 
     private long contadorDeCiclos = 0L;
@@ -98,6 +100,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         verificaETrocaEstagio(intervalo);
 
         contadorIntervalo += 100L;
+        contadorTempoEstagio += 100L;
         tempoDecorrido += 100L;
 
         monitoraTempoMaximoDePermanenciaDoEstagio();
@@ -191,6 +194,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 callback.onEstagioEnds(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido), intervaloGrupoSemaforico);
 
                 estagioPlanoAnterior = estagioPlanoAtual;
+
+                if (!estagioPlanoAnterior.getEstagio().equals(estagioPlano.getEstagio())) {
+                    contadorTempoEstagio = 0L;
+                }
             }
 
             intervaloGrupoSemaforicoAtual = new GetIntervaloGrupoSemaforico().invoke();
@@ -217,7 +224,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (intervaloGrupoSemaforicoAtual != null && intervaloGrupoSemaforicoAtual.getIntervaloEntreverde() != null) {
                 tempoMaximoEstagio += intervaloGrupoSemaforicoAtual.getIntervaloEntreverde().getDuracao();
             }
-            if (contadorIntervalo >= tempoMaximoEstagio) {
+            if (contadorTempoEstagio >= tempoMaximoEstagio) {
                 if (plano.isManual()) {
                     motor.onEvento(new EventoMotor(inicioExecucao.plus(tempoDecorrido), TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
                 } else {
