@@ -370,7 +370,7 @@ public class ControladoresController extends Controller {
             ArrayNode itens = JsonNodeFactory.instance.arrayNode();
             aneis.forEach(anel -> {
                 if (anel.isAtivo() && (aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString()))) {
-                    if(nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) {
+                    if (nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) {
                         ObjectNode controlador = JsonNodeFactory.instance.objectNode();
                         controlador.put("id", anel.getControlador().getId().toString());
                         itens.addObject()

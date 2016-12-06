@@ -182,6 +182,18 @@ var PlanosPage = function () {
   this.alertVerdeSeguranca = function() {
     return world.getTextInSweetAlert();
   };
+
+  this.checkEstagioDispensavel = function() {
+    return world.getElementByXpath('//input[contains(@name, "dispensavel")]/..').click();
+  };
+
+  this.selecionaEstagioQueRecebeDispensavel = function(estagio) {
+    return world.getElementByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(text(), "'+estagio+'")]').click();
+  };
+
+  this.deveConterEstagioQueRecebeDispensavel = function(estagio) {
+    return world.waitForByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(@selected, "selected")][contains(text(), "'+estagio+'")]');
+  };
 };
 
 module.exports = PlanosPage;
