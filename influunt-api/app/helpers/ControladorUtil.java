@@ -310,6 +310,7 @@ public class ControladorUtil {
 
         Map<String, GrupoSemaforico> grupos = new HashMap<>();
         Map<String, Estagio> estagios = new HashMap<>();
+        Map<String, EstagioPlano> estagiosPlanos = new HashMap<>();
 
         controlador.getAneis().forEach(anel -> {
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
@@ -317,6 +318,7 @@ public class ControladorUtil {
             });
             anel.getEstagios().forEach(estagio -> {
                 estagios.put(estagio.getIdJson(), estagio);
+                estagio.getEstagiosPlanos().forEach(ep -> estagiosPlanos.put(ep.getIdJson(), ep));
             });
         });
 
@@ -357,15 +359,14 @@ public class ControladorUtil {
             }
         });
 
-        controlador.getAneis().forEach(anel -> {
-            anel.getPlanos().forEach(plano -> {
-                plano.getEstagiosPlanos().forEach(estagioPlano -> {
-                    if (estagioPlano.getEstagioQueRecebeEstagioDispensavel() != null) {
-                        setarEstagioQueRecebeDispensavel(plano, estagioPlano);
-                    }
-                });
+        controlador.getAneis().forEach(anel -> anel.getPlanos().forEach(plano -> {
+            plano.getEstagiosPlanos().forEach(estagioPlano -> {
+                if (estagioPlano.isDispensavel()) {
+                    EstagioPlano epOriginal = estagiosPlanos.get(estagioPlano.getIdJson());
+                    setarEstagioQueRecebeDispensavel(plano, epOriginal);
+                }
             });
-        });
+        }));
 
         // Clone de tabela horária
         VersaoTabelaHoraria versaoAntiga = controlador.getVersaoTabelaHorariaAtivaOuConfigurada();
