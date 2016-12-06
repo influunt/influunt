@@ -131,21 +131,21 @@ Mensagem de confirmação de recebimento
 ### Tabela de Tipos de Mensagem
 |Codigo| Descrição|
 |------|----------|
-|0|	retorno |
-|1|	inicio |
-|2|	estagio |
-|3|	detector |
-|4|	falha anel |
-|5|	falha detector |
-|6|	falha grupo semaforico |
-|7|	falha generica |
-|8|	alarme |
-|9|	remocao de falha |
-|10|	inserção de plug |
-|11|	remoção de plug |
-|12|	troca de estagio modo manual |
-|13|	modo manual ativado |
-|14|	modo manual desativado |
+|0|	Retorno |
+|1|	Início |
+|2|	Estágio |
+|3|	Detector |
+|4|	Falha anel |
+|5|	Falha detector |
+|6|	Falha grupo semafoóico |
+|7|	Falha genérica |
+|8|	Alarme |
+|9|	Remoção de falha |
+|10|	Inserção de plug |
+|11|	Remoção de plug |
+|12|	Troca de estágio modo manual |
+|13|	Modo manual ativado |
+|14|	Modo manual desativado |
 
 ### Tabela de Tipos de Retorno
 |Codigo| Descrição|
