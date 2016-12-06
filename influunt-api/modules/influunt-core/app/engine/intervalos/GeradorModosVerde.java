@@ -90,7 +90,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                 tempoVerde -= abatimento;
 
                 if (trocaDePlano(estagioPlanoAtual, estagioPlano)) {
-                    tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAtual, tempoVerde);
+                    tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
                 }
 
                 tempoAbatimentoCoordenado -= abatimento;
@@ -98,7 +98,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                 tempoVerde -= tempoAbatimentoCoordenado;
                 tempoAbatimentoCoordenado = 0L;
 
-                tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAtual, tempoVerde);
+                tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
             }
         }
 
@@ -111,13 +111,15 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(listaEstagioPlanos.indexOf(estagioPlano) - index, this.intervalos);
     }
 
-    private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAtual, long tempoVerde) {
-        final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
-        if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
-            tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
-            final long novoTempoVerde = (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio;
-            tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
-            tempoVerde = novoTempoVerde;
+    private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAnterior, Estagio estagioAtual, long tempoVerde) {
+        if (estagioAnterior.equals(estagioAtual)) {
+            final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
+            if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
+                tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
+                final long novoTempoVerde = (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio;
+                tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
+                tempoVerde = novoTempoVerde;
+            }
         }
         return tempoVerde;
     }
