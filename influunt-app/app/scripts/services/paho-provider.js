@@ -20,7 +20,6 @@ angular.module('influuntApp')
     client.onConnectionLost = function(res) {
       isConnected = false;
       if (res.errorCode !== 0) {
-        console.log('call here the onConnectionLostCallback');
         throw new Error(res.errorMessage);
       }
     };
@@ -53,7 +52,6 @@ angular.module('influuntApp')
         timeoutId = $timeout(function() {
           client.connect({
             onSuccess: function() {
-              console.log('onSuccess');
               isConnected = true;
               deferred.resolve(true);
             }
