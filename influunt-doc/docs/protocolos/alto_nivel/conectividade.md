@@ -10,7 +10,7 @@ controlador.
 Ao se conectar, o controlador deve publicar a mensagem [CONTROLADOR_ONLINE](#CONTROLADOR_ONLINE) no tópico [/controladores/conn/online](comunicao/topicos#controladores_conn_online) para avisar à central 
 que ele pode receber comandos remotos. A figura abaixo abaixo apresenta o diagrama de comunicação para essa mensagem:
 
-![CONTROLADOR_ONLINE](../../img/CONTROLADOR_ONLINE.PNG)
+![CONTROLADOR_ONLINE](../../img/CONTROLADOR_ONLINE.png)
 
 ### Especificação da Mensagem
 | Campo| Tipo | Obrigatório| Descrição |
@@ -32,7 +32,7 @@ que ele pode receber comandos remotos. A figura abaixo abaixo apresenta o diagra
 ## Controlador Off-line
 Ao se conectar, o controlador deve publicar a mensagem de testamento [CONTROLADOR_OFFLINE](#CONTROLADOR_OFFLINE) que será entregue automaticamente quando ele perder conexão com o _broker MQTT_. Essa mensagem deve ser publicada no tópico [/controladores/conn/offline](comunicao/topicos#controladores_conn_offline). A figura abaixo apresenta o diagrama de comunicação para essa mensagem:
 
-![CONTROLADOR_ONLINE](../../img/CONTROLADOR_OFFLINE.PNG)
+![CONTROLADOR_OFFLINE](../../img/CONTROLADOR_OFFLINE.png)
 
 ### Especificação da Mensagem
 | Campo| Tipo | Obrigatório| Descrição |
