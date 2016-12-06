@@ -203,4 +203,8 @@ module.exports = function() {
   this.Given(/^o usuário limpar o campo "([^"]*)"$/, function (campo) {
     return sharedSteps.limparCampo(campo);
   });
+
+  this.Given(/^o sistema deve mostrar o endereço "([^"]*)" no breadcrumb$/, function (endereco) {
+    return sharedSteps.enderecoBreadcrumb(endereco);
+  });
 };
