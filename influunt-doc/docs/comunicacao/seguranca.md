@@ -33,9 +33,9 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
-| key | string  | Chave simétrica a ser usada para descriptografar os dados do campo content. Essa chave deve ser descriptogrfada com a chave privada de quem a recebeu|
-| idControlador | String GUUID | Identificador do Controlador |
-| content | String   | Um [envelope](/comunicacao/envelope) que foi criptografado com a chave do campo key |
+| key | Texto  | Chave simétrica a ser usada para descriptografar os dados do campo content. Essa chave deve ser descriptogrfada com a chave privada de quem a recebeu|
+| idControlador | Texto [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) | Identificador do Controlador |
+| content | Texto   | Um [envelope](/comunicacao/envelope) que foi criptografado com a chave do campo key |
 
 ## Criptogrando um envelope
 Antes de enviar uma mensagem o envelope deve ser criptografado. Os passos são os seguintes:
