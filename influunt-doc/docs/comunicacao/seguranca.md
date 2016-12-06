@@ -33,7 +33,7 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
-| key | Testo  | Chave simétrica a ser usada para descriptografar os dados do campo _content_. Essa chave deve ser descriptogrfada com a chave privada de quem a recebeu|
+| key | Texto  | Chave simétrica a ser usada para descriptografar os dados do campo _content_. Essa chave deve ser descriptogrfada com a chave privada de quem a recebeu|
 | idControlador | Texto _GUUID_ | Identificador do Controlador |
 | content | Texto | Um [envelope](/comunicacao/envelope) que foi criptografado com a chave do campo _key_ |
 
