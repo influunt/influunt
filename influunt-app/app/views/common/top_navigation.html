@@ -28,7 +28,8 @@
                 <b class="caret"></b>
             </a>
             <ul uib-dropdown-menu class="m-t-xs">
-                <li><a ui-sref="app.usuarios_edit({id: getUsuario().id})">{{ 'usuarios.editar_perfil' | translate }}</a></li>
+              <li><a ui-sref="app.usuarios_edit({id: getUsuario().id})">{{ 'usuarios.editar_perfil' | translate }}</a></li>
+              <li><a ui-sref="app.alarmes_e_falhas({id: getUsuario().id})">{{ 'alarmesEFalhas.configurar' | translate }}</a></li>
             </ul>
         </li>
         <li>

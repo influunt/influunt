@@ -41,13 +41,13 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 1);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 89);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 100);
         imprimirListaEstagios(listaEstagios);
         plano.imprimirTabelaEntreVerde();
@@ -74,21 +74,21 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
 
         //Dois chamadas ignora uma
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 1);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
 
         //Chamada durante o entreverde do estagio anterior para estágio dispensavel deve ignorar
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
 
         //Chamada durante o verde do estágio dispensavel deve ignorar
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
 
         //Chamada no seu entreverde deve executar no proximo ciclo
         avancar(gerenciadorDeEstagios, 3);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
 
         avancar(gerenciadorDeEstagios, 100);
 
@@ -113,9 +113,9 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 90);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 100);
         imprimirListaEstagios(listaEstagios);
         plano.imprimirTabelaEntreVerde();
@@ -140,9 +140,9 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 90);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 250);
         imprimirListaEstagios(listaEstagios);
         plano.imprimirTabelaEntreVerde();
@@ -173,9 +173,9 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 
         avancar(gerenciadorDeEstagios, 72);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 90);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector,anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 150);
         imprimirListaEstagios(listaEstagios);
         plano.imprimirTabelaEntreVerde();

@@ -5,6 +5,17 @@
     "aviso": "Você está utilizado o navegador <strong id='nav'>Internet Explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
     "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
   },
+  "alarmesEFalhas": {
+    "titulo": "Desarme de Alarmes",
+    "configurar": "Configurar perfil de alarmes",
+    "descricao": "Descrição",
+    "tiposEventos": {
+      "falhas": "Falhas",
+      "remocaoFalhas": "Remoção de falhas",
+      "alarmes": "Alarmes",
+      "trocaPlano": "Troca de Plano"
+    }
+  },
   "auditorias": {
     "classe": "Classe",
     "titulo": "Auditoria",
@@ -488,7 +499,7 @@
       "erroAoDeletar": "Ocorreu um erro ao apagar o plano."
     },
     "renomearPlano": {
-      "tituloAlert": "renomear plano",
+      "tituloAlert": "Renomear Plano",
       "mensagemAlert": "Digite no campo abaixo um nome para este plano"
     },
     "copiarPlano": {
@@ -880,6 +891,12 @@
   "OPERANDO_COM_FALHAS": "Operando com falhas",
   "ONLINE": "Online",
   "OFFLINE": "Offline",
+  "ALARME_FALHA": "Alarme e Falhas",
+  "REMOCAO_FALHA": "Remoção de Falhas",
+  "STATUS_CONEXAO": "Status Conexão",
+  "STATUS_CONTROLADOR": "Status Controlador",
+  "TRANSACAO": "Transação",
+  "TROCA_PLANO": "Troca de Plano",
   "relatorios": {
     "auditorias": "Auditorias",
     "ciclo": "Ciclo",
@@ -904,7 +921,9 @@
     "estado": "Estado",
     "nomeCruzamento": "Nome do cruzamento",
     "local": "Local",
+    "logControladores": "Log Controladores",
     "plano": "Plano",
+    "mensagem": "Mensagem",
     "modo": "Modo",
     "emFalha": "Em falha",
     "planos": "Planos",

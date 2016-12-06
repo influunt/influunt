@@ -38,6 +38,10 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
             .findFirst()
             .orElse(null);
         if (estagioPlano != null) {
+            if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
+                gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+            }
+
             int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
             if (compare < 0) {
                 if (!estagiosProximoCiclo.contains(estagioPlano)) {

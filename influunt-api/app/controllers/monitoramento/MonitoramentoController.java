@@ -93,7 +93,7 @@ public class MonitoramentoController extends Controller {
 
     private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {
         List<String> ids = erros.stream().map(erro -> erro.getIdControlador()).distinct().collect(Collectors.toList());
-        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("aneis.endereco").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
+        List<Controlador> controladores = Controlador.find.fetch("aneis.endereco").fetch("aneis").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
 
         erros.forEach(erro -> {
@@ -101,22 +101,24 @@ public class MonitoramentoController extends Controller {
             Controlador controlador;
             Anel anel = null;
             controlador = controladores.stream().filter(c -> Objects.equals(String.valueOf(c.getId()), idControlador)).findFirst().orElse(null);
-            if (erro.getIdAnel() != null) {
-                String idAnel = erro.getIdAnel();
-                anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
-            }
+            if (controlador != null) {
+                if (erro.getIdAnel() != null) {
+                    String idAnel = erro.getIdAnel();
+                    anel = controlador.getAneis().stream().filter(a -> a.isAtivo() && a.getId().toString().equals(idAnel)).findFirst().orElse(null);
+                }
 
-            Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
-            itens.addObject()
-                .put("idControlador", controlador.getId().toString())
-                .put("idAnel", anel != null ? anel.getId().toString() : null)
-                .put("clc", controlador.getCLC())
-                .put("cla", anel != null ? anel.getCLA() : null)
-                .putPOJO("endereco", Json.toJson(endereco))
-                .put("data", Long.parseLong(erro.getTimestamp().toString()))
-                .put("descricaoEvento", erro.getConteudo().get("descricaoEvento").asText())
-                .put("tipo", erro.getConteudo().get("tipoEvento").get("tipo").asText())
-                .put("tipoEventoControlador", erro.getConteudo().get("tipoEvento").get("tipoEventoControlador").asText());
+                Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
+                itens.addObject()
+                    .put("idControlador", controlador.getId().toString())
+                    .put("idAnel", anel != null ? anel.getId().toString() : null)
+                    .put("clc", controlador.getCLC())
+                    .put("cla", anel != null ? anel.getCLA() : null)
+                    .putPOJO("endereco", Json.toJson(endereco))
+                    .put("data", Long.parseLong(erro.getTimestamp().toString()))
+                    .put("descricaoEvento", erro.getConteudo().get("descricaoEvento").asText())
+                    .put("tipo", erro.getConteudo().get("tipoEvento").get("tipo").asText())
+                    .put("tipoEventoControlador", erro.getConteudo().get("tipoEvento").get("tipoEventoControlador").asText());
+            }
         });
 
         return itens;

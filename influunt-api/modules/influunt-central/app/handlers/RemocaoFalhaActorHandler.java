@@ -6,9 +6,11 @@ import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
 import play.libs.Json;
+import protocol.DestinoApp;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 import status.AlarmesFalhasControlador;
+import utils.AtoresCentral;
 
 import java.util.UUID;
 
@@ -37,6 +39,11 @@ public class RemocaoFalhaActorHandler extends UntypedActor {
                     envelope.getIdControlador(),
                     idAnel,
                     jsonConteudo);
+
+                // enviar msg APP de remocao de alarmes e falhas.
+                envelope.setDestino(DestinoApp.alarmesEFalhas());
+                envelope.setCriptografado(false);
+                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }
     }

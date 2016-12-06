@@ -165,6 +165,10 @@ GET       /api/v1/monitoramento/troca_planos_controladores/:id/historico/:pagina
 
 
 # Alarmes e Falhas Controladores
+GET       /api/v1/usuarios/:usuario_id/alarmes_e_falhas                                        controllers.monitoramento.AlarmesEFalhasController.getAlarmesEFalhasDoUsuario(usuario_id)
+POST      /api/v1/usuarios/:usuario_id/alarmes_e_falhas                                        controllers.monitoramento.AlarmesEFalhasController.create(usuario_id)
+
+GET       /api/v1/monitoramento/alarmes_e_falhas                                               controllers.monitoramento.AlarmesEFalhasController.findAll()
 GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.AlarmesEFalhasControladorController.findOne(id)
 GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimosAlarmesEFalhasDosControladores()
 GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimoAlarmeFalhaControlador(id)
@@ -194,6 +198,7 @@ GET       /api/v1/relatorios/controladores_falhas                               
 GET       /api/v1/relatorios/controlador/:id                                                    controllers.RelatoriosController.gerarRelatorioControlador(id)
 GET       /api/v1/relatorios/planos                                                             controllers.RelatoriosController.gerarRelatorioPlanos()
 GET       /api/v1/relatorios/tabela_horaria                                                     controllers.RelatoriosController.gerarRelatorioTabelaHoraria
+GET       /api/v1/relatorios/log_controladores                                                  controllers.RelatoriosController.gerarRelatorioLogControladores()
 
 # Imposições
 POST       /api/v1/imposicoes/pacote_plano                                                      controllers.ImposicoesController.pacotePlano

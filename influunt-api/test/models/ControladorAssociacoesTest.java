@@ -403,6 +403,7 @@ public class ControladorAssociacoesTest extends ControladorTest {
         Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
 
+        controlador.getRangeUtils();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         assertEquals(2, anelCom4Estagios.getGruposSemaforicos().size());

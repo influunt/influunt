@@ -1,22 +1,21 @@
 package os72c.client.conn;
 
+
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
+import logger.InfluuntLogger;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
-import play.Logger;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
@@ -43,7 +42,6 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     private final String port;
 
-    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private Router router;
 
@@ -65,8 +63,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         this.port = port;
         this.storage = storage;
 
-        Logger.info("Iniciando a comunicação MQTT");
-        Logger.info("Criando referência para o messagebroker");
+        InfluuntLogger.logger.info("Iniciando a comunicacao MQTT");
+        InfluuntLogger.logger.info("Criando referencia para o messagebroker");
 
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
@@ -155,12 +153,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         String parsedBytes = new String(message.getPayload());
 
         Map msg = new Gson().fromJson(parsedBytes, Map.class);
-        Logger.info("Mensagem recebida da central:");
 
         String privateKey = storage.getPrivateKey();
         try {
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
-            Logger.info(envelope.toJson());
             router.route(envelope, getSender());
         } catch (DecoderException e) {
             e.printStackTrace();
@@ -210,8 +206,6 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
         message.setQos(envelope.getQos());
         message.setRetained(true);
         String publicKey = storage.getCentralPublicKey();
-        Logger.info("Enviando mensagem para a central:");
-        Logger.info(envelope.toJson());
         message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);
     }

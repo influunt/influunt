@@ -4,6 +4,8 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import json.ControladorCustomDeserializer;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
@@ -13,6 +15,8 @@ import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.*;
 import status.Transacao;
+
+import java.util.Iterator;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -38,6 +42,7 @@ public class TransacaoActorHandler extends UntypedActor {
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 Controlador controlador;
                 JsonNode payloadJson;
+                JsonNode controladorJson;
                 log.info("DEVICE - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
@@ -57,7 +62,7 @@ public class TransacaoActorHandler extends UntypedActor {
                             case CONFIGURACAO_COMPLETA:
                                 payloadJson = Json.parse(transacao.payload.toString());
                                 JsonNode planoJson = payloadJson.get("pacotePlanos");
-                                JsonNode controladorJson = payloadJson.get("pacoteConfiguracao");
+                                controladorJson = payloadJson.get("pacoteConfiguracao");
                                 controlador = Controlador.isPacotePlanosValido(controladorJson, planoJson);
                                 if (controlador != null) {
                                     storage.setControlador(controlador);
@@ -70,36 +75,29 @@ public class TransacaoActorHandler extends UntypedActor {
                                 break;
 
                             case IMPOSICAO_MODO_OPERACAO:
-                                try {
-                                    payloadJson = Json.parse(transacao.payload.toString());
-                                    ModoOperacaoPlano.valueOf(payloadJson.get("modoOperacao").asText());
-                                    int numeroAnel = payloadJson.get("numeroAnel").asInt();
-                                    Long horarioEntrada = payloadJson.get("horarioEntrada").asLong();
-                                    int duracao = payloadJson.get("duracao").asInt();
-                                    if (numeroAnel < 1 || duracao < 15 || duracao > 600 || horarioEntrada <= System.currentTimeMillis()) {
-                                        transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
-                                    } else {
-                                        transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
-                                    }
-                                } catch (Exception e) {
+                                if (isImposicaoModoOperacaoOk(transacao)) {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 }
                                 break;
 
                             case IMPOSICAO_PLANO:
-                                payloadJson = Json.parse(transacao.payload.toString());
-                                int posicaoPlano = payloadJson.get("posicaoPlano").asInt();
-                                int numeroAnel = payloadJson.get("numeroAnel").asInt();
-                                Long horarioEntrada = payloadJson.get("horarioEntrada").asLong();
-                                int duracao = payloadJson.get("duracao").asInt();
-
-                                controlador = storage.getControlador();
-                                boolean planoNaoConfigurado = !isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
-
-                                if (posicaoPlano < 0 || numeroAnel < 1 || duracao < 15 || duracao > 600 || planoNaoConfigurado || horarioEntrada <= System.currentTimeMillis()) {
-                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
-                                } else {
+                                if (isImposicaoPlanoOk(storage.getControlador(), transacao)) {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                }
+                                break;
+
+                            case IMPOSICAO_PLANO_TEMPORARIO:
+                                controladorJson = savePlanoTemporario(storage.getControladorJson(), transacao);
+                                if (isImposicaoPlanoTemporarioOk(controladorJson, transacao)) {
+                                    controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+                                    storage.setControlador(controlador);
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
                                 }
                                 break;
 
@@ -136,6 +134,7 @@ public class TransacaoActorHandler extends UntypedActor {
                                 break;
 
                             case IMPOSICAO_PLANO:
+                            case IMPOSICAO_PLANO_TEMPORARIO:
                                 payloadJson = Json.parse(transacao.payload.toString());
                                 Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
                                     idControlador,
@@ -184,4 +183,64 @@ public class TransacaoActorHandler extends UntypedActor {
         return anel != null && anel.getPlanos().stream().anyMatch(plano -> plano.getPosicao() == posicaoPlano);
     }
 
+    private boolean isImposicaoPlanoOk(Controlador controlador, Transacao transacao) {
+        JsonNode payload = Json.parse(transacao.payload.toString());
+        int posicaoPlano = payload.get("posicaoPlano").asInt();
+        int numeroAnel = payload.get("numeroAnel").asInt();
+        Long horarioEntrada = payload.get("horarioEntrada").asLong();
+        int duracao = payload.get("duracao").asInt();
+        boolean planoConfigurado = isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
+
+        return posicaoPlano >= 0 && numeroAnel >= 1 && duracao >= 15 && duracao <= 600 && planoConfigurado && horarioEntrada > System.currentTimeMillis();
+    }
+
+    private boolean isImposicaoModoOperacaoOk(Transacao transacao) {
+        try {
+            JsonNode payload = Json.parse(transacao.payload.toString());
+            ModoOperacaoPlano.valueOf(payload.get("modoOperacao").asText());
+            int numeroAnel = payload.get("numeroAnel").asInt();
+            Long horarioEntrada = payload.get("horarioEntrada").asLong();
+            int duracao = payload.get("duracao").asInt();
+            return numeroAnel >= 1 && duracao >= 15 && duracao <= 600 && horarioEntrada > System.currentTimeMillis();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isImposicaoPlanoTemporarioOk(JsonNode controladorJson, Transacao transacao) {
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+        return isImposicaoPlanoOk(controlador, transacao);
+    }
+
+    private JsonNode savePlanoTemporario(JsonNode controladorJson, Transacao transacao) {
+        JsonNode payloadJson = Json.parse(transacao.payload.toString());
+        JsonNode planoTemporarioJson = payloadJson.get("plano");
+
+        // add estagios planos
+        for (JsonNode epJson : planoTemporarioJson.get("estagiosPlanos")) {
+            ((ArrayNode) controladorJson.get("estagiosPlanos")).add(epJson);
+        }
+
+        // add grupos semaforicos planos
+        for (JsonNode gspJson : planoTemporarioJson.get("gruposSemaforicosPlanos")) {
+            ((ArrayNode) controladorJson.get("gruposSemaforicosPlanos")).add(gspJson);
+        }
+
+        //  add versão plano
+        ((ArrayNode) controladorJson.get("versoesPlanos")).add(planoTemporarioJson.get("versaoPlano"));
+
+        // add plano
+        for (Iterator<JsonNode> it = controladorJson.get("planos").iterator(); it.hasNext(); ) {
+            JsonNode plano = it.next();
+            boolean mesmaPosicao = plano.get("posicao").asInt() == planoTemporarioJson.get("posicao").asInt();
+            boolean mesmoAnel = plano.get("anel").get("idJson").asText().equals(planoTemporarioJson.get("anel").get("idJson").asText());
+            if (mesmaPosicao && mesmoAnel) {
+                it.remove();
+                break;
+            }
+        }
+        ((ArrayNode) controladorJson.get("planos")).add(planoTemporarioJson);
+
+        return controladorJson;
+    }
 }

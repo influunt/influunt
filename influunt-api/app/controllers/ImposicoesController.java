@@ -131,7 +131,7 @@ public class ImposicoesController extends Controller {
         Long horarioEntrada = params.get("horarioEntrada").asLong();
 
         List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
-        List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
+        List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
 
         Map<String, String> transacoesIds = new HashMap<>();
         aneis.forEach(anel ->
