@@ -3,7 +3,7 @@
 Todas as mensagens trafegadas na aplicação devem ser envelopadas conforme as definições desse documento.
 
 ## Envelope Padrão
-O envelope é um padrão _JSON_ que contém informações básicas de rastreamento da mensagem, bem como o próprio conteúdo da mesma. Uma mensagem sempre tem como origem ou destino um controlador específico. Dessa forma, o envelope deve conter sempre o _id_ do controlador.
+O envelope é um padrão _JSON_ que contém informações básicas de rastreamento da mensagem, bem como seu próprio conteúdo. Uma mensagem sempre tem como origem ou destino um controlador específico. Dessa forma, o envelope deve conter sempre o _id_ do controlador.
 
 Os seguintes campos são obrigatórios no envelope:
 
