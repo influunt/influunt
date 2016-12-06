@@ -320,7 +320,7 @@ angular.module('influuntApp')
 
         exibirAlerta = function(msg, target) {
           toast.warn(msg, null,{
-            onclick: function() { return $$fnonClickToast(target); }
+            onclick: function() { return _.isFunction($$fnonClickToast) &&   $$fnonClickToast(target); }
           });
 
           audioNotifier.notify();
