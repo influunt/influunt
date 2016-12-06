@@ -8,7 +8,7 @@ O protocolo de baixo nível especifica um protocolo serial para controladores qu
 | Tamanho      | 8 bits        | Tamanho em bytes da mensagem que está sendo enviada|
 |Tipo de Mensagem| 8 bits | Descreve o tipo de mensagem que está sendo enviada conforme a tabela de tipo de mensagem|
 |Sequencia | 16 bits | Número sequência da mensagem. Deve ser incrementado a cada nova mensagem enviada |
-|Mensagem | Variável | Conteúdo da mensagem a ser enviada | 
+|Mensagem | Variável | Conteúdo da mensagem que está sendo enviada | 
 |Checksum | 8 bits   | _Checksum_ de toda a mensagem utilizando o algorítmo _LRC_ | 
 
 ### Mensagem de Início
@@ -53,7 +53,7 @@ Descreve como um grupo semafórico deve se comportar nesse estágio:
 |Flag pedestre/veicular | 1 bit | Se verdadeiro, esse é um grupo semafórico de pedestre|
 |Flag composição dos tempos| 2 bits| Ver tabela de flag composição dos tempos  |
 |Grupo | 5 bits | Número do grupo semafórico|
-|Tempo De Atraso de Grupo ou Entreverde | 16 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no peróodo de entreverdes para o grupo com ganho do direito passagem.|
+|Tempo De Atraso de Grupo ou Entreverde | 16 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.|
 |Tempo Amarelo| 16 bits| Tempo de amarelo para veicular ou vermelho intermitente para pedestre|
 |Tempo Vermelho Limpeza| 16 bits| Tempo de vermelho de limpeza|
 |Tempo do Estágio | 16 bits| Verde para quem tem direito de passagem e vermelho para quem não tem.|
@@ -137,7 +137,7 @@ Mensagem de confirmação de recebimento
 |3|	Detector |
 |4|	Falha anel |
 |5|	Falha detector |
-|6|	Falha grupo semafoóico |
+|6|	Falha grupo semafórico |
 |7|	Falha genérica |
 |8|	Alarme |
 |9|	Remoção de falha |
