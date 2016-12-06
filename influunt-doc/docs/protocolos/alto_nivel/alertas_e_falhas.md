@@ -1,5 +1,5 @@
 # Alarmes e Falhas
-Diversos tipos de eventos podem ser gerados durante a execução do controlador. Esses eventos podem ser transmitidos a central ou serem gravados no log. No caso do 72c, o arquivo de configuração define quais eventos serão enviados e gravados:
+Diversos tipos de eventos podem ser gerados durante a execução do controlador. Esses eventos podem ser transmitidos à central ou serem gravados no log. No caso do 72c, o arquivo de configuração define quais eventos serão enviados e gravados.
 
 
 
@@ -22,10 +22,10 @@ A seguir estão detalhados todos os eventos possíveis:
 ### Campos do contéudo
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| timestamp | Número Longo |S | Carimbo de tempo referente ao momento da ocorrência do evento. Deve estar no formato milisegundo desde 1 de janeiro de 1970|
+| timestamp | Número Longo |S | Carimbo de tempo referente ao momento da ocorrência do evento. Deve estar no formato milissegundo desde 1 de janeiro de 1970|
 | tipoEvento | Objeto JSON | S | Objeto que descreve o tipo de evento ocorrido
 | descricaoEvento | Texto | S | Descrição completa do evento ocorrido
-| params | Lista | N | Lista de params necessários para identificar o evento ocorrido
+| params | Lista | N | Lista de parâmetros necessários para identificar o evento ocorrido
 
 ### Campos do tipo de evento
 | Campo| Tipo | Obrigatório| Descrição |
@@ -42,14 +42,14 @@ DETECTOR_VEICULAR
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| 1 | Inteiro | S | Número do anel que o detector está associado |
+| 1 | Inteiro | S | Número do anel ao qual o detector está associado |
 | 2 | Inteiro | S | Número do detector veicular |
 
 DETECTOR_PEDESTRE
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| 1 | Inteiro | S | Número do anel que o detector está associado |
+| 1 | Inteiro | S | Número do anel ao qual o detector está associado |
 | 2 | Inteiro | S | Número do detector pedestre |
 
 ANEL
@@ -62,7 +62,7 @@ GRUPO_SEMAFORICO
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| 1 | Inteiro | S | Número do anel que o grupo semafórico está associado |
+| 1 | Inteiro | S | Número do anel ao qual o grupo semafórico está associado |
 | 2 | Inteiro | S | Número do grupo semafórico |
 
 PLANO
@@ -115,10 +115,10 @@ Exemplo:
 |FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO|	4|	 Detector veicular - Acionamento direto|
 |FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO|	5|	 Desrespeito ao tempo máximo de permanência no estágio|
 |FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA|	6|	 Fase vermelha do grupo semafórico apagada|
-|FALHA_SEQUENCIA_DE_CORES|	7|	 Falha sequencia de cores|
+|FALHA_SEQUENCIA_DE_CORES|	7|	 Falha sequência de cores|
 |FALHA_VERDES_CONFLITANTES|	8|	 Verdes conflitantes|
 |FALHA_WATCH_DOG|	9|	 Falha CPU|
-|FALHA_MEMORIA|	10|	 Falha Memoria|
+|FALHA_MEMORIA|	10|	 Falha Memória|
 
 ```JSON
 {
