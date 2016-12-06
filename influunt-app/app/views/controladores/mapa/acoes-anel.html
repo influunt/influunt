@@ -15,7 +15,7 @@
       <div class="ibox-content">
         <h3>{{ 'controladores.mapaControladores.status.titulo' | translate }}</h3>
         <ul>
-          <li>
+          <li data-ng-if="currentControlador.status">
             <strong>{{ 'controladores.mapaControladores.status.statusControlador' | translate }}:</strong>
             <span ng-bind-html="currentControlador.status | statusControlador"></span>
           </li>
@@ -23,11 +23,11 @@
             <strong>{{ 'controladores.mapaControladores.status.online' | translate }}: </strong>
             <span data-ng-bind-html="currentControlador.online | trueOrFalseIcon"></span>
           </li>
-          <li>
+          <li data-ng-if="currentAnel.modoOperacao">
             <strong>{{ 'controladores.mapaControladores.status.modoOperacao' | translate }}: </strong>
-            <span>{{ currentAnel.modoOperacao }}</span>
+            <span>{{ 'planos.modosOperacao.' + currentAnel.modoOperacao | translate }}</span>
           </li>
-          <li>
+          <li data-ng-if="currentAnel.planoVigente">
             <strong>{{ 'controladores.mapaControladores.status.planoVigente' | translate }}: </strong>
             <a data-ng-click="showDiagramaIntervalos(currentAnel.planoVigente)">
               {{ 'controladores.geral.plano' | translate}} {{ currentAnel.planoVigente.posicao }} - {{ currentAnel.planoVigente.descricao }}

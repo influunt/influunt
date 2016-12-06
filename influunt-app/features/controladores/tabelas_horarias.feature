@@ -8,8 +8,9 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E que o usuário acesse a página de listagem de controladores
     Quando o usuário clicar no botão Tabela Horária do controlador
     Então o sistema deverá redirecionar para a tela de tabela horária
+    E o sistema deve mostrar o endereço "Av. Paulista com R. Bela Cintra" no breadcrumb
 
-  Cenário: A tabela horária deve possuir ao menos um envento configurado
+  Cenário: A tabela horária deve possuir ao menos um evento configurado
     Quando o usuário clicar em "Editar"
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro de "A tabela horária deve ter pelo menos 1 evento configurado."

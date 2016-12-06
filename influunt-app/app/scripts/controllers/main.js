@@ -9,10 +9,10 @@
  */
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
-                           'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
+                           'Restangular', 'influuntBlockui', 'PermissionsService',
                            'eventosDinamicos', 'audioNotifier', 'Idle', 'alarmesDinamicoService',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
-                      Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
+                      Restangular, influuntBlockui, PermissionsService,
                       eventosDinamicos, audioNotifier, Idle, alarmesDinamicoService) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
@@ -112,9 +112,13 @@ angular.module('influuntApp')
       };
 
       registerWatchers = function() {
-        var alarmes =  alarmesDinamicoService($scope.statusObj);
-        alarmes.onEventTriggered(atualizaDadosDinamicos);
-        alarmes.registerWatchers();
+        if ($state.current.name !== 'app.mapa_controladores') {
+          var alarmes =  alarmesDinamicoService($scope.statusObj);
+          alarmes.onEventTriggered(atualizaDadosDinamicos);
+          alarmes.setListaControladores(null);
+          alarmes.onClickToast(null);
+          alarmes.registerWatchers();
+        }
       };
 
       atualizaDadosDinamicos = function() {
@@ -186,5 +190,7 @@ angular.module('influuntApp')
 
       $scope.loadDashboard();
       loadAlarmesEFalhas();
+
+      $scope.$root.$on('$stateChangeSuccess', registerWatchers);
 
     }]);
