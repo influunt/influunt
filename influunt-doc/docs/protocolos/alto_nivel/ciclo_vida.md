@@ -1,5 +1,5 @@
 # Ciclo de Vida do Controlador
-O ciclo de vida do controlador define em quais estados um controlador pode estar em um devido momento, bem como as possíveis transições entre esses estados. Toda vez que o controlador mudar de status a central deve ser notificada. A central também pode impor mudanças nos status do controlador.
+O ciclo de vida do controlador define em quais status um controlador pode estar em um devido momento, bem como as possíveis transições entre esses status. Toda vez que o controlador mudar de status a central deve ser notificada. A central também pode impor mudanças nos status do controlador.
 
 A seguir é apresentado o diagrama de estados do controlador:
 
@@ -45,7 +45,7 @@ A tabela abaixo lista as possíveis transições entre os estados do controlador
 
 
 ### CONFIGURAÇÃO INCIAL
-Quando um controlador com status NOVO se conectar à internet ele deve solicitar à central sua configuração. Para isso deve enviar a mensagem CONFIGURACAO_INICIAL [CONFIGURACAO_INICIAL](#CONFIGURACAO_INICIAL) para o tópico[/central/configuracao](comunicao/topicos#central_echo).
+Quando um controlador com status NOVO se conectar à internet ele deve solicitar à central sua configuração. Para isso, deve enviar a mensagem CONFIGURACAO_INICIAL [CONFIGURACAO_INICIAL](#CONFIGURACAO_INICIAL) para o tópico[/central/configuracao](comunicao/topicos#central_echo).
 
 O conteúdo da mensagem é vazio.
 
@@ -61,17 +61,12 @@ O conteúdo dessa mensagem está especificado no tópico [Configuração do Cont
 ### ATIVAR
 Mensagem enviada para colocar o controlador no modo de operação ATIVO. Pode ser enviada manualmente pelo operador para tirar o controlador dos estados de INATIVO e EM_MANUTENCAO, ou pelo próprio controlador ao se recuperar de uma falaha.
 
-| Campo| Tipo | Obrigatório| Descrição |
-| ------------ | ------------- | ------------ |
-
 
 ```JSON
 ```
 ### COLOCAR EM MANUTENÇÃO
 O operador pode enviar a mensagem COLOCAR_EM_MANUTENCAO para realizar manutenções programadas ou de exceção em um controlador.
 
-| Campo| Tipo | Obrigatório| Descrição |
-| ------------ | ------------- | ------------ |
 
 
 ```JSON
@@ -79,9 +74,6 @@ O operador pode enviar a mensagem COLOCAR_EM_MANUTENCAO para realizar manutenç�
 
 ### REPORTAR FALHA
 Quando o controlador detecta uma falha que permita que ele continue operando ele deve enviar a mensagem REPORTAR_FALHA ao entrar no estado OPERANDO_COM_FALHAS.
-
-| Campo| Tipo | Obrigatório| Descrição |
-| ------------ | ------------- | ------------ |
 
 
 ```JSON
@@ -91,9 +83,6 @@ Quando o controlador detecta uma falha que permita que ele continue operando ele
 Quando o controlador detecta uma falha grave que não permita que ele continue operando, ele deve enviar a mensagem REPORTAR_FALHA_GRAVE ao entrar no estado INOPERANTE.
 
 
-| Campo| Tipo | Obrigatório| Descrição |
-| ------------ | ------------- | ------------ |
-
 
 ```JSON
 ```
@@ -101,8 +90,6 @@ Quando o controlador detecta uma falha grave que não permita que ele continue o
 ### INATIVAR
 Um operador pode colocar um controlador como INATIVO. Esse estado deve ser utilizado para um controlador que não fará mais parte da rede.
 
-| Campo| Tipo | Obrigatório| Descrição |
-| ------------ | ------------- | ------------ |
 
 
 ```JSON
