@@ -13,7 +13,8 @@ que ele pode receber comandos remotos. A figura abaixo abaixo apresenta o diagra
 ![CONTROLADOR_ONLINE](../../img/CONTROLADOR_ONLINE.png)
 
 ### Especificação da Mensagem
-| Campo| Tipo | Obrigatório| Descrição |
+| Campo | Tipo | Obrigatório| Descrição |
+| ----- | ---- | ---------- | --------  |
 | idControlador | Texto [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) | SIM | Identificador do Controlador |
 | dataHora | Número Longo | SIM|  Carimbo de tempo referente ao momento de criacao da mensagem. Deve estar no formato milissegundo desde 1 de janeiro de 1970|
 | versao72c | Texto | SIM|  Versão do 72c|
@@ -35,6 +36,7 @@ Ao se conectar, o controlador deve publicar a mensagem de testamento [CONTROLADO
 
 ### Especificação da Mensagem
 | Campo| Tipo | Obrigatório| Descrição |
+| ----- | ---- | ---------- | --------  |
 | idControlador | Texto _UUID_|SIM | Identificador do Controlador |
 | dataHora | Número Longo | SIM|  Carimbo de tempo referente ao momento de criacao da mensagem. Deve estar no formato milissegundo desde 1 de janeiro de 1970|
 
