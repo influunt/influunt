@@ -30,6 +30,7 @@ O conteúdo do envelope é substituído por um objeto do tipo transação que co
 ```
 
 As transações podem ter as seguintes etapas:
+
 ##Etapas da Transação
 
 ###NEW
