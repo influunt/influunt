@@ -1,21 +1,21 @@
 # Transações
-Quando a central deseja enviar informações para o controlador e garantir que o estado final esteja consistente ela realização uma transação.
+Quando a central deseja enviar informações para o controlador e garantir que o estado final esteja consistente, ela realiza uma transação.
 Os seguintes tipos de transações podem ser enviadas para o controlador:
 
 
 ##Etapas da Transação
-As transações podem ser executadas para mais de um controlador ao mesmo tempo e visam garantir que só sejam aplicadas se todos os controladores forem capazes de realiza-lá. A transação segue o modelo two-phase commit comum em sistemas distribuidos. Na primeira etapa os dados que cusam a mudança de estado são enviados (fase de preparação) e na segunda etapa acontece a confirmação da transação.
+As transações podem ser executadas para mais de um controlador ao mesmo tempo e visam garantir que só sejam aplicadas se todos os controladores forem capazes de realizá-las. A transação segue o modelo _two-phase commit,_ comum em sistemas distribuidos. Na primeira etapa os dados que causam a mudança de estado são enviados (fase de preparação) e na segunda etapa acontece a confirmação da transação.
 
-O conteúdo do envelope é substituido por um objeto do tipo transação que contém os seguintes campos
+O conteúdo do envelope é substituído por um objeto do tipo transação que contém os seguintes campos:
 
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
-| transacaoId | String GUUID | Identificador da transação |
-| etapaDaTransacao | String  | Etapa atual da transação |
-| tipoTransacao | String  | Tipo de transação a ser executada |
-| idControlador | String GUUID | Identificador do Controlador |
-| timestamp | Número Longo | Carimbo de tempo referente ao momento de criação do envelope. Deve estar no formato milisegundo desde 1 de janeiro de 1970|
-| payload | Objeto JSON ou String  representado um Objeto JSON | Mensagem a ser entregue pela transação. Pode ser direntamente o objeto JSON, ou nos casos onde seja requirido o criptografado e convertido para BASE64|
+| transacaoId | Texto _UUID_ | Identificador da transação |
+| etapaDaTransacao | Texto  | Etapa atual da transação |
+| tipoTransacao | Texto  | Tipo de transação a ser executada |
+| idControlador | Texto _UUID_ | Identificador do Controlador |
+| timestamp | Número Longo | Carimbo de tempo referente ao momento de criação do envelope. Deve estar no formato milissegundo desde 1 de janeiro de 1970|
+| payload | Objeto _JSON_ ou _String_  representado um Objeto _JSON_ | Mensagem a ser entregue pela transação. Pode ser diretamente o objeto _JSON_ ou, nos casos onde seja requerido, criptografado e convertido para _BASE64_|
 
 
 ```JSON
@@ -33,7 +33,7 @@ As transações podem ter as seguintes etapas:
 ##Etapas da Transação
 
 ###NEW
-O usuário comando alguma ação no sistema e a central cria uma nova transação para efetuar a solicitação.
+O usuário realiza alguma ação no sistema e a central cria uma nova transação para efetuar a solicitação.
 Sentido: Tela --> Central
 
 ###COMPLETED
@@ -42,35 +42,39 @@ Sentido: Central --> Tela
 
 ###FAILED
 A central informa ao usuário que a transação falhou.
-Sentido: Central --> Tela.
+Sentido: Central --> Tela
+
 ###PREPARE_TO_COMMIT
 Informa a um controlador que ele deve se preparar para realizar uma transação.
-Sentido: Central --> Controlador.
+Sentido: Central --> Controlador
+
 ###PREPARE_OK
-O controlador informa a central que está preparado para realizar a transação.
-Sentido: Controlador --> Central.
+O controlador informa à central que está preparado para realizar a transação.
+Sentido: Controlador --> Central
 
 ###PREPARE_FAIL
-O controlador informa a central que não pode realizar a transação.
-Sentido: Controlador --> Central.
+O controlador informa à central que não pode realizar a transação.
+Sentido: Controlador --> Central
 
 ###COMMIT
-O central informa o controlador para efetuar a transação.
-Sentido: Central --> Controlador.
+A central informa o controlador para efetuar a transação.
+Sentido: Central --> Controlador
 
 ###ABORT
-O central informa o controlador para cancelar a transação.
-Sentido: Central --> Controlador.
+A central informa ao controlador para cancelar a transação.
+Sentido: Central --> Controlador
+
 ###COMMITED
-O controlador informa a central que realizou a transação
-Sentido: Controlador --> Central.
+O controlador informa à central que realizou a transação
+Sentido: Controlador --> Central
 
 ###ABORTED
-O controlador informa a central que abortou a transação
-Sentido: Controlador --> Central.
+O controlador informa à central que abortou a transação
+Sentido: Controlador --> Central
 
 ### Exemplo de uma transação realizada com sucesso
 ![TRANSACAO_OK](../../img/transacao_ok.png)
+
 ### Exemplo de uma transação abortada
 ![TRANSACAO_NOT_OK](../../img/transacao_not_ok.png)
 
@@ -5213,7 +5217,7 @@ Envio de imposição de modo de operação no controlador.
 | -----|----- | ---------- | --------- |
 |modoOperacao| APAGADO, INTERMITENTE| S| Modo de operação que será imposto |
 |numeroAnel| Inteiro| S| Número do anel |
-|horarioEntrada| Long| S| Referencia de tempo que será usada para impor o modo de operação |
+|horarioEntrada| Long| S| Referência de tempo que será usada para impor o modo de operação |
 |duracao| Inteiro| S| Tempo em minutos da imposição de modo |
 
 ```JSON
@@ -5225,7 +5229,7 @@ Envio de imposição de modo de operação no controlador.
 }
 ```
 
-### IMPOSICAO_PLANO
+### Imposição de Plano (IMPOSICAO_PLANO)
 Imposição de plano no controlador.
 
 
@@ -5233,9 +5237,9 @@ Imposição de plano no controlador.
 | -----|----- | ---------- | --------- |
 |posicaoPlano| Inteiro| S| Posição do plano que será imposto |
 |numeroAnel| Inteiro| S| Número do anel |
-|horarioEntrada| Long| S| Referencia de tempo que será usada para impor o modo de operação |
+|horarioEntrada| Long| S| Referência de tempo que será usada para impor o modo de operação |
 |duracao| Inteiro| S| Tempo em minutos da imposição de modo |
-|plano | Objeto JSON |N| Plano caso seja enviado um plano temporário.| 
+|plano | Objeto JSON |N| Plano, caso seja enviado um plano temporário.| 
 
 ```JSON
 {
@@ -5346,7 +5350,7 @@ Liberar imposição de plano no controlador.
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-|numeroAnel| Inteiro| S| Número do anel que será removida a imposição de plano ou modo |
+|numeroAnel| Inteiro| S| Número do anel do qual será removida a imposição de plano ou modo |
 
 
 ```JSON
