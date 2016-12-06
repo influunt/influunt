@@ -500,7 +500,7 @@
       "erroAoDeletar": "Ocorreu um erro ao apagar o plano."
     },
     "renomearPlano": {
-      "tituloAlert": "renomear plano",
+      "tituloAlert": "Renomear Plano",
       "mensagemAlert": "Digite no campo abaixo um nome para este plano"
     },
     "copiarPlano": {

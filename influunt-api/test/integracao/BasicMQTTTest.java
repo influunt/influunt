@@ -141,13 +141,13 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         mqttBroker.startServer(classPathConfig, userHandlers);
         Thread.sleep(100);
         central = provideApp.injector().instanceOf(Central.class);
-        Thread.sleep(1000);
+        Thread.sleep(1500);
     }
 
     protected void startClient() {
         client = new Client(this.deviceConfig);
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
