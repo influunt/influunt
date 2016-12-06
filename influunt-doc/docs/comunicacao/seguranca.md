@@ -16,11 +16,11 @@ Todas as informações são trafegadas criptografadas.
 A comunicação controlador/central e central/controlador utiliza chaves exclusivas. Dessa forma, não é possível um controlador se passar por outro controlador ao se comunicar com a central e também não é possível que uma outra central se comunique com um controlador que não seja de sua propriedade.
 
 ### Integridade
-Como o conteúdo é criptografado, qualquer alteração fará com que a mensagem não consiga ser aberta.
+Como o conteúdo é criptografado, qualquer alteração fará que a mensagem não consiga ser aberta.
 
 
 ##Envelope Seguro
-Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seguro. O envelope seguro contém 3 campos: a senha, o conteúdo e o id do controlador. A seguir um exemplo de um envelope seguro:
+Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seguro. O envelope seguro contém 3 campos: a senha, o conteúdo e o _id_ do controlador. A seguir um exemplo de um envelope seguro:
 
 
 ```JSON
@@ -33,31 +33,31 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
-| key | Texto  | Chave simétrica a ser usada para descriptografar os dados do campo content. Essa chave deve ser descriptogrfada com a chave privada de quem a recebeu|
+| key | Texto  | Chave simétrica a ser usada para descriptografar os dados do campo _content_. Essa chave deve ser descriptografada com a chave privada de quem a recebeu|
 | idControlador | Texto [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) | Identificador do Controlador |
 | content | Texto   | Um [envelope](/comunicacao/envelope) que foi criptografado com a chave do campo key |
 
 ## Criptogrando um envelope
 Antes de enviar uma mensagem o envelope deve ser criptografado. Os passos são os seguintes:
 
-1. Obtém-se o JSON do envelope
+1. Obtém-se o _JSON_ do envelope
 2. Gera-se uma nova chave simétrica
-3. Criptografa-se o JSON do envelope com a chave simétrica
-4. Converte-se os bytes resultantes da criptografia em uma string de hexadecimais
-5. Adiciona-se a string ao campo content do novo JSON (envelope seguro)
+3. Criptografa-se o _JSON_ do envelope com a chave simétrica
+4. Converte-se os _bytes_ resultantes da criptografia em uma _string_ de hexadecimais
+5. Adiciona-se a _string_ ao campo _content_ do novo _JSON_ (envelope seguro)
 6. Criptografa-se a chave simétrica com a chave pública do destinatário.
-7. Converte-se os bytes resultantes da criptografia em uma string de hexadecimais
-8. Adiciona-se a string ao campo key do novo JSON (envelope seguro)
-9. Adiciona-se o id do controlador no campo idControlador
+7. Converte-se os _bytes_ resultantes da criptografia em uma _string_ de hexadecimais
+8. Adiciona-se a _string_ ao campo _key_ do novo _JSON_ (envelope seguro)
+9. Adiciona-se o _id_ do controlador no campo _idControlador_
 
 O envelope está seguro e pode ser enviado ao destinatário, seja ele a central ou um controlador específico.
-## Descriptogrando um envelope
-1. Obtém-se o JSON do envelope seguro
-2. Converte-se o campo key em um array de bytes
-3. Discriptografa-se o campo key do envelope seguro com a chave privada do destinatário
-4. Converte-se o campo content um um array de bytes
-3. Utiliza-se a chave para discriptografar o campo content do envelope seguro
-4. O resultado conterá o envelope descriptografado com os dados que foram enviados
+## Descriptografando um envelope
+1. Obtem-se o _JSON_ do envelope seguro
+2. Converte-se o campo _key_ em um _array de bytes_
+3. Descriptografa-se o campo _key_ do envelope seguro com a chave privada do destinatário
+4. Converte-se o campo _content_ em um _array de bytes_
+5. Utiliza-se a chave para descriptografar o campo _content_ do envelope seguro
+6. O resultado conterá o envelope descriptografado com os dados que foram enviados
 
 O envelope recebido é confiável e pode ser processado.
 
