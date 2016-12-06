@@ -4,9 +4,9 @@ Os seguintes tipos de transações podem ser enviadas para o controlador:
 
 
 ##Etapas da Transação
-As transações podem ser executadas para mais de um controlador ao mesmo tempo e visam garantir que só sejam aplicadas se todos os controladores forem capazes de realiza-lás. A transação segue o modelo _two-phase commit,_ comum em sistemas distribuidos. Na primeira etapa os dados que causam a mudança de estado são enviados (fase de preparação) e na segunda etapa acontece a confirmação da transação.
+As transações podem ser executadas para mais de um controlador ao mesmo tempo e visam garantir que só sejam aplicadas se todos os controladores forem capazes de realizá-las. A transação segue o modelo _two-phase commit,_ comum em sistemas distribuidos. Na primeira etapa os dados que causam a mudança de estado são enviados (fase de preparação) e na segunda etapa acontece a confirmação da transação.
 
-O conteúdo do envelope é substituido por um objeto do tipo transação que contém os seguintes campos
+O conteúdo do envelope é substituído por um objeto do tipo transação que contém os seguintes campos:
 
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
@@ -33,7 +33,7 @@ As transações podem ter as seguintes etapas:
 ##Etapas da Transação
 
 ###NEW
-O usuário comanda alguma ação no sistema e a central cria uma nova transação para efetuar a solicitação.
+O usuário realiza alguma ação no sistema e a central cria uma nova transação para efetuar a solicitação.
 Sentido: Tela --> Central
 
 ###COMPLETED
@@ -5207,10 +5207,10 @@ Envio de pacote de planos e tabela horária para o controlador.
 }
 ```
    
-###  CONFIGURAÇÃO_COMPLETA
+###  CONFIGURACAO_COMPLETA
 Envio de configuração + pacote de planos e tabela horária para o controlador.
 
-### IMPOSIÇÃO_MODO_OPERAÇÃO
+### IMPOSICAO_MODO_OPERACAO
 Envio de imposição de modo de operação no controlador.
 
 | Campo| Tipo | Obrigatório| Descrição |
@@ -5229,7 +5229,7 @@ Envio de imposição de modo de operação no controlador.
 }
 ```
 
-### IMPOSIÇÃO_PLANO
+### Imposição de Plano (IMPOSICAO_PLANO)
 Imposição de plano no controlador.
 
 
@@ -5345,7 +5345,7 @@ Imposição de plano no controlador.
 ```
 
 
-### LIBERAR_IMPOSIÇÃO
+### LIBERAR_IMPOSICAO
 Liberar imposição de plano no controlador.
 
 | Campo| Tipo | Obrigatório| Descrição |
