@@ -2661,3 +2661,13 @@ p.velocidade-error {
 .word-wrap {
   word-wrap: break-word;
 }
+
+// FIX FOOTER
+.page-simulacao,
+.page-mapa_controladores {
+  .footer {
+    min-height: 70px;
+    position: static;
+    margin-top: 10px;
+  }
+}
