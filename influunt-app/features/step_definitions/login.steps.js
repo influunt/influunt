@@ -32,6 +32,10 @@ module.exports = function() {
     loginPage.confirmarFormulario();
   });
 
+  this.Given(/^informa o email "([^"]*)" no campo de email$/, function (email) {
+    loginPage.preencherEmail(email);
+  });
+
   this.Given(/^o sistema deve informar "Campo obrigatório" para o campo de usuário$/, function () {
     return loginPage.campoUsuarioInvalido().then(function(res) {
       expect(res).to.equal(true);
@@ -40,6 +44,10 @@ module.exports = function() {
 
   this.Given(/^informa usuário ou senha incorretos$/, function () {
     return loginPage.preencherFormulario('incorreto', 'swrodfish');
+  });
+
+  this.Given(/^o usuário clicar no botão recuperar$/, function () {
+    return loginPage.clicarBotaoRecuperar();
   });
 
   this.Given(/^o sistema deve informar "([^"]*)"$/, function (msgErro) {
