@@ -22,8 +22,8 @@ angular.module('influuntApp')
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
             trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
             removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
-        var statusObj, _fnOnEventTriggered, controladores;
-        var _fnonClickToast = function(){};
+        var statusObj, $$fnOnEventTriggered, controladores;
+        var $$fnonClickToast = function(){};
 
         var registerWatchers = function() {
           pahoProvider.connect()
@@ -55,11 +55,6 @@ angular.module('influuntApp')
           statusObj.status = statusObj.status || {};
 
           return getControlador(mensagem.idControlador).then(function(controlador) {
-            if (!controlador) {
-              console.log('controlador', mensagem.idControlador, 'não existe.');
-              return false;
-            }
-
             controlador.statusControlador = mensagem.conteudo.status;
             controlador.status = mensagem.conteudo.status;
             statusObj.status[mensagem.idControlador] = _.get(mensagem, 'conteudo.status');
@@ -73,7 +68,7 @@ angular.module('influuntApp')
               exibirAlerta(msg, controlador);
             }
 
-            return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, mensagem);
+            return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, mensagem);
           });
         };
 
@@ -83,11 +78,6 @@ angular.module('influuntApp')
           statusObj.erros = statusObj.erros || {};
 
           getControlador(mensagem.idControlador).then(function(controlador) {
-            if (!controlador) {
-              console.log('controlador', mensagem.idControlador, 'não existe.');
-              return false;
-            }
-
             var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -106,11 +96,6 @@ angular.module('influuntApp')
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
-              if (!controlador) {
-                console.log('controlador', mensagem.idControlador, 'não existe.');
-                return false;
-              }
-
               var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
               var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -129,7 +114,7 @@ angular.module('influuntApp')
                 exibirAlerta(msg, anel);
               }
 
-              return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+              return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
         };
 
@@ -140,11 +125,6 @@ angular.module('influuntApp')
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
-              if (!controlador) {
-                console.log('controlador', mensagem.idControlador, 'não existe.');
-                return false;
-              }
-
               var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
               var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
 
@@ -167,14 +147,14 @@ angular.module('influuntApp')
                 exibirAlerta(msg, controlador);
               }
 
-              return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+              return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
         };
 
 
         // helpers.
-        var onEventTriggered = function(fn) { _fnOnEventTriggered = fn; };
-        var onClickToast = function(fn) { _fnonClickToast = fn; };
+        var onEventTriggered = function(fn) { $$fnOnEventTriggered = fn; };
+        var onClickToast = function(fn) { $$fnonClickToast = fn; };
         var setListaControladores = function(_refControladores) { controladores = _refControladores; };
 
         /**
@@ -242,7 +222,7 @@ angular.module('influuntApp')
             exibirAlerta(msg, controlador);
           }
 
-          return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+          return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
         };
 
         handleRecuperacaoFalhas = function(mensagem, controlador, anel) {
@@ -264,7 +244,7 @@ angular.module('influuntApp')
               exibirAlerta(msg, controlador);
             }
 
-            return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+            return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
           }
         };
 
@@ -318,7 +298,11 @@ angular.module('influuntApp')
           var deferred = $q.defer();
           if (_.isArray(controladores) && controladores.length > 0) {
             var controlador = _.find(controladores, {id: idControlador});
-            deferred.resolve(controlador);
+            if (controlador) {
+              deferred.resolve(controlador);
+            } else {
+              deferred.reject('O controlador ' + idControlador + ' não existe.');
+            }
           } else {
             Restangular
               .one('controladores', idControlador)
@@ -331,14 +315,12 @@ angular.module('influuntApp')
         };
 
         isAlertaAtivado = function(chave) {
-          return $rootScope.alarmesAtivados[chave] ||
-                 ($rootScope.eventos && $rootScope.eventos.exibirTodosAlertas)
-                 ;
+          return $rootScope.alarmesAtivados[chave] || ($rootScope.eventos && $rootScope.eventos.exibirTodosAlertas);
         };
 
         exibirAlerta = function(msg, target) {
           toast.warn(msg, null,{
-            onclick: function() { return _.isFunction(_fnonClickToast) &&  _fnonClickToast(target); }
+            onclick: function() { return _.isFunction($$fnonClickToast) &&   $$fnonClickToast(target); }
           });
 
           audioNotifier.notify();
