@@ -7,7 +7,6 @@ import engine.EventoMotor;
 import engine.TipoEvento;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -23,8 +22,8 @@ public class InfluuntLogger {
 
     private static boolean compact = false;
 
-    public static void log(TipoEvento tipoEvento, EventoMotor eventoMotor){
-        if(eventosLogaveis.contains(tipoEvento)){
+    public static void log(TipoEvento tipoEvento, EventoMotor eventoMotor) {
+        if (eventosLogaveis.contains(tipoEvento)) {
             //Log o evento
             loggerOficial.info(tipoEvento.toString());
         }
@@ -34,30 +33,30 @@ public class InfluuntLogger {
         eventos.stream().forEach(e -> eventosLogaveis.add(TipoEvento.valueOf(e.toString())));
     }
 
-    public static void configureLog(String path, String name, int tamanho, boolean compactFormat,List<?> eventos){
-     setEventos(eventos);
-     compact = compactFormat;
-     appender = new InfluuntLogAppender((Context) LoggerFactory.getILoggerFactory(),path,name,tamanho);
-     loggerOficial.addAppender(appender);
-     loggerOficial.setLevel(Level.INFO);
+    public static void configureLog(String path, String name, int tamanho, boolean compactFormat, List<?> eventos) {
+        setEventos(eventos);
+        compact = compactFormat;
+        appender = new InfluuntLogAppender((Context) LoggerFactory.getILoggerFactory(), path, name, tamanho);
+        loggerOficial.addAppender(appender);
+        loggerOficial.setLevel(Level.INFO);
     }
 
-    public static void log(String msg){
+    public static void log(String msg) {
         loggerOficial.info(msg);
     }
 
-    public static void log(TipoEvento tipoEvento){
-        if(compact){
+    public static void log(TipoEvento tipoEvento) {
+        if (compact) {
             loggerOficial.info(tipoEvento.toString());
-        }else{
+        } else {
             loggerOficial.info(tipoEvento.toString() + " - " + tipoEvento.getDescricao());
         }
     }
 
-    public static void log(EventoMotor eventoMotor){
-        if(compact){
+    public static void log(EventoMotor eventoMotor) {
+        if (compact) {
             loggerOficial.info(eventoMotor.getTipoEvento().toString());
-        }else{
+        } else {
             loggerOficial.info(eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
         }
     }

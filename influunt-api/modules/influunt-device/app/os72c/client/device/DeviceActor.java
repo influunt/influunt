@@ -24,7 +24,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static engine.TipoEventoParamsTipoDeDado.*;
-import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 
 /**
@@ -69,7 +68,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
 
-                executor =  Executors.newScheduledThreadPool(1)
+                executor = Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
                         try {
                             motor.tick();
@@ -211,7 +210,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         int duracao = conteudo.get("duracao").asInt();
         Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
 
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada ));
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada));
     }
 
     private void imporPlano(JsonNode conteudo) {
@@ -220,7 +219,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         int duracao = conteudo.get("duracao").asInt();
         Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
 
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada ));
+        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada));
     }
 
     private void liberarImposicao(JsonNode conteudo) {
@@ -232,7 +231,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void aroundPostStop() {
 
-        if(motor!= null) {
+        if (motor != null) {
             motor.stop();
             executor.cancel(true);
         }

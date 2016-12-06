@@ -7,11 +7,11 @@ import akka.stream.Materializer;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import logger.InfluuntLogger;
 import org.slf4j.LoggerFactory;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conn.ClientActor;
 import os72c.client.device.DeviceBridge;
-import logger.InfluuntLogger;
 import os72c.client.storage.MapStorage;
 import os72c.client.storage.Storage;
 import os72c.client.storage.StorageConf;
@@ -30,25 +30,16 @@ public class Client {
 
 
     private static Config config72c;
-
-    private final ActorSystem system;
-
-    private final String host;
-
-    private final String port;
-
-    private final String id;
-
-    private final String centralPublicKey;
-
-    private final String privateKey;
-
-    private ActorRef servidor;
-
-    private Storage storage = Play.current().injector().instanceOf(Storage.class);
-
-    private DeviceBridge device;
     private static org.slf4j.Logger logger = LoggerFactory.getLogger("Client");
+    private final ActorSystem system;
+    private final String host;
+    private final String port;
+    private final String id;
+    private final String centralPublicKey;
+    private final String privateKey;
+    private ActorRef servidor;
+    private Storage storage = Play.current().injector().instanceOf(Storage.class);
+    private DeviceBridge device;
 
 
     public Client(DeviceConfig deviceConfig) {
@@ -102,17 +93,6 @@ public class Client {
 
     }
 
-    private void setupLog() {
-        Config configLog = config72c.getConfig("log");
-        if(configLog != null){
-            InfluuntLogger.configureLog(configLog.getString("caminho"),
-                configLog.getString("arquivo"), configLog.getInt("tamanho"), configLog.getBoolean("compacto"),
-                configLog.getAnyRefList("tipoEvento"));
-        }
-
-    }
-
-
     public static Config getConfig() {
         return config72c;
     }
@@ -129,6 +109,16 @@ public class Client {
             .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
             .build();
+    }
+
+    private void setupLog() {
+        Config configLog = config72c.getConfig("log");
+        if (configLog != null) {
+            InfluuntLogger.configureLog(configLog.getString("caminho"),
+                configLog.getString("arquivo"), configLog.getInt("tamanho"), configLog.getBoolean("compacto"),
+                configLog.getAnyRefList("tipoEvento"));
+        }
+
     }
 
     public void finish() {
