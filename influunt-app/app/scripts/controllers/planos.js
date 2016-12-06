@@ -24,7 +24,7 @@ angular.module('influuntApp')
           getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
-          getErrosNumeroEstagiosPlanoManual;
+          getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -473,16 +473,23 @@ angular.module('influuntApp')
           if (errosGruposSemaforicosPlanos) {
             _.each(errosGruposSemaforicosPlanos, function(erro, index) {
               if(erro && angular.isArray(erro.respeitaVerdesDeSeguranca)) {
-                var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
-                var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
-                var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
-                var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
-                erros.push(texto);
+                erros.push(adicionaGrupoSemaforicoNaMensagemDeErro(index, erro.respeitaVerdesDeSeguranca[0]));
+              }
+              
+              if(erro && angular.isArray(erro.respeitaVerdesDeSegurancaSemDispensavel)) {
+                erros.push(adicionaGrupoSemaforicoNaMensagemDeErro(index, erro.respeitaVerdesDeSegurancaSemDispensavel[0]));
               }
             });
           }
         }
         return erros;
+      };
+
+      adicionaGrupoSemaforicoNaMensagemDeErro = function(index, mensagem){
+        var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
+        var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
+        var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
+        return 'G' + grupoSemaforico.posicao + ' - ' + mensagem;
       };
 
       getErrosUltrapassaTempoCiclo = function(listaErros, currentPlanoIndex) {
