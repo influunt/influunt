@@ -38,7 +38,6 @@ A figura abaixo apresenta os objetos que fazem parte da configuração de um con
 | versoesTabelasHorarias| vetor de [versão de tabela horária](#versao-tabela-horaria)|S| Lista de versões de tabelas horárias|
 | tabelasHorarias| vetor de [tabela horária](#tabela-horaria)|S| Lista de tabelas horárias|
 | eventos| vetor de [eventos](#evento)|S| Lista de eventos|
-
 |limiteEstagio| Inteiro | S | utilizado para validação pelo 72c |
 |limiteGrupoSemaforico| Inteiro | S | utilizado para validação pelo 72c |
 |limiteAnel| Inteiro | S | utilizado para validação pelo 72c |
@@ -425,8 +424,6 @@ Dispositivo de atuação acoplado ao controlador podendo ser:
 | anel | referência ao [anel](#anel)|S| Referência ao anel ao qual esse detector faz parte |
 | estagio | referência ao [estágio](#estagio)|S| Referência ao estágio ao qual esse detector faz parte |
 
-TODO: Incluir campos de monitoramento
-
 
 ### Exemplo JSON
 
@@ -622,8 +619,8 @@ Intervalo de tempo compreendido entre o final do verde de um estágio e o iníci
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador da Tabela de Entreverdes Transições |
-| idJson | Texto _UUID_ |S| Identificador da Tabela de Entreverdes Transições para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador da Tabela de Entreverdes Transição |
+| idJson | Texto _UUID_ |S| Identificador da Tabela de Entreverdes Transição para referências dentro do _JSON_ |
 | tempoAmarelo | Inteiro||N| Tempo de amarelo do entreverdes |
 | tempoVermelhoIntermitente | Inteiro||N| Tempo de vermelho intermitente |
 | tempoVermelhoLimpeza | Inteiro||S| Tempo de vermelho de limpeza do entreverdes |
@@ -662,7 +659,6 @@ Objeto que representa a associação entre grupos semafóricos x estágios.
 | estagio | referência a [estágio](#estagio)|S| Referência ao estágio |
 | grupoSemaforico | referência a [grupo semáforico](#grupo-semaforico)|S| Referência ao grupo semafórico |
 
-TODO: revisar o campo ativo
 
 ### Exemplo JSON
 
@@ -717,14 +713,14 @@ Denomina-se plano semafórico, ou simplesmente plano, o conjunto de parâmetros 
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador do Plano |
+| idJson | Texto _UUID_ |S| Identificador do Plano para referências dentro do _JSON_ |
 | posicao | Inteiro |S| Posição do plano no anel |
 | descricao | Texto | N| Descrição do plano |
 | tempoCiclo | inteiro | S| Tempo de ciclo do plano em segundos |
 | defasagem | inteiro | S| Tempo de defasagem no modo coordenado em segundos |
 | posicaoTabelaEntreVerde| inteiro | S | Número da tabela entreverde que será utilizada nesse plano 
-| modoOperacao | TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL | | Modo de operação do plano|
+| modoOperacao | TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL | S | Modo de operação do plano|
 | anel | referência ao [anel](#anel)|S| Referência ao anel ao qual essse plano faz parte |
 | versaoPlano | referência a [versaoPlano](#versaoPlano)|S| Versão desse plano |
 | estagiosPlanos | vetor de referência de [estágio plano](#estagio-grupo-semaforico)|S| Lista com as referências de estágios planos associado a esse plano|
@@ -787,8 +783,8 @@ Associação entre um estágio do anel e a sequência de estágios do plano.
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador do Estágio Plano |
+| idJson | Texto _UUID_ |S| Identificador do Estágio Plano para referências dentro do _JSON_ |
 | posicao | Inteiro| S | Posição do estágio na sequência de estágios do plano |
 | tempoVerde | Inteiro |S | Tempo de verde em segundos |
 | tempoVerdeMinimo | Inteiro |S| Tempo de verde mínimo em caso de modo atuado. Tempo em segundos | 
@@ -828,8 +824,8 @@ Associação entre um grupo semafórico do anel com o plano.
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador do Grupo Semafórico Plano |
+| idJson | Texto _UUID_ |S| Identificador do Grupo Semafórico Plano para referências dentro do _JSON_ |
 | ativado | Booleano| S| Indica se o grupo semafórico está ativo no plano
 | grupoSemaforico | referência ao [grupo semafórico](#grupo-semaforico)|S| Referência ao grupo semafórico |
 | plano | referência ao [plano](#plano)|S| Referência ao plano |
@@ -859,8 +855,8 @@ Versão de um conjunto de planos de um anel
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador da Versão Plano |
+| idJson | Texto _UUID_ |S| Identificador da Versão Plano para referências dentro do _JSON_ |
 | anel | referência ao [anel](#anel)|S| Referência ao anel ao qual essa versão de planos faz parte |
 | planos | vetor de referência aos [planos](#plano)|S| Lista de planos vinculadas à versão plano desse anel |
 
@@ -892,8 +888,8 @@ Versão de um tabela horária do controlador
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador da Versão Tabela Horária|
+| idJson | Texto _UUID_ |S| Identificador da Versão Tabela Horária para referências dentro do _JSON_ |
 | tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência a tabela horária |
 
 ### Exemplo JSON
@@ -916,8 +912,8 @@ Versão de um tabela horária do controlador
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador da Tabela Horária |
+| idJson | Texto _UUID_ |S| Identificador da Tabela Horária para referências dentro do _JSON_ |
 | versaoTabelaHoraria | referência a [versão tabela horária](#versao-tabela-horaria)|S| Referência à versão tabela horária|
 | eventos | vetor de [eventos](#evento)|S| Lista de eventos da tabela horária|
 
@@ -949,8 +945,8 @@ São os horários, dias da semana e datas programados na Tabela de Mudança de P
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador do Evento |
+| idJson | Texto _UUID_ |S| Identificador do Evento para referências dentro do _JSON_ |
 | posicao | Inteiro | S | Posição do evento na tabela horária |
 | tipo | ESPECIAL_NAO_RECORRENTE, ESPECIAL_RECORRENTE, NORMAL | S | Tipo de evento
 | diaDaSemana| TODOS_OS_DIAS, SEGUNDA_A_SABADO, SEGUNDA_A_SEXTA, SABADO_A_DOMINGO, DOMINGO, SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO| S | Indica quando o evento será ativado|
@@ -986,8 +982,8 @@ Definições de atraso de grupo para os grupos semafóricos em determinada trans
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
-| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
+| id | Texto _UUID_ |S| Identificador do Atraso de Grupo |
+| idJson | Texto _UUID_ |S| Identificador do Atraso de Grupo para referências dentro do _JSON_ |
 | atrasoDeGrupo | Inteiro| S| Tempo de atraso de grupo em segundos|
 
 
