@@ -26,6 +26,13 @@ public class MensagemImposicaoPlanoTemporario {
         planoTemporario = Plano.find.fetch("versaoPlano.anel.controlador").where().eq("versaoPlano.anel.controlador.id", controladorId).eq("posicao", posicaoPlano).findUnique();
     }
 
+    public static Envelope getMensagem(String controladorId, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
+        String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
+        Envelope envelope = new Envelope(TipoMensagem.IMPOSICAO_DE_PLANO_TEMPORARIO, controladorId, null, QoS.EXACTLY_ONCE, payload, null);
+        envelope.setCriptografado(false);
+        return envelope;
+    }
+
     public JsonNode toJson() {
         ObjectNode json = Json.newObject();
         json.put("posicaoPlano", posicaoPlano);
@@ -34,12 +41,5 @@ public class MensagemImposicaoPlanoTemporario {
         json.put("duracao", duracao);
         json.set("plano", new ControladorCustomSerializer().getPlanoCompletoJson(planoTemporario));
         return json;
-    }
-
-    public static Envelope getMensagem(String controladorId, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
-        String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
-        Envelope envelope = new Envelope(TipoMensagem.IMPOSICAO_DE_PLANO_TEMPORARIO, controladorId, null, QoS.EXACTLY_ONCE, payload, null);
-        envelope.setCriptografado(false);
-        return envelope;
     }
 }

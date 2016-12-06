@@ -241,7 +241,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         paramsAux.remove("tipoRelatorio");
 
         final String tipoLog = (params.containsKey("tipoLog_eq")) ? String.valueOf(params.get("tipoLog_eq")[0]) : "";
-        if(params.containsKey("tipoLog_eq")) {
+        if (params.containsKey("tipoLog_eq")) {
             paramsAux.remove("tipoLog_eq");
         }
 
@@ -271,7 +271,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         logs.forEach(log -> {
-            if(tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
+            if (tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
                 Controlador controlador = controladores.stream().filter((c -> c.getId().toString().equals(log.getIdControlador()))).findFirst().get();
                 itens.addObject().put("horario", log.getTimestamp()).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
                     .put("tipo", log.getTipoLogControlador().toString()).put("mensagem", log.getMensagem());

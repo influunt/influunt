@@ -83,6 +83,7 @@ public class Transacao {
     public String toString() {
         return "Transacao{" +
             "etapaTransacao=" + etapaTransacao +
+            ", tipoTransacao='" + tipoTransacao + '\'' +
             ", transacaoId='" + transacaoId + '\'' +
             ", idControlador='" + idControlador + '\'' +
             '}';
