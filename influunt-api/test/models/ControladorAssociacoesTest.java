@@ -185,7 +185,21 @@ public class ControladorAssociacoesTest extends ControladorTest {
         estagioGrupoSemaforico4.setGrupoSemaforico(grupoSemaforico5);
 
         erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, Matchers.hasItems(
+            new Erro(CONTROLADOR, "O tempo de verde do estágio de demanda prioritária deve ser maior ou igual ao tempo de verde de segurança do grupo semafórico associado.", "aneis[0].estagios[1].tempoVerdeDemandaPrioritariaMaiorQueVerdeSeguranca")
+        ));
+
+        estagio2.setTempoVerdeDemandaPrioritaria(10);
+
+        erros = getErros(controlador);
         assertThat(erros, Matchers.empty());
+
+        estagio2.setTempoVerdeDemandaPrioritaria(15);
+
+        erros = getErros(controlador);
+        assertThat(erros, Matchers.empty());
+
     }
 
     @Override
