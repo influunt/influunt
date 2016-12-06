@@ -148,9 +148,9 @@ public class AgendamentoTrocaPlano {
 
     public String getDescricaoEvento() {
         StringBuffer texto = new StringBuffer("Plano ").append(this.getPlano().getPosicao()).append(" - ").append(getPlano().getModoOperacao().toString());
-        if(this.getPlano().isImposto()) {
+        if (this.getPlano().isImposto()) {
             texto.append(" Imposto");
-        } else if(getPlano().isImpostoPorFalha()) {
+        } else if (getPlano().isImpostoPorFalha()) {
             texto = new StringBuffer("Controlador em modo ").append(getPlano().getModoOperacao().toString()).append(" por falha");
         } else {
             texto.append(" de tabela horária");
