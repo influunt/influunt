@@ -10,10 +10,10 @@
 angular.module('influuntApp')
   .controller('TabelaHorariosCtrl', ['$controller', '$scope', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                            'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
-                           'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService', 'SimulacaoService',
+                           'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService', 'SimulacaoService', 'breadcrumbs',
     function ($controller, $scope, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, TabelaHorariaService, HorariosService, planoService, SimulacaoService) {
+              handleValidations, TabelaHorariaService, HorariosService, planoService, SimulacaoService, breadcrumbs) {
 
 
       $controller('HistoricoCtrl', {$scope: $scope});
@@ -100,6 +100,7 @@ angular.module('influuntApp')
             adicionaEvento($scope.currentTabelaHoraria, NORMAL);
             adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_RECORRENTE);
             adicionaEvento($scope.currentTabelaHoraria, ESPECIAL_NAO_RECORRENTE);
+            breadcrumbs.setNomeEndereco($scope.objeto.nomeEndereco);
             $scope.selecionaTipoEvento(0);
           })
           .finally(influuntBlockui.unblock);
