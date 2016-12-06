@@ -230,7 +230,7 @@ public class ControladoresController extends Controller {
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
             controladoresFisicos.forEach(controladorFisico -> {
-                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
+                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivo();
                 if (controlador != null) {
                     controladores.add(controlador);
                 }
