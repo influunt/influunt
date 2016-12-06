@@ -6,19 +6,17 @@ import ch.qos.logback.core.AppenderBase;
 import ch.qos.logback.core.Context;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 
 /**
  * A Logback appender that appends messages to a {@link JTextArea}.
+ *
  * @author David Tombs
  */
-public class ConsoleAppender extends AppenderBase<ILoggingEvent>
-{
+public class ConsoleAppender extends AppenderBase<ILoggingEvent> {
 
     private final PatternLayout fPatternLayout;
 
-    public ConsoleAppender(final Context loggerContext)
-    {
+    public ConsoleAppender(final Context loggerContext) {
 
         // Log the date, level, class name (no package), and the message.
         fPatternLayout = new PatternLayout();
@@ -32,8 +30,7 @@ public class ConsoleAppender extends AppenderBase<ILoggingEvent>
     }
 
     @Override
-    protected void append(final ILoggingEvent eventObject)
-    {
+    protected void append(final ILoggingEvent eventObject) {
         System.out.println(fPatternLayout.doLayout(eventObject));
     }
 }

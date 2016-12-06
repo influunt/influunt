@@ -1,6 +1,5 @@
 package models;
 
-import be.objectify.deadbolt.java.models.Permission;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -14,7 +13,6 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -86,10 +84,6 @@ public class DisparoAlarme extends Model implements Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public void setChave(String chave) {
-        this.chave = chave;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -100,5 +94,9 @@ public class DisparoAlarme extends Model implements Serializable {
 
     public String getChave() {
         return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 }

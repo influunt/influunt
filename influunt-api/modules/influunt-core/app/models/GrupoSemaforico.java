@@ -542,7 +542,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
         int tempoDecorrido = 0;
-        if(estagioPlanoAnterior != null) {
+        if (estagioPlanoAnterior != null) {
             if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
                 tempoDecorrido += estagioPlanoAnterior.getTempoVerdeEstagio();
                 tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
@@ -561,7 +561,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
                                                   EstagioPlano estagioPlanoProximo) {
         int verdeSegurancaFaltante = getTempoVerdeSegurancaFaltante(estagioPlano, estagioPlanoAnterior);
         int tempoQueVaiDecorrido = 0;
-        if(estagioPlanoProximo != null) {
+        if (estagioPlanoProximo != null) {
             if (estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(this)) {
                 tempoQueVaiDecorrido += estagioPlanoProximo.getTempoVerdeEstagio();
                 tempoQueVaiDecorrido += estagioPlanoProximo.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlanoProximo.getEstagio(), estagioPlano.getEstagio());

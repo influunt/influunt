@@ -57,7 +57,7 @@ public class GerenciadorDeEstagiosHelper {
     }
 
     public static void aumentarTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
-                                                 long contadorIntervalo, long tempo) {
+                                            long contadorIntervalo, long tempo) {
         Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo - 100L);
         final IntervaloEstagio intervalo = range.getValue();
 
@@ -71,7 +71,7 @@ public class GerenciadorDeEstagiosHelper {
         }
     }
 
-    public static boolean isCumpriTempoVerdeSegurancao(List<EstagioPlano> lista) {
+    public static boolean isCumpreTempoVerdeSeguranca(List<EstagioPlano> lista) {
         final EstagioPlano atual = lista.get(1);
         final long tempoFaltante;
         if (lista.size() > 2) {

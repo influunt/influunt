@@ -12,7 +12,7 @@ import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
  */
 public class InfluuntLogAppender extends RollingFileAppender<ILoggingEvent> {
 
-    public InfluuntLogAppender(Context context, String path, String name, int size){
+    public InfluuntLogAppender(Context context, String path, String name, int size) {
         setContext(context);
         setFile(path.concat("/").concat(name));
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
@@ -28,9 +28,9 @@ public class InfluuntLogAppender extends RollingFileAppender<ILoggingEvent> {
         sizeBasedTriggeringPolicy.start();
 
         TimeBasedRollingPolicy tracePolicy = new TimeBasedRollingPolicy();
-        tracePolicy.setContext( getContext() );
-        tracePolicy.setFileNamePattern( name + "-%d{yyyy-MM-dd}.log" );
-        tracePolicy.setMaxHistory( 5 );
+        tracePolicy.setContext(getContext());
+        tracePolicy.setFileNamePattern(name + "-%d{yyyy-MM-dd}.log");
+        tracePolicy.setMaxHistory(5);
         tracePolicy.setParent(this);
         tracePolicy.start();
         setRollingPolicy(tracePolicy);

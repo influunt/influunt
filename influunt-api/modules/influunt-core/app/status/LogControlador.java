@@ -52,20 +52,12 @@ public class LogControlador {
         new LogControlador(idControlador, timestamp, mensagem, tipoLogControlador).save();
     }
 
-    public void insert() {
-        logs().insert(this);
-    }
-
-    private void save() {
-        insert();
-    }
-
     public static List<LogControlador> ultimosLogsControladores(List<String> ids) {
         ArrayList<LogControlador> list = new ArrayList<>();
 
         ArrayList<String> predicates = new ArrayList<>();
-        String aux = "[\"" + StringUtils.join(ids , "\",\"") + "\"]";
-        predicates.add("{ $match: { idControlador: { $in: "+aux+"}}}");
+        String aux = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
+        predicates.add("{ $match: { idControlador: { $in: " + aux + "}}}");
         predicates.add("{ $sort: { timestamp: -1 } }");
         predicates.add("{ $project: { _id: 0, idControlador: 1, mensagem: 1, timestamp: 1, tipoLog: 1 } }");
 
@@ -76,6 +68,14 @@ public class LogControlador {
         }
 
         return list;
+    }
+
+    public void insert() {
+        logs().insert(this);
+    }
+
+    private void save() {
+        insert();
     }
 
     public String getIdControlador() {

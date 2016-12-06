@@ -192,10 +192,10 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     public boolean isEventosMesmoDiaEHora() {
         if (!this.getTabelaHorario().getEventos().isEmpty() &&
             this.getHorario() != null && this.getDiaDaSemana() != null &&
-            this.getTabelaHorario().getVersaoTabelaHoraria().getStatusVersao() == StatusVersao.EDITANDO &&
+            StatusVersao.EDITANDO.equals(this.getTabelaHorario().getVersaoTabelaHoraria().getStatusVersao()) &&
             !this.isDestroy()) {
             return this.getTabelaHorario().getEventos().stream().filter(evento ->
-                    evento != this &&
+                evento != this &&
                     !evento.isDestroy() &&
                     this.getDiaDaSemana().equals(evento.getDiaDaSemana()) &&
                     this.getHorario().equals(evento.getHorario())

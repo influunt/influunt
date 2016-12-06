@@ -177,7 +177,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (!estagios.isEmpty()) {
                 lista.add(estagios.get(0));
             }
-            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpriTempoVerdeSegurancao(lista)) {
+            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpreTempoVerdeSeguranca(lista)) {
                 GerenciadorDeEstagiosHelper.aumentarTempoEstagio(this.intervalos,
                     this.contadorIntervalo,
                     estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
