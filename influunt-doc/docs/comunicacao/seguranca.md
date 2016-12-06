@@ -1,5 +1,5 @@
 # Mantendo a Segurança na Comunicação
-Toda a comunicação entre os controladores e a central é criptografada. Para isso são usados dois pares de chaves assimétricas por controlador. Um par na central e o outro no controlador.
+Toda a comunicação entre os controladores e a central é criptografada. Para isso são usados dois pares de chaves assimétricas por controlador. Um par na central e outro no controlador.
 
 Cada mensagem é criptografada com uma chave simétrica que é criptografada pela chave privada assimétrica. 
 
