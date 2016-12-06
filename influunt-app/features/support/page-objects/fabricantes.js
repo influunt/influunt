@@ -30,7 +30,7 @@ var FabricantesPage = function () {
 
   this.isIndex = function() {
     return world.sleep().then(function() {
-      return world.getElementByXpath('//div[contains(@class, "app.fabricantes_show")]');
+      return world.getElementByXpath('//div[contains(@class, "page-fabricantes_show")]');
     });
   };
 
