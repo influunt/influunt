@@ -58,7 +58,7 @@ ANEL
 | -----|----- | ---------- | --------- |
 | 1 | Inteiro | S | Número do anel |
 
-GRUPO_SEMAFÓRICO
+GRUPO_SEMAFORICO
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
@@ -73,7 +73,7 @@ PLANO
 | 2 | Inteiro | S | Número do plano |
 | 3 | Inteiro | N | Duração em minutos da imposição do plano |
 
-MODO_OPERAÇÃO_PLANO
+MODO_OPERACAO_PLANO
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
