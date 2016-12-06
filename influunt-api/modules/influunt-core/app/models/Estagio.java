@@ -318,6 +318,26 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda prioritária deve estar entre {min} e {max}")
+    public boolean isTempoVerdeDemandaPrioritaria() {
+        if (isDemandaPrioritaria()) {
+            return getTempoVerdeDemandaPrioritaria() != null &&
+                getAnel().getControlador().getRangeUtils().TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
+        message = "O tempo de verde do estágio de demanda prioritária deve ser maior ou igual ao tempo de verde de segurança do grupo semafórico associado.")
+    public boolean isTempoVerdeDemandaPrioritariaMaiorQueVerdeSeguranca() {
+        if (isDemandaPrioritaria() && isEstagiosGrupoSemaforicosNotEmpty() &&
+            isSomenteUmEstagioGrupoSemaforicoEmDemandaPrioritaria() &&
+            isUmGrupoSemaforicoVeicularEmDemandaPrioritaria() && isTempoVerdeDemandaPrioritaria()) {
+            return getTempoVerdeDemandaPrioritaria() >= getEstagiosGruposSemaforicos().get(0).getGrupoSemaforico().getTempoVerdeSeguranca();
+        }
+        return true;
+    }
+
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
         message = "Existem grupos semafóricos conflitantes associados a esse estágio.")
     public boolean isNaoDevePossuirGruposSemaforicosConflitantes() {
@@ -365,15 +385,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
                 .mapToInt(GrupoSemaforico::getTempoVerdeSeguranca)
                 .min()
                 .orElse(0);
-        }
-        return true;
-    }
-
-    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "O Tempo de verde do estágio de demanda prioritária deve estar entre {min} e {max}")
-    public boolean isTempoVerdeDemandaPrioritaria() {
-        if (isDemandaPrioritaria()) {
-            return getTempoVerdeDemandaPrioritaria() != null &&
-                getAnel().getControlador().getRangeUtils().TEMPO_VERDE.contains(getTempoVerdeDemandaPrioritaria());
         }
         return true;
     }
