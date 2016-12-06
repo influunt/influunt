@@ -34,7 +34,7 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
 | key | Texto  | Chave simétrica a ser usada para descriptografar os dados do campo _content_. Essa chave deve ser descriptografada com a chave privada de quem a recebeu|
-| idControlador | Texto [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) | Identificador do Controlador |
+| idControlador | UUID | Identificador do Controlador |
 | content | Texto   | Um [envelope](/comunicacao/envelope) que foi criptografado com a chave do campo key |
 
 ## Criptogrando um envelope
@@ -51,6 +51,7 @@ Antes de enviar uma mensagem o envelope deve ser criptografado. Os passos são o
 9. Adiciona-se o _id_ do controlador no campo _idControlador_
 
 O envelope está seguro e pode ser enviado ao destinatário, seja ele a central ou um controlador específico.
+
 ## Descriptografando um envelope
 1. Obtem-se o _JSON_ do envelope seguro
 2. Converte-se o campo _key_ em um _array de bytes_
@@ -64,6 +65,7 @@ O envelope recebido é confiável e pode ser processado.
 ## Especificações das chaves e algoritmos de criptografia
 ### Chaves Assimétricas
 Devem ser utilizadas chaves RSA de 1024 bits.
+
 ### Chaves Simétricas
 Devem ser utilizadas chaves AES de 128 bits.
 
