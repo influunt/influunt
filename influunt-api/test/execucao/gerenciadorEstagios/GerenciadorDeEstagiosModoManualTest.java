@@ -2,10 +2,7 @@ package execucao.gerenciadorEstagios;
 
 import execucao.GerenciadorDeEstagiosTest;
 import integracao.ControladorHelper;
-import models.Anel;
-import models.EstagioPlano;
-import models.ModoOperacaoPlano;
-import models.Plano;
+import models.*;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -74,6 +71,9 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         Plano plano = getPlano(anel, 7);
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
+        Estagio estagio = anel.findEstagioByPosicao(3);
+        estagio.setTempoMaximoPermanencia(100);
+
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);
 
@@ -105,7 +105,7 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
 
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);
-        avancar(gerenciadorDeEstagios, 600);
+        avancar(gerenciadorDeEstagios, 300);
 
         plano.imprimirTabelaEntreVerde();
 
@@ -113,7 +113,6 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(37)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(300)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(369)).getEstagio().getPosicao().intValue());
     }
 
     @Test
