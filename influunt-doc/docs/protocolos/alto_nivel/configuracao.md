@@ -1,5 +1,5 @@
 # Introdução
-A estrutura do controlador é definida pelo objeto [CONTROLADOR](#controlador) que inclui seus dados básicos e listas de objetos associados. Para evitar referências cruzadas e problemas de navegação no grafo de objetos, adotou-se uma estratura de JSON desnormatizada. Sendo assim, todos os objetos são escritos diretamente na raiz do controlador e não internamente de forma hierárquica. Em compensação os objetos internos trazem referências para os objetos externos.
+A estrutura do controlador é definida pelo objeto [CONTROLADOR](#controlador) que inclui seus dados básicos e listas de objetos associados. Para evitar referências cruzadas e problemas de navegação no grafo de objetos, adotou-se uma estratura de _JSON_ desnormatizada. Sendo assim, todos os objetos são escritos diretamente na raiz do controlador e não internamente de forma hierárquica. Em compensação os objetos internos trazem referências para os objetos externos.
 
 
 A figura abaixo apresenta os objetos que fazem parte da configuração de um controlador. As setas representam referências entre esses objetos.
@@ -15,12 +15,12 @@ A figura abaixo apresenta os objetos que fazem parte da configuração de um con
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Controlador |
-| numeroSMEE | String||N| Número SMEE do Controlador |
-| nomeEndereco | String|N| Descrição da localização do controlador |
+| id | Texto [UUID] (https://en.wikipedia.org/wiki/Universally_unique_identifier) |S| Identificador do Controlador |
+| numeroSMEE | Texto||N| Número SMEE do Controlador |
+| nomeEndereco | Texto|N| Descrição da localização do controlador |
 | dataCriacao | Data|N| Data de Criação do controlador |
 | dataAtualizacao | Data|N| Data da última atualização do controlador |
-| CLC | String|N| Código de Localização do Controlador |
+| CLC | Texto|N| Código de Localização do Controlador |
 | aneis | vetor de [anel](#anel)|S| Lista dos anéis do controlador |
 | estagios | vetor de [estagio](#estagio)|S| Lista dos estágios do controlador |
 | gruposSemaforicos | vetor de [grupos semáforicos](#grupo-semaforico)|S| Lista dos grupos semafóricos do controlador |
@@ -38,7 +38,6 @@ A figura abaixo apresenta os objetos que fazem parte da configuração de um con
 | versoesTabelasHorarias| vetor de [versão de tabela horária](#versao-tabela-horaria)|S| Lista de versões de tabelas horárias|
 | tabelasHorarias| vetor de [tabela horária](#tabela-horaria)|S| Lista de tabelas horárias|
 | eventos| vetor de [eventos](#evento)|S| Lista de eventos|
-
 |limiteEstagio| Inteiro | S | utilizado para validação pelo 72c |
 |limiteGrupoSemaforico| Inteiro | S | utilizado para validação pelo 72c |
 |limiteAnel| Inteiro | S | utilizado para validação pelo 72c |
@@ -151,16 +150,16 @@ A figura abaixo apresenta os objetos que fazem parte da configuração de um con
 
 ## Anel
 
-Característica que permite a um controlador operar como se fossem vários controladores independentes. Cada anel é responsável pelo controle de certo número de grupos focais e a programação semafórica que ocorre nesses grupos focais é totalmente independente da programação semafórica dos demais grupos focais do controlador, a menos pelo tempo de ciclo, que tem de ser igual para o controlador e todos os seus anéis.
+Característica que permite a um controlador operar como se fossem vários controladores independentes. Cada anel é responsável pelo controle de certo número de grupos focais e a programação semafórica que ocorre nesses grupos focais é totalmente independente da programação semafórica dos demais grupos focais do controlador, exceto pelo tempo de ciclo, que tem de ser igual para o controlador e todos os seus anéis.
 
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Anel |
-| idJson | String GUUID |S| Identificador do Anel para referências dentro do JSON |
-| numeroSMEE | String||N| Número SMEE do Anel |
-| CLA | String|N| Código de Localização do Anel |
+| id | Texto _UUID_ |S| Identificador do Anel |
+| idJson | Texto _UUID_ |S| Identificador do Anel para referências dentro do _JSON_ |
+| numeroSMEE | Texto||N| Número SMEE do Anel |
+| CLA | Texto|N| Código de Localização do Anel |
 |aceitaModoManual | Booleano|S | Determina se esse anel aceita a operação em modo manual|
 | ativo | Booleano | S|Identifica se esse anel está ativo|
 | posicao | Inteiro | S|Posição do anel no controlador|
@@ -168,8 +167,8 @@ Característica que permite a um controlador operar como se fossem vários contr
 | gruposSemaforicos | vetor de referência aos [grupos Semaforicos](#grupo-semaforico)|S| Lista com as referências de grupos semafóricos desse anel |
 | detectores | vetor de referência aos [detectores](#detector)|S| Lista com as referências de detectores desse anel |
 | endereco | referência ao [endereco](#endereco)|S| Endereço do anel |
-| versaoPlano | referência a [versaoPlano](#versaoPlano)|S| Versão plano ativa para esse anel |
-| planos | vetor de referência aos [planos](#plano)|S| Lista de planos vinculadas a versão plano desse anel |
+| versaoPlano | referência à [versaoPlano](#versaoPlano)|S| Versão plano ativa para esse anel |
+| planos | vetor de referência aos [planos](#plano)|S| Lista de planos vinculadas à versão plano desse anel |
 
 ### Exemplo JSON
 
@@ -239,27 +238,27 @@ Característica que permite a um controlador operar como se fossem vários contr
 
 
 
-## Grupo Semáforico
+## Grupo Semafórico
 
- Conjunto de grupos focais com indicações luminosas idênticas às que controlam grupos de movimentos que recebem simultaneamente o direito de passagem e que possuem as mesmas fases. Utiliza-se a notação Gn para identificar tanto nos projetos como nas programações semafóricas o grupo semafórico de número "n". Quanto aos tipos temos: grupo semafórico veicular composto de 3 fases (vermelha, amarela e verde) e grupo semafórico de pedestre composto de 2 fases (vermelha e verde).
+ Conjunto de grupos focais com indicações luminosas idênticas às que controlam grupos de movimentos que recebem simultaneamente o direito de passagem e que possuem as mesmas fases. Utiliza-se a notação _Gn_ para identificar tanto nos projetos como nas programações semafóricas o grupo semafórico de número _"n"_. Quanto aos tipos, temos: grupo semafórico veicular composto de 3 fases (vermelha, amarela e verde) e grupo semafórico de pedestre composto de 2 fases (vermelha e verde).
 
 ### Especificação 
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id   | String GUUID |S| Identificador do Grupo Semáforico |
-| idJson | String GUUID |S| Identificador do Grupo Semáforico para referências dentro do JSON |
-| tipo | String|S| PEDESTRE ou VEICULAR |
-| descricao | String|N| Descrição do Grupo Semafórico |
+| id   | Texto _UUID_ |S| Identificador do Grupo Semáforico |
+| idJson | Texto _UUID_ |S| Identificador do Grupo Semáforico para referências dentro do _JSON_ |
+| tipo | Texto|S| PEDESTRE ou VEICULAR |
+| descricao | Texto|N| Descrição do Grupo Semafórico |
 | faseVermelhaApagadaAmareloIntermitente | Booleano |S| Define se, caso houver uma falha na fase vermelha do grupo semáforico, o anel entra em amarelo intermitente |
 | tempoVerdeSeguranca | Inteiro||S| Tempo de verde de segurança do grupo semáforico |
 | posicao | Inteiro | S|Posição do grupo semafórico no controlador|
-| anel | referência ao [anel](#anel)|S| Referência ao anel que esse grupo semáforico faz parte |
+| anel | referência ao [anel](#anel)|S| Referência ao anel ao qual esse grupo semáforico faz parte |
 | verdesConflitantesOrigem | vetor de referência de [verdes conflitantes](#verde-conflitante)|S| Lista com as referências de verdes conflitantes que tem esse grupo semáforico como origem|
 | verdesConflitantesDestino | vetor de referência de [verdes conflitantes](#verde-conflitante)|S| Lista com as referências de verdes conflitantes que tem esse grupo semáforico como destino|
-| estagiosGruposSemaforicos | vetor de referência de [estágio grupo semafórico](#estagio-grupo-semaforico)|S| Lista com as referências de estágios grupos semafóricos associado a esse grupo semáforico|
-| transicoes | vetor de referência de [transições](#transicao)|S| Lista com as referências de transições dsse grupo semáforico|
-| tabelasEntreVerdes | vetor de referência de [tabelas de entre verdes](#tabela-entre-verdes)|S| Lista com as referências de tabelas de entre verdes dsse grupo semáforico|
+| estagiosGruposSemaforicos | vetor de referência de [estágio grupo semafórico](#estagio-grupo-semaforico)|S| Lista com as referências de estágios grupos semafóricos associados a esse grupo semáforico|
+| transicoes | vetor de referência de [transições](#transicao)|S| Lista com as referências de transições desse grupo semáforico|
+| tabelasEntreVerdes | vetor de referência de [tabelas de entre verdes](#tabela-entre-verdes)|S| Lista com as referências de tabelas de entre verdes desse grupo semáforico|
 | transicoesComGanhoDePassagem | vetor de referência de [transições](#transicao)|S| Lista com as referências de transições desse grupo semáforico com ganho de passagem|
 
 
@@ -341,14 +340,14 @@ Intervalo de tempo em que um ou mais grupos semafóricos recebem simultaneamente
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Estágio |
-| idJson | String GUUID |S| Identificador do Estágio para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador do Estágio |
+| idJson | Texto _UUID_ |S| Identificador do Estágio para referências dentro do _JSON_ |
 | tempoMaximoPermanencia | Inteiro||S| O tempo máximo que o estágio pode ter direito de passagem |
 | tempoMaximoPermanenciaAtivado | Booleano||S| Define se o tempo máximo de permanência será monitorado |
 | demandaPrioritaria | Booleano||S| Define se o estágio é de demanda prioritária |
 | tempoVerdeDemandaPrioritaria | Inteiro | N|Tempo de verde do estágio de demanda prioritária|
 | posicao | Inteiro | S|Posição do estágio no anel|
-| anel | referência ao [anel](#anel)|S| Referência ao anel que essse estágio faz parte |
+| anel | referência ao [anel](#anel)|S| Referência ao anel ao qual essse estágio faz parte |
 | origemDeTransicoesProibidas | vetor de referência das [transições proibidas](#transicao-proibida)|S| Lista com as referências de transições proibidas que tem esse estágio como origem|
 | destinoDeTransicoesProibidas | vetor de referência das [transições proibidas](#transicao-proibida)|S| Lista com as referências de transições proibidas que tem esse estágio como destino|
 | alternativaDeTransicoesProibidas | vetor de referência das [transições proibidas](#transicao-proibida)|S| Lista com as referências de transições proibidas que tem esse estágio como alternativa|
@@ -406,6 +405,7 @@ Dispositivo de atuação acoplado ao controlador podendo ser:
 
 1. Detector Veicular
     - Sensor destinado a registrar a presença ou passagem de veículos.
+    
 2. Botoeira 
     - Dispositivo dotado de um botão que, ao ser acionado, envia um sinal ao controlador solicitando a implementação de um estágio dispensável.
 
@@ -414,17 +414,15 @@ Dispositivo de atuação acoplado ao controlador podendo ser:
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id   | String GUUID |S| Identificador do Detector |
-| idJson | String GUUID |S| Identificador do Detector para referências dentro do JSON |
-| tipo | String||S| PEDESTRE ou VEICULAR |
+| id   | Texto _UUID_ |S| Identificador do Detector |
+| idJson | Texto _UUID_ |S| Identificador do Detector para referências dentro do _JSON_ |
+| tipo | Texto||S| PEDESTRE ou VEICULAR |
 | monitorado | Booleano |S| Define se o detector será monitorado |
 | posicao | Inteiro | S|Posição do detector no controlador|
 | tempoAusenciaDeteccao | Inteiro | S|Tempo para disparar alarme de ausência de detecção|
 | tempoDeteccaoPermanente | Inteiro | S|Tempo para disparar alarme de detecção permanente|
-| anel | referência ao [anel](#anel)|S| Referência ao anel que esse detector faz parte |
-| estagio | referência ao [estágio](#estagio)|S| Referência ao estágio que esse detector faz parte |
-
-TODO: Incluir campos de monitoramento
+| anel | referência ao [anel](#anel)|S| Referência ao anel ao qual esse detector faz parte |
+| estagio | referência ao [estágio](#estagio)|S| Referência ao estágio ao qual esse detector faz parte |
 
 
 ### Exemplo JSON
@@ -455,8 +453,8 @@ Representa a transição entre o estágio que está perdendo o direito de passag
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador da Transição |
-| idJson | String GUUID |S| Identificador da Transição para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador da Transição |
+| idJson | Texto _UUID_ |S| Identificador da Transição para referências dentro do _JSON_ |
 | origem | referência a [estágio](#estagio)|S| Referência ao estágio de origem |
 | tipo | PERDA_DE_PASSAGEM ou GANHO_DE_PASSAGEM |S| Tipo da transição |
 | modoIntermitenteOuApagado | Booleano |S| Define se essa transição será utilizada quando houver transição para os modos de amarelo intermitente ou apagado |
@@ -502,8 +500,8 @@ Representa a transição entre o estágio que está ganhando o direito de passag
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador da Transição |
-| idJson | String GUUID |S| Identificador da Transição para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador da Transição |
+| idJson | Texto _UUID_ |S| Identificador da Transição para referências dentro do _JSON_ |
 | origem | referência a [estágio](#estagio)|S| Referência ao estágio de origem |
 | tipo | PERDA_DE_PASSAGEM ou GANHO_DE_PASSAGEM |S| Tipo da transição |
 | modoIntermitenteOuApagado | Booleano |S| Define se essa transição será utilizada quando houver transição para os modos de amarelo intermitente ou apagado |
@@ -548,8 +546,8 @@ Representa a proibição de transição entre dois estágios.
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador da Transição Proibida |
-| idJson | String GUUID |S| Identificador da Transição Proibida para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador da Transição Proibida |
+| idJson | Texto _UUID_ |S| Identificador da Transição Proibida para referências dentro do _JSON_ |
 | origem | referência a [estágio](#estagio)|S| Referência ao estágio de origem |
 | destino | referência a [estágio](#estagio)|S| Referência ao estágio de destino |
 | alternativo | referência a [estágio](#estagio)|S| Referência ao estágio alternativo |
@@ -575,16 +573,17 @@ Representa a proibição de transição entre dois estágios.
 
 ## Tabela Entreverdes
 Agrupamento de Tabela Entreverdes Transição.
+
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id   | String GUUID |S| Identificador da Tabela de Entre Verdes |
-| idJson | String GUUID |S| Identificador da Tabela de Entre Verdes para referências dentro do JSON |
-| posicao | Inteiro | S|Posição da tabela entreverdes no anel|
-| descricao | String||S| Descrição da Tabela de Entre Verdes |
+| id   | Texto _UUID_ |S| Identificador da Tabela de Entreverdes |
+| idJson | Texto _UUID_ |S| Identificador da Tabela de Entreverdes para referências dentro do _JSON_ |
+| posicao | Inteiro | S|Posição da Tabela Entreverdes no anel|
+| descricao | Texto||S| Descrição da Tabela de Entreverdes |
 | grupoSemaforico | referência a [grupo semáforico](#grupo-semaforico)|S| Referência ao grupo semafórico |
-| tabelaEntreVerdesTransicoes | vetor de referência de [tabelas de entre verdes transições](#tabela-entre-verdes-transicao)|S| Lista com as referências de tabelas de entre verdes transições dessa tabela de entre verdes|
+| tabelaEntreVerdesTransicoes | vetor de referência de [tabelas de entre verdes transições](#tabela-entre-verdes-transicao)|S| Lista com as referências de Tabelas de Entreverdes transições dessa Tabela de Entreverdes|
 
 
 ### Exemplo JSON
@@ -620,14 +619,14 @@ Intervalo de tempo compreendido entre o final do verde de um estágio e o iníci
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador da Tabela de Entre Verdes Transições |
-| idJson | String GUUID |S| Identificador da Tabela de Entre Verdes Transições para referências dentro do JSON |
-| tempoAmarelo | Inteiro||N| Tempo de amarelo do entre verdes |
+| id | Texto _UUID_ |S| Identificador da Tabela de Entreverdes Transição |
+| idJson | Texto _UUID_ |S| Identificador da Tabela de Entreverdes Transição para referências dentro do _JSON_ |
+| tempoAmarelo | Inteiro||N| Tempo de amarelo do entreverdes |
 | tempoVermelhoIntermitente | Inteiro||N| Tempo de vermelho intermitente |
-| tempoVermelhoLimpeza | Inteiro||S| Tempo de vermelho de limpeza do entre verdes |
+| tempoVermelhoLimpeza | Inteiro||S| Tempo de vermelho de limpeza do entreverdes |
 | tempoAtrasoGrupo | Inteiro||S| Tempo de atraso de grupo |
-| tabelaEntreVerdes | referência a [tabela de entre verdes](#tabela-entre-verdes)|S| Referência a tabela de entre verdes |
-| transicao | referência a [transição](#transicao)|S| Referência a transição |
+| tabelaEntreVerdes | referência a [tabela de entre verdes](#tabela-entre-verdes)|S| Referência à Tabela de Entreverdes |
+| transicao | referência à [transição](#transicao)|S| Referência à transição |
 
 ### Exemplo JSON
 
@@ -655,12 +654,11 @@ Objeto que representa a associação entre grupos semafóricos x estágios.
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Estágio Grupo Semafórico |
-| idJson | String GUUID |S| Identificador do Estágio Grupo Semafórico para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador do Estágio Grupo Semafórico |
+| idJson | Texto _UUID_ |S| Identificador do Estágio Grupo Semafórico para referências dentro do _JSON_ |
 | estagio | referência a [estágio](#estagio)|S| Referência ao estágio |
 | grupoSemaforico | referência a [grupo semáforico](#grupo-semaforico)|S| Referência ao grupo semafórico |
 
-TODO: revisar o campo ativo
 
 ### Exemplo JSON
 
@@ -686,8 +684,8 @@ Representa um conflito entre dois grupos semafóricos que não têm permissão d
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador do Verde Conflitante |
+| idJson | Texto _UUID_ |S| Identificador do Verde Conflitante para referências dentro do _JSON_ |
 | origem | referência a um [grupo semáforico](#grupo-semaforico)|S| Referência ao grupo semáforico de origem |
 | destino | referência a um [grupo semáforico](#grupo-semaforico)|S| Referência ao grupo semáforico de destino |
 
@@ -709,25 +707,24 @@ Representa um conflito entre dois grupos semafóricos que não têm permissão d
 
 
 ## Plano
-Denomina-se plano semafórico, ou simplesmente plano, ao conjunto de parâmetros introduzidos no controlador ou na central de controle que determina a sequência e as durações dos tempos exibidos pelo semáforo. O período de vigência de um plano está estabelecido na tabela horária. 
+Denomina-se plano semafórico, ou simplesmente plano, o conjunto de parâmetros introduzidos no controlador ou na central de controle que determina a sequência e as durações dos tempos exibidos pelo semáforo. O período de vigência de um plano está estabelecido na tabela horária. 
 
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador do Plano |
+| idJson | Texto _UUID_ |S| Identificador do Plano para referências dentro do _JSON_ |
 | posicao | Inteiro |S| Posição do plano no anel |
-| descricao | String | N| Descrição do plano |
+| descricao | Texto | N| Descrição do plano |
 | tempoCiclo | inteiro | S| Tempo de ciclo do plano em segundos |
 | defasagem | inteiro | S| Tempo de defasagem no modo coordenado em segundos |
-| posicaoTabelaEntreVerde| inteiro | S | É o número da tabela entreverde que será utilizada nesse plano|
-| modoOperacao | 
-TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL | Modo de operação do plano|
-| anel | referência ao [anel](#anel)|S| Referência ao anel que essse plano faz parte |
+| posicaoTabelaEntreVerde| inteiro | S | Número da tabela entreverde que será utilizada nesse plano 
+| modoOperacao | TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL | S | Modo de operação do plano|
+| anel | referência ao [anel](#anel)|S| Referência ao anel ao qual essse plano faz parte |
 | versaoPlano | referência a [versaoPlano](#versaoPlano)|S| Versão desse plano |
 | estagiosPlanos | vetor de referência de [estágio plano](#estagio-grupo-semaforico)|S| Lista com as referências de estágios planos associado a esse plano|
-| estagiosGruposSemaforicos | vetor de referência de [estágio grupo semafórico](#estagio-grupo-semaforico)|S| Lista com as referências de estágios grupos semafóricos associado a esse plano|
+| estagiosGruposSemaforicos | vetor de referência de [estágio grupo semafórico](#estagio-grupo-semaforico)|S| Lista com as referências de estágios grupos semafóricos associados a esse plano|
 
 
 ### Exemplo JSON
@@ -780,15 +777,15 @@ TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL
 ```
 
 ## Estágio Plano
-Associação entre um estágio do anel a sequencia de estágios do plano.
+Associação entre um estágio do anel e a sequência de estágios do plano.
 
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
-| posicao | Inteiro| S | Posição do estágio na sequencia de estágios do plano |
+| id | Texto _UUID_ |S| Identificador do Estágio Plano |
+| idJson | Texto _UUID_ |S| Identificador do Estágio Plano para referências dentro do _JSON_ |
+| posicao | Inteiro| S | Posição do estágio na sequência de estágios do plano |
 | tempoVerde | Inteiro |S | Tempo de verde em segundos |
 | tempoVerdeMinimo | Inteiro |S| Tempo de verde mínimo em caso de modo atuado. Tempo em segundos | 
 | tempoVerdeMaximo | Inteiro |S| Tempo de verde máximo em caso de modo atuado. Tempo em segundos | 
@@ -827,8 +824,8 @@ Associação entre um grupo semafórico do anel com o plano.
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador do Grupo Semafórico Plano |
+| idJson | Texto _UUID_ |S| Identificador do Grupo Semafórico Plano para referências dentro do _JSON_ |
 | ativado | Booleano| S| Indica se o grupo semafórico está ativo no plano
 | grupoSemaforico | referência ao [grupo semafórico](#grupo-semaforico)|S| Referência ao grupo semafórico |
 | plano | referência ao [plano](#plano)|S| Referência ao plano |
@@ -858,10 +855,10 @@ Versão de um conjunto de planos de um anel
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
-| anel | referência ao [anel](#anel)|S| Referência ao anel que essa versão de planos faz parte |
-| planos | vetor de referência aos [planos](#plano)|S| Lista de planos vinculadas a versão plano desse anel |
+| id | Texto _UUID_ |S| Identificador da Versão Plano |
+| idJson | Texto _UUID_ |S| Identificador da Versão Plano para referências dentro do _JSON_ |
+| anel | referência ao [anel](#anel)|S| Referência ao anel ao qual essa versão de planos faz parte |
+| planos | vetor de referência aos [planos](#plano)|S| Lista de planos vinculadas à versão plano desse anel |
 
 ### Exemplo JSON
 
@@ -886,13 +883,14 @@ Versão de um conjunto de planos de um anel
 
 ## Versão Tabela Horária
 Versão de um tabela horária do controlador
+
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
-| tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência a tabela horária |
+| id | Texto _UUID_ |S| Identificador da Versão Tabela Horária|
+| idJson | Texto _UUID_ |S| Identificador da Versão Tabela Horária para referências dentro do _JSON_ |
+| tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência à tabela horária |
 
 ### Exemplo JSON
 
@@ -908,15 +906,15 @@ Versão de um tabela horária do controlador
 ```
 
 ## Tabela Horária
-É parte da programação de um controlador semafórico que determina os horários, dias da semana e datas em que se deve efetuar troca de planos. Os horários, dias da semana e datas são os eventos de ativação de planos
+É parte da programação de um controlador semafórico que determina os horários, dias da semana e datas em que se deve efetuar a troca de planos. Os horários, dias da semana e datas são os eventos de ativação de planos
 
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
-| versaoTabelaHoraria | referência a [versão tabela horária](#versao-tabela-horaria)|S| Referência a versão tabela horária|
+| id | Texto _UUID_ |S| Identificador da Tabela Horária |
+| idJson | Texto _UUID_ |S| Identificador da Tabela Horária para referências dentro do _JSON_ |
+| versaoTabelaHoraria | referência a [versão tabela horária](#versao-tabela-horaria)|S| Referência à versão tabela horária|
 | eventos | vetor de [eventos](#evento)|S| Lista de eventos da tabela horária|
 
 ### Exemplo JSON
@@ -940,21 +938,22 @@ Versão de um tabela horária do controlador
 ```
 
 ## Evento
+
 São os horários, dias da semana e datas programados na Tabela de Mudança de Planos para a troca de planos.
 
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
-| posicao | Integer | S | Posição do evento na tabela horária |
+| id | Texto _UUID_ |S| Identificador do Evento |
+| idJson | Texto _UUID_ |S| Identificador do Evento para referências dentro do _JSON_ |
+| posicao | Inteiro | S | Posição do evento na tabela horária |
 | tipo | ESPECIAL_NAO_RECORRENTE, ESPECIAL_RECORRENTE, NORMAL | S | Tipo de evento
 | diaDaSemana| TODOS_OS_DIAS, SEGUNDA_A_SABADO, SEGUNDA_A_SEXTA, SABADO_A_DOMINGO, DOMINGO, SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO| S | Indica quando o evento será ativado|
 | data | Data | S | Indica uma data para ativação quando o evento for do tipo ESPECIAL_RECORRENTE e ESPECIAL_NAO_RECORRENTE|
-|horario| Hora | S | Indica o horária de ativação do evento|
+|horario| Hora | S | Indica o horário de ativação do evento|
 |posicaoPlano| Inteiro | S| Indica qual plano será ativado|
-| tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência a tabela horária |
+| tabelaHoraria | referência a [tabelaHoraria](#tabela-horaria)|S| Referência à tabela horária |
 
 
 
@@ -976,32 +975,16 @@ São os horários, dias da semana e datas programados na Tabela de Mudança de P
     }
 ```
 
-## Atraso Grupo
+## Atraso de Grupo
 Definições de atraso de grupo para os grupos semafóricos em determinada transição.
 
 ### Especificação
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
+| id | Texto _UUID_ |S| Identificador do Atraso de Grupo |
+| idJson | Texto _UUID_ |S| Identificador do Atraso de Grupo para referências dentro do _JSON_ |
 | atrasoDeGrupo | Inteiro| S| Tempo de atraso de grupo em segundos|
-
-
-### Exemplo JSON
-
-```JSON
-```
-
-
-## Atraso Grupo
-
-### Especificação
-
-| Campo| Tipo | Obrigatório| Descrição |
-| -----|----- | ---------- | --------- |
-| id | String GUUID |S| Identificador do Verde Conflitante |
-| idJson | String GUUID |S| Identificador do Verde Conflitante para referências dentro do JSON |
 
 
 ### Exemplo JSON
