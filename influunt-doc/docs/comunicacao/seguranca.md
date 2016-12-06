@@ -20,7 +20,7 @@ Como o conteúdo é criptografado, qualquer alteração fará que a mensagem nã
 
 
 ##Envelope Seguro
-Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seguro. O evelope seguro contém 3 campos: a senha, o conteúdo e o _id_ do controlador. A seguir um exemplo de um envelope seguro:
+Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seguro. O envelope seguro contém 3 campos: a senha, o conteúdo e o _id_ do controlador. A seguir um exemplo de um envelope seguro:
 
 
 ```JSON
