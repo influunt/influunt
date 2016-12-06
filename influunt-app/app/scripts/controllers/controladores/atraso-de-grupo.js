@@ -12,7 +12,7 @@ angular.module('influuntApp')
     function ($scope, $state, $controller, assertControlador) {
 
       $scope.isAtrasoDeGrupo = true;
-      var inicializaTransicoes;
+      var inicializaTransicoes, getTransicoesDoAnel, getTransicoesComGanhoDePassagemDoAnel;
 
       $controller('ControladoresCtrl', {$scope: $scope});
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
@@ -95,15 +95,22 @@ angular.module('influuntApp')
       $scope.possuiInformacoesPreenchidas = function() {
         var totalNaoPreenchido, total, totalNaoPreenchidoComGanhoDePassagem, totalComGanhoDePassagem;
         if($scope.currentTransicoes && $scope.currentTransicoesComGanhoDePassagem){
-          totalNaoPreenchido = _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
-          totalNaoPreenchido += _.filter($scope.currentTransicoes, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
-          total = _.values($scope.currentTransicoes).length;
+          var transicoesDoAnel = getTransicoesDoAnel();
+          var transicoesComGanhoDePassagemDoAnel = getTransicoesComGanhoDePassagemDoAnel();
 
-          totalNaoPreenchidoComGanhoDePassagem = _.filter($scope.currentTransicoesComGanhoDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: '0'}}).length;
-          totalNaoPreenchidoComGanhoDePassagem += _.filter($scope.currentTransicoesComGanhoDePassagem, {atrasoDeGrupo: {atrasoDeGrupo: 0}}).length;
-          totalComGanhoDePassagem = _.values($scope.currentTransicoesComGanhoDePassagem).length;
+          totalNaoPreenchido = _.filter(transicoesDoAnel, function(i) {
+            return parseInt(i.atrasoDeGrupo.atrasoDeGrupo) === 0;
+          }).length;;
+          total = _.values(transicoesDoAnel).length;
+
+          totalNaoPreenchidoComGanhoDePassagem = _.filter(transicoesComGanhoDePassagemDoAnel, function(i) {
+            return parseInt(i.atrasoDeGrupo.atrasoDeGrupo) === 0;
+          }).length;;
+          totalComGanhoDePassagem = _.values(transicoesComGanhoDePassagemDoAnel).length;
+
           return totalNaoPreenchido < total || totalNaoPreenchidoComGanhoDePassagem < totalComGanhoDePassagem;
         }
+
         return false;
       };
 
@@ -121,6 +128,37 @@ angular.module('influuntApp')
             .map(function(gs) { return { idJson: gs.idJson }; })
             .value();
         });
+      };
+
+      getTransicoesDoAnel = function() {
+        var gruposIds = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        return _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(g) {
+            return gruposIds.indexOf(g.idJson) >= 0;
+          })
+          .map('transicoes')
+          .flatten()
+          .map(function(i){
+            return _.find($scope.objeto.transicoes, {idJson: i.idJson});
+          })
+          .value();
+
+      };
+
+      getTransicoesComGanhoDePassagemDoAnel = function() {
+        var gruposIds = _.map($scope.currentAnel.gruposSemaforicos, 'idJson');
+        return _
+          .chain($scope.objeto.gruposSemaforicos)
+          .filter(function(g) {
+            return gruposIds.indexOf(g.idJson) >= 0;
+          })
+          .map('transicoesComGanhoDePassagem')
+          .flatten()
+          .map(function(i){
+            return _.find($scope.objeto.transicoesComGanhoDePassagem, {idJson: i.idJson});
+          })
+          .value();
       };
 
     }]);
