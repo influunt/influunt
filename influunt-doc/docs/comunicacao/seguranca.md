@@ -51,7 +51,7 @@ Antes de enviar uma mensagem o envelope deve ser criptografado. Os passos são o
 9. Adiciona-se o _id_ do controlador no campo _idControlador_
 
 O envelope está seguro e pode ser enviado ao destinatário seja ele a central ou um controlador específico.
-## Descriptogrando um envelope
+## Descriptografando um envelope
 1. Obtem-se o _JSON_ do envelope seguro
 2. Converte-se o campo _key_ em um _array de bytes_
 3. Descriptografa-se o campo _key_ do envelope seguro com a chave privada do destinatário
