@@ -1121,7 +1121,7 @@ describe('Controller: PlanosCtrl', function () {
         },
         {
           "root": "Controlador",
-          "message": "O tempo de verde está menor que o tempo de segurança configurado.",
+          "message": "O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável.",
           "path": "aneis[0].versoesPlanos[0].planos[3].gruposSemaforicosPlanos[3].respeitaVerdesDeSegurancaSemDispensavel"
         },
         {
@@ -1173,14 +1173,14 @@ describe('Controller: PlanosCtrl', function () {
       scope.selecionaPlano(scope.currentPlanos[3], 3);
       var erros = scope.errors.aneis[0].versoesPlanos[0];
       expect(scope.getErrosPlanos(erros).length).toBe(3);
-      expect(scope.getErrosPlanos(erros)[0]).toBe('G4 - O tempo de verde está menor que o tempo de segurança configurado.');
-      expect(scope.getErrosPlanos(erros)[1]).toBe('G3 - O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável');
+      expect(scope.getErrosPlanos(erros)[0]).toBe('G2 - O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável.');
+      expect(scope.getErrosPlanos(erros)[1]).toBe('G4 - O tempo de verde está menor que o tempo de segurança configurado.');
       expect(scope.getErrosPlanos(erros)[2]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
 
       var estagioPlano = scope.currentEstagiosPlanos[0];
       estagioPlano.tempoEstagio = 15;
       scope.currentPlano.tempoCiclo = 45;
-      expect(scope.getErrosPlanos(erros)[1]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
+      expect(scope.getErrosPlanos(erros)[2]).toBe('A soma dos tempos dos estágios (0s) é diferente do tempo de ciclo (30s).');
     });
   });
 
