@@ -21,7 +21,7 @@ angular.module('influuntApp')
       $scope.inicializaResourceHistorico('planos');
 
       var selecionaAnel, adicionaEstagioASequencia, carregaDadosPlano, getOpcoesEstagiosDisponiveis,
-          getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal,
+          getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, limparPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro;
@@ -135,11 +135,11 @@ angular.module('influuntApp')
           .then(function(res) {
             if (res) {
               if (angular.isUndefined(plano.id)) {
-                removerPlanoLocal(plano, index);
+                limparPlanoLocal(plano, index);
               } else {
                 Restangular.one('planos', plano.id).remove()
                   .then(function() {
-                    removerPlanoLocal(plano, index);
+                    limparPlanoLocal(plano, index);
                   }).catch(function() {
                     toast.error($filter('translate')('planos.resetarPlano.erroAoDeletar'));
                   })
@@ -647,7 +647,7 @@ angular.module('influuntApp')
         }
       };
 
-      removerPlanoLocal = function(plano, index) {
+      limparPlanoLocal = function(plano, index) {
         var idPlano = plano.id;
         var indexPlano = _.findIndex($scope.objeto.planos, {idJson: plano.idJson});
         $scope.objeto.planos.splice(indexPlano, 1);
@@ -658,7 +658,7 @@ angular.module('influuntApp')
         if(plano.manualExclusivo) {
           planoService.criarPlanoManualExclusivo($scope.objeto, $scope.currentAnel);
         } else if (plano.planoTemporario) {
-          planoService.criarPlanoExclusivoDeImposicao($scope.objeto, $scope.currentAnel);
+          planoService.criarPlanoExclusivoTemporario($scope.objeto, $scope.currentAnel);
         } else {
           planoService.adicionar($scope.objeto, $scope.currentAnel, plano.posicao);
         }
