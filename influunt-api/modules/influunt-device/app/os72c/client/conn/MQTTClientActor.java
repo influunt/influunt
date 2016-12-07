@@ -110,7 +110,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
                 throw new Exception("Conexao morreu");
             }
         } else if (message instanceof Envelope) {
-            sendMenssage((Envelope) message);
+            sendMessage((Envelope) message);
         }
     }
 
@@ -125,6 +125,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
+        opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
@@ -143,7 +144,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
         Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
-        sendMenssage(controladorOnline);
+        sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 
@@ -202,10 +203,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         System.out.println("[CLIENT] Delivery complete:" + token);
     }
 
-    private void sendMenssage(Envelope envelope) throws MqttException {
+    private void sendMessage(Envelope envelope) throws MqttException {
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
-        message.setRetained(true);
+        message.setRetained(false);
         String publicKey = storage.getCentralPublicKey();
         message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);

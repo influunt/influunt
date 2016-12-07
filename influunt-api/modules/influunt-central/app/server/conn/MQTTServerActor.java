@@ -15,6 +15,7 @@ import models.Controlador;
 import models.ControladorFisico;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
+
 import org.fusesource.mqtt.client.QoS;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
@@ -54,18 +55,10 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private ActorRef messageBroker;
 
-    public MQTTServerActor(final String host, final String port) {
+    public MQTTServerActor(final String host, final String port, final Router router) {
         this.host = host;
         this.port = port;
-
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
-        router = new Router(new RoundRobinRoutingLogic(), routees);
-
+        this.router = router;
     }
 
     @Override
@@ -103,13 +96,18 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         }
     }
 
-    private void sendMessage(Envelope envelope) throws MqttException {
-        MqttMessage message = new MqttMessage();
-        message.setQos(envelope.getQos());
-        message.setRetained(true);
-        String publicKey = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
-        message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
-        client.publish(envelope.getDestino(), message);
+    private void sendMessage(Envelope envelope)  {
+        try {
+            MqttMessage message = new MqttMessage();
+            message.setQos(envelope.getQos());
+            message.setRetained(false);
+            String publicKey = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
+            message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
+            client.publish(envelope.getDestino(), message);
+
+        }catch (Exception e){
+            getSelf().tell(e,getSelf());
+        }
     }
 
     private void sendToBroker(MqttMessage message) {
@@ -122,7 +120,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
             router.route(envelope, getSelf());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            getSelf().tell(e,getSelf());
         }
 
     }
@@ -131,6 +129,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
+        opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
         client.setCallback(this);
         client.connect(opts);
@@ -148,8 +147,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         subscribe("central/alarmes_falhas", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/troca_plano", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/configuracao", QoS.EXACTLY_ONCE.ordinal());
-        subscribe("central/mudanca_status_controlador", QoS.AT_LEAST_ONCE.ordinal());
-        subscribe("central/info", QoS.AT_MOST_ONCE.ordinal());
+        subscribe("central/mudanca_status_controlador", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/info", QoS.AT_LEAST_ONCE.ordinal());
     }
 
     public void subscribe(String route, int qos) throws MqttException {

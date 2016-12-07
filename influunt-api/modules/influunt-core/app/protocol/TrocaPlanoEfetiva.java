@@ -1,6 +1,7 @@
 package protocol;
 
 import engine.AgendamentoTrocaPlano;
+import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 
 /**
@@ -12,7 +13,7 @@ public class TrocaPlanoEfetiva {
         return new Envelope(TipoMensagem.TROCA_DE_PLANO,
             idControlador,
             DestinoCentral.trocaDePlanoEfetiva(),
-            2,
+            QoS.EXACTLY_ONCE,
             Json.toJson(agendamentoTrocaPlano).toString(),
             null);
     }

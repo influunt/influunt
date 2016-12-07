@@ -1,6 +1,7 @@
 package protocol;
 
 import engine.EventoMotor;
+import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 
 /**
@@ -13,7 +14,7 @@ public class AlarmeFalha {
         return new Envelope(TipoMensagem.ALARME_FALHA,
             idControlador,
             DestinoCentral.alarmeFalhaConfiguracao(),
-            2,
+            QoS.AT_LEAST_ONCE,
             Json.toJson(eventoMotor).toString(),
             null);
     }
