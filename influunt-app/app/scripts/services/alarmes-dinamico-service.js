@@ -49,8 +49,7 @@ angular.module('influuntApp')
 
 
         // watchers.
-        statusControladoresWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        statusControladoresWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.status = statusObj.status || {};
@@ -73,8 +72,7 @@ angular.module('influuntApp')
           });
         };
 
-        alarmesEFalhasWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        alarmesEFalhasWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.erros = statusObj.erros || {};
@@ -84,6 +82,7 @@ angular.module('influuntApp')
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
             switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
+              case ALARME:
               case FALHA:
                 return handleAlarmesEFalhas(mensagem, controlador, anel);
               case REMOCAO_FALHA:
@@ -92,8 +91,7 @@ angular.module('influuntApp')
           });
         };
 
-        trocaPlanoWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        trocaPlanoWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
 
@@ -121,8 +119,7 @@ angular.module('influuntApp')
             });
         };
 
-        onlineOfflineWatcher = function(payload, topic) {
-          console.log(topic, payload);
+        onlineOfflineWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.onlines = statusObj.onlines || {};
@@ -130,10 +127,10 @@ angular.module('influuntApp')
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
               var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
-              var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
+              var status = isOnline ? ONLINE : OFFLINE;
 
               statusObj.onlines[mensagem.idControlador] = isOnline;
-              statusObj.status[controlador.id] = status;
+              statusObj.status[mensagem.idControlador] = status;
               controlador.online = isOnline;
               controlador.status = status;
 
@@ -290,7 +287,7 @@ angular.module('influuntApp')
           obj.status = status;
 
           if (!anel) {
-            statusObj.status[obj.id] = status;
+            statusObj.status[obj.controladorFisicoId] = status;
             controlador.aneis = controlador.aneis.map(function(anel) {
               anel.status = status;
               return anel;

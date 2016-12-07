@@ -71,7 +71,6 @@ angular.module('influuntApp')
     };
 
     var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
-      console.log('~~~~~~> registering watcher to ', subscribedUrl);
       if (!isConnected) {
         throw new Error('Client is not connected.');
       }
