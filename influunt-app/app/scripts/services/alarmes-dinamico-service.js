@@ -310,6 +310,7 @@ angular.module('influuntApp')
           } else {
             Restangular
               .one('controladores', idControlador)
+              .one('status_dinamico', null)
               .get({}, {'x-prevent-block-ui': true})
               .then(deferred.resolve)
               .catch(deferred.reject);

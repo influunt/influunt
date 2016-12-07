@@ -118,6 +118,17 @@ public class ControladoresController extends Controller {
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
+    public CompletionStage<Result> findOneByControladorFisico(String id) {
+        Controlador controlador = ControladorFisico.find.byId(UUID.fromString(id)).getControladorConfiguradoOuSincronizado();
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
+        }
+    }
+
+    @Transactional
+    @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> edit(String id) {
         Usuario usuario = getUsuario();
         if (usuario == null) {
@@ -433,6 +444,7 @@ public class ControladoresController extends Controller {
             root.put("privateKey", controlador.getVersaoControlador().getControladorFisico().getControladorPrivateKey());
             root.put("publicKey", controlador.getVersaoControlador().getControladorFisico().getCentralPublicKey());
             root.put("idControlador", controlador.getControladorFisicoId());
+//            root.put("idControlador", controlador.getControladorFisicoId());
             return CompletableFuture.completedFuture(ok(root));
         }
     }

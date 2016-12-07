@@ -17,7 +17,7 @@ angular.module('influuntApp')
         EM_EDICAO: 'badge-warning',
         EDITANDO: 'badge-warning',
         CONFIGURADO: 'badge-primary',
-        ATIVO: 'badge-success'
+        SINCRONIZADO: 'badge-success'
       };
 
       return '<span class="badge ' + tags[input] + '">' + text + ' </span>';

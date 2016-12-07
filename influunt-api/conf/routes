@@ -44,6 +44,7 @@ POST      /api/v1/controladores/associacao_detectores                 controller
 GET       /api/v1/controladores/:id                                   controllers.ControladoresController.findOne(id)
 DELETE    /api/v1/controladores/:id                                   controllers.ControladoresController.delete(id)
 GET       /api/v1/controladores/:id/simulacao                         controllers.ControladoresController.getControladorForSimulacao(id)
+GET       /api/v1/controladores/:id/status_dinamico                   controllers.ControladoresController.findOneByControladorFisico(id)
 POST      /api/v1/controladores/:id/edit                              controllers.ControladoresController.edit(id)
 GET       /api/v1/controladores/:id/instalacao                        controllers.ControladoresController.instalacao(id)
 GET       /api/v1/controladores/:id/timeline                          controllers.ControladoresController.timeline(id)
