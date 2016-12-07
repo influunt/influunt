@@ -27,6 +27,7 @@ import utils.TransacaoHelper;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 import static models.VersaoControlador.usuarioPodeEditarControlador;
 
@@ -328,58 +329,56 @@ public class ControladoresController extends Controller {
         Usuario u = getUsuario();
         Map<String, String[]> params = new HashMap<>();
         params.putAll(ctx().request().queryString());
-        String[] status = {"[SINCRONIZADO]"};
 
-        List<String> aneisIds = new ArrayList<>();
+        // somente controladores sincronizados
+        params.put("controlador_sincronizado_id_ne", new String[]{null});
 
         // Dado que seja um usuário sob uma área.
-        if (!u.isRoot() && u.getArea() != null) {
+        if (!u.isRoot() && !u.podeAcessarTodasAreas() && u.getArea() != null) {
             String[] areaId = {u.getArea().getId().toString()};
             if (params.containsKey("area.descricao")) {
                 params.remove("area.descricao");
             }
-            params.put("area.id", areaId);
+            params.put("controladorSincronizado.area.id", areaId);
         }
 
         final String nomeEndereco = params.containsKey("nomeDoEndereco") ? params.get("nomeDoEndereco")[0] : null;
+        params.remove("nomeDoEndereco");
 
         // Dado que seja um usuário root ou um usuário sob uma área.
-        params.remove("nomeDoEndereco");
-        if (u.isRoot() || u.getArea() != null) {
+        if (u.isRoot() || u.podeAcessarTodasAreas() || u.getArea() != null) {
+            List<ControladorFisico> controladoresFisicos = null;
             if (params.containsKey("filtrarPor_eq")) {
                 if ((params.containsKey("filtrarPor_eq") && "Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
                     if (params.containsKey("subareaAgrupamento")) {
-                        params.put("versaoControlador.statusVersao_in", status);
-                        params.put("subarea.nome", params.get("subareaAgrupamento"));
+                        params.put("controladorSincronizado.subarea.nome", params.get("subareaAgrupamento"));
                         params.remove("subareaAgrupamento");
                         params.remove("filtrarPor_eq");
                     }
+                    controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado", "controladorSincronizado.area", "controladorSincronizado.subarea", "controladorSincronizado.aneis")).query().getResult();
 
-                    List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "subarea", "aneis")).query().getResult();
-                    controladores.stream().forEach(c -> c.getAneis().forEach(a -> aneisIds.add(a.getId().toString())));
                 } else if ((params.containsKey("filtrarPor_eq") && "Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
                     if (params.containsKey("subareaAgrupamento")) {
-                        params.put("controlador.versaoControlador.statusVersao_in", status);
-                        params.put("agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
+                        params.put("controladorSincronizado.aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
                         params.remove("subareaAgrupamento");
-
                         params.remove("filtrarPor_eq");
                     }
-
-                    List<Anel> aneis = (List<Anel>) new InfluuntQueryBuilder(Anel.class, params).fetch(Arrays.asList("agrupamentos", "endereco")).query().getResult();
-                    aneis.stream().forEach(a -> aneisIds.add(a.getId().toString()));
+                    controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis", "controladorSincronizado.aneis.agrupamentos", "controladorSincronizado.aneis.endereco")).query().getResult();
                 }
             }
+            if (controladoresFisicos == null) {
+                controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis")).query().getResult();
+            }
+
+            List<String> aneisIds = controladoresFisicos.stream()
+                .flatMap(cf -> cf.getControladorSincronizado().getAneis().stream())
+                .filter(Anel::isAtivo)
+                .map(anel -> anel.getId().toString())
+                .collect(Collectors.toList());
 
             List<Anel> aneis = new ArrayList<>();
             if (!aneisIds.isEmpty()) {
                 aneis = Anel.find.select("id, descricao, posicao, endereco").fetch("controlador.subarea").where().in("id", aneisIds).findList();
-            } else if (!params.containsKey("subarea.nome") && !params.containsKey("agrupamentos.nome") && !params.containsKey("nomeDoEndereco")) {
-                params.put("controlador.versaoControlador.statusVersao_in", status);
-                aneis = (List<Anel>) new InfluuntQueryBuilder(Anel.class, params)
-                    .fetch(Arrays.asList("controlador.versaoControlador"))
-                    .query()
-                    .getResult();
             }
 
             ArrayNode itens = JsonNodeFactory.instance.arrayNode();
