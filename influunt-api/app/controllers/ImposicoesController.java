@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
-import org.joda.time.DateTime;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
