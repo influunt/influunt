@@ -20,6 +20,7 @@
                 <th>{{ 'imporConfig.cla' | translate }}</th>
                 <th>{{ 'imporConfig.local' | translate }}</th>
                 <th>{{ 'imporConfig.info' | translate }}</th>
+                <th>{{ 'geral.crud.opcoes' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -48,6 +49,10 @@
                     <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
                     <liberar-imposicao anel="anel" ids-transacoes="idsTransacoes"></liberar-imposicao>
                   </div>
+                </td>
+                <td>
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados" class="col-lg-3 col-sm-6" ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
+                  <ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
                 </td>
               </tr>
             </tbody>

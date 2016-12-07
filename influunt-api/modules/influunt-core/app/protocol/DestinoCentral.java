@@ -24,4 +24,9 @@ public class DestinoCentral {
     public static String transacao(String idTransacao) {
         return "central/transacoes/".concat(idTransacao);
     }
+
+    public final static String leituraDadosControlador() {
+        return "central/info";
+    }
+
 }

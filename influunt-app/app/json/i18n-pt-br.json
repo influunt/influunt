@@ -833,9 +833,17 @@
   "imporConfig": {
     "titulo": "Painel de Facilidades",
     "status": "Status",
+    "codigoFalha": "Código da Falha",
     "cla": "CLA",
+    "falha": "Falha",
     "local": "Local",
     "info": "Info",
+    "dataFalha": "Data da Falha",
+    "dataRemocaoFalha": "Data Remoção Falha",
+    "dataEvento": "Data do Evento",
+    "dadosControlador": "Dados do Controlador",
+    "modoOperacaoa": "Modo de operação",
+    "posicaoPlano": "Posição do Plano",
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",
       "erro": "Não foi possível finalizar a liberação",
@@ -867,6 +875,7 @@
       "sucesso": "Imposição de modo de operação executada com sucesso",
       "erro": "Não foi possível finalizar a imposição de modo de operação no controlador"
     },
+    "lerDados": "Ler Dados",
     "imporModo": "Impor Modo",
     "sincronizar": "Sincronizar",
     "entrada": "Entrada",

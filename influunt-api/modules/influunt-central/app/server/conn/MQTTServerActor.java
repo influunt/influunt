@@ -149,6 +149,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         subscribe("central/troca_plano", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/configuracao", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/mudanca_status_controlador", QoS.AT_LEAST_ONCE.ordinal());
+        subscribe("central/info", QoS.AT_MOST_ONCE.ordinal());
     }
 
     public void subscribe(String route, int qos) throws MqttException {

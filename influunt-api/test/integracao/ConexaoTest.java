@@ -48,8 +48,12 @@ public class ConexaoTest extends BasicMQTTTest {
         //A cliente se inscreve para receber informações de trocas de planos
         assertEquals("central/troca_plano/+", onSubscribeFutureList.get(4));
 
+        //A central se increveu para ler dados do controaldor
+        assertEquals("central/info", onSubscribeFutureList.get(5));
+
+
         //A central se increveu para receber informação de central
-        assertEquals("central/+", onSubscribeFutureList.get(5));
+        assertEquals("central/+", onSubscribeFutureList.get(6));
 
         //O cliente se conectou
         assertEquals(idControlador, onConnectFutureList.get(1));

@@ -92,6 +92,13 @@ public class TransacaoHelper {
         return transacao.transacaoId;
     }
 
+    public String lerDados(Controlador controlador) {
+        Envelope envelope = new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, controlador.getId().toString(), DestinoCentral.leituraDadosControlador(), QoS.AT_LEAST_ONCE, null, null);
+        ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
+        centralBroker.tell(envelope, null);
+        return controlador.getId().toString();
+    }
+
 
     private void sendTransaction(Transacao transacao, QoS qos) {
         String transacaoJson = transacao.toJson().toString();
