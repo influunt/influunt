@@ -998,4 +998,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public Long getTotalDetectoresPedestre() {
         return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count()).sum();
     }
+
+    public String getControladorFisicoId() {
+        return getVersaoControlador().getControladorFisico().getId().toString();
+    }
 }

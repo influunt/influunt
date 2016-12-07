@@ -54,7 +54,7 @@ public class ClientActor extends UntypedActor {
             storage.setCentralPublicKey(centralPublicKey);
             storage.setPrivateKey(controladorPrivateKey);
         }
-        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge), "motor");
+        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id), "motor");
     }
 
 

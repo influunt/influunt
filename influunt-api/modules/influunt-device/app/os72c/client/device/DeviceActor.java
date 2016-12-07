@@ -34,6 +34,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Controlador controlador;
 
+    private String id;
+
     private Motor motor;
 
     private DeviceBridge device;
@@ -45,9 +47,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private ScheduledFuture<?> executor;
 
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device) {
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
         this.storage = mapStorage;
         this.device = device;
+        this.id = id;
         start();
     }
 
@@ -79,7 +82,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
                 if (storage.getHorarioEntradaTabelaHoraria() >= 0) {
                     long horarioEntrada = Math.min(0, storage.getHorarioEntradaTabelaHoraria() - DateTime.now().getMillis());
-                    Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA, controlador.getId().toString(), null);
+                    Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA, id, null);
                     getContext().system().scheduler().scheduleOnce(Duration.create(horarioEntrada, TimeUnit.SECONDS), getSelf(), envelopeSinal, getContext().system().dispatcher(), getSelf());
                 }
             } else {
@@ -90,12 +93,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private void sendAlarmeOuFalha(EventoMotor eventoMotor) {
-        Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(), eventoMotor);
+        Envelope envelope = AlarmeFalha.getMensagem(id, eventoMotor);
         sendMessage(envelope);
     }
 
     private void sendRemocaoFalha(EventoMotor eventoMotor) {
-        Envelope envelope = RemocaoFalha.getMensagem(controlador.getId().toString(), eventoMotor);
+        Envelope envelope = RemocaoFalha.getMensagem(id, eventoMotor);
         sendMessage(envelope);
     }
 
@@ -144,12 +147,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        Envelope envelope = TrocaPlanoEfetiva.getMensagem(controlador.getId().toString(), agendamentoTrocaPlano);
+        Envelope envelope = TrocaPlanoEfetiva.getMensagem(id, agendamentoTrocaPlano);
         sendMessage(envelope);
     }
 
     private void sendMessage(Envelope envelope) {
-        context.actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope, getSelf());
+        context.actorFor(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
 
     @Override
