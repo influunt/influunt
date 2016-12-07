@@ -119,6 +119,12 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)" com a mensagem "([^"]*)"$/, function (nomeCampo, msg) {
+    return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
+      return expect(result).to.equal(msg);
+    });
+  });
+
   this.Given(/^o sistema deverá redirecionar para o formulário "([^"]*)"$/, function(formName) {
     return sharedSteps.form(formName).then(function(form) {
       return expect(form).to.exist;

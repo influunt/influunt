@@ -30,7 +30,7 @@ Funcionalidade: Finalizar um controlador
   Cenário: Adicionar um SMEE para controlador
     Dado o usuário clicar no botão "Configuração"
     E o usuário clicar no botão "Editar"
-    E o usuário preencher o campo NÚMERO SMEE com 123
+    E o usuário preencher o campo NÚMERO SMEE com "1234"
     E o usuário clicar no botão "Salvar e Avançar"
     Então o sistema irá avançar para o passo "Anéis"
 
