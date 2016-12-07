@@ -162,7 +162,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             Envelope envelope = (Envelope) message;
             System.out.println("Mensagem recebida no device actor: " + envelope.getTipoMensagem());
             switch (envelope.getTipoMensagem()) {
-                case OK:
+                case CONFIGURACAO_OK:
                     start();
                     break;
 

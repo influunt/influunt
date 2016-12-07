@@ -30,13 +30,13 @@ public class TransacaoHelper {
 
     public String enviarPacotePlanos(Controlador controlador) {
         JsonNode pacotePlanosJson = new ControladorCustomSerializer().getPacotePlanosJson(controlador);
-        Transacao transacao = new Transacao(controlador.getId().toString(), pacotePlanosJson, TipoTransacao.PACOTE_PLANO);
+        Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacotePlanosJson, TipoTransacao.PACOTE_PLANO);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
     public String enviarConfiguracaoCompleta(Controlador controlador) {
-        String controladorId = controlador.getId().toString();
+        String controladorId = controlador.getControladorFisicoId();
         List<Cidade> cidades = Cidade.find.all();
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
@@ -49,13 +49,13 @@ public class TransacaoHelper {
         JsonNode pacoteTabelaHoraria = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
 //        ((ObjectNode))
         ((ObjectNode) pacoteTabelaHoraria).put("imediato", imediato);
-        Transacao transacao = new Transacao(controlador.getId().toString(), pacoteTabelaHoraria, TipoTransacao.PACOTE_TABELA_HORARIA);
+        Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacoteTabelaHoraria, TipoTransacao.PACOTE_TABELA_HORARIA);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
     public String imporModoOperacao(Controlador controlador, ModoOperacaoPlano modoOperacao, int numeroAnel, Long horarioEntrada, int duracao) {
-        String controladorId = controlador.getId().toString();
+        String controladorId = controlador.getControladorFisicoId();
         String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
@@ -69,7 +69,7 @@ public class TransacaoHelper {
             return imporPlanoTemporario(controlador, posicaoPlano, numeroAnel, horarioEntrada, duracao);
         }
 
-        String controladorId = controlador.getId().toString();
+        String controladorId = controlador.getControladorFisicoId();
         String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
@@ -77,7 +77,7 @@ public class TransacaoHelper {
     }
 
     private String imporPlanoTemporario(Controlador controlador, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
-        String controladorId = controlador.getId().toString();
+        String controladorId = controlador.getControladorFisicoId();
         String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
@@ -85,7 +85,7 @@ public class TransacaoHelper {
     }
 
     public String liberarImposicao(Controlador controlador, int numeroAnel) {
-        String controladorId = controlador.getId().toString();
+        String controladorId = controlador.getControladorFisicoId();
         String payload = Json.toJson(new MensagemLiberarImposicao(numeroAnel)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.LIBERAR_IMPOSICAO);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
@@ -93,7 +93,7 @@ public class TransacaoHelper {
     }
 
     public String lerDados(Controlador controlador) {
-        Envelope envelope = new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, controlador.getId().toString(), DestinoCentral.leituraDadosControlador(), QoS.AT_LEAST_ONCE, null, null);
+        Envelope envelope = new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, controlador.getControladorFisicoId(), DestinoCentral.leituraDadosControlador(), QoS.AT_LEAST_ONCE, null, null);
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
         return controlador.getId().toString();

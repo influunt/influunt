@@ -80,7 +80,7 @@ public class ControladorFisico extends Model implements Serializable {
     private DateTime dataAtualizacao;
 
     @OneToOne
-    @JoinColumn(name="controlador_sincronizado_id")
+    @JoinColumn(name = "controlador_sincronizado_id")
     private Controlador controladorSincronizado;
 
 
@@ -139,12 +139,20 @@ public class ControladorFisico extends Model implements Serializable {
         }
     }
 
-    public Controlador getControladorConfigurado() {
+    public Controlador getControladorConfiguradoOuSincronizado() {
         VersaoControlador versaoControlador = VersaoControlador.find.where().
-        and(
-            Expr.eq("controlador_fisico_id", this.id.toString()),
-            Expr.eq("status_versao", StatusVersao.CONFIGURADO)
-        ).findUnique();
+            and(
+                Expr.eq("controlador_fisico_id", this.id.toString()),
+                Expr.eq("status_versao", StatusVersao.CONFIGURADO)
+            ).findUnique();
+
+        if (versaoControlador == null) {
+            versaoControlador = VersaoControlador.find.where().
+                and(
+                    Expr.eq("controlador_fisico_id", this.id.toString()),
+                    Expr.eq("status_versao", StatusVersao.SINCRONIZADO)
+                ).findUnique();
+        }
 
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
@@ -160,7 +168,7 @@ public class ControladorFisico extends Model implements Serializable {
             .getVersoes()
             .stream()
             .filter(versaoControladorAux ->
-                    StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao())
+                StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao())
             ).findFirst().orElse(null);
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }

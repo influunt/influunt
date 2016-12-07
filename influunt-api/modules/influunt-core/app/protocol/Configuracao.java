@@ -20,7 +20,7 @@ public class Configuracao {
     }
 
     public static Envelope getMensagem(Envelope envelope) {
-        Controlador controlador = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorConfigurado();
+        Controlador controlador = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorConfiguradoOuSincronizado();
 
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         if (controlador != null && !controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
