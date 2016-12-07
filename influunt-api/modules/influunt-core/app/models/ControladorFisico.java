@@ -51,6 +51,9 @@ public class ControladorFisico extends Model implements Serializable {
     @Valid
     private List<VersaoControlador> versoes;
 
+    @Column
+    private StatusDevice statusDevice;
+
     @Ignore
     @Column(columnDefinition = "TEXT")
     private String centralPrivateKey;
@@ -122,6 +125,14 @@ public class ControladorFisico extends Model implements Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public StatusDevice getStatusDevice() {
+        return statusDevice;
+    }
+
+    public void setStatusDevice(StatusDevice statusDevice) {
+        this.statusDevice = statusDevice;
     }
 
     public void criarChaves() {
