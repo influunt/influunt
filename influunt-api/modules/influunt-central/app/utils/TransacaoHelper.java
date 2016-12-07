@@ -96,7 +96,7 @@ public class TransacaoHelper {
         Envelope envelope = new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, controlador.getControladorFisicoId(), DestinoCentral.leituraDadosControlador(), QoS.AT_LEAST_ONCE, null, null);
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
-        return controlador.getId().toString();
+        return controlador.getControladorFisicoId();
     }
 
 

@@ -32,9 +32,8 @@ public class LerDadosControladorActorHandler extends UntypedActor {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.LER_DADOS_CONTROLADOR)) {
-                Controlador controlador = storage.getControlador();
-                Envelope envelopeRetorno = LerDadosControlador.retornoLeituraDados(envelope, controlador);
-                getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeRetorno, getSelf());
+
+                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelope, getSelf());
             }
         }
 
