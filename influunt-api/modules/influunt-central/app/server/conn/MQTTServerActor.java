@@ -100,9 +100,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         try {
             MqttMessage message = new MqttMessage();
             message.setQos(envelope.getQos());
-            message.setRetained(true);
-            //String publicKey = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
-            String publicKey = Controlador.find.byId(UUID.fromString(envelope.getIdControlador())).getVersaoControlador().getControladorFisico().getControladorPublicKey();
+            message.setRetained(false);
+            String publicKey = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
             message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
             client.publish(envelope.getDestino(), message);
 
@@ -130,6 +129,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
+        opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
         client.setCallback(this);
         client.connect(opts);
