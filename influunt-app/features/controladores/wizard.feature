@@ -12,7 +12,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E que o usuário deixe os campos em branco
     Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Dados Básicos"
+    Então o sistema deverá indicar erro no campo "endereco"
+    E o sistema deverá indicar erro no campo "area"
+    E o sistema deverá indicar erro no campo "endereco2"
+    E o sistema deverá indicar erro no campo "modelo"
     E o sistema irá continuar no passo "Dados Básicos"
 
   Cenário: Salvar dados básicos do controlador
