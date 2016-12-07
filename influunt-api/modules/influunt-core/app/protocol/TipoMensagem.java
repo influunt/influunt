@@ -9,6 +9,7 @@ public enum TipoMensagem {
     ECHO,
     CONFIGURACAO_INICIAL,
     CONFIGURACAO,
+    CONFIGURACAO_OK,
     OK,
     ERRO,
     MUDANCA_STATUS_CONTROLADOR,

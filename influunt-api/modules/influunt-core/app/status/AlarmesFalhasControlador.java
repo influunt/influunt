@@ -135,6 +135,14 @@ public class AlarmesFalhasControlador {
         return toList(result);
     }
 
+    public static List<AlarmesFalhasControlador> historicoFalha(String idControlador, int pagina, int quantidade) {
+        MongoCursor<Map> result = alarmesFalhas()
+            .find("{ idControlador: #, " +
+                "conteudo.tipoEvento.tipoEventoControlador: # }", idControlador, TipoEventoControlador.FALHA.toString())
+            .sort("{timestamp:-1}").skip(pagina * quantidade).limit(quantidade).as(Map.class);
+        return toList(result);
+    }
+
 
     @NotNull
     private static List<AlarmesFalhasControlador> toList(MongoCursor<Map> erros) {

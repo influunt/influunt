@@ -52,6 +52,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private long contadorTempoEstagio = 0L;
 
+    private long contadorTempoCiclo = 0L;
+
     private int contadorEstagio = 0;
 
     private long contadorDeCiclos = 0L;
@@ -516,6 +518,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorEstagio = 0;
     }
 
+    public long getContadorTempoCiclo() {
+        return contadorTempoCiclo;
+    }
+
+    public int getContadorTempoCicloEmSegundos() {
+        return 0;
+    }
+
     public IntervaloGrupoSemaforico getIntervalosGruposSemaforicos() {
         return new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
     }
@@ -546,6 +556,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public RangeMap<Long, EventoMotor> getEventosAgendados() {
         return eventosAgendados;
+    }
+
+    public int getTempoRestanteDoEstagio() {
+        return 0;
+    }
+
+    public int getTempoRestanteDoCiclo() {
+        return 0;
     }
 
     private class GetIntervaloGrupoSemaforico {

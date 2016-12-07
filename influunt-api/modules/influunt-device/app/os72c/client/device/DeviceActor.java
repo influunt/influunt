@@ -94,11 +94,13 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private void sendAlarmeOuFalha(EventoMotor eventoMotor) {
         Envelope envelope = AlarmeFalha.getMensagem(id, eventoMotor);
+        Logger.info("Enviando alarme ou falha");
         sendMessage(envelope);
     }
 
     private void sendRemocaoFalha(EventoMotor eventoMotor) {
         Envelope envelope = RemocaoFalha.getMensagem(id, eventoMotor);
+        Logger.info("Enviando remoção de falha");
         sendMessage(envelope);
     }
 
@@ -162,7 +164,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             Envelope envelope = (Envelope) message;
             System.out.println("Mensagem recebida no device actor: " + envelope.getTipoMensagem());
             switch (envelope.getTipoMensagem()) {
-                case OK:
+                case CONFIGURACAO_OK:
                     start();
                     break;
 
@@ -193,7 +195,17 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     storage.setControladorStaging(null);
                     motor.onMudancaTabelaHoraria();
                     break;
+
+                case LER_DADOS_CONTROLADOR:
+                    enviaDadosAtualDoControlador(envelope);
+                    break;
             }
+        }
+    }
+
+    private void enviaDadosAtualDoControlador(Envelope envelope) {
+        if (motor != null) {
+            sendMessage(LerDadosControlador.retornoLeituraDados(envelope, motor));
         }
     }
 

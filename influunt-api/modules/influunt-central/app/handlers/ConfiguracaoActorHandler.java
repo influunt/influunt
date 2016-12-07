@@ -8,6 +8,7 @@ import models.ControladorFisico;
 import models.VersaoControlador;
 import protocol.Configuracao;
 import protocol.Envelope;
+import protocol.TipoMensagem;
 import utils.AtoresCentral;
 
 import java.util.UUID;
@@ -24,19 +25,23 @@ public class ConfiguracaoActorHandler extends UntypedActor {
     public void onReceive(Object message) {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getEmResposta() == null) {
+            if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO_INICIAL) && envelope.getEmResposta() == null) {
                 Envelope envelope1 = Configuracao.getMensagem(envelope);
                 log.info("[CENTRAL] - ENVIANDO CONFIGURACAO: " + envelope1.getTipoMensagem());
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope1, getSelf());
-            } else {
+            } else if(envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO_OK) && envelope.getEmResposta() != null) {
                 ControladorFisico controladorFisico = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador()));
-                Controlador controladorConfigurado = controladorFisico.getControladorConfigurado();
+                Controlador controladorConfigurado = controladorFisico.getControladorConfiguradoOuSincronizado();
                 controladorConfigurado.setSincronizado(true);
-                controladorConfigurado.getVersaoControlador().ativar();
+                VersaoControlador versaoControlador = controladorConfigurado.getVersaoControlador();
+                versaoControlador.ativar();
                 controladorFisico.setControladorSincronizado(controladorConfigurado);
+
+                versaoControlador.update();
+                controladorConfigurado.update();
                 controladorFisico.update();
 
-                log.info("[CENTRAL] - Controlador confirmando o recebimento da configuração: {}", envelope.getConteudo().toString());
+                log.info("[CENTRAL] - Controlador confirmando o recebimento da configuração");
             }
         }
     }

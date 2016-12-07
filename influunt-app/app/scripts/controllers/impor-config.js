@@ -123,7 +123,7 @@ angular.module('influuntApp')
         return mqttTransactionStatusService
           .watchDadosControlador(id)
           .then(function(conteudo) {
-            return Restangular.one("monitoramento/").customGET('erros_controladores/'+id+'/historico/0/60', null)
+            return Restangular.one("monitoramento/").customGET('erros_controladores/'+id+'/historico_falha/0/60', null)
               .then(function(response) {
                 $scope.dadosControlador = conteudo;
                 $scope.dadosControlador.erros = response;

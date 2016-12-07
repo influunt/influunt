@@ -12,7 +12,7 @@ public class RemocaoFalha {
 
         return new Envelope(TipoMensagem.REMOCAO_FALHA,
             idControlador,
-            DestinoCentral.alarmeFalhaConfiguracao(idControlador),
+            DestinoCentral.alarmeFalhaConfiguracao(),
             2,
             Json.toJson(eventoMotor).toString(),
             null);

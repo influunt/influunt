@@ -376,7 +376,7 @@ public class ControladoresController extends Controller {
                 if (anel.isAtivo() && (aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString()))) {
                     if (nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) {
                         ObjectNode controlador = JsonNodeFactory.instance.objectNode();
-                        controlador.put("id", anel.getControlador().getId().toString());
+                        controlador.put("id", anel.getControlador().getControladorFisicoId());
                         itens.addObject()
                             .put("id", anel.getId().toString())
                             .put("CLA", anel.getCLA())
@@ -551,7 +551,7 @@ public class ControladoresController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-        Controlador controlador = Controlador.find.byId(UUID.fromString(json.get("id").asText()));
+        Controlador controlador = ControladorFisico.find.byId(UUID.fromString(json.get("id").asText())).getControladorSincronizado();
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
