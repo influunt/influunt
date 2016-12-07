@@ -35,12 +35,22 @@ public class AlarmesFalhasControlador {
 
     private String idAnel;
 
+    private boolean recuperado;
+
+    private Long dataRecuperado;
+
     private JsonNode conteudo;
 
     public AlarmesFalhasControlador(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.conteudo = Json.toJson(map.get("conteudo"));
+        if(map.containsKey("recuperado")) {
+            this.recuperado = Boolean.parseBoolean(map.get("recuperado").toString());
+        }
+        if(map.containsKey("dataRecuperado")) {
+            this.dataRecuperado = Long.parseLong(map.get("dataRecuperado").toString());
+        }
 
         if (map.containsKey("idAnel") && map.get("idAnel") != null) {
             this.idAnel = map.get("idAnel").toString();
@@ -154,7 +164,7 @@ public class AlarmesFalhasControlador {
                 "recuperado: { $exists: false }, " +
                 "conteudo.tipoEvento.tipo: { $regex: # } }", idControlador, idAnel, falha)
             .multi()
-            .with("{ $set: { recuperado: true } }");
+            .with("{ $set: { recuperado: true , dataRecuperado: " + carimboDeTempo + "} }");
 
         log(carimboDeTempo, idControlador, idAnel, jsonConteudo);
         LogControlador.log(idControlador, carimboDeTempo, evento.getDescricao(), TipoLogControlador.REMOCAO_FALHA);
@@ -186,5 +196,13 @@ public class AlarmesFalhasControlador {
 
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    public Long getDataRecuperado() {
+        return dataRecuperado;
+    }
+
+    public boolean isRecuperado() {
+        return recuperado;
     }
 }

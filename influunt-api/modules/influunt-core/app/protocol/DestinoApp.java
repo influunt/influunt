@@ -32,4 +32,8 @@ public class DestinoApp {
     public final static String mudancaStatusControlador() {
         return "app/mudanca_status_controlador";
     }
+
+    public final static String dadosControlador(String envelopeId) {
+        return "app/controlador/".concat(envelopeId).concat("/dados");
+    }
 }

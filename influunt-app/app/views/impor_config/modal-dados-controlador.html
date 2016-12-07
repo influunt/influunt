@@ -1,0 +1,80 @@
+<!-- modal | sincronizar -->
+<div class="modal inmodal" id="modalLerDados" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="width: 95%;">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h2>{{ 'imporConfig.dadosControlador' | translate }}</h2>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+
+            <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.clc }}</p><br>
+            <p><strong>{{ 'imporConfig.dataEvento' | translate }}:</strong> {{ dadosControlador.relogio | date: 'dd/MM/yyyy HH:MM:ss' }}</p><br>
+
+            <h2 class='text-center'>Parametros Controlador</h2>
+            <!-- PARAMETROS -->
+            <table class="footable table table-stripped table-bordered" >
+              <thead>
+                <tr>
+                  <th>{{ 'imporConfig.falha' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="dado in dadosControlador.dados">
+                  <td>{{ dado.texto }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2 class='text-center'>Indicação de Falhas</h2>
+            <!-- FALHAS -->
+            <table class="footable table table-stripped table-bordered" >
+              <thead>
+                <tr>
+                  <th>{{ 'simulacao.dataFalha' | translate }}</th>
+                  <th>{{ 'imporConfig.codigoFalha' | translate }}</th>
+                  <th>{{ 'imporConfig.dataRemocaoFalha' | translate }}</th>
+                  <th>{{ 'imporConfig.falha' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="erro in dadosControlador.erros">
+                  <td>{{ erro.conteudo.timestamp }}</td>
+                  <td>{{ erro.conteudo.tipoEvento.codigo }}</td>
+                  <td>{{ erro.dataRecuperado | date: 'dd/MM/yyyy HH:MM:ss' }}</td>
+                  <td>{{ erro.conteudo.descricaoEvento }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2 class='text-center'>Planos</h2>
+            <!-- PLANOS -->
+            <table class="footable table table-stripped table-bordered" >
+              <thead>
+                <tr>
+                  <th>{{ 'controladores.CLA' | translate }}</th>
+                  <th>{{ 'imporConfig.modoOperacaoa' | translate }}</th>
+                  <th>{{ 'imporConfig.posicaoPlano' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="plano in dadosControlador.planos">
+                  <td>{{ plano.cla }}</td>
+                  <td>{{ plano.modoOperacao | humanize }}</td>
+                  <td>{{ plano.posicaoPlano }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          {{ 'geral.crud.fechar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

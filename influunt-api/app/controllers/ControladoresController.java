@@ -22,6 +22,7 @@ import services.FalhasEAlertasService;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 import utils.RangeUtils;
+import utils.TransacaoHelper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +35,9 @@ public class ControladoresController extends Controller {
 
     @Inject
     private ControladorService controladorService;
+
+    @Inject
+    private TransacaoHelper transacaoHelper;
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(bodyArea)")
@@ -537,6 +541,23 @@ public class ControladoresController extends Controller {
         } else {
             controlador.removerPlanosTabelasHorarios();
             return CompletableFuture.completedFuture(ok());
+        }
+    }
+
+    @Transactional
+    @Dynamic("Influunt")
+    public CompletionStage<Result> lerDados() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+//        Json.fromJson(json, List.class)
+        Controlador controlador = Controlador.find.byId(UUID.fromString("d9fbb4ab-dde9-47e3-8efd-3e7a46668688"));
+        if (controlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            String envelopeId = transacaoHelper.lerDados(controlador);
+            return CompletableFuture.completedFuture(ok(Json.toJson(envelopeId)));
         }
     }
 

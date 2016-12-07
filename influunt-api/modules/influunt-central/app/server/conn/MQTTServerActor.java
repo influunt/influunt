@@ -147,6 +147,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
         subscribe("central/transacoes/+");
         subscribe("central/alarmes_falhas/+");
         subscribe("central/troca_plano/+");
+        subscribe("central/info");
         subscribe("central/+");
 
     }
