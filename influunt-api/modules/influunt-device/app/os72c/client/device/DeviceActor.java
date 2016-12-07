@@ -14,8 +14,10 @@ import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.Logger;
-import protocol.*;
-import scala.concurrent.duration.Duration;
+import protocol.AlarmeFalha;
+import protocol.Envelope;
+import protocol.RemocaoFalha;
+import protocol.TrocaPlanoEfetiva;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -76,12 +78,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
                 Logger.info("O motor foi iniciado");
-
-//                if (storage.getHorarioEntradaTabelaHoraria() >= 0) {
-//                    long horarioEntrada = Math.min(0, storage.getHorarioEntradaTabelaHoraria() - DateTime.now().getMillis());
-//                    Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA, controlador.getId().toString(), null);
-//                    getContext().system().scheduler().scheduleOnce(Duration.create(horarioEntrada, TimeUnit.SECONDS), getSelf(), envelopeSinal, getContext().system().dispatcher(), getSelf());
-//                }
             } else {
                 Logger.info("Não existe configuração para iniciar o motor.");
                 Logger.warn("Aguardando configuração.");

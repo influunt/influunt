@@ -27,8 +27,6 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, String> keys;
 
-    private final HTreeMap<String, String> params;
-
     @Inject
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
@@ -54,17 +52,6 @@ public class MapStorage implements Storage {
             .valueSerializer(Serializer.STRING)
             .layout(1, 2, 1)
             .createOrOpen();
-
-        this.params = this.db.hashMap("params")
-            .keySerializer(Serializer.STRING)
-            .valueSerializer(Serializer.STRING)
-            .layout(1, 2, 1)
-            .createOrOpen();
-
-        if (!this.params.containsKey("horarioEntradaTabelaHoraria")) {
-            this.params.put("horarioEntradaTabelaHoraria", "-1");
-            db.commit();
-        }
     }
 
     @Override
@@ -176,16 +163,5 @@ public class MapStorage implements Storage {
         this.keys.put("central", publicKey);
         db.commit();
     }
-
-//    @Override
-//    public long getHorarioEntradaTabelaHoraria() {
-//        return Long.valueOf(this.params.get("horarioEntradaTabelaHoraria"));
-//    }
-//
-//    @Override
-//    public void setHorarioEntradaTabelaHoraria(long horarioEntrada) {
-//        this.params.put("horarioEntradaTabelaHoraria", String.valueOf(horarioEntrada));
-//        db.commit();
-//    }
 
 }

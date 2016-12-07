@@ -41,8 +41,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Controlador controladorTemporario = null;
 
-    private boolean mudancaTabelaHoraria = false;
-
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
 
         this.callback = callback;
@@ -230,13 +228,5 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public void stop() {
         InfluuntLogger.log("Terminando a execução do motor");
-    }
-
-    public boolean isMudancaTabelaHoraria() {
-        return mudancaTabelaHoraria;
-    }
-
-    public void setMudancaTabelaHoraria(boolean mudancaTabelaHoraria) {
-        this.mudancaTabelaHoraria = mudancaTabelaHoraria;
     }
 }

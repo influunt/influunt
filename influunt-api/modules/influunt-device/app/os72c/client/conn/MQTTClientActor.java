@@ -110,7 +110,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
                 throw new Exception("Conexao morreu");
             }
         } else if (message instanceof Envelope) {
-            sendMenssage((Envelope) message);
+            sendMessage((Envelope) message);
         }
     }
 
@@ -143,7 +143,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
         Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
-        sendMenssage(controladorOnline);
+        sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 
@@ -192,17 +192,14 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("[CLIENT] messageArrived" + topic);
-        System.out.println("[CLIENT] messageArrived" + message);
         sendToBroker(message);
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        System.out.println("[CLIENT] Delivery complete:" + token);
     }
 
-    private void sendMenssage(Envelope envelope) throws MqttException {
+    private void sendMessage(Envelope envelope) throws MqttException {
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);

@@ -176,7 +176,6 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-
     }
 
 }

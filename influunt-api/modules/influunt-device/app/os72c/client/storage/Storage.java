@@ -40,8 +40,4 @@ public interface Storage {
     public String getCentralPublicKey();
 
     public void setCentralPublicKey(String publicKey);
-
-//    public long getHorarioEntradaTabelaHoraria();
-//
-//    public void setHorarioEntradaTabelaHoraria(long horarioEntrada);
 }

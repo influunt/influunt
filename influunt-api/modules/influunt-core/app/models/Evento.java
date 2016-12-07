@@ -262,7 +262,6 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         if (getDataCriacao() != null ? !getDataCriacao().equals(evento.getDataCriacao()) : evento.getDataCriacao() != null)
             return false;
         return getDataAtualizacao() != null ? getDataAtualizacao().equals(evento.getDataAtualizacao()) : evento.getDataAtualizacao() == null;
-
     }
 
     @Override
@@ -316,7 +315,6 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     }
 
     public boolean tenhoPrioridade(Evento evento, boolean euSouPetrio, boolean outroEPetrio) {
-
         if (euSouPetrio && !outroEPetrio) {
             return true;
         } else if (!euSouPetrio && outroEPetrio) {
@@ -324,12 +322,9 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         } else {
             return true;
         }
-
     }
 
     public boolean isAtivoEm(DateTime agora) {
-
-
         if (!this.getTipo().equals(TipoEvento.NORMAL)) {
             DateTime data = getDataHora();
 
