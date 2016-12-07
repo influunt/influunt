@@ -57,7 +57,7 @@ public class ConexaoTest extends BasicMQTTTest {
         //O cliente envio a CONTROLADOR_ONLINE
         //A central se increveu para receber informação de quando um controlador fica online
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(0)), Map.class);
-        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getVersaoControlador().getControladorFisico().getCentralPrivateKey()), Envelope.class);
 
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals("CONTROLADOR_ONLINE", envelope.getTipoMensagem().toString());

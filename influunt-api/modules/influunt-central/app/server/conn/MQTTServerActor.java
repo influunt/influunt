@@ -12,6 +12,7 @@ import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
 import models.Controlador;
+import models.ControladorFisico;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
@@ -27,8 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-import static tyrex.util.Configuration.console;
 
 /**
  * Created by rodrigosol on 7/7/16.
@@ -108,23 +107,21 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);
-        String publicKey = Controlador.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
+        String publicKey = Controlador.find.byId(UUID.fromString(envelope.getIdControlador())).getVersaoControlador().getControladorFisico().getControladorPublicKey();
         message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);
     }
 
-    private void sendToBroker(MqttMessage message) throws MqttException {
+    private void sendToBroker(MqttMessage message) {
         try {
             String parsedBytes = new String(message.getPayload());
             Map msg = new Gson().fromJson(parsedBytes, Map.class);
-            String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
+            String privateKey = ControladorFisico.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
 
             router.route(envelope, getSelf());
 
-        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (com.google.gson.JsonSyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

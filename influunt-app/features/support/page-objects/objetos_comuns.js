@@ -301,6 +301,14 @@ var ObjetosComuns = function () {
     return world.getElementByXpath('//i[contains(@class, "fa-eye")]').click();
   };
 
+  this.enderecoBreadcrumb = function(endereco) {
+    return world.waitForByXpath('//p[contains(@class, "cruzamento")][contains(text(), "'+endereco+'")]');
+  };
+
+  this.textoToast = function() {
+    return world.getToastMessage();
+  };
+
   this.verificarValoresEmLinhasNaTabela = function(valor) {
     return world.waitForOverlayDisappear().then(function() {
       return world.sleep(1000);

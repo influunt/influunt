@@ -230,7 +230,7 @@ public class ControladoresController extends Controller {
         if (controladoresFisicos != null) {
             List<Controlador> controladores = new ArrayList<Controlador>();
             controladoresFisicos.forEach(controladorFisico -> {
-                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
+                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivo();
                 if (controlador != null) {
                     controladores.add(controlador);
                 }
@@ -275,7 +275,7 @@ public class ControladoresController extends Controller {
         Usuario u = getUsuario();
         Map<String, String[]> params = new HashMap<>();
         params.putAll(ctx().request().queryString());
-        String[] status = {"[CONFIGURADO,ATIVO]"};
+        String[] status = {"[CONFIGURADO,SINCRONIZADO]"};
         params.put("versaoControlador.statusVersao_in", status);
 
         if (u.isRoot()) {
@@ -313,7 +313,7 @@ public class ControladoresController extends Controller {
         Usuario u = getUsuario();
         Map<String, String[]> params = new HashMap<>();
         params.putAll(ctx().request().queryString());
-        String[] status = {"[ATIVO]"};
+        String[] status = {"[SINCRONIZADO]"};
 
         List<String> aneisIds = new ArrayList<>();
 
@@ -426,8 +426,8 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
             ObjectNode root = Json.newObject();
-            root.put("privateKey", controlador.getControladorPrivateKey());
-            root.put("publicKey", controlador.getCentralPublicKey());
+            root.put("privateKey", controlador.getVersaoControlador().getControladorFisico().getControladorPrivateKey());
+            root.put("publicKey", controlador.getVersaoControlador().getControladorFisico().getCentralPublicKey());
             root.put("idControlador", controlador.getControladorFisicoId());
             return CompletableFuture.completedFuture(ok(root));
         }
@@ -564,6 +564,7 @@ public class ControladoresController extends Controller {
                 } else {
                     // Criar a primeira versão e o controlador físico
                     ControladorFisico controladorFisico = new ControladorFisico();
+                    controladorFisico.criarChaves();
                     VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
                     versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
                     controladorFisico.addVersaoControlador(versaoControlador);

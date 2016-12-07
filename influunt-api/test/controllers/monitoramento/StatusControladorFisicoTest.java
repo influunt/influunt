@@ -122,7 +122,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         assertEquals(2, json.size());
 
         assertEquals(StatusVersao.CONFIGURADO.toString(), json.get("1").asText());
-        assertEquals(StatusVersao.ATIVO.toString(), json.get("2").asText());
+        assertEquals(StatusVersao.SINCRONIZADO.toString(), json.get("2").asText());
 
     }
 

@@ -7,14 +7,19 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
+import utils.EncryptionUtil;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -46,6 +51,22 @@ public class ControladorFisico extends Model implements Serializable {
     @Valid
     private List<VersaoControlador> versoes;
 
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String centralPrivateKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String centralPublicKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPublicKey;
+
+    @Ignore
+    @Column(columnDefinition = "TEXT")
+    private String controladorPrivateKey;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -57,6 +78,10 @@ public class ControladorFisico extends Model implements Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @OneToOne
+    @JoinColumn(name="controlador_sincronizado_id")
+    private Controlador controladorSincronizado;
 
 
     public UUID getId() {
@@ -99,9 +124,44 @@ public class ControladorFisico extends Model implements Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Controlador getControladorAtivo() {
-        VersaoControlador versaoControlador = VersaoControlador.find.fetch("controlador").where()
-            .and(Expr.eq("controlador_fisico_id", this.id.toString()), Expr.eq("status_versao", StatusVersao.ATIVO)).findUnique();
+    public void criarChaves() {
+        try {
+            KeyPair key = EncryptionUtil.generateRSAKey();
+            this.centralPrivateKey = Hex.encodeHexString(key.getPrivate().getEncoded());
+            this.centralPublicKey = Hex.encodeHexString(key.getPublic().getEncoded());
+
+            KeyPair keyControlador = EncryptionUtil.generateRSAKey();
+            this.controladorPrivateKey = Hex.encodeHexString(keyControlador.getPrivate().getEncoded());
+            this.controladorPublicKey = Hex.encodeHexString(keyControlador.getPublic().getEncoded());
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Controlador getControladorConfigurado() {
+        VersaoControlador versaoControlador = VersaoControlador.find.where().
+        and(
+            Expr.eq("controlador_fisico_id", this.id.toString()),
+            Expr.eq("status_versao", StatusVersao.CONFIGURADO)
+        ).findUnique();
+
+        return (versaoControlador != null) ? versaoControlador.getControlador() : null;
+    }
+
+//    public Controlador getControlador() {
+//        VersaoControlador versaoControlador = VersaoControlador.find.where()
+//            .eq("controlador_fisico_id", this.id.toString()).findUnique();
+//        return (versaoControlador != null) ? versaoControlador.getControlador() : null;
+//    }
+
+    public Controlador getControladorConfiguradoOuAtivo() {
+        VersaoControlador versaoControlador = this
+            .getVersoes()
+            .stream()
+            .filter(versaoControladorAux ->
+                    StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao())
+            ).findFirst().orElse(null);
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 
@@ -111,7 +171,6 @@ public class ControladorFisico extends Model implements Serializable {
             .stream()
             .filter(versaoControladorAux ->
                 StatusVersao.EM_CONFIGURACAO.equals(versaoControladorAux.getStatusVersao()) ||
-                    StatusVersao.ATIVO.equals(versaoControladorAux.getStatusVersao()) ||
                     StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao()) ||
                     StatusVersao.EDITANDO.equals(versaoControladorAux.getStatusVersao())
             ).findFirst().orElse(null);
@@ -135,5 +194,29 @@ public class ControladorFisico extends Model implements Serializable {
 
     public void setArea(Area area) {
         this.area = area;
+    }
+
+    public String getCentralPrivateKey() {
+        return centralPrivateKey;
+    }
+
+    public String getCentralPublicKey() {
+        return centralPublicKey;
+    }
+
+    public String getControladorPublicKey() {
+        return controladorPublicKey;
+    }
+
+    public String getControladorPrivateKey() {
+        return controladorPrivateKey;
+    }
+
+    public Controlador getControladorSincronizado() {
+        return controladorSincronizado;
+    }
+
+    public void setControladorSincronizado(Controlador controladorSincronizado) {
+        this.controladorSincronizado = controladorSincronizado;
     }
 }

@@ -4,7 +4,6 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Controlador;
 import models.ControladorFisico;
 import play.libs.Json;
 import protocol.DestinoApp;
@@ -33,7 +32,7 @@ public class TrocaPlanoEfetivoActorHandler extends UntypedActor {
                 String idAnel = null;
                 if (jsonConteudo.has("anel") && jsonConteudo.get("anel").has("posicao")) {
                     idAnel = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador()))
-                        .getControladorAtivo()
+                        .getControladorSincronizado()
                         .findAnelByPosicao(jsonConteudo.get("anel").get("posicao").asInt()).getId().toString();
                 }
 

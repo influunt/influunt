@@ -78,8 +78,6 @@ public class ControladorForm implements Sender, DeviceBridge {
 
     private JButton btnInserirPlug;
 
-    private JButton btnRemoverPlug;
-
     private JButton btnTrocarEstagio;
 
     private JButton btnFaseVermelhaApagada;
@@ -160,7 +158,6 @@ public class ControladorForm implements Sender, DeviceBridge {
 
     private DeviceBridgeCallback callback;
 
-
     public ControladorForm() {
     }
 
@@ -186,12 +183,15 @@ public class ControladorForm implements Sender, DeviceBridge {
 
     @Override
     public void modoManualAtivo() {
+        btnTrocarEstagio.setEnabled(true);
+        btnTrocarEstagio.setVisible(true);
 
     }
 
     @Override
     public void modoManualDesativado() {
-
+        btnTrocarEstagio.setEnabled(false);
+        btnTrocarEstagio.setVisible(false);
     }
 
     private void start() {
@@ -277,6 +277,12 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnSemaforoApagado.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_SEMAFORO_APAGADO, null));
         btnAcertoRelogio.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_ACERTO_RELOGIO_GPS, null));
         btnFocoApagado.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA, TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO));
+
+        btnInserirPlug.addActionListener(new ControladorActionListener(this, TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL, TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
+        btnTrocarEstagio.addActionListener(new ControladorActionListener(this, TipoEvento.TROCA_ESTAGIO_MANUAL, null));
+
+        btnTrocarEstagio.setEnabled(false);
+        btnTrocarEstagio.setVisible(false);
 
 
         JFrame frame = new JFrame("ControladorForm");
@@ -415,6 +421,12 @@ public class ControladorForm implements Sender, DeviceBridge {
 
                     label = "Vermelho Int";
                     break;
+                default:
+                    newBackgroundColor = Color.BLACK;
+                    newColor = Color.WHITE;
+                    label = "Desligado";
+
+
             }
 
             labelsEstados.get(i + 1).setForeground(newColor);
@@ -620,21 +632,18 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnDV7.setText("DV 7");
         panel4.add(btnDV7, new GridConstraints(11, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
-        panel5.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel5.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel5, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Modo Manual"));
         btnInserirPlug = new JButton();
-        btnInserirPlug.setText("Inserir Plug");
+        btnInserirPlug.setText("Plug");
         panel5.add(btnInserirPlug, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        btnRemoverPlug = new JButton();
-        btnRemoverPlug.setText("Remover Plug");
-        panel5.add(btnRemoverPlug, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnTrocarEstagio = new JButton();
         btnTrocarEstagio.setText("Trocar Estágio");
-        panel5.add(btnTrocarEstagio, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel5.add(btnTrocarEstagio, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new GridLayoutManager(11, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel5.add(panel6, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel5.add(panel6, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Falhas"));
         btnFaseVermelhaApagada = new JButton();
         btnFaseVermelhaApagada.setText("Fase Vermelha Apagada");

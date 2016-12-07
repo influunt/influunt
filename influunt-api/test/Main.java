@@ -18,7 +18,7 @@ public class Main {
         Logger templateLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.myapp");
         LoggerContext loggerContext = templateLogger.getLoggerContext();
 
-        String[] nameList = new String[] {"test1.class", "test2.class"};
+        String[] nameList = new String[]{"test1.class", "test2.class"};
 
         // Set up the pattern
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
@@ -27,33 +27,33 @@ public class Main {
         encoder.start();
 
         // Spin over the names to create all the needed objects
-        for(int i = 0; i < nameList.length; i++) {
+        for (int i = 0; i < nameList.length; i++) {
 
             String name = nameList[i];
 
             // Set up the roll over policies and the name when it rolls over
             TimeBasedRollingPolicy tracePolicy = new TimeBasedRollingPolicy();
-            tracePolicy.setContext( loggerContext );
-            tracePolicy.setFileNamePattern( name + "-Trace-%d{yyyy-MM-dd}.logger" );
-            tracePolicy.setMaxHistory( 30 );
+            tracePolicy.setContext(loggerContext);
+            tracePolicy.setFileNamePattern(name + "-Trace-%d{yyyy-MM-dd}.logger");
+            tracePolicy.setMaxHistory(30);
 
             TimeBasedRollingPolicy errorPolicy = new TimeBasedRollingPolicy();
-            errorPolicy.setContext( loggerContext );
-            errorPolicy.setFileNamePattern( name + "-Error-logFile.%d{yyyy-MM-dd}.logger" );
-            errorPolicy.setMaxHistory( 30 );
+            errorPolicy.setContext(loggerContext);
+            errorPolicy.setFileNamePattern(name + "-Error-logFile.%d{yyyy-MM-dd}.logger");
+            errorPolicy.setMaxHistory(30);
 
             // Set up the filters to ensure things get split as expected
             LevelFilter traceFilter = new LevelFilter();
-            traceFilter.setContext( loggerContext );
-            traceFilter.setLevel( Level.TRACE );
-            traceFilter.setOnMatch( FilterReply.ACCEPT );
-            traceFilter.setOnMismatch( FilterReply.DENY );
+            traceFilter.setContext(loggerContext);
+            traceFilter.setLevel(Level.TRACE);
+            traceFilter.setOnMatch(FilterReply.ACCEPT);
+            traceFilter.setOnMismatch(FilterReply.DENY);
 
             LevelFilter errorFilter = new LevelFilter();
-            errorFilter.setContext( loggerContext );
-            errorFilter.setLevel( Level.ERROR );
-            errorFilter.setOnMatch( FilterReply.ACCEPT );
-            errorFilter.setOnMismatch( FilterReply.DENY );
+            errorFilter.setContext(loggerContext);
+            errorFilter.setLevel(Level.ERROR);
+            errorFilter.setOnMatch(FilterReply.ACCEPT);
+            errorFilter.setOnMismatch(FilterReply.DENY);
 
             // Set up the trace and error appenders
             RollingFileAppender rollingFileAppenderTrace = new RollingFileAppender();
@@ -61,18 +61,18 @@ public class Main {
             rollingFileAppenderTrace.setName(name + "-Trace");
             rollingFileAppenderTrace.setFile(name + "-Trace.logger");
             rollingFileAppenderTrace.setEncoder(encoder);
-            rollingFileAppenderTrace.setRollingPolicy( tracePolicy );
-            rollingFileAppenderTrace.addFilter( traceFilter );
-            tracePolicy.setParent( rollingFileAppenderTrace );
+            rollingFileAppenderTrace.setRollingPolicy(tracePolicy);
+            rollingFileAppenderTrace.addFilter(traceFilter);
+            tracePolicy.setParent(rollingFileAppenderTrace);
 
             RollingFileAppender rollingFileAppenderError = new RollingFileAppender();
             rollingFileAppenderError.setContext(loggerContext);
             rollingFileAppenderError.setName(name + "-Error");
             rollingFileAppenderError.setFile(name + "-Error.logger");
             rollingFileAppenderError.setEncoder(encoder);
-            rollingFileAppenderError.setRollingPolicy( errorPolicy );
-            rollingFileAppenderError.addFilter( errorFilter );
-            errorPolicy.setParent( rollingFileAppenderError );
+            rollingFileAppenderError.setRollingPolicy(errorPolicy);
+            rollingFileAppenderError.addFilter(errorFilter);
+            errorPolicy.setParent(rollingFileAppenderError);
 
             // Start everything
             tracePolicy.start();
@@ -93,20 +93,20 @@ public class Main {
         StatusPrinter.print(loggerContext);
 
         // Test it to see what happens
-        for(int i = 0; i < nameList.length; i++) {
+        for (int i = 0; i < nameList.length; i++) {
 
             String name = nameList[i];
 
             Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(name);
-            logger.error("error message" );
-            logger.warn("warn message" );
-            logger.info("info message" );
-            logger.debug("debug message" );
-            logger.trace("trace message" );
+            logger.error("error message");
+            logger.warn("warn message");
+            logger.info("info message");
+            logger.debug("debug message");
+            logger.trace("trace message");
         }
 
         Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.myapp");
-        logger.error( "generic error message ");
+        logger.error("generic error message ");
 
 
     }

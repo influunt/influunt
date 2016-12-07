@@ -9,7 +9,6 @@ import utils.TransacaoHelper;
 import javax.validation.groups.Default;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static org.awaitility.Awaitility.await;

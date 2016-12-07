@@ -17,7 +17,7 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
-    public void onReceive(Object message) throws Exception {
+    public void onReceive(Object message)  {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_ONLINE)) {
@@ -26,10 +26,16 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
                 // enviar msg APP controlador online
                 envelope.setDestino(DestinoApp.controladorOnline());
                 envelope.setCriptografado(false);
-                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+//                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
 
                 StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), true);
             }
         }
+    }
+
+    @Override
+    public void postStop() throws Exception {
+        System.out.println(" ConexaoOnlineActorHandler morreu" );
+        super.postStop();
     }
 }

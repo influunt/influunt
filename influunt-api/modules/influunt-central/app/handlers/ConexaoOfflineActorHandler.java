@@ -16,7 +16,7 @@ public class ConexaoOfflineActorHandler extends UntypedActor {
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
-    public void onReceive(Object message) throws Exception {
+    public void onReceive(Object message)  {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_OFFLINE)) {
@@ -26,8 +26,14 @@ public class ConexaoOfflineActorHandler extends UntypedActor {
                 // enviar msg APP controlador offline
                 envelope.setDestino(DestinoApp.controladorOffline());
                 envelope.setCriptografado(false);
-                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+//                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }
     }
+
+    public void postStop() throws Exception {
+        System.out.println(" ConexaoOfflineActorHandler morreu" );
+        super.postStop();
+    }
+
 }

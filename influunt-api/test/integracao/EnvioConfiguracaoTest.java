@@ -128,7 +128,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 2);
 
         Map map = new Gson().fromJson(new String(onPublishFutureList.get(1)), Map.class);
-        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getVersaoControlador().getControladorFisico().getCentralPrivateKey()), Envelope.class);
 
         assertEquals(TipoMensagem.CONFIGURACAO_INICIAL, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());

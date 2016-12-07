@@ -17,9 +17,17 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro no estágio "E1"
 
+  Cenário: Validar verde de segurança mínimo para estágio dispensável
+    Dado que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 6 segundos para o "Tempo de Verde"
+    Quando o sistema deverá mostrar um alerta para verdes segurança menor
+    Então o usuário responde sim para verde de segurança
+    E que o usuário clique no botão de fechar a caixa de configuração
+
   Cenário: Salva o estágio dispensável
     Dado que o usuário clique no botão de configurar o estágio "E1"
-    E o usuário selecionar o estágio que recebe o estágio dispensável "E2"
+    Dado o usuário selecionar o estágio que recebe o estágio dispensável "E2"
+    E que o usuário marque 12 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
     Quando o usuário clicar em "Salvar"
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores

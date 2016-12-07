@@ -367,10 +367,18 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             estagioPlanoAnterior = estagioPlanoAnterior.getEstagioPlanoAnterior(listaEstagioPlanos);
         }
         EstagioPlano estagioPlanoProximo = this.getEstagioPlanoProximo(listaEstagioPlanos);
-        while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
-            tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
-            estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+        if (!estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+            Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(this.getEstagio(), estagioPlanoProximo.getEstagio());
+            if (transicao != null) {
+                tempoVerde += transicao.getTempoAtrasoGrupo();
+            }
+        } else {
+            while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+                tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
+                estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+            }
         }
+
         tempoVerde += this.getTempoVerdeEstagio();
         return tempoVerde;
     }
@@ -395,11 +403,24 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L;
     }
 
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo) {
+        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, estagioPlanoProximo) * 1000L;
+    }
+
     public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano) {
         return this.getEstagio()
             .getGruposSemaforicos()
             .stream()
             .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
+            .max()
+            .orElse(0);
+    }
+
+    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo) {
+        return this.getEstagio()
+            .getGruposSemaforicos()
+            .stream()
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioPlanoAnterior, estagioPlanoProximo))
             .max()
             .orElse(0);
     }

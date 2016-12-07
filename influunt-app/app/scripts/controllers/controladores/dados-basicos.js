@@ -8,11 +8,16 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies', 'breadcrumbs',
-    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies, breadcrumbs) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert',
+                                                'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies',
+                                                'breadcrumbs', 'ROOT_API_SMEE',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert,
+              Restangular, toast, PermissionsService, PermissionStrategies,
+              breadcrumbs, ROOT_API_SMEE) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs;
+      var CAMPOS_SMEE = ['numeroSMEE', 'numeroSMEEConjugado1', 'numeroSMEEConjugado2', 'numeroSMEEConjugado3'];
 
       $scope.PermissionStrategies = PermissionStrategies;
 
@@ -22,6 +27,29 @@ angular.module('influuntApp')
           setarAreaControlador();
           updateBreadcrumbs();
         }).finally(influuntBlockui.unblock);
+      };
+
+      $scope.consultaNumeroSMEE = function(field) {
+        var numero = $scope.objeto[field];
+
+        $scope.checkingSMEE = $scope.checkingSMEE || {};
+        if (numero) {
+          $scope.checkingSMEE[field] = true;
+          return Restangular
+            .oneUrl('api_smee', ROOT_API_SMEE)
+            .one('local', numero)
+            .get()
+            .then(function(res) {
+              // O campo somente será inválido caso o SMEE pesquisado não exista (a API retorne o codigo igual a null).
+              $scope.validateSMEE[field].$valid = (res.IdLocal !== null && res.IdLocal !== undefined);
+              $scope.validateSMEE.$valid = CAMPOS_SMEE.every(function(i) {
+                return $scope.validateSMEE[i].$valid;
+              });
+            })
+            .finally(function() {
+              $scope.checkingSMEE[field] = false;
+            });
+        }
       };
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {

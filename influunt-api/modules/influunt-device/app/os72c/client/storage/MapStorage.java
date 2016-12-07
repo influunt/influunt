@@ -128,7 +128,7 @@ public class MapStorage implements Storage {
 
     @Override
     public JsonNode getPlanos() {
-        if (this.controlador.containsKey("atualPlanos")){
+        if (this.controlador.containsKey("atualPlanos")) {
             return play.libs.Json.parse(this.controlador.get("atualPlanos"));
         }
         return null;

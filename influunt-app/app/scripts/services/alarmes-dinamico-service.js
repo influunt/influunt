@@ -22,8 +22,8 @@ angular.module('influuntApp')
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
             trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
             removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
-        var statusObj, _fnOnEventTriggered, controladores;
-        var _fnonClickToast = function(){};
+        var statusObj, $$fnOnEventTriggered, controladores;
+        var $$fnonClickToast = function(){};
 
         var registerWatchers = function() {
           pahoProvider.connect()
@@ -49,17 +49,13 @@ angular.module('influuntApp')
 
 
         // watchers.
-        statusControladoresWatcher = function(payload) {
+        statusControladoresWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.status = statusObj.status || {};
 
           return getControlador(mensagem.idControlador).then(function(controlador) {
-            if (!controlador) {
-              console.log('controlador', mensagem.idControlador, 'não existe.');
-              return false;
-            }
-
             controlador.statusControlador = mensagem.conteudo.status;
             controlador.status = mensagem.conteudo.status;
             statusObj.status[mensagem.idControlador] = _.get(mensagem, 'conteudo.status');
@@ -73,21 +69,17 @@ angular.module('influuntApp')
               exibirAlerta(msg, controlador);
             }
 
-            return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, mensagem);
+            return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, mensagem);
           });
         };
 
-        alarmesEFalhasWatcher = function(payload) {
+        alarmesEFalhasWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.erros = statusObj.erros || {};
 
           getControlador(mensagem.idControlador).then(function(controlador) {
-            if (!controlador) {
-              console.log('controlador', mensagem.idControlador, 'não existe.');
-              return false;
-            }
-
             var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -100,17 +92,13 @@ angular.module('influuntApp')
           });
         };
 
-        trocaPlanoWatcher = function(payload) {
+        trocaPlanoWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
-              if (!controlador) {
-                console.log('controlador', mensagem.idControlador, 'não existe.');
-                return false;
-              }
-
               var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
               var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
@@ -129,22 +117,18 @@ angular.module('influuntApp')
                 exibirAlerta(msg, anel);
               }
 
-              return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+              return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
         };
 
-        onlineOfflineWatcher = function(payload) {
+        onlineOfflineWatcher = function(payload, topic) {
+          console.log(topic, payload);
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           statusObj.onlines = statusObj.onlines || {};
 
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
-              if (!controlador) {
-                console.log('controlador', mensagem.idControlador, 'não existe.');
-                return false;
-              }
-
               var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
               var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
 
@@ -167,14 +151,14 @@ angular.module('influuntApp')
                 exibirAlerta(msg, controlador);
               }
 
-              return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+              return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
         };
 
 
         // helpers.
-        var onEventTriggered = function(fn) { _fnOnEventTriggered = fn; };
-        var onClickToast = function(fn) { _fnonClickToast = fn; };
+        var onEventTriggered = function(fn) { $$fnOnEventTriggered = fn; };
+        var onClickToast = function(fn) { $$fnonClickToast = fn; };
         var setListaControladores = function(_refControladores) { controladores = _refControladores; };
 
         /**
@@ -242,7 +226,7 @@ angular.module('influuntApp')
             exibirAlerta(msg, controlador);
           }
 
-          return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+          return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
         };
 
         handleRecuperacaoFalhas = function(mensagem, controlador, anel) {
@@ -264,7 +248,7 @@ angular.module('influuntApp')
               exibirAlerta(msg, controlador);
             }
 
-            return _.isFunction(_fnOnEventTriggered) && _fnOnEventTriggered.apply(this, statusObj);
+            return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
           }
         };
 
@@ -317,8 +301,12 @@ angular.module('influuntApp')
         getControlador = function(idControlador) {
           var deferred = $q.defer();
           if (_.isArray(controladores) && controladores.length > 0) {
-            var controlador = _.find(controladores, {id: idControlador});
-            deferred.resolve(controlador);
+            var controlador = _.find(controladores, {controladorFisicoId: idControlador});
+            if (controlador) {
+              deferred.resolve(controlador);
+            } else {
+              deferred.reject('O controlador ' + idControlador + ' não existe.');
+            }
           } else {
             Restangular
               .one('controladores', idControlador)
@@ -331,14 +319,12 @@ angular.module('influuntApp')
         };
 
         isAlertaAtivado = function(chave) {
-          return $rootScope.alarmesAtivados[chave] ||
-                 ($rootScope.eventos && $rootScope.eventos.exibirTodosAlertas)
-                 ;
+          return $rootScope.alarmesAtivados[chave] || ($rootScope.eventos && $rootScope.eventos.exibirTodosAlertas);
         };
 
         exibirAlerta = function(msg, target) {
           toast.warn(msg, null,{
-            onclick: function() { return _fnonClickToast(target); }
+            onclick: function() { return _.isFunction($$fnonClickToast) &&   $$fnonClickToast(target); }
           });
 
           audioNotifier.notify();

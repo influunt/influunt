@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import models.EstagioPlano;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,5 +54,31 @@ public class GerenciadorDeEstagiosHelper {
             final Range<Long> novoRange = Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + duracao);
             intervalos.put(novoRange, intervalo);
         }
+    }
+
+    public static void aumentarTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
+                                            long contadorIntervalo, long tempo) {
+        Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo - 100L);
+        final IntervaloEstagio intervalo = range.getValue();
+
+        if (intervalo.getDuracao() < tempo) {
+            long novaDuracao = tempo;
+
+            intervalos.remove(range.getKey());
+            intervalo.setDuracao(novaDuracao);
+            intervalos.put(Range.closedOpen(range.getKey().lowerEndpoint(), range.getKey().lowerEndpoint() + novaDuracao),
+                intervalo);
+        }
+    }
+
+    public static boolean isCumpreTempoVerdeSeguranca(List<EstagioPlano> lista) {
+        final EstagioPlano atual = lista.get(1);
+        final long tempoFaltante;
+        if (lista.size() > 2) {
+            tempoFaltante = atual.getTempoVerdeSegurancaFaltante(lista.get(0), lista.get(2));
+        } else {
+            tempoFaltante = atual.getTempoVerdeSegurancaFaltante(lista.get(0));
+        }
+        return tempoFaltante == 0;
     }
 }

@@ -49,7 +49,7 @@ angular.module('influuntApp')
 
         Restangular.all('recuperar_senha').post($scope.credenciais)
           .then(function() {
-            toast.success($filter('translate')('login.recuperar_senha_sucesso'));
+            toast.success($filter('translate')('login.recuperarSenhaSucesso'));
             $state.go('login');
           })
           .catch(function(err) {

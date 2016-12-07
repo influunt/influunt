@@ -193,6 +193,40 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-vermelho" em "15s" segundos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-verde" em "12s" segundos
 
+  Cenário: Configurar um plano temporário em modo coordenado
+    Dado que o usuário esteja na página de planos
+    E que o usuário selecione o anel 1
+    E que o usuário clicar no plano 17
+    E o usuário realize um scroll up
+    E que o usuário clique no botão apagar o estagio "E4"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário confirmar
+    E que o usuário marque 50 segundos para o "TEMPO DE CICLO"
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 14 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 14 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E3"
+    E que o usuário marque 13 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G1" com "indicacao-vermelho" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G1" com "indicacao-verde" em "14s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G1" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G1" com "indicacao-vermelho" em "30s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G2" com "indicacao-vermelho" em "20s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G2" com "indicacao-verde" em "14s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G2" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G2" com "indicacao-vermelho" em "13s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-vermelho-intermitente" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-vermelho" em "34s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G3" com "indicacao-verde" em "13s" segundos
+    E o usuário realize um scroll up
+    E que o usuário selecione o anel 2
+    Então o usuário queira limpar o plano 17
+    E o usuário confirmar
+
   Cenário: Configurar um plano modo de operação intermitente
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o anel 1

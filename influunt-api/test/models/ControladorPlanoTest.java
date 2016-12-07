@@ -49,11 +49,11 @@ public class ControladorPlanoTest extends ControladorTest {
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         VersaoPlano versaoPlanoAnel2Estagios = new VersaoPlano(anelCom2Estagios, usuario);
-        versaoPlanoAnel2Estagios.setStatusVersao(StatusVersao.ATIVO);
+        versaoPlanoAnel2Estagios.setStatusVersao(StatusVersao.SINCRONIZADO);
         anelCom2Estagios.addVersaoPlano(versaoPlanoAnel2Estagios);
 
         VersaoPlano versaoPlanoAnel4Estagios = new VersaoPlano(anelCom4Estagios, usuario);
-        versaoPlanoAnel4Estagios.setStatusVersao(StatusVersao.ATIVO);
+        versaoPlanoAnel4Estagios.setStatusVersao(StatusVersao.SINCRONIZADO);
         anelCom4Estagios.addVersaoPlano(versaoPlanoAnel4Estagios);
 
         Plano plano1Anel2 = new Plano();
