@@ -155,7 +155,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
     protected void assertTransacaoOk() {
         try {
-            await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 13);
+            await().atMost(10, TimeUnit.MINUTES).until(() -> onPublishFutureList.size() > 13);
 
             Storage storage = app.injector().instanceOf(Storage.class);
 

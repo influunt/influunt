@@ -6,6 +6,7 @@ import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import json.ControladorCustomDeserializer;
+import logger.InfluuntLogger;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
@@ -44,6 +45,7 @@ public class TransacaoActorHandler extends UntypedActor {
                 JsonNode payloadJson;
                 JsonNode controladorJson;
                 log.info("DEVICE - TX Recebida: {}", transacao);
+                InfluuntLogger.log("DEVICE - TX Recebida: " + transacao.toString());
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
                         switch (transacao.tipoTransacao) {
@@ -71,8 +73,9 @@ public class TransacaoActorHandler extends UntypedActor {
                             case CONFIGURACAO_COMPLETA:
                                 payloadJson = Json.parse(transacao.payload.toString());
                                 JsonNode planoJson = payloadJson.get("pacotePlanos");
+                                JsonNode pacoteTabelaHorariaJson = payloadJson.get("pacoteTabelaHoraria");
                                 controladorJson = payloadJson.get("pacoteConfiguracao");
-                                controlador = Controlador.isPacotePlanosValido(controladorJson, planoJson);
+                                controlador = Controlador.isPacoteConfiguracaoCompletaValido(controladorJson, planoJson, pacoteTabelaHorariaJson);
                                 if (controlador != null) {
                                     storage.setControladorStaging(controlador);
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
@@ -202,6 +205,7 @@ public class TransacaoActorHandler extends UntypedActor {
                 }
 
                 log.info("DEVICE - TX Enviada: {}", transacao);
+                InfluuntLogger.log("DEVICE - TX Enviada: " + transacao.toString());
                 envelope.setConteudo(transacao.toJson().toString());
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());
             }

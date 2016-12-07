@@ -256,14 +256,14 @@ public class ControladorCustomSerializer {
 
         if (controlador.getVersaoTabelaHoraria() != null) {
             versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria());
-        }
-        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria() != null) {
-            tabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria().getTabelaHoraria());
-        }
-        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos() != null) {
-            controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos().forEach(evento -> {
-                eventosMap.put(evento.getIdJson(), evento);
-            });
+            if (controlador.getVersaoTabelaHoraria().getTabelaHoraria() != null) {
+                tabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria().getTabelaHoraria());
+                if (controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos() != null) {
+                    controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos().forEach(evento -> {
+                        eventosMap.put(evento.getIdJson(), evento);
+                    });
+                }
+            }
         }
         putControladorVersoesTabelasHorarias(root);
         putControladorTabelasHorarias(root);
@@ -275,6 +275,7 @@ public class ControladorCustomSerializer {
     public JsonNode getPacoteConfiguracaoCompletaJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
         ObjectNode root = Json.newObject();
         root.set("pacotePlanos", getPacotePlanosJson(controlador));
+        root.set("pacoteTabelaHoraria", getPacoteTabelaHorariaJson(controlador));
         // pacoteConfiguracao seta alguns relacionamentos p/ null, portanto
         // deve ser executado por último.
         root.set("pacoteConfiguracao", getPacoteConfiguracaoJson(controlador, cidades, rangeUtils));

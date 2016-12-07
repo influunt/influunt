@@ -199,6 +199,19 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
+    public static Controlador isPacoteConfiguracaoCompletaValido(Object controladorObject, Object pacotePlanos, Object pacoteTabelaHoraria) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+        JsonNode pacotePlanosJson = Json.parse(pacotePlanos.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteConfiguracaoCompletaFromJson(controladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty() ? controlador : null;
+    }
+
 
     public boolean isCompleto() {
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
