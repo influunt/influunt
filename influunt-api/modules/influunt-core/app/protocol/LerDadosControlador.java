@@ -22,7 +22,12 @@ public class LerDadosControlador {
     }
 
     public static Envelope getMensagem(Envelope envelope) {
-        return new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, envelope.getIdControlador(), DestinoControlador.leituraDadosControlador(envelope.getIdControlador()), QoS.AT_MOST_ONCE, null, null);
+        return new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR,
+            envelope.getIdControlador(),
+            DestinoControlador.leituraDadosControlador(envelope.getIdControlador()),
+            QoS.AT_LEAST_ONCE,
+            null,
+            null);
     }
 
     public static Envelope retornoLeituraDados(Envelope envelope, Motor motor) {
