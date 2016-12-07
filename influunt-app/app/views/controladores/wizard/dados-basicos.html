@@ -143,7 +143,12 @@
               <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{ 'has-error': errors.endereco.localizacao }">
                 <div class="form-group" data-ng-class="{'has-error': errors.endereco.localizacao}">
                   <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
-                  <helper-endereco ng-model="objeto.todosEnderecos[0].localizacao" latitude="objeto.todosEnderecos[0].latitude" longitude="objeto.todosEnderecos[0].longitude" localizacao="objeto.todosEnderecos[0].localizacao"></helper-endereco>
+                  <helper-endereco ng-model="objeto.todosEnderecos[0].localizacao"
+                                   latitude="objeto.todosEnderecos[0].latitude"
+                                   longitude="objeto.todosEnderecos[0].longitude"
+                                   localizacao="objeto.todosEnderecos[0].localizacao"
+                                   name="endereco">
+                  </helper-endereco>
                   <p class="help-block error-msg" data-ng-repeat="error in errors.endereco.localizacao">{{ error }}</p>
                 </div>
               </div>
@@ -151,7 +156,12 @@
               <div class="col-lg-12 col-sm-12 no-padding" data-ng-class="{ 'has-error': errors.endereco.localizacao2 }">
                 <div class="form-group" data-ng-class="{'has-error': errors.endereco.localizacao2}">
                   <label class="control-label">{{ 'controladores.localizacao2' | translate }}:</label>
-                  <helper-endereco ng-model="objeto.todosEnderecos[0].localizacao2" latitude="objeto.todosEnderecos[0].latitude2" longitude="objeto.todosEnderecos[0].longitude2" localizacao="objeto.todosEnderecos[0].localizacao2"></helper-endereco>
+                  <helper-endereco ng-model="objeto.todosEnderecos[0].localizacao2"
+                                   latitude="objeto.todosEnderecos[0].latitude2"
+                                   longitude="objeto.todosEnderecos[0].longitude2"
+                                   localizacao="objeto.todosEnderecos[0].localizacao2"
+                                   name="endereco2">
+                  </helper-endereco>
                   <p class="help-block error-msg" data-ng-repeat="error in errors.endereco.localizacao2">{{ error }}</p>
                 </div>
               </div>
