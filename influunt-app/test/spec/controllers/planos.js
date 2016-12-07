@@ -64,7 +64,7 @@ describe('Controller: PlanosCtrl', function () {
         expect(anel.planos).toBeDefined();
         expect(anel.planos.length).toBe(scope.objeto.limitePlanos + 1);
 
-        var planos = _.filter(scope.objeto.planos, function(p) { return _.map(anel.planos, 'idJson').indexOf(p.idJson) >= 0 });
+        var planos = _.filter(scope.objeto.planos, function(p) { return _.map(anel.planos, 'idJson').indexOf(p.idJson) >= 0; });
         expect(_.find(planos, 'planoTemporario')).toBeDefined();
       });
     });
@@ -1076,7 +1076,7 @@ describe('Controller: PlanosCtrl', function () {
   });
 
   describe('getErros', function () {
-    beforeEach(inject(function($timeout, handleValidations) {
+    beforeEach(inject(function($timeout) {
       beforeEachFn(ControladorComPlanos);
       var errors = [
         {
@@ -1197,7 +1197,7 @@ describe('Controller: PlanosCtrl', function () {
       });
 
       it('um controlador com mais que um anel não deverá permitir que o usuário desative o plano exclusivo manual', function() {
-        _.filter(scope.objeto.aneis, 'ativo').forEach(function(anel, index) { anel.aceitaModoManual = true; });
+        _.filter(scope.objeto.aneis, 'ativo').forEach(function(anel) { anel.aceitaModoManual = true; });
         scope.configuraModoManualExclusivo();
         scope.$apply();
 

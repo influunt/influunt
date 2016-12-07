@@ -424,6 +424,9 @@ public class GerenciadorDeEstagiosDispensavelTest extends GerenciadorDeEstagiosT
         Anel anel = getAnel(2);
         Plano plano = getPlano(anel, 13);
 
+        Estagio estagio = anel.findEstagioByPosicao(2);
+        estagio.setTempoMaximoPermanenciaAtivado(false);
+
         gerenciadorDeEstagios = getGerenciadorDeEstagios(2, plano);
 
         avancar(gerenciadorDeEstagios, 100);
