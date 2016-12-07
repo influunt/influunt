@@ -1,12 +1,16 @@
 package server.conn;
 
+import akka.actor.OneForOneStrategy;
+import akka.actor.SupervisorStrategy;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.japi.Function;
 import akka.routing.Router;
 import handlers.*;
 import protocol.Envelope;
 import protocol.TipoMensagem;
+import scala.concurrent.duration.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +23,20 @@ import static utils.MessageBrokerUtils.createRoutees;
  */
 public class CentralMessageBroker extends UntypedActor {
 
+    private static SupervisorStrategy strategy =
+        new OneForOneStrategy(1000, Duration.Undefined(),
+            new Function<Throwable, SupervisorStrategy.Directive>() {
+                @Override
+                public SupervisorStrategy.Directive apply(Throwable t) {
+                    System.out.println("[CentralMessageBroker] Um ator falhou");
+                    t.printStackTrace();
+                    return SupervisorStrategy.resume();
+                }
+            }, false);
+
+
     Map<TipoMensagem, Router> routers = new HashMap<>();
+
 
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
@@ -51,5 +68,16 @@ public class CentralMessageBroker extends UntypedActor {
                 throw new RuntimeException("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());
             }
         }
+    }
+
+    @Override
+    public SupervisorStrategy supervisorStrategy() {
+        return strategy;
+    }
+
+    @Override
+    public void postStop() throws Exception {
+        System.out.println("CentralMessageBroker parou");
+        super.postStop();
     }
 }
