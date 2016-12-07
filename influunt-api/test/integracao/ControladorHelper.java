@@ -58,7 +58,16 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+
+        ControladorFisico controladorFisico = versaoControlador.getControladorFisico();
+        controladorFisico.criarChaves();
+
+        controladorFisico.addVersaoControlador(versaoControlador);
+        controladorFisico.setArea(controlador.getArea());
+
         controlador.save();
+        controladorFisico.save();
 
         return controlador;
     }

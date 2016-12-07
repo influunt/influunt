@@ -75,9 +75,9 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
     @Before
     public void setup() throws IOException, InterruptedException {
         controlador = new ControladorHelper().getControlador();
-        idControlador = controlador.getId().toString();
+        idControlador = controlador.getControladorFisicoId();
         this.deviceConfig = new TestDeviceConfig();
-        this.deviceConfig.setDeviceId(controlador.getId().toString());
+        this.deviceConfig.setDeviceId(idControlador);
         this.deviceConfig.setCentralPublicKey(controlador.getCentralPublicKey());
         this.deviceConfig.setPrivateKey(controlador.getControladorPrivateKey());
 

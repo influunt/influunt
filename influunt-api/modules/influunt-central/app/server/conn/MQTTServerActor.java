@@ -107,7 +107,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);
-        String publicKey = Controlador.find.byId(UUID.fromString(envelope.getIdControlador())).getVersaoControlador().getControladorFisico().getControladorPublicKey();
+        String publicKey = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
         message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
         client.publish(envelope.getDestino(), message);
     }
@@ -142,19 +142,17 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
                 Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-        subscribe("controladores/conn/online");
-        subscribe("controladores/conn/offline");
-        subscribe("central/transacoes/+");
-        subscribe("central/alarmes_falhas/+");
-        subscribe("central/troca_plano/+");
-        subscribe("central/+");
-
+        subscribe("controladores/conn/online", QoS.AT_LEAST_ONCE.ordinal());
+        subscribe("controladores/conn/offline", QoS.AT_LEAST_ONCE.ordinal());
+        subscribe("central/transacoes/+", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/alarmes_falhas", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/troca_plano", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/configuracao", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/mudanca_status_controlador", QoS.AT_LEAST_ONCE.ordinal());
     }
 
-    public void subscribe(String route) throws MqttException {
-//        client.subscribe(route, QoS.EXACTLY_ONCE.ordinal(), (topic, message) -> sendToBroker(message));
-        client.subscribe(route, QoS.EXACTLY_ONCE.ordinal(), this);
-
+    public void subscribe(String route, int qos) throws MqttException {
+        client.subscribe(route, qos, (topic, message) -> sendToBroker(message));
     }
 
     @Override
@@ -170,8 +168,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("messageArrived" + topic);
-        System.out.println("messageArrived" + message);
+        System.out.println("messageArrived: " + topic);
+        System.out.println("messageArrived: " + message);
         sendToBroker(message);
     }
 

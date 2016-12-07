@@ -26,7 +26,7 @@ public class ConexaoOfflineActorHandler extends UntypedActor {
                 // enviar msg APP controlador offline
                 envelope.setDestino(DestinoApp.controladorOffline());
                 envelope.setCriptografado(false);
-//                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             }
         }
     }

@@ -140,9 +140,6 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
                 Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-//        client.subscribe("controlador/" + id + "/+", 1, (topic, message) -> {
-//            sendToBroker(message);
-//        });
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
         Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());

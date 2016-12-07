@@ -26,7 +26,7 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
                 // enviar msg APP controlador online
                 envelope.setDestino(DestinoApp.controladorOnline());
                 envelope.setCriptografado(false);
-//                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
 
                 StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), true);
             }
