@@ -35,12 +35,22 @@ public class AlarmesFalhasControlador {
 
     private String idAnel;
 
+    private boolean recuperado;
+
+    private Long dataRecuperado;
+
     private JsonNode conteudo;
 
     public AlarmesFalhasControlador(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.conteudo = Json.toJson(map.get("conteudo"));
+        if(map.containsKey("recuperado")) {
+            this.recuperado = Boolean.parseBoolean(map.get("recuperado").toString());
+        }
+        if(map.containsKey("dataRecuperado")) {
+            this.dataRecuperado = Long.parseLong(map.get("dataRecuperado").toString());
+        }
 
         if (map.containsKey("idAnel") && map.get("idAnel") != null) {
             this.idAnel = map.get("idAnel").toString();
@@ -80,7 +90,7 @@ public class AlarmesFalhasControlador {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
 
         ArrayList<String> predicates = new ArrayList<>();
-        predicates.add("{ $match: { recuperado: {$exists: false} }  }");
+        predicates.add("{ $match: { recuperado: false }  }");
         predicates.add("{ $sort: { timestamp: -1 } }");
         predicates.add("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
         if (limit != null) {
@@ -109,7 +119,7 @@ public class AlarmesFalhasControlador {
         MongoCursor<Map> result = alarmesFalhas()
             .find("{ idControlador: #, " +
                 "idAnel: #, " +
-                "recuperado: { $exists: false }, " +
+                "recuperado: false, " +
                 "conteudo.tipoEvento.tipoEventoControlador: # }", idControlador, idAnel, TipoEventoControlador.FALHA.toString())
             .sort("{ timestamp: -1 }")
             .limit(1).as(Map.class);
@@ -151,10 +161,10 @@ public class AlarmesFalhasControlador {
         alarmesFalhas()
             .update("{ idControlador: #, " +
                 "idAnel: #, " +
-                "recuperado: { $exists: false }, " +
+                "recuperado: false, " +
                 "conteudo.tipoEvento.tipo: { $regex: # } }", idControlador, idAnel, falha)
             .multi()
-            .with("{ $set: { recuperado: true } }");
+            .with("{ $set: { recuperado: true , dataRecuperado: " + carimboDeTempo + "} }");
 
         log(carimboDeTempo, idControlador, idAnel, jsonConteudo);
         LogControlador.log(idControlador, carimboDeTempo, evento.getDescricao(), TipoLogControlador.REMOCAO_FALHA);
@@ -186,5 +196,13 @@ public class AlarmesFalhasControlador {
 
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    public Long getDataRecuperado() {
+        return dataRecuperado;
+    }
+
+    public boolean isRecuperado() {
+        return recuperado;
     }
 }

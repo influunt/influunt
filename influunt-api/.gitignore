@@ -13,3 +13,4 @@ imagens/*
 local
 form.properties
 *-tcplocalhost1883
+*.log

@@ -35,6 +35,7 @@ public class CentralMessageBroker extends UntypedActor {
         routers.put(TipoMensagem.ALARME_FALHA, createRoutees(getContext(), 5, AlarmeFalhaActorHandler.class));
         routers.put(TipoMensagem.REMOCAO_FALHA, createRoutees(getContext(), 5, RemocaoFalhaActorHandler.class));
         routers.put(TipoMensagem.TROCA_DE_PLANO, createRoutees(getContext(), 5, TrocaPlanoEfetivoActorHandler.class));
+        routers.put(TipoMensagem.LER_DADOS_CONTROLADOR, createRoutees(getContext(), 5, LerDadosActorHandler.class));
     }
 
 
