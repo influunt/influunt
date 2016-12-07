@@ -54,6 +54,19 @@ public class ImposicoesController extends Controller {
     }
 
     @Transactional
+    public CompletionStage<Result> tabelaHoraria() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        boolean imediato = json.get("imediato").asBoolean();
+        // Map  controlador ID -> transação ID
+        Map<String, String> transacoesIds = enviarTabelaHoraria(Json.fromJson(json.get("aneis"), List.class), imediato);
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
+
+    @Transactional
     public CompletionStage<Result> modoOperacao() {
         JsonNode json = request().body().asJson();
         if (json == null) {
@@ -107,6 +120,15 @@ public class ImposicoesController extends Controller {
         Map<String, String> transacoesIds = new HashMap<>();
         controladores.forEach(controlador ->
             transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controlador))
+        );
+        return transacoesIds;
+    }
+
+    private Map<String, String> enviarTabelaHoraria(List<String> aneis, boolean imediato) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarTabelaHoraria(controlador, imediato))
         );
         return transacoesIds;
     }

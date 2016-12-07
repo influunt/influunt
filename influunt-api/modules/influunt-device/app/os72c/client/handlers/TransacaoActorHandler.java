@@ -6,6 +6,7 @@ import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import json.ControladorCustomDeserializer;
+import logger.InfluuntLogger;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
@@ -37,22 +38,32 @@ public class TransacaoActorHandler extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {
+            if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 Controlador controlador;
                 JsonNode payloadJson;
                 JsonNode controladorJson;
                 log.info("DEVICE - TX Recebida: {}", transacao);
+                InfluuntLogger.log("DEVICE - TX Recebida: " + transacao.toString());
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
                         switch (transacao.tipoTransacao) {
                             case PACOTE_PLANO:
                                 controlador = Controlador.isPacotePlanosValido(storage.getControladorJson(), transacao.payload);
                                 if (controlador != null) {
-                                    storage.setPlanos(Json.parse(transacao.payload.toString()));
-                                    storage.setControlador(controlador);
-                                    storage.setStatus(StatusDevice.ATIVO);
+                                    storage.setControladorStaging(controlador);
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                }
+                                break;
+
+                            case PACOTE_TABELA_HORARIA:
+                                controlador = Controlador.isPacoteTabelaHorariaValido(storage.getControladorJson(), transacao.payload);
+                                if (controlador != null) {
+                                    storage.setControladorStaging(controlador);
+
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -62,12 +73,11 @@ public class TransacaoActorHandler extends UntypedActor {
                             case CONFIGURACAO_COMPLETA:
                                 payloadJson = Json.parse(transacao.payload.toString());
                                 JsonNode planoJson = payloadJson.get("pacotePlanos");
+                                JsonNode pacoteTabelaHorariaJson = payloadJson.get("pacoteTabelaHoraria");
                                 controladorJson = payloadJson.get("pacoteConfiguracao");
-                                controlador = Controlador.isPacotePlanosValido(controladorJson, planoJson);
+                                controlador = Controlador.isPacoteConfiguracaoCompletaValido(controladorJson, planoJson, pacoteTabelaHorariaJson);
                                 if (controlador != null) {
-                                    storage.setControlador(controlador);
-                                    storage.setPlanos(planoJson);
-                                    storage.setStatus(StatusDevice.ATIVO);
+                                    storage.setControladorStaging(controlador);
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -119,9 +129,33 @@ public class TransacaoActorHandler extends UntypedActor {
 
                     case COMMIT:
                         switch (transacao.tipoTransacao) {
+                            case PACOTE_PLANO:
+                                Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_PLANOS, idControlador, null);
+                                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            case PACOTE_TABELA_HORARIA:
+                                payloadJson = Json.parse(transacao.payload.toString());
+                                boolean imediato = payloadJson.get("imediato").asBoolean();
+                                Envelope envelopeTH;
+                                if (imediato) {
+                                    envelopeTH = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA_IMEDIATAMENTE, idControlador, null);
+                                } else {
+                                    envelopeTH = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA, idControlador, null);
+                                }
+                                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeTH, getSelf());
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            case CONFIGURACAO_COMPLETA:
+                                Envelope envelopeConfig = Sinal.getMensagem(TipoMensagem.ATUALIZAR_CONFIGURACAO, idControlador, null);
+                                getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeConfig, getSelf());
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
                             case IMPOSICAO_MODO_OPERACAO:
                                 payloadJson = Json.parse(transacao.payload.toString());
-
                                 Envelope envelopeImposicaoModo = MensagemImposicaoModoOperacao.getMensagem(
                                     idControlador,
                                     payloadJson.get("modoOperacao").asText(),
@@ -129,7 +163,6 @@ public class TransacaoActorHandler extends UntypedActor {
                                     payloadJson.get("horarioEntrada").asLong(),
                                     payloadJson.get("duracao").asInt());
                                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoModo, getSelf());
-
                                 transacao.etapaTransacao = EtapaTransacao.COMMITED;
                                 break;
 
@@ -172,6 +205,7 @@ public class TransacaoActorHandler extends UntypedActor {
                 }
 
                 log.info("DEVICE - TX Enviada: {}", transacao);
+                InfluuntLogger.log("DEVICE - TX Enviada: " + transacao.toString());
                 envelope.setConteudo(transacao.toJson().toString());
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());
             }

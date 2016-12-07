@@ -21,7 +21,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private final DateTime inicioControlador;
 
-    private final Controlador controlador;
+    private Controlador controlador;
 
     private final MotorCallback callback;
 
@@ -38,6 +38,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     private boolean entrarEmModoManualAbrupt = false;
 
     private boolean emModoManual = false;
+
+    private Controlador controladorTemporario = null;
 
     public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
 
@@ -64,17 +66,32 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         );
     }
 
+    public void setControladorTemporario(Controlador controlador) {
+        controladorTemporario = controlador;
+    }
+
+    public void onMudancaTabelaHoraria() {
+        InfluuntLogger.log("[MOTOR] onMudancaTabelaHoraria");
+        alteraControlador();
+    }
 
     public void tick() {
         Evento evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
         boolean iniciarGrupos = false;
         if (eventoAtual == null || !evento.equals(eventoAtual)) {
+
+            if (controladorTemporario != null) {
+                alteraControlador();
+                evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
+            }
+
             callback.onTrocaDePlano(instante, eventoAtual, evento, getPlanos(evento).stream().map(p -> p.getModoOperacao().toString()).collect(Collectors.toList()));
             if (eventoAtual == null) {
                 iniciarGrupos = true;
             } else {
+                Evento finalEvento = evento;
                 estagios.stream().forEach(gerenciadorDeEstagios -> {
-                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(evento, getPlanos(evento).get(gerenciadorDeEstagios.getAnel() - 1), instante));
+                    gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(finalEvento, getPlanos(finalEvento).get(gerenciadorDeEstagios.getAnel() - 1), instante));
                 });
             }
             eventoAtual = evento;
@@ -93,6 +110,14 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         estagios.forEach(e -> e.tick());
         instante = instante.plus(100);
         monitor.endTick();
+    }
+
+    private void alteraControlador() {
+        GerenciadorDeTabelaHoraria novoGerenciador = new GerenciadorDeTabelaHoraria();
+        novoGerenciador.addEventos(controladorTemporario.getTabelaHoraria().getEventos());
+        controlador = controladorTemporario;
+        this.gerenciadorDeTabelaHoraria = novoGerenciador;
+        controladorTemporario = null;
     }
 
     @Override

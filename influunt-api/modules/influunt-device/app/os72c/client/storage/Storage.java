@@ -40,6 +40,4 @@ public interface Storage {
     public String getCentralPublicKey();
 
     public void setCentralPublicKey(String publicKey);
-
-
 }

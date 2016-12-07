@@ -884,9 +884,10 @@
     "editar": "Editar",
     "imporApagado": "Impor modo Apagado",
     "imporInterm": "impor modo interminente",
-    "sincronizarApenas": "Sincronizar apenas Tabela Horária",
-    "sincronizarHoraPlano": "Sincronizar Tabela Horária e Planos",
-    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos, Configurações",
+    "sincronizarTabelaHorariaImadiato": "Sincronizar Tabela Horária Imediatamente",
+    "sincronizarTabelaHoraria": "Sincronizar Tabela Horária na Próxima Troca de Planos",
+    "sincronizarPlano": "Sincronizar Planos",
+    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos e Configuração do Controlador",
     "sincronizando": "Sincronizando",
     "configurado": "Configurado"
   },

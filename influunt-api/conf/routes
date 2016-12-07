@@ -203,6 +203,7 @@ GET       /api/v1/relatorios/log_controladores                                  
 
 # Imposições
 POST       /api/v1/imposicoes/pacote_plano                                                      controllers.ImposicoesController.pacotePlano
+POST       /api/v1/imposicoes/tabela_horaria                                                    controllers.ImposicoesController.tabelaHoraria
 POST       /api/v1/imposicoes/configuracao_completa                                             controllers.ImposicoesController.configuracaoCompleta
 POST       /api/v1/imposicoes/modo_operacao                                                     controllers.ImposicoesController.modoOperacao
 POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano

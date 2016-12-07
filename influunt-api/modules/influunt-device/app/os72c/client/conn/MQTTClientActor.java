@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import logger.InfluuntLogger;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
+import org.fusesource.mqtt.client.QoS;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by rodrigosol on 7/7/16.
  */
-public class MQTTClientActor extends UntypedActor implements MqttCallback {
+public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqttMessageListener {
 
     private final String host;
 
@@ -109,7 +110,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
                 throw new Exception("Conexao morreu");
             }
         } else if (message instanceof Envelope) {
-            sendMenssage((Envelope) message);
+            sendMessage((Envelope) message);
         }
     }
 
@@ -139,12 +140,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
                 Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-        client.subscribe("controlador/" + id + "/+", 1, (topic, message) -> {
-            sendToBroker(message);
-        });
+        client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
         Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
-        sendMenssage(controladorOnline);
+        sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 
@@ -193,15 +192,14 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-
+        sendToBroker(message);
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-
     }
 
-    private void sendMenssage(Envelope envelope) throws MqttException {
+    private void sendMessage(Envelope envelope) throws MqttException {
         MqttMessage message = new MqttMessage();
         message.setQos(envelope.getQos());
         message.setRetained(true);

@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
+import logger.InfluuntLogger;
 import models.Anel;
 import models.Controlador;
 import models.Evento;
@@ -96,6 +97,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
+
     }
 
     @Override
@@ -168,6 +170,21 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 case LIBERAR_IMPOSICAO:
                     liberarImposicao(envelope.getConteudoParsed());
                     break;
+
+                case TROCAR_TABELA_HORARIA:
+                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria");
+                    trocarTabelaHoraria(false);
+                    break;
+
+                case TROCAR_TABELA_HORARIA_IMEDIATAMENTE:
+                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria IMEDIATO!");
+                    trocarTabelaHoraria(true);
+                    break;
+
+                case ATUALIZAR_CONFIGURACAO:
+                case TROCAR_PLANOS:
+                    alterarControladorNoMotor();
+                    break;
             }
         }
     }
@@ -225,6 +242,19 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private void liberarImposicao(JsonNode conteudo) {
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+    }
+
+    private void trocarTabelaHoraria(boolean imediatamente) {
+        alterarControladorNoMotor();
+        if (imediatamente) {
+            motor.onMudancaTabelaHoraria();
+        }
+    }
+
+    private void alterarControladorNoMotor() {
+        motor.setControladorTemporario(storage.getControladorStaging());
+        storage.setControlador(storage.getControladorStaging());
+        storage.setControladorStaging(null);
     }
 
 

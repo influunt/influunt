@@ -187,13 +187,31 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
-    public static Controlador findUniqueByArea(String controladorId, String areaId) {
-        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
+    public static Controlador isPacoteTabelaHorariaValido(Object controladorObject, Object pacoteTabelaHoraria) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty() ? controlador : null;
     }
 
-    public static List<Controlador> findListByArea(String areaId) {
-        return Controlador.find.where().eq("area_id", areaId).findList();
+    public static Controlador isPacoteConfiguracaoCompletaValido(Object controladorObject, Object pacotePlanos, Object pacoteTabelaHoraria) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+        JsonNode pacotePlanosJson = Json.parse(pacotePlanos.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteConfiguracaoCompletaFromJson(controladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty() ? controlador : null;
     }
+
 
     public boolean isCompleto() {
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
@@ -201,6 +219,15 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty();
+    }
+
+
+    public static Controlador findUniqueByArea(String controladorId, String areaId) {
+        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
+    }
+
+    public static List<Controlador> findListByArea(String areaId) {
+        return Controlador.find.where().eq("area_id", areaId).findList();
     }
 
     @Override

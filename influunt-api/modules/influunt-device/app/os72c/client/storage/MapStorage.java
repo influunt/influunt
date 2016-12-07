@@ -81,7 +81,7 @@ public class MapStorage implements Storage {
 
     @Override
     public Controlador getControladorStaging() {
-        if (this.controlador.containsKey("temp")) {
+        if (this.controlador.containsKey("temp") && !this.controlador.get("temp").equals("")) {
             return new ControladorCustomDeserializer().getControladorFromJson(play.libs.Json.parse(this.controlador.get("temp")));
         }
         return null;
@@ -89,7 +89,11 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControladorStaging(Controlador controlador) {
-        this.controlador.put("temp", new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), controlador.getRangeUtils()).toString());
+        String controladorStr = "";
+        if (controlador != null) {
+            controladorStr = new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), controlador.getRangeUtils()).toString();
+        }
+        this.controlador.put("temp", controladorStr);
         db.commit();
     }
 
