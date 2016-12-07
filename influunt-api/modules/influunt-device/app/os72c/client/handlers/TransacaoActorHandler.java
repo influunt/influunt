@@ -6,17 +6,21 @@ import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import json.ControladorCustomDeserializer;
+import logger.InfluuntLogger;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import models.StatusDevice;
+import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.*;
+import scala.concurrent.duration.Duration;
 import status.Transacao;
 
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -37,7 +41,7 @@ public class TransacaoActorHandler extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {
+            if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 Controlador controlador;
@@ -53,6 +57,16 @@ public class TransacaoActorHandler extends UntypedActor {
                                     storage.setPlanos(Json.parse(transacao.payload.toString()));
                                     storage.setControlador(controlador);
                                     storage.setStatus(StatusDevice.ATIVO);
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                }
+                                break;
+
+                            case PACOTE_TABELA_HORARIA:
+                                controlador = Controlador.isPacoteTabelaHorariaValido(storage.getControladorJson(), transacao.payload);
+                                if (controlador != null) {
+                                    storage.setControladorStaging(controlador);
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 } else {
                                     transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -131,6 +145,20 @@ public class TransacaoActorHandler extends UntypedActor {
                                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoModo, getSelf());
 
                                 transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            case PACOTE_TABELA_HORARIA:
+                                payloadJson = Json.parse(transacao.payload.toString());
+                                // swefo rimediato, colocar 0
+                                boolean imediato = payloadJson.get("imediato").asBoolean();
+                                InfluuntLogger.log("[TRANSACAO HANDLER] onMudancaTabelaHoraria -- entrada");
+
+                                if (imediato) {
+                                    Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA_IMEDIATAMENTE, idControlador, null);
+                                    getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
+                                }
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+
                                 break;
 
                             case IMPOSICAO_PLANO:

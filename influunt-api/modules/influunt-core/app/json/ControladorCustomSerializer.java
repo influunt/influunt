@@ -248,8 +248,29 @@ public class ControladorCustomSerializer {
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
 
+//        if (controlador.getVersaoTabelaHoraria() != null) {
+//            versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria());
+//        }
+//        putControladorVersoesTabelasHorarias(root);
+//        putControladorTabelasHorarias(root);
+//        putControladorEventos(root);
+
+        return root;
+    }
+
+    public JsonNode getPacoteTabelaHorariaJson(Controlador controlador) {
+        ObjectNode root = Json.newObject();
+
         if (controlador.getVersaoTabelaHoraria() != null) {
             versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria());
+        }
+        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria() != null) {
+            tabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria().getTabelaHoraria());
+        }
+        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos() != null) {
+            controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos().forEach(evento -> {
+                eventosMap.put(evento.getIdJson(), evento);
+            });
         }
         putControladorVersoesTabelasHorarias(root);
         putControladorTabelasHorarias(root);

@@ -4,6 +4,7 @@ package execucao.gerenciadorPlanos;
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import integracao.ControladorHelper;
+import models.Controlador;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -128,6 +129,42 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
         assertEquals("Plano Atual", 5, listaTrocaPlano.get(inicioExecucao.plusSeconds(1)).getPosicaoPlano().intValue());
+    }
+
+    @Test
+    public void comAlteracaoTabelaHorariaImediata() throws IOException {
+        Controlador controladorComMudanca = new ControladorHelper().setPlanosComTabelaHorariaMicro2(new ControladorHelper().getControlador());
+        listaTrocaPlano = new HashMap<>();
+        inicioControlador = new DateTime(2018, 3, 15, 7, 59, 50);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarSegundos(motor, 5);
+        motor.setControladorTemporario(controladorComMudanca);
+        motor.onMudancaTabelaHoraria();
+        avancarSegundos(motor, 10);
+
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 6, listaTrocaPlano.get(inicioExecucao.plusSeconds(5)).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 7, listaTrocaPlano.get(inicioExecucao.plusSeconds(10)).getPosicaoPlano().intValue());
+
+        assertEquals("Total de trocas", 3, listaTrocaPlano.size());
+    }
+
+    @Test
+    public void comAlteracaoTabelaHorariaNaProximaTroca() throws IOException {
+        Controlador controladorComMudanca = new ControladorHelper().setPlanosComTabelaHorariaMicro2(new ControladorHelper().getControlador());
+        listaTrocaPlano = new HashMap<>();
+        inicioControlador = new DateTime(2018, 3, 15, 7, 59, 50);
+        inicioExecucao = inicioControlador;
+        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        avancarSegundos(motor, 5);
+        motor.setControladorTemporario(controladorComMudanca);
+        avancarSegundos(motor, 10);
+
+        assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
+        assertEquals("Plano Atual", 7, listaTrocaPlano.get(inicioExecucao.plusSeconds(10)).getPosicaoPlano().intValue());
+
+        assertEquals("Total de trocas", 2, listaTrocaPlano.size());
     }
 
     @Test

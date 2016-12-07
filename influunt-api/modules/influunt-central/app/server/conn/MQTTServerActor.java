@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
+import org.fusesource.mqtt.client.QoS;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 import utils.EncryptionUtil;
@@ -27,10 +28,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static tyrex.util.Configuration.console;
+
 /**
  * Created by rodrigosol on 7/7/16.
  */
-public class MQTTServerActor extends UntypedActor implements MqttCallback {
+public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqttMessageListener {
 
     private final String host;
 
@@ -152,7 +155,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
     }
 
     public void subscribe(String route) throws MqttException {
-        client.subscribe(route, 1, (topic, message) -> sendToBroker(message));
+//        client.subscribe(route, QoS.EXACTLY_ONCE.ordinal(), (topic, message) -> sendToBroker(message));
+        client.subscribe(route, QoS.EXACTLY_ONCE.ordinal(), this);
+
     }
 
     @Override
@@ -168,12 +173,14 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-
+        System.out.println("messageArrived" + topic);
+        System.out.println("messageArrived" + message);
+        sendToBroker(message);
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-
+        System.out.println("Delivery complete:" + token);
     }
 
 }

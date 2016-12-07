@@ -236,6 +236,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
         return true;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -243,7 +244,21 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
 
         Evento evento = (Evento) o;
 
-        return id != null ? id.equals(evento.id) : evento.id == null;
+        if (!getId().equals(evento.getId())) return false;
+        if (!getIdJson().equals(evento.getIdJson())) return false;
+        if (!getPosicao().equals(evento.getPosicao())) return false;
+        if (isDiaDaSemana() != evento.isDiaDaSemana()) return false;
+        if (!getHorario().equals(evento.getHorario())) return false;
+        if (getNome() != null ? !getNome().equals(evento.getNome()) : evento.getNome() != null) return false;
+        if (!getPosicaoPlano().equals(evento.getPosicaoPlano())) return false;
+        if (getTipo() != evento.getTipo()) return false;
+        if (getTabelaHorario() != null ? !getTabelaHorario().equals(evento.getTabelaHorario()) : evento.getTabelaHorario() != null)
+            return false;
+        if (getAgrupamento() != null ? !getAgrupamento().equals(evento.getAgrupamento()) : evento.getAgrupamento() != null)
+            return false;
+        if (getDataCriacao() != null ? !getDataCriacao().equals(evento.getDataCriacao()) : evento.getDataCriacao() != null)
+            return false;
+        return getDataAtualizacao() != null ? getDataAtualizacao().equals(evento.getDataAtualizacao()) : evento.getDataAtualizacao() == null;
 
     }
 

@@ -3,13 +3,16 @@ package utils;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import com.avaje.ebean.config.JsonConfig;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import json.ControladorCustomSerializer;
 import models.Cidade;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
+import org.joda.time.DateTime;
 import play.libs.Json;
 import protocol.*;
 import server.conn.CentralMessageBroker;
@@ -28,7 +31,7 @@ public class TransacaoHelper {
     public String enviarPacotePlanos(Controlador controlador) {
         JsonNode pacotePlanosJson = new ControladorCustomSerializer().getPacotePlanosJson(controlador);
         Transacao transacao = new Transacao(controlador.getId().toString(), pacotePlanosJson, TipoTransacao.PACOTE_PLANO);
-        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
@@ -38,7 +41,16 @@ public class TransacaoHelper {
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
         Transacao transacao = new Transacao(controladorId, configuracaoJson, TipoTransacao.CONFIGURACAO_COMPLETA);
-        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
+        return transacao.transacaoId;
+    }
+
+    public String enviarTabelaHoraria(Controlador controlador, boolean imediato) {
+        JsonNode pacoteTabelaHoraria = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
+//        ((ObjectNode))
+        ((ObjectNode) pacoteTabelaHoraria).put("imediato", imediato);
+        Transacao transacao = new Transacao(controlador.getId().toString(), pacoteTabelaHoraria, TipoTransacao.PACOTE_TABELA_HORARIA);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
@@ -46,7 +58,7 @@ public class TransacaoHelper {
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO);
-        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
@@ -60,7 +72,7 @@ public class TransacaoHelper {
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
-        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
@@ -68,7 +80,7 @@ public class TransacaoHelper {
         String controladorId = controlador.getId().toString();
         String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO);
-        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 
@@ -76,7 +88,7 @@ public class TransacaoHelper {
         String controladorId = controlador.getId().toString();
         String payload = Json.toJson(new MensagemLiberarImposicao(numeroAnel)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.LIBERAR_IMPOSICAO);
-        sendTransaction(transacao, QoS.AT_LEAST_ONCE);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
 

@@ -214,10 +214,10 @@ public class ControladorCustomDeserializer {
     }
 
     public Controlador getPacotesFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
-        ObjectNode node = ((ObjectNode) configuracaoControladorJson);
+        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
         for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")) {
             if (innerNode.has("anel") && innerNode.get("anel").has("idJson")) {
-                for (JsonNode anelNode : node.get("aneis")) {
+                for (JsonNode anelNode : controladorJson.get("aneis")) {
                     if (anelNode.get("idJson").asText().equals(innerNode.get("anel").get("idJson").asText())) {
                         ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", innerNode.get("idJson"));
                     }
@@ -225,17 +225,25 @@ public class ControladorCustomDeserializer {
 
             }
         }
-        node.set("versoesPlanos", pacotePlanosJson.get("versoesPlanos"));
-        node.set("planos", pacotePlanosJson.get("planos"));
-        node.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
-        node.set("intervalos", pacotePlanosJson.get("intervalos"));
-        node.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
+        controladorJson.set("versoesPlanos", pacotePlanosJson.get("versoesPlanos"));
+        controladorJson.set("planos", pacotePlanosJson.get("planos"));
+        controladorJson.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
+        controladorJson.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
 
-        node.set("versoesTabelasHorarias", pacotePlanosJson.get("versoesTabelasHorarias"));
-        node.set("tabelasHorarias", pacotePlanosJson.get("tabelasHorarias"));
-        node.set("eventos", pacotePlanosJson.get("eventos"));
+//        controladorJson.set("versoesTabelasHorarias", pacotePlanosJson.get("versoesTabelasHorarias"));
+//        controladorJson.set("tabelasHorarias", pacotePlanosJson.get("tabelasHorarias"));
+//        controladorJson.set("eventos", pacotePlanosJson.get("eventos"));
 
-        return getControladorFromJson(node);
+        return getControladorFromJson(controladorJson);
+    }
+
+    public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson) {
+        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+        controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
+        controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
+        controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
+
+        return getControladorFromJson(controladorJson);
     }
 
     private void parseAneis(JsonNode node) {

@@ -6,6 +6,7 @@ import com.google.common.collect.TreeRangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
 import helpers.GerenciadorEstagiosHelper;
+import logger.InfluuntLogger;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -297,7 +298,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (!inicio && this.agendamento != null) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
                 EventoMotor eventoMotor = new EventoMotor(null, TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
-
+                InfluuntLogger.log(eventoMotor);
                 if (intervalo == null) {
                     this.agendamento = null;
                     verificaETrocaIntervalo(intervalo);

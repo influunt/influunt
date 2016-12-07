@@ -41,5 +41,7 @@ public interface Storage {
 
     public void setCentralPublicKey(String publicKey);
 
+    public long getHorarioEntradaTabelaHoraria();
 
+    public void setHorarioEntradaTabelaHoraria(long horarioEntrada);
 }
