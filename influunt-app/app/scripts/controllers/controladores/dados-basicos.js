@@ -41,7 +41,7 @@ angular.module('influuntApp')
             .get()
             .then(function(res) {
               // O campo somente será inválido caso o SMEE pesquisado não exista (a API retorne o codigo igual a null).
-              $scope.validateSMEE[field].$valid = (res.idLocal !== null);
+              $scope.validateSMEE[field].$valid = (res.idLocal !== null && res.idLocal !== undefined);
               $scope.validateSMEE.$valid = CAMPOS_SMEE.every(function(i) {
                 return $scope.validateSMEE[i].$valid;
               });

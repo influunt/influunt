@@ -57,7 +57,7 @@ angular.module('influuntApp')
             var value = ev.value;
             var oldValue = scope.ngModel;
 
-            if (value) {
+            if (angular.isDefined(value)) {
               scope.ngModel = ev.value;
               scope.$apply();
               return angular.isFunction(scope.onChange()) && scope.onChange()(oldValue, value);
