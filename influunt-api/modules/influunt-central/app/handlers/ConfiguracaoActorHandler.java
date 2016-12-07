@@ -5,6 +5,7 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import models.Controlador;
 import models.ControladorFisico;
+import models.StatusDevice;
 import models.VersaoControlador;
 import protocol.Configuracao;
 import protocol.Envelope;
@@ -36,6 +37,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                 VersaoControlador versaoControlador = controladorConfigurado.getVersaoControlador();
                 versaoControlador.ativar();
                 controladorFisico.setControladorSincronizado(controladorConfigurado);
+                controladorFisico.setStatusDevice(StatusDevice.ATIVO);
 
                 versaoControlador.update();
                 controladorConfigurado.update();

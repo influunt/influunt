@@ -7,8 +7,7 @@ public enum StatusDevice {
     ATIVO,
     CONFIGURADO,
     EM_MANUTENCAO,
-    INOPERANTE,
     INATIVO,
     NOVO,
-    OPERANDO_COM_FALHAS
+    COM_FALHAS
 }
