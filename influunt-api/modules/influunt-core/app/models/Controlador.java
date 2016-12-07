@@ -230,14 +230,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return Controlador.find.where().eq("area_id", areaId).findList();
     }
 
-    public boolean isCompleto() {
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
-        return erros.isEmpty();
-    }
-
     @Override
     public void save() {
         antesDeSalvarOuAtualizar();
