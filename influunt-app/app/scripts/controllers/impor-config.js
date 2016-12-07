@@ -9,15 +9,15 @@
  */
 angular.module('influuntApp')
   .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular',
-                                  'influuntBlockui', 'pahoProvider', 'eventosDinamicos',
+                                  'influuntBlockui', 'pahoProvider', 'eventosDinamicos', 'mqttTransactionStatusService',
     function ($scope, $controller, $filter, Restangular,
-              influuntBlockui, pahoProvider, eventosDinamicos) {
+              influuntBlockui, pahoProvider, eventosDinamicos, mqttTransactionStatusService) {
 
-      var setData, setAneisPlanosImpostos, updateImposicoesEmAneis, registerWatcher;
+      var setData, setAneisPlanosImpostos, updateImposicoesEmAneis, registerWatcher, envelopeTracker, filtraObjetosAneis;
 
-      // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
+      $scope.dadosControlador = {erros: ''};
 
       $scope.pesquisa = {
         campos: [
@@ -44,6 +44,7 @@ angular.module('influuntApp')
         perPage: 30,
         current: 1
       };
+
       $scope.esconderPerPage = true;
 
       $scope.aneisSelecionados = [];
@@ -65,7 +66,7 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
-      var filtraObjetosAneis = function() {
+      filtraObjetosAneis = function() {
         $scope.aneisSelecionadosObj = _.filter($scope.lista, function(anel) {
           return $scope.aneisSelecionados.indexOf(anel.id) >= 0;
         });
@@ -108,6 +109,27 @@ angular.module('influuntApp')
             .set('inicio', status.inicio)
             .value();
         });
+      };
+
+      $scope.lerDados = function(controladorId) {
+        return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados')
+          .then(function(response) {
+            return envelopeTracker(response);
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
+      envelopeTracker = function(id) {
+        return mqttTransactionStatusService
+          .watchDadosControlador(id)
+          .then(function(conteudo) {
+            return Restangular.one("monitoramento/").customGET('erros_controladores/'+id+'/historico/0/60', null)
+              .then(function(response) {
+                $scope.dadosControlador = conteudo;
+                $scope.dadosControlador.erros = response;
+              })
+              .finally(influuntBlockui.unblock);
+          });
       };
 
       registerWatcher = function() {

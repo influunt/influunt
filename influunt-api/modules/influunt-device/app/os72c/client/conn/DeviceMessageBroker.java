@@ -6,10 +6,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.routing.Router;
-import os72c.client.handlers.ConfiguracaoActorHandler;
-import os72c.client.handlers.EchoActorHandler;
-import os72c.client.handlers.ErroActorHandler;
-import os72c.client.handlers.TransacaoActorHandler;
+import os72c.client.handlers.*;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -41,6 +38,7 @@ public class DeviceMessageBroker extends UntypedActor {
         routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(), 1, ConfiguracaoActorHandler.class, idControlador, storage));
         routers.put(TipoMensagem.TRANSACAO, createRoutees(getContext(), 1, TransacaoActorHandler.class, idControlador, storage));
         routers.put(TipoMensagem.ERRO, createRoutees(getContext(), 1, ErroActorHandler.class));
+        routers.put(TipoMensagem.LER_DADOS_CONTROLADOR, createRoutees(getContext(), 1, LerDadosControladorActorHandler.class, idControlador, storage));
         actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage), "actorConfig");
 
     }
