@@ -621,6 +621,15 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         return this.controlador;
     }
 
+    public Controlador setPlanosComTabelaHorariaMicro2(Controlador controlador) {
+        this.controlador = controlador;
+        setDadosPlanos();
+        setDadosTabelaHorariaMicro2();
+
+        return this.controlador;
+    }
+
+
     private void criaVersaoPlanos(Anel anel) {
         VersaoPlano versaoPlano = new VersaoPlano(anel, getUsuario());
         versaoPlano.setStatusVersao(StatusVersao.ATIVO);
@@ -855,6 +864,21 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_RECORRENTE, new DateTime(2016, 12, 25, 0, 0, 0), LocalTime.parse("08:00:00"), "Natal", 11);
         criarEventoEspecial(tabelaHoraria, 1, TipoEvento.ESPECIAL_NAO_RECORRENTE, new DateTime(2017, 03, 15, 0, 0, 0), LocalTime.parse("08:00:00"), "Dia das Mães", 12);
+
+        controlador.save();
+    }
+
+    private void setDadosTabelaHorariaMicro2() {
+        TabelaHorario tabelaHoraria = new TabelaHorario();
+        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
+        controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
+
+        criarEvento(tabelaHoraria, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("00:00:00"), 6);
+
+        criarEvento(tabelaHoraria, 2, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("8:00:00"), 7);
+        criarEvento(tabelaHoraria, 3, DiaDaSemana.SEGUNDA_A_SEXTA, LocalTime.parse("18:00:00"), 1);
 
         controlador.save();
     }

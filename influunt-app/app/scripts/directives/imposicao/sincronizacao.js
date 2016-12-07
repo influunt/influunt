@@ -21,9 +21,19 @@ angular.module('influuntApp')
           var transactionTracker;
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
-            var resource = scope.dataSincronizar.tipo === 'pacotePlanos' ? 'pacote_plano' : 'configuracao_completa';
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
-            return Restangular.one('imposicoes').customPOST(idsAneisSelecionados, resource)
+            var resource, data;
+            if (scope.dataSincronizar.tipo.match(/tabela_horaria/)) {
+              resource = 'tabela_horaria';
+              data = { aneis: idsAneisSelecionados };
+              data.imediato = scope.dataSincronizar.tipo === 'tabela_horaria_imediato';
+            } else {
+              resource = scope.dataSincronizar.tipo;
+              data = idsAneisSelecionados;
+            }
+            // var resource = scope.dataSincronizar.tipo === 'tabela_horaria_imediato' ? ''; // URL da API
+            // var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
+            return Restangular.one('imposicoes').customPOST(data, resource)
               .then(function(response) {
                 _.each(response.plain(), function(transacaoId, controladorId) {
                   scope.idsTransacoes[controladorId] = transacaoId;

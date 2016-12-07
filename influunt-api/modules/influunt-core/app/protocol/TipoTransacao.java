@@ -4,8 +4,11 @@ package protocol;
  * Created by rodrigosol on 9/6/16.
  */
 public enum TipoTransacao {
-    // Envio de pacote de planos e tabela horária
+    // Envio de pacote de planos
     PACOTE_PLANO,
+
+    // Envio de pacote de tabela horária
+    PACOTE_TABELA_HORARIA,
 
     // Envio de configuração + pacote de planos e tabela horária
     CONFIGURACAO_COMPLETA,

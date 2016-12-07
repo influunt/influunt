@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
+import logger.InfluuntLogger;
 import models.Anel;
 import models.Controlador;
 import models.Evento;
@@ -13,10 +14,8 @@ import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.Logger;
-import protocol.AlarmeFalha;
-import protocol.Envelope;
-import protocol.RemocaoFalha;
-import protocol.TrocaPlanoEfetiva;
+import protocol.*;
+import scala.concurrent.duration.Duration;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -77,6 +76,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
                 Logger.info("O motor foi iniciado");
+
+//                if (storage.getHorarioEntradaTabelaHoraria() >= 0) {
+//                    long horarioEntrada = Math.min(0, storage.getHorarioEntradaTabelaHoraria() - DateTime.now().getMillis());
+//                    Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA, controlador.getId().toString(), null);
+//                    getContext().system().scheduler().scheduleOnce(Duration.create(horarioEntrada, TimeUnit.SECONDS), getSelf(), envelopeSinal, getContext().system().dispatcher(), getSelf());
+//                }
             } else {
                 Logger.info("Não existe configuração para iniciar o motor.");
                 Logger.warn("Aguardando configuração.");
@@ -96,6 +101,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
+
     }
 
     @Override
@@ -168,6 +174,21 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 case LIBERAR_IMPOSICAO:
                     liberarImposicao(envelope.getConteudoParsed());
                     break;
+
+                case TROCAR_TABELA_HORARIA:
+                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria");
+                    trocarTabelaHoraria(false);
+                    break;
+
+                case TROCAR_TABELA_HORARIA_IMEDIATAMENTE:
+                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria IMEDIATO!");
+                    trocarTabelaHoraria(true);
+                    break;
+
+                case ATUALIZAR_CONFIGURACAO:
+                case TROCAR_PLANOS:
+                    alterarControladorNoMotor();
+                    break;
             }
         }
     }
@@ -225,6 +246,19 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private void liberarImposicao(JsonNode conteudo) {
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+    }
+
+    private void trocarTabelaHoraria(boolean imediatamente) {
+        alterarControladorNoMotor();
+        if (imediatamente) {
+            motor.onMudancaTabelaHoraria();
+        }
+    }
+
+    private void alterarControladorNoMotor() {
+        motor.setControladorTemporario(storage.getControladorStaging());
+        storage.setControlador(storage.getControladorStaging());
+        storage.setControladorStaging(null);
     }
 
 
