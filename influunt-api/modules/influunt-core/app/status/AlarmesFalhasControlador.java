@@ -90,7 +90,7 @@ public class AlarmesFalhasControlador {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
 
         ArrayList<String> predicates = new ArrayList<>();
-        predicates.add("{ $match: { recuperado: {$exists: false} }  }");
+        predicates.add("{ $match: { recuperado: false }  }");
         predicates.add("{ $sort: { timestamp: -1 } }");
         predicates.add("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
         if (limit != null) {
@@ -119,7 +119,7 @@ public class AlarmesFalhasControlador {
         MongoCursor<Map> result = alarmesFalhas()
             .find("{ idControlador: #, " +
                 "idAnel: #, " +
-                "recuperado: { $exists: false }, " +
+                "recuperado: false, " +
                 "conteudo.tipoEvento.tipoEventoControlador: # }", idControlador, idAnel, TipoEventoControlador.FALHA.toString())
             .sort("{ timestamp: -1 }")
             .limit(1).as(Map.class);
@@ -161,7 +161,7 @@ public class AlarmesFalhasControlador {
         alarmesFalhas()
             .update("{ idControlador: #, " +
                 "idAnel: #, " +
-                "recuperado: { $exists: false }, " +
+                "recuperado: false, " +
                 "conteudo.tipoEvento.tipo: { $regex: # } }", idControlador, idAnel, falha)
             .multi()
             .with("{ $set: { recuperado: true , dataRecuperado: " + carimboDeTempo + "} }");
