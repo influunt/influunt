@@ -101,4 +101,28 @@ public class Transacao {
         }
         return root;
     }
+
+    public EtapaTransacao getEtapaTransacao() {
+        return etapaTransacao;
+    }
+
+    public TipoTransacao getTipoTransacao() {
+        return tipoTransacao;
+    }
+
+    public String getTransacaoId() {
+        return transacaoId;
+    }
+
+    public String getIdControlador() {
+        return idControlador;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public Object getPayload() {
+        return payload;
+    }
 }
