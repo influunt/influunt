@@ -551,8 +551,7 @@ public class ControladoresController extends Controller {
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-//        Json.fromJson(json, List.class)
-        Controlador controlador = Controlador.find.byId(UUID.fromString("d9fbb4ab-dde9-47e3-8efd-3e7a46668688"));
+        Controlador controlador = Controlador.find.byId(UUID.fromString(json.get("id").asText()));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
