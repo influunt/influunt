@@ -4,7 +4,7 @@ var assert = require('assert');
 var Long = require('mongodb').Long;
 var MongoClient = mongo.MongoClient;
 
-var url = 'mongodb://127.0.0.1:27017/influuntdev';
+var url = 'mongodb://127.0.0.1:27017/influunttest';
 var ObjectId = mongo.ObjectID;
 var NumberLong = Long.fromString('1479756629334');
 
@@ -24,10 +24,27 @@ var MongoInsert = function () {
                                'descricao' : 'PLANO 1' }}}
   ];
 
-  var alarmesFalhasControladores = [
+  var alarmesFalhasControladores1 = [
     {
       '_id' : ObjectId('5833538c2d4e4bfb76af0d84'),
       'idControlador' : '3d86335e-05e7-4921-8cdf-42ed03821f62',
+      'timestamp' : NumberLong,
+      'conteudo' : { 'timestamp' : '18/11/2016 20:59:23',
+                     'tipoEvento' : {
+                     'tipo' : 'FALHA_WATCH_DOG',
+                     'tipoEventoControlador' : 'FALHA',
+                     'codigo' : 9,
+                     'descricao' : 'Falha CPU' },
+      'descricaoEvento' : 'Falha CPU',
+       'params' : []
+      }
+    }
+  ];
+
+  var alarmesFalhasControladores2 = [
+    {
+      '_id' : ObjectId('5833538c2d4e4bfb76af0d83'),
+      'idControlador' : '90574f0a-cd7b-477c-9fa6-98c426813ea8',
       'timestamp' : NumberLong,
       'conteudo' : { 'timestamp' : '18/11/2016 20:59:23',
                      'tipoEvento' : {
@@ -74,7 +91,11 @@ var MongoInsert = function () {
       db.close();
     });
 
-    clearDb(db, alarmesFalhasControladores, tableAlarmesFalhasControladores, function() {
+    clearDb(db, alarmesFalhasControladores1, tableAlarmesFalhasControladores, function() {
+      db.close();
+    });
+
+    clearDb(db, alarmesFalhasControladores2, tableAlarmesFalhasControladores, function() {
       db.close();
     });
 
@@ -82,7 +103,11 @@ var MongoInsert = function () {
       db.close();
     });
 
-    insertDocuments(db, alarmesFalhasControladores, tableAlarmesFalhasControladores, () => {
+    insertDocuments(db, alarmesFalhasControladores1, tableAlarmesFalhasControladores, () => {
+      db.close();
+    });
+
+    insertDocuments(db, alarmesFalhasControladores2, tableAlarmesFalhasControladores, () => {
       db.close();
     });
   });
