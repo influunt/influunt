@@ -24,9 +24,6 @@ public class TransacaoPacotePlanoActorHandler extends TransacaoActorHandler {
     protected void executePrepareToCommit(Transacao transacao) {
         Controlador controlador = Controlador.isPacotePlanosValido(storage.getControladorJson(), transacao.payload);
         if (controlador != null) {
-//            storage.setPlanos(Json.parse(transacao.payload.toString()));
-//            storage.setControlador(controlador);
-//            storage.setStatus(StatusDevice.ATIVO);
             storage.setControladorStaging(controlador);
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
@@ -36,7 +33,6 @@ public class TransacaoPacotePlanoActorHandler extends TransacaoActorHandler {
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        InfluuntLogger.log("[TRANSACAO HANDLER] onTrocarPlanos -- entrada");
         Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_PLANOS, idControlador, null);
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;

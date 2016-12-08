@@ -27,6 +27,7 @@ public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHand
         Controlador controlador = Controlador.isPacoteTabelaHorariaValido(storage.getControladorJson(), transacao.payload);
         if (controlador != null) {
             storage.setControladorStaging(controlador);
+
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -35,17 +36,16 @@ public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHand
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        JsonNode payloadJson = Json.parse(transacao.payload.toString());
-        // swefo rimediato, colocar 0
+        JsonNode payloadJson = Json.parse(transacao.payload);
         boolean imediato = payloadJson.get("imediato").asBoolean();
-        InfluuntLogger.log("[TRANSACAO HANDLER] onMudancaTabelaHoraria -- entrada");
-
+        Envelope envelopeTH;
         if (imediato) {
-            Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA_IMEDIATAMENTE, idControlador, null);
-            getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
+            envelopeTH = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA_IMEDIATAMENTE, idControlador, null);
+        } else {
+            envelopeTH = Sinal.getMensagem(TipoMensagem.TROCAR_TABELA_HORARIA, idControlador, null);
         }
+        getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeTH, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
-
     }
 
     @Override

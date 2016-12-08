@@ -5,7 +5,6 @@ import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import engine.TipoEvento;
-import logger.InfluuntLogger;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -192,22 +191,21 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     break;
 
                 case TROCAR_TABELA_HORARIA:
-                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria");
-                    motor.setControladorTemporario(storage.getControladorStaging());
-                    storage.setControlador(storage.getControladorStaging());
-                    storage.setControladorStaging(null);
+                    trocarTabelaHoraria(false);
+
                     break;
 
                 case TROCAR_TABELA_HORARIA_IMEDIATAMENTE:
-                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria IMEDIATO!");
-                    motor.setControladorTemporario(storage.getControladorStaging());
-                    storage.setControlador(storage.getControladorStaging());
-                    storage.setControladorStaging(null);
-                    motor.onMudancaTabelaHoraria();
+                    trocarTabelaHoraria(true);
                     break;
 
                 case LER_DADOS_CONTROLADOR:
                     enviaDadosAtualDoControlador(envelope);
+                    break;
+
+                case ATUALIZAR_CONFIGURACAO:
+                case TROCAR_PLANOS:
+                    alterarControladorNoMotor();
                     break;
             }
         }
@@ -272,6 +270,19 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private void liberarImposicao(JsonNode conteudo) {
         int numeroAnel = conteudo.get("numeroAnel").asInt();
         motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+    }
+
+    private void trocarTabelaHoraria(boolean imediatamente) {
+        alterarControladorNoMotor();
+        if (imediatamente) {
+            motor.onMudancaTabelaHoraria();
+        }
+    }
+
+    private void alterarControladorNoMotor() {
+        motor.setControladorTemporario(storage.getControladorStaging());
+        storage.setControlador(storage.getControladorStaging());
+        storage.setControladorStaging(null);
     }
 
 

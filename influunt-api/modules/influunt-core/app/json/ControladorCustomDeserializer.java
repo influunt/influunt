@@ -213,19 +213,20 @@ public class ControladorCustomDeserializer {
         return controlador;
     }
 
-    public Controlador getPacotePlanosFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
-        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
-        addPlanosJsonToConfiguracaoJson(pacotePlanosJson, controladorJson);
 
+    public Controlador getPacotePlanosFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+        JsonNode controladorJson =  buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
         return getControladorFromJson(controladorJson);
     }
 
-    private void addPlanosJsonToConfiguracaoJson(JsonNode pacotePlanosJson, ObjectNode controladorJson) {
-        for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")) {
-            if (innerNode.has("anel") && innerNode.get("anel").has("idJson")) {
+    private JsonNode buildControladorJsonFromPacotePlanos(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+
+        for (JsonNode versaoPlanoJson : pacotePlanosJson.get("versoesPlanos")) {
+            if (versaoPlanoJson.has("anel") && versaoPlanoJson.get("anel").has("idJson")) {
                 for (JsonNode anelNode : controladorJson.get("aneis")) {
-                    if (anelNode.get("idJson").asText().equals(innerNode.get("anel").get("idJson").asText())) {
-                        ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", innerNode.get("idJson"));
+                    if (anelNode.get("idJson").asText().equals(versaoPlanoJson.get("anel").get("idJson").asText())) {
+                        ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", versaoPlanoJson.get("idJson"));
                     }
                 }
 
@@ -235,28 +236,25 @@ public class ControladorCustomDeserializer {
         controladorJson.set("planos", pacotePlanosJson.get("planos"));
         controladorJson.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
         controladorJson.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
+
+        return controladorJson;
     }
 
     public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson) {
         ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
-        addTabelaHorariaJsonToConfiguracaoJson(pacoteTabelaHorariaJson, controladorJson);
+        controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
+        controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
+        controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
 
         return getControladorFromJson(controladorJson);
     }
 
-    private void addTabelaHorariaJsonToConfiguracaoJson(JsonNode pacoteTabelaHorariaJson, ObjectNode controladorJson) {
+    public Controlador getPacoteConfiguracaoCompletaFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson, JsonNode pacoteTabelaHorariaJson) {
+        ObjectNode controladorJson = (ObjectNode) buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
+
         controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
         controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
         controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
-    }
-
-    public Controlador getPacoteFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson, JsonNode pacoteTabelaHorariaJson) {
-        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
-
-        addPlanosJsonToConfiguracaoJson(pacotePlanosJson, controladorJson);
-
-        addTabelaHorariaJsonToConfiguracaoJson(pacoteTabelaHorariaJson, controladorJson);
-
 
         return getControladorFromJson(controladorJson);
     }

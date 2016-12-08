@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import logger.InfluuntLogger;
 import models.StatusDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -42,6 +43,7 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("DEVICE - TX Recebida: {}", transacao);
+                InfluuntLogger.log("DEVICE - TX Recebida: " + transacao.toString());
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
                         executePrepareToCommit(transacao);
@@ -58,10 +60,11 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                     default:
                         break;
                 }
+
                 envelope.setDestino(DestinoCentral.transacao(transacao.transacaoId));
                 envelope.setConteudo(transacao.toJson().toString());
+                InfluuntLogger.log("DEVICE - TX Enviada: " + transacao.toString());
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());
-                log.info("DEVICE - TX Enviada: {}", transacao);
             }
         }
     }

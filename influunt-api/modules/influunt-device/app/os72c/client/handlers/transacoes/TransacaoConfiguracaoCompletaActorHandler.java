@@ -5,8 +5,12 @@ import models.Controlador;
 import models.StatusDevice;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
+import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
+import protocol.Envelope;
 import protocol.EtapaTransacao;
+import protocol.Sinal;
+import protocol.TipoMensagem;
 import status.Transacao;
 
 /**
@@ -21,14 +25,11 @@ public class TransacaoConfiguracaoCompletaActorHandler extends TransacaoActorHan
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode payloadJson = Json.parse(transacao.payload.toString());
         JsonNode planoJson = payloadJson.get("pacotePlanos");
-        //TODO: Validar com o Pedro
-        JsonNode tabelaHorariaJson = payloadJson.get("pacoteTabelaHoraria");
+        JsonNode pacoteTabelaHorariaJson = payloadJson.get("pacoteTabelaHoraria");
         JsonNode controladorJson = payloadJson.get("pacoteConfiguracao");
-        Controlador controlador = Controlador.isPacoteCompletoValido(controladorJson, planoJson, tabelaHorariaJson);
+        Controlador controlador = Controlador.isPacoteConfiguracaoCompletaValido(controladorJson, planoJson, pacoteTabelaHorariaJson);
         if (controlador != null) {
-            storage.setControlador(controlador);
-            storage.setPlanos(planoJson);
-            storage.setStatus(StatusDevice.ATIVO);
+            storage.setControladorStaging(controlador);
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -37,6 +38,8 @@ public class TransacaoConfiguracaoCompletaActorHandler extends TransacaoActorHan
 
     @Override
     protected void executeCommit(Transacao transacao) {
+        Envelope envelopeConfig = Sinal.getMensagem(TipoMensagem.ATUALIZAR_CONFIGURACAO, idControlador, null);
+        getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeConfig, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
     }
 

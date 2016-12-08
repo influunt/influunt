@@ -139,9 +139,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
-
-        assertEquals(7 + 7 * aneisIds.size(), onPublishFutureList.size()/**/);
+        await().until(() -> onPublishFutureList.size() >= 7 + 7 * aneisIds.size());
+        assertEquals(7 + 7 * aneisIds.size(), onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
@@ -238,7 +237,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() > 6 + 5 * aneisIds.size());
+        await().until(() -> onPublishFutureList.size() >= 7 + 5 * aneisIds.size());
 
         // 7 - Mensagens iniciais
         // 5 para cada anel

@@ -2,32 +2,21 @@ package server.conn;
 
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
-import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.routing.ActorRefRoutee;
-import akka.routing.RoundRobinRoutingLogic;
-import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
-import models.Controlador;
 import models.ControladorFisico;
-import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
-
 import org.fusesource.mqtt.client.QoS;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 import utils.EncryptionUtil;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -96,7 +85,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         }
     }
 
-    private void sendMessage(Envelope envelope)  {
+    private void sendMessage(Envelope envelope) {
         try {
             MqttMessage message = new MqttMessage();
             message.setQos(envelope.getQos());
@@ -105,8 +94,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
             message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
             client.publish(envelope.getDestino(), message);
 
-        }catch (Exception e){
-            getSelf().tell(e,getSelf());
+        } catch (Exception e) {
+            getSelf().tell(e, getSelf());
         }
     }
 
@@ -120,7 +109,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
             router.route(envelope, getSelf());
 
         } catch (Exception e) {
-            getSelf().tell(e,getSelf());
+            getSelf().tell(e, getSelf());
         }
 
     }
@@ -151,8 +140,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         subscribe("central/info", QoS.AT_LEAST_ONCE.ordinal());
     }
 
-    public void subscribe(String route, int qos) throws MqttException {
-        client.subscribe(route, qos, (topic, message) -> sendToBroker(message));
+
+    private void subscribe(String route, int qos) throws MqttException {
+        client.subscribe(route, qos, this);
     }
 
     @Override
@@ -168,14 +158,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("messageArrived: " + topic);
-        System.out.println("messageArrived: " + message);
         sendToBroker(message);
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        System.out.println("Delivery complete:" + token);
     }
 
 }

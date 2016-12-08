@@ -130,11 +130,10 @@ public class ImposicoesController extends Controller {
     }
 
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
-        List<String> controladoresIds = getControladoresIds(aneis);
+
 //        String transacaoId = transacaoHelper.enviarPacotePlanos(controladoresIds);
-        Map<String, List<String>> controladoresIds = new HashMap<>();
-
-
+//        Map<String, List<String>> controladoresIds = new HashMap<>();
+        Map<String, String> transacoesIds = new HashMap<String, String>();
         List<Controlador> controladores = getControladores(aneis);
         controladores.forEach(controlador ->
             transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador))
