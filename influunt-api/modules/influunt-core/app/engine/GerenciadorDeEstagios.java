@@ -107,6 +107,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         contadorIntervalo += 100L;
         contadorTempoEstagio += 100L;
+        contadorTempoCiclo += 100L;
         tempoDecorrido += 100L;
 
         if (monitoraTempoMaximoDePermanenciaDoEstagio()) {
@@ -146,6 +147,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (this.agendamento != null && temQueExecutarOAgendamento()) {
                 reiniciaContadorEstagio();
                 contadorDeCiclos++;
+                contadorTempoCiclo = 0L;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
                 executaAgendamentoTrocaDePlano();
             } else if (this.plano.isModoOperacaoVerde() && estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
@@ -163,6 +165,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 }
 
                 contadorDeCiclos++;
+                contadorTempoCiclo = 0L;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
             } else {
                 geraIntervalos(contadorEstagio);
@@ -330,6 +333,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             reiniciaContadorEstagio();
             contadorIntervalo = 0L;
             contadorDeCiclos = 0L;
+            contadorTempoCiclo = 0L;
 
             if (inicio && listaEstagioPlanos.size() > 0) {
                 this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
@@ -523,7 +527,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     public int getContadorTempoCicloEmSegundos() {
-        return 0;
+        return (int) (contadorTempoCiclo / 1000L);
     }
 
     public IntervaloGrupoSemaforico getIntervalosGruposSemaforicos() {
@@ -559,11 +563,21 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     public int getTempoRestanteDoEstagio() {
-        return 0;
+        Long tempoEstagio = this.intervalos.getEntry(0L).getKey().upperEndpoint();
+        final Map.Entry<Range<Long>, IntervaloEstagio> verde = this.intervalos.getEntry(tempoEstagio + 1);
+        if (verde != null) {
+            tempoEstagio = verde.getKey().upperEndpoint();
+        }
+        return (int) ((tempoEstagio - contadorIntervalo) / 1000L);
     }
 
     public int getTempoRestanteDoCiclo() {
-        return 0;
+        if (plano.getTempoCiclo() != null) {
+            return (int) (((plano.getTempoCiclo() * 1000L) - contadorTempoCiclo) / 1000L);
+        } else {
+            return 0;
+        }
+
     }
 
     private class GetIntervaloGrupoSemaforico {
