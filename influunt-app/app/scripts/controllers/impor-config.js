@@ -84,6 +84,10 @@ angular.module('influuntApp')
         filtraObjetosAneis();
       };
 
+      $scope.isAnelCheckedFilter = function(anel) {
+        return $scope.isAnelChecked && anel && $scope.isAnelChecked[anel.id];
+      };
+
       setData = function(response) {
         $scope.lista = response.data;
 

@@ -15,9 +15,10 @@ angular.module('influuntApp')
         scope: {
           aneisSelecionados: '=',
           idsTransacoes: '=',
-          trackTransaction: '='
+          trackTransaction: '=',
+          dismissOnSubmit: '='
         },
-        link: function sincronizacao(scope) {
+        link: function sincronizacao(scope, el) {
           var transactionTracker;
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
@@ -54,6 +55,12 @@ angular.module('influuntApp')
                 }
               });
           };
+
+          $(el).find('#sincronizar-submit').on('click', function() {
+            if (scope.dismissOnSubmit) {
+              $('#modal-sincronizar').modal('toggle');
+            }
+          });
         }
       };
     }])
