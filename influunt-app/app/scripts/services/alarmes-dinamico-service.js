@@ -21,8 +21,8 @@ angular.module('influuntApp')
 
         // métodos privados;
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
-            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
-            removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
+            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, statusTransacaoWatcher,
+        addFalha, removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
         var statusObj, $$fnOnEventTriggered, controladores;
         var $$fnonClickToast = function(){};
 
@@ -34,6 +34,7 @@ angular.module('influuntApp')
               pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
+              pahoProvider.register(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
             });
         };
 
@@ -45,6 +46,7 @@ angular.module('influuntApp')
               pahoProvider.unregister(eventosDinamicos.TROCA_PLANO);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_ONLINE);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_OFFLINE);
+              pahoProvider.unregister(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
             });
         };
 
@@ -118,6 +120,10 @@ angular.module('influuntApp')
 
               return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
+        };
+        
+        statusTransacaoWatcher = function(payload) {
+          console.log('===============> ', payload);
         };
 
         onlineOfflineWatcher = function(payload) {

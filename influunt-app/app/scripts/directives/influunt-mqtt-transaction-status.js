@@ -10,9 +10,9 @@ angular.module('influuntApp')
   .factory('mqttTransactionStatusService', ['pahoProvider', 'eventosDinamicos', '$timeout', '$q',
     function (pahoProvider, eventosDinamicos, $timeout, $q) {
       var NAO_INICIADA = 'NAO_INICIADA',
-          INICIADA = 'INICIADA',
-          ERRO = 'ERRO',
-          OK = 'OK';
+          INICIADA = 'NEW',
+          ERRO = 'ABORTED',
+          OK = 'DONE';
 
       var currentStatus = NAO_INICIADA;
       var possuiTransaction = false;
@@ -37,10 +37,11 @@ angular.module('influuntApp')
         var deferred = $q.defer();
         possuiTransaction = true;
         var topic = eventosDinamicos.STATUS_TRANSACAO.replace(':transacaoId', transactionId);
-
+        console.log('topic> ', topic);
         pahoProvider.connect()
           .then(function() {
             pahoProvider.register(topic, function(message) {
+console.log(message);
               $timeout(function() {
                 var msg = JSON.parse(message);
                 var conteudo = JSON.parse(msg.conteudo);

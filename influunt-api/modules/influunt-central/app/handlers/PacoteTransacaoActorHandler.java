@@ -44,6 +44,8 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
             transacoesActors.put(transacao.getTransacaoId(), ref);
             transacoes.put(transacao.getTransacaoId(), transacao);
         });
+
+        enviaStatusApp(StatusPacoteTransacao.NEW);
     }
 
     @Override

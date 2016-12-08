@@ -26,8 +26,9 @@ angular.module('influuntApp')
 
     client.onMessageArrived = function(message) {
       var fn = null;
+      debugger;
       _.each(subscribers, function(value, key) {
-        if (message.destinationName.match(new RegExp(key))) {
+        if (message.destinationName.match(new RegExp(key.replace('+', '.*')))) {
           fn = value;
         }
       });
@@ -71,6 +72,7 @@ angular.module('influuntApp')
     };
 
     var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
+      console.log('register to topic =====> ', subscribedUrl);
       if (!isConnected) {
         throw new Error('Client is not connected.');
       }
