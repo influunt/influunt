@@ -17,6 +17,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertThat;
@@ -39,6 +40,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
         controlador = new ControladorHelper().setPlanos(controlador);
 
         startClient();
+
         await().until(() -> onPublishFutureList.size() > 6);
 
         enviarPacotePlano();

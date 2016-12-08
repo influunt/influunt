@@ -58,22 +58,15 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
-    public MQTTClientActor(final String id, final String host, final String port, Storage storage) {
+    public MQTTClientActor(final String id, final String host, final String port, Storage storage, Router router) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
+        this.router = router;
 
         InfluuntLogger.logger.info("Iniciando a comunicacao MQTT");
         InfluuntLogger.logger.info("Criando referencia para o messagebroker");
-
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(DeviceMessageBroker.class, this.id, this.storage));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
-        router = new Router(new RoundRobinRoutingLogic(), routees);
     }
 
     @Override
