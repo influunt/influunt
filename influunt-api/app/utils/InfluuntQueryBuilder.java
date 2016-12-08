@@ -9,10 +9,7 @@ import org.joda.time.DateTime;
 import org.jongo.MongoCursor;
 import security.Auditoria;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import static java.lang.Integer.parseInt;
@@ -133,7 +130,10 @@ public class InfluuntQueryBuilder {
             searchFields.forEach(buildSearchStatement(searchFieldDefinitions));
 
             searchFieldDefinitions.forEach(searchField -> {
-                DateTime date = parseDate(searchField.getValue().toString(), null);
+                DateTime date = null;
+                if (searchField.getValue() != null) {
+                    date = parseDate(searchField.getValue().toString(), null);
+                }
                 if (date != null) {
                     predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), date));
                 } else {
@@ -272,12 +272,19 @@ public class InfluuntQueryBuilder {
             String[] keyExpression = key.split("_");
             if (!key.endsWith(SearchFieldDefinition.START) && !key.endsWith(SearchFieldDefinition.END)) {
                 if (keyExpression.length > 1) {
-                    searchFieldDefinitions.add(new SearchFieldDefinition(keyExpression[0], keyExpression[1], value));
+                    String originalField = rejoinExpression(keyExpression);
+                    searchFieldDefinitions.add(new SearchFieldDefinition(originalField, keyExpression[keyExpression.length - 1], value));
                 } else {
                     searchFieldDefinitions.add(new SearchFieldDefinition(key, null, value));
                 }
             }
         };
+    }
+
+    private String rejoinExpression(String[] expression) {
+        List<String> list = new ArrayList<>();
+        list.addAll(Arrays.asList(expression).subList(0, expression.length - 1));
+        return String.join("_", list);
     }
 
 
@@ -303,6 +310,9 @@ public class InfluuntQueryBuilder {
                 break;
             case SearchFieldDefinition.EQ:
                 expr = Expr.eq(key, value);
+                break;
+            case SearchFieldDefinition.NE:
+                expr = Expr.ne(key, value);
                 break;
             default:
                 expr = Expr.ieq(key, value.toString());

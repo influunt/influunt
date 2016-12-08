@@ -48,8 +48,6 @@
               </tbody>
             </table>
 
-Leitura do plano corrente, status do plano corrente (tabela horária ou plano forçado), modo de operação corrente, estágio corrente, tempo restante do estágio, tempo restante do ciclo e o tempo do ciclo corrente.
-
             <h2 class='text-center'>Planos</h2>
             <!-- PLANOS -->
             <table class="footable table table-stripped table-bordered" >
@@ -67,7 +65,7 @@ Leitura do plano corrente, status do plano corrente (tabela horária ou plano fo
               </thead>
               <tbody>
                 <tr data-ng-repeat="plano in dadosControlador.planos">
-                  <td>{{ plano.cla }}</td>                  
+                  <td>{{ plano.cla }}</td>
                   <td>{{ plano.posicaoPlano }}</td>
                   <td data-ng-if="plano.imposto">{{'imporConfig.planoForcado' | translate}}</td>
                   <td data-ng-if="plano.impostoPorFalha">{{'imporConfig.planoImpostoFalha' | translate}}</td>

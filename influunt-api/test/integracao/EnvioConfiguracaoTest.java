@@ -102,7 +102,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         map = new Gson().fromJson(new String(onPublishFutureList.get(4)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
-        assertEquals(TipoMensagem.OK, envelope.getTipoMensagem());
+        assertEquals(TipoMensagem.CONFIGURACAO_OK, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(idMensagem, envelope.getEmResposta());
 

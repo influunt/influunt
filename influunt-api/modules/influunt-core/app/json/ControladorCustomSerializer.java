@@ -227,7 +227,6 @@ public class ControladorCustomSerializer {
 
     public JsonNode getPacoteConfiguracaoJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
         controlador.setVersoesTabelasHorarias(null);
-        controlador.setVersaoControlador(null);
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
             anel.setVersoesPlanos(null);
             anel.setVersaoPlanoAtivo(new VersaoPlano());
@@ -247,13 +246,6 @@ public class ControladorCustomSerializer {
         putControladorPlano(root);
         putControladorGruposSemaforicosPlanos(root);
         putControladorEstagiosPlanos(root);
-
-//        if (controlador.getVersaoTabelaHoraria() != null) {
-//            versoesTabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria());
-//        }
-//        putControladorVersoesTabelasHorarias(root);
-//        putControladorTabelasHorarias(root);
-//        putControladorEventos(root);
 
         return root;
     }
@@ -282,6 +274,9 @@ public class ControladorCustomSerializer {
     public JsonNode getPacoteConfiguracaoCompletaJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
         ObjectNode root = Json.newObject();
         root.set("pacotePlanos", getPacotePlanosJson(controlador));
+
+        //TODO: Validar com o Pedro
+        root.set("pacoteTabelaHoraria", getPacoteTabelaHorariaJson(controlador));
         // pacoteConfiguracao seta alguns relacionamentos p/ null, portanto
         // deve ser executado por último.
         root.set("pacoteConfiguracao", getPacoteConfiguracaoJson(controlador, cidades, rangeUtils));

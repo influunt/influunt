@@ -161,7 +161,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 //        JsonNode controladorJson = Json.parse(controladorObject.toString());
 //        JsonNode planoJson = Json.parse(planosObject.toString());
 //
-//        Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
+//        Controlador controlador = new ControladorCustomDeserializer().getPacotePlanosFromJson(controladorJson, planoJson);
 //        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
 //            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
 //            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -173,7 +173,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         JsonNode controladorJson = Json.parse(controladorObject.toString());
         JsonNode planoJson = Json.parse(planosObject.toString());
 
-        Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
+        Controlador controlador = new ControladorCustomDeserializer().getPacotePlanosFromJson(controladorJson, planoJson);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -186,6 +186,19 @@ public class Controlador extends Model implements Cloneable, Serializable {
         JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
 
         Controlador controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty() ? controlador : null;
+    }
+
+    public static Controlador isPacoteCompletoValido(Object controladorObject, Object planosObject, Object pacoteTabelaHoraria) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode planoJson = Json.parse(planosObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteFromJson(controladorJson, planoJson, pacoteTabelaHorariaJson);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,

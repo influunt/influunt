@@ -34,7 +34,7 @@ public class LerDadosControlador {
         ObjectNode controladorJson = play.libs.Json.newObject();
         Controlador controlador = motor.getControlador();
         controladorJson.put("clc", controlador.getCLC());
-        controladorJson.put("relogio", System.currentTimeMillis());
+        controladorJson.put("relogio", DateTime.now().getMillis());
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         controlador.getAneisAtivos().forEach(anel -> {

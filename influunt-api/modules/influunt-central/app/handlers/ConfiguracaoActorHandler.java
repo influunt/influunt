@@ -47,10 +47,4 @@ public class ConfiguracaoActorHandler extends UntypedActor {
             }
         }
     }
-
-    public void postStop() throws Exception {
-        System.out.println(" ConfiguracaoActorHandler morreu" );
-        super.postStop();
-    }
-
 }

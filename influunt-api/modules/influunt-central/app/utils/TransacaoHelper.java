@@ -28,7 +28,9 @@ public class TransacaoHelper {
 
     public String enviarPacotePlanos(Controlador controlador) {
         JsonNode pacotePlanosJson = new ControladorCustomSerializer().getPacotePlanosJson(controlador);
-        Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacotePlanosJson, TipoTransacao.PACOTE_PLANO);
+        Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacotePlanosJson.toString(), TipoTransacao.PACOTE_PLANO);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -38,7 +40,9 @@ public class TransacaoHelper {
         List<Cidade> cidades = Cidade.find.all();
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
-        Transacao transacao = new Transacao(controladorId, configuracaoJson, TipoTransacao.CONFIGURACAO_COMPLETA);
+        Transacao transacao = new Transacao(controladorId, configuracaoJson.toString(), TipoTransacao.CONFIGURACAO_COMPLETA);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -46,7 +50,9 @@ public class TransacaoHelper {
     public String enviarTabelaHoraria(Controlador controlador, boolean imediato) {
         JsonNode pacoteTabelaHoraria = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
         ((ObjectNode) pacoteTabelaHoraria).put("imediato", imediato);
-        Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacoteTabelaHoraria, TipoTransacao.PACOTE_TABELA_HORARIA);
+        Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacoteTabelaHoraria.toString(), TipoTransacao.PACOTE_TABELA_HORARIA);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -55,6 +61,8 @@ public class TransacaoHelper {
         String controladorId = controlador.getControladorFisicoId();
         String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -69,6 +77,8 @@ public class TransacaoHelper {
         String controladorId = controlador.getControladorFisicoId();
         String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, horarioEntrada, duracao)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -77,6 +87,8 @@ public class TransacaoHelper {
         String controladorId = controlador.getControladorFisicoId();
         String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -85,6 +97,8 @@ public class TransacaoHelper {
         String controladorId = controlador.getControladorFisicoId();
         String payload = Json.toJson(new MensagemLiberarImposicao(numeroAnel)).toString();
         Transacao transacao = new Transacao(controladorId, payload, TipoTransacao.LIBERAR_IMPOSICAO);
+        transacao.create();
+
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -115,10 +129,8 @@ public class TransacaoHelper {
     private void sendTransaction(Transacao transacao, QoS qos) {
         String transacaoJson = transacao.toJson().toString();
         String destinoTX = DestinoCentral.transacao(transacao.transacaoId);
-        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO, transacao.idControlador, destinoTX, qos, transacaoJson, null);
+        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO, transacao.idControladores.get(0), destinoTX, qos, transacaoJson, null);
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
     }
-
-
 }

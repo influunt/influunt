@@ -77,9 +77,9 @@ angular.module('influuntApp')
 
       var listenToAll = !dontListenToAll;
       subscribers[subscribedUrl] = onMessageArrivedCallback;
-      client.subscribe(subscribedUrl);
+      client.subscribe(subscribedUrl, {qos: 1});
       if (listenToAll) {
-        client.subscribe(subscribedUrl + '/+');
+        client.subscribe(subscribedUrl + '/+', {qos: 1});
       }
     };
 

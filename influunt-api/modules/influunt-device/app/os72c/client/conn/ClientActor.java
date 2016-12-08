@@ -4,11 +4,18 @@ import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
+import akka.routing.ActorRefRoutee;
+import akka.routing.RoundRobinRoutingLogic;
+import akka.routing.Routee;
+import akka.routing.Router;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
+import os72c.client.handlers.TransacaoManagerActorHandler;
 import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,6 +50,10 @@ public class ClientActor extends UntypedActor {
 
     private ActorRef mqqtControlador;
 
+    private Router router;
+
+    private ActorRef actorTrasacao;
+
     public ClientActor(final String id, final String host, final String port, final String centralPublicKey, final String controladorPrivateKey, Storage storage, DeviceBridge deviceBridge) {
         this.id = id;
         this.host = host;
@@ -54,6 +65,7 @@ public class ClientActor extends UntypedActor {
             storage.setCentralPublicKey(centralPublicKey);
             storage.setPrivateKey(controladorPrivateKey);
         }
+
         this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id), "motor");
     }
 
@@ -66,7 +78,16 @@ public class ClientActor extends UntypedActor {
 
     private void setup() {
 
-        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, storage), "ControladorMQTT");
+        actorTrasacao = getContext().actorOf(Props.create(TransacaoManagerActorHandler.class, this.id, storage), "actorTransacao");
+        List<Routee> routees = new ArrayList<Routee>();
+        for (int i = 0; i < 5; i++) {
+            ActorRef r = getContext().actorOf(Props.create(DeviceMessageBroker.class, this.id, this.storage,actorTrasacao));
+            getContext().watch(r);
+            routees.add(new ActorRefRoutee(r));
+        }
+        router = new Router(new RoundRobinRoutingLogic(), routees);
+
+        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, storage, router), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());
     }

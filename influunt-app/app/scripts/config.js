@@ -1002,6 +1002,10 @@ angular
           controllerAs: 'imporConfig',
           data: {
             title: 'imporConfig.titulo',
+            permissions: {
+              only: 'acessarPainelDeFacilidades',
+              redirectTo: 'app.main'
+            }
           }
         })
 

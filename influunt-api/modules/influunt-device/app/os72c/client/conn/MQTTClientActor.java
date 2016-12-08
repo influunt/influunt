@@ -11,7 +11,6 @@ import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
 import logger.InfluuntLogger;
-import models.StatusDevice;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
@@ -59,22 +58,15 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
-    public MQTTClientActor(final String id, final String host, final String port, Storage storage) {
+    public MQTTClientActor(final String id, final String host, final String port, Storage storage, Router router) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
+        this.router = router;
 
         InfluuntLogger.logger.info("Iniciando a comunicacao MQTT");
         InfluuntLogger.logger.info("Criando referencia para o messagebroker");
-
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(DeviceMessageBroker.class, this.id, this.storage));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
-        router = new Router(new RoundRobinRoutingLogic(), routees);
     }
 
     @Override
@@ -129,11 +121,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
 
-        if (!storage.getStatus().equals(StatusDevice.NOVO)) {
-            Envelope controladorOffline = ControladorOffline.getMensagem(id);
+        Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
-            opts.setWill(controladorOffline.getDestino(), controladorOffline.toJsonCriptografado(storage.getCentralPublicKey()).getBytes(), 1, true);
-        }
+        opts.setWill(controladorOffline.getDestino(), controladorOffline.toJsonCriptografado(storage.getCentralPublicKey()).getBytes(), 1, true);
+
 
         client.setCallback(this);
         client.connect(opts);
@@ -146,10 +137,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
-        if (!storage.getStatus().equals(StatusDevice.NOVO)) {
-            Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
-            sendMessage(controladorOnline);
-        }
+
+        Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
+        sendMessage(controladorOnline);
+
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 

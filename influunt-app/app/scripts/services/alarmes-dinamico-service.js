@@ -12,6 +12,7 @@ angular.module('influuntApp')
     this.$get = ['$rootScope', 'pahoProvider', 'eventosDinamicos', 'Restangular', '$filter', 'toast', 'audioNotifier', '$q', '$state',
       function alarmesDinamicoService($rootScope, pahoProvider, eventosDinamicos, Restangular, $filter, toast, audioNotifier, $q, $state) {
 
+        var ALARME = 'ALARME';
         var FALHA = 'FALHA';
         var REMOCAO_FALHA = 'REMOCAO_FALHA';
 
