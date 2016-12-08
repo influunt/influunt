@@ -18,7 +18,7 @@ public class MensagemStatusTransacao {
     public static Envelope getMensagem(Transacao transacao, StatusTransacao status) {
         String payload = Json.toJson(new MensagemStatusTransacao(status)).toString();
         Envelope envelope = new Envelope(TipoMensagem.STATUS_TRANSACAO,
-            transacao.idControladores.get(0),
+            transacao.idControlador,
             DestinoApp.statusTransacao(transacao.transacaoId),
             QoS.AT_LEAST_ONCE,
             payload,
