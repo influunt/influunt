@@ -81,7 +81,7 @@ public class ClientActor extends UntypedActor {
         actorTrasacao = getContext().actorOf(Props.create(TransacaoManagerActorHandler.class, this.id, storage), "actorTransacao");
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(DeviceMessageBroker.class, this.id, this.storage,actorTrasacao));
+            ActorRef r = getContext().actorOf(Props.create(DeviceMessageBroker.class, this.id, this.storage, actorTrasacao));
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }

@@ -14,6 +14,7 @@ import akka.routing.Router;
 import ch.qos.logback.classic.Logger;
 
 
+import handlers.PacoteTransacaoManagerActorHandler;
 import org.fusesource.mqtt.client.MQTTException;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.duration.Duration;
@@ -56,6 +57,8 @@ public class ServerActor extends UntypedActor {
 
     private Router router;
 
+    private ActorRef actorPacoteTrasancaoManager;
+
 
     public ServerActor(final String mqttHost, final String mqttPort) {
         this.mqttHost = mqttHost;
@@ -70,9 +73,11 @@ public class ServerActor extends UntypedActor {
 
     private void setup() {
 
+        actorPacoteTrasancaoManager = getContext().actorOf(Props.create(PacoteTransacaoManagerActorHandler.class), "actorPacoteTransacaoManager");
+
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class));
+            ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class, actorPacoteTrasancaoManager));
             getContext().watch(r);
             routees.add(new ActorRefRoutee(r));
         }

@@ -127,10 +127,14 @@ public class TransacaoHelper {
 
     private String sendTransaction(TipoTransacao tipoTransacao, long tempoMaximo, List<Transacao> transacoes, QoS qos) {
         PacoteTransacao pacoteTransacao = new PacoteTransacao(tipoTransacao, tempoMaximo, transacoes);
+        pacoteTransacao.create();
+        
         String pacoteTransacaoJson = pacoteTransacao.toJson().toString();
-        String destinoTX = DestinoCentral.transacao(pacoteTransacao.getId());
-        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO, transacoes.idControlador, destinoTX, qos, transacaoJson, null);
+
+        Envelope envelope = new Envelope(TipoMensagem.PACOTE_TRANSACAO, pacoteTransacao.getId(), null, qos, pacoteTransacaoJson, null);
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
+
+        return  pacoteTransacao.getId();
     }
 }
