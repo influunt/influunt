@@ -20,7 +20,9 @@ public class TransacaoInativarControladorActorHandler extends TransacaoActorHand
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        if(storage.getControlador().podeInativar()) {
+        if (storage.getStatus().equals(StatusDevice.ATIVO)
+            || storage.getStatus().equals(StatusDevice.EM_MANUTENCAO)
+            || storage.getStatus().equals(StatusDevice.CONFIGURADO)) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
