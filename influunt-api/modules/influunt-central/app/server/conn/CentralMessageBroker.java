@@ -77,7 +77,7 @@ public class CentralMessageBroker extends UntypedActor {
                 actorTransacaoManager.tell(envelope, getSender());
             } else if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {
                 Transacao transacao = Transacao.fromJson(Json.parse(envelope.getConteudo().toString()));
-                getContext().actorSelection(AtoresCentral.transacaoActorPath(transacao.transacaoId));
+                getContext().actorSelection(AtoresCentral.transacaoActorPath(transacao.transacaoId)).tell(envelope, getSelf());
             } else {
                 log.info("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
                 throw new RuntimeException("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());

@@ -30,7 +30,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    private Router router;
+    private ActorRef router;
 
     private Map<String, Long> contador = new HashMap<String, Long>();
 
@@ -44,7 +44,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private ActorRef messageBroker;
 
-    public MQTTServerActor(final String host, final String port, final Router router) {
+    public MQTTServerActor(final String host, final String port, final ActorRef router) {
         this.host = host;
         this.port = port;
         this.router = router;
@@ -106,7 +106,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
             String privateKey = ControladorFisico.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
 
-            router.route(envelope, getSelf());
+            router.tell(envelope, getSelf());
 
         } catch (Exception e) {
             getSelf().tell(e, getSelf());

@@ -60,11 +60,7 @@ public class PacoteTransacao {
     }
 
     public static PacoteTransacao fromJson(JsonNode pacoteTransacaoJson) {
-        PacoteTransacao pacoteTransacao = Json.fromJson(pacoteTransacaoJson, PacoteTransacao.class);
-        if (pacoteTransacaoJson.has("transacoes")) {
-            pacoteTransacao.setTransacoes(Json.fromJson(pacoteTransacaoJson.get("transacoes"), List.class));
-        }
-        return pacoteTransacao;
+        return Json.fromJson(pacoteTransacaoJson, PacoteTransacao.class);
     }
 
     public JsonNode toJson() {

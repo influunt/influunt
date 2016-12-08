@@ -1,6 +1,7 @@
 package utils;
 
 import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -148,7 +149,7 @@ public class TransacaoHelper {
         String pacoteTransacaoJson = pacoteTransacao.toJson().toString();
 
         Envelope envelope = new Envelope(TipoMensagem.PACOTE_TRANSACAO, pacoteTransacao.getId(), null, qos, pacoteTransacaoJson, null);
-        ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
+        ActorSelection centralBroker = context.actorSelection(AtoresCentral.messageBroker());
         centralBroker.tell(envelope, null);
 
         return  pacoteTransacao.getId();
