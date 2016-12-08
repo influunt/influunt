@@ -28,10 +28,9 @@ angular.module('influuntApp')
 
           return Restangular.one('imposicoes').customPOST(data, resource)
             .then(function(response) {
-              console.log(response)
               _.each(response.plain(), function(transacaoId, controladorId) {
                 scope.idsTransacoes[controladorId] = transacaoId;
-                return scope.trackTransaction && transactionTracker(transacaoId);
+                return transactionTracker(transacaoId);
               });
             })
             .finally(influuntBlockui.unblock);
