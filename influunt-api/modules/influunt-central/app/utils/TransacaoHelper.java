@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import json.ControladorCustomSerializer;
+import models.Anel;
 import models.Cidade;
 import models.Controlador;
 import models.ModoOperacaoPlano;
@@ -64,50 +65,50 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.PACOTE_TABELA_HORARIA, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String imporModoOperacao(List<Controlador> controladores, ModoOperacaoPlano modoOperacao, int numeroAnel, Long horarioEntrada, int duracao, long timeout) {
+    public String imporModoOperacao(List<Anel> aneis, ModoOperacaoPlano modoOperacao, Long horarioEntrada, int duracao, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
-        controladores.stream().forEach(controlador -> {
-            String controladorId = controlador.getControladorFisicoId();
-            String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numeroAnel, horarioEntrada, duracao)).toString();
+        aneis.stream().forEach(anel -> {
+            String controladorId = anel.getControlador().getControladorFisicoId();
+            String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), anel.getPosicao(), horarioEntrada, duracao)).toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO));
         });
 
         return sendTransaction(TipoTransacao.IMPOSICAO_MODO_OPERACAO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String imporPlano(List<Controlador> controladores, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao, long timeout) {
-        int posicaoPlanoTemporario = controladores.get(0).getModelo().getLimitePlanos() + 1;
+    public String imporPlano(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
+        int posicaoPlanoTemporario = aneis.get(0).getControlador().getModelo().getLimitePlanos() + 1;
         if (posicaoPlano == posicaoPlanoTemporario) {
             // plano temporário
-            return imporPlanoTemporario(controladores, posicaoPlano, numeroAnel, horarioEntrada, duracao, timeout);
+            return imporPlanoTemporario(aneis, posicaoPlano, horarioEntrada, duracao, timeout);
         }
 
         List<Transacao> transacoes = new ArrayList<>();
-        controladores.stream().forEach(controlador -> {
-            String controladorId = controlador.getControladorFisicoId();
-            String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numeroAnel, horarioEntrada, duracao)).toString();
+        aneis.stream().forEach(anel -> {
+            String controladorId = anel.getControlador().getControladorFisicoId();
+            String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, anel.getPosicao(), horarioEntrada, duracao)).toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO));
         });
 
         return sendTransaction(TipoTransacao.IMPOSICAO_PLANO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    private String imporPlanoTemporario(List<Controlador> controladores, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao, long timeout) {
+    private String imporPlanoTemporario(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
-        controladores.stream().forEach(controlador -> {
-            String controladorId = controlador.getControladorFisicoId();
-            String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numeroAnel, horarioEntrada, duracao).toJson().toString();
+        aneis.stream().forEach(anel -> {
+            String controladorId = anel.getControlador().getControladorFisicoId();
+            String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, anel.getPosicao(), horarioEntrada, duracao).toJson().toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO));
         });
 
         return sendTransaction(TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String liberarImposicao(List<Controlador> controladores, int numeroAnel, long timeout) {
+    public String liberarImposicao(List<Anel> aneis, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
-        controladores.stream().forEach(controlador -> {
-            String controladorId = controlador.getControladorFisicoId();
-            String payload = Json.toJson(new MensagemLiberarImposicao(numeroAnel)).toString();
+        aneis.stream().forEach(anel -> {
+            String controladorId = anel.getControlador().getControladorFisicoId();
+            String payload = Json.toJson(new MensagemLiberarImposicao(anel.getPosicao())).toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.LIBERAR_IMPOSICAO));
         });
 
@@ -121,22 +122,31 @@ public class TransacaoHelper {
         return controlador.getControladorFisicoId();
     }
 
-    public String colocarControladorManutencao(Controlador controlador, long timeout) {
-        String controladorId = controlador.getControladorFisicoId();
-        List<Transacao> transacoes = Collections.singletonList(new Transacao(controladorId, null, TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO));
+    public String colocarControladorManutencao(List<Controlador> controladores, long timeout) {
+        List<Transacao> transacoes = new ArrayList<>();
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            transacoes.add(new Transacao(controladorId, null, TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO));
+        });
         return sendTransaction(TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
 
-    public String inativarControlador(Controlador controlador, long timeout) {
-        String controladorId = controlador.getControladorFisicoId();
-        List<Transacao> transacoes = Collections.singletonList(new Transacao(controladorId, null, TipoTransacao.INATIVAR_CONTROLADOR));
+    public String inativarControlador(List<Controlador> controladores, long timeout) {
+        List<Transacao> transacoes = new ArrayList<>();
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            transacoes.add(new Transacao(controladorId, null, TipoTransacao.INATIVAR_CONTROLADOR));
+        });
         return sendTransaction(TipoTransacao.INATIVAR_CONTROLADOR, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String ativarControlador(Controlador controlador, long timeout) {
-        String controladorId = controlador.getControladorFisicoId();
-        List<Transacao> transacoes = Collections.singletonList(new Transacao(controladorId, null, TipoTransacao.ATIVAR_CONTROLADOR));
+    public String ativarControlador(List<Controlador> controladores, long timeout) {
+        List<Transacao> transacoes = new ArrayList<>();
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            transacoes.add(new Transacao(controladorId, null, TipoTransacao.ATIVAR_CONTROLADOR));
+        });
         return sendTransaction(TipoTransacao.ATIVAR_CONTROLADOR, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 

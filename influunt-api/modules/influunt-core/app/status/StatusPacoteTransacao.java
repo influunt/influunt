@@ -17,6 +17,9 @@ public enum StatusPacoteTransacao {
     //Usuario solicitou continuar
     CONTINUE,
 
+    // Usuario solicitou cancelar
+    CANCEL,
+
     //Cancelada pelo usuário
     CANCELED
 }
