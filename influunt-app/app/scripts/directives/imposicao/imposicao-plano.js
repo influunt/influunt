@@ -10,14 +10,15 @@ angular.module('influuntApp')
   .directive('imposicaoPlano', ['HorariosService', 'imposicoesService', '$filter',
       function (HorariosService, imposicoesService, $filter) {
       return {
-        templateUrl: 'views/directives/imposicoes/imposicao-plano.html',
+        templateUrl: 'views/directives/imposicoes/imposicao-plano-form.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
           idsTransacoes: '=',
-          trackTransaction: '='
+          trackTransaction: '=',
+          dismissOnSubmit: '='
         },
-        link: function postLink(scope) {
+        link: function postLink(scope, el) {
           scope.LIMITE_MINIMO_DURACAO = imposicoesService.LIMITE_MINIMO_DURACAO;
           scope.LIMITE_MAXIMO_DURACAO = imposicoesService.LIMITE_MAXIMO_DURACAO;
 
@@ -51,6 +52,26 @@ angular.module('influuntApp')
           getControladores = function() {
             return _.chain(scope.aneisSelecionados).map('controlador.id').uniq().value();
           };
+
+          $(el).find('#impor-plano-submit').on('click', function() {
+            if (scope.dismissOnSubmit) {
+              $('#modal-impor-plano').modal('toggle');
+            }
+          });
         }
       };
-    }]);
+    }])
+
+  .directive('imposicaoPlanoPopup', [function () {
+    return {
+      templateUrl: 'views/directives/imposicoes/imposicao-plano-popup.html',
+      restrict: 'E',
+      scope: {
+        aneisSelecionados: '=',
+        idsTransacoes: '=',
+        trackTransaction: '='
+      }
+    };
+  }])
+;
+

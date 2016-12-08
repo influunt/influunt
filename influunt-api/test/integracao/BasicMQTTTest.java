@@ -21,10 +21,7 @@ import protocol.EtapaTransacao;
 import protocol.StatusTransacao;
 import protocol.TipoMensagem;
 import server.Central;
-import status.LogControlador;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
-import status.Transacao;
+import status.*;
 import uk.co.panaxiom.playjongo.PlayJongo;
 import utils.EncryptionUtil;
 
@@ -135,12 +132,12 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         jongo = provideApp.injector().instanceOf(PlayJongo.class);
         StatusConexaoControlador.jongo = jongo;
         StatusControladorFisico.jongo = jongo;
-        Transacao.jongo = jongo;
+        PacoteTransacao.jongo = jongo;
         LogControlador.jongo = jongo;
 
         jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
         jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
-        jongo.getCollection(Transacao.COLLECTION).drop();
+        jongo.getCollection(PacoteTransacao.COLLECTION).drop();
         jongo.getCollection(LogControlador.COLLECTION).drop();
 
         mqttBroker = new Server();
@@ -160,20 +157,23 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     protected void assertTransacaoOk() {
+        Envelope envelope;
+        JsonNode jsonConteudo;
         try {
-            await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 13);
+            await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 12);
 
             Storage storage = app.injector().instanceOf(Storage.class);
 
-            Envelope envelope = new Gson().fromJson(new String(onPublishFutureList.get(7)), Envelope.class);
+            //TODO: Verificar a mensagem para APP que a transação foi iniciada
+//            envelope = new Gson().fromJson(new String(onPublishFutureList.get(6)), Envelope.class);
+//
+//            jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
+//            assertEquals(TipoMensagem.STATUS_TRANSACAO, envelope.getTipoMensagem());
+//            assertEquals(idControlador, envelope.getIdControlador());
+//            assertEquals(StatusTransacao.INICIADA.toString(), jsonConteudo.get("status").asText());
 
-            JsonNode jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
-            assertEquals(TipoMensagem.STATUS_TRANSACAO, envelope.getTipoMensagem());
-            assertEquals(idControlador, envelope.getIdControlador());
-            assertEquals(StatusTransacao.INICIADA.toString(), jsonConteudo.get("status").asText());
 
-
-            Map map = new Gson().fromJson(new String(onPublishFutureList.get(8)), Map.class);
+            Map map = new Gson().fromJson(new String(onPublishFutureList.get(7)), Map.class);
             envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
@@ -184,7 +184,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             String idTransacao = jsonConteudo.get("transacaoId").asText();
 
 
-            map = new Gson().fromJson(new String(onPublishFutureList.get(9)), Map.class);
+            map = new Gson().fromJson(new String(onPublishFutureList.get(8)), Map.class);
             envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
@@ -194,7 +194,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
 
-            map = new Gson().fromJson(new String(onPublishFutureList.get(10)), Map.class);
+            map = new Gson().fromJson(new String(onPublishFutureList.get(9)), Map.class);
             envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
@@ -204,7 +204,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
 
-            map = new Gson().fromJson(new String(onPublishFutureList.get(11)), Map.class);
+            map = new Gson().fromJson(new String(onPublishFutureList.get(10)), Map.class);
             envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
@@ -214,7 +214,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             assertEquals(idTransacao, jsonConteudo.get("transacaoId").asText());
 
 
-            envelope = new Gson().fromJson(new String(onPublishFutureList.get(12)), Envelope.class);
+            envelope = new Gson().fromJson(new String(onPublishFutureList.get(11)), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());
             assertEquals(TipoMensagem.STATUS_TRANSACAO, envelope.getTipoMensagem());
@@ -222,7 +222,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             assertEquals(StatusTransacao.OK.toString(), jsonConteudo.get("status").asText());
 
 
-            map = new Gson().fromJson(new String(onPublishFutureList.get(13)), Map.class);
+            map = new Gson().fromJson(new String(onPublishFutureList.get(12)), Map.class);
             envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
 
             jsonConteudo = play.libs.Json.parse(envelope.getConteudo().toString());

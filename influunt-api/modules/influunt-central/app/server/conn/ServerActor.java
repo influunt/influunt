@@ -5,23 +5,15 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.pattern.Backoff;
-import akka.pattern.BackoffOptions;
 import akka.pattern.BackoffSupervisor;
-import akka.routing.ActorRefRoutee;
-import akka.routing.RoundRobinRoutingLogic;
-import akka.routing.Routee;
-import akka.routing.Router;
-import ch.qos.logback.classic.Logger;
-
-
-import org.fusesource.mqtt.client.MQTTException;
+import akka.routing.*;
+import handlers.PacoteTransacaoManagerActorHandler;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.duration.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 
 
 /**
@@ -35,10 +27,10 @@ public class ServerActor extends UntypedActor {
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    if(t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException){
+                    if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
                         logger.info("MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
-                    }else {
+                    } else {
                         logger.error("Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
                         t.printStackTrace();
                         return SupervisorStrategy.resume();
@@ -54,7 +46,9 @@ public class ServerActor extends UntypedActor {
 
     private ActorRef mqttCentral;
 
-    private Router router;
+    private ActorRef router;
+
+    private ActorRef actorPacoteTrasancaoManager;
 
 
     public ServerActor(final String mqttHost, final String mqttPort) {
@@ -70,26 +64,19 @@ public class ServerActor extends UntypedActor {
 
     private void setup() {
 
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
+        actorPacoteTrasancaoManager = getContext().actorOf(Props.create(PacoteTransacaoManagerActorHandler.class), "actorPacoteTransacaoManager");
 
-        router = new Router(new RoundRobinRoutingLogic(), routees);
+        router = getContext().actorOf(new RoundRobinPool(5).props(Props.create(CentralMessageBroker.class, actorPacoteTrasancaoManager)), "centralMessageBroker");
 
-
-         Props mqttProps = BackoffSupervisor.props(Backoff.onFailure(
-            Props.create(MQTTServerActor.class, mqttHost, mqttPort,router),
+        Props mqttProps = BackoffSupervisor.props(Backoff.onFailure(
+            Props.create(MQTTServerActor.class, mqttHost, mqttPort, router),
             "CentralMQTT",
             Duration.create(1, TimeUnit.SECONDS),
             Duration.create(10, TimeUnit.SECONDS),
             0).withSupervisorStrategy(strategy));
 
 
-
-        mqttCentral = getContext().actorOf(mqttProps,"CentralMQTT");
+        mqttCentral = getContext().actorOf(mqttProps, "CentralMQTT");
         this.getContext().watch(mqttCentral);
         mqttCentral.tell("CONNECT", getSelf());
     }
@@ -109,7 +96,6 @@ public class ServerActor extends UntypedActor {
     public SupervisorStrategy supervisorStrategy() {
         return strategy;
     }
-
 
 
 }

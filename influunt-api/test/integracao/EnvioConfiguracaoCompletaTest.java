@@ -7,6 +7,7 @@ import org.junit.Test;
 import utils.TransacaoHelper;
 
 import javax.validation.groups.Default;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -60,6 +61,6 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
 
     private void enviarConfiguracaoCompleta(Controlador controlador) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarConfiguracaoCompleta(controlador);
+        transacaoHelper.enviarConfiguracaoCompleta(Arrays.asList(controlador), 1000L);
     }
 }
