@@ -1,5 +1,6 @@
 package controllers;
 
+import akka.routing.ConsistentHashingGroup;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -38,8 +39,8 @@ public class ImposicoesController extends Controller {
         }
 
         // Map  controlador ID -> transação ID
-        Map<String, String> transacoesIds = enviarPacotesPlanos(Json.fromJson(json, List.class));
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+//        String transacaoId = enviarPacotesPlanos(Json.fromJson(json.get("aneisIds"), List.class), json.get("timeout").asLong());
+        return CompletableFuture.completedFuture(ok(Json.toJson(null)));
     }
 
     @Transactional
@@ -50,8 +51,8 @@ public class ImposicoesController extends Controller {
         }
 
         // Map  controlador ID -> transação ID
-        Map<String, String> transacoesIds = enviarConfiguracoesCompletas(Json.fromJson(json, List.class));
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+//        Map<String, String> transacoesIds = enviarConfiguracoesCompletas(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(null)));
     }
 
     @Transactional
@@ -63,8 +64,8 @@ public class ImposicoesController extends Controller {
 
         boolean imediato = json.get("imediato").asBoolean();
         // Map  controlador ID -> transação ID
-        Map<String, String> transacoesIds = enviarTabelaHoraria(Json.fromJson(json.get("aneis"), List.class), imediato);
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+//        Map<String, String> transacoesIds = enviarTabelaHoraria(Json.fromJson(json.get("aneisIds"), List.class), imediato);
+        return CompletableFuture.completedFuture(ok(Json.toJson(null)));
     }
 
     @Transactional
@@ -142,100 +143,113 @@ public class ImposicoesController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
     }
 
-    private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
 
-//        String transacaoId = transacaoHelper.enviarPacotePlanos(controladoresIds);
-//        Map<String, List<String>> controladoresIds = new HashMap<>();
-        Map<String, String> transacoesIds = new HashMap<String, String>();
+
+
+
+
+
+
+
+    private Map<String, List<String>> enviarPacotesPlanos(List<String> aneis, long timeout) {
         List<Controlador> controladores = getControladores(aneis);
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador))
-        );
-        return transacoesIds;
+        String transacaoId = transacaoHelper.enviarPacotePlanos(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> enviarConfiguracoesCompletas(List<String> aneis) {
+    private Map<String, List<String>> enviarConfiguracoesCompletas(List<String> aneis, long timeout) {
         List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controladores));
-        return transacoesIds;
+        String transacaoId = transacaoHelper.enviarConfiguracaoCompleta(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> enviarTabelaHoraria(List<String> aneis, boolean imediato) {
-        List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarTabelaHoraria(controlador, imediato))
-        );
-        return transacoesIds;
+    private Map<String, List<String>> enviarTabelaHoraria(List<String> aneis, boolean imediato) {
+//        List<Controlador> controladores = getControladores(aneis);
+//        Map<String, String> transacoesIds = new HashMap<>();
+//        controladores.forEach(controlador ->
+//            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarTabelaHoraria(controlador, imediato))
+//        );
+//        return transacoesIds;
+        return null;
     }
 
     private Map<String, String> imporModoOperacao(JsonNode params) {
-        ModoOperacaoPlano modoOperacao = ModoOperacaoPlano.valueOf(params.get("modoOperacao").asText());
-        int duracao = params.get("duracao").asInt();
-        Long horarioEntrada = params.get("horarioEntrada").asLong();
-        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
-        List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
-
-        Map<String, String> transacoesIds = new HashMap<>();
-        aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), horarioEntrada, duracao))
-        );
-        return transacoesIds;
+//        ModoOperacaoPlano modoOperacao = ModoOperacaoPlano.valueOf(params.get("modoOperacao").asText());
+//        int duracao = params.get("duracao").asInt();
+//        Long horarioEntrada = params.get("horarioEntrada").asLong();
+//        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
+//        List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
+//
+//        Map<String, String> transacoesIds = new HashMap<>();
+//        aneis.forEach(anel ->
+//            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), horarioEntrada, duracao))
+//        );
+//        return transacoesIds;
+        return null;
     }
 
     private Map<String, String> imporPlano(JsonNode params) {
-        int posicaoPlano = params.get("posicaoPlano").asInt();
-        int duracao = params.get("duracao").asInt();
-        Long horarioEntrada = params.get("horarioEntrada").asLong();
-
-        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
-        List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
-
-        Map<String, String> transacoesIds = new HashMap<>();
-        aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), horarioEntrada, duracao))
-        );
-        return transacoesIds;
+//        int posicaoPlano = params.get("posicaoPlano").asInt();
+//        int duracao = params.get("duracao").asInt();
+//        Long horarioEntrada = params.get("horarioEntrada").asLong();
+//
+//        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
+//        List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
+//
+//        Map<String, String> transacoesIds = new HashMap<>();
+//        aneis.forEach(anel ->
+//            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), horarioEntrada, duracao))
+//        );
+//        return transacoesIds;
+        return null;
     }
 
     private Map<String, String> colocarControladorManutencao(List<String> aneis) {
-        List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.colocarControladorManutencao(controlador))
-        );
-
-        return transacoesIds;
+//        List<Controlador> controladores = getControladores(aneis);
+//        Map<String, String> transacoesIds = new HashMap<>();
+//        controladores.forEach(controlador ->
+//            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.colocarControladorManutencao(controlador))
+//        );
+//
+//        return transacoesIds;
+        return null;
     }
 
     private Map<String, String> inativarControlador(List<String> aneis) {
-        List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.inativarControlador(controlador))
-        );
-
-        return transacoesIds;
+//        List<Controlador> controladores = getControladores(aneis);
+//        Map<String, String> transacoesIds = new HashMap<>();
+//        controladores.forEach(controlador ->
+//            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.inativarControlador(controlador))
+//        );
+//
+//        return transacoesIds;
+        return null;
     }
 
     private Map<String, String> ativarControlador(List<String> aneis) {
-        List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.ativarControlador(controlador))
-        );
-
-        return transacoesIds;
+//        List<Controlador> controladores = getControladores(aneis);
+//        Map<String, String> transacoesIds = new HashMap<>();
+//        controladores.forEach(controlador ->
+//            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.ativarControlador(controlador))
+//        );
+//
+//        return transacoesIds;
+        return null;
     }
 
     private Map<String, String> liberarImposicao(String anelId) {
-        Anel anel = Anel.find.fetch("controlador").where().eq("id", anelId).findUnique();
-        if (anel != null) {
-            Map<String, String> transacoesIds = new HashMap<>();
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.liberarImposicao(anel.getControlador(), anel.getPosicao()));
-            return transacoesIds;
-        }
+//        Anel anel = Anel.find.fetch("controlador").where().eq("id", anelId).findUnique();
+//        if (anel != null) {
+//            Map<String, String> transacoesIds = new HashMap<>();
+//            transacoesIds.put(anel.getId().toString(), transacaoHelper.liberarImposicao(anel.getControlador(), anel.getPosicao()));
+//            return transacoesIds;
+//        }
         return null;
     }
 
