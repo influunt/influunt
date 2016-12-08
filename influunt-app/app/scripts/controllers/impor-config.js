@@ -112,10 +112,10 @@ angular.module('influuntApp')
       };
 
       $scope.lerDados = function(controladorId) {
-        return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados')
-          .then(function(response) {
-            return envelopeTracker(response);
-          })
+        envelopeTracker(controladorId);
+        return Restangular
+          .one('controladores')
+          .customPOST({id: controladorId}, 'ler_dados')
           .finally(influuntBlockui.unblock);
       };
 
