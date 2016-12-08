@@ -1,16 +1,11 @@
 package os72c.client.handlers.transacoes;
 
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Controlador;
-import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
-import protocol.MensagemImposicaoModoOperacao;
 import protocol.MensagemImposicaoPlano;
 import status.Transacao;
 
@@ -23,7 +18,7 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
         super(idControlador,storage);
     }
 
-    @Override
+g     @Override
     protected void executePrepareToCommit(Transacao transacao) {
         if (isImposicaoPlanoOk(storage.getControlador(), transacao)) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
@@ -47,7 +42,7 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
 
     @Override
     protected void executeAbort(Transacao transacao) {
-
+        transacao.etapaTransacao = EtapaTransacao.ABORTED;
     }
 
 }

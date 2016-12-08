@@ -19,6 +19,9 @@ public class TransacaoBinder {
         bindings.put(TipoTransacao.LIBERAR_IMPOSICAO, TransacaoLiberarImposicaoActorHandler.class);
         bindings.put(TipoTransacao.PACOTE_PLANO, TransacaoPacotePlanoActorHandler.class);
         bindings.put(TipoTransacao.PACOTE_TABELA_HORARIA, TransacaoPacoteTabelaHorariaActorHandler.class);
+        bindings.put(TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO, TransacaoColocarControladorManutencaoActorHandler.class);
+        bindings.put(TipoTransacao.INATIVAR_CONTROLADOR, TransacaoInativarControladorActorHandler.class);
+        bindings.put(TipoTransacao.ATIVAR_CONTROLADOR, TransacaoAtivarControladorActorHandler.class);
     }
 
     public static Class getClass(TipoTransacao tipoTransacao) {

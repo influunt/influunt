@@ -14,6 +14,7 @@ import logger.InfluuntLogger;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
+import org.joda.time.DateTime;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -137,10 +138,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
-
-        Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
+        Envelope controladorOnline = ControladorOnline.getMensagem(id, DateTime.now().getMillis(), "1.0", storage.getStatus());
         sendMessage(controladorOnline);
-
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 
@@ -189,14 +188,12 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("[CLIENT] messageArrived" + topic);
-        System.out.println("[CLIENT] messageArrived" + message);
         sendToBroker(message);
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        System.out.println("[CLIENT] Delivery complete:" + token);
+
     }
 
     private void sendMessage(Envelope envelope) throws MqttException {

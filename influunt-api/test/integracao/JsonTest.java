@@ -40,7 +40,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
         JsonNode pacoteTabelaHorariaJson = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
 
 
-        Controlador novoControlador = new ControladorCustomDeserializer().getPacoteFromJson(configuracaoControladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
+        Controlador novoControlador = new ControladorCustomDeserializer().getPacoteConfiguracaoCompletaFromJson(configuracaoControladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
 
 
         assertEquals("Não pode ter planos", 0, controladorJson.getAneis().stream().mapToInt(anel -> anel.getPlanos().size()).sum());

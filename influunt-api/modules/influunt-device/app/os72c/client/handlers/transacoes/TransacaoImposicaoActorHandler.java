@@ -1,18 +1,12 @@
 package os72c.client.handlers.transacoes;
 
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import models.Anel;
 import models.Controlador;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
-import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
-import protocol.Envelope;
-import protocol.EtapaTransacao;
-import protocol.MensagemImposicaoPlano;
 import status.Transacao;
 
 /**

@@ -69,8 +69,32 @@ public class Transacao {
         root.put("idControlador", idControlador);
 
         if (payload != null) {
-            root.put("payload", payload.toString());
+            root.put("payload", payload);
         }
         return root;
+    }
+
+    public static Transacao fromJson(JsonNode transacaoJson) {
+        return Json.fromJson(transacaoJson, Transacao.class);
+    }
+
+    public EtapaTransacao getEtapaTransacao() {
+        return etapaTransacao;
+    }
+
+    public TipoTransacao getTipoTransacao() {
+        return tipoTransacao;
+    }
+
+    public String getTransacaoId() {
+        return transacaoId;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public Object getPayload() {
+        return payload;
     }
 }

@@ -21,10 +21,7 @@ import protocol.EtapaTransacao;
 import protocol.StatusTransacao;
 import protocol.TipoMensagem;
 import server.Central;
-import status.LogControlador;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
-import status.Transacao;
+import status.*;
 import uk.co.panaxiom.playjongo.PlayJongo;
 import utils.EncryptionUtil;
 
@@ -135,12 +132,12 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         jongo = provideApp.injector().instanceOf(PlayJongo.class);
         StatusConexaoControlador.jongo = jongo;
         StatusControladorFisico.jongo = jongo;
-        Transacao.jongo = jongo;
+        PacoteTransacao.jongo = jongo;
         LogControlador.jongo = jongo;
 
         jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
         jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
-        jongo.getCollection(Transacao.COLLECTION).drop();
+        jongo.getCollection(PacoteTransacao.COLLECTION).drop();
         jongo.getCollection(LogControlador.COLLECTION).drop();
 
         mqttBroker = new Server();

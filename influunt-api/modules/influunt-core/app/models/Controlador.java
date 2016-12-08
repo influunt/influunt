@@ -193,12 +193,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
-    public static Controlador isPacoteCompletoValido(Object controladorObject, Object planosObject, Object pacoteTabelaHoraria) {
-        JsonNode controladorJson = Json.parse(controladorObject.toString());
-        JsonNode planoJson = Json.parse(planosObject.toString());
-        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
 
-        Controlador controlador = new ControladorCustomDeserializer().getPacoteFromJson(controladorJson, planoJson, pacoteTabelaHorariaJson);
+    public static Controlador isPacoteConfiguracaoCompletaValido(Object controladorObject, Object pacotePlanos, Object pacoteTabelaHoraria) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+        JsonNode pacotePlanosJson = Json.parse(pacotePlanos.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteConfiguracaoCompletaFromJson(controladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -207,7 +209,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
 
-    public boolean isCompleto(){
+    public boolean isCompleto() {
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -987,5 +989,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setSincronizado(Boolean sincronizado) {
         this.sincronizado = sincronizado;
+    }
+
+    public boolean podeInativar() {
+        return true;
+    }
+
+    public boolean podeColocarEmManutencao() {
+        return true;
     }
 }

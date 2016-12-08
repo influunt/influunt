@@ -116,9 +116,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         GerenciadorDeTabelaHoraria novoGerenciador = new GerenciadorDeTabelaHoraria();
         novoGerenciador.addEventos(controladorTemporario.getTabelaHoraria().getEventos());
         controlador = controladorTemporario;
-        controladorTemporario = null;
         this.gerenciadorDeTabelaHoraria = novoGerenciador;
-        this.gerenciadorDeTabelaHoraria.imprimeTabelaHoraria();
+        controladorTemporario = null;
     }
 
     @Override

@@ -50,4 +50,5 @@ public interface Storage {
     public void removeFalha(TipoEvento falha);
 
     public boolean emFalha();
+
 }
