@@ -1,12 +1,9 @@
 package os72c.client.handlers.transacoes;
 
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import json.ControladorCustomDeserializer;
 import models.Controlador;
-import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
@@ -53,7 +50,7 @@ public class TransacaoImposicaoPlanoTemporarioActorHandler extends TransacaoImpo
 
     @Override
     protected void executeAbort(Transacao transacao) {
-
+        transacao.etapaTransacao = EtapaTransacao.ABORTED;
     }
 
     private JsonNode savePlanoTemporario(JsonNode controladorJson, Transacao transacao) {

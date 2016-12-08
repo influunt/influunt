@@ -1,11 +1,8 @@
 package os72c.client.handlers.transacoes;
 
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import logger.InfluuntLogger;
 import models.Controlador;
-import models.StatusDevice;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -53,7 +50,7 @@ public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHand
 
     @Override
     protected void executeAbort(Transacao transacao) {
-
+        transacao.etapaTransacao = EtapaTransacao.ABORTED;
     }
 
 }

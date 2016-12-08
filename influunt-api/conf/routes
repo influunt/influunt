@@ -210,3 +210,5 @@ POST       /api/v1/imposicoes/configuracao_completa                             
 POST       /api/v1/imposicoes/modo_operacao                                                     controllers.ImposicoesController.modoOperacao
 POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano
 POST       /api/v1/imposicoes/liberar                                                           controllers.ImposicoesController.liberar
+POST       /api/v1/imposicoes/colocar_manutencao                                                controllers.ImposicoesController.colocarManutencao
+POST       /api/v1/imposicoes/inativar                                                          controllers.ImposicoesController.inativar

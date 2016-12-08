@@ -44,7 +44,7 @@ public class TransacaoPacotePlanoActorHandler extends TransacaoActorHandler {
 
     @Override
     protected void executeAbort(Transacao transacao) {
-
+        transacao.etapaTransacao = EtapaTransacao.ABORTED;
     }
 
 }

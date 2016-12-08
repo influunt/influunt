@@ -988,4 +988,12 @@ public class Controlador extends Model implements Cloneable, Serializable {
     public void setSincronizado(Boolean sincronizado) {
         this.sincronizado = sincronizado;
     }
+
+    public boolean podeInativar() {
+        return true;
+    }
+
+    public boolean podeColocarEmManutencao() {
+        return true;
+    }
 }
