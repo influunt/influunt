@@ -106,6 +106,7 @@ public class TransacaoHelper {
     public String colocarControladorManutencao(Controlador controlador) {
         String controladorId = controlador.getControladorFisicoId();
         Transacao transacao = new Transacao(controladorId, null, TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO);
+        transacao.create();
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }
@@ -114,6 +115,15 @@ public class TransacaoHelper {
     public String inativarControlador(Controlador controlador) {
         String controladorId = controlador.getControladorFisicoId();
         Transacao transacao = new Transacao(controladorId, null, TipoTransacao.INATIVAR_CONTROLADOR);
+        transacao.create();
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
+        return transacao.transacaoId;
+    }
+
+    public String ativarControlador(Controlador controlador) {
+        String controladorId = controlador.getControladorFisicoId();
+        Transacao transacao = new Transacao(controladorId, null, TipoTransacao.ATIVAR_CONTROLADOR);
+        transacao.create();
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
         return transacao.transacaoId;
     }

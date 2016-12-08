@@ -831,6 +831,7 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
+    "ativarControlador": "Ativar Controlador",
     "alterarStatus": "Alterar Status",
     "colocarEmManutencao": "Colocar Em Manutenção",
     "titulo": "Painel de Facilidades",
@@ -840,6 +841,7 @@
     "estagioAtual": "Estágio",
     "falha": "Falha",
     "local": "Local",
+    "log": "Log",
     "inativar": "Inativar",
     "info": "Info",
     "dataFalha": "Data da Falha",
@@ -851,6 +853,8 @@
     "planoForcado": "Plano Forçado",
     "planoImpostoFalha": "Plano Imposto por Falha",
     "posicaoPlano": "Posição do Plano",
+    "relogio": "Relógio",
+    "statusControlador": "Status do Controlador",
     "statusPlano": "Status do Plano",
     "tabelaHoraria": "Tabela Horária",
     "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
@@ -912,6 +916,7 @@
   "EDITANDO": "Em Edição",
   "EM_CONFIGURACAO": "Em Configuração",
   "EM_EDICAO": "Em Edição",
+  "EM_MANUTENCAO": "Em Manutenção",
   "FALHA": "Em falha",
   "INATIVO": "Inativo",
   "INOPERANTE": "Inoperante",

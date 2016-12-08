@@ -213,7 +213,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private void enviaDadosAtualDoControlador(Envelope envelope) {
         if (motor != null) {
-            sendMessage(LerDadosControlador.retornoLeituraDados(envelope, motor));
+            sendMessage(LerDadosControlador.retornoLeituraDados(envelope, motor, storage.getStatus()));
         }
     }
 
