@@ -10,7 +10,7 @@ angular.module('influuntApp')
   .directive('sincronizacao', ['Restangular', 'influuntBlockui', '$filter', 'toast', 'mqttTransactionStatusService',
     function (Restangular, influuntBlockui, $filter, toast, mqttTransactionStatusService) {
       return {
-        templateUrl: 'views/directives/imposicoes/sincronizacao.html',
+        templateUrl: 'views/directives/imposicoes/sincronizacao-form.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
@@ -56,4 +56,17 @@ angular.module('influuntApp')
           };
         }
       };
-    }]);
+    }])
+
+  .directive('sincronizacaoPopup', [function () {
+    return {
+      templateUrl: 'views/directives/imposicoes/sincronizacao-popup.html',
+      restrict: 'E',
+      scope: {
+        aneisSelecionados: '=',
+        idsTransacoes: '=',
+        trackTransaction: '='
+      }
+    };
+  }])
+;

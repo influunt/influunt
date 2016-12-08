@@ -10,7 +10,7 @@ angular.module('influuntApp')
   .directive('imposicaoModo', ['imposicoesService',
       function (imposicoesService) {
       return {
-        templateUrl: 'views/directives/imposicoes/imposicao-modo.html',
+        templateUrl: 'views/directives/imposicoes/imposicao-modo-form.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
@@ -36,4 +36,17 @@ angular.module('influuntApp')
           }, true);
         }
       };
-    }]);
+    }])
+
+  .directive('imposicaoModoPopup', [function () {
+    return {
+      templateUrl: 'views/directives/imposicoes/imposicao-modo-popup.html',
+      restrict: 'E',
+      scope: {
+        aneisSelecionados: '=',
+        idsTransacoes: '=',
+        trackTransaction: '='
+      }
+    };
+  }])
+;

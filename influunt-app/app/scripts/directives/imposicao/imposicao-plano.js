@@ -10,7 +10,7 @@ angular.module('influuntApp')
   .directive('imposicaoPlano', ['HorariosService', 'imposicoesService', '$filter',
       function (HorariosService, imposicoesService, $filter) {
       return {
-        templateUrl: 'views/directives/imposicoes/imposicao-plano.html',
+        templateUrl: 'views/directives/imposicoes/imposicao-plano-form.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
@@ -53,4 +53,18 @@ angular.module('influuntApp')
           };
         }
       };
-    }]);
+    }])
+
+  .directive('imposicaoPlanoPopup', [function () {
+    return {
+      templateUrl: 'views/directives/imposicoes/imposicao-plano-popup.html',
+      restrict: 'E',
+      scope: {
+        aneisSelecionados: '=',
+        idsTransacoes: '=',
+        trackTransaction: '='
+      }
+    };
+  }])
+;
+

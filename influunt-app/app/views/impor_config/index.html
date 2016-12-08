@@ -63,6 +63,14 @@
             <div class="col-sm-12">
               <div class="row">
                 <div class="col-sm-4 col-sm-offset-8">
+                  <button data-toggle="modal"
+                          data-target="#modal-transacoes-distribuidas"
+                          class="btn btn-w-m btn-primary pull-right"
+                          data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)">
+                          Button
+                  </button>
+                </div>
+                <!-- <div class="col-sm-4 col-sm-offset-8">
                   <div class="right">
                     <imposicao-plano
                         aneis-selecionados="aneisSelecionadosObj"
@@ -77,11 +85,82 @@
                       ids-transacoes="idsTransacoes">
                     </sincronizacao>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
+
+
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal inmodal" id="modal-transacoes-distribuidas" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <form role="form">
+              <div class="row">
+                <div class="col-sm-12">
+
+                  <!-- transacao -->
+                  <div class="form-group">
+                    <label class="control-label">Transação</label>
+                    <select name="subareas"
+                            class="form-control"
+                            data-ng-model="tipoTransacao">
+                      <option value="imposicao-plano">Impor Plano</option>
+                      <option value="imposicao-modo">Impor Modo</option>
+                      <option value="sincronizacao">Sincronizar</option>
+                    </select>
+                  </div>
+
+                  <!-- tempo máximo de permanência -->
+                  <div class="form-group">
+                    <label class="ng-binding">Tempo máximo de espera</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" name="tempoMaximoEspera">
+                      <span class="input-group-addon ng-binding">Seg.</span>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <sincronizacao
+                    aneis-selecionados="aneisSelecionadosObj"
+                    ids-transacoes="idsTransacoes"
+                    data-ng-if="tipoTransacao === 'sincronizacao'">
+                  </sincronizacao>
+
+                  <imposicao-modo
+                      aneis-selecionados="aneisSelecionadosObj"
+                      ids-transacoes="idsTransacoes"
+                      data-ng-if="tipoTransacao === 'imposicao-modo'">
+                  </imposicao-modo>
+
+                  <imposicao-plano
+                      aneis-selecionados="aneisSelecionadosObj"
+                      ids-transacoes="idsTransacoes"
+                      data-ng-if="tipoTransacao === 'imposicao-plano'">
+                  </imposicao-plano>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="sincronizar()" data-ng-disabled="!dataSincronizar.tipo">
+          Continuar
+        </button>
+        <button type="button" class="btn btn-default m-b-xs" data-dismiss="modal">
+          Abortar
+        </button>
       </div>
     </div>
   </div>
