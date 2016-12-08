@@ -82,6 +82,15 @@ public class ServerActor extends UntypedActor {
     }
 
     @Override
+    public void postStop() throws Exception {
+        System.out.println("ServerActor MORREU");
+        getContext().stop(actorPacoteTrasancaoManager);
+        getContext().stop(router);
+        getContext().stop(mqttCentral);
+        super.postStop();
+    }
+
+    @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Terminated) {
             final Terminated t = (Terminated) message;

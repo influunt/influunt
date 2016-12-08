@@ -14,6 +14,7 @@ import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by rodrigosol on 12/8/16.
@@ -24,7 +25,6 @@ public class PacoteTransacao {
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
     @MongoId
-    @MongoObjectId
     private String id;
     private StatusPacoteTransacao statusPacoteTransacao;
     private TipoTransacao tipoTransacao;
@@ -43,6 +43,7 @@ public class PacoteTransacao {
         this.statusPacoteTransacao = StatusPacoteTransacao.NEW;
         this.tipoTransacao = tipoTransacao;
         this.tempoMaximo = tempoMaximo;
+        this.id = UUID.randomUUID().toString();
     }
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo, List<Transacao> transacoes) {

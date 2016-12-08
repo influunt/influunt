@@ -124,6 +124,8 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
             pacoteTransacaoJson,
             null);
 
+        envelope.setCriptografado(false);
+
         getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());;
     }
 

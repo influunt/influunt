@@ -44,4 +44,9 @@ public class PacoteTransacaoManagerActorHandler extends UntypedActor {
         }
     }
 
+    @Override
+    public void postStop() throws Exception {
+        System.out.println("PacoteTransacaoManagerActorHandler MORREU");
+        super.postStop();
+    }
 }

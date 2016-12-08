@@ -74,6 +74,18 @@ public class Transacao {
         return root;
     }
 
+    @Override
+    public String toString() {
+        return "Transacao{" +
+            "etapaTransacao=" + etapaTransacao +
+            ", tipoTransacao=" + tipoTransacao +
+            ", transacaoId='" + transacaoId + '\'' +
+            ", idControlador='" + idControlador + '\'' +
+            ", timestamp=" + timestamp +
+            ", payload='" + payload + '\'' +
+            '}';
+    }
+
     public static Transacao fromJson(JsonNode transacaoJson) {
         return Json.fromJson(transacaoJson, Transacao.class);
     }
