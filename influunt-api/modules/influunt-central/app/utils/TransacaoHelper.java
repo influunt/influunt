@@ -3,7 +3,6 @@ package utils;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import com.avaje.ebean.config.JsonConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
@@ -12,7 +11,6 @@ import models.Cidade;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
-import org.joda.time.DateTime;
 import play.libs.Json;
 import protocol.*;
 import server.conn.CentralMessageBroker;
@@ -47,7 +45,6 @@ public class TransacaoHelper {
 
     public String enviarTabelaHoraria(Controlador controlador, boolean imediato) {
         JsonNode pacoteTabelaHoraria = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
-//        ((ObjectNode))
         ((ObjectNode) pacoteTabelaHoraria).put("imediato", imediato);
         Transacao transacao = new Transacao(controlador.getControladorFisicoId(), pacoteTabelaHoraria, TipoTransacao.PACOTE_TABELA_HORARIA);
         sendTransaction(transacao, QoS.EXACTLY_ONCE);
@@ -97,6 +94,21 @@ public class TransacaoHelper {
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
         return controlador.getControladorFisicoId();
+    }
+
+    public String colocarControladorManutencao(Controlador controlador) {
+        String controladorId = controlador.getControladorFisicoId();
+        Transacao transacao = new Transacao(controladorId, null, TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
+        return transacao.transacaoId;
+    }
+
+
+    public String inativarControlador(Controlador controlador) {
+        String controladorId = controlador.getControladorFisicoId();
+        Transacao transacao = new Transacao(controladorId, null, TipoTransacao.INATIVAR_CONTROLADOR);
+        sendTransaction(transacao, QoS.EXACTLY_ONCE);
+        return transacao.transacaoId;
     }
 
 

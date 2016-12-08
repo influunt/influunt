@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
-import org.joda.time.DateTime;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -106,6 +105,29 @@ public class ImposicoesController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(transacaoId)));
     }
 
+    @Transactional
+    public CompletionStage<Result> colocarManutencao() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = colocarControladorManutencao(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
+
+    @Transactional
+    public CompletionStage<Result> inativar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = inativarControlador(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
 
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
         List<Controlador> controladores = getControladores(aneis);
@@ -160,6 +182,26 @@ public class ImposicoesController extends Controller {
         aneis.forEach(anel ->
             transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), horarioEntrada, duracao))
         );
+        return transacoesIds;
+    }
+
+    private Map<String, String> colocarControladorManutencao(List<String> aneis) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.colocarControladorManutencao(controlador))
+        );
+
+        return transacoesIds;
+    }
+
+    private Map<String, String> inativarControlador(List<String> aneis) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.inativarControlador(controlador))
+        );
+
         return transacoesIds;
     }
 

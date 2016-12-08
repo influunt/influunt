@@ -23,5 +23,11 @@ public enum TipoTransacao {
     IMPOSICAO_PLANO_TEMPORARIO,
 
     // Liherar anel da imposição de plano ou modo operação
-    LIBERAR_IMPOSICAO
+    LIBERAR_IMPOSICAO,
+
+    // Coloca o controlador no statsu Manutenção
+    COLOCAR_CONTROLADOR_MANUTENCAO,
+
+    // Inativa o controlador
+    INATIVAR_CONTROLADOR
 }

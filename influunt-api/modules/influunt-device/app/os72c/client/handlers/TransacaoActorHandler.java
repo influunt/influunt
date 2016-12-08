@@ -11,16 +11,13 @@ import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import models.StatusDevice;
-import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.*;
-import scala.concurrent.duration.Duration;
 import status.Transacao;
 
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -124,6 +121,23 @@ public class TransacaoActorHandler extends UntypedActor {
                                 }
                                 break;
 
+                            case COLOCAR_CONTROLADOR_MANUTENCAO:
+                                if(storage.getControlador().podeColocarEmManutencao()) {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                }
+                                break;
+
+                            case INATIVAR_CONTROLADOR:
+                                if(storage.getControlador().podeInativar()) {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+                                } else {
+                                    transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
+                                }
+                                break;
+
+
                             default:
                                 transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
                                 break;
@@ -180,6 +194,16 @@ public class TransacaoActorHandler extends UntypedActor {
                                     idControlador,
                                     payloadJson.get("numeroAnel").asInt());
                                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeLiberarImposicao, getSelf());
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            case COLOCAR_CONTROLADOR_MANUTENCAO:
+                                storage.setStatus(StatusDevice.EM_MANUTENCAO);
+                                transacao.etapaTransacao = EtapaTransacao.COMMITED;
+                                break;
+
+                            case INATIVAR_CONTROLADOR:
+                                storage.setStatus(StatusDevice.INATIVO);
                                 transacao.etapaTransacao = EtapaTransacao.COMMITED;
                                 break;
 

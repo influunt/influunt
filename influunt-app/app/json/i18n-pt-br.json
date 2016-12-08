@@ -831,6 +831,8 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
+    "alterarStatus": "Alterar Status",
+    "colocarEmManutencao": "Colocar Em Manutenção",
     "titulo": "Painel de Facilidades",
     "status": "Status",
     "codigoFalha": "Código da Falha",
@@ -838,6 +840,7 @@
     "estagioAtual": "Estágio",
     "falha": "Falha",
     "local": "Local",
+    "inativar": "Inativar",
     "info": "Info",
     "dataFalha": "Data da Falha",
     "dataRemocaoFalha": "Data Remoção Falha",
@@ -852,6 +855,10 @@
     "tabelaHoraria": "Tabela Horária",
     "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
+    "aletarcaoStatus": {
+      "sucesso": "Alteração executada com sucesso",
+      "erro": "Não foi possível alterar o status com o controlador"
+    },
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",
       "erro": "Não foi possível finalizar a liberação",
