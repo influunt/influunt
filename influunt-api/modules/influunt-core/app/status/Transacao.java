@@ -115,10 +115,10 @@ public class Transacao {
         root.put("timestamp", timestamp);
 
         ArrayNode controladores = root.putArray("controladores");
-        idControladores.stream().forEach(id -> controladores.add(id));
+        idControladores.stream().forEach(controladores::add);
 
         if (payload != null) {
-            root.put("payload", payload.toString());
+            root.put("payload", payload);
         }
         return root;
     }

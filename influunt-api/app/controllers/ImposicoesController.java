@@ -108,8 +108,12 @@ public class ImposicoesController extends Controller {
 
 
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
+        List<String> controladoresIds = getControladoresIds(aneis);
+//        String transacaoId = transacaoHelper.enviarPacotePlanos(controladoresIds);
+        Map<String, List<String>> controladoresIds = new HashMap<>();
+
+
         List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
         controladores.forEach(controlador ->
             transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador))
         );
@@ -178,6 +182,14 @@ public class ImposicoesController extends Controller {
         return aneis.stream()
             .map(anelId -> Anel.find.byId(UUID.fromString(anelId)))
             .map(Anel::getControlador)
+            .distinct()
+            .collect(Collectors.toList());
+    }
+
+    private List<String> getControladoresIds(List<String> aneis) {
+        return aneis.stream()
+            .map(anelId -> Anel.find.byId(UUID.fromString(anelId)))
+            .map(anel -> anel.getControlador().getId().toString())
             .distinct()
             .collect(Collectors.toList());
     }
