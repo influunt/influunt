@@ -10,14 +10,15 @@
           <div class="col-sm-12">
 
             <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.clc }}</p><br>
-            <p><strong>{{ 'imporConfig.dataEvento' | translate }}:</strong> {{ dadosControlador.relogio | date: 'dd/MM/yyyy HH:MM:ss' }}</p><br>
+            <p><strong>{{ 'imporConfig.statusControlador' | translate }}:</strong> {{ dadosControlador.status | translate}}</p><br>
+            <p><strong>{{ 'imporConfig.relogio' | translate }}:</strong> {{ dadosControlador.relogio | date: 'dd/MM/yyyy HH:MM:ss' }}</p><br>
 
             <h2 class='text-center'>Parametros Controlador</h2>
             <!-- PARAMETROS -->
             <table class="footable table table-stripped table-bordered" >
               <thead>
                 <tr>
-                  <th>{{ 'imporConfig.falha' | translate }}</th>
+                  <th>{{ 'imporConfig.log' | translate }}</th>
                 </tr>
               </thead>
               <tbody>

@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
-import org.joda.time.DateTime;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -106,10 +105,48 @@ public class ImposicoesController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(transacaoId)));
     }
 
+    @Transactional
+    public CompletionStage<Result> colocarManutencao() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = colocarControladorManutencao(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
+
+    @Transactional
+    public CompletionStage<Result> inativar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = inativarControlador(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
+
+    @Transactional
+    public CompletionStage<Result> ativar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = ativarControlador(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
 
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
+
+//        String transacaoId = transacaoHelper.enviarPacotePlanos(controladoresIds);
+//        Map<String, List<String>> controladoresIds = new HashMap<>();
+        Map<String, String> transacoesIds = new HashMap<String, String>();
         List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
         controladores.forEach(controlador ->
             transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador))
         );
@@ -163,6 +200,36 @@ public class ImposicoesController extends Controller {
         return transacoesIds;
     }
 
+    private Map<String, String> colocarControladorManutencao(List<String> aneis) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.colocarControladorManutencao(controlador))
+        );
+
+        return transacoesIds;
+    }
+
+    private Map<String, String> inativarControlador(List<String> aneis) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.inativarControlador(controlador))
+        );
+
+        return transacoesIds;
+    }
+
+    private Map<String, String> ativarControlador(List<String> aneis) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.ativarControlador(controlador))
+        );
+
+        return transacoesIds;
+    }
+
     private Map<String, String> liberarImposicao(String anelId) {
         Anel anel = Anel.find.fetch("controlador").where().eq("id", anelId).findUnique();
         if (anel != null) {
@@ -178,6 +245,14 @@ public class ImposicoesController extends Controller {
         return aneis.stream()
             .map(anelId -> Anel.find.byId(UUID.fromString(anelId)))
             .map(Anel::getControlador)
+            .distinct()
+            .collect(Collectors.toList());
+    }
+
+    private List<String> getControladoresIds(List<String> aneis) {
+        return aneis.stream()
+            .map(anelId -> Anel.find.byId(UUID.fromString(anelId)))
+            .map(anel -> anel.getControlador().getId().toString())
             .distinct()
             .collect(Collectors.toList());
     }

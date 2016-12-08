@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import engine.GerenciadorDeEstagios;
-import engine.GerenciadorDeTabelaHoraria;
 import engine.Motor;
 import logger.InfluuntLogAppender;
 import models.Controlador;
-import models.Evento;
 import models.Plano;
+import models.StatusDevice;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
 
@@ -30,11 +29,12 @@ public class LerDadosControlador {
             null);
     }
 
-    public static Envelope retornoLeituraDados(Envelope envelope, Motor motor) {
+    public static Envelope retornoLeituraDados(Envelope envelope, Motor motor, StatusDevice statusDevice) {
         ObjectNode controladorJson = play.libs.Json.newObject();
         Controlador controlador = motor.getControlador();
         controladorJson.put("clc", controlador.getCLC());
         controladorJson.put("relogio", DateTime.now().getMillis());
+        controladorJson.put("status", statusDevice.toString());
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         controlador.getAneisAtivos().forEach(anel -> {

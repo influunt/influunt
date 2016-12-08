@@ -115,11 +115,31 @@ public class Transacao {
         root.put("timestamp", timestamp);
 
         ArrayNode controladores = root.putArray("controladores");
-        idControladores.stream().forEach(id -> controladores.add(id));
+        idControladores.stream().forEach(controladores::add);
 
         if (payload != null) {
-            root.put("payload", payload.toString());
+            root.put("payload", payload);
         }
         return root;
+    }
+
+    public EtapaTransacao getEtapaTransacao() {
+        return etapaTransacao;
+    }
+
+    public TipoTransacao getTipoTransacao() {
+        return tipoTransacao;
+    }
+
+    public String getTransacaoId() {
+        return transacaoId;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public Object getPayload() {
+        return payload;
     }
 }

@@ -32,8 +32,7 @@ angular.module('influuntApp')
               resource = scope.dataSincronizar.tipo;
               data = idsAneisSelecionados;
             }
-            // var resource = scope.dataSincronizar.tipo === 'tabela_horaria_imediato' ? ''; // URL da API
-            // var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
+
             return Restangular.one('imposicoes').customPOST(data, resource)
               .then(function(response) {
                 _.each(response.plain(), function(transacaoId, controladorId) {

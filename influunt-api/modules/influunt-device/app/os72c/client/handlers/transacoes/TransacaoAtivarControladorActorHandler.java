@@ -1,30 +1,26 @@
 package os72c.client.handlers.transacoes;
 
-import logger.InfluuntLogger;
-import models.Controlador;
+import models.StatusDevice;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
-import protocol.Sinal;
-import protocol.TipoMensagem;
+import protocol.MudancaStatusControlador;
 import status.Transacao;
 
 /**
- * Created by rodrigosol on 9/6/16.
+ * Created by lesiopinheiro on 08/12/16.
  */
-public class TransacaoPacotePlanoActorHandler extends TransacaoActorHandler {
+public class TransacaoAtivarControladorActorHandler extends TransacaoActorHandler {
 
-    public TransacaoPacotePlanoActorHandler(String idControlador, Storage storage) {
+    public TransacaoAtivarControladorActorHandler(String idControlador, Storage storage) {
         super(idControlador, storage);
     }
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        Controlador controlador = Controlador.isPacotePlanosValido(storage.getControladorJson(), transacao.payload);
-        if (controlador != null) {
-            storage.setControladorStaging(controlador);
+        if(storage.getControlador().podeInativar()) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -33,14 +29,14 @@ public class TransacaoPacotePlanoActorHandler extends TransacaoActorHandler {
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        Envelope envelopeSinal = Sinal.getMensagem(TipoMensagem.TROCAR_PLANOS, idControlador, null);
-        getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
+        storage.setStatus(StatusDevice.CONFIGURADO);
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
+        Envelope envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
+        getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
     }
 
     @Override
     protected void executeAbort(Transacao transacao) {
         transacao.etapaTransacao = EtapaTransacao.ABORTED;
     }
-
 }

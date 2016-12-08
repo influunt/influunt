@@ -831,6 +831,9 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
+    "ativarControlador": "Ativar Controlador",
+    "alterarStatus": "Alterar Status",
+    "colocarEmManutencao": "Colocar Em Manutenção",
     "titulo": "Painel de Facilidades",
     "status": "Status",
     "codigoFalha": "Código da Falha",
@@ -838,6 +841,8 @@
     "estagioAtual": "Estágio",
     "falha": "Falha",
     "local": "Local",
+    "log": "Log",
+    "inativar": "Inativar",
     "info": "Info",
     "dataFalha": "Data da Falha",
     "dataRemocaoFalha": "Data Remoção Falha",
@@ -848,10 +853,16 @@
     "planoForcado": "Plano Forçado",
     "planoImpostoFalha": "Plano Imposto por Falha",
     "posicaoPlano": "Posição do Plano",
+    "relogio": "Relógio",
+    "statusControlador": "Status do Controlador",
     "statusPlano": "Status do Plano",
     "tabelaHoraria": "Tabela Horária",
     "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
+    "aletarcaoStatus": {
+      "sucesso": "Alteração executada com sucesso",
+      "erro": "Não foi possível alterar o status com o controlador"
+    },
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",
       "erro": "Não foi possível finalizar a liberação",
@@ -892,8 +903,8 @@
     "editar": "Editar",
     "imporApagado": "Impor modo Apagado",
     "imporInterm": "impor modo interminente",
-    "sincronizarTabelaHoraria": "Sincronizar Tabela Horária na Próxima Troca de Planos",
     "sincronizarTabelaHorariaImadiato": "Sincronizar Tabela Horária Imediatamente",
+    "sincronizarTabelaHoraria": "Sincronizar Tabela Horária na Próxima Troca de Planos",
     "sincronizarPlano": "Sincronizar Planos",
     "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos e Configuração do Controlador",
     "sincronizando": "Sincronizando",
@@ -905,6 +916,7 @@
   "EDITANDO": "Em Edição",
   "EM_CONFIGURACAO": "Em Configuração",
   "EM_EDICAO": "Em Edição",
+  "EM_MANUTENCAO": "Em Manutenção",
   "FALHA": "Em falha",
   "INATIVO": "Inativo",
   "INOPERANTE": "Inoperante",

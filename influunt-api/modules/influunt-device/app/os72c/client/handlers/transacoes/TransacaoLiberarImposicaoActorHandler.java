@@ -1,7 +1,5 @@
 package os72c.client.handlers.transacoes;
 
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
@@ -9,7 +7,6 @@ import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
-import protocol.MensagemImposicaoPlano;
 import protocol.MensagemLiberarImposicao;
 import status.Transacao;
 
@@ -44,7 +41,7 @@ public class TransacaoLiberarImposicaoActorHandler extends TransacaoActorHandler
 
     @Override
     protected void executeAbort(Transacao transacao) {
-
+        transacao.etapaTransacao = EtapaTransacao.ABORTED;
     }
 
 }
