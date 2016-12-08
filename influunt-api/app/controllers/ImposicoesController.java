@@ -13,6 +13,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import utils.TransacaoHelper;
+import views.html.report.controlador;
 
 import java.util.HashMap;
 import java.util.List;
@@ -156,9 +157,7 @@ public class ImposicoesController extends Controller {
     private Map<String, String> enviarConfiguracoesCompletas(List<String> aneis) {
         List<Controlador> controladores = getControladores(aneis);
         Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controlador))
-        );
+        transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controladores));
         return transacoesIds;
     }
 

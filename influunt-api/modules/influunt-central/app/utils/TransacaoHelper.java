@@ -14,8 +14,10 @@ import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 import protocol.*;
 import server.conn.CentralMessageBroker;
+import status.PacoteTransacao;
 import status.Transacao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,14 +35,18 @@ public class TransacaoHelper {
         return transacao.transacaoId;
     }
 
-    public String enviarConfiguracaoCompleta(Controlador controlador) {
-        String controladorId = controlador.getControladorFisicoId();
+    public String enviarConfiguracaoCompleta(List<Controlador> controladores) {
+        List<Transacao> transacoes = new ArrayList<>();
         List<Cidade> cidades = Cidade.find.all();
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
-        JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
-        Transacao transacao = new Transacao(controladorId, configuracaoJson.toString(), TipoTransacao.CONFIGURACAO_COMPLETA);
-        sendTransaction(transacao, QoS.EXACTLY_ONCE);
-        return transacao.transacaoId;
+
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
+            transacoes.add(new Transacao(controladorId, configuracaoJson.toString(), TipoTransacao.CONFIGURACAO_COMPLETA));
+        });
+
+        return sendTransaction(transacoes, QoS.EXACTLY_ONCE);
     }
 
     public String enviarTabelaHoraria(Controlador controlador, boolean imediato) {
@@ -119,10 +125,11 @@ public class TransacaoHelper {
     }
 
 
-    private void sendTransaction(Transacao transacao, QoS qos) {
-        String transacaoJson = transacao.toJson().toString();
-        String destinoTX = DestinoCentral.transacao(transacao.transacaoId);
-        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO, transacao.idControlador, destinoTX, qos, transacaoJson, null);
+    private String sendTransaction(TipoTransacao tipoTransacao, long tempoMaximo, List<Transacao> transacoes, QoS qos) {
+        PacoteTransacao pacoteTransacao = new PacoteTransacao(tipoTransacao, tempoMaximo, transacoes);
+        String pacoteTransacaoJson = pacoteTransacao.toJson().toString();
+        String destinoTX = DestinoCentral.transacao(pacoteTransacao.getId());
+        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO, transacoes.idControlador, destinoTX, qos, transacaoJson, null);
         ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
         centralBroker.tell(envelope, null);
     }
