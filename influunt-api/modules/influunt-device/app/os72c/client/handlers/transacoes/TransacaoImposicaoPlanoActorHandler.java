@@ -18,7 +18,7 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
         super(idControlador,storage);
     }
 
-g     @Override
+    @Override
     protected void executePrepareToCommit(Transacao transacao) {
         if (isImposicaoPlanoOk(storage.getControlador(), transacao)) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
