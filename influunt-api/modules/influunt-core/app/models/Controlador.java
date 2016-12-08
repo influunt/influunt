@@ -992,10 +992,20 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public boolean podeInativar() {
-        return true;
+        return (getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO)
+            || getControladorFisico().getStatusDevice().equals(StatusDevice.EM_MANUTENCAO)
+            || getControladorFisico().getStatusDevice().equals(StatusDevice.CONFIGURADO));
     }
 
     public boolean podeColocarEmManutencao() {
-        return true;
+        return (getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO) || getControladorFisico().getStatusDevice().equals(StatusDevice.COM_FALHAS));
+    }
+
+    public boolean podeAtivar() {
+        return (!getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO) && !getControladorFisico().getStatusDevice().equals(StatusDevice.NOVO));
+    }
+
+    private ControladorFisico getControladorFisico() {
+        return getVersaoControlador().getControladorFisico();
     }
 }

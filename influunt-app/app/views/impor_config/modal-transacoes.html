@@ -1,0 +1,87 @@
+<div class="modal inmodal" id="modal-transacoes-distribuidas" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <form role="form">
+              <div class="row">
+                <div class="col-sm-12">
+
+                  <!-- transacao -->
+                  <div class="form-group">
+                    <label class="control-label">Transação</label>
+                    <select name="subareas"
+                            class="form-control"
+                            data-ng-model="tipoTransacao">
+                      <option value="imposicao-plano">Impor Plano</option>
+                      <option value="imposicao-modo">Impor Modo</option>
+                      <option value="sincronizacao">Sincronizar</option>
+                    </select>
+                  </div>
+
+                  <!-- tempo máximo de permanência -->
+                  <div class="form-group">
+                    <label class="ng-binding">Tempo máximo de espera</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" ng-model="dadosTransacao.tempoMaximoEspera" name="tempoMaximoEspera">
+                      <span class="input-group-addon ng-binding">Seg.</span>
+                    </div>
+                  </div>
+
+                  <button data-ng-click="teste = !teste;">teste</button>
+
+                  <hr>
+
+                  <div data-ng-class="{collapse: teste}">
+                    <sincronizacao
+                      aneis-selecionados="aneisSelecionadosObj"
+                      ids-transacoes="idsTransacoes"
+                      timeout="dadosTransacao.tempoMaximoEspera"
+                      data-ng-if="tipoTransacao === 'sincronizacao'">
+                    </sincronizacao>
+
+                    <imposicao-modo
+                        aneis-selecionados="aneisSelecionadosObj"
+                        ids-transacoes="idsTransacoes"
+                        data-ng-if="tipoTransacao === 'imposicao-modo'">
+                    </imposicao-modo>
+
+                    <imposicao-plano
+                        aneis-selecionados="aneisSelecionadosObj"
+                        ids-transacoes="idsTransacoes"
+                        data-ng-if="tipoTransacao === 'imposicao-plano'">
+                    </imposicao-plano>
+                  </div>
+
+                  <hr>
+
+                  <div data-ng-class="{collapse: !teste}">
+                    <ul>
+                      <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter">
+                        {{ anel.CLA }} - {{ anel.endereco }}
+                        <influunt-mqtt-transaction-status
+                          ng-if="!!idsTransacoes[anel.id] || !!idsTransacoes[anel.controlador.id]"
+                          data-transaction-id="idsTransacoes[anel.id] || idsTransacoes[anel.controlador.id]">
+                        </influunt-mqtt-transaction-status>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center" data-ng-if="teste">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="sincronizar()">
+          Continuar
+        </button>
+        <button type="button" class="btn btn-default btn-danger m-b-xs" data-dismiss="modal">
+          Abortar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
