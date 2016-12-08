@@ -196,7 +196,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Map<String, Object> params = new HashMap<>();
         params.put("aneis", aneisIds.toArray());
         params.put("posicaoPlano", posicaoPlano);
-        params.put("horarioEntrada", new DateTime().plusSeconds(10).getMillis());
+        params.put("horarioEntrada", new DateTime().plusSeconds(1).getMillis());
         params.put("duracao", 30);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
@@ -208,7 +208,7 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         // 7 -> configuração inicial
         // 5 * aneis -> 5 mensagens para cada transaçao
         // 1 -> mensagem de troca de plano
-        await().until(() -> onPublishFutureList.size() > 6 + 7 * aneisIds.size());
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6 + 7 * aneisIds.size());
 
         assertEquals(7 + 7 * aneisIds.size(), onPublishFutureList.size());
 
