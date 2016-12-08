@@ -121,9 +121,8 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         assertEquals(2, json.size());
 
-        assertEquals(StatusVersao.CONFIGURADO.toString(), json.get("1").asText());
-        assertEquals(StatusVersao.SINCRONIZADO.toString(), json.get("2").asText());
-
+        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get("1").asText());
+        assertEquals(StatusDevice.ATIVO.toString(), json.get("2").asText());
     }
 
     @Test
@@ -151,7 +150,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
-        assertEquals(StatusVersao.CONFIGURADO.toString(), json.get(0).get("statusDevice").asText());
+        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get(0).get("statusDevice").asText());
 
 
         postRequest = new Http.RequestBuilder().method("GET")

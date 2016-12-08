@@ -54,15 +54,27 @@
               <thead>
                 <tr>
                   <th>{{ 'controladores.CLA' | translate }}</th>
-                  <th>{{ 'imporConfig.modoOperacaoa' | translate }}</th>
                   <th>{{ 'imporConfig.posicaoPlano' | translate }}</th>
+                  <th>{{ 'imporConfig.statusPlano' | translate }}</th>
+                  <th>{{ 'imporConfig.modoOperacaoTitulo' | translate }}</th>
+                  <th>{{ 'imporConfig.estagioAtual' | translate }}</th>
+                  <th>{{ 'imporConfig.tempoRestanteDoEstagio' | translate }}</th>
+                  <th>{{ 'imporConfig.tempoRestanteDoCiclo' | translate }}</th>
+                  <th>{{ 'imporConfig.momentoCiclo' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr data-ng-repeat="plano in dadosControlador.planos">
                   <td>{{ plano.cla }}</td>
-                  <td>{{ plano.modoOperacao | humanize }}</td>
                   <td>{{ plano.posicaoPlano }}</td>
+                  <td data-ng-if="plano.imposto">{{'imporConfig.planoForcado' | translate}}</td>
+                  <td data-ng-if="plano.impostoPorFalha">{{'imporConfig.planoImpostoFalha' | translate}}</td>
+                  <td data-ng-if="!plano.impostoPorFalha && !plano.imposto">{{'imporConfig.tabelaHoraria' | translate }}</td>
+                  <td>{{ plano.modoOperacao | humanize }}</td>
+                  <td>{{ plano.estagioAtual }}</td>
+                  <td>{{ plano.tempoRestanteDoEstagio }}</td>
+                  <td>{{ plano.tempoRestanteDoCiclo }}</td>
+                  <td>{{ plano.momentoCiclo }}</td>
                 </tr>
               </tbody>
             </table>

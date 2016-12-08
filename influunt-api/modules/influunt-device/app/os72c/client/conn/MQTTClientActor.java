@@ -132,6 +132,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         opts.setWill(controladorOffline.getDestino(), controladorOffline.toJsonCriptografado(storage.getCentralPublicKey()).getBytes(), 1, true);
 
+
         client.setCallback(this);
         client.connect(opts);
         if (tick != null) {
@@ -143,8 +144,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
+
         Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
         sendMessage(controladorOnline);
+
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 

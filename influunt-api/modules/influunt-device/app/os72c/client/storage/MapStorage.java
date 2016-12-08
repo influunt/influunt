@@ -6,6 +6,7 @@ import br.org.mapdb.Serializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
@@ -28,6 +29,8 @@ public class MapStorage implements Storage {
     private final HTreeMap<String, String> keys;
 
     private final HTreeMap<String, String> params;
+
+    private final HTreeMap<String, Boolean> falhas;
 
     @Inject
     public MapStorage(StorageConf storageConf) {
@@ -58,6 +61,12 @@ public class MapStorage implements Storage {
         this.params = this.db.hashMap("params")
             .keySerializer(Serializer.STRING)
             .valueSerializer(Serializer.STRING)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        this.falhas = this.db.hashMap("falhas")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.BOOLEAN)
             .layout(1, 2, 1)
             .createOrOpen();
 
@@ -186,6 +195,29 @@ public class MapStorage implements Storage {
     public void setHorarioEntradaTabelaHoraria(long horarioEntrada) {
         this.params.put("horarioEntradaTabelaHoraria", String.valueOf(horarioEntrada));
         db.commit();
+    }
+
+    @Override
+    public void addFalha(TipoEvento falha) {
+        this.falhas.put(falha.toString(), true);
+        this.status.put("status", StatusDevice.COM_FALHAS.toString());
+        db.commit();
+    }
+
+    @Override
+    public void removeFalha(TipoEvento falha) {
+        if (this.falhas.containsKey(falha.toString())) {
+            this.falhas.remove(falha.toString());
+            if (!emFalha()) {
+                this.status.put("status", StatusDevice.ATIVO.toString());
+            }
+            db.commit();
+        }
+    }
+
+    @Override
+    public boolean emFalha() {
+        return this.falhas.size() > 0;
     }
 
 }

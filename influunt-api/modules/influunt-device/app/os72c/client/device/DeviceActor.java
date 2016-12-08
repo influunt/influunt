@@ -4,11 +4,9 @@ import akka.actor.UntypedActor;
 import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
+import engine.TipoEvento;
 import logger.InfluuntLogger;
-import models.Anel;
-import models.Controlador;
-import models.Evento;
-import models.TipoDetector;
+import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
@@ -18,6 +16,7 @@ import protocol.*;
 import scala.concurrent.duration.Duration;
 
 import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -45,6 +44,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private UntypedActorContext context;
 
     private ScheduledFuture<?> executor;
+
+    private TreeSet<String> falhasAtuais = new TreeSet<>();
 
 
     public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
@@ -116,11 +117,20 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onFalha(DateTime timestamp, EventoMotor eventoMotor) {
+        storage.addFalha(eventoMotor.getTipoEvento());
+        sendMessage(MudancaStatusControlador.getMensagem(id, StatusDevice.COM_FALHAS));
         sendAlarmeOuFalha(eventoMotor);
     }
 
     @Override
     public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
+        TipoEvento falha = CausaERemocaoEvento.getFalha(eventoMotor.getTipoEvento());
+        if (falha != null) {
+            storage.removeFalha(falha);
+            if (!storage.emFalha()) {
+                sendMessage(MudancaStatusControlador.getMensagem(id, StatusDevice.ATIVO));
+            }
+        }
         sendRemocaoFalha(eventoMotor);
     }
 

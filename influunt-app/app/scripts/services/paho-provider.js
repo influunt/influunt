@@ -71,16 +71,15 @@ angular.module('influuntApp')
     };
 
     var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
-      console.log('~~~~~~> registering watcher to ', subscribedUrl);
       if (!isConnected) {
         throw new Error('Client is not connected.');
       }
 
       var listenToAll = !dontListenToAll;
       subscribers[subscribedUrl] = onMessageArrivedCallback;
-      client.subscribe(subscribedUrl);
+      client.subscribe(subscribedUrl, {qos: 1});
       if (listenToAll) {
-        client.subscribe(subscribedUrl + '/+');
+        client.subscribe(subscribedUrl + '/+', {qos: 1});
       }
     };
 
