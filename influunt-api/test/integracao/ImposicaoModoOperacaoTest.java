@@ -34,6 +34,6 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
 
     private void imporModoOperacao(int numeroAnel, Long horarioEntrada, int duracao) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporModoOperacao(controlador, ModoOperacaoPlano.INTERMITENTE, numeroAnel, horarioEntrada, duracao);
+//        transacaoHelper.imporModoOperacao(controlador, ModoOperacaoPlano.INTERMITENTE, numeroAnel, horarioEntrada, duracao);
     }
 }

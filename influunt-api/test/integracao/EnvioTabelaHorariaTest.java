@@ -64,7 +64,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     private void enviarPacotePlano() {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarPacotePlanos(controlador);
+//        transacaoHelper.enviarPacotePlanos(controlador);
     }
 
 }
