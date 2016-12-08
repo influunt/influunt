@@ -32,10 +32,4 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
             }
         }
     }
-
-    @Override
-    public void postStop() throws Exception {
-        System.out.println(" ConexaoOnlineActorHandler morreu" );
-        super.postStop();
-    }
 }

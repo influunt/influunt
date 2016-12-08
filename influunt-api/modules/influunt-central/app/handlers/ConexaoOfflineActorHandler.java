@@ -30,10 +30,4 @@ public class ConexaoOfflineActorHandler extends UntypedActor {
             }
         }
     }
-
-    public void postStop() throws Exception {
-        System.out.println(" ConexaoOfflineActorHandler morreu" );
-        super.postStop();
-    }
-
 }
