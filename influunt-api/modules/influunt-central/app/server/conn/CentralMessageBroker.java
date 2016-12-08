@@ -75,10 +75,4 @@ public class CentralMessageBroker extends UntypedActor {
     public SupervisorStrategy supervisorStrategy() {
         return strategy;
     }
-
-    @Override
-    public void postStop() throws Exception {
-        System.out.println("CentralMessageBroker parou");
-        super.postStop();
-    }
 }

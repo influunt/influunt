@@ -213,8 +213,14 @@ public class ControladorCustomDeserializer {
         return controlador;
     }
 
-    public Controlador getPacotesFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+    public Controlador getPacotePlanosFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
         ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+        addPlanosJsonToConfiguracaoJson(pacotePlanosJson, controladorJson);
+
+        return getControladorFromJson(controladorJson);
+    }
+
+    private void addPlanosJsonToConfiguracaoJson(JsonNode pacotePlanosJson, ObjectNode controladorJson) {
         for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")) {
             if (innerNode.has("anel") && innerNode.get("anel").has("idJson")) {
                 for (JsonNode anelNode : controladorJson.get("aneis")) {
@@ -229,19 +235,28 @@ public class ControladorCustomDeserializer {
         controladorJson.set("planos", pacotePlanosJson.get("planos"));
         controladorJson.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
         controladorJson.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
-
-//        controladorJson.set("versoesTabelasHorarias", pacotePlanosJson.get("versoesTabelasHorarias"));
-//        controladorJson.set("tabelasHorarias", pacotePlanosJson.get("tabelasHorarias"));
-//        controladorJson.set("eventos", pacotePlanosJson.get("eventos"));
-
-        return getControladorFromJson(controladorJson);
     }
 
     public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson) {
         ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+        addTabelaHorariaJsonToConfiguracaoJson(pacoteTabelaHorariaJson, controladorJson);
+
+        return getControladorFromJson(controladorJson);
+    }
+
+    private void addTabelaHorariaJsonToConfiguracaoJson(JsonNode pacoteTabelaHorariaJson, ObjectNode controladorJson) {
         controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
         controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
         controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
+    }
+
+    public Controlador getPacoteFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson, JsonNode pacoteTabelaHorariaJson) {
+        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+
+        addPlanosJsonToConfiguracaoJson(pacotePlanosJson, controladorJson);
+
+        addTabelaHorariaJsonToConfiguracaoJson(pacoteTabelaHorariaJson, controladorJson);
+
 
         return getControladorFromJson(controladorJson);
     }
@@ -1810,4 +1825,5 @@ public class ControladorCustomDeserializer {
     private void runLater(Consumer<Map<String, Map>> c) {
         consumers.add(c);
     }
+
 }

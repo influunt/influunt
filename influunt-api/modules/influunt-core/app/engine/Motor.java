@@ -84,13 +84,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
                 alteraControlador();
                 evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
             }
-            // Verificar se existe atualização de plano e tabela horária e atualiza o controlador
-            // atualizar o storage atual
-            // atualizar o objeto Controlador e o gerenciado de TH
-            //            this.controaldor = storage.getControaldor()
-            //            this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
-            //            this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
-            // evento = gerenciadorDeTabelaHoraria.eventoAtual(instante);
 
             callback.onTrocaDePlano(instante, eventoAtual, evento, getPlanos(evento).stream().map(p -> p.getModoOperacao().toString()).collect(Collectors.toList()));
             if (eventoAtual == null) {
@@ -121,7 +114,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private void alteraControlador() {
         GerenciadorDeTabelaHoraria novoGerenciador = new GerenciadorDeTabelaHoraria();
-        novoGerenciador.addEventos(controlador.getTabelaHoraria().getEventos());
+        novoGerenciador.addEventos(controladorTemporario.getTabelaHoraria().getEventos());
         controlador = controladorTemporario;
         controladorTemporario = null;
         this.gerenciadorDeTabelaHoraria = novoGerenciador;

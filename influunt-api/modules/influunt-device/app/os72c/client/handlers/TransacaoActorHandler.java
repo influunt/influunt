@@ -76,8 +76,10 @@ public class TransacaoActorHandler extends UntypedActor {
                             case CONFIGURACAO_COMPLETA:
                                 payloadJson = Json.parse(transacao.payload.toString());
                                 JsonNode planoJson = payloadJson.get("pacotePlanos");
+                                //TODO: Validar com o Pedro
+                                JsonNode tabelaHorariaJson = payloadJson.get("pacoteTabelaHoraria");
                                 controladorJson = payloadJson.get("pacoteConfiguracao");
-                                controlador = Controlador.isPacotePlanosValido(controladorJson, planoJson);
+                                controlador = Controlador.isPacoteCompletoValido(controladorJson, planoJson, tabelaHorariaJson);
                                 if (controlador != null) {
                                     storage.setControlador(controlador);
                                     storage.setPlanos(planoJson);
