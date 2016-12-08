@@ -18,6 +18,7 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.dadosControlador = {erros: ''};
+      $scope.dadosTransacao = {tempoMaximoEspera: 60};
 
       $scope.pesquisa = {
         campos: [
@@ -82,6 +83,10 @@ angular.module('influuntApp')
       $scope.desselecionaAnel = function(anelId) {
         _.pull($scope.aneisSelecionados, anelId);
         filtraObjetosAneis();
+      };
+
+      $scope.isAnelCheckedFilter = function(anel) {
+        return $scope.isAnelChecked && anel && $scope.isAnelChecked[anel.id];
       };
 
       setData = function(response) {
