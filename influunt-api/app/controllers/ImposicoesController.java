@@ -129,6 +129,18 @@ public class ImposicoesController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
     }
 
+    @Transactional
+    public CompletionStage<Result> ativar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        // Map  anel ID -> transação ID
+        Map<String, String> transacoesIds = ativarControlador(Json.fromJson(json, List.class));
+        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+    }
+
     private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
         List<Controlador> controladores = getControladores(aneis);
         Map<String, String> transacoesIds = new HashMap<>();
@@ -200,6 +212,16 @@ public class ImposicoesController extends Controller {
         Map<String, String> transacoesIds = new HashMap<>();
         controladores.forEach(controlador ->
             transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.inativarControlador(controlador))
+        );
+
+        return transacoesIds;
+    }
+
+    private Map<String, String> ativarControlador(List<String> aneis) {
+        List<Controlador> controladores = getControladores(aneis);
+        Map<String, String> transacoesIds = new HashMap<>();
+        controladores.forEach(controlador ->
+            transacoesIds.put(controlador.getControladorFisicoId(), transacaoHelper.ativarControlador(controlador))
         );
 
         return transacoesIds;

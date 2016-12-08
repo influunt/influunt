@@ -3,7 +3,10 @@ package os72c.client.handlers.transacoes;
 import models.StatusDevice;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
+import os72c.client.utils.AtoresDevice;
+import protocol.Envelope;
 import protocol.EtapaTransacao;
+import protocol.MudancaStatusControlador;
 import status.Transacao;
 
 /**
@@ -28,6 +31,8 @@ public class TransacaoColocarControladorManutencaoActorHandler extends Transacao
     protected void executeCommit(Transacao transacao) {
         storage.setStatus(StatusDevice.EM_MANUTENCAO);
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
+        Envelope envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
+        getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
     }
 
     @Override

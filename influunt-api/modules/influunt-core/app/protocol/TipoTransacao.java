@@ -29,5 +29,8 @@ public enum TipoTransacao {
     COLOCAR_CONTROLADOR_MANUTENCAO,
 
     // Inativa o controlador
-    INATIVAR_CONTROLADOR
+    INATIVAR_CONTROLADOR,
+
+    // Ativar o controlador
+    ATIVAR_CONTROLADOR
 }

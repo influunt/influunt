@@ -212,3 +212,4 @@ POST       /api/v1/imposicoes/plano                                             
 POST       /api/v1/imposicoes/liberar                                                           controllers.ImposicoesController.liberar
 POST       /api/v1/imposicoes/colocar_manutencao                                                controllers.ImposicoesController.colocarManutencao
 POST       /api/v1/imposicoes/inativar                                                          controllers.ImposicoesController.inativar
+POST       /api/v1/imposicoes/ativar                                                            controllers.ImposicoesController.ativar

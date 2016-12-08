@@ -12,9 +12,9 @@ import status.Transacao;
 /**
  * Created by lesiopinheiro on 08/12/16.
  */
-public class TransacaoInativarControladorActorHandler extends TransacaoActorHandler {
+public class TransacaoAtivarControladorActorHandler extends TransacaoActorHandler {
 
-    public TransacaoInativarControladorActorHandler(String idControlador, Storage storage) {
+    public TransacaoAtivarControladorActorHandler(String idControlador, Storage storage) {
         super(idControlador, storage);
     }
 
@@ -29,7 +29,7 @@ public class TransacaoInativarControladorActorHandler extends TransacaoActorHand
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        storage.setStatus(StatusDevice.INATIVO);
+        storage.setStatus(StatusDevice.CONFIGURADO);
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
         Envelope envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
         getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
