@@ -16,21 +16,23 @@ angular.module('influuntApp')
           aneisSelecionados: '=',
           idsTransacoes: '=',
           trackTransaction: '=',
-          dismissOnSubmit: '='
+          dismissOnSubmit: '=',
+          timeout: '='
         },
         link: function sincronizacao(scope, el) {
           var transactionTracker;
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
-            var resource, data;
-            if (scope.dataSincronizar.tipo.match(/tabela_horaria/)) {
+            var resource = scope.dataSincronizar.tipo;
+            var data = {
+              aneisIds: idsAneisSelecionados,
+              timeout: scope.timeout
+            };
+
+            if (resource.match(/tabela_horaria/)) {
               resource = 'tabela_horaria';
-              data = { aneis: idsAneisSelecionados };
               data.imediato = scope.dataSincronizar.tipo === 'tabela_horaria_imediato';
-            } else {
-              resource = scope.dataSincronizar.tipo;
-              data = idsAneisSelecionados;
             }
 
             return Restangular.one('imposicoes').customPOST(data, resource)

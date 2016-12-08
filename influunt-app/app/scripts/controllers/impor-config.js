@@ -18,6 +18,7 @@ angular.module('influuntApp')
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.dadosControlador = {erros: ''};
+      $scope.dadosTransacao = {tempoMaximoEspera: 60};
 
       $scope.pesquisa = {
         campos: [
