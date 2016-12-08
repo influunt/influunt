@@ -1,11 +1,15 @@
 package handlers;
 
+import akka.actor.ActorRef;
+import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 import protocol.*;
+import server.conn.CentralMessageBroker;
 import status.Transacao;
 import utils.AtoresCentral;
 
@@ -14,6 +18,30 @@ import utils.AtoresCentral;
  */
 public class TransacaoActorHandler extends UntypedActor {
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+    private Transacao transacao;
+
+    private ActorRef manager;
+
+    public TransacaoActorHandler(Transacao transacao, ActorRef manager) {
+        this.transacao = transacao;
+        this.manager = manager;
+
+        start();
+    }
+
+    private void start() {
+        transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
+
+        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO,
+            transacao.idControlador,
+            DestinoControlador.transacao(transacao.idControlador),
+            QoS.EXACTLY_ONCE,
+            transacao.toJson().toString(),
+            null);
+
+        getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+    }
 
     @Override
     public void onReceive(Object message) throws Exception {
@@ -24,12 +52,6 @@ public class TransacaoActorHandler extends UntypedActor {
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("CENTRAL - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao) {
-                    case NEW:
-                        transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
-                        envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
-                        publishTransactionStatus(transacao, StatusTransacao.INICIADA);
-                        break;
-
                     case PREPARE_OK:
                         transacao.updateStatus(EtapaTransacao.COMMIT);
                         envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));

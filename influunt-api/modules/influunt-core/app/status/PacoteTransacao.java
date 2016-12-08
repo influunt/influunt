@@ -1,6 +1,8 @@
 package status;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.joda.time.DateTime;
 import org.jongo.MongoCollection;
 import org.jongo.marshall.jackson.oid.MongoId;
@@ -65,6 +67,19 @@ public class PacoteTransacao {
         return pacoteTransacao;
     }
 
+    public JsonNode toJson() {
+        ObjectNode root = Json.newObject();
+        root.put("id", id);
+        root.put("statusPacoteTransacao", statusPacoteTransacao.toString());
+        root.put("tipoTransacao", tipoTransacao.toString());
+        root.put("timestamp", timestamp);
+
+        ArrayNode transacoesJson = root.putArray("transacoes");
+        transacoes.stream().forEach(t -> transacoesJson.add(t.toJson()));
+
+        return root;
+    }
+
 
     public void create() {
         transacoes().insert(this);
@@ -122,4 +137,6 @@ public class PacoteTransacao {
     public void setTransacoes(List<Transacao> transacoes) {
         this.transacoes = transacoes;
     }
+
+
 }

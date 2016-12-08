@@ -37,6 +37,6 @@ public class LiberarImposicaoTest extends BasicMQTTTest {
 
     private void liberarImposicao(int numeroAnel) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.liberarImposicao(controlador, numeroAnel);
+//        transacaoHelper.liberarImposicao(controlador, numeroAnel);
     }
 }

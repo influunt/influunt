@@ -40,7 +40,7 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
 
     private void imporPlano(int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporPlano(controlador, posicaoPlano, numeroAnel, horarioEntrada, duracao);
+//        transacaoHelper.imporPlano(controlador, posicaoPlano, numeroAnel, horarioEntrada, duracao);
     }
 
 }
