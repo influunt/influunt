@@ -3,6 +3,7 @@ package handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import org.joda.time.DateTime;
 import protocol.DestinoApp;
 import protocol.Envelope;
 import protocol.TipoMensagem;
@@ -21,7 +22,7 @@ public class ConexaoOfflineActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_OFFLINE)) {
                 log.info("O controlador: {} esta offline", envelope.getIdControlador());
-                StatusConexaoControlador.log(envelope.getIdControlador(), envelope.getCarimboDeTempo(), false);
+                StatusConexaoControlador.log(envelope.getIdControlador(), DateTime.now().getMillis(), false);
 
                 // enviar msg APP controlador offline
                 envelope.setDestino(DestinoApp.controladorOffline());
