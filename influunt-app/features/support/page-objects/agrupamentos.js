@@ -4,13 +4,10 @@ var worldObj = require('../world');
 var world = new worldObj.World();
 
 var AgrupamentosPage = function () {
-  var INDEX_PATH = '/app/agrupamentos';
   var NEW_PATH = '/app/agrupamentos/new';
 
   var formAgrupamentos = 'form[name="formAgrupamentos"]';
   var inputNomeAgrupamento = '[name="nome"]';
-
-  var totalAgrupamentosIndex = 0;
 
   var selects = {
     'Dias':                            '[name="agrupamentoPlanoDiaSemana"]',
@@ -22,18 +19,6 @@ var AgrupamentosPage = function () {
 
   this.existeAoMenosUmAgrupamento = function() {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
-  };
-
-  this.controladorConfigurado = function(){
-    return world.execSqlScript('features/support/scripts/controladores/set_controlador_finalizado.sql');
-  };
-
-  this.indexPage = function() {
-    world.visit(INDEX_PATH);
-    world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
-      totalAgrupamentosIndex = elements.length;
-    });
-    return world.waitFor('tbody tr[data-ng-repeat="agrupamento in lista"]');
   };
 
   this.getItensTabela = function() {
@@ -78,7 +63,7 @@ var AgrupamentosPage = function () {
 
   this.nenhumAgrupamentoDeveSerExcluido = function() {
     return world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
-      return elements.length === totalAgrupamentosIndex;
+      return elements.length === 1;
     });
   };
 
@@ -91,7 +76,6 @@ var AgrupamentosPage = function () {
       return world.selectByOptionAtribute('div', selects[select], 'value', valor);
     });
   };
-
 
   this.toastMessage = function() {
     return world.sleep(1000).then(function() {

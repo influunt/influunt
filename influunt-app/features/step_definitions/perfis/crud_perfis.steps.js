@@ -27,10 +27,6 @@ module.exports = function() {
     return perfisPage.marcarPermissao(permissao);
   });
 
-  this.Given(/^que o usuário não possa definir perfis$/, function () {
-    return objetosComuns.desabilitarPermissoes();
-  });
-
   this.Given(/^o botão "([^"]*)" não deverá aparecer$/, function (botao) {
     return perfisPage.botaoDeveEstarEscondido(botao);
   });
