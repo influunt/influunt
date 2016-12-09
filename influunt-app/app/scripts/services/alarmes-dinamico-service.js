@@ -127,6 +127,7 @@ angular.module('influuntApp')
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
           mensagem.idControlador = '7199d9d2-c575-42eb-9524-e6505af34ded';
           console.log('=============> ', mensagem.conteudo.statusPacoteTransacao);
+          console.log('=============> ', mensagem.conteudo);
 
           statusObj.transacoes = statusObj.transacoes || {};
           statusObj.transacoes[mensagem.idControlador] = {

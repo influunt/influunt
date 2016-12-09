@@ -16,7 +16,8 @@ angular.module('influuntApp')
           aneisSelecionados: '=',
           idsTransacoes: '=',
           trackTransaction: '=',
-          dismissOnSubmit: '='
+          dismissOnSubmit: '=',
+          timeout: '='
         },
         link: function postLink(scope, el) {
           scope.LIMITE_MINIMO_DURACAO = imposicoesService.LIMITE_MINIMO_DURACAO;
@@ -26,13 +27,14 @@ angular.module('influuntApp')
 
           scope.configuracao = {};
           scope.imporModo = function() {
+            scope.configuracao.timeout = scope.timeout;
             scope.idsTransacoes = {};
             return imposicoesService.imposicao('modo_operacao', scope.configuracao, scope.idsTransacoes);
           };
 
           scope.$watch('aneisSelecionados', function(aneisSelecionados) {
             if (_.isArray(aneisSelecionados)) {
-              scope.configuracao.aneis = _.map(aneisSelecionados, 'id');
+              scope.configuracao.aneisIds = _.map(aneisSelecionados, 'id');
             }
           }, true);
 

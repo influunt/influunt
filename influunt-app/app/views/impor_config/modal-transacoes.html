@@ -43,12 +43,14 @@
                     <imposicao-modo
                         aneis-selecionados="aneisSelecionadosObj"
                         ids-transacoes="idsTransacoes"
+                        timeout="dadosTransacao.tempoMaximoEspera"
                         data-ng-if="tipoTransacao === 'imposicao-modo'">
                     </imposicao-modo>
 
                     <imposicao-plano
                         aneis-selecionados="aneisSelecionadosObj"
                         ids-transacoes="idsTransacoes"
+                        timeout="dadosTransacao.tempoMaximoEspera"
                         data-ng-if="tipoTransacao === 'imposicao-plano'">
                     </imposicao-plano>
                   </div>
