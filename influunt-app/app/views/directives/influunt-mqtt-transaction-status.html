@@ -1,3 +1,13 @@
-<span data-ng-if="isTransacaoNova()"><i class="fa fa-clock-o"></i></span>
-<influunt-loading data-ng-if="isTransacaoIniciada()"></influunt-loading>
-<span data-ng-if="isTransacaoFinalizada()" data-ng-bind-html="currentStatusAsBoolean() | trueOrFalseIcon"></span>
+<span data-ng-if="statusTransaction === 'NOT_STARTED'"><i class="fa fa-clock-o"></i></span>
+<influunt-loading data-ng-if="statusTransaction === 'NEW'"></influunt-loading>
+<span data-ng-if="statusTransaction === 'ABORTED' || statusTransaction === 'DONE'"
+    data-ng-bind-html="statusTransaction === 'DONE' | trueOrFalseIcon"></span>
+
+
+<!-- <span ng-switch="statusTransaction">
+  <influunt-loading ng-switch-when="statusTransaction === 'NEW'"></influunt-loading>
+  <span ng-switch-when="statusTransaction === 'ABORTED' || statusTransaction === 'DONE'"
+    data-ng-bind-html="statusTransaction === 'DONE' | trueOrFalseIcon"></span>
+  <span ng-switch-default><i class="fa fa-clock-o"></i></span>
+</span>
+ -->

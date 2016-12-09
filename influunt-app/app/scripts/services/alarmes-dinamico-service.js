@@ -121,9 +121,18 @@ angular.module('influuntApp')
               return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
         };
-        
+
         statusTransacaoWatcher = function(payload) {
-          console.log('===============> ', payload);
+          var mensagem = JSON.parse(payload);
+          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
+          mensagem.idControlador = '7199d9d2-c575-42eb-9524-e6505af34ded';
+          console.log('=============> ', mensagem.conteudo.statusPacoteTransacao);
+
+          statusObj.transacoes = statusObj.transacoes || {};
+          statusObj.transacoes[mensagem.idControlador] = {
+            id: mensagem.conteudo.id,
+            status: mensagem.conteudo.statusPacoteTransacao
+          };
         };
 
         onlineOfflineWatcher = function(payload) {

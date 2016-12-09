@@ -63,7 +63,7 @@ angular.module('influuntApp')
             return Restangular.one('monitoramento', 'status_aneis').get();
           })
           .then(setAneisPlanosImpostos)
-          .then(registerWatcher)
+          // .then(registerWatcher)
           .finally(influuntBlockui.unblock);
       };
 
@@ -89,12 +89,19 @@ angular.module('influuntApp')
         return $scope.isAnelChecked && anel && $scope.isAnelChecked[anel.id];
       };
 
+      $scope.continuar = function() {
+      };
+
+      $scope.abortar = function() {
+
+      };
+
       setData = function(response) {
         $scope.lista = response.data;
 
         $scope.idsTransacoes = {};
         _.each($scope.lista, function(anel) {
-          $scope.idsTransacoes[anel.controlador] = null;
+          $scope.idsTransacoes[anel.controladorFisicoId] = null;
         });
 
         $scope.pagination.totalItems = $scope.lista.length;
@@ -136,6 +143,19 @@ angular.module('influuntApp')
               .finally(influuntBlockui.unblock);
           });
       };
+
+      $scope.$watch('statusObj.transacoes', function(transacoesPorControlador) {
+        $scope.transacoesPendentes = $scope.transacoesPendentes || [];
+        if (transacoesPorControlador) {
+          $scope.transacoesPendentes = _
+            .chain(transacoesPorControlador)
+            .values()
+            .filter({status: 'PENDING'})
+            .map('id')
+            .uniq()
+            .value();
+        }
+      }, true);
 
       // registerWatcher = function() {
       //   pahoProvider.connect()

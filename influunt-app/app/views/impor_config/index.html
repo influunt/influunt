@@ -40,10 +40,6 @@
                 <td>{{ anel.CLA }}</td>
                 <td>{{ anel.endereco }}</td>
                 <td>
-                  <!-- <influunt-mqtt-transaction-status
-                    ng-if="!!idsTransacoes[anel.id] || !!idsTransacoes[anel.controlador.id]"
-                    data-transaction-id="idsTransacoes[anel.id] || idsTransacoes[anel.controlador.id]">
-                  </influunt-mqtt-transaction-status> -->
                   <div data-ng-if="anel.hasPlanoImposto">
                     <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}
                     <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
@@ -67,29 +63,9 @@
                           data-target="#modal-transacoes-distribuidas"
                           class="btn btn-w-m btn-primary pull-right"
                           data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)">
-                          Button
+                    Ações
                   </button>
                 </div>
-                <!-- <div class="col-sm-4 col-sm-offset-8">
-                  <div class="right">
-                    <imposicao-plano
-                        aneis-selecionados="aneisSelecionadosObj"
-                        ids-transacoes="idsTransacoes">
-                    </imposicao-plano>
-                    <imposicao-modo
-                        aneis-selecionados="aneisSelecionadosObj"
-                        ids-transacoes="idsTransacoes">
-                    </imposicao-modo>
-                    <sincronizacao
-                      aneis-selecionados="aneisSelecionadosObj"
-                      ids-transacoes="idsTransacoes">
-                    </sincronizacao>
-                    <alterar-status
-                      aneis-selecionados="aneisSelecionadosObj"
-                      ids-transacoes="idsTransacoes">
-                    </alterar-status>
-                  </div>
-                </div> -->
               </div>
             </div>
           </div>

@@ -26,7 +26,6 @@ angular.module('influuntApp')
 
     client.onMessageArrived = function(message) {
       var fn = null;
-      debugger;
       _.each(subscribers, function(value, key) {
         if (message.destinationName.match(new RegExp(key.replace('+', '.*')))) {
           fn = value;
