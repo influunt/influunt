@@ -6,6 +6,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.math3.util.Pair;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.TipoMensagem;
@@ -41,7 +42,15 @@ public class PacoteTransacaoManagerActorHandler extends UntypedActor {
                     pacoteTransacoes.put(pacoteTransacao.getId(), ref);
                 }
             }
+        }else if(message instanceof Pair) {
+            Pair<String, StatusPacoteTransacao> pair = (Pair<String, StatusPacoteTransacao>) message;
+            pacoteTransacoes.get(pair.getFirst()).tell(pair,getSelf());
         }
     }
 
+    @Override
+    public void postStop() throws Exception {
+        System.out.println("PacoteTransacaoManagerActorHandler MORREU");
+        super.postStop();
+    }
 }

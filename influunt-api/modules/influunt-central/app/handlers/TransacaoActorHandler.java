@@ -54,25 +54,18 @@ public class TransacaoActorHandler extends UntypedActor {
                 switch (transacao.etapaTransacao) {
                     case PREPARE_OK:
                         transacao.updateStatus(EtapaTransacao.COMMIT);
-                        envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
                         break;
 
                     case PREPARE_FAIL:
-                        transacao.updateStatus(EtapaTransacao.FAILED);
-                        envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
+                        transacao.updateStatus(EtapaTransacao.ABORT);
                         break;
 
                     case COMMITED:
                         transacao.updateStatus(EtapaTransacao.COMPLETED);
-                        envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.OK);
                         break;
 
                     case ABORTED:
                         transacao.updateStatus(EtapaTransacao.FAILED);
-                        envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
                         break;
 
                     default:
@@ -81,15 +74,9 @@ public class TransacaoActorHandler extends UntypedActor {
 
                 log.info("CENTRAL - TX Enviada: {}", transacao);
                 envelope.setConteudo(transacao.toJson().toString());
-                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+                manager.tell(transacao, getSelf());
             }
         }
     }
-
-    private void publishTransactionStatus(Transacao transacao, StatusTransacao status) {
-        Envelope envelope = MensagemStatusTransacao.getMensagem(transacao, status);
-        log.info("CENTRAL ENVIANDO STATUS TRANSAÇÃO: {}", status);
-        getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
-    }
-
+    
 }

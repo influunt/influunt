@@ -6,8 +6,10 @@ package status;
 public enum StatusPacoteTransacao {
     //Nova Transaçao
     NEW,
+
     //Transacao completou
     DONE,
+
     //Transacao abortou
     ABORTED,
 
@@ -17,6 +19,6 @@ public enum StatusPacoteTransacao {
     //Usuario solicitou continuar
     CONTINUE,
 
-    //Cancelada pelo usuário
-    CANCELED
+    // Usuario solicitou cancelar
+    CANCEL
 }

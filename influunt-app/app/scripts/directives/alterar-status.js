@@ -30,7 +30,7 @@ angular.module('influuntApp')
             .then(function(response) {
               _.each(response.plain(), function(transacaoId, controladorId) {
                 scope.idsTransacoes[controladorId] = transacaoId;
-                return scope.trackTransaction && transactionTracker(transacaoId);
+                return transactionTracker(transacaoId);
               });
             })
             .finally(influuntBlockui.unblock);
