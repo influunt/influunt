@@ -15,7 +15,7 @@ import status.Transacao;
 public abstract class TransacaoImposicaoActorHandler extends TransacaoActorHandler {
 
     public TransacaoImposicaoActorHandler(String idControlador, Storage storage) {
-        super(idControlador,storage);
+        super(idControlador, storage);
     }
 
     private boolean isPlanoConfigurado(Controlador controlador, int numeroAnel, int posicaoPlano) {

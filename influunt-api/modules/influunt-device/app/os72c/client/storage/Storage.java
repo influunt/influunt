@@ -51,4 +51,9 @@ public interface Storage {
 
     public boolean emFalha();
 
+    public void setTempData(String key, String value);
+
+    public String getTempData(String key);
+
+    public void clearTempData();
 }

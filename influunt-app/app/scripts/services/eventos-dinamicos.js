@@ -14,6 +14,7 @@ angular.module('influuntApp')
     TROCA_PLANO: 'app/troca_plano',
     CONTROLADOR_ONLINE: 'app/conn/online',
     CONTROLADOR_OFFLINE: 'app/conn/offline',
-    STATUS_TRANSACAO: 'app/transacoes/:transacaoId/status',
+    SET_STATUS_TRANSACAO: 'central/app/transacoes/:transacaoId',
+    STATUS_TRANSACAO: 'app/transacoes/+/status',
     DADOS_CONTROLADOR: 'app/controlador/:envelopeId/dados'
   });

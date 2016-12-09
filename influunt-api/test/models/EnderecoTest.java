@@ -3,8 +3,8 @@ package models;
 import config.WithInfluuntApplicationNoAuthentication;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by juarezlustosa on 07/12/16.

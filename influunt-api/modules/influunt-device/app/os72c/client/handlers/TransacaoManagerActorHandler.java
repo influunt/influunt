@@ -24,11 +24,11 @@ import java.util.Map;
  * Created by rodrigosol on 9/6/16.
  */
 public class TransacaoManagerActorHandler extends UntypedActor {
+    private final Map<String, ActorRef> transacoes = new HashMap<>();
+
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private String idControlador;
-
-    private final Map<String, ActorRef> transacoes = new HashMap<>();
 
     private Storage storage;
 

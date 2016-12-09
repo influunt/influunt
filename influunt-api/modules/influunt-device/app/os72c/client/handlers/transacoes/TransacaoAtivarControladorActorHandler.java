@@ -20,7 +20,7 @@ public class TransacaoAtivarControladorActorHandler extends TransacaoActorHandle
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        if(!storage.getStatus().equals(StatusDevice.ATIVO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
+        if (!storage.getStatus().equals(StatusDevice.ATIVO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -29,7 +29,7 @@ public class TransacaoAtivarControladorActorHandler extends TransacaoActorHandle
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        storage.setStatus(StatusDevice.CONFIGURADO);
+        storage.setStatus(StatusDevice.ATIVO);
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
         Envelope envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
         getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());

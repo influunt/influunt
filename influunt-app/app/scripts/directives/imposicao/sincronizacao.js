@@ -37,10 +37,17 @@ angular.module('influuntApp')
 
             return Restangular.one('imposicoes').customPOST(data, resource)
               .then(function(response) {
-                _.each(response.plain(), function(transacaoId, controladorId) {
-                  scope.idsTransacoes[controladorId] = transacaoId;
+                response = response.plain();
+                var transacaoId = Object.keys(response)[0];
+                _.each(response[transacaoId], function(target) {
+                  scope.idsTransacoes[target] = transacaoId;
                   return scope.trackTransaction && transactionTracker(transacaoId);
                 });
+                // _.each(response.plain(), function(targets, transactionId) {
+//                   console.log('=====> ', transacaoId, controladorId)
+//                   scope.idsTransacoes[controladorId] = transacaoId;
+//                   return scope.trackTransaction && transactionTracker(transacaoId);
+//                 });
               })
               .finally(influuntBlockui.unblock);
           };

@@ -158,14 +158,6 @@ public class ImposicoesController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
-
-
-
-
-
-
-
-
     private Map<String, List<String>> enviarPacotesPlanos(List<String> aneis, Long timeout) {
         List<Controlador> controladores = getControladores(aneis);
         String transacaoId = transacaoHelper.enviarPacotePlanos(controladores, timeout);

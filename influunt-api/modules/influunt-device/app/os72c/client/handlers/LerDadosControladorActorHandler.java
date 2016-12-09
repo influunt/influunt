@@ -3,11 +3,9 @@ package os72c.client.handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import models.Controlador;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import protocol.Envelope;
-import protocol.LerDadosControlador;
 import protocol.TipoMensagem;
 
 /**

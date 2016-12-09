@@ -63,7 +63,7 @@ angular.module('influuntApp')
             return Restangular.one('monitoramento', 'status_aneis').get();
           })
           .then(setAneisPlanosImpostos)
-          .then(registerWatcher)
+          // .then(registerWatcher)
           .finally(influuntBlockui.unblock);
       };
 
@@ -89,12 +89,19 @@ angular.module('influuntApp')
         return $scope.isAnelChecked && anel && $scope.isAnelChecked[anel.id];
       };
 
+      $scope.continuar = function() {
+      };
+
+      $scope.abortar = function() {
+
+      };
+
       setData = function(response) {
         $scope.lista = response.data;
 
         $scope.idsTransacoes = {};
         _.each($scope.lista, function(anel) {
-          $scope.idsTransacoes[anel.controlador] = null;
+          $scope.idsTransacoes[anel.controladorFisicoId] = null;
         });
 
         $scope.pagination.totalItems = $scope.lista.length;
@@ -137,19 +144,32 @@ angular.module('influuntApp')
           });
       };
 
-      registerWatcher = function() {
-        pahoProvider.connect()
-          .then(function() {
-            pahoProvider.register(eventosDinamicos.TROCA_PLANO, function(payload) {
-              var message = JSON.parse(payload);
-              message.conteudo = _.isString(message.conteudo) ? JSON.parse(message.conteudo) : message.conteudo;
-              message.hasPlanoImposto = _.get(message, 'conteudo.imposicaoDePlano');
-              message.anelPosicao = parseInt(_.get(message, 'conteudo.anel.posicao'));
-              message.inicio = _.get(message, 'conteudo.momentoDaTroca');
-              return updateImposicoesEmAneis([message]);
-            });
-          });
-      };
+      $scope.$watch('statusObj.transacoes', function(transacoesPorControlador) {
+        $scope.transacoesPendentes = $scope.transacoesPendentes || [];
+        if (transacoesPorControlador) {
+          $scope.transacoesPendentes = _
+            .chain(transacoesPorControlador)
+            .values()
+            .filter({status: 'PENDING'})
+            .map('id')
+            .uniq()
+            .value();
+        }
+      }, true);
+
+      // registerWatcher = function() {
+      //   pahoProvider.connect()
+      //     .then(function() {
+      //       pahoProvider.register(eventosDinamicos.TROCA_PLANO, function(payload) {
+      //         var message = JSON.parse(payload);
+      //         message.conteudo = _.isString(message.conteudo) ? JSON.parse(message.conteudo) : message.conteudo;
+      //         message.hasPlanoImposto = _.get(message, 'conteudo.imposicaoDePlano');
+      //         message.anelPosicao = parseInt(_.get(message, 'conteudo.anel.posicao'));
+      //         message.inicio = _.get(message, 'conteudo.momentoDaTroca');
+      //         return updateImposicoesEmAneis([message]);
+      //       });
+      //     });
+      // };
     }]);
 
 

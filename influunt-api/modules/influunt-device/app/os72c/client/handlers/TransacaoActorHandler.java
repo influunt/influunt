@@ -42,7 +42,7 @@ public abstract class TransacaoActorHandler extends UntypedActor {
             if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
-                log.info("DEVICE - TX Recebida: {}", transacao);
+                log.info("DEVICE - TX Recebida: {}", transacao.toString());
                 InfluuntLogger.log("DEVICE - TX Recebida: " + transacao.toString());
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:

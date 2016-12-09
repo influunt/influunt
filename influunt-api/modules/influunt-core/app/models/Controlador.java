@@ -208,6 +208,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
+    public static Controlador findUniqueByArea(String controladorId, String areaId) {
+        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
+    }
+
+    public static List<Controlador> findListByArea(String areaId) {
+        return Controlador.find.where().eq("area_id", areaId).findList();
+    }
 
     public boolean isCompleto() {
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
@@ -215,14 +222,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty();
-    }
-
-    public static Controlador findUniqueByArea(String controladorId, String areaId) {
-        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
-    }
-
-    public static List<Controlador> findListByArea(String areaId) {
-        return Controlador.find.where().eq("area_id", areaId).findList();
     }
 
     @Override

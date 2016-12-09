@@ -21,8 +21,8 @@ angular.module('influuntApp')
 
         // métodos privados;
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
-            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
-            removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
+            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, statusTransacaoWatcher,
+        addFalha, removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
         var statusObj, $$fnOnEventTriggered, controladores;
         var $$fnonClickToast = function(){};
 
@@ -34,6 +34,7 @@ angular.module('influuntApp')
               pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
+              pahoProvider.register(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
             });
         };
 
@@ -45,6 +46,7 @@ angular.module('influuntApp')
               pahoProvider.unregister(eventosDinamicos.TROCA_PLANO);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_ONLINE);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_OFFLINE);
+              pahoProvider.unregister(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
             });
         };
 
@@ -118,6 +120,19 @@ angular.module('influuntApp')
 
               return _.isFunction($$fnOnEventTriggered) && $$fnOnEventTriggered.apply(this, statusObj);
             });
+        };
+
+        statusTransacaoWatcher = function(payload) {
+          var mensagem = JSON.parse(payload);
+          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
+          mensagem.idControlador = '7199d9d2-c575-42eb-9524-e6505af34ded';
+          console.log('=============> ', mensagem.conteudo.statusPacoteTransacao);
+
+          statusObj.transacoes = statusObj.transacoes || {};
+          statusObj.transacoes[mensagem.idControlador] = {
+            id: mensagem.conteudo.id,
+            status: mensagem.conteudo.statusPacoteTransacao
+          };
         };
 
         onlineOfflineWatcher = function(payload) {

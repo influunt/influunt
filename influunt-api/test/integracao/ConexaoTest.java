@@ -6,10 +6,12 @@ import org.junit.Test;
 import protocol.Envelope;
 import status.StatusConexaoControlador;
 import utils.EncryptionUtil;
+import utils.GzipUtil;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -26,7 +28,7 @@ public class ConexaoTest extends BasicMQTTTest {
 
 
     @Test
-    public void centralDeveSeConectarAoServidorMQTT() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
+    public void centralDeveSeConectarAoServidorMQTT() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, IOException {
         //A central ao se conectar no servidor deve se inscrever em diversos tópicos
         startClient();
 
@@ -62,7 +64,7 @@ public class ConexaoTest extends BasicMQTTTest {
 
         //O cliente envio a CONTROLADOR_ONLINE
         //A central se increveu para receber informação de quando um controlador fica online
-        Map map = new Gson().fromJson(new String(onPublishFutureList.get(0)), Map.class);
+        Map map = new Gson().fromJson(GzipUtil.decompress(onPublishFutureList.get(0)), Map.class);
         Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getVersaoControlador().getControladorFisico().getCentralPrivateKey()), Envelope.class);
 
         assertEquals(idControlador, envelope.getIdControlador());

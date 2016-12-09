@@ -4,7 +4,6 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.google.gson.internal.LinkedTreeMap;
-import models.Controlador;
 import models.ControladorFisico;
 import models.StatusDevice;
 import protocol.DestinoApp;

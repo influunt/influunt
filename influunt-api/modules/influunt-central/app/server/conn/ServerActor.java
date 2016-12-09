@@ -6,13 +6,11 @@ import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.pattern.Backoff;
 import akka.pattern.BackoffSupervisor;
-import akka.routing.*;
+import akka.routing.RoundRobinPool;
 import handlers.PacoteTransacaoManagerActorHandler;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.duration.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -79,6 +77,15 @@ public class ServerActor extends UntypedActor {
         mqttCentral = getContext().actorOf(mqttProps, "CentralMQTT");
         this.getContext().watch(mqttCentral);
         mqttCentral.tell("CONNECT", getSelf());
+    }
+
+    @Override
+    public void postStop() throws Exception {
+        System.out.println("ServerActor MORREU");
+        getContext().stop(actorPacoteTrasancaoManager);
+        getContext().stop(router);
+        getContext().stop(mqttCentral);
+        super.postStop();
     }
 
     @Override

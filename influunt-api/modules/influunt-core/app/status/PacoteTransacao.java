@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.joda.time.DateTime;
 import org.jongo.MongoCollection;
 import org.jongo.marshall.jackson.oid.MongoId;
-import org.jongo.marshall.jackson.oid.MongoObjectId;
 import play.api.Play;
 import play.libs.Json;
 import protocol.TipoTransacao;
@@ -14,6 +13,7 @@ import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by rodrigosol on 12/8/16.
@@ -21,38 +21,45 @@ import java.util.List;
 public class PacoteTransacao {
 
     public static final String COLLECTION = "transacoes";
+
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
     @MongoId
-    @MongoObjectId
     private String id;
+
     private StatusPacoteTransacao statusPacoteTransacao;
+
     private TipoTransacao tipoTransacao;
+
     private Long timestamp;
+
     private Long tempoMaximo;
+
     private List<Transacao> transacoes;
 
-    public static MongoCollection transacoes() {
-        return jongo.getCollection(COLLECTION);
+    public PacoteTransacao() {
     }
-
-    public PacoteTransacao(){}
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo) {
         this.timestamp = DateTime.now().getMillis();
         this.statusPacoteTransacao = StatusPacoteTransacao.NEW;
         this.tipoTransacao = tipoTransacao;
         this.tempoMaximo = tempoMaximo;
+        this.id = UUID.randomUUID().toString();
     }
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo, List<Transacao> transacoes) {
-        this(tipoTransacao,tempoMaximo);
+        this(tipoTransacao, tempoMaximo);
         this.transacoes = transacoes;
     }
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo, Transacao transacao) {
-        this(tipoTransacao,tempoMaximo);
+        this(tipoTransacao, tempoMaximo);
         this.transacoes = Arrays.asList(transacao);
+    }
+
+    public static MongoCollection transacoes() {
+        return jongo.getCollection(COLLECTION);
     }
 
     public static PacoteTransacao findByTransacaoId(String transacaoId) {
@@ -66,6 +73,7 @@ public class PacoteTransacao {
     public JsonNode toJson() {
         ObjectNode root = Json.newObject();
         root.put("id", id);
+        root.put("tempoMaximo", tempoMaximo);
         root.put("statusPacoteTransacao", statusPacoteTransacao.toString());
         root.put("tipoTransacao", tipoTransacao.toString());
         root.put("timestamp", timestamp);

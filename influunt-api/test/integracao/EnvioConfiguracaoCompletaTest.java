@@ -7,6 +7,7 @@ import org.junit.Test;
 import utils.TransacaoHelper;
 
 import javax.validation.groups.Default;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +30,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void envioConfiguracaoCompletaOk() throws InterruptedException {
+    public void envioConfiguracaoCompletaOk() throws InterruptedException, IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
         await().until(() -> onPublishFutureList.size() > 6);
@@ -38,7 +39,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void envioConfiguracaoCompletaErro() throws InterruptedException, ExecutionException, TimeoutException {
+    public void envioConfiguracaoCompletaErro() throws InterruptedException, ExecutionException, TimeoutException, IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
         await().until(() -> onPublishFutureList.size() > 6);

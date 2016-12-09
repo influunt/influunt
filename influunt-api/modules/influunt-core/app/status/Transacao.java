@@ -1,24 +1,13 @@
 package status;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
-import org.jongo.MongoCollection;
-import org.jongo.marshall.jackson.oid.MongoId;
-import org.jongo.marshall.jackson.oid.MongoObjectId;
-import play.api.Play;
 import play.libs.Json;
 import protocol.EtapaTransacao;
 import protocol.TipoTransacao;
-import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
-
-import static status.PacoteTransacao.transacoes;
 
 /**
  * Created by lesiopinheiro on 9/2/16.
@@ -50,10 +39,9 @@ public class Transacao {
         this.timestamp = DateTime.now().getMillis();
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
+    public static Transacao fromJson(JsonNode transacaoJson) {
+        return Json.fromJson(transacaoJson, Transacao.class);
     }
-
 
     public void updateStatus(EtapaTransacao etapaTransacao) {
         this.etapaTransacao = etapaTransacao;
@@ -74,8 +62,16 @@ public class Transacao {
         return root;
     }
 
-    public static Transacao fromJson(JsonNode transacaoJson) {
-        return Json.fromJson(transacaoJson, Transacao.class);
+    @Override
+    public String toString() {
+        return "Transacao{" +
+            "etapaTransacao=" + etapaTransacao +
+            ", tipoTransacao=" + tipoTransacao +
+            ", transacaoId='" + transacaoId + '\'' +
+            ", idControlador='" + idControlador + '\'' +
+            ", timestamp=" + timestamp +
+            ", payload='" + payload + '\'' +
+            '}';
     }
 
     public EtapaTransacao getEtapaTransacao() {
@@ -96,5 +92,9 @@ public class Transacao {
 
     public Object getPayload() {
         return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 }

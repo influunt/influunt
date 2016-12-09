@@ -21,11 +21,11 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private final DateTime inicioControlador;
 
-    private Controlador controlador;
-
     private final MotorCallback callback;
 
     private final MonitorDeFalhas monitor;
+
+    private Controlador controlador;
 
     private DateTime instante;
 
