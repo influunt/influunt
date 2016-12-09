@@ -13,6 +13,8 @@ import models.Controlador;
 import models.StatusDevice;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by leonardo on 9/13/16.
@@ -32,7 +34,7 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, Boolean> falhas;
 
-    private final HTreeMap<String, String> tempData;
+    private final HTreeMap<String, Map<String,String>> tempData;
 
     @Inject
     public MapStorage(StorageConf storageConf) {
@@ -74,7 +76,7 @@ public class MapStorage implements Storage {
 
         this.tempData = this.db.hashMap("tempData")
             .keySerializer(Serializer.STRING)
-            .valueSerializer(Serializer.STRING)
+            .valueSerializer(Serializer.JAVA)
             .layout(1, 2, 1)
             .createOrOpen();
 
@@ -229,20 +231,31 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public void setTempData(String key, String value) {
-        this.tempData.put(key, value);
+    public void setTempData(String id,String key, String value) {
+        Map<String,String> map = null;
+
+        if(!this.tempData.containsKey(id)){
+            map = new HashMap<>();
+        }else{
+            map = this.tempData.get(id);
+        }
+
+        map.put(key,value);
+        this.tempData.put(id,map);
         db.commit();
     }
 
     @Override
-    public String getTempData(String key) {
-        return this.tempData.get(key);
+    public String getTempData(String id,String key) {
+        return this.tempData.get(id).get(key);
     }
 
     @Override
-    public void clearTempData() {
-        this.tempData.clear();
-        db.commit();
+    public void clearTempData(String id) {
+        if(this.tempData.containsKey(id)) {
+            this.tempData.get(id).clear();
+            db.commit();
+        }
     }
 
 }
