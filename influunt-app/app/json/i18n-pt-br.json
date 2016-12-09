@@ -130,6 +130,7 @@
       "alertas": {
         "anelEmFalha": "O anel <strong>{ANEL}</strong> entrou em falha",
         "anelRecuperouDeFalha": "O anel <strong>{ANEL}</strong> se recuperou da falha:  \"<strong>{FALHA}</strong>\"",
+        "controladorEnviouAlerta": "O controlador <strong>{CONTROLADOR}</strong> enviou um alerta",
         "controladorEmFalha": "O controlador <strong>{CONTROLADOR}</strong> entrou em falha",
         "controladorRecuperouDeFalha": "O controlador <strong>{CONTROLADOR}</strong> se recuperou da falha:  \"<strong>{FALHA}</strong>\"",
         "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>",

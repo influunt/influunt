@@ -233,9 +233,15 @@ angular.module('influuntApp')
               'controladores.mapaControladores.alertas.controladorEmFalha',
               {CONTROLADOR: controlador.CLC}
             );
-            if (anel) {
-              msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+
+            if (_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador') === ALARME) {
+              msg = $filter('translate')(
+                'controladores.mapaControladores.alertas.controladorEnviouAlerta',
+                {CONTROLADOR: controlador.CLC}
+              );
             }
+
+            msg = msg + ' - ' + _.get(mensagem, 'conteudo.descricaoEvento');
 
             exibirAlerta(msg, controlador);
           }
@@ -281,14 +287,17 @@ angular.module('influuntApp')
         };
 
         addFalha = function(mensagem, controlador, anel) {
-          var endereco = anel !== null ? anel.endereco : controlador.endereco;
-          endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+          var endereco;
+          if (!!anel) {
+            endereco = anel !== null ? anel.endereco : controlador.endereco;
+            endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+          }
 
           var objErro = {
             cla: _.get(anel, 'CLA'),
             clc: controlador.CLC,
             data: mensagem.carimboDeTempo,
-            endereco: 'endereco',
+            endereco: endereco,
             idAnel: _.get(anel, 'id'),
             idControlador: controlador.id,
             descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento'),
