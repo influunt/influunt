@@ -23,7 +23,7 @@ public class TransacaoLiberarImposicaoActorHandler extends TransacaoActorHandler
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode payloadJson = Json.parse(transacao.payload.toString());
         if (storage.getControlador().getAneisAtivos().stream().anyMatch(anel -> anel.getPosicao().equals(payloadJson.get("numeroAnel").asInt()))) {
-            storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
+            storage.setTempData(transacao.transacaoId,"numeroAnel", payloadJson.get("numeroAnel").asText());
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -34,15 +34,18 @@ public class TransacaoLiberarImposicaoActorHandler extends TransacaoActorHandler
     protected void executeCommit(Transacao transacao) {
         Envelope envelopeLiberarImposicao = MensagemLiberarImposicao.getMensagem(
             idControlador,
-            Integer.parseInt(storage.getTempData("numeroAnel")));
+            Integer.parseInt(storage.getTempData(transacao.transacaoId,"numeroAnel")));
 
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeLiberarImposicao, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
+        storage.clearTempData(transacao.transacaoId);
     }
+
 
     @Override
     protected void executeAbort(Transacao transacao) {
         transacao.etapaTransacao = EtapaTransacao.ABORTED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
 }

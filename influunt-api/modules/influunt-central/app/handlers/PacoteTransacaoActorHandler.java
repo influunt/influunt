@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 
-
 /**
  * Created by rodrigosol on 9/6/16.
  */

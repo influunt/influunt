@@ -20,6 +20,7 @@ import scala.concurrent.duration.Duration;
 import utils.EncryptionUtil;
 import utils.GzipUtil;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -112,7 +113,11 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
-        opts.setWill(controladorOffline.getDestino(), controladorOffline.toJsonCriptografado(storage.getCentralPublicKey()).getBytes(), 1, true);
+        try {
+            opts.setWill(controladorOffline.getDestino(), GzipUtil.compress(controladorOffline.toJsonCriptografado(storage.getCentralPublicKey())), 1, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         client.setCallback(this);
