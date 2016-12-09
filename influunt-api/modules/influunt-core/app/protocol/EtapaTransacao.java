@@ -8,6 +8,10 @@ public enum EtapaTransacao {
     //App --> Central
     NEW,
 
+    //Informa o dispositivo que ele deve se preparar para uma transacao
+    //Central --> Device
+    PREPARE_TO_COMMIT,
+
     //Informa o dispositivo que deve aborta a transacao
     //Central --> Device
     ABORT,
@@ -16,10 +20,6 @@ public enum EtapaTransacao {
     //Central --> Device
     COMMIT,
 
-    //Informa o usuário que a transacao foi abortada
-    //Central --> App
-    FAILED,
-
     //Informa o usuário que a transacao terminou com sucesso
     //Central --> App
     COMPLETED,
@@ -27,10 +27,6 @@ public enum EtapaTransacao {
     //Informa a central que o que dispositivo abortou
     //Device --> Central
     ABORTED,
-
-    //Informa o dispositivo que ele deve se preparar para uma transacao
-    //Central --> Device
-    PREPARE_TO_COMMIT,
 
     //Informa a central que o dispositivo esta pronto
     //Device --> Central

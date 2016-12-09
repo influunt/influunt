@@ -27,8 +27,15 @@ public class TransacaoImposicaoPlanoTemporarioActorHandler extends TransacaoImpo
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode controladorJson = savePlanoTemporario(storage.getControladorJson(), transacao);
         if (isImposicaoPlanoTemporarioOk(controladorJson, transacao)) {
+            JsonNode payloadJson = Json.parse(transacao.payload.toString());
+            storage.clearTempData();
+            storage.setTempData("posicaoPlano", payloadJson.get("posicaoPlano").asText());
+            storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
+            storage.setTempData("horarioEntrada", payloadJson.get("horarioEntrada").asText());
+            storage.setTempData("duracao", payloadJson.get("duracao").asText());
+
             Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
-            storage.setControlador(controlador);
+            storage.setControladorStaging(controlador);
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -37,13 +44,14 @@ public class TransacaoImposicaoPlanoTemporarioActorHandler extends TransacaoImpo
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        JsonNode payloadJson = Json.parse(transacao.payload.toString());
+        storage.setControlador(storage.getControladorStaging());
+
         Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
             idControlador,
-            payloadJson.get("posicaoPlano").asInt(),
-            payloadJson.get("numeroAnel").asInt(),
-            payloadJson.get("horarioEntrada").asLong(),
-            payloadJson.get("duracao").asInt());
+            Integer.parseInt(storage.getTempData("posicaoPlano")),
+            Integer.parseInt(storage.getTempData("numeroAnel")),
+            Long.parseLong(storage.getTempData("horarioEntrada")),
+            Integer.parseInt(storage.getTempData("duracao")));
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoPlano, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
     }

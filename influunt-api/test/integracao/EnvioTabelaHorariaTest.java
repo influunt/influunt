@@ -13,9 +13,11 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.validation.groups.Default;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +38,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void enviarPlanosOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
+    public void enviarPlanosOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
 
         startClient();
@@ -48,7 +50,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void enviarPlanosNaoOK() {
+    public void enviarPlanosNaoOK() throws IOException {
         startClient();
         await().until(() -> onPublishFutureList.size() > 6);
 
@@ -64,7 +66,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     private void enviarPacotePlano() {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-//        transacaoHelper.enviarPacotePlanos(controlador);
+        transacaoHelper.enviarPacotePlanos(Arrays.asList(controlador), 60000L);
     }
 
 }

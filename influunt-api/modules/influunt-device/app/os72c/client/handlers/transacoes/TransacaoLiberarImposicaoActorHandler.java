@@ -22,19 +22,20 @@ public class TransacaoLiberarImposicaoActorHandler extends TransacaoActorHandler
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode payloadJson = Json.parse(transacao.payload.toString());
-        if (payloadJson.get("numeroAnel").asInt() < 1) {
-            transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
-        } else {
+        if (storage.getControlador().getAneisAtivos().stream().anyMatch(anel -> anel.getPosicao().equals(payloadJson.get("numeroAnel").asInt()))) {
+            storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
+        } else {
+            transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
         }
     }
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        JsonNode payloadJson = Json.parse(transacao.payload.toString());
         Envelope envelopeLiberarImposicao = MensagemLiberarImposicao.getMensagem(
             idControlador,
-            payloadJson.get("numeroAnel").asInt());
+            Integer.parseInt(storage.getTempData("numeroAnel")));
+
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeLiberarImposicao, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
     }

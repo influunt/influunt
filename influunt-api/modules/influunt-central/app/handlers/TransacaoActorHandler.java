@@ -26,22 +26,8 @@ public class TransacaoActorHandler extends UntypedActor {
     public TransacaoActorHandler(Transacao transacao, ActorRef manager) {
         this.transacao = transacao;
         this.manager = manager;
-
-        start();
     }
 
-    private void start() {
-        transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
-
-        Envelope envelope = new Envelope(TipoMensagem.TRANSACAO,
-            transacao.idControlador,
-            DestinoControlador.transacao(transacao.idControlador),
-            QoS.EXACTLY_ONCE,
-            transacao.toJson().toString(),
-            null);
-
-        getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
-    }
 
     @Override
     public void onReceive(Object message) throws Exception {
@@ -65,7 +51,7 @@ public class TransacaoActorHandler extends UntypedActor {
                         break;
 
                     case ABORTED:
-                        transacao.updateStatus(EtapaTransacao.FAILED);
+                        transacao.updateStatus(EtapaTransacao.ABORTED);
                         break;
 
                     default:
@@ -78,5 +64,5 @@ public class TransacaoActorHandler extends UntypedActor {
             }
         }
     }
-    
+
 }

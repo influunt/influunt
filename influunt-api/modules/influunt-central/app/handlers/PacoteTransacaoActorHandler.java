@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BinaryOperator;
 
+import static sun.jvm.hotspot.oops.CellTypeState.ref;
+
 /**
  * Created by rodrigosol on 9/6/16.
  */
@@ -32,6 +34,8 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
     private Map<String, Cancellable> individualTimeout = new HashMap<>();
 
     private Cancellable globalTimeout;
+
+    private boolean payloadLimpo = false;
 
     public PacoteTransacaoActorHandler(PacoteTransacao pacoteTransacao, ActorRef ref) {
         this.pacoteTransacao = pacoteTransacao;
@@ -57,7 +61,7 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
             setIndividualTimeout(transacao.getTransacaoId(),transacao.etapaTransacao);
         });
 
-        enviaStatusApp(StatusPacoteTransacao.NEW);
+        analisaStatus();
     }
 
     @Override
@@ -100,7 +104,7 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
 
     private void finalizaPorTimeoutGlobal() {
         switch (getEtapaTransacao()) {
-            case NEW:
+            case PREPARE_TO_COMMIT:
             case ABORT:
             case COMMIT:
                 enviaTransacoes(EtapaTransacao.ABORT);
@@ -124,6 +128,8 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
     private void analisaStatus() {
         switch (getEtapaTransacao()) {
             case NEW:
+                enviaTransacoes(EtapaTransacao.PREPARE_TO_COMMIT);
+                enviaStatusApp(StatusPacoteTransacao.NEW);
                 break;
             case ABORT:
                 if (existeCommit()) {
@@ -167,6 +173,7 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
             ref.tell(criarEnvelope(entry.getValue()), getSelf());
             setIndividualTimeout(entry.getKey(),entry.getValue().getEtapaTransacao());
         });
+        limpaPayload();
     }
 
     private void enviaStatusApp(StatusPacoteTransacao statusPacoteTransacao) {
@@ -204,5 +211,12 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
         }).get();
     }
 
+
+    private void limpaPayload(){
+        if(!payloadLimpo) {
+            transacoes.entrySet().stream().forEach(entry -> entry.getValue().setPayload("{}"));
+            payloadLimpo = true;
+        }
+    }
 
 }
