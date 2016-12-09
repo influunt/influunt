@@ -78,7 +78,8 @@ public class MonitoramentoController extends Controller {
     }
 
     public CompletableFuture<Result> detalheControlador(String id) {
-        Controlador controlador = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().eq("id", id).findUnique();
+        ControladorFisico controladorFisico = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().eq("id", id).findUnique();
+        Controlador controlador = controladorFisico.getControladorSincronizado();
         List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControlador(id);
         Collections.reverse(status);
         Integer totalOnline = StatusConexaoControlador.tempoOnline(status);
