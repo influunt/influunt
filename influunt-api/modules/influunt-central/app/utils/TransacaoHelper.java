@@ -118,7 +118,7 @@ public class TransacaoHelper {
 
     public String lerDados(Controlador controlador) {
         Envelope envelope = new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, controlador.getControladorFisicoId(), DestinoCentral.leituraDadosControlador(), QoS.AT_LEAST_ONCE, null, null);
-        ActorRef centralBroker = context.actorOf(Props.create(CentralMessageBroker.class));
+        ActorSelection centralBroker = context.actorSelection(AtoresCentral.messageBroker());
         centralBroker.tell(envelope, null);
         return controlador.getControladorFisicoId();
     }
