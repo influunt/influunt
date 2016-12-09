@@ -24,11 +24,10 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode payloadJson = Json.parse(transacao.payload.toString());
         if (isImposicaoModoOperacaoOk(payloadJson)) {
-            storage.clearTempData();
-            storage.setTempData("modoOperacao", payloadJson.get("modoOperacao").asText());
-            storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
-            storage.setTempData("horarioEntrada", payloadJson.get("horarioEntrada").asText());
-            storage.setTempData("duracao", payloadJson.get("duracao").asText());
+            storage.setTempData(transacao.transacaoId,"modoOperacao", payloadJson.get("modoOperacao").asText());
+            storage.setTempData(transacao.transacaoId,"numeroAnel", payloadJson.get("numeroAnel").asText());
+            storage.setTempData(transacao.transacaoId,"horarioEntrada", payloadJson.get("horarioEntrada").asText());
+            storage.setTempData(transacao.transacaoId,"duracao", payloadJson.get("duracao").asText());
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -41,19 +40,21 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
     protected void executeCommit(Transacao transacao) {
         Envelope envelopeImposicaoModo = MensagemImposicaoModoOperacao.getMensagem(
             idControlador,
-            storage.getTempData("modoOperacao"),
-            Integer.parseInt(storage.getTempData("numeroAnel")),
-            Long.parseLong(storage.getTempData("horarioEntrada")),
-            Integer.parseInt(storage.getTempData("duracao")));
+            storage.getTempData(transacao.transacaoId,"modoOperacao"),
+            Integer.parseInt(storage.getTempData(transacao.transacaoId,"numeroAnel")),
+            Long.parseLong(storage.getTempData(transacao.transacaoId,"horarioEntrada")),
+            Integer.parseInt(storage.getTempData(transacao.transacaoId,"duracao")));
 
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoModo, getSelf());
 
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
     @Override
     protected void executeAbort(Transacao transacao) {
         transacao.etapaTransacao = EtapaTransacao.ABORTED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
     private boolean isImposicaoModoOperacaoOk(JsonNode payload) {

@@ -22,11 +22,11 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
     protected void executePrepareToCommit(Transacao transacao) {
         if (isImposicaoPlanoOk(storage.getControlador(), transacao)) {
             JsonNode payloadJson = Json.parse(transacao.payload.toString());
-            storage.clearTempData();
-            storage.setTempData("posicaoPlano", payloadJson.get("posicaoPlano").asText());
-            storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
-            storage.setTempData("horarioEntrada", payloadJson.get("horarioEntrada").asText());
-            storage.setTempData("duracao", payloadJson.get("duracao").asText());
+
+            storage.setTempData(transacao.transacaoId,"posicaoPlano", payloadJson.get("posicaoPlano").asText());
+            storage.setTempData(transacao.transacaoId,"numeroAnel", payloadJson.get("numeroAnel").asText());
+            storage.setTempData(transacao.transacaoId,"horarioEntrada", payloadJson.get("horarioEntrada").asText());
+            storage.setTempData(transacao.transacaoId,"duracao", payloadJson.get("duracao").asText());
 
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
@@ -38,18 +38,20 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
     protected void executeCommit(Transacao transacao) {
         Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
             idControlador,
-            Integer.parseInt(storage.getTempData("posicaoPlano")),
-            Integer.parseInt(storage.getTempData("numeroAnel")),
-            Long.parseLong(storage.getTempData("horarioEntrada")),
-            Integer.parseInt(storage.getTempData("duracao")));
+            Integer.parseInt(storage.getTempData(transacao.transacaoId,"posicaoPlano")),
+            Integer.parseInt(storage.getTempData(transacao.transacaoId,"numeroAnel")),
+            Long.parseLong(storage.getTempData(transacao.transacaoId,"horarioEntrada")),
+            Integer.parseInt(storage.getTempData(transacao.transacaoId,"duracao")));
 
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoPlano, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
     @Override
     protected void executeAbort(Transacao transacao) {
         transacao.etapaTransacao = EtapaTransacao.ABORTED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
 }

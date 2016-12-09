@@ -26,9 +26,8 @@ public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHand
         Controlador controlador = Controlador.isPacoteTabelaHorariaValido(storage.getControladorJson(), transacao.payload);
         if (controlador != null) {
             JsonNode payloadJson = Json.parse(transacao.payload);
-
             storage.setControladorStaging(controlador);
-            storage.setTempData("imediato", payloadJson.get("imediato").asText());
+            storage.setTempData(transacao.transacaoId,"imediato", payloadJson.get("imediato").asText());
 
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
@@ -38,7 +37,7 @@ public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHand
 
     @Override
     protected void executeCommit(Transacao transacao) {
-        boolean imediato = Boolean.parseBoolean(storage.getTempData("imediato"));
+        boolean imediato = Boolean.parseBoolean(storage.getTempData(transacao.transacaoId,"imediato"));
 
         Envelope envelopeTH;
         if (imediato) {
@@ -49,11 +48,13 @@ public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHand
 
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeTH, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
     @Override
     protected void executeAbort(Transacao transacao) {
         transacao.etapaTransacao = EtapaTransacao.ABORTED;
+        storage.clearTempData(transacao.transacaoId);
     }
 
 }
