@@ -2,7 +2,6 @@ package os72c.client.handlers.transacoes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Controlador;
-import models.StatusDevice;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -18,7 +17,7 @@ import status.Transacao;
  */
 public class TransacaoConfiguracaoCompletaActorHandler extends TransacaoActorHandler {
     public TransacaoConfiguracaoCompletaActorHandler(String idControlador, Storage storage) {
-        super(idControlador,storage);
+        super(idControlador, storage);
     }
 
     @Override

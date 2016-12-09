@@ -215,7 +215,7 @@ public class ControladorCustomDeserializer {
 
 
     public Controlador getPacotePlanosFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
-        JsonNode controladorJson =  buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
+        JsonNode controladorJson = buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
         return getControladorFromJson(controladorJson);
     }
 

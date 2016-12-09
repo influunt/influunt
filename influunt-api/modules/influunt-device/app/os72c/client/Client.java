@@ -30,15 +30,25 @@ public class Client {
 
 
     private static Config config72c;
+
     private static org.slf4j.Logger logger = LoggerFactory.getLogger("Client");
+
     private final ActorSystem system;
+
     private final String host;
+
     private final String port;
+
     private final String id;
+
     private final String centralPublicKey;
+
     private final String privateKey;
+
     private ActorRef servidor;
+
     private Storage storage = Play.current().injector().instanceOf(Storage.class);
+
     private DeviceBridge device;
 
 

@@ -20,7 +20,7 @@ public class TransacaoAtivarControladorActorHandler extends TransacaoActorHandle
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        if(!storage.getStatus().equals(StatusDevice.ATIVO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
+        if (!storage.getStatus().equals(StatusDevice.ATIVO) && !storage.getStatus().equals(StatusDevice.NOVO)) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;

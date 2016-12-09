@@ -19,7 +19,6 @@ import os72c.client.conf.TestDeviceConfig;
 import os72c.client.storage.Storage;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
-import protocol.StatusTransacao;
 import protocol.TipoMensagem;
 import server.Central;
 import status.*;

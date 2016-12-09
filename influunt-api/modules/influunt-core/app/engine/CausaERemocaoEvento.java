@@ -3,8 +3,6 @@ package engine;
 import java.util.HashMap;
 import java.util.Map;
 
-import static javafx.scene.input.KeyCode.M;
-
 /**
  * Created by rodrigosol on 12/7/16.
  */

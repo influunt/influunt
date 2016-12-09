@@ -16,7 +16,7 @@ import status.Transacao;
 public class TransacaoLiberarImposicaoActorHandler extends TransacaoActorHandler {
 
     public TransacaoLiberarImposicaoActorHandler(String idControlador, Storage storage) {
-        super(idControlador,storage);
+        super(idControlador, storage);
     }
 
     @Override

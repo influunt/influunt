@@ -4,7 +4,6 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.routes;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.route;
 

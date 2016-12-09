@@ -1,17 +1,15 @@
 package handlers;
 
 import akka.actor.ActorRef;
-import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
-import protocol.*;
-import server.conn.CentralMessageBroker;
+import protocol.Envelope;
+import protocol.EtapaTransacao;
+import protocol.TipoMensagem;
 import status.Transacao;
-import utils.AtoresCentral;
 
 /**
  * Created by rodrigosol on 9/6/16.

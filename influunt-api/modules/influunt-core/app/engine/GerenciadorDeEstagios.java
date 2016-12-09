@@ -6,7 +6,6 @@ import com.google.common.collect.TreeRangeMap;
 import engine.eventos.GerenciadorDeEventos;
 import engine.intervalos.GeradorDeIntervalos;
 import helpers.GerenciadorEstagiosHelper;
-import logger.InfluuntLogger;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;

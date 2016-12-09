@@ -5,7 +5,6 @@ import akka.actor.Cancellable;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.routing.Router;
 import com.google.gson.Gson;
 import models.ControladorFisico;
 import org.apache.commons.math3.util.Pair;
@@ -17,12 +16,10 @@ import status.StatusPacoteTransacao;
 import utils.EncryptionUtil;
 import utils.GzipUtil;
 
-import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Created by rodrigosol on 7/7/16.
@@ -127,7 +124,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         try {
             String parsedBytes = new String(message.getPayload());
             Map msg = new Gson().fromJson(parsedBytes, Map.class);
-            router.tell(new Pair<String, StatusPacoteTransacao>(msg.get("transacaoId").toString(),StatusPacoteTransacao.valueOf(msg.get("acao").toString())), getSelf());
+            router.tell(new Pair<String, StatusPacoteTransacao>(msg.get("transacaoId").toString(), StatusPacoteTransacao.valueOf(msg.get("acao").toString())), getSelf());
         } catch (Exception e) {
             getSelf().tell(e, getSelf());
         }
@@ -179,9 +176,9 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        if(topic.startsWith("central/app/transacoes/")){
+        if (topic.startsWith("central/app/transacoes/")) {
             sendToBrokerFromApp(message);
-        }else {
+        } else {
             sendToBroker(message);
         }
     }

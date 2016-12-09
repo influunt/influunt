@@ -181,7 +181,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             String publicKey = storage.getCentralPublicKey();
             message.setPayload(GzipUtil.compress(envelope.toJsonCriptografado(publicKey)));
             client.publish(envelope.getDestino(), message);
-        }catch (Exception e){
+        } catch (Exception e) {
             getSelf().tell(e, getSelf());
         }
     }

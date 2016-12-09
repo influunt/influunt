@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.joda.time.DateTime;
 import org.jongo.MongoCollection;
 import org.jongo.marshall.jackson.oid.MongoId;
-import org.jongo.marshall.jackson.oid.MongoObjectId;
 import play.api.Play;
 import play.libs.Json;
 import protocol.TipoTransacao;
@@ -22,21 +21,24 @@ import java.util.UUID;
 public class PacoteTransacao {
 
     public static final String COLLECTION = "transacoes";
+
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
     @MongoId
     private String id;
+
     private StatusPacoteTransacao statusPacoteTransacao;
+
     private TipoTransacao tipoTransacao;
+
     private Long timestamp;
+
     private Long tempoMaximo;
+
     private List<Transacao> transacoes;
 
-    public static MongoCollection transacoes() {
-        return jongo.getCollection(COLLECTION);
+    public PacoteTransacao() {
     }
-
-    public PacoteTransacao(){}
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo) {
         this.timestamp = DateTime.now().getMillis();
@@ -47,13 +49,17 @@ public class PacoteTransacao {
     }
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo, List<Transacao> transacoes) {
-        this(tipoTransacao,tempoMaximo);
+        this(tipoTransacao, tempoMaximo);
         this.transacoes = transacoes;
     }
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo, Transacao transacao) {
-        this(tipoTransacao,tempoMaximo);
+        this(tipoTransacao, tempoMaximo);
         this.transacoes = Arrays.asList(transacao);
+    }
+
+    public static MongoCollection transacoes() {
+        return jongo.getCollection(COLLECTION);
     }
 
     public static PacoteTransacao findByTransacaoId(String transacaoId) {

@@ -17,18 +17,18 @@ import status.Transacao;
 public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHandler {
 
     public TransacaoImposicaoModoOperacaoActorHandler(String idControlador, Storage storage) {
-        super(idControlador,storage);
+        super(idControlador, storage);
     }
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode payloadJson = Json.parse(transacao.payload.toString());
         if (isImposicaoModoOperacaoOk(payloadJson)) {
-                storage.clearTempData();
-                storage.setTempData("modoOperacao", payloadJson.get("modoOperacao").asText());
-                storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
-                storage.setTempData("horarioEntrada", payloadJson.get("horarioEntrada").asText());
-                storage.setTempData("duracao", payloadJson.get("duracao").asText());
+            storage.clearTempData();
+            storage.setTempData("modoOperacao", payloadJson.get("modoOperacao").asText());
+            storage.setTempData("numeroAnel", payloadJson.get("numeroAnel").asText());
+            storage.setTempData("horarioEntrada", payloadJson.get("horarioEntrada").asText());
+            storage.setTempData("duracao", payloadJson.get("duracao").asText());
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;

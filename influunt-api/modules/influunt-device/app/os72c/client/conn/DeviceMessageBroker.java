@@ -5,7 +5,10 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.routing.Router;
-import os72c.client.handlers.*;
+import os72c.client.handlers.ConfiguracaoActorHandler;
+import os72c.client.handlers.EchoActorHandler;
+import os72c.client.handlers.ErroActorHandler;
+import os72c.client.handlers.LerDadosControladorActorHandler;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -24,8 +27,6 @@ import static utils.MessageBrokerUtils.createRoutees;
  */
 public class DeviceMessageBroker extends UntypedActor {
 
-    private final ActorRef actorTransacao;
-
     private static SupervisorStrategy strategy =
         new OneForOneStrategy(1000, Duration.Undefined(),
             new Function<Throwable, SupervisorStrategy.Directive>() {
@@ -36,6 +37,8 @@ public class DeviceMessageBroker extends UntypedActor {
                     return SupervisorStrategy.resume();
                 }
             }, false);
+
+    private final ActorRef actorTransacao;
 
     private Router routerEcho;
 
@@ -86,4 +89,5 @@ public class DeviceMessageBroker extends UntypedActor {
     @Override
     public SupervisorStrategy supervisorStrategy() {
         return strategy;
-    }}
+    }
+}

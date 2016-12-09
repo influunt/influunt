@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
 import models.Cidade;
 import models.StatusDevice;
-import models.StatusVersao;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;

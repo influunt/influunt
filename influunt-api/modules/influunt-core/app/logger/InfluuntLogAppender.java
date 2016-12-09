@@ -18,7 +18,7 @@ public class InfluuntLogAppender extends RollingFileAppender<ILoggingEvent> {
 
     private final PatternLayout fPatternLayout;
 
-    public InfluuntLogAppender(Context context, String path, String name, int size){
+    public InfluuntLogAppender(Context context, String path, String name, int size) {
         evictingQueue = EvictingQueue.create(30);
 
         // Log the date, level, class name (no package), and the message.

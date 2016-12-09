@@ -9,8 +9,11 @@ import play.libs.Json;
 public class MensagemImposicaoModoOperacao {
 
     public String modoOperacao;
+
     public int numeroAnel;
+
     public Long horarioEntrada;
+
     public int duracao;
 
     public MensagemImposicaoModoOperacao(String modoOperacao, int numeroAnel, Long horarioEntrada, int duracao) {

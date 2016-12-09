@@ -20,7 +20,6 @@ import status.PacoteTransacao;
 import status.Transacao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -162,6 +161,6 @@ public class TransacaoHelper {
         ActorSelection centralBroker = context.actorSelection(AtoresCentral.messageBroker());
         centralBroker.tell(envelope, null);
 
-        return  pacoteTransacao.getId();
+        return pacoteTransacao.getId();
     }
 }

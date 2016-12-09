@@ -6,13 +6,11 @@ import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.pattern.Backoff;
 import akka.pattern.BackoffSupervisor;
-import akka.routing.*;
+import akka.routing.RoundRobinPool;
 import handlers.PacoteTransacaoManagerActorHandler;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.duration.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 

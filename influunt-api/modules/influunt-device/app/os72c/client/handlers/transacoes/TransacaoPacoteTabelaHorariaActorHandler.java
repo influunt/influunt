@@ -1,7 +1,6 @@
 package os72c.client.handlers.transacoes;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import logger.InfluuntLogger;
 import models.Controlador;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
@@ -19,7 +18,7 @@ import status.Transacao;
 public class TransacaoPacoteTabelaHorariaActorHandler extends TransacaoActorHandler {
 
     public TransacaoPacoteTabelaHorariaActorHandler(String idControlador, Storage storage) {
-        super(idControlador,storage);
+        super(idControlador, storage);
     }
 
     @Override

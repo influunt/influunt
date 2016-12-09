@@ -20,7 +20,7 @@ import java.util.Iterator;
 public class TransacaoImposicaoPlanoTemporarioActorHandler extends TransacaoImposicaoActorHandler {
 
     public TransacaoImposicaoPlanoTemporarioActorHandler(String idControlador, Storage storage) {
-        super(idControlador,storage);
+        super(idControlador, storage);
     }
 
     @Override

@@ -327,6 +327,10 @@ public class Estagio extends Model implements Serializable, Cloneable {
         return true;
     }
 
+    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
+        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
+    }
+
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
         message = "O tempo de verde do estágio de demanda prioritária deve ser maior ou igual ao tempo de verde de segurança do grupo semafórico associado.")
     public boolean isTempoVerdeDemandaPrioritariaMaiorQueVerdeSeguranca() {
@@ -387,10 +391,6 @@ public class Estagio extends Model implements Serializable, Cloneable {
                 .orElse(0);
         }
         return true;
-    }
-
-    public void setTempoVerdeDemandaPrioritaria(Integer tempoVerdeDemandaPrioritaria) {
-        this.tempoVerdeDemandaPrioritaria = tempoVerdeDemandaPrioritaria;
     }
 
     @AssertTrue(groups = ControladorTransicoesProibidasCheck.class,

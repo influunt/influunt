@@ -20,7 +20,7 @@ public class TransacaoColocarControladorManutencaoActorHandler extends Transacao
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        if (storage.getStatus().equals(StatusDevice.CONFIGURADO) ||  storage.getStatus().equals(StatusDevice.ATIVO) || storage.getStatus().equals(StatusDevice.COM_FALHAS)) {
+        if (storage.getStatus().equals(StatusDevice.CONFIGURADO) || storage.getStatus().equals(StatusDevice.ATIVO) || storage.getStatus().equals(StatusDevice.COM_FALHAS)) {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;

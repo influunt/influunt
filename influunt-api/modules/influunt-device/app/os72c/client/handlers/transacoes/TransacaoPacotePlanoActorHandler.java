@@ -1,6 +1,5 @@
 package os72c.client.handlers.transacoes;
 
-import logger.InfluuntLogger;
 import models.Controlador;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
