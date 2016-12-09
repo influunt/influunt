@@ -1,22 +1,14 @@
 package handlers;
 
-import akka.actor.Actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import com.fasterxml.jackson.databind.JsonNode;
-import play.libs.Json;
-import protocol.*;
 import status.PacoteTransacao;
-import status.Transacao;
-import utils.AtoresCentral;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static sun.jvm.hotspot.oops.CellTypeState.ref;
 
 /**
  * Created by rodrigosol on 9/6/16.

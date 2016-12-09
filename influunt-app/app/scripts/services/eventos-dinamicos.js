@@ -15,5 +15,6 @@ angular.module('influuntApp')
     CONTROLADOR_ONLINE: 'app/conn/online',
     CONTROLADOR_OFFLINE: 'app/conn/offline',
     STATUS_TRANSACAO: 'app/transacoes/:transacaoId/status',
+    SET_STATUS_TRANSACAO: 'central/app/transacoes/:transacaoId',
     DADOS_CONTROLADOR: 'app/controlador/:envelopeId/dados'
   });
