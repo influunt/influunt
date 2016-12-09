@@ -97,7 +97,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         }
     }
 
-    private void connect() throws MqttException, IOException {
+    private void connect() throws MqttException {
         try {
             client = new MqttClient("tcp://" + host + ":" + port, id);
         } catch (Exception e) {
@@ -113,7 +113,11 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
-        opts.setWill(controladorOffline.getDestino(), GzipUtil.compress(controladorOffline.toJsonCriptografado(storage.getCentralPublicKey())), 1, false);
+        try {
+            opts.setWill(controladorOffline.getDestino(), GzipUtil.compress(controladorOffline.toJsonCriptografado(storage.getCentralPublicKey())), 1, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         client.setCallback(this);
