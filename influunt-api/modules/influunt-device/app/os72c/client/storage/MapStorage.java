@@ -32,6 +32,8 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, Boolean> falhas;
 
+    private final HTreeMap<String, String> tempData;
+
     @Inject
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
@@ -67,6 +69,12 @@ public class MapStorage implements Storage {
         this.falhas = this.db.hashMap("falhas")
             .keySerializer(Serializer.STRING)
             .valueSerializer(Serializer.BOOLEAN)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        this.tempData = this.db.hashMap("tempData")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
             .layout(1, 2, 1)
             .createOrOpen();
 
@@ -218,6 +226,23 @@ public class MapStorage implements Storage {
     @Override
     public boolean emFalha() {
         return this.falhas.size() > 0;
+    }
+
+    @Override
+    public void setTempData(String key, String value) {
+        this.tempData.put(key, value);
+        db.commit();
+    }
+
+    @Override
+    public String getTempData(String key) {
+        return this.tempData.get(key);
+    }
+
+    @Override
+    public void clearTempData() {
+        this.tempData.clear();
+        db.commit();
     }
 
 }

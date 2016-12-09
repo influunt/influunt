@@ -64,7 +64,7 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
             "2",
             "2",
             Json.toJson(new EventoMotor(new DateTime(),
-                TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA,
+                TipoEvento.FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA,
                 grupoSemaforico,
                 2
             ))

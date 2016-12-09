@@ -67,6 +67,7 @@ public class PacoteTransacao {
     public JsonNode toJson() {
         ObjectNode root = Json.newObject();
         root.put("id", id);
+        root.put("tempoMaximo", tempoMaximo);
         root.put("statusPacoteTransacao", statusPacoteTransacao.toString());
         root.put("tipoTransacao", tipoTransacao.toString());
         root.put("timestamp", timestamp);
