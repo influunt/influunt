@@ -5,8 +5,10 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import com.avaje.ebeaninternal.server.lib.util.Str;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.StatusDevice;
+import org.apache.commons.math3.util.Pair;
 import os72c.client.handlers.transacoes.TransacaoBinder;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -15,6 +17,7 @@ import protocol.DestinoCentral;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
 import protocol.TipoMensagem;
+import status.StatusPacoteTransacao;
 import status.Transacao;
 
 import java.util.HashMap;

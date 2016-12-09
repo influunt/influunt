@@ -8,6 +8,7 @@ import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
+import logger.InfluuntLogger;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
 import os72c.client.handlers.TransacaoManagerActorHandler;
@@ -23,12 +24,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class ClientActor extends UntypedActor {
 
-    private static SupervisorStrategy strategy =
-        new OneForOneStrategy(-1, Duration.Undefined(),
+    private static OneForOneStrategy strategy =
+        new OneForOneStrategy(-1, Duration.Inf(),
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    return SupervisorStrategy.stop();
+                    if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
+                        InfluuntLogger.log("MQTT perdeu a conexão com o broker. Restartando ator.");
+                        return SupervisorStrategy.stop();
+                    } else {
+                        InfluuntLogger.log("Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
+                        t.printStackTrace();
+                        return SupervisorStrategy.resume();
+                    }
                 }
             }, false);
 

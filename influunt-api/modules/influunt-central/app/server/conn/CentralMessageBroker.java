@@ -9,10 +9,12 @@ import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.routing.Router;
 import handlers.*;
+import org.apache.commons.math3.util.Pair;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 import scala.concurrent.duration.Duration;
+import status.StatusPacoteTransacao;
 import status.Transacao;
 import utils.AtoresCentral;
 
@@ -82,6 +84,8 @@ public class CentralMessageBroker extends UntypedActor {
                 log.info("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO: {}", envelope.getTipoMensagem());
                 throw new RuntimeException("[CENTRAL] - MESSAGE BROKER NÃO SABER TRATAR O TIPO " + envelope.getTipoMensagem());
             }
+        }else if(message instanceof Pair){
+            actorTransacaoManager.tell(message,getSender());
         }
     }
 
