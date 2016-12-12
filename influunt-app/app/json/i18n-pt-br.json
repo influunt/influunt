@@ -877,7 +877,7 @@
       "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
     },
     "plano": {
-      "criarPlanoExclusivo": "Criar plano exclusivo",
+      "criarPlanoExclusivo": "Criar plano temporário",
       "duracao": "Duração",
       "editar": "Editar",
       "erro": "Não foi possível finalizar a imposição de plano no controlador",
