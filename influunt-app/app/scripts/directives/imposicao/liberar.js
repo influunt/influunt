@@ -41,15 +41,6 @@ angular.module('influuntApp')
 
           transactionTracker = function(id) {
             toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
-            // return mqttTransactionStatusService
-            //   .watchTransaction(id)
-            //   .then(function(transmitido) {
-            //     if (transmitido) {
-            //       toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
-            //     } else {
-            //       toast.warn($filter('translate')('imporConfig.liberacao.erro'));
-            //     }
-            //   });
           };
         }
       };

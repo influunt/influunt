@@ -63,7 +63,6 @@ angular.module('influuntApp')
             return Restangular.one('monitoramento', 'status_aneis').get();
           })
           .then(setAneisPlanosImpostos)
-          // .then(registerWatcher)
           .finally(influuntBlockui.unblock);
       };
 
@@ -156,20 +155,4 @@ angular.module('influuntApp')
             .value();
         }
       }, true);
-
-      // registerWatcher = function() {
-      //   pahoProvider.connect()
-      //     .then(function() {
-      //       pahoProvider.register(eventosDinamicos.TROCA_PLANO, function(payload) {
-      //         var message = JSON.parse(payload);
-      //         message.conteudo = _.isString(message.conteudo) ? JSON.parse(message.conteudo) : message.conteudo;
-      //         message.hasPlanoImposto = _.get(message, 'conteudo.imposicaoDePlano');
-      //         message.anelPosicao = parseInt(_.get(message, 'conteudo.anel.posicao'));
-      //         message.inicio = _.get(message, 'conteudo.momentoDaTroca');
-      //         return updateImposicoesEmAneis([message]);
-      //       });
-      //     });
-      // };
     }]);
-
-
