@@ -5,6 +5,8 @@ import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import engine.TipoEvento;
+import logger.InfluuntLogger;
+import logger.TipoLog;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -61,10 +63,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private synchronized void start() {
 
         if (!iniciado) {
-            Logger.info("Tentando iniciar o motor...");
+            InfluuntLogger.log(TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
-                Logger.info("Configuração de controlador encontrada.");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"Configuração encontrada");
                 iniciado = true;
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), this);
@@ -77,24 +79,22 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
-                Logger.info("O motor foi iniciado");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
 
             } else {
-                Logger.info("Não existe configuração para iniciar o motor.");
-                Logger.warn("Aguardando configuração.");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"Não existe configuração para iniciar o motor");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"O controlador será iniciado quando um configuração for recebida");
             }
         }
     }
 
     private void sendAlarmeOuFalha(EventoMotor eventoMotor) {
         Envelope envelope = AlarmeFalha.getMensagem(id, eventoMotor);
-        Logger.info("Enviando alarme ou falha");
         sendMessage(envelope);
     }
 
     private void sendRemocaoFalha(EventoMotor eventoMotor) {
         Envelope envelope = RemocaoFalha.getMensagem(id, eventoMotor);
-        Logger.info("Enviando remoção de falha");
         sendMessage(envelope);
     }
 
@@ -162,10 +162,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onReceive(Object message) throws Exception {
-        System.out.println(message);
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            System.out.println("Mensagem recebida no device actor: " + envelope.getTipoMensagem());
             switch (envelope.getTipoMensagem()) {
                 case CONFIGURACAO_OK:
                     start();
