@@ -1,6 +1,7 @@
 package protocol;
 
 import models.StatusDevice;
+import org.fusesource.mqtt.client.QoS;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -20,7 +21,12 @@ public class ControladorOnline {
 
     public static Envelope getMensagem(String idControlador, Long dataHora, String versao, StatusDevice status) {
         ControladorOnline controladorOnline = new ControladorOnline(dataHora, versao, status);
-        return new Envelope(TipoMensagem.CONTROLADOR_ONLINE, idControlador, "controladores/conn/online", 1, controladorOnline, null);
+        return new Envelope(TipoMensagem.CONTROLADOR_ONLINE,
+            idControlador,
+            DestinoControlador.online(),
+            QoS.AT_LEAST_ONCE,
+            controladorOnline,
+            null);
     }
 
 }

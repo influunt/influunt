@@ -45,10 +45,10 @@ public class AlarmesFalhasControlador {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.conteudo = Json.toJson(map.get("conteudo"));
-        if(map.containsKey("recuperado")) {
+        if (map.containsKey("recuperado")) {
             this.recuperado = Boolean.parseBoolean(map.get("recuperado").toString());
         }
-        if(map.containsKey("dataRecuperado")) {
+        if (map.containsKey("dataRecuperado")) {
             this.dataRecuperado = Long.parseLong(map.get("dataRecuperado").toString());
         }
 
@@ -132,6 +132,14 @@ public class AlarmesFalhasControlador {
 
     public static List<AlarmesFalhasControlador> historico(String idControlador, int pagina, int quantidade) {
         MongoCursor<Map> result = alarmesFalhas().find("{ idControlador: # }", idControlador).sort("{timestamp:-1}").skip(pagina * quantidade).limit(quantidade).as(Map.class);
+        return toList(result);
+    }
+
+    public static List<AlarmesFalhasControlador> historicoFalha(String idControlador, int pagina, int quantidade) {
+        MongoCursor<Map> result = alarmesFalhas()
+            .find("{ idControlador: #, " +
+                "conteudo.tipoEvento.tipoEventoControlador: # }", idControlador, TipoEventoControlador.FALHA.toString())
+            .sort("{timestamp:-1}").skip(pagina * quantidade).limit(quantidade).as(Map.class);
         return toList(result);
     }
 

@@ -10,15 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
-import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
 import play.libs.Json;
 import utils.DBUtils;
-import utils.EncryptionUtil;
 import utils.RangeUtils;
 
 import javax.persistence.*;
@@ -26,8 +23,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,22 +88,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @OneToOne
     private Imagem croqui;
 
-    @Ignore
-    @Column(columnDefinition = "TEXT")
-    private String centralPrivateKey;
-
-    @Ignore
-    @Column(columnDefinition = "TEXT")
-    private String centralPublicKey;
-
-    @Ignore
-    @Column(columnDefinition = "TEXT")
-    private String controladorPublicKey;
-
-    @Ignore
-    @Column(columnDefinition = "TEXT")
-    private String controladorPrivateKey;
-
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
@@ -148,6 +127,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Column
     private Boolean planosBloqueado = false;
 
+    @Column
+    private Boolean sincronizado = false;
+
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaAtiva;
@@ -179,7 +161,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         JsonNode controladorJson = Json.parse(controladorObject.toString());
         JsonNode planoJson = Json.parse(planosObject.toString());
 
-        Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
+        Controlador controlador = new ControladorCustomDeserializer().getPacotePlanosFromJson(controladorJson, planoJson);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -199,12 +181,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
+
     public static Controlador isPacoteConfiguracaoCompletaValido(Object controladorObject, Object pacotePlanos, Object pacoteTabelaHoraria) {
         JsonNode controladorJson = Json.parse(controladorObject.toString());
         JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
         JsonNode pacotePlanosJson = Json.parse(pacotePlanos.toString());
 
         Controlador controlador = new ControladorCustomDeserializer().getPacoteConfiguracaoCompletaFromJson(controladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -212,6 +196,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
+    public static Controlador findUniqueByArea(String controladorId, String areaId) {
+        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
+    }
+
+    public static List<Controlador> findListByArea(String areaId) {
+        return Controlador.find.where().eq("area_id", areaId).findList();
+    }
 
     public boolean isCompleto() {
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
@@ -219,15 +210,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty();
-    }
-
-
-    public static Controlador findUniqueByArea(String controladorId, String areaId) {
-        return Controlador.find.where().eq("id", controladorId).eq("area_id", areaId).findUnique();
-    }
-
-    public static List<Controlador> findListByArea(String areaId) {
-        return Controlador.find.where().eq("area_id", areaId).findList();
     }
 
     @Override
@@ -245,18 +227,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             this.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
-            try {
-                KeyPair key = EncryptionUtil.generateRSAKey();
-                this.centralPrivateKey = Hex.encodeHexString(key.getPrivate().getEncoded());
-                this.centralPublicKey = Hex.encodeHexString(key.getPublic().getEncoded());
-
-                KeyPair keyControlador = EncryptionUtil.generateRSAKey();
-                this.controladorPrivateKey = Hex.encodeHexString(keyControlador.getPrivate().getEncoded());
-                this.controladorPublicKey = Hex.encodeHexString(keyControlador.getPublic().getEncoded());
-
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
 
             int quantidade = this.getModelo().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
@@ -524,22 +494,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.subarea = subarea;
     }
 
-    public String getCentralPrivateKey() {
-        return centralPrivateKey;
-    }
-
-    public String getCentralPublicKey() {
-        return centralPublicKey;
-    }
-
-    public String getControladorPublicKey() {
-        return controladorPublicKey;
-    }
-
-    public String getControladorPrivateKey() {
-        return controladorPrivateKey;
-    }
-
 
     public List<Anel> getAneis() {
         return aneis;
@@ -696,7 +650,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public StatusVersao getStatusControladorReal() {
         StatusVersao statusVersaoControlador = getStatusVersao();
-        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador) || StatusVersao.ATIVO.equals(statusVersaoControlador)) {
+        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador) || StatusVersao.SINCRONIZADO.equals(statusVersaoControlador)) {
             TabelaHorario tabela = getTabelaHoraria();
             if (tabela != null) {
                 VersaoTabelaHoraria versaoTabelaHoraria = tabela.getVersaoTabelaHoraria();
@@ -881,7 +835,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public boolean podeClonar() {
         StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
-        return StatusVersao.ATIVO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
+        return StatusVersao.SINCRONIZADO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
     }
 
     public boolean podeEditar(Usuario usuario) {
@@ -998,5 +952,47 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public Long getTotalDetectoresPedestre() {
         return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count()).sum();
+    }
+
+    public String getControladorFisicoId() {
+        return getVersaoControlador().getControladorFisico().getId().toString();
+    }
+
+    public String getCentralPublicKey() {
+        return this.getVersaoControlador().getControladorFisico().getCentralPublicKey();
+    }
+
+    public String getControladorPrivateKey() {
+        return this.getVersaoControlador().getControladorFisico().getControladorPrivateKey();
+    }
+
+    public String getCentralPrivateKey() {
+        return this.getVersaoControlador().getControladorFisico().getCentralPrivateKey();
+    }
+
+    public Boolean getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(Boolean sincronizado) {
+        this.sincronizado = sincronizado;
+    }
+
+    public boolean podeInativar() {
+        return (getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO)
+            || getControladorFisico().getStatusDevice().equals(StatusDevice.EM_MANUTENCAO)
+            || getControladorFisico().getStatusDevice().equals(StatusDevice.CONFIGURADO));
+    }
+
+    public boolean podeColocarEmManutencao() {
+        return (getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO) || getControladorFisico().getStatusDevice().equals(StatusDevice.COM_FALHAS));
+    }
+
+    public boolean podeAtivar() {
+        return (!getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO) && !getControladorFisico().getStatusDevice().equals(StatusDevice.NOVO));
+    }
+
+    private ControladorFisico getControladorFisico() {
+        return getVersaoControlador().getControladorFisico();
     }
 }

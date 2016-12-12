@@ -22,6 +22,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"unchecked"})
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
 public class ImposicoesController extends Controller {
@@ -36,9 +37,10 @@ public class ImposicoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        // Map  controlador ID -> transação ID
-        Map<String, String> transacoesIds = enviarPacotesPlanos(Json.fromJson(json, List.class));
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+        long timeout = json.get("timeout").asInt() * 1000L;
+        // Map  transação ID -> controladores IDd
+        Map<String, List<String>> ids = enviarPacotesPlanos(Json.fromJson(json.get("aneisIds"), List.class), timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
     @Transactional
@@ -48,9 +50,10 @@ public class ImposicoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        long timeout = json.get("timeout").asInt() * 1000L;
         // Map  controlador ID -> transação ID
-        Map<String, String> transacoesIds = enviarConfiguracoesCompletas(Json.fromJson(json, List.class));
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+        Map<String, List<String>> ids = enviarConfiguracoesCompletas(Json.fromJson(json.get("aneisIds"), List.class), timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
     @Transactional
@@ -61,9 +64,10 @@ public class ImposicoesController extends Controller {
         }
 
         boolean imediato = json.get("imediato").asBoolean();
+        long timeout = json.get("timeout").asInt() * 1000L;
         // Map  controlador ID -> transação ID
-        Map<String, String> transacoesIds = enviarTabelaHoraria(Json.fromJson(json.get("aneis"), List.class), imediato);
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+        Map<String, List<String>> ids = enviarTabelaHoraria(Json.fromJson(json.get("aneisIds"), List.class), imediato, timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
     @Transactional
@@ -73,9 +77,15 @@ public class ImposicoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        ModoOperacaoPlano modoOperacao = ModoOperacaoPlano.valueOf(json.get("modoOperacao").asText());
+        int duracao = json.get("duracao").asInt();
+        long horarioEntrada = json.get("horarioEntrada").asLong();
+        List<String> aneisIds = Json.fromJson(json.get("aneisIds"), List.class);
+        long timeout = json.get("timeout").asInt() * 1000L;
+
         // Map  anel ID -> transação ID
-        Map<String, String> transacoesIds = imporModoOperacao(json);
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+        Map<String, List<String>> ids = imporModoOperacao(aneisIds, modoOperacao, duracao, horarioEntrada, timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
     @Transactional
@@ -85,9 +95,15 @@ public class ImposicoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        int posicaoPlano = json.get("posicaoPlano").asInt();
+        int duracao = json.get("duracao").asInt();
+        Long horarioEntrada = json.get("horarioEntrada").asLong();
+        List<String> aneisIds = Json.fromJson(json.get("aneisIds"), List.class);
+        long timeout = json.get("timeout").asInt() * 1000L;
+
         // Map  anel ID -> transação ID
-        Map<String, String> transacoesIds = imporPlano(json);
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacoesIds)));
+        Map<String, List<String>> ids = imporPlano(aneisIds, posicaoPlano, duracao, horarioEntrada, timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
     @Transactional
@@ -97,79 +113,131 @@ public class ImposicoesController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
+        long timeout = json.get("timeout").asInt() * 1000L;
         // Map  anel ID -> transação ID
-        Map<String, String> transacaoId = liberarImposicao(json.get("anelId").asText());
-        if (transacaoId == null) {
-            return CompletableFuture.completedFuture(notFound("Anel não encontrado"));
+        Map<String, List<String>> ids = liberarImposicao(Json.fromJson(json.get("aneisIds"), List.class), timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
+    }
+
+    @Transactional
+    public CompletionStage<Result> colocarManutencao() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
-        return CompletableFuture.completedFuture(ok(Json.toJson(transacaoId)));
+
+        long timeout = json.get("timeout").asInt() * 1000L;
+        // Map  anel ID -> transação ID
+        Map<String, List<String>> ids = colocarControladorManutencao(Json.fromJson(json.get("aneisIds"), List.class), timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
     }
 
+    @Transactional
+    public CompletionStage<Result> inativar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
 
-    private Map<String, String> enviarPacotesPlanos(List<String> aneis) {
+        long timeout = json.get("timeout").asInt() * 1000L;
+        // Map  anel ID -> transação ID
+        Map<String, List<String>> ids = inativarControlador(Json.fromJson(json.get("aneisIds"), List.class), timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
+    }
+
+    @Transactional
+    public CompletionStage<Result> ativar() {
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        long timeout = json.get("timeout").asInt() * 1000L;
+        // Map  anel ID -> transação ID
+        Map<String, List<String>> ids = ativarControlador(Json.fromJson(json.get("aneisIds"), List.class), timeout);
+        return CompletableFuture.completedFuture(ok(Json.toJson(ids)));
+    }
+
+    private Map<String, List<String>> enviarPacotesPlanos(List<String> aneis, Long timeout) {
         List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarPacotePlanos(controlador))
-        );
-        return transacoesIds;
+        String transacaoId = transacaoHelper.enviarPacotePlanos(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> enviarConfiguracoesCompletas(List<String> aneis) {
+    private Map<String, List<String>> enviarConfiguracoesCompletas(List<String> aneis, Long timeout) {
         List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarConfiguracaoCompleta(controlador))
-        );
-        return transacoesIds;
+        String transacaoId = transacaoHelper.enviarConfiguracaoCompleta(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> enviarTabelaHoraria(List<String> aneis, boolean imediato) {
+    private Map<String, List<String>> enviarTabelaHoraria(List<String> aneis, boolean imediato, Long timeout) {
         List<Controlador> controladores = getControladores(aneis);
-        Map<String, String> transacoesIds = new HashMap<>();
-        controladores.forEach(controlador ->
-            transacoesIds.put(controlador.getId().toString(), transacaoHelper.enviarTabelaHoraria(controlador, imediato))
-        );
-        return transacoesIds;
+        String transacaoId = transacaoHelper.enviarTabelaHoraria(controladores, imediato, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> imporModoOperacao(JsonNode params) {
-        ModoOperacaoPlano modoOperacao = ModoOperacaoPlano.valueOf(params.get("modoOperacao").asText());
-        int duracao = params.get("duracao").asInt();
-        Long horarioEntrada = params.get("horarioEntrada").asLong();
-        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
+    private Map<String, List<String>> imporModoOperacao(List<String> aneisIds, ModoOperacaoPlano modoOperacao, int duracao, Long horarioEntrada, Long timeout) {
         List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
+        String transacaoId = transacaoHelper.imporModoOperacao(aneis, modoOperacao, horarioEntrada, duracao, timeout);
 
-        Map<String, String> transacoesIds = new HashMap<>();
-        aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporModoOperacao(anel.getControlador(), modoOperacao, anel.getPosicao(), horarioEntrada, duracao))
-        );
-        return transacoesIds;
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, aneis.stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> imporPlano(JsonNode params) {
-        int posicaoPlano = params.get("posicaoPlano").asInt();
-        int duracao = params.get("duracao").asInt();
-        Long horarioEntrada = params.get("horarioEntrada").asLong();
-
-        List<String> aneisIds = Json.fromJson(params.get("aneis"), List.class);
+    private Map<String, List<String>> imporPlano(List<String> aneisIds, int posicaoPlano, int duracao, Long horarioEntrada, Long timeout) {
         List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
+        String transacaoId = transacaoHelper.imporPlano(aneis, posicaoPlano, horarioEntrada, duracao, timeout);
 
-        Map<String, String> transacoesIds = new HashMap<>();
-        aneis.forEach(anel ->
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.imporPlano(anel.getControlador(), posicaoPlano, anel.getPosicao(), horarioEntrada, duracao))
-        );
-        return transacoesIds;
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, aneis.stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
-    private Map<String, String> liberarImposicao(String anelId) {
-        Anel anel = Anel.find.fetch("controlador").where().eq("id", anelId).findUnique();
-        if (anel != null) {
-            Map<String, String> transacoesIds = new HashMap<>();
-            transacoesIds.put(anel.getId().toString(), transacaoHelper.liberarImposicao(anel.getControlador(), anel.getPosicao()));
-            return transacoesIds;
-        }
-        return null;
+    private Map<String, List<String>> liberarImposicao(List<String> aneisIds, Long timeout) {
+        List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
+        String transacaoId = transacaoHelper.liberarImposicao(aneis, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, aneis.stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
+        return ids;
+    }
+
+
+    private Map<String, List<String>> colocarControladorManutencao(List<String> aneis, Long timeout) {
+        List<Controlador> controladores = getControladores(aneis);
+        String transacaoId = transacaoHelper.colocarControladorManutencao(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
+    }
+
+    private Map<String, List<String>> inativarControlador(List<String> aneis, Long timeout) {
+        List<Controlador> controladores = getControladores(aneis);
+        String transacaoId = transacaoHelper.inativarControlador(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
+    }
+
+    private Map<String, List<String>> ativarControlador(List<String> aneis, Long timeout) {
+        List<Controlador> controladores = getControladores(aneis);
+        String transacaoId = transacaoHelper.ativarControlador(controladores, timeout);
+
+        Map<String, List<String>> ids = new HashMap<>();
+        ids.put(transacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        return ids;
     }
 
 

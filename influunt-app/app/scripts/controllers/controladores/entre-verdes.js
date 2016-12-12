@@ -326,7 +326,7 @@ angular.module('influuntApp')
           }
         });
 
-        return msg + _.map(posicoesGrupos, function(posicao) { return "G"+posicao; }).join(", ");
+        return msg + _.map(posicoesGrupos, function(posicao) { return 'G' + posicao; }).join(', ');
       };
 
       $scope.inicializaModoIntermitenteOuApagado = function() {

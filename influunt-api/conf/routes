@@ -44,6 +44,7 @@ POST      /api/v1/controladores/associacao_detectores                 controller
 GET       /api/v1/controladores/:id                                   controllers.ControladoresController.findOne(id)
 DELETE    /api/v1/controladores/:id                                   controllers.ControladoresController.delete(id)
 GET       /api/v1/controladores/:id/simulacao                         controllers.ControladoresController.getControladorForSimulacao(id)
+GET       /api/v1/controladores/:id/status_dinamico                   controllers.ControladoresController.findOneByControladorFisico(id)
 POST      /api/v1/controladores/:id/edit                              controllers.ControladoresController.edit(id)
 GET       /api/v1/controladores/:id/instalacao                        controllers.ControladoresController.instalacao(id)
 GET       /api/v1/controladores/:id/timeline                          controllers.ControladoresController.timeline(id)
@@ -174,6 +175,7 @@ GET       /api/v1/monitoramento/erros_controladores/:id                         
 GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimosAlarmesEFalhasDosControladores()
 GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimoAlarmeFalhaControlador(id)
 GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.AlarmesEFalhasControladorController.historico(id,pagina,tamanho)
+GET       /api/v1/monitoramento/erros_controladores/:id/historico_falha/:pagina/:tamanho        controllers.monitoramento.AlarmesEFalhasControladorController.historicoFalha(id,pagina,tamanho)
 
 # Monitoramento
 GET       /api/v1/monitoramento/status_controladores                                            controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
@@ -208,3 +210,6 @@ POST       /api/v1/imposicoes/configuracao_completa                             
 POST       /api/v1/imposicoes/modo_operacao                                                     controllers.ImposicoesController.modoOperacao
 POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano
 POST       /api/v1/imposicoes/liberar                                                           controllers.ImposicoesController.liberar
+POST       /api/v1/imposicoes/colocar_manutencao                                                controllers.ImposicoesController.colocarManutencao
+POST       /api/v1/imposicoes/inativar                                                          controllers.ImposicoesController.inativar
+POST       /api/v1/imposicoes/ativar                                                            controllers.ImposicoesController.ativar

@@ -122,11 +122,13 @@ angular.module('influuntApp')
       };
 
       atualizaDadosDinamicos = function() {
-        $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
-        $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
-        $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
-        $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
-        $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
+        $timeout(function() {
+          $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
+          $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
+          $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
+          $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
+          $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
+        });
       };
 
       getControlador = function(idControlador) {

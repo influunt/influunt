@@ -4,6 +4,9 @@ import models.Anel;
 import org.junit.Test;
 import utils.TransacaoHelper;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 import static org.awaitility.Awaitility.await;
 
 /**
@@ -12,31 +15,27 @@ import static org.awaitility.Awaitility.await;
 public class LiberarImposicaoTest extends BasicMQTTTest {
 
     @Test
-    public void liberarImposicaoOK() {
+    public void liberarImposicaoOK() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
         await().until(() -> onPublishFutureList.size() > 6);
 
-        Anel anel = controlador.getAneis().stream()
-            .filter(Anel::isAtivo)
-            .findFirst().orElse(null);
-
-        liberarImposicao(anel.getPosicao());
+        liberarImposicao(getAnel(1));
         assertTransacaoOk();
     }
 
     @Test
-    public void imporPlanoComErro() {
+    public void imporPlanoComErro() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
         await().until(() -> onPublishFutureList.size() > 6);
 
-        liberarImposicao(-1);
+        liberarImposicao(getAnel(4));
         assertTransacaoErro();
     }
 
-    private void liberarImposicao(int numeroAnel) {
+    private void liberarImposicao(Anel anel) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.liberarImposicao(controlador, numeroAnel);
+        transacaoHelper.liberarImposicao(Arrays.asList(anel), 60000L);
     }
 }

@@ -2,30 +2,23 @@ package server.conn;
 
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
-import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.routing.ActorRefRoutee;
-import akka.routing.RoundRobinRoutingLogic;
-import akka.routing.Routee;
-import akka.routing.Router;
 import com.google.gson.Gson;
-import models.Controlador;
-import org.apache.commons.codec.DecoderException;
+import models.ControladorFisico;
+import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
+import status.StatusPacoteTransacao;
 import utils.EncryptionUtil;
+import utils.GzipUtil;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,7 +32,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    private Router router;
+    private ActorRef router;
 
     private Map<String, Long> contador = new HashMap<String, Long>();
 
@@ -53,18 +46,10 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private ActorRef messageBroker;
 
-    public MQTTServerActor(final String host, final String port) {
+    public MQTTServerActor(final String host, final String port, final ActorRef router) {
         this.host = host;
         this.port = port;
-
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(CentralMessageBroker.class));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
-        router = new Router(new RoundRobinRoutingLogic(), routees);
-
+        this.router = router;
     }
 
     @Override
@@ -102,28 +87,46 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         }
     }
 
-    private void sendMessage(Envelope envelope) throws MqttException {
-        MqttMessage message = new MqttMessage();
-        message.setQos(envelope.getQos());
-        message.setRetained(true);
-        String publicKey = Controlador.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
-        message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
-        client.publish(envelope.getDestino(), message);
+    private void sendMessage(Envelope envelope) {
+        try {
+            MqttMessage message = new MqttMessage();
+            message.setQos(envelope.getQos());
+            message.setRetained(false);
+            if (envelope.isCriptografado()) {
+                String publicKey = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorPublicKey();
+                message.setPayload(GzipUtil.compress(envelope.toJsonCriptografado(publicKey)));
+            } else {
+                message.setPayload(envelope.toJson().getBytes());
+            }
+            client.publish(envelope.getDestino(), message);
+
+        } catch (Exception e) {
+            getSelf().tell(e, getSelf());
+        }
     }
 
-    private void sendToBroker(MqttMessage message) throws MqttException {
+    private void sendToBroker(MqttMessage message) {
+        try {
+            String parsedBytes = new String(GzipUtil.decompress(message.getPayload()));
+            Map msg = new Gson().fromJson(parsedBytes, Map.class);
+            String privateKey = ControladorFisico.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
+            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
+
+            router.tell(envelope, getSelf());
+
+        } catch (Exception e) {
+            getSelf().tell(e, getSelf());
+        }
+
+    }
+
+    private void sendToBrokerFromApp(MqttMessage message) {
         try {
             String parsedBytes = new String(message.getPayload());
             Map msg = new Gson().fromJson(parsedBytes, Map.class);
-            String privateKey = Controlador.find.byId(UUID.fromString(msg.get("idControlador").toString())).getCentralPrivateKey();
-            Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
-
-            router.route(envelope, getSelf());
-
-        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (com.google.gson.JsonSyntaxException e) {
-            e.printStackTrace();
+            router.tell(new Pair<String, StatusPacoteTransacao>(msg.get("transacaoId").toString(), StatusPacoteTransacao.valueOf(msg.get("acao").toString())), getSelf());
+        } catch (Exception e) {
+            getSelf().tell(e, getSelf());
         }
 
     }
@@ -132,6 +135,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
+        opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
         client.setCallback(this);
         client.connect(opts);
@@ -143,19 +147,20 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
                 Duration.create(5000, TimeUnit.MILLISECONDS), getSelf(), "Tick", getContext().dispatcher(), null);
         }
 
-        subscribe("controladores/conn/online");
-        subscribe("controladores/conn/offline");
-        subscribe("central/transacoes/+");
-        subscribe("central/alarmes_falhas/+");
-        subscribe("central/troca_plano/+");
-        subscribe("central/info");
-        subscribe("central/+");
-
+        subscribe("controladores/conn/online", QoS.AT_LEAST_ONCE.ordinal());
+        subscribe("controladores/conn/offline", QoS.AT_LEAST_ONCE.ordinal());
+        subscribe("central/transacoes/+", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/alarmes_falhas", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/troca_plano", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/configuracao", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/mudanca_status_controlador", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/info", QoS.AT_LEAST_ONCE.ordinal());
+        subscribe("central/app/transacoes/+", QoS.AT_LEAST_ONCE.ordinal());
     }
 
-    private void subscribe(String route) throws MqttException {
-        client.subscribe(route, QoS.EXACTLY_ONCE.ordinal(), this);
 
+    private void subscribe(String route, int qos) throws MqttException {
+        client.subscribe(route, qos, this);
     }
 
     @Override
@@ -171,7 +176,11 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        sendToBroker(message);
+        if (topic.startsWith("central/app/transacoes/")) {
+            sendToBrokerFromApp(message);
+        } else {
+            sendToBroker(message);
+        }
     }
 
     @Override

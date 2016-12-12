@@ -227,7 +227,6 @@ public class ControladorCustomSerializer {
 
     public JsonNode getPacoteConfiguracaoJson(Controlador controlador, List<Cidade> cidades, RangeUtils rangeUtils) {
         controlador.setVersoesTabelasHorarias(null);
-        controlador.setVersaoControlador(null);
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
             anel.setVersoesPlanos(null);
             anel.setVersaoPlanoAtivo(new VersaoPlano());
@@ -264,6 +263,14 @@ public class ControladorCustomSerializer {
                     });
                 }
             }
+        }
+        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria() != null) {
+            tabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria().getTabelaHoraria());
+        }
+        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos() != null) {
+            controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos().forEach(evento -> {
+                eventosMap.put(evento.getIdJson(), evento);
+            });
         }
         putControladorVersoesTabelasHorarias(root);
         putControladorTabelasHorarias(root);
@@ -378,6 +385,7 @@ public class ControladorCustomSerializer {
     private void putControladorDadosIndex(Controlador controlador, ObjectNode root) {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
+            root.put("controladorFisicoId", controlador.getControladorFisicoId());
         }
         if (controlador.getIdJson() != null) {
             root.put(ID_JSON, controlador.getIdJson());
@@ -409,7 +417,11 @@ public class ControladorCustomSerializer {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
             refVersoesTabelasHorarias("versoesTabelasHorarias", controlador.getVersoesTabelasHorarias(), root);
+
+            root.put("controladorFisicoId", controlador.getControladorFisicoId());
         }
+
+
         if (controlador.getIdJson() != null) {
             root.put(ID_JSON, controlador.getIdJson());
         }
@@ -541,6 +553,8 @@ public class ControladorCustomSerializer {
     private void putControladorMapa(Controlador controlador, ObjectNode root) {
         if (controlador.getId() != null) {
             root.put("id", controlador.getId().toString());
+
+            root.put("controladorFisicoId", controlador.getControladorFisicoId());
         }
 
         if (controlador.getArea() != null && controlador.getArea().getIdJson() != null) {

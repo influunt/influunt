@@ -4,7 +4,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Controlador;
+import models.ControladorFisico;
 import play.libs.Json;
 import protocol.DestinoApp;
 import protocol.Envelope;
@@ -31,7 +31,8 @@ public class AlarmeFalhaActorHandler extends UntypedActor {
 
                 String idAnel = null;
                 if (jsonConteudo.has("params") && jsonConteudo.get("params").has(0)) {
-                    idAnel = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()))
+                    idAnel = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador()))
+                        .getControladorSincronizado()
                         .findAnelByPosicao(jsonConteudo.get("params").get(0).asInt()).getId().toString();
                 }
 

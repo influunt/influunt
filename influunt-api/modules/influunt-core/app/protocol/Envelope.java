@@ -45,6 +45,7 @@ public class Envelope {
     private Object conteudo;
 
     private String emResposta;
+
     private Boolean criptografado = true;
 
     public Envelope(TipoMensagem tipoMensagem, String idControlador, String destino, int qos,

@@ -9,8 +9,11 @@ import play.libs.Json;
 public class MensagemImposicaoPlano {
 
     public int posicaoPlano;
+
     public int numeroAnel;
+
     public Long horarioEntrada;
+
     public int duracao;
 
     public MensagemImposicaoPlano(int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {

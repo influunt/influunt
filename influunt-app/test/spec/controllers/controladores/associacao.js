@@ -188,7 +188,7 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
       expect(scope.currentEstagios[2].idJson).toBe(3);
     });
   });
-  
+
   describe('getErros', function () {
     beforeEach(inject(function($timeout, handleValidations) {
       scope.objeto = {
@@ -233,24 +233,24 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
       };
       var error = [
         {
-          'root':'Controlador',
-          'message':'Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.',
-          'path':'aneis[0].gruposSemaforicos[2].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio'
+          root:'Controlador',
+          message:'Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.',
+          path:'aneis[0].gruposSemaforicos[2].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio'
         },
         {
-          'root':'Controlador',
-          'message':'Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.',
-          'path':'aneis[0].estagios[1].umGrupoSemaforicoVeicularEmDemandaPrioritaria'
+          root:'Controlador',
+          message:'Estágio de demanda prioritária deve ser associado a um grupo semafórico veicular.',
+          path:'aneis[0].estagios[1].umGrupoSemaforicoVeicularEmDemandaPrioritaria'
         },
         {
-          'root':'Controlador',
-          'message':'Existem grupos semafóricos conflitantes associados a esse estágio.',
-          'path':'aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes'
+          root:'Controlador',
+          message:'Existem grupos semafóricos conflitantes associados a esse estágio.',
+          path:'aneis[0].estagios[0].naoDevePossuirGruposSemaforicosConflitantes'
         },
         {
-          "root": "Controlador",
-          "message": "O anel ativo deve ter somente um estágio de demanda prioritária.",
-          "path": "aneis[0].somenteUmEstagioDeDemandaPrioritaria"
+          root: 'Controlador',
+          message: 'O anel ativo deve ter somente um estágio de demanda prioritária.',
+          path: 'aneis[0].somenteUmEstagioDeDemandaPrioritaria'
         }
       ];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
@@ -288,7 +288,7 @@ describe('Controller: ControladoresAssociacaoCtrl', function () {
       expect(scope.grupoSemaforicoTemErro(0, grupo)).toBeTruthy();
       expect(scope.getErrosGrupoSemaforico(0, grupo).naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio[0]).toBe('Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.');
     });
-    
+
   });
-  
+
 });
