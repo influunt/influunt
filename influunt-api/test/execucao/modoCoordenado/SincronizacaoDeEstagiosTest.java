@@ -95,7 +95,7 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void iniciadoControladorComDiferencaoNaSequenciaPartida() {
-        inicioExecucao = new DateTime(2016, 11, 15, 23, 30, 0, 0);
+        inicioExecucao = new DateTime(2016, 11, 15, 23, 20, 0, 0);
         instante = inicioExecucao;
         Motor motor = new Motor(controlador, inicioExecucao, this);
 
