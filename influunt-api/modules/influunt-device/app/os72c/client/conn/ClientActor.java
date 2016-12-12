@@ -9,6 +9,7 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import logger.InfluuntLogger;
+import logger.TipoLog;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
 import os72c.client.handlers.TransacaoManagerActorHandler;
@@ -30,10 +31,10 @@ public class ClientActor extends UntypedActor{
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
                     if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
-                        InfluuntLogger.log("MQTT perdeu a conexão com o broker. Restartando ator.");
+                        InfluuntLogger.log(TipoLog.COMUNICACAO,"MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else {
-                        InfluuntLogger.log("Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
+                        InfluuntLogger.log(TipoLog.COMUNICACAO,"Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();
                     }
                 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import engine.TipoEvento;
 import logger.InfluuntLogger;
+import logger.TipoLog;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -62,10 +63,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private synchronized void start() {
 
         if (!iniciado) {
-            InfluuntLogger.log("Verificando a configuração do controlador");
+            InfluuntLogger.log(TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
-                InfluuntLogger.log("Configuração encontrada");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"Configuração encontrada");
                 iniciado = true;
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
@@ -78,11 +79,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
-                InfluuntLogger.log("O controlador foi colocado em execução");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
 
             } else {
-                InfluuntLogger.log("Não existe configuração para iniciar o motor");
-                InfluuntLogger.log("O controlador será iniciado quando um configuração for recebida");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"Não existe configuração para iniciar o motor");
+                InfluuntLogger.log(TipoLog.INICIALIZACAO,"O controlador será iniciado quando um configuração for recebida");
             }
         }
     }
