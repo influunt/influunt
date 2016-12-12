@@ -43,11 +43,6 @@ angular.module('influuntApp')
                   scope.idsTransacoes[target] = transacaoId;
                   return scope.trackTransaction && transactionTracker(transacaoId);
                 });
-                // _.each(response.plain(), function(targets, transactionId) {
-//                   console.log('=====> ', transacaoId, controladorId)
-//                   scope.idsTransacoes[controladorId] = transacaoId;
-//                   return scope.trackTransaction && transactionTracker(transacaoId);
-//                 });
               })
               .finally(influuntBlockui.unblock);
           };

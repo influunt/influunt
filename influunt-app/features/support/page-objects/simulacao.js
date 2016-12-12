@@ -35,7 +35,7 @@ var SimulacaoPage = function () {
 
   this.selectBySelectOptionValueAtribute = function(campo, valor) {
     var _this = this;
-    var div = 'div [data-ng-show="alarmeControlador.alarme"]'
+    var div = 'div [data-ng-show="alarmeControlador.alarme"]';
     return _this.selectorBy(div, campo, valor, 'value');
   };
 

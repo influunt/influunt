@@ -10,28 +10,27 @@
 
                   <!-- transacao -->
                   <div class="form-group">
-                    <label class="control-label">Transação</label>
+                    <label class="control-label">{{ 'imporConfig.transacao' | translate }}</label>
                     <select name="subareas"
                             class="form-control"
                             data-ng-model="tipoTransacao">
-                      <option value="imposicao-plano">Impor Plano</option>
-                      <option value="imposicao-modo">Impor Modo</option>
-                      <option value="sincronizacao">Sincronizar</option>
+                      <option value="imposicao-plano">{{ 'imporConfig.plano.titulo' | translate }}</option>
+                      <option value="imposicao-modo">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
+                      <option value="sincronizacao">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
                     </select>
                   </div>
 
                   <!-- tempo máximo de permanência -->
                   <div class="form-group">
-                    <label class="ng-binding">Tempo máximo de espera</label>
+                    <label class="ng-binding">{{ 'imporConfig.tempoMaximoEspera' | translate }}</label>
                     <div class="input-group">
                       <input type="number" class="form-control" ng-model="dadosTransacao.tempoMaximoEspera" name="tempoMaximoEspera">
-                      <span class="input-group-addon ng-binding">Seg.</span>
+                      <span class="input-group-addon ng-binding">{{ 'geral.segundo' | translate }}</span>
                     </div>
                   </div>
 
                   <hr>
 
-                  <!-- <div data-ng-class="{collapse: teste}"> -->
                   <div>
                     <sincronizacao
                       aneis-selecionados="aneisSelecionadosObj"
@@ -57,7 +56,6 @@
 
                   <hr>
 
-                  <!-- <div data-ng-class="{collapse: !teste}"> -->
                   <div>
                     <ul>
                       <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter">
@@ -69,24 +67,22 @@
                       </li>
                     </ul>
                   </div>
-
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <!-- <div class="modal-footer text-center" data-ng-if="teste"> -->
       <div class="modal-footer text-center" data-ng-if="transacoesPendentes.length > 0">
         <button type="button"
             class="btn btn-primary"
             data-ng-click="continuar()">
-          Continuar
+          {{ 'imporConfig.continuar' | translate }}
         </button>
         <button type="button"
             class="btn btn-default btn-danger m-b-xs"
             data-ng-click="abortar()">
-          Abortar
+          {{ 'imporConfig.abortar' | translate }}
         </button>
       </div>
     </div>
