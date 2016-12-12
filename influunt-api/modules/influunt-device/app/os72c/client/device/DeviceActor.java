@@ -12,7 +12,6 @@ import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.Logger;
 import protocol.*;
-import scala.concurrent.duration.Duration;
 
 import java.util.List;
 import java.util.TreeSet;
