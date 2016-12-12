@@ -39,14 +39,6 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
             params.setInicioControlador(DateTime.parse(node.get("inicioControlador").asText(), ISODateTimeFormat.dateTimeParser()));
         }
 
-        if (node.has("inicioSimulacao")) {
-            params.setInicioSimulacao(DateTime.parse(node.get("inicioSimulacao").asText(), ISODateTimeFormat.dateTimeParser()));
-        }
-
-        if (node.has("fimSimulacao")) {
-            params.setFimSimulacao(DateTime.parse(node.get("fimSimulacao").asText(), ISODateTimeFormat.dateTimeParser()));
-        }
-
         if (node.has("disparoDetectores")) {
             List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
             for (JsonNode detector : node.get("disparoDetectores")) {

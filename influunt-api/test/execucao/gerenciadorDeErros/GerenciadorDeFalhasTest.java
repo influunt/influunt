@@ -22,9 +22,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void faseVermelhoGrupoSemaforicoApagado() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 60);
@@ -80,9 +79,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void detectorFaltaAcionamento() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(1)).findFirst().get();
@@ -194,9 +192,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void detectorAcionamentoDireto() {
-        inicioControlador = new DateTime(2016, 11, 14, 23, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 14, 23, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
@@ -230,9 +227,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void detectorPedestreFaltaAcionamento() {
-        inicioControlador = new DateTime(2016, 11, 14, 23, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 14, 23, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.PEDESTRE) && det.getPosicao().equals(1)).findFirst().get();
@@ -266,9 +262,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void detectorPedestreAcionamentoDireto() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Detector detector = anel.getDetectores().stream().filter(det -> det.getTipo().equals(TipoDetector.VEICULAR) && det.getPosicao().equals(1)).findFirst().get();
@@ -380,9 +375,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void desrespeitoAoTempoMaximoDePermanencia() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 60);
@@ -420,10 +414,9 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void verdesConflitantes() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
         controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador(true));
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 300);
@@ -435,9 +428,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void sequenciaDeCores() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 60);
@@ -474,9 +466,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void verdeConflitanteForcado() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
 
         //Avancar
@@ -553,9 +544,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void falhaWatchDog() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 60);
@@ -592,9 +582,8 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void falhaMemoria() {
-        inicioControlador = new DateTime(2016, 10, 18, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 60);

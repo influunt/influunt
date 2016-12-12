@@ -30,10 +30,9 @@ public class ImposicaoModoIntermitenteTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imposicaoAoLigarOControlador() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 26, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 26, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 1);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10),

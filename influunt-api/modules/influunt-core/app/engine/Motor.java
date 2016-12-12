@@ -41,14 +41,14 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Controlador controladorTemporario = null;
 
-    public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
+    public Motor(Controlador controlador, DateTime inicioControlador, MotorCallback callback) {
 
         this.callback = callback;
         this.controlador = controlador;
         this.inicioControlador = inicioControlador;
         this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
-        this.instante = inicioExecucao;
+        this.instante = inicioControlador;
 
         this.monitor = new MonitorDeFalhas(this, controlador.getAneis().stream().map(Anel::getDetectores)
             .flatMap(Collection::stream)
@@ -102,7 +102,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         if (iniciarGrupos) {
             estagios = new ArrayList<>();
             for (int i = 1; i <= planos.size(); i++) {
-                estagios.add(new GerenciadorDeEstagios(i, inicioControlador, instante, planos.get(i - 1), this, this));
+                estagios.add(new GerenciadorDeEstagios(i, instante, planos.get(i - 1), this, this));
             }
         }
 

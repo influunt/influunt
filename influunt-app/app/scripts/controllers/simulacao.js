@@ -43,8 +43,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     };
 
     $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
-    $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
-    $scope.fimSimulacao = { hora: '0', minuto: '5', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
 
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
@@ -201,23 +199,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       $scope.parametrosSimulacao.inicioControlador = dateMoment;
     }
   }, true);
-
-  $scope.$watch('inicioSimulacao', function(inicioSimulacao) {
-    if (inicioSimulacao && inicioSimulacao.date && inicioSimulacao.hora && inicioSimulacao.minuto && inicioSimulacao.segundo) {
-      var date = moment(inicioSimulacao.date);
-      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), inicioSimulacao.hora, inicioSimulacao.minuto, inicioSimulacao.segundo);
-      $scope.parametrosSimulacao.inicioSimulacao = dateMoment;
-    }
-  }, true);
-
-  $scope.$watch('fimSimulacao', function(fimSimulacao) {
-    if (fimSimulacao && fimSimulacao.date && fimSimulacao.hora && fimSimulacao.minuto && fimSimulacao.segundo) {
-      var date = moment(fimSimulacao.date);
-      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), fimSimulacao.hora, fimSimulacao.minuto, fimSimulacao.segundo);
-      $scope.parametrosSimulacao.fimSimulacao = dateMoment;
-    }
-  }, true);
-
 
   calculaDisparo = function(disparo) {
     if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
@@ -439,11 +420,10 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   iniciarSimulacao = function(params, config) {
-    var inicioSimulacao = moment(params.inicioSimulacao),
-        fimSimulacao = moment(params.fimSimulacao),
+    var inicioControlador = moment(params.inicioControlador),
         velocidade = params.velocidade;
     $scope.simulacao = new influunt.components.Simulador(
-      inicioSimulacao, fimSimulacao, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
+      inicioControlador, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
     );
   };
 

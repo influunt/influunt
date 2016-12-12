@@ -28,9 +28,8 @@ public class MonitoraTempoMaximoEstagioTest extends GerenciadorDeTrocasTest {
 
         controlador = new ControladorCustomDeserializer().getControladorFromJson(Json.parse(controladorJson.toString()));
 
-        inicioControlador = new DateTime(2016, 12, 2, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 2, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 300);
 
@@ -86,10 +85,9 @@ public class MonitoraTempoMaximoEstagioTest extends GerenciadorDeTrocasTest {
 
         controlador = new ControladorCustomDeserializer().getControladorFromJson(Json.parse(controladorJson.toString()));
 
-        inicioControlador = new DateTime(2016, 12, 6, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 6, 0, 0, 0);
 
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 300);
 

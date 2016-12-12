@@ -17,8 +17,6 @@ import java.util.*;
  */
 public class GerenciadorDeEstagios implements EventoCallback {
 
-    private final DateTime inicioControlador;
-
     private final DateTime inicioExecucao;
 
     private final GerenciadorDeEstagiosCallback callback;
@@ -68,14 +66,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
-                                 DateTime inicioExecucao,
                                  Plano plano,
                                  GerenciadorDeEstagiosCallback callback,
                                  Motor motor) {
 
         this.anel = anel;
-        this.inicioControlador = inicioControlador;
-        this.inicioExecucao = inicioExecucao;
+        this.inicioExecucao = inicioControlador;
         this.callback = callback;
         this.motor = motor;
 

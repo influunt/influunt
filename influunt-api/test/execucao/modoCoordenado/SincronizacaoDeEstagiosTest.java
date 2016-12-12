@@ -33,10 +33,9 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaCorretaDePlanos() {
-        inicioControlador = new DateTime(2016, 11, 15, 22, 59, 30, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 15, 22, 59, 30, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 150);
 
@@ -64,10 +63,9 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void iniciadoControladorEmModoCoordenado() {
-        inicioControlador = new DateTime(2016, 11, 15, 23, 30, 0, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 15, 23, 30, 0, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 150);
 
@@ -97,10 +95,9 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void iniciadoControladorComDiferencaoNaSequenciaPartida() {
-        inicioControlador = new DateTime(2016, 11, 15, 23, 20, 0, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 15, 23, 30, 0, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 150);
 
@@ -127,10 +124,9 @@ public class SincronizacaoDeEstagiosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void iniciadoControladorComDiferencaoNaSequenciaPartidaSemAbatimento() {
-        inicioControlador = new DateTime(2016, 11, 15, 23, 10, 2, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 15, 23, 10, 2, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 150);
 
