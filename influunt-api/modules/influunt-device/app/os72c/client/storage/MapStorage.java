@@ -6,12 +6,15 @@ import br.org.mapdb.Serializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by leonardo on 9/13/16.
@@ -26,6 +29,12 @@ public class MapStorage implements Storage {
     private final HTreeMap<String, String> controlador;
 
     private final HTreeMap<String, String> keys;
+
+    private final HTreeMap<String, String> params;
+
+    private final HTreeMap<String, Boolean> falhas;
+
+    private final HTreeMap<String, Map<String,String>> tempData;
 
     @Inject
     public MapStorage(StorageConf storageConf) {
@@ -52,6 +61,29 @@ public class MapStorage implements Storage {
             .valueSerializer(Serializer.STRING)
             .layout(1, 2, 1)
             .createOrOpen();
+
+        this.params = this.db.hashMap("params")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        this.falhas = this.db.hashMap("falhas")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.BOOLEAN)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        this.tempData = this.db.hashMap("tempData")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.JAVA)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        if (!this.params.containsKey("horarioEntradaTabelaHoraria")) {
+            this.params.put("horarioEntradaTabelaHoraria", "-1");
+            db.commit();
+        }
     }
 
     @Override
@@ -162,6 +194,68 @@ public class MapStorage implements Storage {
     public void setCentralPublicKey(String publicKey) {
         this.keys.put("central", publicKey);
         db.commit();
+    }
+
+    @Override
+    public long getHorarioEntradaTabelaHoraria() {
+        return Long.valueOf(this.params.get("horarioEntradaTabelaHoraria"));
+    }
+
+    @Override
+    public void setHorarioEntradaTabelaHoraria(long horarioEntrada) {
+        this.params.put("horarioEntradaTabelaHoraria", String.valueOf(horarioEntrada));
+        db.commit();
+    }
+
+    @Override
+    public void addFalha(TipoEvento falha) {
+        this.falhas.put(falha.toString(), true);
+        this.status.put("status", StatusDevice.COM_FALHAS.toString());
+        db.commit();
+    }
+
+    @Override
+    public void removeFalha(TipoEvento falha) {
+        if (this.falhas.containsKey(falha.toString())) {
+            this.falhas.remove(falha.toString());
+            if (!emFalha()) {
+                this.status.put("status", StatusDevice.ATIVO.toString());
+            }
+            db.commit();
+        }
+    }
+
+    @Override
+    public boolean emFalha() {
+        return this.falhas.size() > 0;
+    }
+
+    @Override
+    public void setTempData(String id,String key, String value) {
+        Map<String,String> map = null;
+
+        if(!this.tempData.containsKey(id)){
+            map = new HashMap<>();
+        }else{
+            map = this.tempData.get(id);
+        }
+
+        map.put(key,value);
+        this.tempData.put(id,map);
+        db.commit();
+    }
+
+    @Override
+    public String getTempData(String id,String key) {
+        return this.tempData.get(id).get(key);
+    }
+
+    @Override
+    public void clearTempData(String id) {
+        if(this.tempData.containsKey(id)) {
+            this.tempData.get(id).clear();
+            db.commit();
+        }
     }
 
 }

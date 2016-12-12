@@ -89,8 +89,8 @@ angular.module('influuntApp')
 
         var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
         controladores.forEach(function(controlador) {
-          controlador.status = $scope.statusObj.status[controlador.id];
-          controlador.online = !!$scope.statusObj.onlines[controlador.id];
+          controlador.status = $scope.statusObj.status[controlador.controladorFisicoId];
+          controlador.online = !!$scope.statusObj.onlines[controlador.controladorFisicoId];
 
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
           $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
@@ -134,7 +134,7 @@ angular.module('influuntApp')
 
       atualizaErros = function() {
         $scope.listaControladores.forEach(function(controlador) {
-          var erros = _.chain($scope.statusObj.erros).filter({idControlador: controlador.id}).sort('data', 'desc').value();
+          var erros = _.chain($scope.statusObj.erros).filter({idControlador: controlador.controladorFisicoId}).sort('data', 'desc').value();
           controlador.erros = null;
           controlador.aneis.forEach(function(a) { a.erros = null; });
 

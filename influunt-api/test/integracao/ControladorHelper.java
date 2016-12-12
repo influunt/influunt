@@ -58,7 +58,16 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         controlador.setStatusVersao(StatusVersao.CONFIGURADO);
 
+        VersaoControlador versaoControlador = controlador.getVersaoControlador();
+
+        ControladorFisico controladorFisico = versaoControlador.getControladorFisico();
+        controladorFisico.criarChaves();
+
+        controladorFisico.addVersaoControlador(versaoControlador);
+        controladorFisico.setArea(controlador.getArea());
+
         controlador.save();
+        controladorFisico.save();
 
         return controlador;
     }
@@ -632,7 +641,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
     private void criaVersaoPlanos(Anel anel) {
         VersaoPlano versaoPlano = new VersaoPlano(anel, getUsuario());
-        versaoPlano.setStatusVersao(StatusVersao.ATIVO);
+        versaoPlano.setStatusVersao(StatusVersao.SINCRONIZADO);
         anel.addVersaoPlano(versaoPlano);
         versaoPlano.save();
     }
@@ -796,7 +805,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosTabelaHoraria() {
         TabelaHorario tabelaHoraria = new TabelaHorario();
         VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
-        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.SINCRONIZADO);
         tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
@@ -851,7 +860,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosTabelaHorariaMicro() {
         TabelaHorario tabelaHoraria = new TabelaHorario();
         VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
-        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.SINCRONIZADO);
         tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 
@@ -871,7 +880,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
     private void setDadosTabelaHorariaMicro2() {
         TabelaHorario tabelaHoraria = new TabelaHorario();
         VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
-        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.SINCRONIZADO);
         tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 

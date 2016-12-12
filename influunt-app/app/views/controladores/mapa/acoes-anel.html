@@ -57,17 +57,21 @@
       <div class="ibox-content">
         <h3>{{ 'controladores.mapaControladores.acoes' | translate }}</h3>
 
-        <imposicao-plano
+        <imposicao-plano-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
             track-transaction="true">
-        </imposicao-plano>
-        <imposicao-modo
+        </imposicao-plano-popup>
+        <imposicao-modo-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
             track-transaction="true">
-        </imposicao-modo>
-        <sincronizacao aneis-selecionados="[currentAnel]" ids-transacoes="{}" track-transaction="true"></sincronizacao>
+        </imposicao-modo-popup>
+        <sincronizacao-popup
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}"
+            track-transaction="true">
+        </sincronizacao-popup>
       </div>
     </div>
   </div>

@@ -49,7 +49,6 @@ lazy val influuntCentral = (project in file(".")).enablePlugins(PlayJava, PlayEb
       //      "io.kamon" % "sigar-loader" % "1.6.6-rev002",
       "org.scream3r" % "jssc" % "2.8.0",
       "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
-      "org.fusesource.mqtt-client" % "mqtt-client" % "1.14",
       "com.google.code.gson" % "gson" % "2.7",
       "com.google.guava" % "guava" % "19.0"),
     javaOptions in run ++= Seq(

@@ -376,12 +376,12 @@ public class ControladorTestUtil {
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
         VersaoPlano versaoPlanoAnel2Estagios = new VersaoPlano(anelCom2Estagios, getUsuario());
-        versaoPlanoAnel2Estagios.setStatusVersao(StatusVersao.ATIVO);
+        versaoPlanoAnel2Estagios.setStatusVersao(StatusVersao.SINCRONIZADO);
         anelCom2Estagios.addVersaoPlano(versaoPlanoAnel2Estagios);
         versaoPlanoAnel2Estagios.save();
 
         VersaoPlano versaoPlanoAnel4Estagios = new VersaoPlano(anelCom4Estagios, getUsuario());
-        versaoPlanoAnel4Estagios.setStatusVersao(StatusVersao.ATIVO);
+        versaoPlanoAnel4Estagios.setStatusVersao(StatusVersao.SINCRONIZADO);
         anelCom4Estagios.addVersaoPlano(versaoPlanoAnel4Estagios);
         versaoPlanoAnel4Estagios.save();
 
@@ -457,7 +457,7 @@ public class ControladorTestUtil {
 
         TabelaHorario tabelaHoraria = new TabelaHorario();
         VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria(controlador, null, tabelaHoraria, getUsuario());
-        versaoTabelaHoraria.setStatusVersao(StatusVersao.ATIVO);
+        versaoTabelaHoraria.setStatusVersao(StatusVersao.SINCRONIZADO);
         tabelaHoraria.setVersaoTabelaHoraria(versaoTabelaHoraria);
         controlador.addVersaoTabelaHoraria(versaoTabelaHoraria);
 

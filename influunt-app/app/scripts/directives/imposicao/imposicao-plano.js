@@ -10,14 +10,16 @@ angular.module('influuntApp')
   .directive('imposicaoPlano', ['HorariosService', 'imposicoesService', '$filter',
       function (HorariosService, imposicoesService, $filter) {
       return {
-        templateUrl: 'views/directives/imposicoes/imposicao-plano.html',
+        templateUrl: 'views/directives/imposicoes/imposicao-plano-form.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
           idsTransacoes: '=',
-          trackTransaction: '='
+          trackTransaction: '=',
+          dismissOnSubmit: '=',
+          timeout: '='
         },
-        link: function postLink(scope) {
+        link: function postLink(scope, el) {
           scope.LIMITE_MINIMO_DURACAO = imposicoesService.LIMITE_MINIMO_DURACAO;
           scope.LIMITE_MAXIMO_DURACAO = imposicoesService.LIMITE_MAXIMO_DURACAO;
 
@@ -30,6 +32,7 @@ angular.module('influuntApp')
 
           var getControladores;
           scope.imporPlano = function() {
+            scope.configuracao.timeout = scope.timeout;
             scope.idsTransacoes = {};
             return imposicoesService.imposicao('plano', scope.configuracao, scope.idsTransacoes);
           };
@@ -44,13 +47,33 @@ angular.module('influuntApp')
 
           scope.$watch('aneisSelecionados', function(aneisSelecionados) {
             if (_.isArray(aneisSelecionados)) {
-              scope.configuracao.aneis = _.map(aneisSelecionados, 'id');
+              scope.configuracao.aneisIds = _.map(aneisSelecionados, 'id');
             }
           }, true);
 
           getControladores = function() {
             return _.chain(scope.aneisSelecionados).map('controlador.id').uniq().value();
           };
+
+          $(el).find('#impor-plano-submit').on('click', function() {
+            if (scope.dismissOnSubmit) {
+              $('#modal-impor-plano').modal('toggle');
+            }
+          });
         }
       };
-    }]);
+    }])
+
+  .directive('imposicaoPlanoPopup', [function () {
+    return {
+      templateUrl: 'views/directives/imposicoes/imposicao-plano-popup.html',
+      restrict: 'E',
+      scope: {
+        aneisSelecionados: '=',
+        idsTransacoes: '=',
+        trackTransaction: '='
+      }
+    };
+  }])
+;
+

@@ -16,8 +16,11 @@ import java.util.TreeSet;
 public class InfluuntLogger {
 
     public static Logger logger = (Logger) LoggerFactory.getLogger("Influunt");
+
     public static Logger loggerOficial = (Logger) LoggerFactory.getLogger("OficialInfluunt");
+
     public static TreeSet<TipoEvento> eventosLogaveis = new TreeSet<>();
+
     public static InfluuntLogAppender appender;
 
     private static boolean compact = false;

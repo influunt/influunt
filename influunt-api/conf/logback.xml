@@ -25,7 +25,7 @@
   </appender>
 
   <logger name="play" level="WARN" />
-  <logger name="application" level="INFO" />
+  <logger name="application" level="WARN" />
   <logger name="org.hibernate.type" level="WARN" />
   <logger name="org.hibernate" level="WARN" />
   <logger name="org.hibernate.SQL"  level="WARN" />

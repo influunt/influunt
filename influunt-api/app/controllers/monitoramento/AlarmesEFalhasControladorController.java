@@ -57,6 +57,15 @@ public class AlarmesEFalhasControladorController {
         } else {
             return CompletableFuture.completedFuture(ok(Json.toJson(alarmesFalhasControlador)));
         }
+    }
 
+    public CompletionStage<Result> historicoFalha(String id, String pagina, String tamanho) {
+        List<AlarmesFalhasControlador> alarmesFalhasControlador = AlarmesFalhasControlador.historicoFalha(id, Integer.valueOf(pagina),
+            Integer.valueOf(tamanho));
+        if (alarmesFalhasControlador == null) {
+            return CompletableFuture.completedFuture(notFound());
+        } else {
+            return CompletableFuture.completedFuture(ok(Json.toJson(alarmesFalhasControlador)));
+        }
     }
 }

@@ -1,6 +1,7 @@
 package os72c.client.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import engine.TipoEvento;
 import models.Controlador;
 import models.StatusDevice;
 
@@ -32,7 +33,6 @@ public interface Storage {
 
     public void setPlanosStaging(JsonNode plano);
 
-
     public String getPrivateKey();
 
     public void setPrivateKey(String publicKey);
@@ -40,4 +40,20 @@ public interface Storage {
     public String getCentralPublicKey();
 
     public void setCentralPublicKey(String publicKey);
+
+    public long getHorarioEntradaTabelaHoraria();
+
+    public void setHorarioEntradaTabelaHoraria(long horarioEntrada);
+
+    public void addFalha(TipoEvento falha);
+
+    public void removeFalha(TipoEvento falha);
+
+    public boolean emFalha();
+
+    public void setTempData(String id, String key, String value);
+
+    public String getTempData(String id,String key);
+
+    public void clearTempData(String id);
 }

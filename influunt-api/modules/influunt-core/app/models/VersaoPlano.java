@@ -193,7 +193,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     public boolean isAtivo() {
-        return StatusVersao.ATIVO.equals(this.getStatusVersao());
+        return StatusVersao.SINCRONIZADO.equals(this.getStatusVersao());
     }
 
     public boolean isEditando() {
@@ -205,7 +205,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     public void ativar() {
-        setStatusVersao(StatusVersao.ATIVO);
+        setStatusVersao(StatusVersao.SINCRONIZADO);
     }
 
     public void finalizar() {

@@ -71,7 +71,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         }
 
         if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado()) {
-            if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano)){
+            if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano)) {
                 //Compensação de diferença entre entreverdes
                 final Long tempoEntreVerdeDoPlano = tabelaDeTemposEntreVerde.get(
                     new Pair<Integer, Integer>(this.plano.getEstagioAnterior(estagioPlano).getPosicao(), estagioAtual.getPosicao()));
@@ -94,7 +94,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                 }
 
                 tempoAbatimentoCoordenado -= abatimento;
-            }else if (tempoAbatimentoCoordenado < 0) {
+            } else if (tempoAbatimentoCoordenado < 0) {
                 tempoVerde -= tempoAbatimentoCoordenado;
                 tempoAbatimentoCoordenado = 0L;
 

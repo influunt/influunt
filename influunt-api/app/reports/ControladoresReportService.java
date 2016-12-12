@@ -171,10 +171,10 @@ public class ControladoresReportService extends ReportService<Controlador> {
         List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         falhas.forEach(falha -> {
-            String idControlador = falha.getIdControlador();
+            String idControladorFisico = falha.getIdControlador();
             Controlador controlador;
             Anel anel = null;
-            controlador = controladores.stream().filter(c -> c.getId().toString().equals(idControlador)).findFirst().orElse(null);
+            controlador = controladores.stream().filter(c -> c.getControladorFisicoId().equals(idControladorFisico)).findFirst().orElse(null);
             if (controlador != null) {
                 if (falha.getIdAnel() != null && StringUtils.isNotEmpty(falha.getIdAnel())) {
                     String idAnel = falha.getIdAnel();
@@ -267,12 +267,12 @@ public class ControladoresReportService extends ReportService<Controlador> {
             }
         }
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
-        List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
+        List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(c -> c.getControladorFisicoId()).collect(Collectors.toList()));
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         logs.forEach(log -> {
             if (tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
-                Controlador controlador = controladores.stream().filter((c -> c.getId().toString().equals(log.getIdControlador()))).findFirst().get();
+                Controlador controlador = controladores.stream().filter((c -> c.getControladorFisicoId().equals(log.getIdControlador()))).findFirst().get();
                 itens.addObject().put("horario", log.getTimestamp()).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
                     .put("tipo", log.getTipoLogControlador().toString()).put("mensagem", log.getMensagem());
             }
