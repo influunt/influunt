@@ -25,7 +25,7 @@
   </appender>
 
   <logger name="play" level="WARN" />
-  <logger name="application" level="INFO" />
+  <logger name="application" level="WARN" />
   <logger name="org.hibernate.type" level="WARN" />
   <logger name="org.hibernate" level="WARN" />
   <logger name="org.hibernate.SQL"  level="WARN" />
@@ -57,7 +57,7 @@
   <logger name="org.jdbcdslog.StatementLogger"  level="OFF" /> <!-- Will logger all statements -->
   <logger name="org.jdbcdslog.ResultSetLogger"  level="OFF"  /> <!-- Won' logger result sets -->
 
-  <root level="INFO">
+  <root level="WARN">
     <appender-ref ref="ASYNCFILE" />
     <appender-ref ref="ASYNCSTDOUT" />
   </root>
