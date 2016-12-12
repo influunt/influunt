@@ -33,7 +33,6 @@ public class CentralMessageBroker extends UntypedActor {
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    System.out.println("[CentralMessageBroker] Um ator falhou");
                     t.printStackTrace();
                     return SupervisorStrategy.resume();
                 }

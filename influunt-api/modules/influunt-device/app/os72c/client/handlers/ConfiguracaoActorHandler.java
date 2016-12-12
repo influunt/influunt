@@ -29,7 +29,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO)) {
+            if (TipoMensagem.CONFIGURACAO.equals(envelope.getTipoMensagem())) {
                 if (envelope.getEmResposta() == null) {
                 } else {
                     Envelope envelopeSinal;

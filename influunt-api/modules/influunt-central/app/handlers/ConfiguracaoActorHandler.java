@@ -26,11 +26,11 @@ public class ConfiguracaoActorHandler extends UntypedActor {
     public void onReceive(Object message) {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO_INICIAL) && envelope.getEmResposta() == null) {
+            if (TipoMensagem.CONFIGURACAO_INICIAL.equals(envelope.getTipoMensagem()) && envelope.getEmResposta() == null) {
                 Envelope envelope1 = Configuracao.getMensagem(envelope);
                 log.info("[CENTRAL] - ENVIANDO CONFIGURACAO: " + envelope1.getTipoMensagem());
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope1, getSelf());
-            } else if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO_OK) && envelope.getEmResposta() != null) {
+            } else if (TipoMensagem.CONFIGURACAO_OK.equals(envelope.getTipoMensagem()) && envelope.getEmResposta() != null) {
                 ControladorFisico controladorFisico = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador()));
                 Controlador controladorConfigurado = controladorFisico.getControladorConfiguradoOuSincronizado();
                 controladorConfigurado.setSincronizado(true);

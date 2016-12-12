@@ -47,10 +47,4 @@ public class PacoteTransacaoManagerActorHandler extends UntypedActor {
             pacoteTransacoes.get(pair.getFirst()).tell(pair, getSelf());
         }
     }
-
-    @Override
-    public void postStop() throws Exception {
-        System.out.println("PacoteTransacaoManagerActorHandler MORREU");
-        super.postStop();
-    }
 }
