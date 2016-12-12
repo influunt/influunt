@@ -168,12 +168,6 @@ public class ControladorFisico extends Model implements Serializable {
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 
-//    public Controlador getControlador() {
-//        VersaoControlador versaoControlador = VersaoControlador.find.where()
-//            .eq("controlador_fisico_id", this.id.toString()).findUnique();
-//        return (versaoControlador != null) ? versaoControlador.getControlador() : null;
-//    }
-
     public Controlador getControladorConfiguradoOuAtivo() {
         VersaoControlador versaoControlador = this
             .getVersoes()

@@ -192,7 +192,6 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
         envelope.setCriptografado(false);
 
         getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
-        ;
     }
 
     private Envelope criarEnvelope(Transacao transacao) {

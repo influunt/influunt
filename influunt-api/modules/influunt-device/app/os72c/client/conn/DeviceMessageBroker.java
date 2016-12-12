@@ -81,12 +81,6 @@ public class DeviceMessageBroker extends UntypedActor {
     }
 
     @Override
-    public void postStop() throws Exception {
-        System.out.println("[DEVICE] [POST STOP] DeviceMessageBroker");
-        super.postStop();
-    }
-
-    @Override
     public SupervisorStrategy supervisorStrategy() {
         return strategy;
     }
