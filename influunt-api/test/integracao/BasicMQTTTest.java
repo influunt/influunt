@@ -13,6 +13,7 @@ import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import os72c.client.Client;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conf.TestDeviceConfig;
@@ -71,6 +72,8 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
     protected DeviceConfig deviceConfig;
 
+    @Rule
+    public JUnitRetry retry = new JUnitRetry(2);
 
     @Before
     public void setup() throws IOException, InterruptedException {

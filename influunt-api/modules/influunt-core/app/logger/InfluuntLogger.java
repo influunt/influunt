@@ -6,6 +6,7 @@ import ch.qos.logback.core.Context;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import org.slf4j.LoggerFactory;
+import status.Transacao;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -54,6 +55,9 @@ public class InfluuntLogger {
         } else {
             loggerOficial.info(tipoEvento.toString() + " - " + tipoEvento.getDescricao());
         }
+    }
+    public static void log(Transacao transacao) {
+        log(String.format("[CONN][%s]%s",transacao.getTipoTransacao(),transacao.getEtapaTransacao().getMessage()));
     }
 
     public static void log(EventoMotor eventoMotor) {

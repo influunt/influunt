@@ -32,7 +32,6 @@ public class DeviceMessageBroker extends UntypedActor {
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    System.out.println("[CentralMessageBroker] Um ator falhou");
                     t.printStackTrace();
                     return SupervisorStrategy.resume();
                 }
@@ -64,7 +63,6 @@ public class DeviceMessageBroker extends UntypedActor {
         if (message instanceof Envelope) {
 
             Envelope envelope = (Envelope) message;
-            System.out.println("DEVICE RECEBEU: " + envelope.getTipoMensagem());
             if (routers.containsKey(envelope.getTipoMensagem())) {
                 routers.get(envelope.getTipoMensagem()).route(envelope, getSender());
             } else if (envelope.getTipoMensagem().equals(TipoMensagem.TRANSACAO)) {

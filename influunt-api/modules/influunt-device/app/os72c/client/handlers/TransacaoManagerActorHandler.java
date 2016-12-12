@@ -37,12 +37,6 @@ public class TransacaoManagerActorHandler extends UntypedActor {
         this.storage = storage;
     }
 
-    @Override
-    public void preStart() throws Exception {
-        System.out.println("START TransacaoManagerActorHandler");
-        super.preStart();
-    }
-
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
@@ -69,9 +63,4 @@ public class TransacaoManagerActorHandler extends UntypedActor {
         }
     }
 
-    @Override
-    public void postStop() throws Exception {
-        System.out.println("STOP");
-        super.postStop();
-    }
 }

@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by rodrigosol on 7/7/16.
  */
-public class ClientActor extends UntypedActor {
+public class ClientActor extends UntypedActor{
 
     private static OneForOneStrategy strategy =
         new OneForOneStrategy(-1, Duration.Inf(),
@@ -34,7 +34,6 @@ public class ClientActor extends UntypedActor {
                         return SupervisorStrategy.stop();
                     } else {
                         InfluuntLogger.log("Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
-                        t.printStackTrace();
                         return SupervisorStrategy.resume();
                     }
                 }
@@ -115,6 +114,8 @@ public class ClientActor extends UntypedActor {
     public SupervisorStrategy supervisorStrategy() {
         return strategy;
     }
+
+
 }
 
 
