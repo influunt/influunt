@@ -2,6 +2,7 @@ package os72c.client.handlers.transacoes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.ModoOperacaoPlano;
+import org.joda.time.DateTime;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -63,7 +64,7 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
             int numeroAnel = payload.get("numeroAnel").asInt();
             Long horarioEntrada = payload.get("horarioEntrada").asLong();
             int duracao = payload.get("duracao").asInt();
-            return numeroAnel >= 1 && duracao >= 15 && duracao <= 600 && horarioEntrada > System.currentTimeMillis();
+            return numeroAnel >= 1 && duracao >= 15 && duracao <= 600 && horarioEntrada > DateTime.now().getMillis();
         } catch (Exception e) {
             return false;
         }

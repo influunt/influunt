@@ -72,7 +72,7 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
             transacoes.put(transacao.getTransacaoId(), transacao);
             individualTimeout.get(transacao.getTransacaoId()).cancel();
             analisaStatus();
-        } else if (message instanceof String && message.equals("GLOBAL_TIMEOUT")) {
+        } else if (message instanceof String && "GLOBAL_TIMEOUT".equals(message)) {
             finalizaPorTimeoutGlobal();
         } else if (message instanceof Pair<?, ?>) {
             Pair<?, ?> pair = (Pair<?, ?>) message;
@@ -192,7 +192,6 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
         envelope.setCriptografado(false);
 
         getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
-        ;
     }
 
     private Envelope criarEnvelope(Transacao transacao) {

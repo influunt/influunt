@@ -393,7 +393,7 @@ public class ControladoresController extends Controller {
                             .put("posicao", anel.getPosicao())
                             .put("endereco", anel.getEndereco().nomeEndereco())
                             .putPOJO("controlador", controlador)
-                            .putPOJO("controladorFisicoId", anel.getControlador().getControladorFisicoId())
+                            .put("controladorFisicoId", anel.getControlador().getControladorFisicoId())
                             .put("status", anel.getControlador().getStatusControladorReal().toString());
                     }
                 }
@@ -444,7 +444,6 @@ public class ControladoresController extends Controller {
             root.put("privateKey", controlador.getVersaoControlador().getControladorFisico().getControladorPrivateKey());
             root.put("publicKey", controlador.getVersaoControlador().getControladorFisico().getCentralPublicKey());
             root.put("idControlador", controlador.getControladorFisicoId());
-//            root.put("idControlador", controlador.getControladorFisicoId());
             return CompletableFuture.completedFuture(ok(root));
         }
     }

@@ -81,7 +81,6 @@ public class ServerActor extends UntypedActor {
 
     @Override
     public void postStop() throws Exception {
-        System.out.println("ServerActor MORREU");
         getContext().stop(actorPacoteTrasancaoManager);
         getContext().stop(router);
         getContext().stop(mqttCentral);
