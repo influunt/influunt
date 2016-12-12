@@ -32,7 +32,7 @@ public abstract class GenericPanelActionListener implements ActionListener {
     }
 
     public void onRemocaoFalha(String anel) {
-        if (!tipoRemocaoFalha.equals(TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL)) {
+        if(anel != null){
             controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoRemocaoFalha, Integer.valueOf(anel)));
         } else {
             controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoRemocaoFalha));

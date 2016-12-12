@@ -6,6 +6,7 @@ import ch.qos.logback.core.Context;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import org.slf4j.LoggerFactory;
+import status.Transacao;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -44,23 +45,26 @@ public class InfluuntLogger {
         loggerOficial.setLevel(Level.INFO);
     }
 
-    public static void log(String msg) {
-        loggerOficial.info(msg);
+    public static void log(TipoLog tipo, String msg) {
+        loggerOficial.info(String.format("[%s]%s",tipo,msg));
     }
 
-    public static void log(TipoEvento tipoEvento) {
+    public static void log(TipoLog tipo, TipoEvento tipoEvento) {
         if (compact) {
-            loggerOficial.info(tipoEvento.toString());
+            loggerOficial.info(String.format("[%s]%s",tipo,tipoEvento.toString()));
         } else {
-            loggerOficial.info(tipoEvento.toString() + " - " + tipoEvento.getDescricao());
+            loggerOficial.info(String.format("[%s]%s",tipo,tipoEvento.toString() + " - " + tipoEvento.getDescricao()));
         }
     }
+    public static void log(TipoLog tipoLog,Transacao transacao) {
+        log(tipoLog,String.format("[%s]%s",transacao.getTipoTransacao(),transacao.getEtapaTransacao().getMessage()));
+    }
 
-    public static void log(EventoMotor eventoMotor) {
+    public static void log(TipoLog tipoLog,EventoMotor eventoMotor) {
         if (compact) {
-            loggerOficial.info(eventoMotor.getTipoEvento().toString());
+            loggerOficial.info(String.format("[%s]%s",tipoLog,eventoMotor.getTipoEvento().toString()));
         } else {
-            loggerOficial.info(eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
+            loggerOficial.info(String.format("[%s]%s",tipoLog,eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
         }
     }
 }
