@@ -213,8 +213,15 @@ public class ControladorCustomDeserializer {
         return controlador;
     }
 
+
+    public Controlador getPacotePlanosFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+        JsonNode controladorJson = buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
+        return getControladorFromJson(controladorJson);
+    }
+
     private JsonNode buildControladorJsonFromPacotePlanos(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
         ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+
         for (JsonNode versaoPlanoJson : pacotePlanosJson.get("versoesPlanos")) {
             if (versaoPlanoJson.has("anel") && versaoPlanoJson.get("anel").has("idJson")) {
                 for (JsonNode anelNode : controladorJson.get("aneis")) {
@@ -229,12 +236,8 @@ public class ControladorCustomDeserializer {
         controladorJson.set("planos", pacotePlanosJson.get("planos"));
         controladorJson.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
         controladorJson.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
-        return controladorJson;
-    }
 
-    public Controlador getPacotesFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
-        JsonNode controladorJson = buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
-        return getControladorFromJson(controladorJson);
+        return controladorJson;
     }
 
     public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson) {
@@ -1820,4 +1823,5 @@ public class ControladorCustomDeserializer {
     private void runLater(Consumer<Map<String, Map>> c) {
         consumers.add(c);
     }
+
 }

@@ -6,10 +6,12 @@ import org.junit.Test;
 import protocol.Envelope;
 import status.StatusConexaoControlador;
 import utils.EncryptionUtil;
+import utils.GzipUtil;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -26,11 +28,11 @@ public class ConexaoTest extends BasicMQTTTest {
 
 
     @Test
-    public void centralDeveSeConectarAoServidorMQTT() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
+    public void centralDeveSeConectarAoServidorMQTT() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, IOException {
         //A central ao se conectar no servidor deve se inscrever em diversos tópicos
         startClient();
 
-        await().until(() -> StatusConexaoControlador.ultimoStatus(idControlador) != null);
+        await().until(() -> onSubscribeFutureList.size() > 7);
         //A central conectou
         assertEquals("central", onConnectFutureList.get(0));
 
@@ -43,25 +45,27 @@ public class ConexaoTest extends BasicMQTTTest {
         assertEquals("central/transacoes/+", onSubscribeFutureList.get(2));
 
         //A cliente se inscreve para receber informações de alarmes e falhas
-        assertEquals("central/alarmes_falhas/+", onSubscribeFutureList.get(3));
+        assertEquals("central/alarmes_falhas", onSubscribeFutureList.get(3));
 
         //A cliente se inscreve para receber informações de trocas de planos
-        assertEquals("central/troca_plano/+", onSubscribeFutureList.get(4));
+        assertEquals("central/troca_plano", onSubscribeFutureList.get(4));
 
         //A central se increveu para ler dados do controaldor
-        assertEquals("central/info", onSubscribeFutureList.get(5));
+        assertEquals("central/configuracao", onSubscribeFutureList.get(5));
 
+        //A central se increveu para ler dados do controaldor
+        assertEquals("central/mudanca_status_controlador", onSubscribeFutureList.get(6));
 
-        //A central se increveu para receber informação de central
-        assertEquals("central/+", onSubscribeFutureList.get(6));
+        //A central se increveu para ler dados do controaldor
+        assertEquals("central/info", onSubscribeFutureList.get(7));
 
         //O cliente se conectou
         assertEquals(idControlador, onConnectFutureList.get(1));
 
         //O cliente envio a CONTROLADOR_ONLINE
         //A central se increveu para receber informação de quando um controlador fica online
-        Map map = new Gson().fromJson(new String(onPublishFutureList.get(0)), Map.class);
-        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
+        Map map = new Gson().fromJson(GzipUtil.decompress(onPublishFutureList.get(0)), Map.class);
+        Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getVersaoControlador().getControladorFisico().getCentralPrivateKey()), Envelope.class);
 
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals("CONTROLADOR_ONLINE", envelope.getTipoMensagem().toString());

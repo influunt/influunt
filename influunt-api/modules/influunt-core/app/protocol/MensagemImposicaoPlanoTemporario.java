@@ -13,9 +13,13 @@ import play.libs.Json;
 public class MensagemImposicaoPlanoTemporario {
 
     public int posicaoPlano;
+
     public int numeroAnel;
+
     public Long horarioEntrada;
+
     public int duracao;
+
     public Plano planoTemporario;
 
     public MensagemImposicaoPlanoTemporario(String controladorId, int posicaoPlano, int numeroAnel, Long horarioEntrada, int duracao) {

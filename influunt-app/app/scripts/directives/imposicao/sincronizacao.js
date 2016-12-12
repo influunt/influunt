@@ -10,31 +10,37 @@ angular.module('influuntApp')
   .directive('sincronizacao', ['Restangular', 'influuntBlockui', '$filter', 'toast', 'mqttTransactionStatusService',
     function (Restangular, influuntBlockui, $filter, toast, mqttTransactionStatusService) {
       return {
-        templateUrl: 'views/directives/imposicoes/sincronizacao.html',
+        templateUrl: 'views/directives/imposicoes/sincronizacao-form.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
           idsTransacoes: '=',
-          trackTransaction: '='
+          trackTransaction: '=',
+          dismissOnSubmit: '=',
+          timeout: '='
         },
-        link: function sincronizacao(scope) {
+        link: function sincronizacao(scope, el) {
           var transactionTracker;
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
-            var resource, data;
-            if (scope.dataSincronizar.tipo.match(/tabela_horaria/)) {
+            var resource = scope.dataSincronizar.tipo;
+            var data = {
+              aneisIds: idsAneisSelecionados,
+              timeout: scope.timeout
+            };
+
+            if (resource.match(/tabela_horaria/)) {
               resource = 'tabela_horaria';
-              data = { aneis: idsAneisSelecionados };
               data.imediato = scope.dataSincronizar.tipo === 'tabela_horaria_imediato';
-            } else {
-              resource = scope.dataSincronizar.tipo;
-              data = idsAneisSelecionados;
             }
+
             return Restangular.one('imposicoes').customPOST(data, resource)
               .then(function(response) {
-                _.each(response.plain(), function(transacaoId, controladorId) {
-                  scope.idsTransacoes[controladorId] = transacaoId;
+                response = response.plain();
+                var transacaoId = Object.keys(response)[0];
+                _.each(response[transacaoId], function(target) {
+                  scope.idsTransacoes[target] = transacaoId;
                   return scope.trackTransaction && transactionTracker(transacaoId);
                 });
               })
@@ -52,6 +58,25 @@ angular.module('influuntApp')
                 }
               });
           };
+
+          $(el).find('#sincronizar-submit').on('click', function() {
+            if (scope.dismissOnSubmit) {
+              $('#modal-sincronizar').modal('toggle');
+            }
+          });
         }
       };
-    }]);
+    }])
+
+  .directive('sincronizacaoPopup', [function () {
+    return {
+      templateUrl: 'views/directives/imposicoes/sincronizacao-popup.html',
+      restrict: 'E',
+      scope: {
+        aneisSelecionados: '=',
+        idsTransacoes: '=',
+        trackTransaction: '='
+      }
+    };
+  }])
+;

@@ -78,7 +78,8 @@ public class MonitoramentoController extends Controller {
     }
 
     public CompletableFuture<Result> detalheControlador(String id) {
-        Controlador controlador = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().eq("id", id).findUnique();
+        ControladorFisico controladorFisico = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().eq("id", id).findUnique();
+        Controlador controlador = controladorFisico.getControladorSincronizado();
         List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControlador(id);
         Collections.reverse(status);
         Integer totalOnline = StatusConexaoControlador.tempoOnline(status);
@@ -126,7 +127,7 @@ public class MonitoramentoController extends Controller {
 
     @NotNull
     private ObjectNode controladoresToJson(HashMap<String, Object> controladoresStatus) {
-        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().in("id", controladoresStatus.keySet()).findList();
+        List<ControladorFisico> controladores = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().in("id", controladoresStatus.keySet()).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         controladores.forEach(controlador -> {
             LinkedHashMap status = ((LinkedHashMap) controladoresStatus.get(controlador.getId().toString()));
@@ -138,7 +139,7 @@ public class MonitoramentoController extends Controller {
                     motivoFalhaControlador = status.get("motivoFalhaControlador").toString();
                 }
             }
-            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco()).put("data", timestamp).put("motivoFalha", motivoFalhaControlador);
+            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getControladorSincronizado().getCLC()).put("endereco", controlador.getControladorSincronizado().getNomeEndereco()).put("data", timestamp).put("motivoFalha", motivoFalhaControlador);
         });
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.putArray("data").addAll(itens);

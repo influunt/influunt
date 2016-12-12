@@ -18,6 +18,8 @@ public class SearchFieldDefinition {
 
     public static final String IN = "in";
 
+    public static final String NE = "ne";
+
     private String fieldName;
 
     private String fieldOperator;

@@ -475,7 +475,7 @@ angular.module('influuntApp')
               if(erro && angular.isArray(erro.respeitaVerdesDeSeguranca)) {
                 erros.push(adicionaGrupoSemaforicoNaMensagemDeErro(index, erro.respeitaVerdesDeSeguranca[0]));
               }
-              
+
               if(erro && angular.isArray(erro.respeitaVerdesDeSegurancaSemDispensavel)) {
                 erros.push(adicionaGrupoSemaforicoNaMensagemDeErro(index, erro.respeitaVerdesDeSegurancaSemDispensavel[0]));
               }
@@ -500,8 +500,8 @@ angular.module('influuntApp')
           if (errosUltrapassaTempoCiclo) {
             _.each(errosUltrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
-                var texto = errosNoPlano.replace("{temposEstagios}", tempoEstagiosPlanos[$scope.currentAnelIndex][currentPlanoIndex])
-                  .replace("{tempoCiclo}", tempoCiclo[$scope.currentAnelIndex][currentPlanoIndex]);
+                var texto = errosNoPlano.replace('{temposEstagios}', tempoEstagiosPlanos[$scope.currentAnelIndex][currentPlanoIndex])
+                  .replace('{tempoCiclo}', tempoCiclo[$scope.currentAnelIndex][currentPlanoIndex]);
                 erros.push(texto);
               }
             });

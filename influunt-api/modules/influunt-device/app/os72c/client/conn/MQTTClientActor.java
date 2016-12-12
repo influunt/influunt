@@ -3,17 +3,13 @@ package os72c.client.conn;
 
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
-import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.routing.ActorRefRoutee;
-import akka.routing.RoundRobinRoutingLogic;
-import akka.routing.Routee;
 import akka.routing.Router;
 import com.google.gson.Gson;
 import logger.InfluuntLogger;
-import org.apache.commons.codec.DecoderException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
+import org.joda.time.DateTime;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
@@ -22,15 +18,9 @@ import protocol.ControladorOnline;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 import utils.EncryptionUtil;
+import utils.GzipUtil;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -58,22 +48,15 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
-    public MQTTClientActor(final String id, final String host, final String port, Storage storage) {
+    public MQTTClientActor(final String id, final String host, final String port, Storage storage, Router router) {
         this.id = id;
         this.host = host;
         this.port = port;
         this.storage = storage;
+        this.router = router;
 
         InfluuntLogger.logger.info("Iniciando a comunicacao MQTT");
         InfluuntLogger.logger.info("Criando referencia para o messagebroker");
-
-        List<Routee> routees = new ArrayList<Routee>();
-        for (int i = 0; i < 5; i++) {
-            ActorRef r = getContext().actorOf(Props.create(DeviceMessageBroker.class, this.id, this.storage));
-            getContext().watch(r);
-            routees.add(new ActorRefRoutee(r));
-        }
-        router = new Router(new RoundRobinRoutingLogic(), routees);
     }
 
     @Override
@@ -125,11 +108,17 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         opts = new MqttConnectOptions();
         opts.setAutomaticReconnect(false);
+        opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
-        opts.setWill(controladorOffline.getDestino(), controladorOffline.toJsonCriptografado(storage.getCentralPublicKey()).getBytes(), 1, true);
+        try {
+            opts.setWill(controladorOffline.getDestino(), GzipUtil.compress(controladorOffline.toJsonCriptografado(storage.getCentralPublicKey())), 1, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         client.setCallback(this);
         client.connect(opts);
@@ -142,35 +131,24 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
-        Envelope controladorOnline = ControladorOnline.getMensagem(id, System.currentTimeMillis(), "1.0", storage.getStatus());
+        Envelope controladorOnline = ControladorOnline.getMensagem(id, DateTime.now().getMillis(), "1.0", storage.getStatus());
         sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
     }
 
 
-    private void sendToBroker(MqttMessage message) throws MqttException {
-        String parsedBytes = new String(message.getPayload());
-
-        Map msg = new Gson().fromJson(parsedBytes, Map.class);
-
-        String privateKey = storage.getPrivateKey();
+    private void sendToBroker(MqttMessage message) {
         try {
+            String parsedBytes = GzipUtil.decompress(message.getPayload());
+
+            Map msg = new Gson().fromJson(parsedBytes, Map.class);
+
+            String privateKey = storage.getPrivateKey();
+
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
             router.route(envelope, getSender());
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            getSelf().tell(e, getSelf());
         }
 
     }
@@ -197,14 +175,19 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
+
     }
 
-    private void sendMessage(Envelope envelope) throws MqttException {
-        MqttMessage message = new MqttMessage();
-        message.setQos(envelope.getQos());
-        message.setRetained(true);
-        String publicKey = storage.getCentralPublicKey();
-        message.setPayload(envelope.toJsonCriptografado(publicKey).getBytes());
-        client.publish(envelope.getDestino(), message);
+    private void sendMessage(Envelope envelope) {
+        try {
+            MqttMessage message = new MqttMessage();
+            message.setQos(envelope.getQos());
+            message.setRetained(false);
+            String publicKey = storage.getCentralPublicKey();
+            message.setPayload(GzipUtil.compress(envelope.toJsonCriptografado(publicKey)));
+            client.publish(envelope.getDestino(), message);
+        } catch (Exception e) {
+            getSelf().tell(e, getSelf());
+        }
     }
 }

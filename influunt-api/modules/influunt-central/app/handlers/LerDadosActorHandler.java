@@ -3,7 +3,10 @@ package handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import protocol.*;
+import protocol.DestinoApp;
+import protocol.Envelope;
+import protocol.LerDadosControlador;
+import protocol.TipoMensagem;
 import utils.AtoresCentral;
 
 /**
@@ -17,7 +20,7 @@ public class LerDadosActorHandler extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if(envelope.getTipoMensagem().equals(TipoMensagem.LER_DADOS_CONTROLADOR) && (envelope.getEmResposta() == null)) {
+            if (envelope.getTipoMensagem().equals(TipoMensagem.LER_DADOS_CONTROLADOR) && (envelope.getEmResposta() == null)) {
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(LerDadosControlador.getMensagem(envelope), getSelf());
             } else {
                 envelope.setDestino(DestinoApp.dadosControlador(envelope.getIdControlador()));

@@ -227,7 +227,7 @@ public class VersaoControlador extends Model implements Serializable {
     }
 
     public void ativar() {
-        setStatusVersao(StatusVersao.ATIVO);
+        setStatusVersao(StatusVersao.SINCRONIZADO);
     }
 
     public void finalizar() {

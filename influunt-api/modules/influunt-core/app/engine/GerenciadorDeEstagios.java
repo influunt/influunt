@@ -51,6 +51,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private long contadorTempoEstagio = 0L;
 
+    private long contadorTempoCiclo = 0L;
+
     private int contadorEstagio = 0;
 
     private long contadorDeCiclos = 0L;
@@ -104,6 +106,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         contadorIntervalo += 100L;
         contadorTempoEstagio += 100L;
+        contadorTempoCiclo += 100L;
         tempoDecorrido += 100L;
 
         if (monitoraTempoMaximoDePermanenciaDoEstagio()) {
@@ -143,6 +146,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (this.agendamento != null && temQueExecutarOAgendamento()) {
                 reiniciaContadorEstagio();
                 contadorDeCiclos++;
+                contadorTempoCiclo = 0L;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
                 executaAgendamentoTrocaDePlano();
             } else if (this.plano.isModoOperacaoVerde() && estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
@@ -160,6 +164,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 }
 
                 contadorDeCiclos++;
+                contadorTempoCiclo = 0L;
                 callback.onCicloEnds(this.anel, contadorDeCiclos);
             } else {
                 geraIntervalos(contadorEstagio);
@@ -327,6 +332,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             reiniciaContadorEstagio();
             contadorIntervalo = 0L;
             contadorDeCiclos = 0L;
+            contadorTempoCiclo = 0L;
 
             if (inicio && listaEstagioPlanos.size() > 0) {
                 this.estagioPlanoAtual = listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
@@ -514,6 +520,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorEstagio = 0;
     }
 
+    public long getContadorTempoCiclo() {
+        return contadorTempoCiclo;
+    }
+
+    public int getContadorTempoCicloEmSegundos() {
+        return (int) (contadorTempoCiclo / 1000L);
+    }
+
     public IntervaloGrupoSemaforico getIntervalosGruposSemaforicos() {
         return new IntervaloGrupoSemaforico(intervaloGrupoSemaforicoAtual.getIntervaloEntreverde(), intervaloGrupoSemaforicoAtual.getIntervaloVerde());
     }
@@ -544,6 +558,24 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public RangeMap<Long, EventoMotor> getEventosAgendados() {
         return eventosAgendados;
+    }
+
+    public int getTempoRestanteDoEstagio() {
+        Long tempoEstagio = this.intervalos.getEntry(0L).getKey().upperEndpoint();
+        final Map.Entry<Range<Long>, IntervaloEstagio> verde = this.intervalos.getEntry(tempoEstagio + 1);
+        if (verde != null) {
+            tempoEstagio = verde.getKey().upperEndpoint();
+        }
+        return (int) ((tempoEstagio - contadorIntervalo) / 1000L);
+    }
+
+    public int getTempoRestanteDoCiclo() {
+        if (plano.getTempoCiclo() != null) {
+            return (int) (((plano.getTempoCiclo() * 1000L) - contadorTempoCiclo) / 1000L);
+        } else {
+            return 0;
+        }
+
     }
 
     private class GetIntervaloGrupoSemaforico {

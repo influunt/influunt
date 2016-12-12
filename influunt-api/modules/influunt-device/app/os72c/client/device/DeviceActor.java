@@ -4,22 +4,17 @@ import akka.actor.UntypedActor;
 import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
-import logger.InfluuntLogger;
-import models.Anel;
-import models.Controlador;
-import models.Evento;
-import models.TipoDetector;
+import engine.TipoEvento;
+import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.Logger;
-import protocol.AlarmeFalha;
-import protocol.Envelope;
-import protocol.RemocaoFalha;
-import protocol.TrocaPlanoEfetiva;
+import protocol.*;
 
 import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +31,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Controlador controlador;
 
+    private String id;
+
     private Motor motor;
 
     private DeviceBridge device;
@@ -46,10 +43,13 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private ScheduledFuture<?> executor;
 
+    private TreeSet<String> falhasAtuais = new TreeSet<>();
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device) {
+
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
         this.storage = mapStorage;
         this.device = device;
+        this.id = id;
         start();
     }
 
@@ -78,6 +78,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
                 Logger.info("O motor foi iniciado");
+
             } else {
                 Logger.info("Não existe configuração para iniciar o motor.");
                 Logger.warn("Aguardando configuração.");
@@ -86,12 +87,14 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private void sendAlarmeOuFalha(EventoMotor eventoMotor) {
-        Envelope envelope = AlarmeFalha.getMensagem(controlador.getId().toString(), eventoMotor);
+        Envelope envelope = AlarmeFalha.getMensagem(id, eventoMotor);
+        Logger.info("Enviando alarme ou falha");
         sendMessage(envelope);
     }
 
     private void sendRemocaoFalha(EventoMotor eventoMotor) {
-        Envelope envelope = RemocaoFalha.getMensagem(controlador.getId().toString(), eventoMotor);
+        Envelope envelope = RemocaoFalha.getMensagem(id, eventoMotor);
+        Logger.info("Enviando remoção de falha");
         sendMessage(envelope);
     }
 
@@ -107,11 +110,20 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onFalha(DateTime timestamp, EventoMotor eventoMotor) {
+        storage.addFalha(eventoMotor.getTipoEvento());
+        sendMessage(MudancaStatusControlador.getMensagem(id, StatusDevice.COM_FALHAS));
         sendAlarmeOuFalha(eventoMotor);
     }
 
     @Override
     public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
+        TipoEvento falha = CausaERemocaoEvento.getFalha(eventoMotor.getTipoEvento());
+        if (falha != null) {
+            storage.removeFalha(falha);
+            if (!storage.emFalha()) {
+                sendMessage(MudancaStatusControlador.getMensagem(id, StatusDevice.ATIVO));
+            }
+        }
         sendRemocaoFalha(eventoMotor);
     }
 
@@ -140,21 +152,22 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        Envelope envelope = TrocaPlanoEfetiva.getMensagem(controlador.getId().toString(), agendamentoTrocaPlano);
+        Envelope envelope = TrocaPlanoEfetiva.getMensagem(id, agendamentoTrocaPlano);
         sendMessage(envelope);
     }
 
     private void sendMessage(Envelope envelope) {
-        context.actorFor(AtoresDevice.mqttActorPath(controlador.getId().toString())).tell(envelope, getSelf());
+        context.actorFor(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
 
     @Override
     public void onReceive(Object message) throws Exception {
+        System.out.println(message);
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             System.out.println("Mensagem recebida no device actor: " + envelope.getTipoMensagem());
             switch (envelope.getTipoMensagem()) {
-                case OK:
+                case CONFIGURACAO_OK:
                     start();
                     break;
 
@@ -164,7 +177,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
                 case IMPOSICAO_DE_PLANO:
                     imporPlano(envelope.getConteudoParsed());
-                    Thread.sleep(1000);
                     break;
 
                 case LIBERAR_IMPOSICAO:
@@ -172,13 +184,16 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     break;
 
                 case TROCAR_TABELA_HORARIA:
-                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria");
                     trocarTabelaHoraria(false);
+
                     break;
 
                 case TROCAR_TABELA_HORARIA_IMEDIATAMENTE:
-                    InfluuntLogger.log("[DEVICE] onMudancaTabelaHoraria IMEDIATO!");
                     trocarTabelaHoraria(true);
+                    break;
+
+                case LER_DADOS_CONTROLADOR:
+                    enviaDadosAtualDoControlador(envelope);
                     break;
 
                 case ATUALIZAR_CONFIGURACAO:
@@ -186,6 +201,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     alterarControladorNoMotor();
                     break;
             }
+        }
+    }
+
+    private void enviaDadosAtualDoControlador(Envelope envelope) {
+        if (motor != null) {
+            sendMessage(LerDadosControlador.retornoLeituraDados(envelope, motor, storage.getStatus()));
         }
     }
 

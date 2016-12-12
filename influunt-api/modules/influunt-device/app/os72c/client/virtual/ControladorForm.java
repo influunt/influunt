@@ -271,12 +271,14 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnCPU.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_WATCH_DOG, null));
         btnMemoria.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_MEMORIA, null));
 
+        btnFocoApagado.addActionListener(new AnelActionListener(this, TipoEvento.FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA, TipoEvento.REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO));
+
         btnPortaPrincipal.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_ABERTURA_DA_PORTA_PRINCIPAL_DO_CONTROLADOR, TipoEvento.ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR));
         btnPortalDePainel.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR, TipoEvento.ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR));
         btnIntermitente.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_AMARELO_INTERMITENTE, null));
         btnSemaforoApagado.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_SEMAFORO_APAGADO, null));
         btnAcertoRelogio.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_ACERTO_RELOGIO_GPS, null));
-        btnFocoApagado.addActionListener(new AnelActionListener(this, TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA, TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO));
+
 
         btnInserirPlug.addActionListener(new ControladorActionListener(this, TipoEvento.INSERCAO_DE_PLUG_DE_CONTROLE_MANUAL, TipoEvento.RETIRADA_DE_PLUG_DE_CONTROLE_MANUAL));
         btnTrocarEstagio.addActionListener(new ControladorActionListener(this, TipoEvento.TROCA_ESTAGIO_MANUAL, null));
@@ -642,7 +644,7 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnTrocarEstagio.setText("Trocar Estágio");
         panel5.add(btnTrocarEstagio, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridLayoutManager(11, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel6.setLayout(new GridLayoutManager(12, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel5.add(panel6, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Falhas"));
         btnFaseVermelhaApagada = new JButton();
@@ -667,8 +669,8 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnMemoria.setText("Mémoria");
         panel6.add(btnMemoria, new GridConstraints(9, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel7 = new JPanel();
-        panel7.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel6.add(panel7, new GridConstraints(10, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel7.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel6.add(panel7, new GridConstraints(11, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         panel7.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Alarmes"));
         btnPortaPrincipal = new JButton();
         btnPortaPrincipal.setText("Porta Principal");
@@ -685,9 +687,6 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnAcertoRelogio = new JButton();
         btnAcertoRelogio.setText("Acerto Relógio");
         panel7.add(btnAcertoRelogio, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        btnFocoApagado = new JButton();
-        btnFocoApagado.setText("Foco Apagado");
-        panel7.add(btnFocoApagado, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnDetectorPedestreFalta = new JButton();
         btnDetectorPedestreFalta.setText("Detector Pedestre Falta");
         panel6.add(btnDetectorPedestreFalta, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -697,6 +696,9 @@ public class ControladorForm implements Sender, DeviceBridge {
         btnDetectorVeicularFalta = new JButton();
         btnDetectorVeicularFalta.setText("Detector Veícular Falta");
         panel6.add(btnDetectorVeicularFalta, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnFocoApagado = new JButton();
+        btnFocoApagado.setText("Foco Apagado");
+        panel6.add(btnFocoApagado, new GridConstraints(10, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

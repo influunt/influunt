@@ -22,9 +22,15 @@ angular.module('influuntApp')
           scope.liberarPlanoImposto = function() {
             return influuntAlert.confirm($filter('translate')('imporConfig.liberacao.confirmLiberarImposicao'))
               .then(function(res) {
-                return res && Restangular.all('imposicoes').all('liberar').post({anelId: scope.anel.id});
+                return res && Restangular.all('imposicoes')
+                  .all('liberar')
+                  .post({
+                    aneisIds: [scope.anel.id],
+                    timeout: 60
+                  });
               })
               .then(function(response) {
+                console.log(response);
                 _.each(response.plain(), function(transacaoId, id) {
                   scope.idsTransacoes[id] = transacaoId;
                   return transactionTracker(transacaoId);
@@ -34,15 +40,7 @@ angular.module('influuntApp')
           };
 
           transactionTracker = function(id) {
-            return mqttTransactionStatusService
-              .watchTransaction(id)
-              .then(function(transmitido) {
-                if (transmitido) {
-                  toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
-                } else {
-                  toast.warn($filter('translate')('imporConfig.liberacao.erro'));
-                }
-              });
+            toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
           };
         }
       };

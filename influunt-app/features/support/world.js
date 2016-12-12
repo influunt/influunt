@@ -65,7 +65,7 @@ var World = function () {
 
   this.getToastMessage = function() {
     var _this = this;
-    _this.sleep(300)
+    _this.sleep(300);
     return _this.getElementByXpath('//div[contains(@class, "toast-message")]').getText();
   };
 

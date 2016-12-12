@@ -12,6 +12,7 @@ angular.module('influuntApp')
     this.$get = ['$rootScope', 'pahoProvider', 'eventosDinamicos', 'Restangular', '$filter', 'toast', 'audioNotifier', '$q', '$state',
       function alarmesDinamicoService($rootScope, pahoProvider, eventosDinamicos, Restangular, $filter, toast, audioNotifier, $q, $state) {
 
+        var ALARME = 'ALARME';
         var FALHA = 'FALHA';
         var REMOCAO_FALHA = 'REMOCAO_FALHA';
 
@@ -20,8 +21,8 @@ angular.module('influuntApp')
 
         // métodos privados;
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
-            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, addFalha,
-            removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
+            trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, statusTransacaoWatcher,
+        addFalha, removeFalha, setStatus, trocaPlanosMapa, trocaPlanosDashboard;
         var statusObj, $$fnOnEventTriggered, controladores;
         var $$fnonClickToast = function(){};
 
@@ -33,6 +34,7 @@ angular.module('influuntApp')
               pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
+              pahoProvider.register(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
             });
         };
 
@@ -44,9 +46,9 @@ angular.module('influuntApp')
               pahoProvider.unregister(eventosDinamicos.TROCA_PLANO);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_ONLINE);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_OFFLINE);
+              pahoProvider.unregister(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
             });
         };
-
 
         // watchers.
         statusControladoresWatcher = function(payload) {
@@ -82,6 +84,7 @@ angular.module('influuntApp')
             var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
 
             switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
+              case ALARME:
               case FALHA:
                 return handleAlarmesEFalhas(mensagem, controlador, anel);
               case REMOCAO_FALHA:
@@ -118,6 +121,17 @@ angular.module('influuntApp')
             });
         };
 
+        statusTransacaoWatcher = function(payload) {
+          var mensagem = JSON.parse(payload);
+          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
+
+          statusObj.transacoes = statusObj.transacoes || {};
+          statusObj.transacoes[mensagem.idControlador] = {
+            id: mensagem.conteudo.id,
+            status: mensagem.conteudo.statusPacoteTransacao
+          };
+        };
+
         onlineOfflineWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
@@ -126,10 +140,10 @@ angular.module('influuntApp')
           return getControlador(mensagem.idControlador)
             .then(function(controlador) {
               var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
-              var status = isOnline ? (controlador.status || ONLINE) : OFFLINE;
+              var status = isOnline ? ONLINE : OFFLINE;
 
               statusObj.onlines[mensagem.idControlador] = isOnline;
-              statusObj.status[controlador.id] = status;
+              statusObj.status[mensagem.idControlador] = status;
               controlador.online = isOnline;
               controlador.status = status;
 
@@ -215,9 +229,15 @@ angular.module('influuntApp')
               'controladores.mapaControladores.alertas.controladorEmFalha',
               {CONTROLADOR: controlador.CLC}
             );
-            if (anel) {
-              msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
+
+            if (_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador') === ALARME) {
+              msg = $filter('translate')(
+                'controladores.mapaControladores.alertas.controladorEnviouAlerta',
+                {CONTROLADOR: controlador.CLC}
+              );
             }
+
+            msg = msg + ' - ' + _.get(mensagem, 'conteudo.descricaoEvento');
 
             exibirAlerta(msg, controlador);
           }
@@ -263,14 +283,17 @@ angular.module('influuntApp')
         };
 
         addFalha = function(mensagem, controlador, anel) {
-          var endereco = anel !== null ? anel.endereco : controlador.endereco;
-          endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+          var endereco;
+          if (!!anel) {
+            endereco = anel !== null ? anel.endereco : controlador.endereco;
+            endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
+          }
 
           var objErro = {
             cla: _.get(anel, 'CLA'),
             clc: controlador.CLC,
             data: mensagem.carimboDeTempo,
-            endereco: 'endereco',
+            endereco: endereco,
             idAnel: _.get(anel, 'id'),
             idControlador: controlador.id,
             descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento'),
@@ -286,7 +309,7 @@ angular.module('influuntApp')
           obj.status = status;
 
           if (!anel) {
-            statusObj.status[obj.id] = status;
+            statusObj.status[obj.controladorFisicoId] = status;
             controlador.aneis = controlador.aneis.map(function(anel) {
               anel.status = status;
               return anel;
@@ -297,7 +320,7 @@ angular.module('influuntApp')
         getControlador = function(idControlador) {
           var deferred = $q.defer();
           if (_.isArray(controladores) && controladores.length > 0) {
-            var controlador = _.find(controladores, {id: idControlador});
+            var controlador = _.find(controladores, {controladorFisicoId: idControlador});
             if (controlador) {
               deferred.resolve(controlador);
             } else {
@@ -306,6 +329,7 @@ angular.module('influuntApp')
           } else {
             Restangular
               .one('controladores', idControlador)
+              .one('status_dinamico', null)
               .get({}, {'x-prevent-block-ui': true})
               .then(deferred.resolve)
               .catch(deferred.reject);

@@ -13,12 +13,12 @@ public class DestinoCentral {
         return "central/configuracao";
     }
 
-    public final static String alarmeFalhaConfiguracao(String idControlador) {
-        return "central/alarmes_falhas/" + idControlador;
+    public final static String alarmeFalhaConfiguracao() {
+        return "central/alarmes_falhas";
     }
 
-    public final static String trocaDePlanoEfetiva(String idControlador) {
-        return "central/troca_plano/" + idControlador;
+    public final static String trocaDePlanoEfetiva() {
+        return "central/troca_plano";
     }
 
     public static String transacao(String idTransacao) {
