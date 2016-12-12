@@ -22,7 +22,7 @@ import java.util.Map;
 public class PacoteTransacaoManagerActorHandler extends UntypedActor {
     private final Map<String, ActorRef> pacoteTransacoes = new HashMap<>();
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
