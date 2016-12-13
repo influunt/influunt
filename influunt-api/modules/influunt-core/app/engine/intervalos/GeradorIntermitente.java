@@ -38,7 +38,9 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
             entreverde.getValue().isEntreverde() && !this.plano.isImpostoPorFalha()) {
             final IntervaloEstagio intervalo = entreverde.getValue();
             final Estagio estagio;
-            if (intervalo.getEstagioPlanoAnterior().getEstagio().getId() != null) {
+            if (intervalo.getEstagioPlanoAnterior().getEstagio().getId() != null &&
+                !plano.isImposto() &&
+                !plano.isImpostoPorFalha()) {
                 estagio = intervalo.getEstagioPlanoAnterior().getEstagio();
             } else {
                 estagio = intervalo.getEstagio();

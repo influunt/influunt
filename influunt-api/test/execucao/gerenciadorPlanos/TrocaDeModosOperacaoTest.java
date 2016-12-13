@@ -146,6 +146,12 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
         avancarSegundos(motor, 210);
 
         assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(3, 72).getPosicao().intValue());
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 4, listaEstagios.get(inicioExecucao.plusSeconds(53)).get(3).getEstagio().getPosicao().intValue());
+
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(72)).get(3).getEstagio().getPosicao());
         verificaGruposSemaforicos(72, new GrupoCheck(3, 11, 0, 11000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(72, new GrupoCheck(3, 11, 11000, 14000, EstadoGrupoSemaforico.VERMELHO));
