@@ -262,13 +262,13 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.")
     public boolean isNumeroEstagiosEmModoManualOk() {
         if (isManual()) {
-            final int totalEstagios = getEstagiosPlanos().size();
+            final long totalEstagios = getEstagiosPlanos().stream().filter(ep -> !ep.isDestroy()).count();
             return getAnel().getControlador().getAneis().stream()
                 .filter(anel -> anel.isAtivo() && anel.isAceitaModoManual())
                 .map(Anel::getPlanos)
                 .flatMap(Collection::stream)
                 .filter(plano -> plano != null && plano.isManual())
-                .allMatch(plano -> plano.getEstagiosPlanos().size() == totalEstagios);
+                .allMatch(plano -> plano.getEstagiosPlanos().stream().filter(ep -> !ep.isDestroy()).count() == totalEstagios);
         }
         return true;
     }
@@ -477,7 +477,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public List<EstagioPlano> getEstagiosOrdenados() {
-        return getEstagiosPlanos().stream().sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).collect(Collectors.toList());
+        return getEstagiosPlanos().stream().filter(ep -> !ep.isDestroy()).sorted((e1, e2) -> e1.getPosicao().compareTo(e2.getPosicao())).collect(Collectors.toList());
     }
 
     public List<EstagioPlano> ordenarEstagiosPorPosicaoSemEstagioDispensavel() {
