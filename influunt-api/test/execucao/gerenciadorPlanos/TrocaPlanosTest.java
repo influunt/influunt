@@ -34,9 +34,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaPlanoNormalSabadoTest() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 5, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 5, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -45,9 +44,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     @Test
     public void entradaPlanoNormalDomingoTest() throws IOException {
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 11, 6, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 6, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 7, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -56,9 +54,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     @Test
     public void entradaPlanoNormalSegundaTest() throws IOException {
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2016, 11, 7, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 7, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 6, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -66,9 +63,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaPlanoEspecialRecorrenteNaDataTest() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 25, 7, 59, 59);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 12, 25, 7, 59, 59);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -77,9 +73,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaPlanoEspecialRecorrenteNaDataTest() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 25, 23, 59, 59);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 12, 25, 23, 59, 59);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 11, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -88,9 +83,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void planoEspecialRecorrenteNaDataEmOutroAnoTest() throws IOException {
-        inicioControlador = new DateTime(2017, 12, 25, 7, 59, 59);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2017, 12, 25, 7, 59, 59);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -99,9 +93,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaPlanoEspecialNaoRecorrenteTest() throws IOException {
-        inicioControlador = new DateTime(2017, 3, 15, 7, 59, 59);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2017, 3, 15, 7, 59, 59);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -110,9 +103,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaPlanoEspecialNaoRecorrenteTest() throws IOException {
-        inicioControlador = new DateTime(2017, 3, 15, 23, 59, 59);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2017, 3, 15, 23, 59, 59);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 12, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -122,9 +114,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     @Test
     public void planoEspecialNaoRecorrenteNaoDeveEntrarEmOutroAnoTest() throws IOException {
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2018, 3, 15, 7, 59, 59);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2018, 3, 15, 7, 59, 59);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarMinutos(motor, 1);
 
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
@@ -135,9 +126,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     public void comAlteracaoTabelaHorariaImediata() throws IOException {
         Controlador controladorComMudanca = new ControladorHelper().setPlanosComTabelaHorariaMicro2(new ControladorHelper().getControlador());
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2018, 3, 15, 7, 59, 50);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2018, 3, 15, 7, 59, 50);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarSegundos(motor, 5);
         motor.setControladorTemporario(controladorComMudanca);
         motor.onMudancaTabelaHoraria();
@@ -154,9 +144,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     public void comAlteracaoTabelaHorariaNaProximaTroca() throws IOException {
         Controlador controladorComMudanca = new ControladorHelper().setPlanosComTabelaHorariaMicro2(new ControladorHelper().getControlador());
         listaTrocaPlano = new HashMap<>();
-        inicioControlador = new DateTime(2018, 3, 15, 7, 59, 50);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2018, 3, 15, 7, 59, 50);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarSegundos(motor, 5);
         motor.setControladorTemporario(controladorComMudanca);
         avancarSegundos(motor, 10);
@@ -170,9 +159,8 @@ public class TrocaPlanosTest extends GerenciadorDeTrocasTest {
     @Test
     @Ignore
     public void testPerfomanceDiaInteiro() throws IOException {
-        inicioControlador = new DateTime(2017, 11, 11, 0, 0, 0);
-        inicioExecucao = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2017, 11, 11, 0, 0, 0);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         avancarHoras(motor, 25);
 
         //Leonardo: 11/11 -> 6m 28s 964ms

@@ -22,10 +22,9 @@ public class TrocaPlanosComEstagioDispensavelTest extends GerenciadorDeTrocasTes
 
     @Test
     public void trocaParaPlanoIsoladoComDispensavel() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 11, 1, 0, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 11, 1, 0, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(2);
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
@@ -51,10 +50,9 @@ public class TrocaPlanosComEstagioDispensavelTest extends GerenciadorDeTrocasTes
 
     @Test
     public void trocaParaPlanoIsoladoSemDispensavel() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 11, 12, 59, 30);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 11, 12, 59, 30);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(2);
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
