@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import logger.InfluuntLogger;
+import logger.TipoLog;
 import org.slf4j.LoggerFactory;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conn.ClientActor;
@@ -58,14 +59,14 @@ public class Client {
         config72c = configuration.getConfig("72c");
         setupLog();
 
-        InfluuntLogger.log("Iniciando O 72C");
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,"Iniciando O 72C");
 
         this.system = ActorSystem.create("InfluuntSystem", configuration);
 
-        InfluuntLogger.log(String.format("Subsistema Akka:%s", this.system.name()));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("Subsistema Akka:%s", this.system.name()));
 
         if (deviceConfig != null) {
-            InfluuntLogger.log(String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
+            InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
             id = deviceConfig.getDeviceId();
@@ -92,12 +93,12 @@ public class Client {
 
         }
 
-        InfluuntLogger.log(String.format("ID CONTROLADOR  :%s", id));
-        InfluuntLogger.log(String.format("MQTT HOST       :%s", host));
-        InfluuntLogger.log(String.format("MQTT PORT       :%s", port));
-        InfluuntLogger.log(String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
-        InfluuntLogger.log(String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
-        InfluuntLogger.log(String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("ID CONTROLADOR  :%s", id));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT HOST       :%s", host));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PORT       :%s", port));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
         servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage, device), id);
 

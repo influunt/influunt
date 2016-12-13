@@ -36,10 +36,9 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
     @Test
     public void demandaPrioritariaDentroDoModoManual() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 29, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 29, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Pair<Integer, TipoDetector> detector = getDetector(anel, 3);
@@ -139,10 +138,9 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
     @Test
     public void saidaManualParaCoordenado() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 30, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 30, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 5);
         acionarModoManual(motor);
@@ -180,10 +178,9 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
     @Test
     public void coordenadoComDemandaPrioritaria() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 1, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 1, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Pair<Integer, TipoDetector> detector = getDetector(anel, 3);

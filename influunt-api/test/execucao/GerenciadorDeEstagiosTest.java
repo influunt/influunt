@@ -46,7 +46,7 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
     }
 
     protected GerenciadorDeEstagios getGerenciadorDeEstagios(int anel, Plano plano, Motor motor) {
-        return new GerenciadorDeEstagios(anel, inicioControlador, inicioExecucao, plano, new GerenciadorDeEstagiosCallback() {
+        return new GerenciadorDeEstagios(anel, inicioExecucao, plano, new GerenciadorDeEstagiosCallback() {
 
             @Override
             public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
@@ -72,7 +72,7 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
     }
 
     protected GerenciadorDeEstagios getGerenciadorDeEstagiosComMotor(int anel, Plano plano, DateTime data) {
-        gerenciadorDeEstagios = getGerenciadorDeEstagios(anel, plano, new Motor(controlador, data, data, this));
+        gerenciadorDeEstagios = getGerenciadorDeEstagios(anel, plano, new Motor(controlador, data, this));
 
         try {
             gerenciadorDeEstagios.getMotor().tick();
@@ -86,7 +86,7 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
     }
 
     protected GerenciadorDeEstagios getMotorComGerenciadorDeEstagios(int anel, Plano plano, DateTime data) {
-        Motor motor = new Motor(controlador, data, data, this);
+        Motor motor = new Motor(controlador, data, this);
         try {
             motor.tick();
         } catch (Exception e) {

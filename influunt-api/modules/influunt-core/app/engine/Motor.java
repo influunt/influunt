@@ -2,6 +2,7 @@ package engine;
 
 import engine.eventos.GerenciadorDeEventos;
 import logger.InfluuntLogger;
+import logger.TipoLog;
 import models.Anel;
 import models.Controlador;
 import models.Evento;
@@ -41,14 +42,14 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Controlador controladorTemporario = null;
 
-    public Motor(Controlador controlador, DateTime inicioControlador, DateTime inicioExecucao, MotorCallback callback) {
+    public Motor(Controlador controlador, DateTime inicioControlador, MotorCallback callback) {
 
         this.callback = callback;
         this.controlador = controlador;
         this.inicioControlador = inicioControlador;
         this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
-        this.instante = inicioExecucao;
+        this.instante = inicioControlador;
 
         this.monitor = new MonitorDeFalhas(this, controlador.getAneis().stream().map(Anel::getDetectores)
             .flatMap(Collection::stream)
@@ -71,7 +72,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void onMudancaTabelaHoraria() {
-        InfluuntLogger.log("[MOTOR] onMudancaTabelaHoraria");
+        InfluuntLogger.log(TipoLog.EXECUCAO,"Mudança de tabela horária");
         alteraControlador();
     }
 
@@ -102,7 +103,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         if (iniciarGrupos) {
             estagios = new ArrayList<>();
             for (int i = 1; i <= planos.size(); i++) {
-                estagios.add(new GerenciadorDeEstagios(i, inicioControlador, instante, planos.get(i - 1), this, this));
+                estagios.add(new GerenciadorDeEstagios(i, instante, planos.get(i - 1), this, this));
             }
         }
 
@@ -188,7 +189,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public void onAlarme(EventoMotor eventoMotor) {
         callback.onAlarme(instante, eventoMotor);
-        InfluuntLogger.log(eventoMotor);
+        InfluuntLogger.log(TipoLog.EXECUCAO,eventoMotor);
     }
 
     public MotorCallback getCallback() {
@@ -227,6 +228,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void stop() {
-        InfluuntLogger.log("Terminando a execução do motor");
+        InfluuntLogger.log(TipoLog.FINALIZACAO,"Terminando a execução do motor");
     }
 }

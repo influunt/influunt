@@ -33,7 +33,7 @@ public class GerenciadorDeSimulacoes {
 
     public void iniciarSimulacao(ParametroSimulacao params) {
         ActorRef simulador = system.actorOf(Props.create(SimuladorActor.class,
-            "mosquitto.rarolabs.com.br",
+            "localhost",
             "1883",
             params), "simulador_" + params.getId().toString());
 

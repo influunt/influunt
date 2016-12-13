@@ -29,8 +29,6 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
 
         avancar(gerenciadorDeEstagios, 101);
 
-        plano.imprimirTabelaEntreVerde();
-
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(28)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(50)).getEstagio().getPosicao().intValue());
@@ -56,8 +54,7 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         avancar(gerenciadorDeEstagios, 42);
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(326), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, detector, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 100);
-        imprimirListaEstagios(listaEstagios);
-        plano.imprimirTabelaEntreVerde();
+
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
@@ -90,7 +87,6 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(10), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 210);
 
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
@@ -109,8 +105,6 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 100);
 
-
-        plano.imprimirTabelaEntreVerde();
 
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao).getEstagio().getPosicao());
         verificaGruposSemaforicos(0, new GrupoCheck(11, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
@@ -172,8 +166,6 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 100);
 
-
-        plano.imprimirTabelaEntreVerde();
 
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao).getEstagio().getPosicao());
         verificaGruposSemaforicos(0, new GrupoCheck(11, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
@@ -267,8 +259,6 @@ public class GerenciadorDeEstagiosDemandaPrioritariaTest extends GerenciadorDeEs
         trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 200);
 
-        imprimirListaEstagios(listaEstagios);
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(28)).getEstagio().getPosicao().intValue());
