@@ -17,6 +17,7 @@
                       <option value="imposicao-plano">{{ 'imporConfig.plano.titulo' | translate }}</option>
                       <option value="imposicao-modo">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
                       <option value="sincronizacao">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
+                      <option value="alterar-status">{{ 'imporConfig.alterarStatus' | translate }}</option>
                     </select>
                   </div>
 
@@ -52,6 +53,14 @@
                         timeout="dadosTransacao.tempoMaximoEspera"
                         data-ng-if="tipoTransacao === 'imposicao-plano'">
                     </imposicao-plano>
+
+                    <alterar-status
+                      aneis-selecionados="aneisSelecionadosObj"
+                      ids-transacoes="idsTransacoes"
+                      transacoes="statusObj.transacoes"
+                      timeout="dadosTransacao.tempoMaximoEspera"
+                      data-ng-if="tipoTransacao === 'alterar-status'">
+                    </alterar-status>
                   </div>
 
                   <hr>
