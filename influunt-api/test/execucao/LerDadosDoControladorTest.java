@@ -17,7 +17,7 @@ import static org.junit.Assert.assertFalse;
 /**
  * Created by rodrigosol on 12/13/16.
  */
-public class LerDadosTest extends MotorTest {
+public class LerDadosDoControladorTest extends MotorTest {
 
     @Before
     public void setup() {
