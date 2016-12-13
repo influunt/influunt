@@ -15,8 +15,8 @@ angular.module('influuntApp')
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert,
           $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao,
-            calculaDisparo;
+  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros,
+      abrirModalSimulacao, calculaDisparo, pararSimulacaoNaApi;
 
   $scope.init = function() {
     var controladorId = $stateParams.id;
@@ -154,7 +154,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       }
       }
   }, true);
-  
+
   $scope.$watch('parametrosSimulacao.liberacaoImposicoes', function(parametro) {
     if (parametro) {
       var length = $scope.parametrosSimulacao.liberacaoImposicoes.length;
@@ -231,7 +231,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       });
     }
   }, true);
-  
+
   $scope.$watch('liberacoesImposicoes.liberacoes', function(liberacoes) {
     if (liberacoes) {
       _.forEach($scope.liberacoesImposicoes.liberacoes, function(disparo, index) {
@@ -401,11 +401,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
       $scope.parametrosSimulacao.imposicaoPlanos = [{}];
     }
-    
+
     if (_.isEmpty($scope.parametrosSimulacao.imposicaoModos)) {
       $scope.parametrosSimulacao.imposicaoModos = [{}];
     }
-    
+
     if (_.isEmpty($scope.parametrosSimulacao.liberacaoImposicoes)) {
       $scope.parametrosSimulacao.liberacaoImposicoes = [{}];
     }
@@ -430,6 +430,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   $scope.pararSimulacao = function() {
     $scope.simulacao.state.destroy();
     $('#canvas').html('');
+    pararSimulacaoNaApi();
+  };
+
+  pararSimulacaoNaApi = function() {
+    return Restangular.all('simulacao/parar').post(null).finally(influuntBlockui.unblock);
   };
 
 }]);
