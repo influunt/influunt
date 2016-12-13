@@ -7,46 +7,69 @@
  * # alterarStatus
  */
 angular.module('influuntApp')
-  .directive('alterarStatus', ['Restangular', 'influuntBlockui', '$filter', 'toast', 'mqttTransactionStatusService',
-   function (Restangular, influuntBlockui, $filter, toast, mqttTransactionStatusService) {
+  .directive('alterarStatus', ['Restangular', 'influuntBlockui', '$filter', 'toast',
+    function (Restangular, influuntBlockui, $filter, toast) {
+      return {
+        templateUrl: 'views/directives/alterar-status.html',
+        restrict: 'E',
+        scope: {
+          aneisSelecionados: '=',
+          idsTransacoes: '=',
+          trackTransaction: '=',
+          dismissOnSubmit: '=',
+          timeout: '=?',
+          transacoes: '=?'
+        },
+        link: function alterarStatus(scope) {
+          var TIPOS_TRANSACOES = ['COLOCAR_CONTROLADOR_MANUTENCAO', 'INATIVAR_CONTROLADOR', 'ATIVAR_CONTROLADOR'];
+          var DEFAUT_TIMEOUT = 60;
+          scope.alterar = function() {
+            scope.idsTransacoes = {};
+            var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
+            var resource;
+            resource = scope.dataStatus.tipo;
+            var data = {
+              aneisIds: idsAneisSelecionados,
+              timeout: scope.timeout || DEFAUT_TIMEOUT
+            };
+
+            return Restangular.one('imposicoes').customPOST(data, resource)
+              .finally(influuntBlockui.unblock);
+          };
+
+          /**
+           * Exibição de mensagem de sucesso para mapas (toast).
+           */
+          scope.$watch('transacoes', function(transacoes) {
+            if (_.isObject(transacoes) && _.isArray(scope.aneisSelecionados)) {
+              _.each(scope.aneisSelecionados, function(anel) {
+                if (anel) {
+                  var transacao = transacoes[anel.controladorFisicoId];
+                  var isPacoteTabelaHoraria = transacao && TIPOS_TRANSACOES.indexOf(transacao.tipoTransacao) >= 0;
+
+                  if (isPacoteTabelaHoraria && transacao.status === 'DONE') {
+                    toast.success($filter('translate')('imporConfig.aletarcaoStatus.sucesso'));
+                  } else if (isPacoteTabelaHoraria && transacao.status === 'ABORTED') {
+                    // @todo: Adicionar mensagem de erro do mqtt?
+                    toast.error($filter('translate')('imporConfig.aletarcaoStatus.erro'));
+                  }
+                }
+              });
+            }
+          }, true);
+        }
+      };
+    }])
+  .directive('alterarStatusPopup', [function () {
     return {
-      templateUrl: 'views/directives/alterar-status.html',
+      templateUrl: 'views/directives/alterar-status-popup.html',
       restrict: 'E',
       scope: {
         aneisSelecionados: '=',
         idsTransacoes: '=',
-        trackTransaction: '='
-      },
-      link: function alterarStatus(scope) {
-        var transactionTracker;
-        scope.alterar = function() {
-          scope.idsTransacoes = {};
-          var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
-          var resource, data;
-          resource = scope.dataStatus.tipo;
-          data = idsAneisSelecionados;
-
-          return Restangular.one('imposicoes').customPOST(data, resource)
-            .then(function(response) {
-              _.each(response.plain(), function(transacaoId, controladorId) {
-                scope.idsTransacoes[controladorId] = transacaoId;
-                return transactionTracker(transacaoId);
-              });
-            })
-            .finally(influuntBlockui.unblock);
-      };
-
-      transactionTracker = function(id) {
-        return mqttTransactionStatusService
-          .watchTransaction(id)
-          .then(function(transmitido) {
-            if (transmitido) {
-              toast.success($filter('translate')('imporConfig.aletarcaoStatus.sucesso'));
-            } else {
-              toast.warn($filter('translate')('imporConfig.aletarcaoStatus.erro'));
-            }
-          });
-      };
-    }
-  };
-}]);
+        trackTransaction: '=',
+        transacoes: '=?'
+      }
+    };
+  }])
+  ;
