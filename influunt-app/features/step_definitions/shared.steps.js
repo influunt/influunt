@@ -6,28 +6,8 @@ var expect = require('chai').expect;
 module.exports = function() {
   var sharedSteps = new ObjetosComuns();
 
-  this.Given(/^que o sistema possui ao menos um controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarControlador();
-  });
-
-  this.Given(/^que o sistema possua controladores cadastrados$/, function() {
-    return sharedSteps.variosControladores();
-  });
-
-  this.Given(/^que o sistema possua controladores cadastrados e configurados$/, function() {
-    return sharedSteps.variosControladoresConfigurados();
-  });
-
-  this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarPlanoParaControlador();
-  });
-
-  this.Given(/^que o sistema possua tabela horária para o controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarTabelaHorariaParaControlador();
-  });
-
-  this.Given(/^for desabilitada no perfil visualizar todas as áreas$/, function () {
-    return sharedSteps.desabilitarPermissoes();
+  this.Given(/^o usuário acessar a tela de listagem de "([^"]*)"$/, function(path) {
+    return sharedSteps.indexPage(path);
   });
 
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
@@ -105,10 +85,6 @@ module.exports = function() {
     return sharedSteps.checarTotalInseridosNaTabela(numero);
   });
 
-  this.Given(/^que possua controladores com áreas diferentes cadastrados$/, function () {
-    return sharedSteps.controladoresAreasDiferentes();
-  });
-
   this.Given(/^o usuário preencha o alert com "([^"]*)"$/, function (descricao) {
     return sharedSteps.preencherSweetAlert(descricao);
   });
@@ -116,6 +92,12 @@ module.exports = function() {
   this.Given(/^o sistema deverá indicar erro no campo "([^"]*)"$/, function (nomeCampo) {
     return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
       return expect(result).to.exist;
+    });
+  });
+
+  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)" com a mensagem "([^"]*)"$/, function (nomeCampo, msg) {
+    return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
+      return expect(result).to.equal(msg);
     });
   });
 

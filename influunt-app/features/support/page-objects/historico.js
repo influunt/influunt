@@ -13,7 +13,7 @@ var HistoricoPage = function () {
 
   this.isTabelaHorariaDiff = function() {
     return world.waitForOverlayDisappear().then(function() {
-      return world.getElementByXpath('//div[contains(@id, "page-wrapper")][contains(@class, "app.tabelas_horarias_diff")]');
+      return world.getElementByXpath('//div[contains(@id, "page-wrapper")][contains(@class, "page-tabelas_horarias_diff")]');
     });
   };
 

@@ -4,17 +4,17 @@ Funcionalidade: Finalizar um controlador
 
   Cenário: Não pode finalizar um controlador que não tenha plano configurado
     Dado que o sistema possui ao menos um controlador cadastrado
-    E que o usuário acesse a página de listagem de controladores
+    E o usuário acesse a listagem de "controladores"
     Então o sistema "não pode" mostrar o botão "Finalizar Configuração"
 
   Cenário: Não pode finalizar um controlador que não tenha tabela horária configurada
     Dado que o sistema possua planos para o controlador cadastrado
-    E que o usuário acesse a página de listagem de controladores
+    E o usuário acesse a listagem de "controladores"
     Então o sistema "não pode" mostrar o botão "Finalizar Configuração"
 
     Cenário: Mostrar o botão finalizar controlador
     Dado que o sistema possua tabela horária para o controlador cadastrado
-    E que o usuário acesse a página de listagem de controladores
+    E o usuário acesse a listagem de "controladores"
     Então o sistema "pode" mostrar o botão "Finalizar Configuração"
 
   Cenário: Não pode finalizar um controlador que não tenha o número do SMEE
@@ -30,12 +30,12 @@ Funcionalidade: Finalizar um controlador
   Cenário: Adicionar um SMEE para controlador
     Dado o usuário clicar no botão "Configuração"
     E o usuário clicar no botão "Editar"
-    E o usuário preencher o campo NÚMERO SMEE com 123
+    E o usuário preencher o campo NÚMERO SMEE com "1234"
     E o usuário clicar no botão "Salvar e Avançar"
     Então o sistema irá avançar para o passo "Anéis"
 
   Cenário: Finalizar o controlador com SMEE
-    Dado que o usuário acesse a página de listagem de controladores
+    Dado o usuário acesse a listagem de "controladores"
     Dado o usuário clicar no botão "Finalizar"
     Então o sistema deverá mostar um modal para salvar o histórico
     Dado o usuário preencha o alert com "Crontrolador principal"
@@ -49,7 +49,7 @@ Funcionalidade: Finalizar um controlador
     E o usuário selecionar o anel 2
     E o usuário adicionar imagem ao "Anel 2 como Estágio1"
     E o usuário clicar no botão "Salvar"
-    E que o usuário acesse a página de listagem de controladores
+    E o usuário acesse a listagem de "controladores"
     Então o sistema deverá mostrar o status do controlador como "Em Edição"
     E o sistema "não pode" mostrar o botão "Finalizar Configuração"
     E o sistema "não pode" mostrar o botão "Ver ou Editar Planos"
