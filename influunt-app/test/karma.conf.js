@@ -74,6 +74,7 @@ module.exports = function(config) {
       'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
       'bower_components/paho-mqtt/src/mqttws31.js',
       'bower_components/ng-idle/angular-idle.js',
+      'bower_components/bootstrap/dist/js/bootstrap.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -87,6 +88,7 @@ module.exports = function(config) {
       'app/plugins/uiTabs/lib/ui.tabs.addTab.js',
       'app/plugins/uiTabs/lib/ui.tabs.closable.js',
       'app/plugins/phasertips/Phasetips.js',
+      'bower_components/phaser/build/phaser.js',
 
       // influunt app plugins.
       'app/plugins/influunt/**/*.js',

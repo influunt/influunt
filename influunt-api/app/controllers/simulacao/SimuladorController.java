@@ -46,4 +46,9 @@ public class SimuladorController extends Controller {
         return CompletableFuture.completedFuture(ok(Json.toJson(params.getSimulacaoConfig())));
     }
 
+    public CompletionStage<Result> pararSimulacao() {
+        simulacoes.finish();
+        return CompletableFuture.completedFuture(ok());
+    }
+
 }

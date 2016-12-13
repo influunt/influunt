@@ -190,6 +190,7 @@ POST      /api/v1/cucumber                                                      
 
 #Simulação
 POST       /api/v1/simulacao                                                                    controllers.simulacao.SimuladorController.simular
+POST       /api/v1/simulacao/parar                                                              controllers.simulacao.SimuladorController.pararSimulacao
 
 # Asset
 GET       /assets/*file                                                                         controllers.Assets.at(path="/public", file)

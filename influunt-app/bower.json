@@ -24,7 +24,7 @@
     "select2": "^4.0.3",
     "metisMenu": "^2.5.2",
     "angular-ui-sortable": "^0.14.3",
-    "vis": "^4.16.1",
+    "vis": "4.16.1",
     "paho-mqtt": "*",
     "blockUI": "blockui#*",
     "css-progress-wizard": "*",
