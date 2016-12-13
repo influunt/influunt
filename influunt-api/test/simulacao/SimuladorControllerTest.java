@@ -90,7 +90,7 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
             "\"imposicaoModos\":[{\"modo\":\"TEMPO_FIXO_ISOLADO\",\"anel\":{\"posicao\":1},\"disparo\":\"2016-02-01T02:20:00.000Z\",\"duracao\":2}]," +
             "\"idControlador\":\"" + controlador.getId().toString() + "\"," +
             "\"velocidade\":\"0.5\"," +
-            "\"inicioControlador\":\"2016-02-01T02:00:00.000Z\",";
+            "\"inicioControlador\":\"2016-02-01T02:00:00.000Z\"}";
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(controllers.simulacao.routes.SimuladorController.simular().url())
