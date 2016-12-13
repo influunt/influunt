@@ -52,6 +52,10 @@ public class ClientActor extends UntypedActor{
 
     private final String controladorPrivateKey;
 
+    private final String login;
+
+    private final String senha;
+
     private ActorRef device;
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
@@ -62,10 +66,12 @@ public class ClientActor extends UntypedActor{
 
     private ActorRef actorTrasacao;
 
-    public ClientActor(final String id, final String host, final String port, final String centralPublicKey, final String controladorPrivateKey, Storage storage, DeviceBridge deviceBridge) {
+    public ClientActor(final String id, final String host, final String port, final String login, final String senha, final String centralPublicKey, final String controladorPrivateKey, Storage storage, DeviceBridge deviceBridge) {
         this.id = id;
         this.host = host;
         this.port = port;
+        this.login = login;
+        this.senha = senha;
         this.storage = storage;
         this.centralPublicKey = centralPublicKey;
         this.controladorPrivateKey = controladorPrivateKey;
@@ -95,7 +101,7 @@ public class ClientActor extends UntypedActor{
         }
         router = new Router(new RoundRobinRoutingLogic(), routees);
 
-        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, storage, router), "ControladorMQTT");
+        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port,login,senha, storage, router), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());
     }

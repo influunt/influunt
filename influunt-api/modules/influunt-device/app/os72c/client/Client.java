@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conn.ClientActor;
 import os72c.client.device.DeviceBridge;
-import os72c.client.storage.MapStorage;
-import os72c.client.storage.Storage;
-import os72c.client.storage.StorageConf;
-import os72c.client.storage.TestStorageConf;
+import os72c.client.storage.*;
 import play.Application;
 import play.api.Play;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -41,6 +38,10 @@ public class Client {
     private final String port;
 
     private final String id;
+
+    private final String login;
+
+    private final String senha;
 
     private final String centralPublicKey;
 
@@ -69,6 +70,8 @@ public class Client {
             InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
+            login = deviceConfig.getLogin();
+            senha = deviceConfig.getSenha();
             id = deviceConfig.getDeviceId();
             centralPublicKey = deviceConfig.getCentralPublicKey();
             privateKey = deviceConfig.getPrivateKey();
@@ -76,6 +79,8 @@ public class Client {
         } else {
             host = config72c.getConfig("mqtt").getString("host");
             port = config72c.getConfig("mqtt").getString("port");
+            login = config72c.getConfig("mqtt").getString("login");
+            senha = config72c.getConfig("mqtt").getString("senha");
             id = config72c.getString("id");
             centralPublicKey = config72c.getConfig("seguranca").getString("chavePublica");
             privateKey = config72c.getConfig("seguranca").getString("chavePrivada");
@@ -96,11 +101,13 @@ public class Client {
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("ID CONTROLADOR  :%s", id));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT HOST       :%s", host));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PORT       :%s", port));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT LOGIN       :%s", login));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PWD       :%s", senha));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, centralPublicKey, privateKey, storage, device), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port,login,senha, centralPublicKey, privateKey, storage, device), id);
 
     }
 
@@ -109,17 +116,22 @@ public class Client {
     }
 
     public static void main(String args[]) {
-        Application app = createApplication(new HashMap());
+        Application app = createApplication(new HashMap(),false);
         Play.start(app.getWrappedApplication());
         Materializer mat = app.getWrappedApplication().materializer();
         new Client(null);
     }
 
-    public static Application createApplication(Map configuration) {
-        return new GuiceApplicationBuilder().configure(configuration)
-            .overrides(bind(StorageConf.class).to(TestStorageConf.class).in(Singleton.class))
-            .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class))
-            .build();
+    public static Application createApplication(Map configuration,boolean recreate) {
+        if(recreate){
+            return new GuiceApplicationBuilder().configure(configuration)
+            .overrides(bind(StorageConf.class).to(RecreateDiskStorageConf.class).in(Singleton.class))
+            .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class)).build();
+        }else {
+            return new GuiceApplicationBuilder().configure(configuration)
+                .overrides(bind(StorageConf.class).to(DiskStorageConf.class).in(Singleton.class))
+                .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class)).build();
+        }
     }
 
     private void setupLog() {

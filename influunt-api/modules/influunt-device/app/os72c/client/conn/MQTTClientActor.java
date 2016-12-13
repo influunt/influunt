@@ -33,6 +33,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private final String port;
 
+    private final String login;
+
+    private final String senha;
+
 
     private Router router;
 
@@ -48,10 +52,12 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
-    public MQTTClientActor(final String id, final String host, final String port, Storage storage, Router router) {
+    public MQTTClientActor(final String id, final String host, final String port,final String login, final String senha, Storage storage, Router router) {
         this.id = id;
         this.host = host;
         this.port = port;
+        this.login = login;
+        this.senha = senha;
         this.storage = storage;
         this.router = router;
 
@@ -107,6 +113,15 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
 
         opts = new MqttConnectOptions();
+
+        if(!"".equals(login)) {
+            opts.setUserName(login);
+        }
+        
+        if(!"".equals(senha)){
+            opts.setPassword(senha.toCharArray());
+        }
+
         opts.setAutomaticReconnect(false);
         opts.setCleanSession(false);
         opts.setConnectionTimeout(0);

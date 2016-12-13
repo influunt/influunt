@@ -8,11 +8,11 @@ import com.google.inject.Singleton;
  * Created by leonardo on 9/13/16.
  */
 @Singleton
-public class TestStorageConf implements StorageConf {
+public class MemoryStorageConf implements StorageConf {
 
     private final DB db;
 
-    public TestStorageConf() {
+    public MemoryStorageConf() {
         db = DBMaker.memoryDB().make();
     }
 
