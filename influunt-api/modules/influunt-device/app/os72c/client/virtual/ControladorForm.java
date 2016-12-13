@@ -16,6 +16,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -158,6 +160,8 @@ public class ControladorForm implements Sender, DeviceBridge {
 
     private DeviceBridgeCallback callback;
 
+    private Set<Integer> gruposAtivos = new TreeSet<>();
+
     public ControladorForm() {
     }
 
@@ -169,6 +173,8 @@ public class ControladorForm implements Sender, DeviceBridge {
     @Override
     public void sendEstagio(IntervaloGrupoSemaforico intervaloGrupoSemaforico) {
         this.intervaloGrupoSemaforico = intervaloGrupoSemaforico;
+        this.intervaloGrupoSemaforico.getEstados().keySet().stream().forEach(k -> gruposAtivos.add(k));
+
         MensagemEstagio msg = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO, 0, intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         msg.addIntervalos(intervaloGrupoSemaforico);
         onReceiveEstage(msg.toByteArray());
@@ -377,6 +383,7 @@ public class ControladorForm implements Sender, DeviceBridge {
         String label = "Desligado";
 
         for (int i = 0; i < 16; i++) {
+
             int color = colors[i];
             switch (color) {
                 case VERDE:
@@ -431,9 +438,11 @@ public class ControladorForm implements Sender, DeviceBridge {
 
             }
 
-            labelsEstados.get(i + 1).setForeground(newColor);
-            labelsEstados.get(i + 1).setBackground(newBackgroundColor);
-            labelsEstados.get(i + 1).setText(label);
+            if (gruposAtivos.contains(i + 1)) {
+                labelsEstados.get(i + 1).setForeground(newColor);
+                labelsEstados.get(i + 1).setBackground(newBackgroundColor);
+                labelsEstados.get(i + 1).setText(label);
+            }
         }
         tempo += 100;
     }
