@@ -6,6 +6,7 @@ import akka.actor.Props;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.simulador.parametros.ParametroSimulacao;
+import play.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ public class GerenciadorDeSimulacoes {
     private List<ActorRef> simuladores = new ArrayList<>();
 
     @Inject
+    private Configuration configuration;
+
+    @Inject
     public GerenciadorDeSimulacoes(ActorSystem system) {
         this.system = system;
     }
@@ -32,9 +36,12 @@ public class GerenciadorDeSimulacoes {
     }
 
     public void iniciarSimulacao(ParametroSimulacao params) {
+        Configuration mqtt = configuration.getConfig("central").getConfig("mqtt");
         ActorRef simulador = system.actorOf(Props.create(SimuladorActor.class,
-            "localhost",
-            "1883",
+            mqtt.getString("host"),
+            mqtt.getString("port"),
+            mqtt.getString("login"),
+            mqtt.getString("senha"),
             params), "simulador_" + params.getId().toString());
 
         simuladores.add(simulador);
