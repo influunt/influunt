@@ -119,7 +119,7 @@ describe('Controller: SimulacaoCtrl', function () {
     expect(scope.simulacao).toBeDefined();
 
 
-    httpBackend.expectPOST('/simulacao/parar');
+    httpBackend.expectPOST('/simulacao/parar').respond();
     spyOn(scope.simulacao.state, 'destroy');
     scope.pararSimulacao();
     httpBackend.flush();
