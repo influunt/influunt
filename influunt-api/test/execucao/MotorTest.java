@@ -24,8 +24,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     protected Controlador controlador;
 
-    protected DateTime inicioControlador = new DateTime(2016, 10, 10, 0, 0, 0);
-
     protected DateTime inicioExecucao = new DateTime(2016, 10, 10, 0, 0, 0);
 
     protected DateTime instante = new DateTime(2016, 10, 10, 0, 0, 0);

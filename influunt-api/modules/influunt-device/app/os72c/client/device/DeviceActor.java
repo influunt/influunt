@@ -69,7 +69,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 InfluuntLogger.log(TipoLog.INICIALIZACAO,"Configuração encontrada");
                 iniciado = true;
                 this.device.start(this);
-                this.motor = new Motor(this.controlador, new DateTime(), new DateTime(), this);
+                this.motor = new Motor(this.controlador, new DateTime(), this);
 
                 executor = Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {

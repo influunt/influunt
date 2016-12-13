@@ -22,9 +22,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imporModoIntermitente() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
 
         avancarSegundos(motor, 10);
@@ -75,9 +74,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void liberarModoIntermitente() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plus(60),
@@ -118,9 +116,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaModoIntermitente() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
@@ -159,9 +156,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imporModoApagado() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
@@ -203,9 +199,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void liberarModoApagado() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plus(60),
@@ -251,9 +246,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaModoApagado() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
@@ -297,9 +291,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imporPlano() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
@@ -323,9 +316,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void liberarImposicaoPlano() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
@@ -352,9 +344,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaImposicaoPlano() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),
@@ -378,9 +369,8 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imporOMesmoPlanoVigente() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 50);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60),

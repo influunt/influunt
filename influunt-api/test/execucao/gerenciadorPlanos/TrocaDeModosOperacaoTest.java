@@ -20,9 +20,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void motorTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 210);
 
@@ -75,9 +74,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaModoApagadoTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 19, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 19, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 210);
@@ -141,9 +139,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaModoIntermitenteTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 210);
@@ -201,9 +198,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaModoIntermitenteTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 20, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 20, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 210);
 
@@ -214,9 +210,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaESaidaModoIntermitenteNoEntreverdeTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 21, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 21, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 210);
 
