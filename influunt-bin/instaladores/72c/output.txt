@@ -1,5 +1,0 @@
-# List of generated media files. The columns are tab-separated:
-# id | media file type | display name | media file path
-26	unix	Unix Archive	/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/72c/72c_unix_1_0.tar.gz
-24	unix	Linux Deb Archive	/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/72c/72c_linux_1_0.deb
-25	unix	Linux RPM	/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/72c/72c_linux_1_0.rpm

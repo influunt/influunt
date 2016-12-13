@@ -1,5 +1,0 @@
-# List of generated media files. The columns are tab-separated:
-# id | media file type | display name | media file path
-36	unix	Unix Installer	/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/controlador_virtual/influunt_unix_1_0.sh
-34	windows	Windows	/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/controlador_virtual/influunt_windows_1_0.exe
-24	macos	Mac OS X Single Bundle	/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/controlador_virtual/influunt_macos_1_0.dmg
