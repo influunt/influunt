@@ -31,13 +31,18 @@ angular.module('influuntApp')
       };
 
       var alertStatusTransacao = function(transacoes, aneis, tipo) {
-        var tipoTransacao = tipo === 'modo_operacao' ? 'IMPOSICAO_MODO_OPERACAO' : 'IMPOSICAO_PLANO';
+        var tiposTransacao;
+        if (tipo === 'modo_operacao') {
+          tiposTransacao = ['IMPOSICAO_MODO_OPERACAO'];
+        } else {
+          tiposTransacao = ['IMPOSICAO_PLANO', 'IMPOSICAO_PLANO_TEMPORARIO'];
+        }
 
         if (_.isObject(transacoes) && _.isArray(aneis)) {
           _.each(aneis, function(anel) {
             if (anel) {
               var transacao = transacoes[anel.controladorFisicoId];
-              var isPacoteTabelaHoraria = transacao && transacao.tipoTransacao === tipoTransacao;
+              var isPacoteTabelaHoraria = transacao && tiposTransacao.indexOf(transacao.tipoTransacao) >= 0;
 
               if (isPacoteTabelaHoraria && transacao.status === 'DONE') {
                 toast.success($filter('translate')('imporConfig.' + tipo + '.sucesso'));
