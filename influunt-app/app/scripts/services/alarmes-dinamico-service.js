@@ -22,7 +22,7 @@ angular.module('influuntApp')
         // métodos privados;
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
             trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, statusTransacaoWatcher,
-        addFalha, removeFalha, setStatus, trocaPlanos;
+            dadosControladorWatcher, addFalha, removeFalha, setStatus, trocaPlanos;
         var statusObj, $$fnOnEventTriggered, controladores;
         var $$fnonClickToast = function(){};
 
@@ -35,6 +35,7 @@ angular.module('influuntApp')
               pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
               pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
               pahoProvider.register(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
+              pahoProvider.register(eventosDinamicos.DADOS_CONTROLADOR, dadosControladorWatcher);
             });
         };
 
@@ -46,11 +47,20 @@ angular.module('influuntApp')
               pahoProvider.unregister(eventosDinamicos.TROCA_PLANO);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_ONLINE);
               pahoProvider.unregister(eventosDinamicos.CONTROLADOR_OFFLINE);
-              pahoProvider.unregister(eventosDinamicos.STATUS_TRANSACAO, statusTransacaoWatcher);
+              pahoProvider.unregister(eventosDinamicos.STATUS_TRANSACAO);
+              pahoProvider.unregister(eventosDinamicos.DADOS_CONTROLADOR);
             });
         };
 
         // watchers.
+        dadosControladorWatcher = function(payload) {
+          var mensagem = JSON.parse(payload);
+          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
+          statusObj.dadosControlador = {};
+
+          statusObj.dadosControlador = mensagem.conteudo;
+        };
+
         statusControladoresWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;

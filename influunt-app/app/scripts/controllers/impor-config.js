@@ -9,11 +9,11 @@
  */
 angular.module('influuntApp')
   .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular',
-                                  'influuntBlockui', 'pahoProvider', 'eventosDinamicos', 'mqttTransactionStatusService',
+                                  'influuntBlockui', 'pahoProvider', 'eventosDinamicos',
     function ($scope, $controller, $filter, Restangular,
-              influuntBlockui, pahoProvider, eventosDinamicos, mqttTransactionStatusService) {
+              influuntBlockui, pahoProvider, eventosDinamicos) {
 
-      var setData, updateImposicoesEmAneis, envelopeTracker, filtraObjetosAneis;
+      var setData, updateImposicoesEmAneis, filtraObjetosAneis;
 
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -129,25 +129,20 @@ angular.module('influuntApp')
       };
 
       $scope.lerDados = function(controladorId) {
-        envelopeTracker(controladorId);
-        return Restangular
-          .one('controladores')
-          .customPOST({id: controladorId}, 'ler_dados')
+        return Restangular.one('monitoramento/').customGET('erros_controladores/' + controladorId + '/historico_falha/0/60', null)
+          .then(function(listaErros) {
+            $scope.dadosControlador.erros = listaErros;
+            return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados');
+          })
           .finally(influuntBlockui.unblock);
       };
 
-      envelopeTracker = function(id) {
-        return mqttTransactionStatusService
-          .watchDadosControlador(id)
-          .then(function(conteudo) {
-            return Restangular.one("monitoramento/").customGET('erros_controladores/'+id+'/historico_falha/0/60', null)
-              .then(function(response) {
-                $scope.dadosControlador = conteudo;
-                $scope.dadosControlador.erros = response;
-              })
-              .finally(influuntBlockui.unblock);
-          });
-      };
+      $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
+        if (_.isObject(dadosControlador)) {
+          $scope.dadosControlador = $scope.dadosControlador || {};
+          $scope.dadosControlador.conteudo = dadosControlador;
+        }
+      });
 
       $scope.$watch('statusObj.statusPlanos', function(statuses) {
         return _.isArray(statuses) && updateImposicoesEmAneis({statusPlanos: statuses});
