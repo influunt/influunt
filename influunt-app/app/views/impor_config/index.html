@@ -24,7 +24,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr data-ng-repeat="anel in lista">
+              <tr data-ng-repeat="anel in lista | orderBy: 'cla'">
                 <td class='fit-to-content'>
                   <div class="ichecks-checkbox">
                     <label class="i-checks">
@@ -43,7 +43,7 @@
                   <div data-ng-if="anel.hasPlanoImposto">
                     <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}
                     <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
-                    <liberar-imposicao anel="anel" ids-transacoes="idsTransacoes"></liberar-imposicao>
+                    <liberar-imposicao anel="anel" transacoes="statusObj.transacoes"></liberar-imposicao>
                   </div>
                 </td>
                 <td>

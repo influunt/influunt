@@ -17,13 +17,13 @@ angular.module('influuntApp')
           idsTransacoes: '=',
           trackTransaction: '=',
           dismissOnSubmit: '=',
-          timeout: '='
+          timeout: '=?',
+          transacoes: '=?'
         },
         link: function postLink(scope, el) {
+          var DEFAUT_TIMEOUT = 60;
           scope.LIMITE_MINIMO_DURACAO = imposicoesService.LIMITE_MINIMO_DURACAO;
           scope.LIMITE_MAXIMO_DURACAO = imposicoesService.LIMITE_MAXIMO_DURACAO;
-
-          imposicoesService.setTrackTransaction(!!scope.trackTransaction);
 
           scope.configuracao = {};
           scope.planos = HorariosService.getPlanos();
@@ -32,7 +32,7 @@ angular.module('influuntApp')
 
           var getControladores;
           scope.imporPlano = function() {
-            scope.configuracao.timeout = scope.timeout;
+            scope.configuracao.timeout = scope.timeout || DEFAUT_TIMEOUT;
             scope.idsTransacoes = {};
             return imposicoesService.imposicao('plano', scope.configuracao, scope.idsTransacoes);
           };
@@ -49,6 +49,10 @@ angular.module('influuntApp')
             if (_.isArray(aneisSelecionados)) {
               scope.configuracao.aneisIds = _.map(aneisSelecionados, 'id');
             }
+          }, true);
+
+          scope.$watch('transacoes', function(transacoes) {
+            imposicoesService.alertStatusTransacao(transacoes, scope.aneisSelecionados, 'plano');
           }, true);
 
           getControladores = function() {
@@ -71,7 +75,8 @@ angular.module('influuntApp')
       scope: {
         aneisSelecionados: '=',
         idsTransacoes: '=',
-        trackTransaction: '='
+        trackTransaction: '=',
+        transacoes: '=?'
       }
     };
   }])

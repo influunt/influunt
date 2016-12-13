@@ -76,12 +76,12 @@
       <div class="modal-footer text-center" data-ng-if="transacoesPendentes.length > 0">
         <button type="button"
             class="btn btn-primary"
-            data-ng-click="continuar()">
+            data-ng-click="continuar(transacoesPendentes)">
           {{ 'imporConfig.continuar' | translate }}
         </button>
         <button type="button"
             class="btn btn-default btn-danger m-b-xs"
-            data-ng-click="abortar()">
+            data-ng-click="abortar(transacoesPendentes)">
           {{ 'imporConfig.abortar' | translate }}
         </button>
       </div>
