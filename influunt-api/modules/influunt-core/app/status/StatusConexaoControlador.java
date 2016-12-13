@@ -54,6 +54,11 @@ public class StatusConexaoControlador {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
+    public static List<StatusConexaoControlador> findByIdControladorUltimos30Dias(String idControlador) {
+        long ultimos30Dias = DateTime.now().minusDays(30).getMillis();
+        return toList(status().find("{ idControlador: #, timestamp: { $gte: # } }", idControlador, ultimos30Dias).sort("{timestamp: -1}").as(Map.class));
+    }
+
     public static HashMap<String, Boolean> ultimoStatusDosControladores() {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Boolean> hash = new HashMap<>();
