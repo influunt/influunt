@@ -81,7 +81,7 @@ Funcionalidade: Realizar filtros no mapa
     Quando o usuário remover o "1" selecionado do campo "areas"
     E o usuário selecionar o valor "2" para o campo "areas"
     Então o sistema deverá mostrar no mapa "0" controladores
-    E o sistema deverá mostrar no mapa "0" aneis
+    E o sistema deverá mostrar no mapa "2" aneis
 
   Cenário: Quero filtar no mapa pela subárea
     Dado usuário estiver na tela de mapa
