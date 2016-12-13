@@ -42,11 +42,10 @@ public class LerDadosControlador {
             Plano plano = gerenciador.getPlano();
             itens.addObject().put("cla", anel.getCLA())
                 .put("modoOperacao", plano.getModoOperacao().toString())
-                .put("posicaoPlano", plano.getPosicao().toString())
+                .put("posicaoPlano", gerenciador.getPosicaoPlano())
                 .put("impostoPorFalha", plano.isImpostoPorFalha())
                 .put("imposto", plano.isImposto())
-                .put("estagioAtual", gerenciador.getEstagioPlanoAtual().getEstagio().getId() != null ?
-                    gerenciador.getEstagioPlanoAtual().getEstagio().toString() : "")
+                .put("estagioAtual", gerenciador.getEstagioAtual())
                 .put("tempoRestanteDoEstagio", gerenciador.getTempoRestanteDoEstagio())
                 .put("tempoRestanteDoCiclo", gerenciador.getTempoRestanteDoCiclo())
                 .put("momentoCiclo", gerenciador.getContadorTempoCicloEmSegundos());
