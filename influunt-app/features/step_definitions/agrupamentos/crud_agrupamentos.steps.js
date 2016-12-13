@@ -78,10 +78,13 @@ module.exports = function() {
     });
   });
 
-
   this.Given(/^nenhum agrupamento deve ser excluído$/, function() {
     return agrupamentosPage.nenhumAgrupamentoDeveSerExcluido().then(function(res) {
       return expect(res).to.be.true;
     });
+  });
+
+  this.Given(/^o usuário agrupar o controlador "([^"]*)"$/, function(controlador) {
+    return agrupamentosPage.agruparControlador(controlador);
   });
 };
