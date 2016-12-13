@@ -194,6 +194,10 @@ var PlanosPage = function () {
   this.deveConterEstagioQueRecebeDispensavel = function(estagio) {
     return world.waitForByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(@selected, "selected")][contains(text(), "'+estagio+'")]');
   };
+
+  this.valorDoKnob = function(valor) {
+    return world.waitForByXpath('//influunt-knob[contains(@title, "DEFASAGEM")]//p[contains(@class, "knob-value")][contains(text(), "'+valor+'")]');
+  };
 };
 
 module.exports = PlanosPage;
