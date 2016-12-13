@@ -188,4 +188,7 @@ module.exports = function() {
     return planosPage.deveConterEstagioQueRecebeDispensavel(estagio);
   });
 
+  this.Given(/^o valor da defasagem deverá ser "([^"]*)"$/, function (valor) {
+    return planosPage.valorDoKnob(valor);
+  });
 };
