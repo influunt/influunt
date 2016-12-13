@@ -14,7 +14,7 @@ angular.module('influuntApp')
       if (!angular.isDefined(endereco) || !angular.isDefined(endereco.localizacao)) { return ''; }
 
       var nomeEndereco = endereco.localizacao;
-      if (endereco.alturaNumerica) {
+      if (endereco.alturaNumerica || angular.isNumber(endereco.alturaNumerica)) {
         nomeEndereco += ', nº ' + endereco.alturaNumerica;
       }
 
