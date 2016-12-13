@@ -7,8 +7,8 @@
  * # sincronizacao
  */
 angular.module('influuntApp')
-  .directive('sincronizacao', ['Restangular', 'influuntBlockui', '$filter', 'toast', 'mqttTransactionStatusService',
-    function (Restangular, influuntBlockui, $filter, toast, mqttTransactionStatusService) {
+  .directive('sincronizacao', ['Restangular', 'influuntBlockui', '$filter', 'toast',
+    function (Restangular, influuntBlockui, $filter, toast) {
       return {
         templateUrl: 'views/directives/imposicoes/sincronizacao-form.html',
         restrict: 'E',
@@ -17,17 +17,18 @@ angular.module('influuntApp')
           idsTransacoes: '=',
           trackTransaction: '=',
           dismissOnSubmit: '=',
-          timeout: '='
+          timeout: '=?',
+          transacoes: '=?'
         },
         link: function sincronizacao(scope, el) {
-          var transactionTracker;
+          var DEFAUT_TIMEOUT = 60;
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
             var resource = scope.dataSincronizar.tipo;
             var data = {
               aneisIds: idsAneisSelecionados,
-              timeout: scope.timeout
+              timeout: scope.timeout || DEFAUT_TIMEOUT
             };
 
             if (resource.match(/tabela_horaria/)) {
@@ -36,28 +37,29 @@ angular.module('influuntApp')
             }
 
             return Restangular.one('imposicoes').customPOST(data, resource)
-              .then(function(response) {
-                response = response.plain();
-                var transacaoId = Object.keys(response)[0];
-                _.each(response[transacaoId], function(target) {
-                  scope.idsTransacoes[target] = transacaoId;
-                  return scope.trackTransaction && transactionTracker(transacaoId);
-                });
-              })
               .finally(influuntBlockui.unblock);
           };
 
-          transactionTracker = function(id) {
-            return mqttTransactionStatusService
-              .watchTransaction(id)
-              .then(function(transmitido) {
-                if (transmitido) {
-                  toast.success($filter('translate')('imporConfig.sincronizacao.sucesso'));
-                } else {
-                  toast.warn($filter('translate')('imporConfig.sincronizacao.erro'));
+          /**
+           * Exibição de mensagem de sucesso para mapas (toast).
+           */
+          scope.$watch('transacoes', function(transacoes) {
+            if (_.isObject(transacoes) && _.isArray(scope.aneisSelecionados)) {
+              _.each(scope.aneisSelecionados, function(anel) {
+                if (anel) {
+                  var transacao = transacoes[anel.controladorFisicoId];
+                  var isPacoteTabelaHoraria = transacao && transacao.tipoTransacao === 'PACOTE_TABELA_HORARIA';
+
+                  if (isPacoteTabelaHoraria && transacao.status === 'DONE') {
+                    toast.success($filter('translate')('imporConfig.sincronizacao.sucesso'));
+                  } else if (isPacoteTabelaHoraria && transacao.status === 'ABORTED') {
+                    // @todo: Adicionar mensagem de erro do mqtt?
+                    toast.error($filter('translate')('imporConfig.sincronizacao.erro'));
+                  }
                 }
               });
-          };
+            }
+          }, true);
 
           $(el).find('#sincronizar-submit').on('click', function() {
             if (scope.dismissOnSubmit) {
@@ -75,7 +77,8 @@ angular.module('influuntApp')
       scope: {
         aneisSelecionados: '=',
         idsTransacoes: '=',
-        trackTransaction: '='
+        trackTransaction: '=',
+        transacoes: '=?'
       }
     };
   }])

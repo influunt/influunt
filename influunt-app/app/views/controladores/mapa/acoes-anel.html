@@ -36,7 +36,7 @@
 
           <li data-ng-if="currentAnel.hasPlanoImposto">
             <strong>{{ 'controladores.mapaControladores.planoImposto' | translate }}</strong>
-            <liberar-imposicao anel="currentAnel" ids-transacoes="{}"></liberar-imposicao>
+            <liberar-imposicao anel="currentAnel" transacoes="statusObj.transacoes"></liberar-imposicao>
           </li>
 
         </ul>
@@ -60,16 +60,19 @@
         <imposicao-plano-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
             track-transaction="true">
         </imposicao-plano-popup>
         <imposicao-modo-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
             track-transaction="true">
         </imposicao-modo-popup>
         <sincronizacao-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
             track-transaction="true">
         </sincronizacao-popup>
       </div>

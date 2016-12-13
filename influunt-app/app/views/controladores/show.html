@@ -39,7 +39,7 @@
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
                       type="button"
                       ng-click="copiar(objeto.id)"
-                      ng-if="(objeto.statusControlador == 'ATIVO' || objeto.statusControlador == 'CONFIGURADO') && podeEditarControlador(objeto) && !controladorBloqueadoParaEdicao()"
+                      ng-if="(objeto.statusControlador == 'SINCRONIZADO' || objeto.statusControlador == 'CONFIGURADO') && podeEditarControlador(objeto) && !controladorBloqueadoParaEdicao()"
                       permission permission-only="'criarControlador'">
                     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                   </a>
