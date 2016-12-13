@@ -19,3 +19,4 @@ influunt-api/default-create-all.sql
 influunt-api/default-drop-all.sql
 influunt-api/central-tcp*
 influunt-bin/instaladores/*
+db
