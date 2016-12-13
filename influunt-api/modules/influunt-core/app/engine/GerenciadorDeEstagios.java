@@ -17,8 +17,6 @@ import java.util.*;
  */
 public class GerenciadorDeEstagios implements EventoCallback {
 
-    private final DateTime inicioControlador;
-
     private final DateTime inicioExecucao;
 
     private final GerenciadorDeEstagiosCallback callback;
@@ -68,14 +66,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
-                                 DateTime inicioExecucao,
                                  Plano plano,
                                  GerenciadorDeEstagiosCallback callback,
                                  Motor motor) {
 
         this.anel = anel;
-        this.inicioControlador = inicioControlador;
-        this.inicioExecucao = inicioExecucao;
+        this.inicioExecucao = inicioControlador;
         this.callback = callback;
         this.motor = motor;
 
@@ -520,12 +516,23 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorEstagio = 0;
     }
 
-    public long getContadorTempoCiclo() {
-        return contadorTempoCiclo;
+    public int getContadorTempoCicloEmSegundos() {
+        if (plano.isModoOperacaoVerde() && !plano.isManual()) {
+            return (int) (contadorTempoCiclo / 1000L);
+        }
+        return 0;
     }
 
-    public int getContadorTempoCicloEmSegundos() {
-        return (int) (contadorTempoCiclo / 1000L);
+    public String getEstagioAtual() {
+        return getEstagioPlanoAtual().getEstagio().getId() != null ?
+            getEstagioPlanoAtual().getEstagio().toString() : "";
+    }
+
+    public String getPosicaoPlano() {
+        if (plano.isManual() || plano.isImpostoPorFalha()) {
+            return "";
+        }
+        return plano.getPosicao().toString();
     }
 
     public IntervaloGrupoSemaforico getIntervalosGruposSemaforicos() {
@@ -561,16 +568,19 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     public int getTempoRestanteDoEstagio() {
-        Long tempoEstagio = this.intervalos.getEntry(0L).getKey().upperEndpoint();
-        final Map.Entry<Range<Long>, IntervaloEstagio> verde = this.intervalos.getEntry(tempoEstagio + 1);
-        if (verde != null) {
-            tempoEstagio = verde.getKey().upperEndpoint();
+        if (plano.isModoOperacaoVerde() && !plano.isManual()) {
+            Long tempoEstagio = this.intervalos.getEntry(0L).getKey().upperEndpoint();
+            final Map.Entry<Range<Long>, IntervaloEstagio> verde = this.intervalos.getEntry(tempoEstagio + 1);
+            if (verde != null) {
+                tempoEstagio = verde.getKey().upperEndpoint();
+            }
+            return (int) ((tempoEstagio - contadorIntervalo) / 1000L);
         }
-        return (int) ((tempoEstagio - contadorIntervalo) / 1000L);
+        return 0;
     }
 
     public int getTempoRestanteDoCiclo() {
-        if (plano.getTempoCiclo() != null) {
+        if (plano.getTempoCiclo() != null && plano.isModoOperacaoVerde() && !plano.isManual()) {
             return (int) (((plano.getTempoCiclo() * 1000L) - contadorTempoCiclo) / 1000L);
         } else {
             return 0;

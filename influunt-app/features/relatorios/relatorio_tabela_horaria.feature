@@ -24,7 +24,7 @@ Funcionalidade: Realizar o relatório da tabela horária
 
   Cenário: Visualizar vários eventos
     Dado o usuário no campo data preencher com valor "02/12/2016"
-    E o usuário selecionar no campo "controlador" selecionar o label "1.000.0002 - Av. Paulista, nº 1000. ref.: AREA 1"
+    E o usuário selecionar no campo "controlador" selecionar o label "1.003.0002 - Av. Paulista, nº 1000. ref.: AREA 1"
     Quando o usuário clicar em Gerar
     Então o sistema deverá mostrar na coluna "Horário" com valor "01:00:00.000"
     E o sistema deverá mostrar na coluna "Plano" com valor "PLANO 4"
@@ -36,7 +36,7 @@ Funcionalidade: Realizar o relatório da tabela horária
   Cenário: Visualizar evento especial
     Dado o usuário limpar o campo "Data"
     E o usuário no campo data preencher com valor "08/11/2016"
-    E o usuário selecionar no campo "controlador" selecionar o label "1.000.0002 - Av. Paulista, nº 1000. ref.: AREA 1"
+    E o usuário selecionar no campo "controlador" selecionar o label "1.003.0002 - Av. Paulista, nº 1000. ref.: AREA 1"
     Quando o usuário clicar em Gerar
     Então o sistema deverá mostrar na coluna "Horário" com valor "00:00:00.000"
     E o sistema deverá mostrar na coluna "Plano" com valor "PLANO 4"

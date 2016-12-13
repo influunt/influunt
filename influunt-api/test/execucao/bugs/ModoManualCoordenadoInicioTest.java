@@ -30,10 +30,9 @@ public class ModoManualCoordenadoInicioTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void manualComTempoDoSegundoEstagioMenor() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 28, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 28, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 300);
 
@@ -70,10 +69,9 @@ public class ModoManualCoordenadoInicioTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void marcaAtivacaoEDesativacaoDoModoManual() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 28, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 28, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 4);
         acionarModoManual(motor);

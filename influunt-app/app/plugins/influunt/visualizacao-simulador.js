@@ -5,7 +5,7 @@ var influunt;
   var components;
   (function (components) {
     var Simulador = (function () {
-      function Simulador(inicioSimulacao,fimSimulacao,velocidade,config, mqttUrl, mqttPort) {
+      function Simulador(inicioSimulacao,velocidade,config, mqttUrl, mqttPort) {
         var game;
 
         velocidade = parseFloat(velocidade);

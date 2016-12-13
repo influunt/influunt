@@ -30,10 +30,9 @@ public class GerenciadorDeEstagiosComAtrasoDeGrupoTest extends GerenciadorDeTroc
     @Test
     public void atrasoDeGrupoAutomaticoUmaPassada() throws IOException {
         // imagem do diagrama de intervalos desse plano: http://imgur.com/a/hH7SS
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         controlador = getControladorAtrasoDeGrupoAutomaticoUmaPassada();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 100);
@@ -111,7 +110,6 @@ public class GerenciadorDeEstagiosComAtrasoDeGrupoTest extends GerenciadorDeTroc
     @Test
     public void atrasoDeGrupoAutomaticoMultiplasPassadas() throws IOException {
         // imagem do diagrama de intervalos desse plano: http://imgur.com/a/8VkUK
-        inicioControlador = new DateTime(2016, 10, 20, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 0, 0, 0);
         controlador = getControladorAtrasoDeGrupoAutomaticoUmaPassada();
         Plano plano = controlador.getAneis().stream().filter(anel -> anel.getPosicao() == 1).findFirst().orElse(null).getPlanos().stream().filter(p -> p.getPosicao() == 1).findFirst().orElse(null);
@@ -121,7 +119,7 @@ public class GerenciadorDeEstagiosComAtrasoDeGrupoTest extends GerenciadorDeTroc
         ep1.setPosicao(2);
         ep2.setPosicao(3);
         ep3.setPosicao(1);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 200);

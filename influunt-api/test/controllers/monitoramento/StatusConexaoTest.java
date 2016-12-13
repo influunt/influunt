@@ -2,7 +2,12 @@ package controllers.monitoramento;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
+import integracao.ControladorHelper;
 import models.Cidade;
+import models.Controlador;
+import models.ControladorFisico;
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
@@ -107,7 +112,6 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
         assertEquals(2, status.size());
         assertFalse(Boolean.valueOf(status.get(0).get("conectado").toString()));
-
     }
 
 
@@ -167,6 +171,42 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
         assertTrue(json.get(0).get("conectado").asBoolean());
 
+    }
+
+    @Test
+    public void testDetalheControladorApi() {
+        Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        controlador.save();
+
+        ControladorFisico controladorFisico = controlador.getVersaoControlador().getControladorFisico();
+        controladorFisico.setControladorSincronizado(controlador);
+        controladorFisico.update();
+
+        jongo.getCollection(StatusConexaoControlador.COLLECTION).drop();
+        DateTime now = DateTime.now();
+        String cfId = controladorFisico.getId().toString();
+        StatusConexaoControlador.log(cfId, now.minusDays(90).getMillis(), true);
+        StatusConexaoControlador.log(cfId, now.minusDays(40).getMillis(), false);
+        StatusConexaoControlador.log(cfId, now.minusDays(30).plusSeconds(20).getMillis(), true);
+        StatusConexaoControlador.log(cfId, now.minusDays(30).plusSeconds(30).getMillis(), false);
+        StatusConexaoControlador.log(cfId, now.minusDays(20).getMillis(), true);
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+            .uri(controllers.monitoramento.routes.MonitoramentoController.detalheControlador(cfId).url());
+        Result result = route(request);
+        assertEquals(OK, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+
+        // somente os status dos últimos 30 dias são retornados
+        assertEquals(json.get("historico").size(), 3);
+        assertEquals(json.get("percentualOnline").asInt(), 66);
+
+
+        // -1 porque somente as horas completas são contabilizadas, os 30 segundos a menos retiraram a última hora.
+        int horasOffline = Hours.hoursBetween(new DateTime(now.minusDays(30).getMillis()), new DateTime(now.minusDays(20).getMillis())).getHours() - 1;
+        int horasOnline = Hours.hoursBetween(new DateTime(now.minusDays(20).getMillis()), DateTime.now()).getHours();
+        assertEquals(horasOnline, json.get("totalOnline").asInt());
+        assertEquals(horasOffline, json.get("totalOffline").asInt());
     }
 
 

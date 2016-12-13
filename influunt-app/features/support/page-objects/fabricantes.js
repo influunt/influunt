@@ -35,10 +35,7 @@ var FabricantesPage = function () {
   };
 
   this.newPage = function() {
-    world.visit(NEW_PATH);
-    return world.waitFor(inputNomeFabricante).then(function() {
-      return world.waitForOverlayDisappear();
-    });
+    return world.visit(NEW_PATH);
   };
 
   this.existeAoMenosUmFabricante = function() {

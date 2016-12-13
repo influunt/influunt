@@ -169,8 +169,8 @@ module.exports = function() {
     return wizardPage.limparCampos();
   });
 
-  this.Given(/^o usuário preencher o campo NÚMERO SMEE com 123$/, function () {
-    return wizardPage.preencherCampoSMEECom123();
+  this.Given(/^o usuário preencher o campo NÚMERO SMEE com "([^"]*)"$/, function (numero) {
+    return wizardPage.preencherCampoSMEECom(numero);
   });
 
   this.Given(/^o usuário clicar para fechar o modal$/, function () {

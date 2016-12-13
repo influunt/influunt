@@ -6,6 +6,7 @@ Funcionalidade: Vizualisar Controladores em um Mapa
     Dado que o sistema possui ao menos um controlador cadastrado
     E que o sistema possua planos para o controlador cadastrado
     E que o sistema possua tabela horária para o controlador cadastrado
+    E que este controlador esteja finalizado
     Quando que o usuário acesse a página de listagem de controladores
     E o usuário clicar no botão "Ver no mapa"
     Então o sistema deve redirecionar para o mapa

@@ -14,6 +14,7 @@ Funcionalidade: Realizar o relatório de status dos controladores
   Cenário: Acessar a tela de relatório dos controladores que possuem falhas
     Dado o usuário acessar o relatório "controladores_falhas"
     Então o sistema deverá apresentar na listagem controlador "Falha no Controlador"
+    E o sistema deverá apresentar na listagem controlador "Detector veicular - Falta de acionamento"
 
   Cenário: Fazer o download do arquivo csv dos controladores que possuem falhas
     Dado o usuário clicar em "CSV"

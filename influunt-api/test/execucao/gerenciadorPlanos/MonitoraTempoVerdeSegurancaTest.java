@@ -34,10 +34,9 @@ public class MonitoraTempoVerdeSegurancaTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void trocaDePlano() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 2, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 2, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 300);
 
@@ -84,10 +83,9 @@ public class MonitoraTempoVerdeSegurancaTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imposicaoDePlanoNoEntreVerdes() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 2, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 2, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 10);
 
@@ -143,10 +141,9 @@ public class MonitoraTempoVerdeSegurancaTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void imposicaoDePlanoNoVerde() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 2, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 2, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 10);
 
@@ -202,10 +199,9 @@ public class MonitoraTempoVerdeSegurancaTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaDemandaPrioritaria() throws IOException {
-        inicioControlador = new DateTime(2016, 12, 2, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 12, 2, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
         Anel anel = getAnel(1);
         Pair<Integer, TipoDetector> detector = getDetector(anel, 1);
 

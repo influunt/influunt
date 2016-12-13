@@ -18,6 +18,8 @@ import utils.RangeUtils;
 import javax.validation.groups.Default;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.*;
@@ -912,7 +914,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
         JsonNode controladorJson = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
         for (JsonNode epNode : controladorJson.get("estagiosPlanos")) {
-            if (epNode.get("idJson").asText() == ep.getIdJson()) {
+            if (Objects.equals(epNode.get("idJson").asText(), ep.getIdJson())) {
                 ((ObjectNode) epNode).put("destroy", true);
             }
         }
@@ -930,6 +932,39 @@ public class ControladorPlanoTest extends ControladorTest {
         Plano plano2 = versao2.getPlanos().stream().sorted((p1, p2) -> p1.getPosicao().compareTo(p2.getPosicao())).findFirst().orElse(null);
 
         assertEquals(totalEstagiosPlanos - 1, plano2.getEstagiosPlanos().size());
+    }
+
+    @Test
+    public void testDestroyEstagioPlanoModoManual() {
+        Controlador controlador = getControladorPlanos();
+        controlador.save();
+
+        List<Erro> erros = getErros(controlador);
+        assertNotNull(controlador.getId());
+        assertThat(erros, empty());
+
+        List<Anel> aneisManuais = controlador.getAneis().stream().filter(a -> a.isAtivo() && a.isAceitaModoManual()).collect(Collectors.toList());
+        Anel anelManual1 = aneisManuais.get(0);
+        Anel anelManual2 = aneisManuais.get(1);
+
+        Plano planoManual1 = anelManual1.getPlanos().get(0);
+        planoManual1.setModoOperacao(ModoOperacaoPlano.MANUAL);
+
+        Plano planoManual2 = anelManual2.getPlanos().get(0);
+        planoManual2.setModoOperacao(ModoOperacaoPlano.MANUAL);
+
+        erros = getErros(controlador);
+        assertEquals(2, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[0].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk"),
+            new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[1].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk")
+        ));
+
+        planoManual1.getEstagiosPlanos().get(0).setDestroy(true);
+        planoManual1.getEstagiosPlanos().get(1).setDestroy(true);
+
+        erros = getErros(controlador);
+        assertEquals(0, erros.size());
     }
 
     @Override

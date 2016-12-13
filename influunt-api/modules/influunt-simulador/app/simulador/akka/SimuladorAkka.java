@@ -20,7 +20,7 @@ public class SimuladorAkka extends Simulador {
     private DateTime ponteiro;
 
     public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros) {
-        super(parametros.getInicioControlador(), parametros.getControlador(), parametros);
+        super(parametros.getControlador(), parametros);
         this.simuladorActor = simuladorActor;
     }
 

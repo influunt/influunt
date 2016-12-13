@@ -123,14 +123,14 @@ public class SimuladorActor extends UntypedActor {
     }
 
     private void proximaPagina(DateTime disparo) throws Exception {
-        final int diff = ((Long) ((disparo.getMillis() - params.getInicioSimulacao().getMillis()) / 1000)).intValue();
+        final int diff = ((Long) ((disparo.getMillis() - params.getInicioControlador().getMillis()) / 1000)).intValue();
         final int pagina = diff / SEGUNDOS_POR_PAGINA;
         proximaPagina(pagina);
     }
 
     private void proximaPagina(int pagina) throws Exception {
         this.pagina = pagina;
-        DateTime inicio = params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
+        DateTime inicio = params.getInicioControlador().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
         simulador.simular(fim);
         send();
@@ -170,7 +170,7 @@ public class SimuladorActor extends UntypedActor {
         estagios.keySet().stream().forEach(key -> {
             ArrayNode anelArray = aneis.putArray(key.toString());
             estagios.get(key).stream().forEach(e -> {
-                anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioSimulacao().getMillis())));
+                anelArray.add(e.getSecond().toJson(e.getFirst().minus(params.getInicioControlador().getMillis())));
             });
         });
 
@@ -232,6 +232,6 @@ public class SimuladorActor extends UntypedActor {
     }
 
     public DateTime getPagina() {
-        return params.getInicioSimulacao().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
+        return params.getInicioControlador().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
     }
 }

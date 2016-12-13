@@ -17,7 +17,6 @@ var PerfisPage = function () {
     return world.waitFor('tbody tr[data-ng-repeat="perfil in lista"]');
   };
 
-
   this.clicarNoLinkDoPerfil = function(perfil, botao) {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElementByXpath('//tr//td[contains(text(), "'+perfil+'")]//following-sibling::td//a[contains(text(), "'+botao+'")]').click();
