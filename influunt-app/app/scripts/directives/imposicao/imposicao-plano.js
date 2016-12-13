@@ -44,6 +44,10 @@ angular.module('influuntApp')
           scope.getControlador = function() {
             return getControladores()[0];
           };
+          
+          scope.getIdControlador = function() {
+            return _.chain(scope.aneisSelecionados).map('controladorId').uniq().value()[0];
+          };
 
           scope.$watch('aneisSelecionados', function(aneisSelecionados) {
             if (_.isArray(aneisSelecionados)) {

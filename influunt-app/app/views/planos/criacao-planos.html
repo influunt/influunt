@@ -124,7 +124,8 @@
                                         data-if-changed="selecionaPlano(plano, $index)">
 
                                     <span class="nome-plano" data-ng-class="{configurado: plano.configurado}">
-                                      {{'tabelaHorarios.plano' | translate}} {{ plano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : plano.posicao }}
+                                      {{'tabelaHorarios.plano' | translate}} 
+                                      {{ plano.modoOperacao === 'MANUAL' ? ('planos.modoManual' | translate) : $last ? ('planos.temporario' | translate) : plano.posicao }}
                                     </span>
                                     <span class="badge badge-danger badge-notification pull-right m-t-sm"
                                         data-ng-if="planoTemErro($index)"
