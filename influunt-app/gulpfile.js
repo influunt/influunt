@@ -86,6 +86,8 @@ var paths = {
     'bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js',
     'bower_components/paho-mqtt/src/mqttws31.js',
     'bower_components/ng-idle/angular-idle.js',
+    'bower_components/bootstrap/dist/js/bootstrap.js',
+    'bower_components/phaser/build/phaser.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
