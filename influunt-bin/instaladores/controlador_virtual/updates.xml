@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updateDescriptor baseUrl="">
+  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="influunt_unix_1_0.sh" newVersion="1.0" newMediaFileId="36" fileSize="73743023" bundledJre="" archive="false">
+    <comment language="pt_BR" />
+  </entry>
+  <entry targetMediaFileId="34" updatableVersionMin="" updatableVersionMax="" fileName="influunt_windows_1_0.exe" newVersion="1.0" newMediaFileId="34" fileSize="109491200" bundledJre="windows-x86-1.8.0_112" archive="false">
+    <comment language="pt_BR" />
+  </entry>
+  <entry targetMediaFileId="24" updatableVersionMin="" updatableVersionMax="" fileName="influunt_macos_1_0.dmg" newVersion="1.0" newMediaFileId="24" fileSize="74379399" bundledJre="" archive="false">
+    <comment language="pt_BR" />
+  </entry>
+</updateDescriptor>
