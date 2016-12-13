@@ -156,6 +156,7 @@ Funcionalidade: Fluxo de cadastro de planos
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos
     E o usuário deve ter a opção de marcar a defasagem do ciclo
+    E o usuário realizar um scroll down
     E que o usuário marque 5 segundos para o "Defasagem"
     E que o usuário clique no botão de configurar o estágio "E1"
     E que o usuário marque 14 segundos para o "Tempo de Verde"

@@ -503,8 +503,8 @@ var WizardControladorPage = function () {
     });
   };
 
-  this.preencherCampoSMEECom123 = function() {
-    return world.setValue('[name="numeroSMEE"]', '123');
+  this.preencherCampoSMEECom = function(numero) {
+    return world.setValue('[name="numeroSMEE"]', numero);
   };
 
   this.preencherModificao = function(valor){

@@ -46,7 +46,7 @@ public class AlarmesEFalhasController extends Controller {
         Usuario usuario = Usuario.find.byId(UUID.fromString(usuarioId));
 
         if (usuario == null) {
-            return CompletableFuture.completedFuture(forbidden());
+            return CompletableFuture.completedFuture(notFound());
         }
 
         if (json == null) {

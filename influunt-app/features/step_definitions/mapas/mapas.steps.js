@@ -64,8 +64,16 @@ module.exports = function() {
     return mapasPage.checkPointsOnMapa('controlador', quantidade);
   });
 
+  this.Given(/^o sistema deverá mostrar no mapa "([^"]*)" controladores offline$/, function(quantidade) {
+    return mapasPage.checkPointsOnMapa('controlador-offline', quantidade);
+  });
+
   this.Given(/^o sistema deverá mostrar no mapa "([^"]*)" aneis$/, function(quantidade) {
-    return mapasPage.checkPointsOnMapa('anel', quantidade);
+    return mapasPage.checkPointsOnMapa('anel-controle-central', quantidade);
+  });
+
+  this.Given(/^o sistema deverá mostrar no mapa "([^"]*)" aneis offline$/, function(quantidade) {
+    return mapasPage.checkPointsOnMapa('anel-offline', quantidade);
   });
 
   this.Given(/^o sistema deverá marcar o agrupamento da subarea no mapa$/, function() {

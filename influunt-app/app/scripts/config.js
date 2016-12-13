@@ -883,7 +883,7 @@ angular
             title: 'alarmesEFalhas.titulo',
             breadcrumb: 'alarmesEFalhas.titulo',
             permissions: {
-              only: 'verLogAcessoUsuarios',
+              only: 'configurarAlarmesFalhas',
               redirectTo: 'app.main'
             }
           }

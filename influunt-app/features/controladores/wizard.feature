@@ -14,16 +14,22 @@ Funcionalidade: Fluxo de cadastro de controladores
     Quando o usuário clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar erro no campo "endereco"
     E o sistema deverá indicar erro no campo "area"
-    E o sistema deverá indicar erro no campo "endereco2"
+    E o sistema deverá indicar erro no campo "endereco2" com a mensagem "não pode ficar em branco, caso não seja preenchido a altura numérica."
     E o sistema deverá indicar erro no campo "modelo"
     E o sistema irá continuar no passo "Dados Básicos"
+
+  Cenário: Validar o número do SMEE buscando da base do SMEE
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário preencher o campo NÚMERO SMEE com "1"
+    E o usuário clicar no botão "Salvar e Avançar"
+    Então o sistema deverá indicar erro no campo "numeroSMEE" com a mensagem "O número informado não é reconhecido na base do SMEE."
 
   Cenário: Salvar dados básicos do controlador
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"
     E o usuário adicionar imagem ao "Croqui"
     E o usuário selecionar o valor "1" no campo "Área"
-    E o usuário preencher o campo NÚMERO SMEE com 123
+    E o usuário preencher o campo NÚMERO SMEE com "1234"
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuário preencher o campo "Altura Numérica" com "123"
