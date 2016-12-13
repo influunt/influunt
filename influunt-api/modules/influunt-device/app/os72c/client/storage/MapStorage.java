@@ -34,7 +34,7 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, Boolean> falhas;
 
-    private final HTreeMap<String, Map<String,String>> tempData;
+    private final HTreeMap<String, Map<String, String>> tempData;
 
     @Inject
     public MapStorage(StorageConf storageConf) {
@@ -231,28 +231,28 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public void setTempData(String id,String key, String value) {
-        Map<String,String> map = null;
+    public void setTempData(String id, String key, String value) {
+        Map<String, String> map = null;
 
-        if(!this.tempData.containsKey(id)){
+        if (!this.tempData.containsKey(id)) {
             map = new HashMap<>();
-        }else{
+        } else {
             map = this.tempData.get(id);
         }
 
-        map.put(key,value);
-        this.tempData.put(id,map);
+        map.put(key, value);
+        this.tempData.put(id, map);
         db.commit();
     }
 
     @Override
-    public String getTempData(String id,String key) {
+    public String getTempData(String id, String key) {
         return this.tempData.get(id).get(key);
     }
 
     @Override
     public void clearTempData(String id) {
-        if(this.tempData.containsKey(id)) {
+        if (this.tempData.containsKey(id)) {
             this.tempData.get(id).clear();
             db.commit();
         }
