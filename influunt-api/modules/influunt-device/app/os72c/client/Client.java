@@ -123,15 +123,10 @@ public class Client {
     }
 
     public static Application createApplication(Map configuration,boolean recreate) {
-        if(recreate){
-            return new GuiceApplicationBuilder().configure(configuration)
-            .overrides(bind(StorageConf.class).to(RecreateDiskStorageConf.class).in(Singleton.class))
+        Class klass = recreate ? RecreateDiskStorageConf.class : DiskStorageConf.class;
+        return new GuiceApplicationBuilder().configure(configuration)
+            .overrides(bind(StorageConf.class).to(klass).in(Singleton.class))
             .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class)).build();
-        }else {
-            return new GuiceApplicationBuilder().configure(configuration)
-                .overrides(bind(StorageConf.class).to(DiskStorageConf.class).in(Singleton.class))
-                .overrides(bind(Storage.class).to(MapStorage.class).in(Singleton.class)).build();
-        }
     }
 
     private void setupLog() {
