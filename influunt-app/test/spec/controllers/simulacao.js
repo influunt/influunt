@@ -28,6 +28,14 @@ describe('Controller: SimulacaoCtrl', function () {
 
     httpBackend = $httpBackend;
     stateParams = $stateParams;
+
+    influunt.components.Simulador = function() {
+      return {
+        state: {
+          destroy: function() {}
+        }
+      }
+    };
   }));
 
   it('init() deve setar dados do controlador da simulação', function() {
