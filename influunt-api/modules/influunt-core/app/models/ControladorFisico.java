@@ -86,6 +86,13 @@ public class ControladorFisico extends Model implements Serializable {
     @JoinColumn(name = "controlador_sincronizado_id")
     private Controlador controladorSincronizado;
 
+    @Column
+    private String marca;
+
+
+    @Column
+    private String modelo;
+
 
     public UUID getId() {
         return id;
@@ -168,13 +175,21 @@ public class ControladorFisico extends Model implements Serializable {
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 
-    public Controlador getControladorConfiguradoOuAtivo() {
-        VersaoControlador versaoControlador = this
-            .getVersoes()
-            .stream()
-            .filter(versaoControladorAux ->
-                StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao())
-            ).findFirst().orElse(null);
+    public Controlador getControladorSincronizadoOuConfigurado() {
+        VersaoControlador versaoControlador = VersaoControlador.find.where().
+            and(
+                Expr.eq("controlador_fisico_id", this.id.toString()),
+                Expr.eq("status_versao", StatusVersao.SINCRONIZADO)
+            ).findUnique();
+
+        if (versaoControlador == null) {
+            versaoControlador = VersaoControlador.find.where().
+                and(
+                    Expr.eq("controlador_fisico_id", this.id.toString()),
+                    Expr.eq("status_versao", StatusVersao.CONFIGURADO)
+                ).findUnique();
+        }
+
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
     }
 
@@ -231,5 +246,21 @@ public class ControladorFisico extends Model implements Serializable {
 
     public void setControladorSincronizado(Controlador controladorSincronizado) {
         this.controladorSincronizado = controladorSincronizado;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 }

@@ -146,7 +146,12 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
-        Envelope controladorOnline = ControladorOnline.getMensagem(id, DateTime.now().getMillis(), "1.0", storage.getStatus());
+        Envelope controladorOnline = ControladorOnline.getMensagem(id,
+            DateTime.now().getMillis(),
+            storage.getFirmware(),
+            storage.getStatus(),
+            storage.getMarca(),
+            storage.getModelo());
         sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
     }
