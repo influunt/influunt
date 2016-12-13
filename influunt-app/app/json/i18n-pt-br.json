@@ -877,7 +877,7 @@
     },
     "sincronizacao": {
       "titulo": "Enviar",
-      "sucesso": "Envio executada com sucesso",
+      "sucesso": "Envio executado com sucesso",
       "erro": "Não foi possível finalizar o envio dos dados para o controlador"
     },
     "plano": {
@@ -909,10 +909,10 @@
     "editar": "Editar",
     "imporApagado": "Impor modo Apagado",
     "imporInterm": "impor modo interminente",
-    "sincronizarTabelaHorariaImadiato": "Enviar e Implementar Tabela Horária Imediatamente",
-    "sincronizarTabelaHoraria": "Enviar Tabela Horária na Próxima Troca de Planos",
-    "sincronizarPlano": "Enviar Planos",
-    "sincronizarHPConfig": "Enviar Tabela Horária, Planos e Configuração do Controlador",
+    "sincronizarTabelaHorariaImadiato": "Enviar e implementar tabela horária imediatamente",
+    "sincronizarTabelaHoraria": "Enviar e implementar tabela horária na próxima troca de planos",
+    "sincronizarPlano": "Enviar planos",
+    "sincronizarHPConfig": "Enviar tabela horária, planos e configuração do controlador",
     "sincronizando": "Enviando",
     "transacao": "Transação",
     "tempoMaximoEspera": "Tempo máximo de espera",
