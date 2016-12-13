@@ -9,9 +9,9 @@
         <div class="row">
           <div class="col-sm-12">
 
-            <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.clc }}</p><br>
-            <p><strong>{{ 'imporConfig.statusControlador' | translate }}:</strong> {{ dadosControlador.status | translate}}</p><br>
-            <p><strong>{{ 'imporConfig.relogio' | translate }}:</strong> {{ dadosControlador.relogio | date: 'dd/MM/yyyy HH:MM:ss' }}</p><br>
+            <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.conteudo.clc }}</p><br>
+            <p><strong>{{ 'imporConfig.statusControlador' | translate }}:</strong> {{ dadosControlador.conteudo.status | translate}}</p><br>
+            <p><strong>{{ 'imporConfig.relogio' | translate }}:</strong> {{ dadosControlador.conteudo.relogio | date: 'dd/MM/yyyy HH:mm:ss' }}</p><br>
 
             <h2 class='text-center'>{{ 'imporConfig.parametrosControlador' | translate }}</h2>
             <!-- PARAMETROS -->
@@ -22,7 +22,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="dado in dadosControlador.dados">
+                <tr data-ng-repeat="dado in dadosControlador.conteudo.dados | orderBy:texto:reverse=true">
                   <td>{{ dado.texto }}</td>
                 </tr>
               </tbody>
@@ -65,7 +65,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="plano in dadosControlador.planos">
+                <tr data-ng-repeat="plano in dadosControlador.conteudo.planos">
                   <td>{{ plano.cla }}</td>
                   <td>{{ plano.posicaoPlano }}</td>
                   <td data-ng-if="plano.imposto">{{'imporConfig.planoForcado' | translate}}</td>
