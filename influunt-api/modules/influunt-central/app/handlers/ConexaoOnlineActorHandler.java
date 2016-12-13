@@ -46,7 +46,7 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
                     controlador.setFirmware(jsonConteudo.get("firmware").asText());
                     controlador.update();
                 }
-                
+
                 controladorFisico.update();
             }
         }
