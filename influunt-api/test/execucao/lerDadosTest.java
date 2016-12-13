@@ -10,14 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by rodrigosol on 12/13/16.
  */
-public class lerDadosTest extends MotorTest{
+public class LerDadosTest extends MotorTest {
 
     @Before
     public void setup() {
@@ -34,26 +34,26 @@ public class lerDadosTest extends MotorTest{
         GerenciadorDeEstagios gerenciador = motor.getEstagios().get(0);
 
         Plano plano = gerenciador.getPlano();
-        assertEquals("modoOperacao", ModoOperacaoPlano.TEMPO_FIXO_ISOLADO.toString(), plano.getModoOperacao().toString());
-        assertEquals("posicaoPlano", "1", gerenciador.getPosicaoPlano());
-        assertEquals("impostoPorFalha", false, plano.isImpostoPorFalha());
-        assertEquals("imposto", false, plano.isImposto());
-        assertEquals("estagioAtual", "E1", gerenciador.getEstagioAtual());
-        assertEquals("tempoRestanteDoEstagio", 8, gerenciador.getTempoRestanteDoEstagio());
-        assertEquals("tempoRestanteDoCiclo", 42, gerenciador.getTempoRestanteDoCiclo());
-        assertEquals("momentoCiclo", 10, gerenciador.getContadorTempoCicloEmSegundos());
+        assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO.toString(), plano.getModoOperacao().toString());
+        assertEquals("1", gerenciador.getPosicaoPlano());
+        assertFalse(plano.isImpostoPorFalha());
+        assertFalse(plano.isImposto());
+        assertEquals("E1", gerenciador.getEstagioAtual());
+        assertEquals(8, gerenciador.getTempoRestanteDoEstagio());
+        assertEquals(42, gerenciador.getTempoRestanteDoCiclo());
+        assertEquals(10, gerenciador.getContadorTempoCicloEmSegundos());
 
         avancarSegundos(motor, 40);
 
         plano = gerenciador.getPlano();
-        assertEquals("modoOperacao", ModoOperacaoPlano.TEMPO_FIXO_ISOLADO.toString(), plano.getModoOperacao().toString());
-        assertEquals("posicaoPlano", "1", gerenciador.getPosicaoPlano());
-        assertEquals("impostoPorFalha", false, plano.isImpostoPorFalha());
-        assertEquals("imposto", false, plano.isImposto());
-        assertEquals("estagioAtual", "E3", gerenciador.getEstagioAtual());
-        assertEquals("tempoRestanteDoEstagio", 2, gerenciador.getTempoRestanteDoEstagio());
-        assertEquals("tempoRestanteDoCiclo", 2, gerenciador.getTempoRestanteDoCiclo());
-        assertEquals("momentoCiclo", 50, gerenciador.getContadorTempoCicloEmSegundos());
+        assertEquals(ModoOperacaoPlano.TEMPO_FIXO_ISOLADO.toString(), plano.getModoOperacao().toString());
+        assertEquals("1", gerenciador.getPosicaoPlano());
+        assertFalse(plano.isImpostoPorFalha());
+        assertFalse(plano.isImposto());
+        assertEquals("E3", gerenciador.getEstagioAtual());
+        assertEquals(2, gerenciador.getTempoRestanteDoEstagio());
+        assertEquals(2, gerenciador.getTempoRestanteDoCiclo());
+        assertEquals(50, gerenciador.getContadorTempoCicloEmSegundos());
     }
 
 
@@ -66,26 +66,26 @@ public class lerDadosTest extends MotorTest{
         GerenciadorDeEstagios gerenciador = motor.getEstagios().get(2);
 
         Plano plano = gerenciador.getPlano();
-        assertEquals("modoOperacao", ModoOperacaoPlano.APAGADO.toString(), plano.getModoOperacao().toString());
-        assertEquals("posicaoPlano", "6", gerenciador.getPosicaoPlano());
-        assertEquals("impostoPorFalha", false, plano.isImpostoPorFalha());
-        assertEquals("imposto", false, plano.isImposto());
-        assertEquals("estagioAtual", "", gerenciador.getEstagioAtual());
-        assertEquals("tempoRestanteDoEstagio", 0, gerenciador.getTempoRestanteDoEstagio());
-        assertEquals("tempoRestanteDoCiclo", 0, gerenciador.getTempoRestanteDoCiclo());
-        assertEquals("momentoCiclo", 0, gerenciador.getContadorTempoCicloEmSegundos());
+        assertEquals(ModoOperacaoPlano.APAGADO.toString(), plano.getModoOperacao().toString());
+        assertEquals("6", gerenciador.getPosicaoPlano());
+        assertFalse(plano.isImpostoPorFalha());
+        assertFalse(plano.isImposto());
+        assertEquals("", gerenciador.getEstagioAtual());
+        assertEquals(0, gerenciador.getTempoRestanteDoEstagio());
+        assertEquals(0, gerenciador.getTempoRestanteDoCiclo());
+        assertEquals(0, gerenciador.getContadorTempoCicloEmSegundos());
 
         avancarSegundos(motor, 40);
 
         plano = gerenciador.getPlano();
-        assertEquals("modoOperacao", ModoOperacaoPlano.APAGADO.toString(), plano.getModoOperacao().toString());
-        assertEquals("posicaoPlano", "6", gerenciador.getPosicaoPlano());
-        assertEquals("impostoPorFalha", false, plano.isImpostoPorFalha());
-        assertEquals("imposto", false, plano.isImposto());
-        assertEquals("estagioAtual", "", gerenciador.getEstagioAtual());
-        assertEquals("tempoRestanteDoEstagio", 0, gerenciador.getTempoRestanteDoEstagio());
-        assertEquals("tempoRestanteDoCiclo", 0, gerenciador.getTempoRestanteDoCiclo());
-        assertEquals("momentoCiclo", 0, gerenciador.getContadorTempoCicloEmSegundos());
+        assertEquals(ModoOperacaoPlano.APAGADO.toString(), plano.getModoOperacao().toString());
+        assertEquals("6", gerenciador.getPosicaoPlano());
+        assertFalse(plano.isImpostoPorFalha());
+        assertFalse(plano.isImposto());
+        assertEquals("", gerenciador.getEstagioAtual());
+        assertEquals(0, gerenciador.getTempoRestanteDoEstagio());
+        assertEquals(0, gerenciador.getTempoRestanteDoCiclo());
+        assertEquals(0, gerenciador.getContadorTempoCicloEmSegundos());
     }
 
     @Test
@@ -99,25 +99,25 @@ public class lerDadosTest extends MotorTest{
         GerenciadorDeEstagios gerenciador = motor.getEstagios().get(0);
 
         Plano plano = gerenciador.getPlano();
-        assertEquals("modoOperacao", ModoOperacaoPlano.MANUAL.toString(), plano.getModoOperacao().toString());
-        assertEquals("posicaoPlano", "", gerenciador.getPosicaoPlano());
-        assertEquals("impostoPorFalha", false, plano.isImpostoPorFalha());
-        assertEquals("imposto", false, plano.isImposto());
-        assertEquals("estagioAtual", "E1", gerenciador.getEstagioAtual());
-        assertEquals("tempoRestanteDoEstagio", 0, gerenciador.getTempoRestanteDoEstagio());
-        assertEquals("tempoRestanteDoCiclo", 0, gerenciador.getTempoRestanteDoCiclo());
-        assertEquals("momentoCiclo", 0, gerenciador.getContadorTempoCicloEmSegundos());
+        assertEquals(ModoOperacaoPlano.MANUAL.toString(), plano.getModoOperacao().toString());
+        assertEquals("", gerenciador.getPosicaoPlano());
+        assertFalse(plano.isImpostoPorFalha());
+        assertFalse(plano.isImposto());
+        assertEquals("E1", gerenciador.getEstagioAtual());
+        assertEquals(0, gerenciador.getTempoRestanteDoEstagio());
+        assertEquals(0, gerenciador.getTempoRestanteDoCiclo());
+        assertEquals(0, gerenciador.getContadorTempoCicloEmSegundos());
 
         avancarSegundos(motor, 40);
 
         plano = gerenciador.getPlano();
-        assertEquals("modoOperacao", ModoOperacaoPlano.MANUAL.toString(), plano.getModoOperacao().toString());
-        assertEquals("posicaoPlano", "", gerenciador.getPosicaoPlano());
-        assertEquals("impostoPorFalha", false, plano.isImpostoPorFalha());
-        assertEquals("imposto", false, plano.isImposto());
-        assertEquals("estagioAtual", "E1", gerenciador.getEstagioAtual());
-        assertEquals("tempoRestanteDoEstagio", 0, gerenciador.getTempoRestanteDoEstagio());
-        assertEquals("tempoRestanteDoCiclo", 0, gerenciador.getTempoRestanteDoCiclo());
-        assertEquals("momentoCiclo", 0, gerenciador.getContadorTempoCicloEmSegundos());
+        assertEquals(ModoOperacaoPlano.MANUAL.toString(), plano.getModoOperacao().toString());
+        assertEquals("", gerenciador.getPosicaoPlano());
+        assertFalse(plano.isImpostoPorFalha());
+        assertFalse(plano.isImposto());
+        assertEquals("E1", gerenciador.getEstagioAtual());
+        assertEquals(0, gerenciador.getTempoRestanteDoEstagio());
+        assertEquals(0, gerenciador.getTempoRestanteDoCiclo());
+        assertEquals(0, gerenciador.getContadorTempoCicloEmSegundos());
     }
 }
