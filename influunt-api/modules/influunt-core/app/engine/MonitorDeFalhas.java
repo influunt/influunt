@@ -36,6 +36,8 @@ public class MonitorDeFalhas {
 
     private Map<Long, List<TipoEvento>> historico = new HashMap<>();
 
+    private Map<Integer, Map<Long, List<TipoEvento>>> historicoAnel = new HashMap<>();
+
     private boolean[] aneisComFalha = new boolean[5];
 
     private boolean[] aneisComFalhaIrrecuperavel = new boolean[5];
@@ -218,6 +220,19 @@ public class MonitorDeFalhas {
 
     private boolean isEventoDuplicado(EventoMotor eventoMotor) {
         long ticks = this.ticks;
+
+        if(eventoMotor.getAnel() > 0) {
+            if (historicoAnel.get(eventoMotor.getAnel()) == null) {
+                historicoAnel.put(eventoMotor.getAnel(), new HashMap<>());
+            }
+            if (verificaHistoricoEventos(eventoMotor, ticks, historicoAnel.get(eventoMotor.getAnel()))) { return true; }
+        }else {
+            if (verificaHistoricoEventos(eventoMotor, ticks, historico)) { return true; }
+        }
+        return false;
+    }
+
+    private boolean verificaHistoricoEventos(EventoMotor eventoMotor, long ticks, Map<Long, List<TipoEvento>> historico) {
         for (long t = ticks; t >= ticks - 1000L; t -= 100) {
             if (historico.get(t) != null && historico.get(t).contains(eventoMotor.getTipoEvento())) {
                 return true;
@@ -231,6 +246,7 @@ public class MonitorDeFalhas {
         historico.get(ticks).add(eventoMotor.getTipoEvento());
         return false;
     }
+
 
     public void endTick() {
         historico.remove(ticks);
