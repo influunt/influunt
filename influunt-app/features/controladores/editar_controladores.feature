@@ -6,6 +6,24 @@ Funcionalidade: Editar um controlador
     E que o usuário acesse a página de listagem de controladores
     E o usuário clicar no botão "Configuração"
 
+  Cenário: Editar atraso de grupo zerando o valor
+    Dado em resumo clicar em "Editar Atraso de Grupo"
+    E o usuário realize um scroll up
+    E que o usuário marque 15 no campo 1 para transições com perda de direito de passagem
+    E o usuário selecionar o anel 2
+    E que o usuário confirme que não há configurações a serem feitas nesse anel
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Detectores"
+    Dado que o usuário acesse a página de listagem de controladores
+    E que o usuário acesse a página de listagem de controladores
+    E o usuário clicar no botão "Configuração"
+    Dado em resumo clicar em "Editar Atraso de Grupo"
+    E o usuário realize um scroll up
+    E que o usuário marque 0 no campo 1 para transições com perda de direito de passagem
+    E que o usuário confirme que não há configurações a serem feitas nesse anel
+    E clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Detectores"
+
   Cenário: Editar transicões proibidas utilizando botão Salvar
     Dado em resumo clicar em "Editar Transições Proibidas"
     Quando o usuário desmarcar a transição de "E4" para "E3" como proibida
