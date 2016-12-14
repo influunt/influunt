@@ -26,7 +26,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
 
   Cenário: Salva o estágio dispensável
     Dado que o usuário clique no botão de configurar o estágio "E1"
-    Dado o usuário selecionar o estágio que recebe o estágio dispensável "E2"
+    E o usuário selecionar o estágio que recebe o estágio dispensável "E2"
     E que o usuário marque 12 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
     Quando o usuário clicar em "Salvar"
@@ -63,3 +63,17 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E o usuário realizar um scroll down
     Quando o usuário clicar em "Salvar"
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
+
+  Cenário: Não pode salva um estágio com o tempo maior que de permanência
+    Dado que o usuário acesse a página de listagem de controladores
+    E o usuário clicar em "Planos" do controlador "1.003.0002"
+    E o usuário clicar em "Editar"
+    E que o usuário clicar no plano 1
+    E que o usuário marque 200 segundos para o "TEMPO DE CICLO"
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 128 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E o usuário realizar um scroll down
+    Quando o usuário clicar em "Salvar"
+    Então o sistema deverá apresentar erro no estágio "E1"
+
