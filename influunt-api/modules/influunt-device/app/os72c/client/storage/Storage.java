@@ -56,4 +56,10 @@ public interface Storage {
     public String getTempData(String id,String key);
 
     public void clearTempData(String id);
+
+    public String getMarca();
+
+    public String getModelo();
+
+    public String getFirmware();
 }

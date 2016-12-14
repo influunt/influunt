@@ -1,7 +1,9 @@
 # --- !Ups
-alter table controladores add column `exclusivo_para_teste` tinyint(1) NOT NULL DEFAULT '0';
-
+alter table controladores_fisicos add column `marca` varchar(255);
+alter table controladores_fisicos add column `modelo` varchar(255);
 
 
 # --- !Downs
-alter table controladores drop column `exclusivo_para_teste`;
+
+alter table controladores_fisicos drop column `marca`;
+alter table controladores_fisicos drop column `modelo`;

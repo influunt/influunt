@@ -32,6 +32,8 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, String> params;
 
+    private final HTreeMap<String, String> dadosHardware;
+
     private final HTreeMap<String, Boolean> falhas;
 
     private final HTreeMap<String, Map<String,String>> tempData;
@@ -63,6 +65,12 @@ public class MapStorage implements Storage {
             .createOrOpen();
 
         this.params = this.db.hashMap("params")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        this.dadosHardware = this.db.hashMap("dadosHardware")
             .keySerializer(Serializer.STRING)
             .valueSerializer(Serializer.STRING)
             .layout(1, 2, 1)
@@ -256,6 +264,21 @@ public class MapStorage implements Storage {
             this.tempData.get(id).clear();
             db.commit();
         }
+    }
+
+    @Override
+    public String getMarca() {
+        return this.dadosHardware.get("marca");
+    }
+
+    @Override
+    public String getModelo() {
+        return this.dadosHardware.get("modelo");
+    }
+
+    @Override
+    public String getFirmware() {
+        return this.dadosHardware.get("firmware");
     }
 
 }

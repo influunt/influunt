@@ -77,7 +77,9 @@ public class ConexaoTest extends BasicMQTTTest {
 
         map = new Gson().fromJson(envelope.getConteudo().toString(), Map.class);
         assertTrue(map.containsKey("dataHora"));
-        assertTrue(map.containsKey("versao72c"));
+        assertTrue(map.containsKey("firmware"));
+        assertTrue(map.containsKey("marca"));
+        assertTrue(map.containsKey("modelo"));
         assertTrue(map.containsKey("status"));
         assertEquals("NOVO", map.get("status").toString());
 
