@@ -6,6 +6,8 @@ describe('Controller: SimulacaoCtrl', function () {
     scope,
     httpBackend,
     stateParams;
+    
+  var controladorSimulacao = ControladorSimulacao;
 
   var setParametros = function(){
     scope.parametrosSimulacao = {
@@ -17,7 +19,7 @@ describe('Controller: SimulacaoCtrl', function () {
       falhasControlador: [{}],
       alarmesControlador: [{}]
     };
-    return ControladorSimulacao.get().controlador;
+    return controladorSimulacao.get().controlador;
   };
 
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $stateParams) {
@@ -34,14 +36,14 @@ describe('Controller: SimulacaoCtrl', function () {
         state: {
           destroy: function() {}
         }
-      }
+      };
     };
   }));
 
   it('init() deve setar dados do controlador da simulação', function() {
-    httpBackend.expectGET('/controladores/'+ ControladorSimulacao.getControladorId() +'/simulacao').respond(ControladorSimulacao.get());
+    httpBackend.expectGET('/controladores/'+ controladorSimulacao.getControladorId() +'/simulacao').respond(controladorSimulacao.get());
     scope.parametrosSimulacao = { disparoDetectores: [{}], imposicaoPlanos: [{}] };
-    scope.$state.go('app.simulacao', { id: ControladorSimulacao.getControladorId() });
+    scope.$state.go('app.simulacao', { id: controladorSimulacao.getControladorId() });
     scope.$apply();
     scope.init();
     httpBackend.flush();
@@ -86,7 +88,7 @@ describe('Controller: SimulacaoCtrl', function () {
 
   it('deve adicionar novo disparo de alarme ao preencher o anterior', function() {
     setParametros();
-    var alarme = ControladorSimulacao.get().alarmes[0];
+    var alarme = controladorSimulacao.get().alarmes[0];
     scope.parametrosSimulacao.alarmesControlador[0].alarme = alarme;
     scope.parametrosSimulacao.alarmesControlador[0].disparo = moment().format();
     scope.$apply();
@@ -96,7 +98,7 @@ describe('Controller: SimulacaoCtrl', function () {
 
   it('deve adicionar nova falha ao preencher o horário se não precisar de parâmetro', function() {
     setParametros();
-    var falha = ControladorSimulacao.getFalhaSemParametro();
+    var falha = controladorSimulacao.getFalhaSemParametro();
     scope.parametrosSimulacao.falhasControlador[0].falha = falha;
     scope.parametrosSimulacao.falhasControlador[0].disparo = moment().format();
     scope.$apply();
@@ -106,7 +108,7 @@ describe('Controller: SimulacaoCtrl', function () {
 
   it('deve adicionar nova falha somente após preencher o horário e parâmetro', function() {
     setParametros();
-    var falha = ControladorSimulacao.getFalhaComParametro();
+    var falha = controladorSimulacao.getFalhaComParametro();
     scope.parametrosSimulacao.falhasControlador[0].falha = falha;
     scope.parametrosSimulacao.falhasControlador[0].disparo = moment().format();
     scope.$apply();
