@@ -44,7 +44,6 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 InfluuntLogger.log(TipoLog.COMUNICACAO, transacao);
-                System.out.println("[DEVICE] TX Recebida: " + transacao.etapaTransacao.toString());
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
                         executePrepareToCommit(transacao);
@@ -65,7 +64,6 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                 envelope.setDestino(DestinoCentral.transacao(transacao.transacaoId));
                 envelope.setConteudo(transacao.toJson().toString());
                 InfluuntLogger.log(TipoLog.INICIALIZACAO, transacao);
-                System.out.println("[DEVICE] TX Enviada: " + transacao.etapaTransacao.toString());
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());
             }
         }
