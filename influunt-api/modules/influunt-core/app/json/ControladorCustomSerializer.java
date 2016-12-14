@@ -411,6 +411,7 @@ public class ControladorCustomSerializer {
         }
         root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
         root.put("controladorConfigurado", controlador.isConfigurado());
+        root.put("exclusivoParaTeste", controlador.isExclusivoParaTeste());
     }
 
     private void putControladorDadosBasicos(Controlador controlador, ObjectNode root) {
@@ -420,7 +421,6 @@ public class ControladorCustomSerializer {
 
             root.put("controladorFisicoId", controlador.getControladorFisicoId());
         }
-
 
         if (controlador.getIdJson() != null) {
             root.put(ID_JSON, controlador.getIdJson());
@@ -494,6 +494,7 @@ public class ControladorCustomSerializer {
 
         root.put("bloqueado", controlador.isBloqueado());
         root.put("planosBloqueado", controlador.isPlanosBloqueado());
+        root.put("exclusivoParaTeste", controlador.isExclusivoParaTeste());
 
         RangeUtils rangeUtils = controlador.getRangeUtils();
         if (rangeUtils != null) {

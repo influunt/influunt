@@ -54,7 +54,14 @@
               <tbody>
                 <tr data-ng-repeat="controlador in lista">
                   <td ng-bind-html="controlador.statusControladorReal | statusControlador"></td>
-                  <td>{{controlador.CLC}}</td>
+                  <td>
+                    <span class="badge badge-flask"
+                        tooltips tooltip-template="<b>{{ 'controladores.controladorParaSimulacaoMsg' | translate }}</b>"
+                        data-ng-if="controlador.exclusivoParaTeste">
+                      <i class="fa fa-flask"></i> {{ 'controladores.teste' | translate }}
+                    </span>
+                    {{controlador.CLC}}
+                  </td>
                   <td>{{controlador.nomeEndereco}}</td>
                   <td>{{controlador.dataAtualizacao}}</td>
                   <td>

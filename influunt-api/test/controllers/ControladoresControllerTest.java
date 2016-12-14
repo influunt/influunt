@@ -671,6 +671,11 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro("Controlador", "O controlador não pode ser finalizado sem o número do SMEE preenchido.", "numeroSmeePreenchido")
         ));
+
+        controlador.setExclusivoParaTeste(true);
+        erros = new InfluuntValidator<Controlador>().validate(controlador,
+            javax.validation.groups.Default.class, ControladorFinalizaConfiguracaoCheck.class);
+        assertEquals(0, erros.size());
     }
 
     @Test
