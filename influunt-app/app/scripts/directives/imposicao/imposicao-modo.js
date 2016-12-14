@@ -21,13 +21,13 @@ angular.module('influuntApp')
           transacoes: '=?'
         },
         link: function postLink(scope, el) {
-          var DEFAUT_TIMEOUT = 60;
+          var DEFAULT_TIMEOUT = 60;
           scope.LIMITE_MINIMO_DURACAO = imposicoesService.LIMITE_MINIMO_DURACAO;
           scope.LIMITE_MAXIMO_DURACAO = imposicoesService.LIMITE_MAXIMO_DURACAO;
 
           scope.configuracao = {};
           scope.imporModo = function() {
-            scope.configuracao.timeout = scope.timeout || DEFAUT_TIMEOUT;
+            scope.configuracao.timeout = scope.timeout || DEFAULT_TIMEOUT;
             scope.idsTransacoes = {};
             return imposicoesService.imposicao('modo_operacao', scope.configuracao, scope.idsTransacoes);
           };

@@ -22,7 +22,7 @@ angular.module('influuntApp')
         },
         link: function alterarStatus(scope) {
           var TIPOS_TRANSACOES = ['COLOCAR_CONTROLADOR_MANUTENCAO', 'INATIVAR_CONTROLADOR', 'ATIVAR_CONTROLADOR'];
-          var DEFAUT_TIMEOUT = 60;
+          var DEFAULT_TIMEOUT = 60;
           scope.alterar = function() {
             scope.idsTransacoes = {};
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
@@ -30,7 +30,7 @@ angular.module('influuntApp')
             resource = scope.dataStatus.tipo;
             var data = {
               aneisIds: idsAneisSelecionados,
-              timeout: scope.timeout || DEFAUT_TIMEOUT
+              timeout: scope.timeout || DEFAULT_TIMEOUT
             };
 
             return Restangular.one('imposicoes').customPOST(data, resource)

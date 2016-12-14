@@ -154,7 +154,6 @@ angular.module('influuntApp')
           $scope.transacoesPendentes = _
             .chain(transacoesPorControlador)
             .values()
-            // .filter({status: 'DONE'})
             .filter({status: 'PENDING'})
             .map('id')
             .uniq()

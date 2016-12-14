@@ -21,14 +21,14 @@ angular.module('influuntApp')
           transacoes: '=?'
         },
         link: function sincronizacao(scope, el) {
-          var DEFAUT_TIMEOUT = 60;
+          var DEFAULT_TIMEOUT = 60;
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
             var resource = scope.dataSincronizar.tipo;
             var data = {
               aneisIds: idsAneisSelecionados,
-              timeout: scope.timeout || DEFAUT_TIMEOUT
+              timeout: scope.timeout || DEFAULT_TIMEOUT
             };
 
             if (resource.match(/tabela_horaria/)) {
