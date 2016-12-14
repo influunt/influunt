@@ -1,20 +1,18 @@
 <form role="form">
   <div class="row">
     <div class="col-sm-10">
-      <p>
+      <p permission permission-only="'colocarControladorManutencao'">
         <input type="radio" ichecks value="colocar_manutencao" data-ng-model="dataStatus.tipo">
         {{ 'imporConfig.colocarEmManutencao' | translate }}
       </p>
-      <p>
+      <p permission permission-only="'desativarControlador'">
         <input type="radio" ichecks value="inativar" data-ng-model="dataStatus.tipo">
         {{ 'imporConfig.inativar' | translate }}
       </p>
-      <p>
+      <p permission permission-only="'ativarControlador'">
         <input type="radio" ichecks value="ativar" data-ng-model="dataStatus.tipo">
         {{ 'imporConfig.ativarControlador' | translate }}
       </p>
-    </div>
-    <div class="col-sm-2" ng-init="currentStatus = {}; idTransicao = null">
     </div>
   </div>
 

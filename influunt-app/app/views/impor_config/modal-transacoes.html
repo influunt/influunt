@@ -14,10 +14,10 @@
                     <select name="subareas"
                             class="form-control"
                             data-ng-model="tipoTransacao">
-                      <option value="imposicao-plano">{{ 'imporConfig.plano.titulo' | translate }}</option>
-                      <option value="imposicao-modo">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
-                      <option value="sincronizacao">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
-                      <option value="alterar-status">{{ 'imporConfig.alterarStatus' | translate }}</option>
+                      <option value="imposicao-plano" permission permission-only="'imporPlanos'">{{ 'imporConfig.plano.titulo' | translate }}</option>
+                      <option value="imposicao-modo" permission permission-only="'imporModoOperacao'">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
+                      <option value="sincronizacao" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos', 'sincronizarTabelaHoraria']">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
+                      <option value="alterar-status" permission permission-only="['colocarControladorManutencao', 'ativarControlador', 'desativarControlador']">{{ 'imporConfig.alterarStatus' | translate }}</option>
                     </select>
                   </div>
 

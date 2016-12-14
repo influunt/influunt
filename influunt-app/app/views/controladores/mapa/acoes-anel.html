@@ -54,32 +54,38 @@
         </ul>
       </div>
 
-      <div class="ibox-content">
+      <div class="ibox-content" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos',
+              'sincronizarTabelaHoraria', 'colocarControladorManutencao', 'ativarControlador', 'desativarControlador',
+              'imporPlanos', 'imporModoOperacao']">
         <h3>{{ 'controladores.mapaControladores.acoes' | translate }}</h3>
 
         <imposicao-plano-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
             transacoes="statusObj.transacoes"
-            track-transaction="true">
+            track-transaction="true"
+            permission permission-only="'imporPlanos'">
         </imposicao-plano-popup>
         <imposicao-modo-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
             transacoes="statusObj.transacoes"
-            track-transaction="true">
+            track-transaction="true"
+            permission permission-only="'imporModoOperacao'">
         </imposicao-modo-popup>
         <sincronizacao-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
             transacoes="statusObj.transacoes"
-            track-transaction="true">
+            track-transaction="true"
+            permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos', 'sincronizarTabelaHoraria']">
         </sincronizacao-popup>
         <alterar-status-popup
             aneis-selecionados="[currentAnel]"
             ids-transacoes="{}"
             transacoes="statusObj.transacoes"
-            track-transaction="true">
+            track-transaction="true"
+            permission permission-only="['colocarControladorManutencao', 'ativarControlador', 'desativarControlador']">
         </alterar-status-popup>
       </div>
     </div>
