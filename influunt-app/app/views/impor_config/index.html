@@ -52,8 +52,14 @@
                   </div>
                 </td>
                 <td>
-                  <a data-ng-if="anel.online" class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados" class="col-lg-3 col-sm-6" ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
-                  <a data-ng-if="!anel.online" class="btn btn-primary" class="col-lg-3 col-sm-6" disabled tooltips tooltip-template="<strong>{{ 'imporConfig.tooltip.lerDadosOffline' | translate }}</strong>">
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados"
+                     data-ng-if="anel.online"
+                     permission permission-only="'lerDadosControlador'"
+                     data-ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
+                  <a class="btn btn-primary" disabled
+                     data-ng-if="!anel.online"
+                     permission permission-only="'lerDadosControlador'"
+                     tooltips tooltip-template="<strong>{{ 'imporConfig.tooltip.lerDadosOffline' | translate }}</strong>">
                     {{ 'imporConfig.lerDados' | translate }}
                   </a>
                   <ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
@@ -63,19 +69,17 @@
           </table>
           <ng-include src="'views/common/footer-pagination.html'"></ng-include>
 
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="row">
-                <div class="col-sm-4 col-sm-offset-8">
-                  <button data-toggle="modal"
-                          data-target="#modal-transacoes-distribuidas"
-                          class="btn btn-w-m btn-primary pull-right"
-                          data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)"
-                          data-ng-click="limpaTransacoesAnteriores()">
-                    {{ 'controladores.mapaControladores.acoes' | translate }}
-                  </button>
-                </div>
-              </div>
+          <div class="row" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos',
+              'sincronizarTabelaHoraria', 'colocarControladorManutencao', 'ativarControlador', 'desativarControlador',
+              'imporPlanos', 'imporModoOperacao']">
+            <div class="col-sm-4 col-sm-offset-8">
+              <button data-toggle="modal"
+                      data-target="#modal-transacoes-distribuidas"
+                      class="btn btn-w-m btn-primary pull-right"
+                      data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)"
+                      data-ng-click="limpaTransacoesAnteriores()">
+                {{ 'controladores.mapaControladores.acoes' | translate }}
+              </button>
             </div>
           </div>
         </div>

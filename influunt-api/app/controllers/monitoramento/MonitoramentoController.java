@@ -38,7 +38,7 @@ public class MonitoramentoController extends Controller {
 
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null);
         HashMap<String, ModoOperacaoPlano> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto();
 
@@ -55,7 +55,7 @@ public class MonitoramentoController extends Controller {
     public CompletionStage<Result> ultimoStatusDosAneis() {
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null);
 
         List<HashMap> statusPlanosPorAnel = TrocaDePlanoControlador.ultimoStatusPlanoPorAnel();
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();

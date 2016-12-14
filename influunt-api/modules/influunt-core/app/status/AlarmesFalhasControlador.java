@@ -86,11 +86,15 @@ public class AlarmesFalhasControlador {
         return hash;
     }
 
-    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit) {
+    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit, String query) {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
 
         ArrayList<String> predicates = new ArrayList<>();
-        predicates.add("{ $match: { recuperado: false }  }");
+        if (query == null) {
+            predicates.add("{ $match: { recuperado: false }  }");
+        } else {
+            predicates.add("{ $match: { recuperado: false, 'conteudo.descricaoEvento': { $regex: '"+ query +"', $options: 'i' } } }");
+        }
         predicates.add("{ $sort: { timestamp: -1 } }");
         predicates.add("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
         if (limit != null) {
