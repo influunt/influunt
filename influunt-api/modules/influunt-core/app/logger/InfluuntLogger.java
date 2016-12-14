@@ -46,25 +46,26 @@ public class InfluuntLogger {
     }
 
     public static void log(TipoLog tipo, String msg) {
-        loggerOficial.info(String.format("[%s]%s",tipo,msg));
+        loggerOficial.info(String.format("[%s] %s", tipo, msg));
     }
 
     public static void log(TipoLog tipo, TipoEvento tipoEvento) {
         if (compact) {
-            loggerOficial.info(String.format("[%s]%s",tipo,tipoEvento.toString()));
+            loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString()));
         } else {
-            loggerOficial.info(String.format("[%s]%s",tipo,tipoEvento.toString() + " - " + tipoEvento.getDescricao()));
+            loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString() + " - " + tipoEvento.getDescricao()));
         }
     }
-    public static void log(TipoLog tipoLog,Transacao transacao) {
-        log(tipoLog,String.format("[%s]%s",transacao.getTipoTransacao(),transacao.getEtapaTransacao().getMessage()));
+
+    public static void log(TipoLog tipoLog, Transacao transacao) {
+        log(tipoLog, String.format("[%s] %s", transacao.getTipoTransacao(), transacao.getEtapaTransacao().getMessage()));
     }
 
-    public static void log(TipoLog tipoLog,EventoMotor eventoMotor) {
+    public static void log(TipoLog tipoLog, EventoMotor eventoMotor) {
         if (compact) {
-            loggerOficial.info(String.format("[%s]%s",tipoLog,eventoMotor.getTipoEvento().toString()));
+            loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString()));
         } else {
-            loggerOficial.info(String.format("[%s]%s",tipoLog,eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
+            loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
         }
     }
 }
