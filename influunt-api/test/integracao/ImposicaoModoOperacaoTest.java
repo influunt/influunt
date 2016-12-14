@@ -7,6 +7,7 @@ import utils.TransacaoHelper;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;
 
@@ -38,6 +39,6 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
 
     private void imporModoOperacao(Anel anel, Long horarioEntrada, int duracao) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporModoOperacao(Arrays.asList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L);
+        transacaoHelper.imporModoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L);
     }
 }

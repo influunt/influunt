@@ -9,6 +9,8 @@ import protocol.EtapaTransacao;
 import protocol.MensagemImposicaoPlano;
 import status.Transacao;
 
+import java.util.List;
+
 /**
  * Created by rodrigosol on 9/6/16.
  */
@@ -21,13 +23,11 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
         if (isImposicaoPlanoOk(storage.getControlador(), transacao)) {
-            JsonNode payloadJson = Json.parse(transacao.payload.toString());
-
-            storage.setTempData(transacao.transacaoId,"posicaoPlano", payloadJson.get("posicaoPlano").asText());
-            storage.setTempData(transacao.transacaoId,"numeroAnel", payloadJson.get("numeroAnel").asText());
-            storage.setTempData(transacao.transacaoId,"horarioEntrada", payloadJson.get("horarioEntrada").asText());
-            storage.setTempData(transacao.transacaoId,"duracao", payloadJson.get("duracao").asText());
-
+            JsonNode payloadJson = Json.parse(transacao.payload);
+            storage.setTempData(transacao.transacaoId, "posicaoPlano", payloadJson.get("posicaoPlano").asText());
+            storage.setTempData(transacao.transacaoId, "numerosAneis", payloadJson.get("numerosAneis").toString());
+            storage.setTempData(transacao.transacaoId, "horarioEntrada", payloadJson.get("horarioEntrada").asText());
+            storage.setTempData(transacao.transacaoId, "duracao", payloadJson.get("duracao").asText());
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -38,10 +38,10 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
     protected void executeCommit(Transacao transacao) {
         Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
             idControlador,
-            Integer.parseInt(storage.getTempData(transacao.transacaoId,"posicaoPlano")),
-            Integer.parseInt(storage.getTempData(transacao.transacaoId,"numeroAnel")),
-            Long.parseLong(storage.getTempData(transacao.transacaoId,"horarioEntrada")),
-            Integer.parseInt(storage.getTempData(transacao.transacaoId,"duracao")));
+            Integer.parseInt(storage.getTempData(transacao.transacaoId, "posicaoPlano")),
+            Json.fromJson(Json.parse(storage.getTempData(transacao.transacaoId, "numerosAneis")), List.class),
+            Long.parseLong(storage.getTempData(transacao.transacaoId, "horarioEntrada")),
+            Integer.parseInt(storage.getTempData(transacao.transacaoId, "duracao")));
 
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoPlano, getSelf());
         transacao.etapaTransacao = EtapaTransacao.COMMITED;

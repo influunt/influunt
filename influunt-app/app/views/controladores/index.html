@@ -52,7 +52,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="controlador in lista">
+                <tr data-ng-repeat="controlador in lista | orderBy:'CLC'">
                   <td ng-bind-html="controlador.statusControladorReal | statusControlador"></td>
                   <td>
                     <span class="badge badge-flask"
@@ -60,10 +60,10 @@
                         data-ng-if="controlador.exclusivoParaTeste">
                       <i class="fa fa-flask"></i> {{ 'controladores.teste' | translate }}
                     </span>
-                    {{controlador.CLC}}
+                    {{ controlador.CLC }}
                   </td>
-                  <td>{{controlador.nomeEndereco}}</td>
-                  <td>{{controlador.dataAtualizacao}}</td>
+                  <td>{{ controlador.nomeEndereco }}</td>
+                  <td>{{ controlador.dataAtualizacao }}</td>
                   <td>
                     <hgroup>
                       <a class="btn btn-outline btn-primary"
