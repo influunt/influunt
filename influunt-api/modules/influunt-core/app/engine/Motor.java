@@ -140,8 +140,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
-        Plano plano = agendamentoTrocaPlano.getPlano();
         if (!agendamentoTrocaPlano.isImpostoPorFalha() && !agendamentoTrocaPlano.isImposicaoPlano()) {
+            Plano plano = agendamentoTrocaPlano.getPlano();
             InfluuntLogger.log(TipoLog.EXECUCAO,
                 "Troca de plano por tabela horária. Plano " + plano.getPosicao() + " - " + plano.getModoOperacao());
         }
