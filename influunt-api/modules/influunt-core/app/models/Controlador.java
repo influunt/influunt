@@ -15,6 +15,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 import play.libs.Json;
+import status.StatusConexaoControlador;
 import utils.DBUtils;
 import utils.RangeUtils;
 
@@ -994,5 +995,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     private ControladorFisico getControladorFisico() {
         return getVersaoControlador().getControladorFisico();
+    }
+
+    public boolean isOnline() {
+        StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(this.getControladorFisicoId());
+        if (status != null) {
+            return status.isConectado();
+        }
+        return false;
     }
 }

@@ -80,6 +80,10 @@ public class ClientActor extends UntypedActor{
             storage.setPrivateKey(controladorPrivateKey);
         }
 
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", storage.getCentralPublicKey().substring(0, 5), storage.getCentralPublicKey().substring(storage.getCentralPublicKey().length() - 5, storage.getCentralPublicKey().length())));
+        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
+
+
         this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id), "motor");
     }
 
