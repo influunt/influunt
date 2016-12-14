@@ -48,3 +48,18 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E que o usuário clicar no plano 1
     E que o usuário clique no botão de configurar o estágio "E1"
     Então o estágio "E2" deve estar selecionado para estágio dispensável
+    E que o usuário clique no botão de fechar a caixa de configuração
+
+  Cenário: Validar plano manual exclusivo deve possuir dois quantidade de estágios iguais
+    Dado que o usuário acesse a página de listagem de controladores
+    E o usuário clicar em "Planos" do controlador "1.000.0001"
+    E o usuário clicar em "Editar"
+    E que o usuário clicar no plano 0
+    Quando o usuário clicar em "Salvar"
+    Então o sistema deverá apresentar erro de "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo."
+    E que o usuário clique no botão apagar o estagio "E3"
+    E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    E o usuário confirmar
+    E o usuário realizar um scroll down
+    Quando o usuário clicar em "Salvar"
+    Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
