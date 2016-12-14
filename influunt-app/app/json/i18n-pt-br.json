@@ -103,6 +103,7 @@
     "titulo": "Programação",
     "detector": "Detector",
     "print": "Imprimir",
+    "teste": "teste",
     "filtroControladoresTestes": {
       "exibirTodos": "Exibir todos",
       "exibirSomenteTestes": "Somente teste",
@@ -853,6 +854,7 @@
     "falha": "Falha",
     "inativar": "Inativar",
     "indicacaoFalhas": "Indicação de Falhas",
+    "online": "Online",
     "info": "Info",
     "local": "Local",
     "log": "Log",
@@ -923,7 +925,10 @@
     "sincronizando": "Enviando",
     "transacao": "Transação",
     "tempoMaximoEspera": "Tempo máximo de espera",
-    "configurado": "Configurado"
+    "configurado": "Configurado",
+    "tooltip": {
+      "lerDadosOffline": "O controlador está offline"
+    }
   },
   "ATIVO": "Ativo",
   "SINCRONIZADO": "Sincronizado",
