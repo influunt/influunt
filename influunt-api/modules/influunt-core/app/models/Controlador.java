@@ -999,6 +999,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public boolean isOnline() {
         StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(this.getControladorFisicoId());
-        return status.isConectado();
+        if (status != null) {
+            return status.isConectado();
+        }
+        return false;
     }
 }
