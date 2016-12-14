@@ -16,6 +16,7 @@
             <thead>
               <tr>
                 <th class='fit-to-content'></th>
+                <th>{{ 'imporConfig.online' | translate }}</th>
                 <th>{{ 'imporConfig.status' | translate }}</th>
                 <th>{{ 'imporConfig.cla' | translate }}</th>
                 <th>{{ 'imporConfig.local' | translate }}</th>
@@ -30,11 +31,16 @@
                     <label class="i-checks">
                       <input type="checkbox"
                         ichecks
+                        data-is-disabled="!anel.online"
                         ng-model="isAnelChecked[anel.id]"
                         data-if-checked="selecionaAnel(anel.id)"
                         data-if-unchecked="desselecionaAnel(anel.id)">
                     </label>
                   </div>
+                </td>
+                <td>
+                  <p data-ng-if="anel.online"><i class="fa fa-check com-monitoramento" aria-hidden="true"></i></p>
+                  <p data-ng-if="!anel.online"><i class="fa fa-times sem-monitoramento" aria-hidden="true"></i></p>
                 </td>
                 <td>{{ anel.status | translate }}</td>
                 <td>{{ anel.CLA }}</td>
@@ -47,7 +53,10 @@
                   </div>
                 </td>
                 <td>
-                  <a class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados" class="col-lg-3 col-sm-6" ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
+                  <a data-ng-if="anel.online" class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados" class="col-lg-3 col-sm-6" ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
+                  <a data-ng-if="!anel.online" class="btn btn-primary" class="col-lg-3 col-sm-6" disabled tooltips tooltip-template="<strong>{{ 'imporConfig.tooltip.lerDadosOffline' | translate }}</strong>">
+                    {{ 'imporConfig.lerDados' | translate }}
+                  </a>
                   <ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
                 </td>
               </tr>

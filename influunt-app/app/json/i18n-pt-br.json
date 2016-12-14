@@ -97,10 +97,18 @@
     }
   },
   "controladores": {
+    "controladorParaSimulacao": "Controlador exclusivo para testes",
+    "controladorParaSimulacaoMsg": "Este controlador foi configurado exclusivamente para testes.",
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
     "print": "Imprimir",
+    "teste": "teste",
+    "filtroControladoresTestes": {
+      "exibirTodos": "Exibir todos",
+      "exibirSomenteTestes": "Somente teste",
+      "exibirSomenteReais": "Somente reais"
+    },
     "mapaControladores": {
       "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
@@ -516,6 +524,7 @@
     "planoManualExclusivo": "Plano Manual (Exclusivo)",
     "modoOperacao": "MODO DE OPERAÇÃO",
     "modoManual": "Manual",
+    "temporario": "Temporário",
     "modosOperacao": {
       "atuado": "Atuado",
       "ATUADO": "Atuado",
@@ -845,12 +854,13 @@
     "falha": "Falha",
     "inativar": "Inativar",
     "indicacaoFalhas": "Indicação de Falhas",
+    "online": "Online",
     "info": "Info",
     "local": "Local",
     "log": "Log",
     "modoOperacaoTitulo": "Modo de operação",
     "momentoCiclo": "Momento do Ciclo",
-    "parametrosControlador": "Parâmetros Controlador",
+    "parametrosControlador": "Logs do Controlador",
     "planoForcado": "Plano Forçado",
     "planoImpostoFalha": "Plano Imposto por Falha",
     "posicaoPlano": "Posição do Plano",
@@ -875,9 +885,9 @@
       "sucesso": "Liberação executada com sucesso"
     },
     "sincronizacao": {
-      "titulo": "Sincronizar",
-      "sucesso": "Sincronização executada com sucesso",
-      "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
+      "titulo": "Enviar",
+      "sucesso": "Envio executado com sucesso",
+      "erro": "Não foi possível finalizar o envio dos dados para o controlador"
     },
     "plano": {
       "criarPlanoExclusivo": "Criar plano temporário",
@@ -901,21 +911,24 @@
     },
     "lerDados": "Ler Dados",
     "imporModo": "Impor Modo",
-    "sincronizar": "Sincronizar",
+    "sincronizar": "Enviar",
     "entrada": "Entrada",
     "horaEntrada": "Hora de Entrada",
     "duracao": "Duração",
     "editar": "Editar",
     "imporApagado": "Impor modo Apagado",
     "imporInterm": "impor modo interminente",
-    "sincronizarTabelaHorariaImadiato": "Sincronizar Tabela Horária Imediatamente",
-    "sincronizarTabelaHoraria": "Sincronizar Tabela Horária na Próxima Troca de Planos",
-    "sincronizarPlano": "Sincronizar Planos",
-    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos e Configuração do Controlador",
-    "sincronizando": "Sincronizando",
+    "sincronizarTabelaHorariaImadiato": "Enviar e implementar tabela horária imediatamente",
+    "sincronizarTabelaHoraria": "Enviar e implementar tabela horária na próxima troca de planos",
+    "sincronizarPlano": "Enviar planos",
+    "sincronizarHPConfig": "Enviar tabela horária, planos e configuração do controlador",
+    "sincronizando": "Enviando",
     "transacao": "Transação",
     "tempoMaximoEspera": "Tempo máximo de espera",
-    "configurado": "Configurado"
+    "configurado": "Configurado",
+    "tooltip": {
+      "lerDadosOffline": "O controlador está offline"
+    }
   },
   "ATIVO": "Ativo",
   "SINCRONIZADO": "Sincronizado",

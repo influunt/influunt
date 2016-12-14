@@ -153,6 +153,13 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro em defasagem
 
+  Cenário: Em modo Cordenado o sistema deve aceitar editar defasagem para o valor 0
+    Dado que o usuário esteja na página de planos
+    E o usuário deve ter a opção de marcar a defasagem do ciclo
+    E que o usuário marque 0 segundos para o "Defasagem"
+    E o usuário clicar em "Salvar"
+    Então o valor da defasagem deverá ser "0"
+
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos
     E o usuário deve ter a opção de marcar a defasagem do ciclo

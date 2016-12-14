@@ -394,7 +394,9 @@ public class ControladoresController extends Controller {
                             .put("endereco", anel.getEndereco().nomeEndereco())
                             .putPOJO("controlador", controlador)
                             .put("controladorFisicoId", anel.getControlador().getControladorFisicoId())
-                            .put("status", anel.getControlador().getStatusControladorReal().toString());
+                            .put("controladorId", anel.getControlador().getId().toString())
+                            .put("status", anel.getControlador().getStatusControladorReal().toString())
+                            .put("online", anel.getControlador().isOnline());
                     }
                 }
             });

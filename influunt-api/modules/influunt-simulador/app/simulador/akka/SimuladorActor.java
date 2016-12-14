@@ -51,7 +51,7 @@ public class SimuladorActor extends UntypedActor {
 
     private int pagina;
 
-    public SimuladorActor(String host, String port, ParametroSimulacao params) {
+    public SimuladorActor(String host, String port, String login, String senha, ParametroSimulacao params) {
         this.params = params;
         this.simulador = new SimuladorAkka(this, params);
         this.id = params.getId().toString();
@@ -59,6 +59,10 @@ public class SimuladorActor extends UntypedActor {
         try {
             client = new MqttClient("tcp://" + host + ":" + port, "sim_" + id);
             MqttConnectOptions opts = new MqttConnectOptions();
+
+            if (!"".equals(login)) { opts.setUserName(login); }
+            if (!"".equals(senha)) { opts.setPassword(senha.toCharArray()); }
+            
             opts.setAutomaticReconnect(false);
             opts.setConnectionTimeout(10);
             opts.setWill("simulador/" + id + "/morreu", "1".getBytes(), 1, true);

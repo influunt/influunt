@@ -17,7 +17,12 @@ public class TestDeviceConfig implements DeviceConfig {
 
     private String port = "1883";
 
+    private String senha = "";
+    private String login = "";
+
     private DeviceBridge bridge;
+
+
 
     @Override
     public String getHost() {
@@ -77,6 +82,26 @@ public class TestDeviceConfig implements DeviceConfig {
     @Override
     public void setDeviceBridge(DeviceBridge deviceBridge) {
         this.bridge = deviceBridge;
+    }
+
+    @Override
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    @Override
+    public String getLogin() {
+        return this.login;
+    }
+
+    @Override
+    public String getSenha() {
+        return this.senha;
     }
 
 }
