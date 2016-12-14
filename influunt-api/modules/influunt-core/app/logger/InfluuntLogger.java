@@ -50,32 +50,33 @@ public class InfluuntLogger {
 
     public static void log(NivelLog nivelLog,TipoLog tipo, String msg) {
         if(nivel.compareTo(nivelLog) >= 0) {
-            loggerOficial.info(String.format("[%s]%s", tipo, msg));
+            loggerOficial.info(String.format("[%s] %s", tipo, msg));
         }
     }
 
     public static void log(NivelLog nivelLog,TipoLog tipo, TipoEvento tipoEvento) {
         if(nivel.compareTo(nivelLog) >= 0) {
             if (compact) {
-                loggerOficial.info(String.format("[%s]%s", tipo, tipoEvento.toString()));
+                loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString()));
             } else {
-                loggerOficial.info(String.format("[%s]%s", tipo, tipoEvento.toString() + " - " + tipoEvento.getDescricao()));
+                loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString() + " - " + tipoEvento.getDescricao()));
             }
         }
     }
     public static void log(NivelLog nivelLog,TipoLog tipoLog,Transacao transacao) {
         if(nivel.compareTo(nivelLog) >= 0) {
-            log(nivelLog, tipoLog, String.format("[%s]%s", transacao.getTipoTransacao(), transacao.getEtapaTransacao().getMessage()));
+            log(nivelLog, tipoLog, String.format("[%s] %s", transacao.getTipoTransacao(), transacao.getEtapaTransacao().getMessage()));
         }
     }
 
     public static void log(NivelLog nivelLog,TipoLog tipoLog,EventoMotor eventoMotor) {
-        if(nivel.compareTo(nivelLog) >= 0) {
+        if (nivel.compareTo(nivelLog) >= 0) {
             if (compact) {
-                loggerOficial.info(String.format("[%s]%s", tipoLog, eventoMotor.getTipoEvento().toString()));
+                loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString()));
             } else {
-                loggerOficial.info(String.format("[%s]%s", tipoLog, eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
+                loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
             }
         }
     }
+
 }

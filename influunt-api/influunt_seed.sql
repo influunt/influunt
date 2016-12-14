@@ -1143,6 +1143,8 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@InstalacaoId, @PermissaoId);
 
 
+
+
 -- # Impor configuração
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/plano', '[Imposição] - Impor plano e tabela horária', NOW(), NOW());
@@ -1154,6 +1156,7 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
+
 -- # Impor modo de operação
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/modo_operacao', '[Imposição] - Impor modo de operação', NOW(), NOW());
@@ -1163,6 +1166,7 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'imporModoOperacao', '[Painel de Facilidades] - Impor Modo de Operação', 'O usuário com essa permissão pode realizar uma imposição de modo de operação através do painel de facilidades.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
 
 
 
@@ -1208,6 +1212,39 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
   (@permAppId, 'lerDadosControlador', '[Painel de Facilidades] - Ler Dados do Controlador', 'O usuário com essa permissão pode ler os dados dos controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
+
+
+# colocar manutenção
+Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/colocar_manutencao', '[Imposição] - Colocar controlador em manutenção', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+
+SET @permAppId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'colocarControladorManutencao', '[Painel de Facilidades] - Colocar Controlador em Manutenção', 'O usuário com essa permissão pode colocar um controlador em manutenção.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+
+# ativar controlador
+Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/ativar', '[Imposição] - Ativar um controlador', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+
+SET @permAppId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'ativarControlador', '[Painel de Facilidades] - Ativar um controlador', 'O usuário com essa permissão pode ativar um controlador através do painel de facilidades.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+
+# desativar controlador
+Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/inativar', '[Imposição] - Desativar um controlador', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+
+SET @permAppId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'desativarControlador', '[Painel de Facilidades] - Desativar um controlador', 'O usuário com essa permissão pode desativar um controlador através do painel de facilidades.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
 COMMIT;

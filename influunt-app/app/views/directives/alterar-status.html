@@ -1,48 +1,24 @@
-<button data-toggle="modal"
-        data-target="#modal-alterar-status"
-        class="btn btn-w-m btn-primary"
-        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
-        {{ 'imporConfig.alterarStatus' | translate }}
-</button>
-
-<!-- modal | sincronizar -->
-<div class="modal inmodal" id="modal-alterar-status" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content animated bounceInRight">
-      <div class="modal-body">
-        <div class="row text-left">
-          <div class="col-sm-12">
-            <form role="form">
-              <div class="row">
-                <div class="col-sm-10">
-                  <p>
-                    <input type="radio" ichecks value="colocar_manutencao" data-ng-model="dataStatus.tipo">
-                    {{ 'imporConfig.colocarEmManutencao' | translate }}
-                  </p>
-                  <p>
-                    <input type="radio" ichecks value="inativar" data-ng-model="dataStatus.tipo">
-                    {{ 'imporConfig.inativar' | translate }}
-                  </p>
-                  <p>
-                    <input type="radio" ichecks value="ativar" data-ng-model="dataStatus.tipo">
-                    {{ 'imporConfig.ativarControlador' | translate }}
-                  </p>
-                </div>
-                <div class="col-sm-2" ng-init="currentStatus = {}; idTransicao = null">
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="alterar()" data-ng-disabled="!dataStatus.tipo">
-          {{ 'imporConfig.sincronizar' | translate }}
-        </button>
-        <button type="button" class="btn btn-default m-b-xs" data-dismiss="modal">
-          {{ 'crud.cancelar' | translate }}
-        </button>
-      </div>
+<form role="form">
+  <div class="row">
+    <div class="col-sm-10">
+      <p permission permission-only="'colocarControladorManutencao'">
+        <input type="radio" ichecks value="colocar_manutencao" data-ng-model="dataStatus.tipo">
+        {{ 'imporConfig.colocarEmManutencao' | translate }}
+      </p>
+      <p permission permission-only="'desativarControlador'">
+        <input type="radio" ichecks value="inativar" data-ng-model="dataStatus.tipo">
+        {{ 'imporConfig.inativar' | translate }}
+      </p>
+      <p permission permission-only="'ativarControlador'">
+        <input type="radio" ichecks value="ativar" data-ng-model="dataStatus.tipo">
+        {{ 'imporConfig.ativarControlador' | translate }}
+      </p>
     </div>
   </div>
-</div>
+
+  <div class="text-center" style="padding: 15px;">
+    <button type="button" class="btn btn-primary ng-binding" id="alterar-stauts-submit" data-ng-click="alterar()" data-ng-disabled="!dataStatus.tipo">
+      {{ 'imporConfig.alterarStatus' | translate }}
+    </button>
+  </div>
+</form>

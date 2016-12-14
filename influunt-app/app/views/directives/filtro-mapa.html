@@ -51,7 +51,7 @@
         <div class="form-group">
           <label>{{ 'controladores.mapaControladores.areas' | translate }}</label>
           <select select2 name="areas" class="form-control filtro-mapa"
-              data-ng-options="option.descricao for option in ngModel.areas track by option.id"
+              data-ng-options="option.descricao for option in ngModel.areas | orderBy:'descricao' track by option.id"
               data-ng-model="ngModel.areasSelecionadas"
               multiple="multiple">
           </select>
@@ -60,7 +60,7 @@
         <div class="form-group">
           <label>{{ 'controladores.mapaControladores.controladores' | translate }}</label>
           <select select2 name="controladores" class="form-control filtro-mapa"
-              data-ng-options="option.CLC for option in ngModel.controladores track by option.id"
+              data-ng-options="option.CLC for option in ngModel.controladores | orderBy:'CLC' track by option.id"
               data-ng-model="ngModel.controladoresSelecionados"
               multiple="multiple">
           </select>
@@ -69,7 +69,7 @@
         <div class="form-group">
           <label>{{ 'controladores.mapaControladores.subAreas' | translate }}</label>
           <select select2 name="subareas" class="form-control filtro-mapa"
-              data-ng-options="option.nome for option in ngModel.subareas track by option.id"
+              data-ng-options="option.nome for option in ngModel.subareas | orderBy:'nome' track by option.id"
               data-ng-model="ngModel.subareasSelecionadas"
               multiple="multiple">
           </select>
@@ -78,7 +78,7 @@
         <div class="form-group">
           <label>{{ 'controladores.mapaControladores.agrupamentos' | translate }}</label>
           <select select2 name="agrupamentos" class="form-control filtro-mapa"
-              data-ng-options="option.nome for option in ngModel.agrupamentos track by option.id"
+              data-ng-options="option.nome for option in ngModel.agrupamentos | orderBy:'nome' track by option.id"
               data-ng-model="ngModel.agrupamentosSelecionados"
               multiple="multiple">
           </select>

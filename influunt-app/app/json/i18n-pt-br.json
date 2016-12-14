@@ -97,10 +97,18 @@
     }
   },
   "controladores": {
+    "controladorParaSimulacao": "Controlador exclusivo para testes",
+    "controladorParaSimulacaoMsg": "Este controlador foi configurado exclusivamente para testes.",
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
     "print": "Imprimir",
+    "teste": "teste",
+    "filtroControladoresTestes": {
+      "exibirTodos": "Exibir todos",
+      "exibirSomenteTestes": "Somente teste",
+      "exibirSomenteReais": "Somente reais"
+    },
     "mapaControladores": {
       "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
@@ -663,8 +671,8 @@
     "novo": "Novo",
     "configurado": "Configurado",
     "ativo": "Ativo",
-    "inoperante": "Inoperante",
-    "operandoFalhas": "Operando Com Falhas",
+    "emManutencao": "Em Manutenção",
+    "comFalhas": "Operando com Falhas",
     "inativo": "Inativo",
     "atuado": "Atuado",
     "manual": "Manual",
@@ -847,6 +855,7 @@
     "falha": "Falha",
     "inativar": "Inativar",
     "indicacaoFalhas": "Indicação de Falhas",
+    "online": "Online",
     "info": "Info",
     "local": "Local",
     "log": "Log",
@@ -917,7 +926,10 @@
     "sincronizando": "Enviando",
     "transacao": "Transação",
     "tempoMaximoEspera": "Tempo máximo de espera",
-    "configurado": "Configurado"
+    "configurado": "Configurado",
+    "tooltip": {
+      "lerDadosOffline": "O controlador está offline"
+    }
   },
   "ATIVO": "Ativo",
   "SINCRONIZADO": "Sincronizado",

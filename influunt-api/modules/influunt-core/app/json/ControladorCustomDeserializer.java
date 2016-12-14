@@ -1486,6 +1486,10 @@ public class ControladorCustomDeserializer {
             runLater(c);
         }
 
+        if (node.has("exclusivoParaTeste")) {
+            controlador.setExclusivoParaTeste(node.get("exclusivoParaTeste").asBoolean());
+        }
+
         if (node.has("subarea") && !node.get("subarea").get("id").isNull()) {
             JsonNode subareaNode = node.get("subarea");
             Subarea subarea = new Subarea();

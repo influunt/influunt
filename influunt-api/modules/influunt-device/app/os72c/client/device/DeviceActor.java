@@ -13,7 +13,7 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
-import play.Logger;
+import play.libs.Json;
 import protocol.*;
 
 import java.util.List;
@@ -66,6 +66,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private synchronized void start() {
 
         if (!iniciado) {
+
             InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
@@ -87,6 +88,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
+
                 InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
 
             } else {
@@ -250,25 +252,30 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private void imporModoOperacao(JsonNode conteudo) {
         String modoOperacao = conteudo.get("modoOperacao").asText();
-        int numeroAnel = conteudo.get("numeroAnel").asInt();
         int duracao = conteudo.get("duracao").asInt();
         Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
-
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada));
+        List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
+        numerosAneis.forEach(numeroAnel -> {
+            motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada));
+        });
     }
 
     private void imporPlano(JsonNode conteudo) {
         int posicaoPlano = conteudo.get("posicaoPlano").asInt();
-        int numeroAnel = conteudo.get("numeroAnel").asInt();
         int duracao = conteudo.get("duracao").asInt();
         Long horarioEntrada = conteudo.get("horarioEntrada").asLong();
+        List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
+        numerosAneis.forEach(numeroAnel -> {
+            motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada));
+        });
 
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada));
     }
 
     private void liberarImposicao(JsonNode conteudo) {
-        int numeroAnel = conteudo.get("numeroAnel").asInt();
-        motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+        List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
+        numerosAneis.forEach(numeroAnel -> {
+            motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+        });
     }
 
     private void trocarTabelaHoraria(boolean imediatamente) {
@@ -287,7 +294,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void aroundPostStop() {
-
         if (motor != null) {
             motor.stop();
             executor.cancel(true);

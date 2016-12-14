@@ -1,19 +1,19 @@
 <form role="form">
   <div class="row">
     <div class="col-sm-10">
-      <p>
+      <p permission permission-only="'sincronizarTabelaHoraria'">
         <input type="radio" ichecks value="tabela_horaria_imediato" data-ng-model="dataSincronizar.tipo">
         {{ 'imporConfig.sincronizarTabelaHorariaImadiato' | translate }}
       </p>
-      <p>
+      <p permission permission-only="'sincronizarTabelaHoraria'">
         <input type="radio" ichecks value="tabela_horaria" data-ng-model="dataSincronizar.tipo">
         {{ 'imporConfig.sincronizarTabelaHoraria' | translate }}
       </p>
-      <p>
+      <p permission permission-only="'sincronizarPlanos'">
         <input type="radio" ichecks value="pacote_plano" data-ng-model="dataSincronizar.tipo">
         {{ 'imporConfig.sincronizarPlano' | translate }}
       </p>
-      <p>
+      <p permission permission-only="'sincronizarConfiguracaoCompleta'">
         <input type="radio" ichecks value="configuracao_completa" data-ng-model="dataSincronizar.tipo">
         {{ 'imporConfig.sincronizarHPConfig' | translate }}
       </p>

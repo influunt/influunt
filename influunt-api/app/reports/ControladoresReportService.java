@@ -161,6 +161,12 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("filtrarPor_eq");
         }
 
+        String tipoFalhaQuery = null;
+        if (paramsAux.containsKey("tipoFalha")) {
+            tipoFalhaQuery = paramsAux.get("tipoFalha")[0];
+            paramsAux.remove("tipoFalha");
+        }
+
         if (area != null) {
             String[] areaId = {area.getId().toString()};
             paramsAux.put("area.id", areaId);
@@ -168,7 +174,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
 
-        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
+        List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, tipoFalhaQuery);
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         falhas.forEach(falha -> {
             String idControladorFisico = falha.getIdControlador();

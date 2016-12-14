@@ -24,6 +24,9 @@ angular.module('influuntApp')
           $(el).find('.theme-config-box').toggleClass('open');
         };
 
+        scope.isArray = angular.isArray;
+        scope.isObject = angular.isObject;
+
         scope.pesquisar = function() {
           toggleOpen();
           return angular.isDefined(scope.onClose) && scope.onClose();

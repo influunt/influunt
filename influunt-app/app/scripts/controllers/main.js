@@ -58,7 +58,9 @@ angular.module('influuntApp')
               });
             }
           })
-          .finally(influuntBlockui.unblock);
+          .finally(function() {
+            return $state.current.name === 'app.main' && influuntBlockui.unblock();
+          });
       };
 
       $scope.carregarControladores = function(onlines) {
