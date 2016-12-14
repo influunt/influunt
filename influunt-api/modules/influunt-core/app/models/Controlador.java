@@ -130,6 +130,9 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Column
     private Boolean sincronizado = false;
 
+    @Column
+    private boolean exclusivoParaTeste = false;
+
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaAtiva;
@@ -633,7 +636,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorFinalizaConfiguracaoCheck.class, message = "O controlador não pode ser finalizado sem o número do SMEE preenchido.")
     public boolean isNumeroSmeePreenchido() {
-        return this.getNumeroSMEE() != null && !this.getNumeroSMEE().isEmpty();
+        return (this.getNumeroSMEE() != null && !this.getNumeroSMEE().isEmpty()) || this.isExclusivoParaTeste();
     }
 
     @Override
@@ -994,5 +997,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     private ControladorFisico getControladorFisico() {
         return getVersaoControlador().getControladorFisico();
+    }
+
+    public boolean isExclusivoParaTeste() {
+        return exclusivoParaTeste;
+    }
+
+    public void setExclusivoParaTeste(boolean exclusivoParaTeste) {
+        this.exclusivoParaTeste = exclusivoParaTeste;
     }
 }

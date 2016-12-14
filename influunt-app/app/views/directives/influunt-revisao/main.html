@@ -1,7 +1,12 @@
 <div class="m-t-md">
   <div class="col-lg-12 col-sm-12 bg-border no-padding margin-botton ibox revisao">
     <div class="col-lg-12 col-sm-12 text-left">
-      <h2>{{ 'controladores.dadosBasicos.titulo' | translate }}</h2>
+      <h2>
+        {{ 'controladores.dadosBasicos.titulo' | translate }}
+        <span class="badge badge-flask" data-ng-if="dadosBasicos.exclusivoParaTeste">
+          <i class="fa fa-flask"></i> teste
+        </span>
+      </h2>
     </div>
     <div class="col-lg-12 col-sm-12 ibox-content no-padding-left no-padding-right padding-top-20">
       <ng-include src="'views/directives/influunt-revisao/_dados_basicos.html'" data-ng-if="objeto"></ng-include>

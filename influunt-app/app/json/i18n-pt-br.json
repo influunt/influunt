@@ -97,10 +97,17 @@
     }
   },
   "controladores": {
+    "controladorParaSimulacao": "Controlador exclusivo para testes",
+    "controladorParaSimulacaoMsg": "Este controlador foi configurado exclusivamente para testes.",
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
     "print": "Imprimir",
+    "filtroControladoresTestes": {
+      "exibirTodos": "Exibir todos",
+      "exibirSomenteTestes": "Somente teste",
+      "exibirSomenteReais": "Somente reais"
+    },
     "mapaControladores": {
       "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",

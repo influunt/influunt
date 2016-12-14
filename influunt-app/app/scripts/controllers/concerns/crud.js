@@ -73,6 +73,11 @@ angular.module('influuntApp')
 
     buildFilterQuery = function(query, pesquisa) {
       _.each(pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+        // Elimina queries vazias.
+        if (_.isString(dadosFiltro.valor) && _.isEmpty(dadosFiltro.valor)) {
+          return false;
+        }
+
         var field;
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
           field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');

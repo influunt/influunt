@@ -110,7 +110,8 @@ angular.module('influuntApp')
           numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
           numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
           endereco: $scope.objeto.nomeEndereco,
-          croqui: $scope.getImagemDeCroqui($scope.objeto)
+          croqui: $scope.getImagemDeCroqui($scope.objeto),
+          exclusivoParaTeste: $scope.objeto.exclusivoParaTeste
         };
       };
 

@@ -390,6 +390,9 @@ public class ControladorCustomSerializer {
         if (controlador.getIdJson() != null) {
             root.put(ID_JSON, controlador.getIdJson());
         }
+        if (controlador.isExclusivoParaTeste()) {
+            root.put("exclusivoParaTeste", controlador.isExclusivoParaTeste());
+        }
         if (controlador.getNomeEndereco() != null) {
             root.put("nomeEndereco", controlador.getNomeEndereco());
         }
@@ -424,6 +427,9 @@ public class ControladorCustomSerializer {
 
         if (controlador.getIdJson() != null) {
             root.put(ID_JSON, controlador.getIdJson());
+        }
+        if (controlador.isExclusivoParaTeste()) {
+            root.put("exclusivoParaTeste", controlador.isExclusivoParaTeste());
         }
         if (controlador.getNumeroSMEE() != null) {
             root.put("numeroSMEE", controlador.getNumeroSMEE());
