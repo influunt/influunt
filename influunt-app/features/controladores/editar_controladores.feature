@@ -6,6 +6,14 @@ Funcionalidade: Editar um controlador
     E que o usuário acesse a página de listagem de controladores
     E o usuário clicar no botão "Configuração"
 
+  Cenário: Não deve alterar a localizão do controlador
+    Dado em resumo clicar em "Editar Associação Estágio x Grupo Semafórico"
+    E o usuário descer o estágio "E1"
+    Quando clicar no botão para ir pro próximo passo
+    Então o sistema irá avançar para o passo "Transições Proibidas"
+    E que o usuário acesse a página de listagem de controladores
+    Então o sistema deverá mostrar na tabela o valor "Av. Paulista com R. Bela Cintra"
+
   Cenário: Editar atraso de grupo zerando o valor
     Dado em resumo clicar em "Editar Atraso de Grupo"
     E o usuário realize um scroll up

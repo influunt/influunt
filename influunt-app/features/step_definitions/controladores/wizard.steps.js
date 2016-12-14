@@ -200,4 +200,8 @@ module.exports = function() {
     return wizardPage.errorImagem(msg);
   });
 
+  this.Given(/^o usuário descer o estágio "([^"]*)"$/, function(estagio){
+    return wizardPage.changeEstagioPosicao(estagio);
+  });
+
 };

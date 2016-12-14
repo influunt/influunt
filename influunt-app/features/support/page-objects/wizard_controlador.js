@@ -518,6 +518,12 @@ var WizardControladorPage = function () {
     return world.setValue('div.sweet-alert input', valor);
   };
 
+  this.changeEstagioPosicao = function(estagio){
+    return world.sleep(600).then(function(){
+      return world.getElementByXpath('//hgroup//p[contains(text(), '+estagio+')]//following-sibling::button//i[contains(@class, "fa-arrow-down")]').click();
+    });
+  };
+
   this.associarDetectorEstagio = function(detector, estagio) {
     return world.execJavascript('return $(\'th:contains("'+estagio+'")\').index() + 1').then(function(col) {
       return world.scrollToDown().then(function() {
