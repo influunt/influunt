@@ -444,6 +444,7 @@ public class ControladoresController extends Controller {
             ObjectNode root = Json.newObject();
             root.put("privateKey", controlador.getVersaoControlador().getControladorFisico().getControladorPrivateKey());
             root.put("publicKey", controlador.getVersaoControlador().getControladorFisico().getCentralPublicKey());
+            root.put("senha", controlador.getVersaoControlador().getControladorFisico().getPassword());
             root.put("idControlador", controlador.getControladorFisicoId());
             return CompletableFuture.completedFuture(ok(root));
         }

@@ -1,5 +1,10 @@
 package protocol;
 
+import logger.InfluuntLogger;
+import logger.NivelLog;
+import logger.TipoLog;
+import org.apache.commons.codec.binary.Hex;
+
 /**
  * Created by rodrigosol on 11/3/16.
  */
@@ -31,8 +36,15 @@ public abstract class Mensagem {
     }
 
     public static Mensagem toMensagem(byte[] contents) throws Exception {
+        try {
+            InfluuntLogger.log(NivelLog.NORMAL, TipoLog.EXECUCAO,"TO MENSAGEM:" + new String(Hex.encodeHex(contents)));
+            return TipoDeMensagemBaixoNivel.values()[contents[1]].getInstance(contents);
+        }catch (Exception e){
+            InfluuntLogger.log(NivelLog.NORMAL, TipoLog.EXECUCAO,"Erro ao recuperar mensagem:" + contents.length);
+            e.printStackTrace();
+        }
+        return null;
 
-        return TipoDeMensagemBaixoNivel.values()[contents[1]].getInstance(contents);
     }
 
     protected abstract byte[] getBytes();
