@@ -7,10 +7,7 @@ import checks.TabelaHorariosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.Cidade;
-import models.Controlador;
-import models.TabelaHorario;
-import models.VersaoTabelaHoraria;
+import models.*;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -39,7 +36,7 @@ public class TabelaHorariosController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json, getUsuario());
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, TabelaHorariosCheck.class);
 
         if (erros.isEmpty()) {
@@ -79,4 +76,7 @@ public class TabelaHorariosController extends Controller {
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
     }
 
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
+    }
 }
