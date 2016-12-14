@@ -7,6 +7,8 @@ import akka.actor.UntypedActor;
 import akka.routing.Router;
 import com.google.gson.Gson;
 import logger.InfluuntLogger;
+import logger.NivelLog;
+import logger.TipoLog;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
@@ -117,7 +119,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         if(!"".equals(login)) {
             opts.setUserName(login);
         }
-        
+
         if(!"".equals(senha)){
             opts.setPassword(senha.toCharArray());
         }
@@ -166,6 +168,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             String privateKey = storage.getPrivateKey();
 
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO,"Roteando mensagem:" + envelope.getTipoMensagem());
             router.route(envelope, getSender());
         } catch (Exception e) {
             getSelf().tell(e, getSelf());
@@ -190,6 +193,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
+        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO,"Mensagem recebida no topico:" +topic);
         sendToBroker(message);
     }
 
@@ -206,6 +210,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             String publicKey = storage.getCentralPublicKey();
             message.setPayload(GzipUtil.compress(envelope.toJsonCriptografado(publicKey)));
             client.publish(envelope.getDestino(), message);
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO,"Enviando mensagem para central:" + envelope.getDestino());
         } catch (Exception e) {
             getSelf().tell(e, getSelf());
         }

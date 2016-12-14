@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import logger.InfluuntLogger;
+import logger.NivelLog;
 import logger.TipoLog;
 import org.slf4j.LoggerFactory;
 import os72c.client.conf.DeviceConfig;
@@ -60,14 +61,14 @@ public class Client {
         config72c = configuration.getConfig("72c");
         setupLog();
 
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,"Iniciando O 72C");
+        InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"Iniciando O 72C");
 
         this.system = ActorSystem.create("InfluuntSystem", configuration);
 
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("Subsistema Akka:%s", this.system.name()));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("Subsistema Akka:%s", this.system.name()));
 
         if (deviceConfig != null) {
-            InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
+            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
             login = deviceConfig.getLogin();
@@ -98,14 +99,14 @@ public class Client {
 
         }
 
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("ID CONTROLADOR  :%s", id));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT HOST       :%s", host));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PORT       :%s", port));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT LOGIN       :%s", login));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PWD       :%s", senha));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("ID CONTROLADOR  :%s", id));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT HOST       :%s", host));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT PORT       :%s", port));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT LOGIN       :%s", login));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT PWD       :%s", senha));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
         servidor = system.actorOf(Props.create(ClientActor.class, id, host, port,login,senha, centralPublicKey, privateKey, storage, device), id);
 
@@ -134,7 +135,7 @@ public class Client {
         if (configLog != null) {
             InfluuntLogger.configureLog(configLog.getString("caminho"),
                 configLog.getString("arquivo"), configLog.getInt("tamanho"), configLog.getBoolean("compacto"),
-                configLog.getAnyRefList("tipoEvento"));
+                configLog.getAnyRefList("tipoEvento"),NivelLog.valueOf(configLog.getString("nivel")));
         }
 
     }

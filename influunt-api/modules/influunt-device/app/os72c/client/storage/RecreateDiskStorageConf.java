@@ -32,7 +32,7 @@ public class RecreateDiskStorageConf implements StorageConf {
             file.delete();
         }
 
-        db = DBMaker.fileDB(file).make();
+        db = DBMaker.fileDB(file).transactionEnable().make();
 
     }
 

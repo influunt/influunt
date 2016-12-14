@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import engine.*;
 import engine.TipoEvento;
 import logger.InfluuntLogger;
+import logger.NivelLog;
 import logger.TipoLog;
 import models.*;
 import org.apache.commons.math3.util.Pair;
@@ -47,6 +48,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private TreeSet<String> falhasAtuais = new TreeSet<>();
 
+    private Long tempoDecorrido =0l;
+
 
     public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
         this.storage = mapStorage;
@@ -63,10 +66,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private synchronized void start() {
 
         if (!iniciado) {
-            InfluuntLogger.log(TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
+            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
-                InfluuntLogger.log(TipoLog.INICIALIZACAO,"Configuração encontrada");
+                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Configuração encontrada");
                 iniciado = true;
                 this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), this);
@@ -74,16 +77,21 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 executor = Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
                         try {
+
+                            if(tempoDecorrido % 1000 == 0) {
+                                InfluuntLogger.log(NivelLog.SUPERDETALHADO,TipoLog.EXECUCAO, "TICK:" + tempoDecorrido);
+                            }
+                            tempoDecorrido+=100;
                             motor.tick();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
-                InfluuntLogger.log(TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
+                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
 
             } else {
-                InfluuntLogger.log(TipoLog.INICIALIZACAO,"Não existe configuração para iniciar o motor");
-                InfluuntLogger.log(TipoLog.INICIALIZACAO,"O controlador será iniciado quando um configuração for recebida");
+                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"Não existe configuração para iniciar o motor");
+                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"O controlador será iniciado quando um configuração for recebida");
             }
         }
     }
