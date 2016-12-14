@@ -7,8 +7,8 @@
  * # liberar
  */
 angular.module('influuntApp')
-  .directive('liberarImposicao', ['Restangular', 'influuntBlockui', 'influuntAlert', '$filter', 'toast',
-    function (Restangular, influuntBlockui, influuntAlert, $filter, toast) {
+  .directive('liberarImposicao', ['Restangular', 'influuntBlockui', 'influuntAlert', '$filter', 'liberarImposicaoNotifier',
+    function (Restangular, influuntBlockui, influuntAlert, $filter, liberarImposicaoNotifier) {
       return {
         template: '<a data-ng-click="liberarPlanoImposto()">{{ "imporConfig.liberacao.liberar" | translate }}</a>',
         restrict: 'E',
@@ -32,21 +32,37 @@ angular.module('influuntApp')
           };
 
           scope.$watch('transacoes', function(transacoes) {
-            if (_.isObject(transacoes) && _.isObject(scope.anel)) {
-              var transacao = transacoes[scope.anel.id] || transacoes[scope.anel.controladorFisicoId];
-
-              if (!_.isObject(transacao)) {
-                return false;
-              }
-
-              if (transacao.tipoTransacao === 'LIBERAR_IMPOSICAO' && transacao.status === 'DONE') {
-                toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
-              } else if (transacao.tipoTransacao === 'LIBERAR_IMPOSICAO' && transacao.status === 'ABORT') {
-                // @todo: Adicionar mensagem de erro do mqtt?
-                toast.warn($filter('translate')('imporConfig.liberacao.erro'));
-              }
-            }
+            liberarImposicaoNotifier.notify(transacoes, scope.anel);
           }, true);
         }
       };
-    }]);
+    }])
+    .factory('liberarImposicaoNotifier', ['$filter', 'toast', function ($filter, toast) {
+      var debouncerId;
+      var notify = function(transacoes, anel) {
+          if (_.isObject(transacoes) && _.isObject(anel)) {
+            var transacao = transacoes[anel.id] || transacoes[anel.controladorFisicoId];
+
+            if (!_.isObject(transacao)) {
+              return false;
+            }
+
+            if (transacao.tipoTransacao === 'LIBERAR_IMPOSICAO') {
+              clearTimeout(debouncerId);
+              debouncerId = setTimeout(function() {
+                if (transacao.statusPacote === 'DONE') {
+                  toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
+                } else if (transacao.statusPacote === 'ABORT') {
+                  // @todo: Adicionar mensagem de erro do mqtt?
+                  toast.warn($filter('translate')('imporConfig.liberacao.erro'));
+                }
+              }, 200);
+            }
+          }
+      };
+
+      return {
+        notify: notify
+      };
+    }])
+  ;

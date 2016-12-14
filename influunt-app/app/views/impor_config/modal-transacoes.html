@@ -13,7 +13,8 @@
                     <label class="control-label">{{ 'imporConfig.transacao' | translate }}</label>
                     <select name="subareas"
                             class="form-control"
-                            data-ng-model="tipoTransacao">
+                            data-ng-model="tipoTransacao"
+                            data-ng-change="limpaTransacoesAnteriores()">
                       <option value="imposicao-plano">{{ 'imporConfig.plano.titulo' | translate }}</option>
                       <option value="imposicao-modo">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
                       <option value="sincronizacao">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
@@ -67,11 +68,11 @@
 
                   <div>
                     <ul>
-                      <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter">
+                      <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter | orderBy: 'CLA'">
                         {{ anel.CLA }} - {{ anel.endereco }}
                         <influunt-mqtt-transaction-status
                           ng-if="!!statusObj.transacoes[anel.controladorFisicoId]"
-                          data-status-transaction="statusObj.transacoes[anel.controladorFisicoId].status">
+                          data-status-transaction="statusObj.transacoes[anel.controladorFisicoId].statusTransacao">
                         </influunt-mqtt-transaction-status>
                       </li>
                     </ul>
@@ -82,7 +83,10 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer text-center" data-ng-if="transacoesPendentes.length > 0">
+      <div class="modal-footer text-center has-error" data-ng-if="transacoesPendentes.length > 0">
+        <p class="help-block error-msg">
+          Alguns itens desta transação não poderão ser concluídos. Continuar o processo para os demais?
+        </p>
         <button type="button"
             class="btn btn-primary"
             data-ng-click="continuar(transacoesPendentes)">

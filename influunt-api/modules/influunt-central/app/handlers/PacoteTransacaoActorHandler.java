@@ -70,6 +70,16 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
         if (message instanceof Transacao) {
             Transacao transacao = (Transacao) message;
             transacoes.put(transacao.getTransacaoId(), transacao);
+
+            Transacao tr = pacoteTransacao
+                .getTransacoes()
+                .stream()
+                .filter(t -> t.getTransacaoId().equals(transacao.getTransacaoId()))
+                .findFirst()
+                .get();
+
+            tr.updateStatus(transacao.getEtapaTransacao());
+
             individualTimeout.get(transacao.getTransacaoId()).cancel();
             analisaStatus();
         } else if (message instanceof String && "GLOBAL_TIMEOUT".equals(message)) {

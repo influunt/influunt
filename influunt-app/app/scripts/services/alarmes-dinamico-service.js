@@ -131,12 +131,16 @@ angular.module('influuntApp')
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
 
-          statusObj.transacoes = statusObj.transacoes || {};
+          // statusObj.transacoes = statusObj.transacoes || {};
+          statusObj.transacoes = {};
           _.each(mensagem.conteudo.transacoes, function(transacao) {
             var target = transacao.idAnel || transacao.idControlador;
+            var isPending = mensagem.conteudo.statusPacoteTransacao === 'PENDING';
             statusObj.transacoes[target] = {
               id: mensagem.conteudo.id,
-              status: mensagem.conteudo.statusPacoteTransacao,
+              isPending: isPending,
+              statusPacote: mensagem.conteudo.statusPacoteTransacao,
+              statusTransacao: transacao.etapaTransacao,
               tipoTransacao: mensagem.conteudo.tipoTransacao
             };
           });

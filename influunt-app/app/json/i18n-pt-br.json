@@ -874,7 +874,7 @@
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
     "aletarcaoStatus": {
       "sucesso": "Alteração executada com sucesso",
-      "erro": "Não foi possível alterar o status com o controlador"
+      "erro": "Não foi possível alterar o status do o controlador"
     },
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",
