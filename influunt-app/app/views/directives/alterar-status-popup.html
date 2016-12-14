@@ -1,24 +1,23 @@
 <button data-toggle="modal"
-        data-target="#modal-impor-modo"
+        data-target="#modal-alterar-status"
         class="btn btn-w-m btn-primary"
         data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
-        {{ 'imporConfig.imporModo' | translate }}
+        {{ 'imporConfig.alterarStatus' | translate }}
 </button>
 
-<!-- modal | imposicao de modo. -->
-<div class="modal inmodal" id="modal-impor-modo" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="modal-alterar-status" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content animated bounceInRight">
-      <div class="modal-header">
+      <div class="modal-body">
         <div class="row text-left">
           <div class="col-sm-12">
-            <imposicao-modo
+            <alterar-status
                 aneis-selecionados="aneisSelecionados"
                 ids-transacoes="idsTransacoes"
                 track-transaction="trackTransaction"
                 transacoes="transacoes"
                 dismiss-on-submit="true">
-            </imposicao-modo>
+            </alterar-status>
           </div>
         </div>
       </div>

@@ -71,7 +71,6 @@ angular.module('influuntApp')
     };
 
     var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
-      console.log('register to topic =====> ', subscribedUrl);
       if (!isConnected) {
         throw new Error('Client is not connected.');
       }
@@ -93,11 +92,22 @@ angular.module('influuntApp')
       client.unsubscribe(subscribedUrl + '/+');
     };
 
+    var publish = function(topic, body) {
+      if (!isConnected) {
+        throw new Error('Client is not connected.');
+      }
+
+      var message = new Paho.MQTT.Message(JSON.stringify(body));
+      message.destinationName = topic;
+      return client.send(message);
+    };
+
     return {
       connect: connectClient,
       disconnect: disconnectClient,
       register: register,
-      unregister: unregister
+      unregister: unregister,
+      publish: publish
     };
 
   }]);

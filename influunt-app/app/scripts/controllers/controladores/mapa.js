@@ -116,7 +116,7 @@ angular.module('influuntApp')
 
       atualizaStatusPlanos = function() {
         _.each($scope.statusObj.statusPlanos, function(statusPlano) {
-          var controlador = _.find($scope.listaControladores, {id: statusPlano.idControlador});
+          var controlador = _.find($scope.listaControladores, {controladorFisicoId: statusPlano.idControlador});
           if (controlador) {
             var anel = _.find(controlador.aneis, {posicao: parseInt(statusPlano.anelPosicao)});
 
@@ -128,6 +128,11 @@ angular.module('influuntApp')
             anel.planoVigente = _.find(controlador.planos, function(plano) {
               return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
             });
+
+            // atualiza dados do current anel na view.
+            if (anel && $scope.currentAnel && $scope.currentAnel.idJson === anel.idJson) {
+              $scope.currentAnel = anel;
+            }
           }
         });
       };
@@ -348,9 +353,9 @@ angular.module('influuntApp')
             $scope.currentAnel = _
               .chain($scope.currentControlador.aneis)
               .find({idJson: markerData.idJson})
+              .set('controladorFisicoId', $scope.currentControlador.controladorFisicoId)
               .clone()
               .value();
-
 
             return !!$scope.currentControlador && !!$scope.currentAnel;
           });
