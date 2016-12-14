@@ -8,6 +8,7 @@ import controllers.routes;
 import models.*;
 import org.junit.Before;
 import org.junit.Test;
+import play.Configuration;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -307,64 +308,74 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void deveriaBuscarAuditoriasPeloLoginUsuario() {
-        criarCidades(5);
+        if (deveExecutarTesteAuditoria()) {
+            criarCidades(5);
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-            .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
-        Result result = route(request);
-        JsonNode json = Json.parse(contentAsString(result));
-        List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
-        assertEquals(OK, result.status());
-        assertEquals(5, auditorias.size());
+            Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
+            Result result = route(request);
+            JsonNode json = Json.parse(contentAsString(result));
+            List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
+            assertEquals(OK, result.status());
+            assertEquals(5, auditorias.size());
+        }
     }
 
     @Test
     public void naoDeveriaBuscarAuditoriasPeloLoginUsuarioExistente() {
-        criarCidades(5);
+        if (deveExecutarTesteAuditoria()) {
+            criarCidades(5);
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-            .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=teste"));
-        Result result = route(request);
-        JsonNode json = Json.parse(contentAsString(result));
-        List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
-        assertEquals(OK, result.status());
-        assertEquals(0, auditorias.size());
+            Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=teste"));
+            Result result = route(request);
+            JsonNode json = Json.parse(contentAsString(result));
+            List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
+            assertEquals(OK, result.status());
+            assertEquals(0, auditorias.size());
+        }
     }
 
     @Test
     public void deveriaBuscarAuditoriasPeloLoginUsuarioComPaginacaoDefault() {
-        criarCidades(50);
+        if (deveExecutarTesteAuditoria()) {
+            criarCidades(50);
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-            .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
-        Result result = route(request);
-        JsonNode json = Json.parse(contentAsString(result));
-        List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
-        assertEquals(PAGINACAO_DEFAULT, InfluuntQueryBuilder.PER_PAGE_DEFAULT, auditorias.size());
+            Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin"));
+            Result result = route(request);
+            JsonNode json = Json.parse(contentAsString(result));
+            List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
+            assertEquals(PAGINACAO_DEFAULT, InfluuntQueryBuilder.PER_PAGE_DEFAULT, auditorias.size());
+        }
     }
 
     @Test
     public void deveriaBuscarAuditoriasNaPaginaIgual2() {
-        criarCidades(50);
+        if (deveExecutarTesteAuditoria()) {
+            criarCidades(50);
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-            .uri(routes.AuditoriaController.findAll().url().concat("?page=1"));
-        Result result = route(request);
-        JsonNode json = Json.parse(contentAsString(result));
-        List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
-        assertEquals(PAGINACAO_DEFAULT, 20, auditorias.size());
+            Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                .uri(routes.AuditoriaController.findAll().url().concat("?page=1"));
+            Result result = route(request);
+            JsonNode json = Json.parse(contentAsString(result));
+            List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
+            assertEquals(PAGINACAO_DEFAULT, 20, auditorias.size());
+        }
     }
 
     @Test
     public void deveriaBuscarAuditoriasAPartirDe() {
-        criarCidades(50);
+        if (deveExecutarTesteAuditoria()) {
+            criarCidades(50);
 
-        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
-            .uri(routes.AuditoriaController.findAll().url().concat("?timestamp_start=12%2F09%2F2016%2011:34:55"));
-        Result result = route(request);
-        JsonNode json = Json.parse(contentAsString(result));
-        List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
-        assertEquals(PAGINACAO_DEFAULT, 30, auditorias.size());
+            Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                .uri(routes.AuditoriaController.findAll().url().concat("?timestamp_start=12%2F09%2F2016%2011:34:55"));
+            Result result = route(request);
+            JsonNode json = Json.parse(contentAsString(result));
+            List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
+            assertEquals(PAGINACAO_DEFAULT, 30, auditorias.size());
+        }
     }
 
     private void criarFabricanteModeloControlador() {
@@ -401,4 +412,8 @@ public class BuscasTest extends WithInfluuntApplicationNoAuthentication {
         }
     }
 
+    private boolean deveExecutarTesteAuditoria() {
+        Configuration configuration = provideApp.injector().instanceOf(Configuration.class);
+        return configuration.getConfig("auditoria").getBoolean("enabled");
+    }
 }

@@ -1,5 +1,4 @@
 # --- !Ups
-
 alter table controladores_fisicos add column `marca` varchar(255);
 alter table controladores_fisicos add column `modelo` varchar(255);
 

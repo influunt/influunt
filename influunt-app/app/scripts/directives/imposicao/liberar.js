@@ -7,18 +7,17 @@
  * # liberar
  */
 angular.module('influuntApp')
-  .directive('liberarImposicao', ['Restangular', 'influuntBlockui', 'influuntAlert', '$filter', 'toast', 'mqttTransactionStatusService',
-    function (Restangular, influuntBlockui, influuntAlert, $filter, toast, mqttTransactionStatusService) {
+  .directive('liberarImposicao', ['Restangular', 'influuntBlockui', 'influuntAlert', '$filter', 'toast',
+    function (Restangular, influuntBlockui, influuntAlert, $filter, toast) {
       return {
-        template: '<a data-ng-click="liberarPlanoImposto(anel)">{{ "imporConfig.liberacao.liberar" | translate }}</a>',
+        template: '<a data-ng-click="liberarPlanoImposto()">{{ "imporConfig.liberacao.liberar" | translate }}</a>',
         restrict: 'E',
         scope: {
           anel: '=',
-          idsTransacoes: '='
+          transacoes: '='
         },
         link: function liberar(scope) {
           scope.idsTransacoes = {};
-          var transactionTracker;
           scope.liberarPlanoImposto = function() {
             return influuntAlert.confirm($filter('translate')('imporConfig.liberacao.confirmLiberarImposicao'))
               .then(function(res) {
@@ -29,19 +28,25 @@ angular.module('influuntApp')
                     timeout: 60
                   });
               })
-              .then(function(response) {
-                console.log(response);
-                _.each(response.plain(), function(transacaoId, id) {
-                  scope.idsTransacoes[id] = transacaoId;
-                  return transactionTracker(transacaoId);
-                });
-              })
               .finally(influuntBlockui.unblock);
           };
 
-          transactionTracker = function(id) {
-            toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
-          };
+          scope.$watch('transacoes', function(transacoes) {
+            if (_.isObject(transacoes) && _.isObject(scope.anel)) {
+              var transacao = transacoes[scope.anel.id] || transacoes[scope.anel.controladorFisicoId];
+
+              if (!_.isObject(transacao)) {
+                return false;
+              }
+
+              if (transacao.tipoTransacao === 'LIBERAR_IMPOSICAO' && transacao.status === 'DONE') {
+                toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
+              } else if (transacao.tipoTransacao === 'LIBERAR_IMPOSICAO' && transacao.status === 'ABORT') {
+                // @todo: Adicionar mensagem de erro do mqtt?
+                toast.warn($filter('translate')('imporConfig.liberacao.erro'));
+              }
+            }
+          }, true);
         }
       };
     }]);

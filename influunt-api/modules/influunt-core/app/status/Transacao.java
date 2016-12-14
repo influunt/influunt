@@ -74,6 +74,10 @@ public class Transacao {
             '}';
     }
 
+    public void setEtapaTransacao(EtapaTransacao etapaTransacao) {
+        this.etapaTransacao = etapaTransacao;
+    }
+
     public EtapaTransacao getEtapaTransacao() {
         return etapaTransacao;
     }
@@ -96,5 +100,14 @@ public class Transacao {
 
     public void setPayload(String payload) {
         this.payload = payload;
+    }
+
+
+    public String getIdControlador() {
+        return idControlador;
+    }
+
+    public void setIdControlador(String idControlador) {
+        this.idControlador = idControlador;
     }
 }

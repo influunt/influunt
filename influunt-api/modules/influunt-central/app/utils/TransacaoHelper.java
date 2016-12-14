@@ -1,9 +1,7 @@
 package utils;
 
-import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
-import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
@@ -15,12 +13,13 @@ import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 import protocol.*;
-import server.conn.CentralMessageBroker;
 import status.PacoteTransacao;
 import status.Transacao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by pedropires on 11/18/16.
@@ -67,9 +66,12 @@ public class TransacaoHelper {
 
     public String imporModoOperacao(List<Anel> aneis, ModoOperacaoPlano modoOperacao, Long horarioEntrada, int duracao, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
-        aneis.stream().forEach(anel -> {
-            String controladorId = anel.getControlador().getControladorFisicoId();
-            String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), anel.getPosicao(), horarioEntrada, duracao)).toString();
+
+        List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            List<Integer> numerosAneis = aneis.stream().filter(anel -> Objects.equals(controlador.getId(), anel.getControlador().getId())).map(Anel::getPosicao).collect(Collectors.toList());
+            String payload = Json.toJson(new MensagemImposicaoModoOperacao(modoOperacao.toString(), numerosAneis, horarioEntrada, duracao)).toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_MODO_OPERACAO));
         });
 
@@ -84,9 +86,11 @@ public class TransacaoHelper {
         }
 
         List<Transacao> transacoes = new ArrayList<>();
-        aneis.stream().forEach(anel -> {
-            String controladorId = anel.getControlador().getControladorFisicoId();
-            String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, anel.getPosicao(), horarioEntrada, duracao)).toString();
+        List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            List<Integer> numerosAneis = aneis.stream().filter(anel -> java.util.Objects.equals(controlador.getId(), anel.getControlador().getId())).map(Anel::getPosicao).collect(Collectors.toList());
+            String payload = Json.toJson(new MensagemImposicaoPlano(posicaoPlano, numerosAneis, horarioEntrada, duracao)).toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO));
         });
 
@@ -95,9 +99,11 @@ public class TransacaoHelper {
 
     private String imporPlanoTemporario(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
-        aneis.stream().forEach(anel -> {
-            String controladorId = anel.getControlador().getControladorFisicoId();
-            String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, anel.getPosicao(), horarioEntrada, duracao).toJson().toString();
+        List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            List<Integer> numerosAneis = aneis.stream().filter(anel -> java.util.Objects.equals(controlador.getId(), anel.getControlador().getId())).map(Anel::getPosicao).collect(Collectors.toList());
+            String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numerosAneis, horarioEntrada, duracao).toJson().toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO));
         });
 
@@ -106,9 +112,11 @@ public class TransacaoHelper {
 
     public String liberarImposicao(List<Anel> aneis, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
-        aneis.stream().forEach(anel -> {
-            String controladorId = anel.getControlador().getControladorFisicoId();
-            String payload = Json.toJson(new MensagemLiberarImposicao(anel.getPosicao())).toString();
+        List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
+        controladores.stream().forEach(controlador -> {
+            String controladorId = controlador.getControladorFisicoId();
+            List<Integer> numerosAneis = aneis.stream().filter(anel -> java.util.Objects.equals(controlador.getId(), anel.getControlador().getId())).map(Anel::getPosicao).collect(Collectors.toList());
+            String payload = Json.toJson(new MensagemLiberarImposicao(numerosAneis)).toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.LIBERAR_IMPOSICAO));
         });
 

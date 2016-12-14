@@ -12,6 +12,9 @@ import protocol.EtapaTransacao;
 import protocol.MensagemImposicaoModoOperacao;
 import status.Transacao;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by rodrigosol on 9/6/16.
  */
@@ -23,12 +26,12 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        JsonNode payloadJson = Json.parse(transacao.payload.toString());
+        JsonNode payloadJson = Json.parse(transacao.payload);
         if (isImposicaoModoOperacaoOk(payloadJson)) {
-            storage.setTempData(transacao.transacaoId,"modoOperacao", payloadJson.get("modoOperacao").asText());
-            storage.setTempData(transacao.transacaoId,"numeroAnel", payloadJson.get("numeroAnel").asText());
-            storage.setTempData(transacao.transacaoId,"horarioEntrada", payloadJson.get("horarioEntrada").asText());
-            storage.setTempData(transacao.transacaoId,"duracao", payloadJson.get("duracao").asText());
+            storage.setTempData(transacao.transacaoId, "modoOperacao", payloadJson.get("modoOperacao").asText());
+            storage.setTempData(transacao.transacaoId, "numerosAneis", payloadJson.get("numerosAneis").toString());
+            storage.setTempData(transacao.transacaoId, "horarioEntrada", payloadJson.get("horarioEntrada").asText());
+            storage.setTempData(transacao.transacaoId, "duracao", payloadJson.get("duracao").asText());
             transacao.etapaTransacao = EtapaTransacao.PREPARE_OK;
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
@@ -38,13 +41,14 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
     }
 
     @Override
+    @SuppressWarnings({"unchecked"})
     protected void executeCommit(Transacao transacao) {
         Envelope envelopeImposicaoModo = MensagemImposicaoModoOperacao.getMensagem(
             idControlador,
-            storage.getTempData(transacao.transacaoId,"modoOperacao"),
-            Integer.parseInt(storage.getTempData(transacao.transacaoId,"numeroAnel")),
-            Long.parseLong(storage.getTempData(transacao.transacaoId,"horarioEntrada")),
-            Integer.parseInt(storage.getTempData(transacao.transacaoId,"duracao")));
+            storage.getTempData(transacao.transacaoId, "modoOperacao"),
+            Json.fromJson(Json.parse(storage.getTempData(transacao.transacaoId, "numerosAneis")), List.class),
+            Long.parseLong(storage.getTempData(transacao.transacaoId, "horarioEntrada")),
+            Integer.parseInt(storage.getTempData(transacao.transacaoId, "duracao")));
 
         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeImposicaoModo, getSelf());
 
@@ -61,13 +65,13 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
     private boolean isImposicaoModoOperacaoOk(JsonNode payload) {
         try {
             ModoOperacaoPlano.valueOf(payload.get("modoOperacao").asText());
-            int numeroAnel = payload.get("numeroAnel").asInt();
             Long horarioEntrada = payload.get("horarioEntrada").asLong();
             int duracao = payload.get("duracao").asInt();
-            return numeroAnel >= 1 && duracao >= 15 && duracao <= 600 && horarioEntrada > DateTime.now().getMillis();
+            List<Integer> numerosAneis = Json.fromJson(payload.get("numerosAneis"), List.class);
+            boolean numerosAneisOk = numerosAneis.stream().allMatch(numeroAnel -> numeroAnel >= 1);
+            return numerosAneisOk && duracao >= 15 && duracao <= 600 && horarioEntrada > DateTime.now().getMillis();
         } catch (Exception e) {
             return false;
         }
     }
-
 }

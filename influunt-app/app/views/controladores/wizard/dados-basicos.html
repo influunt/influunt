@@ -6,6 +6,12 @@
         <div class="">
             <div class="col-lg-4 col-sm-4 margin-top-25">
               <div class="form-group">
+                <label>
+                  <input type="checkbox" ichecks data-ng-model="objeto.exclusivoParaTeste">
+                  <span>{{ 'controladores.controladorParaSimulacao' | translate }}</span>
+                </label>
+              </div>
+              <div class="form-group">
                 <label class="control-label">{{ 'geral.croqui' | translate }}:</label>
                 <div class="col-lg-12 col-sm-12 croqui movements controlador">
                   <form class="dropzone croqui"

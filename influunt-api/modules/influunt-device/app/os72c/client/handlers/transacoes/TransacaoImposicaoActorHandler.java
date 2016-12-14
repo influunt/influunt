@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
 import models.Anel;
 import models.Controlador;
+import org.joda.time.DateTime;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import play.libs.Json;
 import status.Transacao;
+
+import java.util.List;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -26,12 +29,14 @@ public abstract class TransacaoImposicaoActorHandler extends TransacaoActorHandl
     protected boolean isImposicaoPlanoOk(Controlador controlador, Transacao transacao) {
         JsonNode payload = Json.parse(transacao.payload.toString());
         int posicaoPlano = payload.get("posicaoPlano").asInt();
-        int numeroAnel = payload.get("numeroAnel").asInt();
         Long horarioEntrada = payload.get("horarioEntrada").asLong();
         int duracao = payload.get("duracao").asInt();
-        boolean planoConfigurado = isPlanoConfigurado(controlador, numeroAnel, posicaoPlano);
 
-        return posicaoPlano >= 0 && numeroAnel >= 1 && duracao >= 15 && duracao <= 600 && planoConfigurado && horarioEntrada > System.currentTimeMillis();
+        List<Integer> numerosAneis = Json.fromJson(payload.get("numerosAneis"), List.class);
+        boolean numerosAneisOk = numerosAneis.stream().allMatch(numeroAnel -> numeroAnel >= 1);
+        boolean planosConfigurados = numerosAneis.stream().allMatch(numeroAnel -> isPlanoConfigurado(controlador, numeroAnel, posicaoPlano));
+
+        return planosConfigurados && numerosAneisOk && duracao >= 15 && duracao <= 600 && horarioEntrada > DateTime.now().getMillis();
     }
 
     protected boolean isImposicaoPlanoTemporarioOk(JsonNode controladorJson, Transacao transacao) {
