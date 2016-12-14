@@ -88,10 +88,10 @@
             </div>
             <div class="col-lg-12 no-padding padding-botton-20">
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['INOPERANTE'] || 0}}</button> {{ 'main.inoperante' | translate }}
+                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['COM_FALHAS'] || 0}}</button> {{ 'main.comFalhas' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">{{dadosStatus['OPERANDO_COM_FALHAS'] || 0}}</button> {{ 'main.operandoFalhas' | translate }}
+                <button type="button" class="btn btn-success m-r-sm">{{dadosStatus['EM_MANUTENCAO'] || 0}}</button> {{ 'main.emManutencao' | translate }}
               </div>
               <div class="col-lg-4 col-sm-4">
                 <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['INATIVO'] || 0}}</button> {{ 'main.inativo' | translate }}
