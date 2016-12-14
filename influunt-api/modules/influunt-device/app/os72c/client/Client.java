@@ -103,11 +103,9 @@ public class Client {
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PORT       :%s", port));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT LOGIN       :%s", login));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("MQTT PWD       :%s", senha));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", centralPublicKey.substring(0, 5), centralPublicKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", privateKey.substring(0, 5), privateKey.substring(centralPublicKey.length() - 5, centralPublicKey.length())));
         InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port,login,senha, centralPublicKey, privateKey, storage, device), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, login, senha, centralPublicKey, privateKey, storage, device), id);
 
     }
 
