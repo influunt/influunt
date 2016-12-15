@@ -58,11 +58,16 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoApagarEstagio = function(estagio) {
-     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click().then(function() {
-      return world.waitFor('div#modal-configuracao-estagio');
-    }).then(function() {
-      return world.waitForAnimationFinishes('div.modal-content');
-    });
+    return world.waitForOverlayDisappear()
+      .then(function(){
+        return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click();
+      })
+      .then(function() {
+        return world.waitFor('div#modal-configuracao-estagio');
+      })
+      .then(function() {
+        return world.waitForAnimationFinishes('div.modal-content');
+      });
   };
 
   this.marcarValorConfig = function(field, value) {

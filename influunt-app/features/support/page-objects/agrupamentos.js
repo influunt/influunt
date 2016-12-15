@@ -77,6 +77,12 @@ var AgrupamentosPage = function () {
     });
   };
 
+  this.agruparControlador = function(controlador) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.getElementByXpath('//*[b="'+controlador+'"]//div[contains(@class, "icheckbox_square-green")]').click();
+    });
+  };
+
   this.toastMessage = function() {
     return world.sleep(1000).then(function() {
       return world.waitFor('#toast-container div.toast-message').then(function() {

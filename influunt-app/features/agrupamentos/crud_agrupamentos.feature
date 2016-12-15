@@ -1,8 +1,7 @@
 # language: pt
-@crud @agrupamentos @interfaces
+@agrupamentos
 Funcionalidade: tela de cadastro de agrupamentos
 
-  @agrupamentos1
   Cenário: Listagem de agrupamentos
     Dado que o sistema possua controladores cadastrados e configurados
     Quando o usuário acesse a listagem de "agrupamentos"
@@ -58,6 +57,18 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
+    Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
+
+  Cenário: Validar tempo simétrico ou assimétrico
+    Dado o usuário acesse a listagem de "agrupamentos"
+    E o usuário acessar o formulário de edição de agrupamentos
+    Quando o usuário selecionar o valor "AREA SUL PAULISTA" para o campo "subareas"
+    E o usuário selecionar o valor "Av. Paulista com R. Pamplona" para o campo "controladores"
+    E o usuário agrupar o controlador "1.000.0001"
+    E clicar no botão de salvar
+    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
+    E o usuário confirmar
+    E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos planos."
 
   Cenário: Exclusão de agrupamentos sem confirmação do usuário
     Quando o usuário acesse a listagem de "agrupamentos"
@@ -67,7 +78,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Então nenhum agrupamento deve ser excluído
 
   Cenário: Exclusão de agrupamentos com confirmação do usuário
-    Quando o usuário acesse a listagem de "agrupamentos"
+    Dado o usuário acesse a listagem de "agrupamentos"
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário confirmar

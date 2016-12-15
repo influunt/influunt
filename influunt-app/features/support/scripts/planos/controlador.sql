@@ -163,8 +163,6 @@ VALUES
   ('9382305f-d51f-43c2-bc15-2c1c1aa32d60', '684fc0f1-6518-4f4f-93e1-5269448aabb5','PERDA_DE_PASSAGEM','227858c0-248f-4551-aeaf-6c3119fdb65f', '28e7a329-ca3c-4431-916d-d2aa2283f7e6', '108ed266-d7b4-461f-b4e9-e2117c3348a6','TRUE',  'FALSE', '2016-09-29 13:27:29.872', '2016-11-04 17:58:41.104'),
   ('d66f7a07-91ce-4030-ac10-507860979e47', '91662774-0b6b-4d26-b426-81872bb2c35c','GANHO_DE_PASSAGEM','227858c0-248f-4551-aeaf-6c3119fdb65f', '108ed266-d7b4-461f-b4e9-e2117c3348a6', '28e7a329-ca3c-4431-916d-d2aa2283f7e6','TRUE',  'FALSE', '2016-09-29 13:27:29.875', '2016-11-04 17:58:41.105');
 
-
-
 INSERT INTO `tabela_entre_verdes_transicao` (`id`, `id_json`, `tabela_entre_verdes_id`, `transicao_id`, `tempo_amarelo`, `tempo_vermelho_intermitente`, `tempo_vermelho_limpeza`, `data_criacao`, `data_atualizacao`)
 VALUES
   ('1c95b148-8aa7-47d6-b214-13d3ce41916f','1a63ba52-474e-4728-a7b7-5fd4b52624ca','2bff6e45-418a-4b3e-8308-6c2a6cd91e03','3b0815b7-4e21-4a0e-b132-068e20e301d9',3,NULL,0,'2016-09-29 13:27:29.879000','2016-09-29 13:30:42.728000'),

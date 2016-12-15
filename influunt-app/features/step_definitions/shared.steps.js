@@ -195,4 +195,8 @@ module.exports = function() {
   this.Given(/^o sistema deve mostrar o endereço "([^"]*)" no breadcrumb$/, function (endereco) {
     return sharedSteps.enderecoBreadcrumb(endereco);
   });
+
+  this.Given(/^que o usuário aguarde um tempo de "([^"]*)" milisegundos$/, function (time) {
+    return sharedSteps.aguardar(time);
+  });
 };

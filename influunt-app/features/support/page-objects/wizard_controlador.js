@@ -311,6 +311,7 @@ var WizardControladorPage = function () {
     var anel1Est3  = '../resources/anel1_est3.jpg';
     var anel2Est1  = '../resources/anel2_est1.jpg';
     var anel2Est2  = '../resources/anel2_est2.jpg';
+    var dwg        = '../resources/tipodwg.dwg';
 
     switch(localImagem) {
       case 'Croqui':
@@ -325,6 +326,8 @@ var WizardControladorPage = function () {
         return this.adicionarImagem(anel2Est1);
       case 'Anel 2 como Estágio2':
         return this.adicionarImagem(anel2Est2);
+      case 'Anel 1 DWG':
+        return this.adicionarImagem(dwg);
       default:
         throw new Error('Localização da imagem não encontrada: '+localImagem);
      }
@@ -339,6 +342,10 @@ var WizardControladorPage = function () {
     return Promise.all(promises).then(function() {
       return world.waitForAJAX();
     });
+  };
+
+  this.errorImagem = function (msg) {
+    return world.waitForByXpath('//div[contains(@class, "dz-error-message")][contains(text(), "'+msg+'")]')
   };
 
   this.selecionaEstagioAlternativoParaTransicaoProibida = function(transicao, estagio) {
@@ -509,6 +516,12 @@ var WizardControladorPage = function () {
 
   this.preencherModificao = function(valor){
     return world.setValue('div.sweet-alert input', valor);
+  };
+
+  this.changeEstagioPosicao = function(estagio){
+    return world.sleep(600).then(function(){
+      return world.getElementByXpath('//hgroup//p[contains(text(), '+estagio+')]//following-sibling::button//i[contains(@class, "fa-arrow-down")]').click();
+    });
   };
 
   this.associarDetectorEstagio = function(detector, estagio) {

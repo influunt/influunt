@@ -40,6 +40,11 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
+    Quando o usuário adicionar imagem ao "Anel 1 DWG"
+    Então o sistema deverá apresentar erro com a frase "Não foi possível adicionar este arquivo. Exclua-o e tente novamente."
+
+  Cenário: Salvar anéis do controlador
+    Dado que o usuário esteja no wizard no passo "Anéis"
     E o usuário limpar o campo endereço 1
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário limpar o campo endereço 2
