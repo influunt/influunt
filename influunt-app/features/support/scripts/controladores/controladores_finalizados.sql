@@ -140,15 +140,15 @@ VALUES
 
 ------------------- Controladores ----------------------------
 
-INSERT INTO `controladores` (`id`, `id_json`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `croqui_id`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `controladores` (`id`, `id_json`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `croqui_id`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `sincronizado`, `exclusivo_para_teste`, `data_criacao`, `data_atualizacao`)
 VALUES
-  ('0f424143-383e-490d-96ef-145fed18bb29',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:19:08.777000','2016-11-08 09:33:01.639000'),
-  ('9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
-  ('1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
-  ('279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,'Av. Paulista, nº 1000. ref.: AREA 1',2,'2','1','2','3',NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,@SubareaId,0,0,'2016-11-08 09:10:36.924000','2016-11-08 09:16:47.343000'),
-  ('5d238555-8620-4841-a2bf-c77d497f6b14',NULL,'Avenida Nove de Julho com Av. Paulista',3,'3',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 10:21:26.853000','2016-11-08 10:32:52.105000'),
-  ('d7c27564-e0b1-4eda-8a6c-2c265ed24c2f',NULL,'Av. Paulista com R. Pamplona',1,'123','1','2','3','FIRM',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,'2016-11-08 09:05:11.494000','2016-11-08 09:09:03.537000'),
-  ('d7c27564-e0b1-4eda-8a6c-2c265ed24c3d',NULL,'R. Maria Figueiredo com Av. Paulista',1,'4',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area3Id,NULL,0,0,'2016-11-08 09:50:02.855000','2016-11-08 09:51:40.803000');
+  ('0f424143-383e-490d-96ef-145fed18bb29',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,0,0,'2016-11-08 09:19:08.777000','2016-11-08 09:33:01.639000'),
+  ('9dccd9b1-8837-43d0-8f5b-bb4b169fdc9e',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
+  ('1dccd9b1-8837-43d0-8f5b-bb4b169fdc9d',NULL,'R. Maria Figueiredo, nº -4',1,'3','1','2','3','ffff',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area2Id,NULL,0,0,0,0,'2016-11-08 09:54:07.221000','2016-11-08 09:54:08.028000'),
+  ('279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',NULL,'Av. Paulista, nº 1000. ref.: AREA 1',2,'2','1','2','3',NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,@SubareaId,0,0,0,0,'2016-11-08 09:10:36.924000','2016-11-08 09:16:47.343000'),
+  ('5d238555-8620-4841-a2bf-c77d497f6b14',NULL,'Avenida Nove de Julho com Av. Paulista',3,'3',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,0,0,'2016-11-08 10:21:26.853000','2016-11-08 10:32:52.105000'),
+  ('d7c27564-e0b1-4eda-8a6c-2c265ed24c2f',NULL,'Av. Paulista com R. Pamplona',1,'123','1','2','3','FIRM',NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area1Id,NULL,0,0,0,0,'2016-11-08 09:05:11.494000','2016-11-08 09:09:03.537000'),
+  ('d7c27564-e0b1-4eda-8a6c-2c265ed24c3d',NULL,'R. Maria Figueiredo com Av. Paulista',1,'4',NULL,NULL,NULL,NULL,NULL,'0244027c-a5a3-11e6-b546-a174608784fe',@Area3Id,NULL,0,0,0,0,'2016-11-08 09:50:02.855000','2016-11-08 09:51:40.803000');
 
 INSERT INTO `aneis` (`id`, `id_json`, `ativo`, `descricao`, `posicao`, `numero_smee`, `controlador_id`, `croqui_id`, `data_criacao`, `data_atualizacao`, `aceita_modo_manual`)
 VALUES
