@@ -48,7 +48,10 @@
                   <div data-ng-if="anel.hasPlanoImposto">
                     <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}
                     <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
-                    <liberar-imposicao anel="anel" transacoes="statusObj.transacoes"></liberar-imposicao>
+                    <liberar-imposicao
+                        anel="anel"
+                        transacoes="statusObj.transacoes"
+                        data-ng-if="anel.online"></liberar-imposicao>
                   </div>
                 </td>
                 <td>
