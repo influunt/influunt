@@ -209,13 +209,6 @@ angular.module('influuntApp')
           .orderBy('posicao')
           .filter(function(anel) {
             return $scope.filtro.exibirAneis;
-            // Se o filtro de "exibirAneis" estiver desativado, somente o primeiro
-            // anel deverá ser selecionado.
-            // if (!$scope.filtro.exibirAneis) {
-            //   return anel.posicao === 1;
-            // }
-
-            // return true;
           })
           .map(function(anel) {
             var iconeAnel = [FALHA, OFFLINE].indexOf(anel.status) >= 0 ? anel.status : anel.tipoControleVigente;
