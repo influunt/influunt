@@ -338,7 +338,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             if (!inicio && this.agendamento != null) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
-                EventoMotor eventoMotor = new EventoMotor(null, TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
+                EventoMotor eventoMotor = new EventoMotor(getTimestamp(), TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
                 if (intervalo == null) {
                     this.agendamento = null;
                     verificaETrocaIntervalo(intervalo);
@@ -586,6 +586,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
             return 0;
         }
 
+    }
+
+    public DateTime getTimestamp() {
+        return inicioExecucao.plus(tempoDecorrido);
     }
 
     private class GetIntervaloGrupoSemaforico {
