@@ -10,7 +10,7 @@ angular.module('influuntApp')
   .directive('alterarStatus', ['Restangular', 'influuntBlockui', '$filter', 'toast',
     function (Restangular, influuntBlockui, $filter, toast) {
       return {
-        templateUrl: 'views/directives/alterar-status.html',
+        templateUrl: 'views/directives/imposicoes/alterar-status.html',
         restrict: 'E',
         scope: {
           aneisSelecionados: '=',
@@ -47,9 +47,9 @@ angular.module('influuntApp')
                   var transacao = transacoes[anel.controladorFisicoId];
                   var isPacoteTabelaHoraria = transacao && TIPOS_TRANSACOES.indexOf(transacao.tipoTransacao) >= 0;
 
-                  if (isPacoteTabelaHoraria && transacao.status === 'DONE') {
+                  if (isPacoteTabelaHoraria && transacao.statusPacote === 'DONE') {
                     toast.success($filter('translate')('imporConfig.aletarcaoStatus.sucesso'));
-                  } else if (isPacoteTabelaHoraria && transacao.status === 'ABORTED') {
+                  } else if (isPacoteTabelaHoraria && transacao.statusPacote === 'ABORTED') {
                     // @todo: Adicionar mensagem de erro do mqtt?
                     toast.error($filter('translate')('imporConfig.aletarcaoStatus.erro'));
                   }
@@ -62,7 +62,7 @@ angular.module('influuntApp')
     }])
   .directive('alterarStatusPopup', [function () {
     return {
-      templateUrl: 'views/directives/alterar-status-popup.html',
+      templateUrl: 'views/directives/imposicoes/alterar-status-popup.html',
       restrict: 'E',
       scope: {
         aneisSelecionados: '=',

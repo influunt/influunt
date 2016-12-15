@@ -13,7 +13,8 @@
                     <label class="control-label">{{ 'imporConfig.transacao' | translate }}</label>
                     <select name="subareas"
                             class="form-control"
-                            data-ng-model="tipoTransacao">
+                            data-ng-model="tipoTransacao"
+                            data-ng-change="limpaTransacoesAnteriores()">
                       <option value="imposicao-plano" permission permission-only="'imporPlanos'">{{ 'imporConfig.plano.titulo' | translate }}</option>
                       <option value="imposicao-modo" permission permission-only="'imporModoOperacao'">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
                       <option value="sincronizacao" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos', 'sincronizarTabelaHoraria']">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
@@ -36,6 +37,7 @@
                     <sincronizacao
                       aneis-selecionados="aneisSelecionadosObj"
                       ids-transacoes="idsTransacoes"
+                      transacoes="statusObj.transacoes"
                       timeout="dadosTransacao.tempoMaximoEspera"
                       data-ng-if="tipoTransacao === 'sincronizacao'">
                     </sincronizacao>
@@ -67,11 +69,11 @@
 
                   <div>
                     <ul>
-                      <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter">
+                      <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter | orderBy: 'CLA'">
                         {{ anel.CLA }} - {{ anel.endereco }}
                         <influunt-mqtt-transaction-status
                           ng-if="!!statusObj.transacoes[anel.controladorFisicoId]"
-                          data-status-transaction="statusObj.transacoes[anel.controladorFisicoId].status">
+                          data-status-transaction="statusObj.transacoes[anel.controladorFisicoId].statusTransacao">
                         </influunt-mqtt-transaction-status>
                       </li>
                     </ul>
@@ -82,7 +84,10 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer text-center" data-ng-if="transacoesPendentes.length > 0">
+      <div class="modal-footer text-center has-error" data-ng-if="transacoesPendentes.length > 0">
+        <p class="help-block error-msg">
+          {{ 'imporConfig.pendingWarning' | translate }}
+        </p>
         <button type="button"
             class="btn btn-primary"
             data-ng-click="continuar(transacoesPendentes)">

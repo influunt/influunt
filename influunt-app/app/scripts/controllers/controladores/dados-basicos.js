@@ -46,6 +46,13 @@ angular.module('influuntApp')
                 return $scope.validateSMEE[i].$valid;
               });
             })
+            .catch(function(res) {
+              // bad request.
+              if (res.status === 400) {
+                $scope.validateSMEE[field].$valid = false;
+                $scope.validateSMEE.$valid = false;
+              }
+            })
             .finally(function() {
               $scope.checkingSMEE[field] = false;
             });

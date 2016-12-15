@@ -139,10 +139,6 @@ angular.module('influuntApp')
 
       logout = function() {
         Restangular.one('logout', localStorage.token).remove()
-          .then(function() {
-            localStorage.removeItem('token');
-            $state.go('login');
-          })
           .catch(function(err) {
             if (err.status === 401) {
               err.data.forEach(function(error) {
@@ -150,7 +146,11 @@ angular.module('influuntApp')
               });
             }
           })
-        .finally(influuntBlockui.unblock);
+        .finally(function() {
+          localStorage.removeItem('token');
+          $state.go('login');
+          influuntBlockui.unblock();
+        });
       };
 
       loadAlarmesEFalhas = function() {

@@ -22,6 +22,7 @@ angular.module('influuntApp')
         },
         link: function sincronizacao(scope, el) {
           var DEFAULT_TIMEOUT = 60;
+          var TIPOS_TRANSACOES = ['PACOTE_TABELA_HORARIA', 'PACOTE_PLANO', 'CONFIGURACAO_COMPLETA'];
           scope.sincronizar = function() {
             scope.idsTransacoes = {};
             var idsAneisSelecionados = _.map(scope.aneisSelecionados, 'id');
@@ -48,11 +49,11 @@ angular.module('influuntApp')
               _.each(scope.aneisSelecionados, function(anel) {
                 if (anel) {
                   var transacao = transacoes[anel.controladorFisicoId];
-                  var isPacoteTabelaHoraria = transacao && transacao.tipoTransacao === 'PACOTE_TABELA_HORARIA';
+                  var isPacoteTabelaHoraria = transacao && TIPOS_TRANSACOES.indexOf(transacao.tipoTransacao)  >= 0;
 
-                  if (isPacoteTabelaHoraria && transacao.status === 'DONE') {
+                  if (isPacoteTabelaHoraria && transacao.statusPacote === 'DONE') {
                     toast.success($filter('translate')('imporConfig.sincronizacao.sucesso'));
-                  } else if (isPacoteTabelaHoraria && transacao.status === 'ABORTED') {
+                  } else if (isPacoteTabelaHoraria && transacao.statusPacote === 'ABORTED') {
                     // @todo: Adicionar mensagem de erro do mqtt?
                     toast.error($filter('translate')('imporConfig.sincronizacao.erro'));
                   }

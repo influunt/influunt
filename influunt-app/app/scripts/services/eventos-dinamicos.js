@@ -17,5 +17,5 @@ angular.module('influuntApp')
     SET_STATUS_TRANSACAO: 'central/app/transacoes/:transacaoId',
     STATUS_TRANSACAO: 'app/transacoes/+/status',
     DADOS_CONTROLADOR: 'app/controlador/+/dados',
-    RESOLVE_PENDING_REQUEST: 'central/app/transacoes/+'
+    RESOLVE_PENDING_REQUEST: 'central/app/transacoes/:transacaoId'
   });

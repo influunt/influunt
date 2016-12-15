@@ -26,7 +26,7 @@
             </thead>
             <tbody>
               <tr data-ng-repeat="anel in lista | orderBy:'CLA'">
-                <td class='fit-to-content'>
+                <td class="fit-to-content">
                   <div class="ichecks-checkbox">
                     <label class="i-checks">
                       <input type="checkbox"
@@ -38,9 +38,8 @@
                     </label>
                   </div>
                 </td>
-                <td>
-                  <p data-ng-if="anel.online"><i class="fa fa-check com-monitoramento" aria-hidden="true"></i></p>
-                  <p data-ng-if="!anel.online"><i class="fa fa-times sem-monitoramento" aria-hidden="true"></i></p>
+                <td class="fit-to-content">
+                  <p data-ng-bind-html="anel.online | trueOrFalseIcon"></p>
                 </td>
                 <td>{{ anel.status | translate }}</td>
                 <td>{{ anel.CLA }}</td>
@@ -49,7 +48,10 @@
                   <div data-ng-if="anel.hasPlanoImposto">
                     <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}
                     <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
-                    <liberar-imposicao anel="anel" transacoes="statusObj.transacoes"></liberar-imposicao>
+                    <liberar-imposicao
+                        anel="anel"
+                        transacoes="statusObj.transacoes"
+                        data-ng-if="anel.online"></liberar-imposicao>
                   </div>
                 </td>
                 <td>
@@ -77,13 +79,12 @@
               <button data-toggle="modal"
                       data-target="#modal-transacoes-distribuidas"
                       class="btn btn-w-m btn-primary pull-right"
-                      data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)">
+                      data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)"
+                      data-ng-click="limpaTransacoesAnteriores()">
                 {{ 'controladores.mapaControladores.acoes' | translate }}
               </button>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
