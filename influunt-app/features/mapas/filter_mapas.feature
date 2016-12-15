@@ -81,7 +81,7 @@ Funcionalidade: Realizar filtros no mapa
     Quando o usuário remover o "1" selecionado do campo "areas"
     E o usuário selecionar o valor "2" para o campo "areas"
     Então o sistema deverá mostrar no mapa "0" controladores
-    E o sistema deverá mostrar no mapa "2" aneis
+    E o sistema deverá mostrar no mapa "0" aneis
 
   Cenário: Quero filtar no mapa pela subárea
     Dado usuário estiver na tela de mapa
@@ -89,7 +89,7 @@ Funcionalidade: Realizar filtros no mapa
     E o usuário selecionar o valor "AREA SUL PAULISTA" para o campo "subarea"
     Então o sistema deverá marcar o agrupamento da subarea no mapa
     E o sistema deverá mostrar no mapa "1" controladores
-    E o sistema deverá mostrar no mapa "2" aneis
+    E o sistema deverá mostrar no mapa "1" aneis
 
   Cenário: Quero filtar no mapa pelo agrupamento
     Dado usuário estiver na tela de mapa
@@ -97,7 +97,7 @@ Funcionalidade: Realizar filtros no mapa
     E o usuário remover o "AREA SUL PAULISTA" selecionado do campo "subarea"
     Então o sistema deverá marcar o agrupamento da subarea no mapa
     E o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "3" aneis
+    E o sistema deverá mostrar no mapa "2" aneis
 
   Cenário: Sair da tela de Mapas
     Dado usuário estiver na tela de mapa
