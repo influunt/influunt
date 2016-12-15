@@ -208,13 +208,14 @@ angular.module('influuntApp')
           .filter('ativo')
           .orderBy('posicao')
           .filter(function(anel) {
+            return $scope.filtro.exibirAneis;
             // Se o filtro de "exibirAneis" estiver desativado, somente o primeiro
             // anel deverá ser selecionado.
-            if (!$scope.filtro.exibirAneis) {
-              return anel.posicao === 1;
-            }
+            // if (!$scope.filtro.exibirAneis) {
+            //   return anel.posicao === 1;
+            // }
 
-            return true;
+            // return true;
           })
           .map(function(anel) {
             var iconeAnel = [FALHA, OFFLINE].indexOf(anel.status) >= 0 ? anel.status : anel.tipoControleVigente;
@@ -366,7 +367,7 @@ angular.module('influuntApp')
             .map(function(plano) {
               return _.find($scope.currentControlador.planos, {idJson: plano.idJson});
             })
-            .orderBy(['posicao'])
+            .orderBy('posicao')
             .value();
 
           var enderecoAnel = _.find(
@@ -383,6 +384,14 @@ angular.module('influuntApp')
           var controlador = _.find($scope.listaControladores, {id: markerData.id});
           var idMarker = _.orderBy(controlador.aneis, 'posicao')[0].idJson;
           var marker = _.chain($scope.markers).map('options').find({idJson: idMarker}).value();
+
+          if (!marker) {
+            marker = {
+              tipo: 'ANEL',
+              idJson: idMarker
+            }
+          }
+
           $scope.setCurrentObject(marker);
         }
       };

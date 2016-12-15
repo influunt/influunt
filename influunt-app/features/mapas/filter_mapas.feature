@@ -42,7 +42,7 @@ Funcionalidade: Realizar filtros no mapa
     Então o sistema deverá mostrar no mapa "2" controladores
     E o sistema deverá mostrar no mapa "0" controladores offline
     # TODO aguardando a resolução da issue #1559
-    # E o sistema deverá mostrar no mapa "0" aneis
+    E o sistema deverá mostrar no mapa "0" aneis
 
   Cenário: Quero filtar no mapa pelo o número do controlador 1.000.0001
     Dado usuário estiver na tela de mapa
