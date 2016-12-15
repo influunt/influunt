@@ -119,9 +119,9 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             @Override
             public void onPublish(InterceptPublishMessage interceptPublishMessage) {
                 onPublishFutureList.add(interceptPublishMessage.getPayload().array());
-                System.out.println("\nonPublishFutureList.size() : " + (onPublishFutureList.size() - 1));
-                System.out.println("MSG : " + interceptPublishMessage.getTopicName());
-                System.out.println("BYTE : " + (new String(interceptPublishMessage.getPayload().array())).substring(0, 10));
+                //System.out.println("\nonPublishFutureList.size() : " + (onPublishFutureList.size() - 1));
+                //System.out.println("MSG : " + interceptPublishMessage.getTopicName());
+                //System.out.println("BYTE : " + (new String(interceptPublishMessage.getPayload().array())).substring(0, 10));
             }
 
             @Override
