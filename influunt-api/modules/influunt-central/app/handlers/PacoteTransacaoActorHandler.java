@@ -78,7 +78,9 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
                 .findFirst()
                 .get();
 
-            tr.updateStatus(transacao.getEtapaTransacao());
+            if (tr != null) {
+                tr.updateStatus(transacao.getEtapaTransacao());
+            }
 
             individualTimeout.get(transacao.getTransacaoId()).cancel();
             analisaStatus();
