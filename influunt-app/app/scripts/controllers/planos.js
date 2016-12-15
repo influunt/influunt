@@ -24,7 +24,7 @@ angular.module('influuntApp')
           getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, limparPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
-          getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro;
+          getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, clearErrosOnChange;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -424,8 +424,10 @@ angular.module('influuntApp')
        * de forma estática (todo o diagrama deve assumir um dos modos acima).
        */
       $scope.$watch('currentPlano', function() {
-        $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
+        diagramaDebouncer = $timeout(function() {
+          clearErrosOnChange();
+          atualizaDiagramaIntervalos();
+        }, 500);
       }, true);
 
       $scope.$watch('currentEstagioPlano', function() {
@@ -437,6 +439,13 @@ angular.module('influuntApp')
         $timeout.cancel(diagramaDebouncer);
         diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
       }, true);
+
+      clearErrosOnChange = function() {
+        var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + ']';
+        if (_.get($scope.errors, path)) {
+          _.set($scope.errors, path, undefined);
+        }
+      };
 
       duplicarPlano = function(plano) {
         var novoPlano = _.cloneDeep(plano);
