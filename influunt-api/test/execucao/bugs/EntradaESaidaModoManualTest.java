@@ -14,6 +14,7 @@ import play.libs.Json;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -44,8 +45,12 @@ public class EntradaESaidaModoManualTest extends GerenciadorDeTrocasTest {
         avancarSegundos(motor, 500);
 
 
-        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(40)));
+        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(120)));
         assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(253)));
+
+        motor.getEstagios().stream().forEach(gerenciadorDeEstagios -> {
+            assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, gerenciadorDeEstagios.getPlano().getModoOperacao());
+        });
     }
 
 }

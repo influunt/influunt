@@ -63,9 +63,9 @@ public class InfluuntLogger {
 
     public static void log(TipoLog tipoLog, EventoMotor eventoMotor) {
         if (compact) {
-            loggerOficial.info(String.format("[%s] %s %s", tipoLog, eventoMotor.getTimestamp().toString(), eventoMotor.getTipoEvento().toString()));
+            loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString()));
         } else {
-            loggerOficial.info(String.format("[%s] %s %s", tipoLog, eventoMotor.getTimestamp().toString(), eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
+            loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString() + " - " + eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams())));
         }
     }
 }
