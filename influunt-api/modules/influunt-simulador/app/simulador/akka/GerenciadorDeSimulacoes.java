@@ -1,14 +1,12 @@
 package simulador.akka;
 
-import akka.actor.*;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.simulador.parametros.ParametroSimulacao;
 import play.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -16,40 +14,23 @@ import java.util.UUID;
 @Singleton
 public class GerenciadorDeSimulacoes {
 
-    private final ActorSystem system;
-
-    private ActorRef servidor;
-
-    private List<ActorRef> simuladores = new ArrayList<>();
+    private ActorRef gerenciadorActor;
 
     @Inject
-    private Configuration configuration;
-
-    public GerenciadorDeSimulacoes() {
-        this.system = ActorSystem.create("SimuladorSystem-"+ UUID.randomUUID().toString());
-    }
-
-//    public void finish() {
-//        system.terminate();
-//    }
-
-    public void pararSimulacao(String simulacaoId) {
-        System.out.println("System: " + system.name());
-        ActorSelection simulador = system.actorSelection("simulador_" + simulacaoId);
-        system.stop(simulador.anchor());
-//        simulador.tell(Kill.getInstance(), null);
-//        simulador.tell("kill!", simulador.anchor());
-    }
-
-    public void iniciarSimulacao(ParametroSimulacao params) {
+    public GerenciadorDeSimulacoes(Configuration configuration, ActorSystem system) {
         Configuration mqtt = configuration.getConfig("central").getConfig("mqtt");
-        ActorRef simulador = system.actorOf(Props.create(SimuladorActor.class,
+        gerenciadorActor = system.actorOf(Props.create(GerenciadorDeSimulacoesActor.class,
             mqtt.getString("host"),
             mqtt.getString("port"),
             mqtt.getString("login"),
-            mqtt.getString("senha"),
-            params), "simulador_" + params.getId().toString());
+            mqtt.getString("senha")), "GerenciadorDeSimulacoes");
+    }
 
-        simuladores.add(simulador);
+    public void pararSimulacao(String simulacaoId) {
+        gerenciadorActor.tell(simulacaoId, ActorRef.noSender());
+    }
+
+    public void iniciarSimulacao(ParametroSimulacao params) {
+        gerenciadorActor.tell(params, ActorRef.noSender());
     }
 }

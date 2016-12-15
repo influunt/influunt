@@ -15,6 +15,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
+import play.Logger;
 import play.libs.Json;
 
 import java.io.FileNotFoundException;
@@ -140,18 +141,11 @@ public class SimuladorActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-//        System.out.println("message: " + message.toString());
-//        if ("kill!".equals(message)) {
-//            throw new ActorKilledException("Parando actor da simulação");
-//        }
 
-//        throw new ActorKilledException("Parando actor da simulação");
-//        context().stop(getSelf());
     }
 
     @Override
     public void postStop() {
-        System.out.println("SimuladorActor postStop()");
         try {
             super.postStop();
             client.disconnect();
@@ -159,12 +153,6 @@ public class SimuladorActor extends UntypedActor {
             e.printStackTrace();
         }
     }
-
-//    @Override
-//    public SupervisorStrategy supervisorStrategy() {
-//        return SupervisorStrategy.stoppingStrategy();
-//    }
-
 
     public void storeEstagio(int anel, DateTime timeStamp, IntervaloGrupoSemaforico intervaloGrupoSemaforico) {
         if (!estagios.containsKey(anel)) {
