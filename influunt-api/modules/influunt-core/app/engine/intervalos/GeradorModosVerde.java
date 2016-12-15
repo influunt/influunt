@@ -116,7 +116,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
             if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
                 tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
-                final long novoTempoVerde = (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio;
+                final long novoTempoVerde = Math.max(0, (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio);
                 tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
                 tempoVerde = novoTempoVerde;
             }

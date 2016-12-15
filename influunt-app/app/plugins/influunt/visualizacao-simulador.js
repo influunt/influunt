@@ -150,9 +150,14 @@ var influunt;
           }
         }
 
-        function loadMore() {
+        function loadMore(inicio) {
+          var pagina;
+          if(inicio) {
+            pagina = 0;
+          } else {
+            pagina = (parseInt(tempo / 256)+1);
+          }
           removeFuture(true);
-          var pagina = (parseInt(tempo / 256)+1);
           var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
             message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
             client.send(message);
@@ -903,6 +908,7 @@ var influunt;
           var onConnect = function () {
             // Once a connection has been made, make a subscription and send a message.
             client.subscribe('simulador/' + config.simulacaoId + '/estado');
+            loadMore(true);
           };
 
           // Create a client instance
