@@ -86,7 +86,7 @@
       </div>
       <div class="modal-footer text-center has-error" data-ng-if="transacoesPendentes.length > 0">
         <p class="help-block error-msg">
-          Alguns itens desta transação não poderão ser concluídos. Continuar o processo para os demais?
+          {{ 'imporConfig.pendingWarning' | translate }}
         </p>
         <button type="button"
             class="btn btn-primary"

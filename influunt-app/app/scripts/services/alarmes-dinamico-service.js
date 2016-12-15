@@ -131,7 +131,6 @@ angular.module('influuntApp')
           var mensagem = JSON.parse(payload);
           mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
 
-          // statusObj.transacoes = statusObj.transacoes || {};
           statusObj.transacoes = {};
           _.each(mensagem.conteudo.transacoes, function(transacao) {
             var target = transacao.idAnel || transacao.idControlador;

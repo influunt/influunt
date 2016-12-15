@@ -18,7 +18,6 @@ angular.module('influuntApp')
     var timeoutId;
 
     client.onConnectionLost = function(res) {
-      console.log(res)
       isConnected = false;
       if (res.errorCode !== 0) {
         throw new Error(res.errorMessage);

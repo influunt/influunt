@@ -855,13 +855,14 @@
     "falha": "Falha",
     "inativar": "Inativar",
     "indicacaoFalhas": "Indicação de Falhas",
-    "online": "Online",
     "info": "Info",
     "local": "Local",
     "log": "Log",
     "modoOperacaoTitulo": "Modo de operação",
     "momentoCiclo": "Momento do Ciclo",
+    "online": "Online",
     "parametrosControlador": "Logs do Controlador",
+    "pendingWarning": "Alguns itens desta transação não poderão ser concluídos. Continuar o processo para os demais?",
     "planoForcado": "Plano Forçado",
     "planoImpostoFalha": "Plano Imposto por Falha",
     "posicaoPlano": "Posição do Plano",
@@ -875,7 +876,7 @@
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
     "aletarcaoStatus": {
       "sucesso": "Alteração executada com sucesso",
-      "erro": "Não foi possível alterar o status do o controlador"
+      "erro": "Não foi possível alterar o status do controlador"
     },
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",
