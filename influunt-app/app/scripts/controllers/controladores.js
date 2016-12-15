@@ -499,8 +499,10 @@ angular.module('influuntApp')
                   $scope.index();
                 })
                 .catch(function(err) {
-                  toast.clear();
-                  influuntAlert.alert('Controlador', err.data[0].message);
+                  if (err.status === 422) {
+                    toast.clear();
+                    influuntAlert.alert('Controlador', err.data[0].message);
+                  }
                 })
                 .finally(influuntBlockui.unblock);
             }
