@@ -56,11 +56,6 @@ module.exports = function() {
     return wizardPage.addImagens(localImagem);
   });
 
-  this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
-    var path = '../resources/croquigeral.jpg';
-    return wizardPage.adicionarImagensEstagios(qtde, path);
-  });
-
   this.Given(/^o usuário adicionar um novo anel ativo$/, function () {
     return wizardPage.marcarSegundoAnelComoAtivo();
   });
@@ -199,6 +194,14 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá conter erro no estágio "([^"]*)" do "([^"]*)"$/, function(estagio, anel){
     return wizardPage.errorTransacaoProibidaEstagio(estagio, anel);
+  });
+
+  this.Given(/^o sistema deverá apresentar erro com a frase "([^"]*)"$/, function(msg){
+    return wizardPage.errorImagem(msg);
+  });
+
+  this.Given(/^o usuário descer o estágio "([^"]*)"$/, function(estagio){
+    return wizardPage.changeEstagioPosicao(estagio);
   });
 
 };

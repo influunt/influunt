@@ -282,6 +282,10 @@ var ObjetosComuns = function () {
     return world.getToastMessage();
   };
 
+  this.aguardar = function(time) {
+    return world.sleep(time);
+  };
+
   this.verificarValoresEmLinhasNaTabela = function(valor) {
     return world.waitForOverlayDisappear().then(function() {
       return world.sleep(1000);
