@@ -309,7 +309,7 @@
       "tabela": "TABELA",
       "novaTabela": "Nova Tabela",
       "descricao": "Descrição",
-      "modoIntermitenteOuApagado": "Intermitente ou Apagado"
+      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -341,7 +341,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
-      "modoIntermitenteOuApagado": "Intermitente ou Apagado",
+      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
@@ -870,7 +870,7 @@
     "status": "Status",
     "statusControlador": "Status do Controlador",
     "statusPlano": "Status do Plano",
-    "titulo": "Painel de Facilidades",
+    "titulo": "Comandos da Central",
     "tabelaHoraria": "Tabela Horária",
     "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
