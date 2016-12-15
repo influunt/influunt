@@ -165,6 +165,7 @@ public class ParametroSimulacao {
                 .compareTo(o2.getPosicao())).forEach(anel -> {
             SimulacaoConfig.AnelSimulacaoConfig anelSimulacaoConfig = new SimulacaoConfig.AnelSimulacaoConfig();
             anelSimulacaoConfig.setNumero(anel.getPosicao());
+            anelSimulacaoConfig.setAceitaModoManual(anel.isAceitaModoManual());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
                 .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
             anel.getEstagios().forEach(estagio -> {
