@@ -10,8 +10,8 @@
  */
 angular
   .module('influuntApp')
-  .config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$compileProvider',
+    function ($stateProvider, $urlRouterProvider, $compileProvider) {
 
       $urlRouterProvider.otherwise(function($injector) {
         var $state = $injector.get('$state');
@@ -1098,6 +1098,9 @@ angular
 
       // Prevent router from automatic state resolving
       $urlRouterProvider.deferIntercept();
+
+      // habilita download de blobs (configuração do controlador)
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
     }])
 
   .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',

@@ -257,7 +257,8 @@
       "verTelaAnterior": "Ver Resumo",
       "simular": "Simular",
       "msgTooltipSimular": "Simular operação do controlador",
-      "instalacao": "Instalação"
+      "instalacao": "Instalação",
+      "downloadConfig": "Baixar Configuração"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",
