@@ -76,17 +76,19 @@ public class VersaoTabelaHoraria extends Model implements Serializable {
         this.statusVersao = StatusVersao.EDITANDO;
     }
 
+    public VersaoTabelaHoraria(Usuario usuario) {
+        this();
+        this.usuario = usuario;
+        if (usuario != null && usuario.getNome() != null) {
+            this.descricao = "Versão criada pelo usuário: ".concat(usuario.getNome());
+        }
+    }
+
     public VersaoTabelaHoraria(Controlador controlador, TabelaHorario tabelaHorariaOrigem, TabelaHorario tabelaHoraria, Usuario usuario) {
-        super();
-        this.idJson = UUID.randomUUID().toString();
+        this(usuario);
         this.controlador = controlador;
         this.tabelaHorariaOrigem = tabelaHorariaOrigem;
         this.tabelaHoraria = tabelaHoraria;
-        this.usuario = usuario;
-        if (usuario != null && usuario.getNome() != null) {
-            this.descricao = "Tabela Horária criada pelo usuário: ".concat(usuario.getNome());
-        }
-        this.statusVersao = StatusVersao.EDITANDO;
     }
 
     /**
