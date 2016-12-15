@@ -1,6 +1,6 @@
 package simulador.akka;
 
-import akka.actor.UntypedActor;
+import akka.actor.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,6 +17,8 @@ import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
 import play.libs.Json;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +53,8 @@ public class SimuladorActor extends UntypedActor {
     private StringBuffer bufferTrocaDePlanos = null;
 
     private int pagina;
+
+
 
     public SimuladorActor(String host, String port, String login, String senha, ParametroSimulacao params) {
         this.params = params;
@@ -136,8 +140,30 @@ public class SimuladorActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
+//        System.out.println("message: " + message.toString());
+//        if ("kill!".equals(message)) {
+//            throw new ActorKilledException("Parando actor da simulação");
+//        }
 
+//        throw new ActorKilledException("Parando actor da simulação");
+//        context().stop(getSelf());
     }
+
+    @Override
+    public void postStop() {
+        System.out.println("SimuladorActor postStop()");
+        try {
+            super.postStop();
+            client.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    @Override
+//    public SupervisorStrategy supervisorStrategy() {
+//        return SupervisorStrategy.stoppingStrategy();
+//    }
 
 
     public void storeEstagio(int anel, DateTime timeStamp, IntervaloGrupoSemaforico intervaloGrupoSemaforico) {

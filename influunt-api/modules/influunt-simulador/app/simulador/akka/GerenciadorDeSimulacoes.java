@@ -1,8 +1,6 @@
 package simulador.akka;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
+import akka.actor.*;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.simulador.parametros.ParametroSimulacao;
@@ -10,6 +8,7 @@ import play.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -26,13 +25,20 @@ public class GerenciadorDeSimulacoes {
     @Inject
     private Configuration configuration;
 
-    @Inject
-    public GerenciadorDeSimulacoes(ActorSystem system) {
-        this.system = system;
+    public GerenciadorDeSimulacoes() {
+        this.system = ActorSystem.create("SimuladorSystem-"+ UUID.randomUUID().toString());
     }
 
-    public void finish() {
-        system.terminate();
+//    public void finish() {
+//        system.terminate();
+//    }
+
+    public void pararSimulacao(String simulacaoId) {
+        System.out.println("System: " + system.name());
+        ActorSelection simulador = system.actorSelection("simulador_" + simulacaoId);
+        system.stop(simulador.anchor());
+//        simulador.tell(Kill.getInstance(), null);
+//        simulador.tell("kill!", simulador.anchor());
     }
 
     public void iniciarSimulacao(ParametroSimulacao params) {
