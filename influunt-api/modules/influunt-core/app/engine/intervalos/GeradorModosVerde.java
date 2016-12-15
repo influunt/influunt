@@ -89,7 +89,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
                 tempoVerde -= abatimento;
 
-                if (trocaDePlano(estagioPlanoAtual, estagioPlano)) {
+                if (trocaDePlano(estagioPlanoAtual, estagioPlano) && estagioAnterior.equals(estagioAtual)) {
                     tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
                 }
 
@@ -112,14 +112,12 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
     }
 
     private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAnterior, Estagio estagioAtual, long tempoVerde) {
-        if (estagioAnterior.equals(estagioAtual)) {
-            final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
-            if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
-                tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
-                final long novoTempoVerde = (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio;
-                tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
-                tempoVerde = novoTempoVerde;
-            }
+        final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
+        if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
+            tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
+            final long novoTempoVerde = Math.max(0, (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio);
+            tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
+            tempoVerde = novoTempoVerde;
         }
         return tempoVerde;
     }
