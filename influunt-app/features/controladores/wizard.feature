@@ -18,23 +18,26 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o sistema deverá indicar erro no campo "modelo"
     E o sistema irá continuar no passo "Dados Básicos"
 
-  Cenário: Validar o número do SMEE buscando da base do SMEE
-    Dado que o usuário esteja no wizard no passo "Dados Básicos"
-    E o usuário preencher o campo NÚMERO SMEE com "1"
-    E o usuário clicar no botão "Salvar e Avançar"
-    Então o sistema deverá indicar erro no campo "numeroSMEE" com a mensagem "O número informado não é reconhecido na base do SMEE."
-
   Cenário: Salvar dados básicos do controlador
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"
     E o usuário adicionar imagem ao "Croqui"
     E o usuário selecionar o valor "1" no campo "Área"
-    E o usuário preencher o campo NÚMERO SMEE com "1234"
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuário preencher o campo "Altura Numérica" com "123"
     E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
     E o usuário selecionar o valor "Mínima" no campo "Modelo"
+
+  Cenário: Validar o número do SMEE buscando da base do SMEE
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário preencher o campo NÚMERO SMEE com "0"
+    E o usuário realizar um scroll down
+    Então o sistema deverá indicar erro no campo "numeroSMEE" com a mensagem "O número informado não é reconhecido na base do SMEE."
+
+  Cenário: Preencher o valor SMEE correto
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário preencher o campo NÚMERO SMEE com "1234"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
 

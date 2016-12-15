@@ -48,7 +48,8 @@ Funcionalidade: Finalizar um controlador
     E em resumo clicar em "Editar Configuração de Anéis"
     E o usuário selecionar o anel 2
     E o usuário adicionar imagem ao "Anel 2 como Estágio1"
-    E o usuário clicar no botão "Salvar"
+    E o usuário clicar em "Salvar"
+    E o sistema exibe uma mensagem "Salvo com sucesso"
     E o usuário acesse a listagem de "controladores"
     Então o sistema deverá mostrar o status do controlador como "Em Edição"
     E o sistema "não pode" mostrar o botão "Finalizar Configuração"

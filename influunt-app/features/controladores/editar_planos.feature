@@ -7,7 +7,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E que o usuário acesse a página de listagem de controladores
     E o usuário esteja na listagem de controladores
     Então o sistema não deverá mostrar o botão "Finalizar" do controlador "1.000.0002"
-    Quando o usuário clicar em "Planos" do controlador "1.003.0002"
+    Quando o usuário clicar em "Planos" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     E o usuário clicar em "Editar"
     Então o "PLANO 1" deverá estar ativado
     E que o usuário clicar no plano 1
@@ -34,7 +34,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E o sistema deverá mostrar o status do controlador como "Em Edição"
 
   Cenário: Finalizar o controlador com o estágio dispensável
-    Dado o usuário clicar em "Finalizar" do controlador "1.003.0002"
+    Dado o usuário clicar em "Finalizar" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     Então o sistema deverá mostar um modal para salvar o histórico
     Dado o usuário preencha o alert com "Crontrolador principal"
     E o usuário confirmar
@@ -42,7 +42,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E o sistema não deverá mostrar o botão "Finalizar" do controlador "1.000.0002"
 
   Cenário: Checar se o estágio que recebe estágio dispensável foi salvo corretamente
-    Dado o usuário clicar em "Planos" do controlador "1.003.0002"
+    Dado o usuário clicar em "Planos" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     E o usuário clicar em "Editar"
     Quando o "PLANO 1" deverá estar ativado
     E que o usuário clicar no plano 1
@@ -52,7 +52,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
 
   Cenário: Validar plano manual exclusivo deve possuir dois quantidade de estágios iguais
     Dado que o usuário acesse a página de listagem de controladores
-    E o usuário clicar em "Planos" do controlador "1.000.0001"
+    E o usuário clicar em "Planos" do controlador "Av. Paulista com R. Pamplona"
     E o usuário clicar em "Editar"
     E que o usuário clicar no plano 0
     Quando o usuário clicar em "Salvar"
@@ -66,7 +66,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
 
   Cenário: Não pode salva um estágio com o tempo maior que de permanência
     Dado que o usuário acesse a página de listagem de controladores
-    E o usuário clicar em "Planos" do controlador "1.003.0002"
+    E o usuário clicar em "Planos" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     E o usuário clicar em "Editar"
     E que o usuário clicar no plano 1
     E que o usuário marque 200 segundos para o "TEMPO DE CICLO"

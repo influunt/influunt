@@ -511,7 +511,13 @@ var WizardControladorPage = function () {
   };
 
   this.preencherCampoSMEECom = function(numero) {
-    return world.setValue('[name="numeroSMEE"]', numero);
+    return world.setValue('[name="numeroSMEE"]', numero)
+      .then(function() {
+        return world.waitForOverlayDisappear()
+      })
+      .then(function(){
+        return world.getElement('div').click();
+      });
   };
 
   this.preencherModificao = function(valor){

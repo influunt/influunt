@@ -11,12 +11,12 @@ Funcionalidade: Simulação
 
   Cenário: So posso acessar a simulação de controladores em configuração
     Dado o usuário esteja na listagem de controladores
-    Então o sistema não deverá mostrar o botão "Simular" do controlador "3.003.0001"
-    E o sistema não deverá mostrar o botão "Simular" do controlador "2.000.0001"
+    Então o sistema não deverá mostrar o botão "Simular" do controlador "R. Maria Figueiredo com Av. Paulista"
+    E o sistema não deverá mostrar o botão "Simular" do controlador "R. Maria Figueiredo, nº -4"
 
   Cenário: Entrar no simulador
     Dado o usuário esteja na listagem de controladores
-    Quando o usuário clicar em "Simular" do controlador "1.000.0001"
+    Quando o usuário clicar em "Simular" do controlador "Av. Paulista com R. Pamplona"
     E o sistema não deverá mostrar o botão "Simular" do controlador "1.000.0002"
     E o sistema não deverá mostrar o botão "Simular" do controlador "1.000.0003"
 

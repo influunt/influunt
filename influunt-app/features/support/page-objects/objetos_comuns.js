@@ -5,8 +5,13 @@ var world = new worldObj.World();
 
 var ObjetosComuns = function () {
 
-  var xpathBotoesControladores = function(botao, controlador) {
-    return '//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
+  var getXpathEnderecoControlador = function (endereco) {
+    return '//td[contains(text(), "'+endereco+'")]';
+  };
+
+  var xpathBotoesControladores = function(botao, endereco) {
+    var enderecoControlador = getXpathEnderecoControlador(endereco);
+    return ''+enderecoControlador+'//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
   this.clicarLinkNovo = function() {
@@ -168,8 +173,9 @@ var ObjetosComuns = function () {
     return world.getElement('form[name="form'+nameForm+'"]');
   };
 
-  this.checarClcControladorListagem = function(numero) {
-    return world.getElementByXpath('//td[contains(text(), "'+numero+'.000.0001")]');
+  this.checarControladorPorEndereco = function(endereco) {
+    var xpathEndereco = getXpathEnderecoControlador(endereco);
+    return world.getElementByXpath(xpathEndereco);
   };
 
   this.checarValoresNaTabela = function(valor) {
@@ -280,6 +286,14 @@ var ObjetosComuns = function () {
   this.textoToast = function() {
     world.sleep(2000);
     return world.getToastMessage();
+  };
+
+  this.toastMessage = function() {
+    return world.waitFor('#toast-container div.toast-message').then(function() {
+      return world.sleep(500);
+    }).then(function() {
+      return world.getElement('#toast-container div.toast-message').getText();
+    });
   };
 
   this.aguardar = function(time) {

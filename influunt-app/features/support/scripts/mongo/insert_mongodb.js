@@ -41,7 +41,7 @@ var MongoInsert = function () {
                      'tipoParam' : 'DETECTOR_VEICULAR',
                      'descricao' : 'Detector veicular - Falta de acionamento' },
       'descricaoEvento' : 'Falha CPU',
-      'params' : []
+      'params' : [1, false]
       }
     }
   ];
@@ -50,15 +50,19 @@ var MongoInsert = function () {
     {
       '_id' : ObjectId('5833538c2d4e4bfb76af0d83'),
       'idControlador' : 'd7c27564-e0b1-4eda-8a6c-2c265ed24c2f',
+      'idAnel' : '33e2bbf0-72ad-4d11-98d8-1bb440c370b0',
+      'recuperado' : false,
       'timestamp' : NumberLong,
       'conteudo' : { 'timestamp' : '18/11/2016 20:59:23',
                      'tipoEvento' : {
                      'tipo' : 'FALHA_WATCH_DOG',
                      'tipoEventoControlador' : 'FALHA',
+                     'descricaoParam' : 'Detector Veicular',
+                     'tipoParam' : 'DETECTOR_VEICULAR',
                      'codigo' : 9,
                      'descricao' : 'Falha CPU' },
       'descricaoEvento' : 'Falha CPU',
-       'params' : []
+       'params' : [1, false]
       }
     }
   ];

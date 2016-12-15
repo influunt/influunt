@@ -43,7 +43,7 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá mostrar as informações iniciais do controlador 1 e anel 1$/, function () {
     var informacoes = {
-      'Logradouro': 'Av. Paulista com R. Pamplona',
+      'Logradouro': 'Av. Paulista, nº 0 com R. Pamplona',
       'CLA': '1.000.0001.1',
       'SMEE': '123',
       'gsp': '1',
