@@ -18,8 +18,6 @@ angular.module('influuntApp')
 
       var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs, confirmaEnderecoSMEE,
           alertaSmeeNaoEncontrado;
-      var CAMPOS_SMEE = ['numeroSMEE', 'numeroSMEEConjugado1', 'numeroSMEEConjugado2', 'numeroSMEEConjugado3'];
-
       $scope.PermissionStrategies = PermissionStrategies;
 
       $scope.inicializaWizardDadosBasicos = function() {
