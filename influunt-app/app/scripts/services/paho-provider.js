@@ -13,7 +13,7 @@ angular.module('influuntApp')
     var clearConnections, connectClient;
     var isConnected = false;
     var client = new Paho.MQTT.Client(
-      MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + JSON.parse(localStorage.usuario).id
+      MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + UUID.generate()
     );
     var subscribers = {};
     var timeoutId;
@@ -48,7 +48,6 @@ angular.module('influuntApp')
       });
 
       if (!_.isFunction(fn)) {
-        console.warn('Função de callback para o topic ', message.destinationName, ' não implementada.');
         return false;
       }
 
