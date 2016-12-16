@@ -180,7 +180,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
             String idControladorFisico = falha.getIdControlador();
             Controlador controlador;
             Anel anel = null;
-            controlador = controladores.stream().filter(c -> c.getControladorFisicoId().equals(idControladorFisico)).findFirst().orElse(null);
+            controlador = controladores.stream().filter(c -> c.getId().toString().equals(idControladorFisico)).findFirst().orElse(null);
             if (controlador != null) {
                 if (falha.getIdAnel() != null && StringUtils.isNotEmpty(falha.getIdAnel())) {
                     String idAnel = falha.getIdAnel();
