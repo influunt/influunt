@@ -1,6 +1,6 @@
 package simulador.akka;
 
-import akka.actor.*;
+import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,11 +15,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
-import play.Logger;
 import play.libs.Json;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +53,6 @@ public class SimuladorActor extends UntypedActor {
     private int pagina;
 
 
-
     public SimuladorActor(String host, String port, String login, String senha, ParametroSimulacao params) {
         this.params = params;
         this.simulador = new SimuladorAkka(this, params);
@@ -66,8 +62,12 @@ public class SimuladorActor extends UntypedActor {
             client = new MqttClient("tcp://" + host + ":" + port, "sim_" + id);
             MqttConnectOptions opts = new MqttConnectOptions();
 
-            if (!"".equals(login)) { opts.setUserName(login); }
-            if (!"".equals(senha)) { opts.setPassword(senha.toCharArray()); }
+            if (!"".equals(login)) {
+                opts.setUserName(login);
+            }
+            if (!"".equals(senha)) {
+                opts.setPassword(senha.toCharArray());
+            }
 
             opts.setAutomaticReconnect(false);
             opts.setConnectionTimeout(10);

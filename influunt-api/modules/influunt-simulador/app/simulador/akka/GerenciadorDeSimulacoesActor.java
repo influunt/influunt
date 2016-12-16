@@ -6,6 +6,7 @@ import models.simulador.parametros.ParametroSimulacao;
 import play.Logger;
 import scala.concurrent.duration.Duration;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class GerenciadorDeSimulacoesActor extends UntypedActor {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
                     Logger.warn(t.getMessage());
-                    t.printStackTrace();
+                    Logger.warn(Arrays.toString(t.getStackTrace()));
                     return SupervisorStrategy.resume();
                 }
             }, false);
@@ -39,7 +40,7 @@ public class GerenciadorDeSimulacoesActor extends UntypedActor {
     }
 
     @Override
-    public void onReceive(Object message) throws Exception {
+    public void onReceive(Object message) {
         if (message instanceof ParametroSimulacao) {
             ParametroSimulacao config = (ParametroSimulacao) message;
             ActorRef simulador = context().actorOf(Props.create(SimuladorActor.class,
