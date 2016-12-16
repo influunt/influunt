@@ -16,7 +16,8 @@ angular.module('influuntApp')
               breadcrumbs, ROOT_API_SMEE) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs;
+      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs, confirmaEnderecoSMEE,
+          alertaSmeeNaoEncontrado;
       var CAMPOS_SMEE = ['numeroSMEE', 'numeroSMEEConjugado1', 'numeroSMEEConjugado2', 'numeroSMEEConjugado3'];
 
       $scope.PermissionStrategies = PermissionStrategies;
@@ -40,23 +41,44 @@ angular.module('influuntApp')
             .one('local', numero)
             .get()
             .then(function(res) {
-              // O campo somente será inválido caso o SMEE pesquisado não exista (a API retorne o codigo igual a null).
-              $scope.validateSMEE[field].$valid = (res.IdLocal !== null && res.IdLocal !== undefined);
-              $scope.validateSMEE.$valid = CAMPOS_SMEE.every(function(i) {
-                return $scope.validateSMEE[i].$valid;
-              });
+              if (res.IdLocal !== null && res.IdLocal !== undefined) {
+                confirmaEnderecoSMEE(res.Descricao);
+              } else {
+                alertaSmeeNaoEncontrado();
+              }
             })
             .catch(function(res) {
               // bad request.
               if (res.status === 400) {
-                $scope.validateSMEE[field].$valid = false;
-                $scope.validateSMEE.$valid = false;
+                alertaSmeeNaoEncontrado();
               }
             })
             .finally(function() {
               $scope.checkingSMEE[field] = false;
             });
         }
+      };
+
+      alertaSmeeNaoEncontrado = function() {
+        influuntAlert.alert(
+          $filter('translate')('controladores.confirmacaoEnderecoTitulo'),
+          $filter('translate')('controladores.validacaoNumeroSMEE')
+        )
+        .then(function() {
+          $scope.objeto.numeroSMEE = null;
+        });
+      };
+
+      confirmaEnderecoSMEE = function(descricao) {
+        influuntAlert.confirm(
+          $filter('translate')('controladores.confirmacaoEnderecoTitulo'),
+          $filter('translate')('controladores.confirmacaoEndereco', {descricao: descricao})
+        )
+        .then(function(resposta) {
+          if (!resposta) {
+            $scope.objeto.numeroSMEE = null;
+          }
+        });
       };
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {

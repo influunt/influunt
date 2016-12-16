@@ -187,6 +187,11 @@ angular.module('influuntApp')
         );
       });
 
+      $scope.$on('influuntApp.mqttConnectionRecovered', function() {
+        $scope.loadDashboard();
+        loadAlarmesEFalhas();
+      });
+
       $http.get('/json/menus.json').then(function(res) {
         $scope.menus = res.data;
         checkRoleForMenus();

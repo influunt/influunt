@@ -76,7 +76,8 @@
                 <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}:</label>
                 <input type="text" name="numeroSMEE" class="form-control" name="numeroSMEE"
                     data-ng-model="objeto.numeroSMEE"
-                    data-ng-blur="consultaNumeroSMEE('numeroSMEE')">
+                    data-ng-change="consultaNumeroSMEE('numeroSMEE')"
+                    ng-model-options="{updateOn: 'blur'}">
                     <influunt-loading data-ng-if="checkingSMEE['numeroSMEE']"></influunt-loading>
                     <p class="help-block error-msg" data-ng-if="!validateSMEE.numeroSMEE.$valid">{{ 'controladores.validacaoNumeroSMEE' | translate }}</p>
               </div>
@@ -92,8 +93,7 @@
                   <div class="form-group" data-ng-class="{'has-error': !validateSMEE.numeroSMEEConjugado1.$valid}">
                     <label class="control-label">{{ 'controladores.numeroSMEEConjugado1' | translate }}:</label>
                     <input type="text" name="numeroSMEEConjugado1" class="form-control" name="numeroSMEEConjugado1"
-                      data-ng-model="objeto.numeroSMEEConjugado1"
-                      data-ng-blur="consultaNumeroSMEE('numeroSMEEConjugado1')">
+                      data-ng-model="objeto.numeroSMEEConjugado1">
                       <influunt-loading data-ng-if="checkingSMEE['numeroSMEEConjugado1']"></influunt-loading>
                       <p class="help-block error-msg" data-ng-if="!validateSMEE.numeroSMEEConjugado1.$valid">{{ 'controladores.validacaoNumeroSMEE' | translate }}</p>
                   </div>
@@ -103,8 +103,7 @@
                   <div class="form-group" data-ng-class="{'has-error': !validateSMEE.numeroSMEEConjugado2.$valid}">
                     <label class="control-label">{{ 'controladores.numeroSMEEConjugado2' | translate }}:</label>
                     <input type="text" name="numeroSMEEConjugado2" class="form-control" name="numeroSMEEConjugado2"
-                      data-ng-model="objeto.numeroSMEEConjugado2"
-                      data-ng-blur="consultaNumeroSMEE('numeroSMEEConjugado2')">
+                      data-ng-model="objeto.numeroSMEEConjugado2">
                       <influunt-loading data-ng-if="checkingSMEE['numeroSMEEConjugado2']"></influunt-loading>
                       <p class="help-block error-msg" data-ng-if="!validateSMEE.numeroSMEEConjugado2.$valid">{{ 'controladores.validacaoNumeroSMEE' | translate }}</p>
                   </div>
@@ -114,8 +113,7 @@
                   <div class="form-group" data-ng-class="{'has-error': !validateSMEE.numeroSMEEConjugado3.$valid}">
                     <label class="control-label">{{ 'controladores.numeroSMEEConjugado3' | translate }}:</label>
                     <input type="text" name="numeroSMEEConjugado3" class="form-control" name="numeroSMEEConjugado3"
-                      data-ng-model="objeto.numeroSMEEConjugado3"
-                      data-ng-blur="consultaNumeroSMEE('numeroSMEEConjugado3')">
+                      data-ng-model="objeto.numeroSMEEConjugado3">
                       <influunt-loading data-ng-if="checkingSMEE['numeroSMEEConjugado3']"></influunt-loading>
                       <p class="help-block error-msg" data-ng-if="!validateSMEE.numeroSMEEConjugado3.$valid">{{ 'controladores.validacaoNumeroSMEE' | translate }}</p>
                   </div>
@@ -256,18 +254,10 @@
 		<div class="row">
 	    <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
         <div class="right">
-          <!-- form invalido localmente. Deve bloquear a tela. -->
-          <a class="btn btn-footer btn-primary right disabled"
-              data-ng-if="!validateSMEE.$valid">
-            {{ 'plugins.steps.labels.saveNext' | translate }}
-            <i class="fa fa-arrow-right"></i>
-          </a>
-          <!-- form valido localmente. pode salvar -->
           <a go-to-top
               data-ng-click="submitForm('dados_basicos', 'app.wizard_controladores.aneis')"
               tooltips tooltip-template="<strong>{{ 'geral.tooltip.salvarAvancarPara' | translate }}</strong> {{ 'controladores.aneis.titulo' | translate }}"
-              class="btn btn-footer btn-primary right"
-              data-ng-if="validateSMEE.$valid">
+              class="btn btn-footer btn-primary right">
             {{ 'plugins.steps.labels.saveNext' | translate }}
             <i class="fa fa-arrow-right"></i>
           </a>
