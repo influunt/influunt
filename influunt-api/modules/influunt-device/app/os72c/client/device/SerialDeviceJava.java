@@ -77,7 +77,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         parity = settings.getInt("parity");
         startDelay = settings.getInt("startdelay");
 
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Iniciando a municacao serial"));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Iniciando a comunicacao serial"));
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PORTA    :%s", porta));
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("BAUDRATE :%d", baudrate));
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("DATABITS :%d", databits));
@@ -124,7 +124,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
 
-
+                deviceBridgeCallback.onReady();
 
             }else{
                 InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível abrir comunicação pela porta:" + porta);

@@ -50,6 +50,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Long tempoDecorrido = 0L;
 
+    private boolean pronto = false;
+
 
     public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
         this.storage = mapStorage;
@@ -61,18 +63,18 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void preStart() throws Exception {
         this.context = getContext();
+        this.device.start(this);
     }
 
     private synchronized void start() {
 
-        if (!iniciado) {
+        if (!iniciado && pronto) {
 
             InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
                 InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Configuração encontrada");
                 iniciado = true;
-                this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), this);
 
                 executor = Executors.newScheduledThreadPool(1)
@@ -220,7 +222,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onReady() {
-
+        pronto = true;
+        start();
     }
 
     @Override

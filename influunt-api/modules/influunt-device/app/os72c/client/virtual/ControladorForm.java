@@ -22,6 +22,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static protocol.FlagUltimoTempo.SEQUENCIA_PARTIDA;
+
 /**
  * Created by rodrigosol on 11/26/16.
  */
@@ -162,6 +164,8 @@ public class ControladorForm implements Sender, DeviceBridge {
 
     private Set<Integer> gruposAtivos = new TreeSet<>();
 
+    private boolean inicio = true;
+
     public ControladorForm() {
     }
 
@@ -178,6 +182,20 @@ public class ControladorForm implements Sender, DeviceBridge {
         MensagemEstagio msg = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO, 0, intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         msg.addIntervalos(intervaloGrupoSemaforico);
         onReceiveEstage(msg.toByteArray());
+
+        if (inicio) {
+            executor = Executors.newScheduledThreadPool(1)
+                .scheduleAtFixedRate(() -> {
+                    try {
+                        lights();
+                        tempoDecorrido.setText(String.valueOf(tempo / 1000) + "s");
+                        relogio.setText(DateTime.now().toString("dd/MM/yyyy HH:mm:ss"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, 0, 100, TimeUnit.MILLISECONDS);
+            inicio = false;
+        }
     }
 
     @Override
@@ -185,6 +203,8 @@ public class ControladorForm implements Sender, DeviceBridge {
         this.callback = callback;
         detectorActionListerner = new DetectorActionListerner(callback);
         start();
+        callback.onReady();
+
     }
 
     @Override
@@ -300,17 +320,6 @@ public class ControladorForm implements Sender, DeviceBridge {
         frame.pack();
         frame.setVisible(true);
 
-        executor = Executors.newScheduledThreadPool(1)
-            .scheduleAtFixedRate(() -> {
-                try {
-                    lights();
-                    tempoDecorrido.setText(String.valueOf(tempo / 1000) + "s");
-                    relogio.setText(DateTime.now().toString("dd/MM/yyyy HH:mm:ss"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }, 0, 100, TimeUnit.MILLISECONDS);
-
     }
 
     private int whereIsTime(int line) {
@@ -337,13 +346,21 @@ public class ControladorForm implements Sender, DeviceBridge {
                 ret = times[line][2] > 0 ? VERDE : VERMELHO;
                 break;
             case 2:
-                ret = ((times[line][0] & 0x80) >> 7) != 0 ? VERMELHO_INTERMITENTE : AMARELO;
+                if ((times[line][0] & 0x7) == 4) {
+                    ret = ((times[line][0] & 0x8) >> 3) != 0 ? DESLIGADO : AMARELO_INTERMITENTE;
+                } else {
+                    ret = ((times[line][0] & 0x8) >> 3) != 0 ? VERMELHO_INTERMITENTE : AMARELO;
+                }
                 break;
             case 3:
-                ret = VERMELHO_LIMPEZA;
+                if ((times[line][0] & 0x7) == 4) {
+                    ret = VERMELHO;
+                } else {
+                    ret = VERMELHO_LIMPEZA;
+                }
                 break;
             case 4:
-                switch ((times[line][0] & 0x60) >> 5) {
+                switch ((times[line][0] & 0x7)) {
                     case 0:
                         ret = DESLIGADO;
                         break;
@@ -355,6 +372,9 @@ public class ControladorForm implements Sender, DeviceBridge {
                         break;
                     case 3:
                         ret = AMARELO_INTERMITENTE;
+                        break;
+                    case 4:
+                        ret = VERDE;
                         break;
                 }
                 break;
@@ -452,13 +472,13 @@ public class ControladorForm implements Sender, DeviceBridge {
         int index = 5;
 
         for (int i = 0; i < groupsSize; i++) {
-            int group = (msg[index] & 0xff) & 0x1F;
-            times[group - 1][0] = msg[index] & 0xff;
-            times[group - 1][1] = ((msg[index + 1] & 0xff) << 8) | (msg[index + 2] & 0xff);
-            times[group - 1][2] = ((msg[index + 3] & 0xff) << 8) | (msg[index + 4] & 0xff);
-            times[group - 1][3] = ((msg[index + 5] & 0xff) << 8) | (msg[index + 6] & 0xff);
-            times[group - 1][4] = ((msg[index + 7] & 0xff) << 8) | (msg[index + 8] & 0xff);
-            index += 9;
+            int group = (msg[index + 1]);
+            times[group - 1][0] = msg[index] & 0xF;
+            times[group - 1][1] = ((msg[index + 2] & 0xff) << 8) | (msg[index + 3] & 0xff);
+            times[group - 1][2] = ((msg[index + 4] & 0xff) << 8) | (msg[index + 5] & 0xff);
+            times[group - 1][3] = ((msg[index + 6] & 0xff) << 8) | (msg[index + 7] & 0xff);
+            times[group - 1][4] = ((msg[index + 8] & 0xff) << 8) | (msg[index + 9] & 0xff);
+            index += 10;
         }
 
     }

@@ -80,8 +80,7 @@ String inputString;
 
 typedef union status {
   struct {
-    unsigned int group: 5;
-    unsigned int state : 2;
+    unsigned int state: 3;
     unsigned int pedestrian : 1;
   };
 
@@ -92,17 +91,6 @@ int colors[16];
 
 
 int times[16][5] = {0}; //Flag in the first byte
-
-//void draw()
-//{
-////  u8g.setFont(u8g_font_fub20);
-//  enum {BufSize=20}; // If a is short use a smaller number, eg 5 or 6
-//  char buf[BufSize];
-////  snprintf (buf, BufSize, "%s", status);
-//status.toCharArray(buf,20);
-//  u8g.drawStr( 10, 57, buf);
-//
-//}
 
 int whereIsTime(int line) {
   if (times[line][1] >= 100) {
@@ -132,10 +120,18 @@ int getColorAndDecrement(int line) {
       ret = times[line][2] > 0 ? VERDE : VERMELHO;
       break;
     case 2:
-      ret = status.pedestrian ? VERMELHO_INTERMITENTE : AMARELO;
+      if (status.state == 4) {
+        ret = status.pedestrian ? DESLIGADO : AMARELO_INTERMITENTE;
+      } else {
+        ret = status.pedestrian ? VERMELHO_INTERMITENTE : AMARELO;
+      }
       break;
     case 3:
-      ret = VERMELHO_LIMPEZA;
+      if (status.state == 4) {
+        ret = VERMELHO;
+      } else {
+        ret = VERMELHO_LIMPEZA;  
+      }
       break;
     case 4:
       switch (status.state) {
@@ -150,6 +146,9 @@ int getColorAndDecrement(int line) {
           break;
         case 3:
           ret = AMARELO_INTERMITENTE;
+          break;
+        case 4:
+          ret = VERDE;
           break;
       }
       break;
@@ -176,15 +175,15 @@ void onReceiveEstage(unsigned char *msg, int msgSize) {
 
   for (int i = 0; i < groupsSize; i++) {
     bitset status;
+    int group = msg[index + 1];
     status.intRepresentation = msg[index];
-    int group = status.group;
 
     times[group - 1][0] = status.intRepresentation;
-    times[group - 1][1] = (msg[index + 1] << 8) | msg[index + 2];
-    times[group - 1][2] = (msg[index + 3] << 8) | msg[index + 4];
-    times[group - 1][3] = (msg[index + 5] << 8) | msg[index + 6];
-    times[group - 1][4] = (msg[index + 7] << 8) | msg[index + 8];
-    index += 9;
+    times[group - 1][1] = (msg[index + 2] << 8) | msg[index + 3];
+    times[group - 1][2] = (msg[index + 4] << 8) | msg[index + 5];
+    times[group - 1][3] = (msg[index + 6] << 8) | msg[index + 7];
+    times[group - 1][4] = (msg[index + 8] << 8) | msg[index + 9];
+    index += 10;
   }
 
 }
