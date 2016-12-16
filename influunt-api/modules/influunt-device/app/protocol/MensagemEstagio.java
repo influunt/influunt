@@ -70,10 +70,11 @@ public class MensagemEstagio extends Mensagem {
         mensagemGrupo[index] = msg;
     }
 
-    public void print() {
-        System.out.println(new Formatter().format("|GR|P/V|FL|AT/VE|AM/VI|VL|VE/V/AI/D|"));
+    public String print() {
+        StringBuffer stringBuffer = new StringBuffer(new Formatter().format("|GR|P/V|FL|AT/VE|AM/VI|VL|VE/V/AI/D|").toString());
         Arrays.stream(mensagemGrupo).forEach(m -> {
-            System.out.println(m);
+            stringBuffer.append(m).append("\n");
         });
+        return stringBuffer.toString();
     }
 }

@@ -28,7 +28,7 @@ public class DiskStorageConf implements StorageConf {
 
         File file = new File(path.getAbsolutePath().concat("/").concat(configuration.getConfig("72c").getConfig("storage").getString("file")));
 
-        db = DBMaker.fileDB(file).make();
+        db = DBMaker.fileDB(file).transactionEnable().make();
 
     }
 

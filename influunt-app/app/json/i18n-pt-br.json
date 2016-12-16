@@ -186,6 +186,7 @@
     "id": "ID",
     "publicKey": "Chave Pública",
     "privateKey": "Chave Privada",
+    "senha": "Senha",
     "CLC": "CLC",
     "CLA": "CLA",
     "configuracao_grupo": "Grupos Semafóricos",

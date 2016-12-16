@@ -26,7 +26,8 @@ angular.module('influuntApp')
                 scope.instalacaoControlador = {
                   id: res.idControlador,
                   publicKey: res.publicKey,
-                  privateKey: res.privateKey
+                  privateKey: res.privateKey,
+                  senha: res.senha
                 };
                 prepareDownloadData();
               })

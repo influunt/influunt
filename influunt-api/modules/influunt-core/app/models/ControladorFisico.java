@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -13,6 +14,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import org.apache.commons.codec.binary.Hex;
 import org.joda.time.DateTime;
 import utils.EncryptionUtil;
+import utils.MosquittoPBKDF2;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -54,21 +56,29 @@ public class ControladorFisico extends Model implements Serializable {
     @Column
     private StatusDevice statusDevice;
 
-    @Ignore
+    @JsonIgnore
     @Column(columnDefinition = "TEXT")
     private String centralPrivateKey;
 
-    @Ignore
+    @JsonIgnore
     @Column(columnDefinition = "TEXT")
     private String centralPublicKey;
 
-    @Ignore
+    @JsonIgnore
     @Column(columnDefinition = "TEXT")
     private String controladorPublicKey;
 
     @Ignore
     @Column(columnDefinition = "TEXT")
     private String controladorPrivateKey;
+
+    @JsonIgnore
+    private String password;
+
+    @Ignore
+    @Column(name = "password_hash")
+    private String passwordHash;
+
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -151,6 +161,10 @@ public class ControladorFisico extends Model implements Serializable {
             KeyPair keyControlador = EncryptionUtil.generateRSAKey();
             this.controladorPrivateKey = Hex.encodeHexString(keyControlador.getPrivate().getEncoded());
             this.controladorPublicKey = Hex.encodeHexString(keyControlador.getPublic().getEncoded());
+
+            this.password = UUID.randomUUID().toString();
+            this.passwordHash = new MosquittoPBKDF2().createPassword(this.password);
+
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -262,5 +276,21 @@ public class ControladorFisico extends Model implements Serializable {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 }

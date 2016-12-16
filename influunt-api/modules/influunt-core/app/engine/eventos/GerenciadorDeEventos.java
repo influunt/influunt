@@ -6,6 +6,7 @@ import engine.GerenciadorDeEstagios;
 import engine.GerenciadorDeEstagiosHelper;
 import engine.IntervaloEstagio;
 import logger.InfluuntLogger;
+import logger.NivelLog;
 import logger.TipoLog;
 import models.EstagioPlano;
 import models.Plano;
@@ -32,7 +33,7 @@ public abstract class GerenciadorDeEventos {
     }
 
     public static void onEvento(GerenciadorDeEstagios gerenciadorDeEstagios, EventoMotor eventoMotor) {
-        InfluuntLogger.log(TipoLog.EXECUCAO, eventoMotor);
+        InfluuntLogger.log(NivelLog.NORMAL, TipoLog.EXECUCAO, eventoMotor);
         switch (eventoMotor.getTipoEvento()) {
             case ACIONAMENTO_DETECTOR_PEDESTRE:
                 new DetectorPedestreHandle(gerenciadorDeEstagios).processar(eventoMotor);

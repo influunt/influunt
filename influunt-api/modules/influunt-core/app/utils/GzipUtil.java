@@ -24,6 +24,7 @@ public class GzipUtil {
         ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
         GZIPInputStream gis = new GZIPInputStream(bis);
         byte[] bytes = IOUtils.toByteArray(gis);
+        gis.close();
         return new String(bytes, "UTF-8");
     }
 }

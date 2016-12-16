@@ -9,6 +9,7 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import logger.InfluuntLogger;
+import logger.NivelLog;
 import logger.TipoLog;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
@@ -31,10 +32,10 @@ public class ClientActor extends UntypedActor{
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
                     if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
-                        InfluuntLogger.log(TipoLog.COMUNICACAO,"MQTT perdeu a conexão com o broker. Restartando ator.");
+                        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.COMUNICACAO,"MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else {
-                        InfluuntLogger.log(TipoLog.COMUNICACAO,"Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
+                        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.COMUNICACAO,"Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();
                     }
                 }
@@ -80,8 +81,8 @@ public class ClientActor extends UntypedActor{
             storage.setPrivateKey(controladorPrivateKey);
         }
 
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", storage.getCentralPublicKey().substring(0, 5), storage.getCentralPublicKey().substring(storage.getCentralPublicKey().length() - 5, storage.getCentralPublicKey().length())));
-        InfluuntLogger.log(TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", storage.getCentralPublicKey().substring(0, 5), storage.getCentralPublicKey().substring(storage.getCentralPublicKey().length() - 5, storage.getCentralPublicKey().length())));
+        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
 
 
         this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id), "motor");

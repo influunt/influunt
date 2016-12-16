@@ -2,6 +2,7 @@ package engine;
 
 import engine.eventos.GerenciadorDeEventos;
 import logger.InfluuntLogger;
+import logger.NivelLog;
 import logger.TipoLog;
 import models.Anel;
 import models.Controlador;
@@ -72,7 +73,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void onMudancaTabelaHoraria() {
-        InfluuntLogger.log(TipoLog.EXECUCAO,"Mudança de tabela horária");
+        InfluuntLogger.log(NivelLog.NORMAL,TipoLog.EXECUCAO,"Mudança de tabela horária");
         alteraControlador();
     }
 
@@ -142,7 +143,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
         if (!agendamentoTrocaPlano.isImpostoPorFalha() && !agendamentoTrocaPlano.isImposicaoPlano()) {
             Plano plano = agendamentoTrocaPlano.getPlano();
-            InfluuntLogger.log(TipoLog.EXECUCAO,
+            InfluuntLogger.log(NivelLog.NORMAL,TipoLog.EXECUCAO,
                 "Troca de plano por tabela horária. Plano " + plano.getPosicao() + " - " + plano.getModoOperacao());
         }
         callback.onTrocaDePlanoEfetiva(agendamentoTrocaPlano);
@@ -194,7 +195,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public void onAlarme(EventoMotor eventoMotor) {
         callback.onAlarme(instante, eventoMotor);
-        InfluuntLogger.log(TipoLog.EXECUCAO,eventoMotor);
+        InfluuntLogger.log(NivelLog.NORMAL,TipoLog.EXECUCAO,eventoMotor);
     }
 
     public MotorCallback getCallback() {
@@ -233,6 +234,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void stop() {
-        InfluuntLogger.log(TipoLog.FINALIZACAO,"Terminando a execução do motor");
+        InfluuntLogger.log(NivelLog.NORMAL,TipoLog.FINALIZACAO,"Terminando a execução do motor");
     }
 }
