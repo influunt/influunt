@@ -11,6 +11,7 @@ import logger.TipoLog;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import os72c.client.observer.EstadoDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
@@ -31,6 +32,8 @@ import static engine.TipoEventoParamsTipoDeDado.*;
 public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBridgeCallback {
 
     private final Storage storage;
+
+    private final EstadoDevice estadoDevice;
 
     private Controlador controlador;
 
@@ -53,10 +56,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private boolean pronto = false;
 
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice) {
         this.storage = mapStorage;
         this.device = device;
         this.id = id;
+        this.estadoDevice = estadoDevice;
         start();
     }
 
@@ -70,10 +74,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
         if (!iniciado && pronto) {
 
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
-                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Configuração encontrada");
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "Configuração encontrada");
                 iniciado = true;
                 this.motor = new Motor(this.controlador, new DateTime(), this);
 
@@ -81,21 +85,21 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     .scheduleAtFixedRate(() -> {
                         try {
 
-                            if(tempoDecorrido % 1000 == 0) {
-                                InfluuntLogger.log(NivelLog.SUPERDETALHADO,TipoLog.EXECUCAO, "TICK:" + tempoDecorrido);
+                            if (tempoDecorrido % 1000 == 0) {
+                                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TICK:" + tempoDecorrido);
                             }
-                            tempoDecorrido+=100;
+                            tempoDecorrido += 100;
                             motor.tick();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
 
-                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "O controlador foi colocado em execução");
 
             } else {
-                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"Não existe configuração para iniciar o motor");
-                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"O controlador será iniciado quando um configuração for recebida");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "Não existe configuração para iniciar o motor");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "O controlador será iniciado quando um configuração for recebida");
             }
         }
     }
@@ -112,7 +116,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-
     }
 
     @Override
@@ -152,6 +155,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         device.sendEstagio(intervalos);
+
+        if (estadoDevice.getPlanos().isEmpty()) {
+            motor.getEstagios().stream().forEach(gerenciadorDeEstagios -> {
+                estadoDevice.putPlanos(gerenciadorDeEstagios.getAnel(), motor.getEventoAtual().getPlano(gerenciadorDeEstagios.getAnel()));
+            });
+        }
     }
 
     @Override
@@ -166,12 +175,13 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
         Envelope envelope = TrocaPlanoEfetiva.getMensagem(id, agendamentoTrocaPlano);
         sendMessage(envelope);
+
+        estadoDevice.putPlanos(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getPlano());
     }
 
     private void sendMessage(Envelope envelope) {
         context.actorFor(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
-
 
 
     @Override

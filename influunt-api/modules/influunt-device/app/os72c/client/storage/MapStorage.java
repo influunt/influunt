@@ -11,6 +11,8 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
+import os72c.client.observer.EstadoDevice;
+import play.api.Play;
 import protocol.Envelope;
 
 import java.util.*;
@@ -39,6 +41,8 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, Envelope> envelopes;
 
+    private final EstadoDevice estadoDevice = Play.current().injector().instanceOf(EstadoDevice.class);
+
     @Inject
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
@@ -52,6 +56,8 @@ public class MapStorage implements Storage {
             this.status.put("status", StatusDevice.NOVO.toString());
             db.commit();
         }
+
+        estadoDevice.setStatus(this.getStatus());
 
         this.keys = this.db.hashMap("keys")
             .keySerializer(Serializer.STRING)
@@ -110,6 +116,8 @@ public class MapStorage implements Storage {
     public void setStatus(StatusDevice statusDevice) {
         this.status.put("status", statusDevice.toString());
         db.commit();
+
+        estadoDevice.setStatus(statusDevice);
     }
 
     @Override

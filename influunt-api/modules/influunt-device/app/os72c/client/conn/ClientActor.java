@@ -14,6 +14,7 @@ import logger.TipoLog;
 import os72c.client.device.DeviceActor;
 import os72c.client.device.DeviceBridge;
 import os72c.client.handlers.TransacaoManagerActorHandler;
+import os72c.client.observer.EstadoDevice;
 import os72c.client.storage.Storage;
 import scala.concurrent.duration.Duration;
 
@@ -59,6 +60,8 @@ public class ClientActor extends UntypedActor {
 
     private final ActorRef deadLetters;
 
+    private final EstadoDevice estadoDevice;
+
     private ActorRef device;
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
@@ -69,7 +72,9 @@ public class ClientActor extends UntypedActor {
 
     private ActorRef actorTrasacao;
 
-    public ClientActor(final String id, final String host, final String port, final String login, final String senha, final String centralPublicKey, final String controladorPrivateKey, Storage storage, DeviceBridge deviceBridge) {
+    public ClientActor(final String id, final String host, final String port, final String login,
+                       final String senha, final String centralPublicKey, final String controladorPrivateKey,
+                       Storage storage, DeviceBridge deviceBridge, EstadoDevice estadoDevice) {
         this.id = id;
         this.host = host;
         this.port = port;
@@ -83,11 +88,13 @@ public class ClientActor extends UntypedActor {
             storage.setPrivateKey(controladorPrivateKey);
         }
 
+        this.estadoDevice = estadoDevice;
+
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("CHAVE PUBLICA   :%s...%s", storage.getCentralPublicKey().substring(0, 5), storage.getCentralPublicKey().substring(storage.getCentralPublicKey().length() - 5, storage.getCentralPublicKey().length())));
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
 
 
-        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id), "motor");
+        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id, estadoDevice), "motor");
         this.deadLetters = getContext().actorOf(Props.create(DeadLettersActor.class, storage), "DeadLettersActor");
         getContext().system().eventStream().subscribe(this.deadLetters, DeadLetter.class);
     }
@@ -113,7 +120,8 @@ public class ClientActor extends UntypedActor {
     }
 
     private void startMQTT() {
-        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, login, senha, storage, router), "ControladorMQTT");
+        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port,
+            login, senha, storage, router, estadoDevice), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());
     }
@@ -123,6 +131,7 @@ public class ClientActor extends UntypedActor {
         if (message instanceof Terminated) {
             final Terminated t = (Terminated) message;
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
+            estadoDevice.setConectado(false);
         } else if ("RESTART".equals(message)) {
             startMQTT();
         }

@@ -605,4 +605,34 @@ public class Plano extends Model implements Cloneable, Serializable {
     public void setImposto(boolean imposto) {
         this.imposto = imposto;
     }
+
+    public String getDescricaoModoOperacao() {
+        StringBuffer buffer = new StringBuffer();
+        switch (getModoOperacao()) {
+            case APAGADO:
+                buffer.append("APA");
+                break;
+            case ATUADO:
+                buffer.append("ATU");
+                break;
+            case INTERMITENTE:
+                buffer.append("INT");
+                break;
+            case MANUAL:
+                buffer.append("MAN");
+                break;
+            case TEMPO_FIXO_COORDENADO:
+                buffer.append("TFC");
+                break;
+            case TEMPO_FIXO_ISOLADO:
+                buffer.append("TFI");
+                break;
+        }
+        if (isImposto()) {
+            buffer.append(" Imposto");
+        } else if (isImpostoPorFalha()) {
+            buffer.append(" Por falha");
+        }
+        return buffer.toString();
+    }
 }
