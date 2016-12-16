@@ -12,16 +12,21 @@ Funcionalidade: tela de cadastro de cidades
     E clicar no botão de Nova Cidade
     Então o sistema deverá redirecionar para o formulário de cadastro de novas cidades
 
+  Cenário: Tentar salvar uma cidade sem nome
+    Dado que o usuário deixe os campos em branco
+    Quando clicar no botão de salvar
+    E o sistema deverá indicar erro no campo "nome" com a mensagem "não pode ficar em branco"
+
   Cenário: Cadastro de cidades
-    Quando o usuário acessar a tela de cadastro de novas cidades
-    E o usuário preencher o campo "Nome" com "São Paulo"
-    E clicar no botão de salvar
+    Dado o usuário preencher o campo "Nome" com "São Paulo"
+    Quando clicar no botão de salvar
     Então o registro da cidade deverá ser salvo com nome igual a "São Paulo"
     E o sistema deverá retornar à tela de listagem de cidades
 
   Cenário: Cadastro de cidades com mesmo nome
-    Dado que exista uma cidade cadastrada no sistema com o nome "Belo Horizonte"
-    Quando o usuário acessar a tela de cadastro de novas cidades
+    Dado o usuário acessar a tela de listagem de cidades
+    E que exista uma cidade cadastrada no sistema com o nome "Belo Horizonte"
+    Quando clicar no botão de Nova Cidade
     E o usuário preencher o campo "Nome" com "Belo Horizonte"
     E clicar no botão de salvar
     Então o sistema deverá indicar erro no campo "nome"
