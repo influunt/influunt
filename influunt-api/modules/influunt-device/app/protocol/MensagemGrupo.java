@@ -7,6 +7,10 @@ import models.EstadoGrupoSemaforico;
 import java.util.Formatter;
 import java.util.Map;
 
+import static models.EstadoGrupoSemaforico.AMARELO;
+import static models.EstadoGrupoSemaforico.VERMELHO_INTERMITENTE;
+import static models.EstadoGrupoSemaforico.VERMELHO_LIMPEZA;
+
 /**
  * Created by rodrigosol on 11/3/16.
  */
@@ -43,8 +47,9 @@ public class MensagemGrupo {
 
 
     public MensagemGrupo(int i, byte[] contents) {
-        int index = (i * 9) + 5;
+        int index = (i * 10) + 5;
         setFlags(contents[index]);
+        grupo = contents[++index];
 
         tempoAtrasoDeGrupo = (contents[++index] & 0xff) << 8;
         tempoAtrasoDeGrupo |= (contents[++index] & 0xff);
@@ -65,15 +70,23 @@ public class MensagemGrupo {
         for (Map.Entry<Range<Long>, EstadoGrupoSemaforico> entry : estadoGrupos.asMapOfRanges().entrySet()) {
             switch (entry.getValue()) {
                 case DESLIGADO:
-                    tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
-                    flagUltimoTempo = FlagUltimoTempo.DESLIGADO;
+                    if (first && EstadoGrupoSemaforico.VERMELHO.equals(estadoGrupos.get(entry.getKey().upperEndpoint() + 1))) {
+                        tempoAmareloOuVermelhoIntermitente += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                        flagUltimoTempo = FlagUltimoTempo.SEQUENCIA_PARTIDA;
+                        flagPedestreVeicular = true;
+                    } else {
+                        tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                        flagUltimoTempo = FlagUltimoTempo.DESLIGADO;
+                    }
                     break;
                 case VERDE:
                     if (first && !EstadoGrupoSemaforico.VERDE.equals(estadoGrupos.get(entry.getKey().upperEndpoint() + 1)) && estadoGrupos.asMapOfRanges().size() > 1) {
                         tempoAtrasoDeGrupo += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
                     } else {
                         tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
-                        flagUltimoTempo = FlagUltimoTempo.VERDE;
+                        if (!FlagUltimoTempo.SEQUENCIA_PARTIDA.equals(flagUltimoTempo)) {
+                            flagUltimoTempo = FlagUltimoTempo.VERDE;
+                        }
                     }
                     break;
                 case AMARELO:
@@ -87,14 +100,22 @@ public class MensagemGrupo {
                 case VERMELHO:
                     if (first && estadoGrupos.asMapOfRanges().size() > 1) {
                         tempoAtrasoDeGrupo += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                    } else if (FlagUltimoTempo.SEQUENCIA_PARTIDA.equals(flagUltimoTempo)) {
+                        tempoVermelhoLimpeza += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
                     } else {
                         tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
                         flagUltimoTempo = FlagUltimoTempo.VERMELHO;
                     }
                     break;
                 case AMARELO_INTERMITENTE:
-                    tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
-                    flagUltimoTempo = FlagUltimoTempo.AMARELO_INTERMITENTE;
+                    if (first && EstadoGrupoSemaforico.VERMELHO.equals(estadoGrupos.get(entry.getKey().upperEndpoint() + 1))) {
+                        tempoAmareloOuVermelhoIntermitente += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                        flagUltimoTempo = FlagUltimoTempo.SEQUENCIA_PARTIDA;
+                        flagPedestreVeicular = false;
+                    } else {
+                        tempoVerdeOuVermelho += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                        flagUltimoTempo = FlagUltimoTempo.AMARELO_INTERMITENTE;
+                    }
                     break;
                 case VERMELHO_LIMPEZA:
                     tempoVermelhoLimpeza += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
@@ -106,8 +127,9 @@ public class MensagemGrupo {
 
     public void fill(int i, byte[] resp) {
 
-        int index = (i * 9) + 1;
+        int index = (i * 10) + 1;
         resp[index] = getFlags();
+        resp[++index] = (byte) grupo;
         resp[++index] = (byte) (tempoAtrasoDeGrupo >> 8);
         resp[++index] = (byte) (tempoAtrasoDeGrupo & 0x00FF);
 
@@ -124,16 +146,14 @@ public class MensagemGrupo {
 
     private byte getFlags() {
         int r = flagPedestreVeicular ? 1 : 0;
-        r = r << 2;
+        r = r << 3;
         r |= flagUltimoTempo.ordinal();
-        r = r << 5;
-        return (byte) (r | grupo);
+        return (byte) r;
     }
 
     private void setFlags(byte content) {
-        flagPedestreVeicular = (content & 0x80) == 0 ? false : true;
-        flagUltimoTempo = FlagUltimoTempo.values()[(content & 0x60) >> 5];
-        grupo = content & 0x1F;
+        flagPedestreVeicular = (content & 0x8) == 0 ? false : true;
+        flagUltimoTempo = FlagUltimoTempo.values()[(content & 0x7)];
     }
 
     public int getTempoVerdeOuVermelho() {

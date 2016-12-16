@@ -7,5 +7,6 @@ public enum FlagUltimoTempo {
     DESLIGADO,
     VERDE,
     VERMELHO,
-    AMARELO_INTERMITENTE;
+    AMARELO_INTERMITENTE,
+    SEQUENCIA_PARTIDA;
 }

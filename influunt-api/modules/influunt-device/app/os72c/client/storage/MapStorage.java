@@ -11,10 +11,11 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
+import os72c.client.observer.EstadoDevice;
+import play.api.Play;
+import protocol.Envelope;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by leonardo on 9/13/16.
@@ -38,6 +39,10 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, Map<String, String>> tempData;
 
+    private final HTreeMap<String, Envelope> envelopes;
+
+    private final EstadoDevice estadoDevice = Play.current().injector().instanceOf(EstadoDevice.class);
+
     @Inject
     public MapStorage(StorageConf storageConf) {
         this.db = storageConf.getDB();
@@ -51,6 +56,8 @@ public class MapStorage implements Storage {
             this.status.put("status", StatusDevice.NOVO.toString());
             db.commit();
         }
+
+        estadoDevice.setStatus(this.getStatus());
 
         this.keys = this.db.hashMap("keys")
             .keySerializer(Serializer.STRING)
@@ -88,6 +95,12 @@ public class MapStorage implements Storage {
             .layout(1, 2, 1)
             .createOrOpen();
 
+        this.envelopes = this.db.hashMap("envelopes")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.JAVA)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
         if (!this.params.containsKey("horarioEntradaTabelaHoraria")) {
             this.params.put("horarioEntradaTabelaHoraria", "-1");
             db.commit();
@@ -103,6 +116,8 @@ public class MapStorage implements Storage {
     public void setStatus(StatusDevice statusDevice) {
         this.status.put("status", statusDevice.toString());
         db.commit();
+
+        estadoDevice.setStatus(statusDevice);
     }
 
     @Override
@@ -279,6 +294,23 @@ public class MapStorage implements Storage {
     @Override
     public String getFirmware() {
         return this.dadosHardware.get("firmware");
+    }
+
+    @Override
+    public void storeEnvelope(Envelope envelope) {
+        this.envelopes.put(envelope.getIdMensagem(), envelope);
+        this.db.commit();
+    }
+
+    @Override
+    public Collection getEnvelopes() {
+        return this.envelopes.values();
+    }
+
+    @Override
+    public void clearEnvelopes() {
+        this.envelopes.clear();
+        this.db.commit();
     }
 
 }
