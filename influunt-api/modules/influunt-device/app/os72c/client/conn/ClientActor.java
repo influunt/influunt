@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by rodrigosol on 7/7/16.
  */
-public class ClientActor extends UntypedActor{
+public class ClientActor extends UntypedActor {
 
     private static OneForOneStrategy strategy =
         new OneForOneStrategy(-1, Duration.Inf(),
@@ -32,10 +32,10 @@ public class ClientActor extends UntypedActor{
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
                     if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
-                        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.COMUNICACAO,"MQTT perdeu a conexão com o broker. Restartando ator.");
+                        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else {
-                        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.COMUNICACAO,"Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
+                        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();
                     }
                 }
@@ -56,6 +56,8 @@ public class ClientActor extends UntypedActor{
     private final String login;
 
     private final String senha;
+
+    private final ActorRef deadLetters;
 
     private ActorRef device;
 
@@ -81,11 +83,13 @@ public class ClientActor extends UntypedActor{
             storage.setPrivateKey(controladorPrivateKey);
         }
 
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("CHAVE PUBLICA   :%s...%s", storage.getCentralPublicKey().substring(0, 5), storage.getCentralPublicKey().substring(storage.getCentralPublicKey().length() - 5, storage.getCentralPublicKey().length())));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("CHAVE PUBLICA   :%s...%s", storage.getCentralPublicKey().substring(0, 5), storage.getCentralPublicKey().substring(storage.getCentralPublicKey().length() - 5, storage.getCentralPublicKey().length())));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
 
 
         this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id), "motor");
+        this.deadLetters = getContext().actorOf(Props.create(DeadLettersActor.class, storage), "DeadLettersActor");
+        getContext().system().eventStream().subscribe(this.deadLetters, DeadLetter.class);
     }
 
 
@@ -108,8 +112,8 @@ public class ClientActor extends UntypedActor{
         startMQTT();
     }
 
-    private void startMQTT(){
-        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port,login,senha, storage, router), "ControladorMQTT");
+    private void startMQTT() {
+        mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port, login, senha, storage, router), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());
     }

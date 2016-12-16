@@ -11,10 +11,9 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
 import models.StatusDevice;
+import protocol.Envelope;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by leonardo on 9/13/16.
@@ -37,6 +36,8 @@ public class MapStorage implements Storage {
     private final HTreeMap<String, Boolean> falhas;
 
     private final HTreeMap<String, Map<String, String>> tempData;
+
+    private final HTreeMap<String, Envelope> envelopes;
 
     @Inject
     public MapStorage(StorageConf storageConf) {
@@ -83,6 +84,12 @@ public class MapStorage implements Storage {
             .createOrOpen();
 
         this.tempData = this.db.hashMap("tempData")
+            .keySerializer(Serializer.STRING)
+            .valueSerializer(Serializer.JAVA)
+            .layout(1, 2, 1)
+            .createOrOpen();
+
+        this.envelopes = this.db.hashMap("envelopes")
             .keySerializer(Serializer.STRING)
             .valueSerializer(Serializer.JAVA)
             .layout(1, 2, 1)
@@ -279,6 +286,23 @@ public class MapStorage implements Storage {
     @Override
     public String getFirmware() {
         return this.dadosHardware.get("firmware");
+    }
+
+    @Override
+    public void storeEnvelope(Envelope envelope) {
+        this.envelopes.put(envelope.getIdMensagem(), envelope);
+        this.db.commit();
+    }
+
+    @Override
+    public Collection getEnvelopes() {
+        return this.envelopes.values();
+    }
+
+    @Override
+    public void clearEnvelopes() {
+        this.envelopes.clear();
+        this.db.commit();
     }
 
 }

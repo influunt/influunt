@@ -13,6 +13,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -28,7 +29,9 @@ import static play.libs.Json.newObject;
  */
 
 //
-public class Envelope {
+public class Envelope implements Serializable {
+
+    private static final long serialVersionUID = -6992146830358479831L;
 
     private String idMensagem;
 

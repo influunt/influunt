@@ -172,6 +172,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         context.actorFor(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
 
+
+
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {

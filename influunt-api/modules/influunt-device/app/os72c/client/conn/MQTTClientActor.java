@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
+import os72c.client.utils.AtoresDevice;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
@@ -160,6 +161,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             storage.getModelo());
         sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
+
+        getContext().actorSelection(AtoresDevice.deadLetterPath(id)).tell("VERIFICAR_DEADLETTER", getSelf());
     }
 
 
