@@ -193,7 +193,6 @@ var ObjetosComuns = function () {
   };
 
   this.clicarBotaoEspecificoTabelaControladores = function(botao, controlador) {
-    var _this = this;
     return world.waitForOverlayDisappear().then(function() {
       return world.sleep(600);
     }).then(function() {
@@ -204,7 +203,6 @@ var ObjetosComuns = function () {
   };
 
   this.naoPodeMostraBotaoControlador = function(botao, controlador) {
-    var _this = this;
     return world.waitForOverlayDisappear().then(function() {
       return world.waitForByXpathInverse(xpathBotoesControladores(botao,controlador));
     });
