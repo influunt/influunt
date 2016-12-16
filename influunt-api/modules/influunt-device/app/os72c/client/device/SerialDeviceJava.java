@@ -69,12 +69,12 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         parity = settings.getInt("parity");
         startDelay = settings.getInt("startdelay");
 
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Iniciando a comunicacao serial"));
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PORTA    :%s", porta));
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("BAUDRATE :%d", baudrate));
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("DATABITS :%d", databits));
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("STOPBITS :%d", stopbits));
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PARITY   :%d", parity));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Iniciando a comunicação serial"));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PORTA       :%s", porta));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("BAUDRATE    :%d", baudrate));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("DATABITS    :%d", databits));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("STOPBITS    :%d", stopbits));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PARITY      :%d", parity));
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("START DELAY :%s", startDelay));
     }
 
@@ -91,7 +91,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             if (informarFalhaAbertura) {
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Abrindo a porta de comunicação");
             }
-            if(serialPort.openPort()) {//Open serial port
+            if (serialPort.openPort()) {//Open serial port
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Cumprindo delay");
                 Thread.sleep(startDelay);
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Limpando buffer");
@@ -123,9 +123,9 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                     callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL));
                 }
 
-            }else{
+            } else {
                 if (informarFalhaAbertura) {
-                    InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível abrir comunicação pela porta:" + porta);
+                    InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível abrir comunicação pela porta: " + porta);
                     callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL, false));
 
                     informarFalhaAbertura = false;
@@ -167,7 +167,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, encoded);
             int r = serialPort.writeBytes(encoded.getBytes(), encoded.getBytes().length);
 
-            if(r == -1){
+            if (r == -1) {
                 callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL, true));
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
             }

@@ -147,7 +147,6 @@ public class ClientActor extends UntypedActor {
 
     @Override
     public void postStop() throws Exception {
-        System.out.println("MORREU CLIENTACTOR");
         super.postStop();
     }
 }

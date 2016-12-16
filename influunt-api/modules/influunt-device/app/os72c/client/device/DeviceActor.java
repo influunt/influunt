@@ -86,7 +86,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                         try {
 
                             if (tempoDecorrido % 1000 == 0) {
-                                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TICK:" + tempoDecorrido);
+                                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TICK: " + tempoDecorrido);
                             }
                             tempoDecorrido += 100;
                             motor.tick();
@@ -329,7 +329,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void postStop() throws Exception {
-        System.out.println("MORREU DEVICEACTOR");
         super.postStop();
     }
 }
