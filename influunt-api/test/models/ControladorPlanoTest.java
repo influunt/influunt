@@ -730,6 +730,12 @@ public class ControladorPlanoTest extends ControladorTest {
         controlador.save();
         Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
 
+        controlador.getAneis().stream().forEach(anel -> {
+            if (!anel.getId().equals(anelCom4Estagios.getId())) {
+                anel.setAtivo(false);
+            }
+        });
+
         Plano plano = new Plano();
         plano.setVersaoPlano(anelCom4Estagios.getVersaoPlanoAtivo());
         anelCom4Estagios.getVersaoPlanoAtivo().setPlanos(Arrays.asList(plano));

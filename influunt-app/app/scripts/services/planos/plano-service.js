@@ -261,6 +261,10 @@ angular.module('influuntApp')
           var diagramaBuilder = new influunt.components.DiagramaIntervalos(fakenPlano, valoresMinimos);
           var result = diagramaBuilder.calcula();
 
+          if (!plano) {
+            return false;
+          }
+
           var estagiosPlanos = _.chain(controlador.estagiosPlanos)
             .filter(function(ep) {
               return !ep.destroy && ep.plano.idJson === plano.idJson;

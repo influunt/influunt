@@ -53,7 +53,7 @@
     "test": "./node_modules/.bin/gulp pre-test && ./node_modules/.bin/gulp single-test"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=5.0.0"
   },
   "dependencies": {
     "codacy-coverage": "^1.1.3",

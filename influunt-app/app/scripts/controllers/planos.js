@@ -24,7 +24,8 @@ angular.module('influuntApp')
           getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, limparPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
-          getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, clearErrosOnChange;
+          getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
+          clearErrosOnChange;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -372,6 +373,7 @@ angular.module('influuntApp')
         erros.push(getErrosPlanoAtuadoSemDetector(listaErros, currentPlanoIndex));
         erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
         erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
+        erros.push(getErrosPlanoPresenteEmTodosOsAneis(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
 
@@ -441,7 +443,7 @@ angular.module('influuntApp')
       }, true);
 
       clearErrosOnChange = function() {
-        var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + ']';
+        var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + $scope.currentPlanoIndex + '].ultrapassaTempoCiclo';
         if (_.get($scope.errors, path)) {
           _.set($scope.errors, path, undefined);
         }
@@ -532,6 +534,14 @@ angular.module('influuntApp')
 
       getErrosPlanoAtuadoSemDetector = function(listaErros, currentPlanoIndex) {
         var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].modoOperacaoValido');
+        if (erros) {
+          return erros;
+        }
+        return [];
+      };
+
+      getErrosPlanoPresenteEmTodosOsAneis = function(listaErros, currentPlanoIndex) {
+        var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].planoPresenteEmTodosOsAneis');
         if (erros) {
           return erros;
         }
