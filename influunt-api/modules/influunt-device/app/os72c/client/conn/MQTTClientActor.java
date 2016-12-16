@@ -54,7 +54,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
-    public MQTTClientActor(final String id, final String host, final String port,final String login, final String senha, Storage storage, Router router) {
+    public MQTTClientActor(final String id, final String host, final String port, final String login, final String senha, Storage storage, Router router) {
         this.id = id;
         this.host = host;
         this.port = port;
@@ -116,11 +116,11 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         opts = new MqttConnectOptions();
 
-        if(!"".equals(login)) {
+        if (!"".equals(login)) {
             opts.setUserName(login);
         }
 
-        if(!"".equals(senha)){
+        if (!"".equals(senha)) {
             opts.setPassword(senha.toCharArray());
         }
 
@@ -171,7 +171,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             String privateKey = storage.getPrivateKey();
 
             Envelope envelope = new Gson().fromJson(EncryptionUtil.decryptJson(msg, privateKey), Envelope.class);
-            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO,"Roteando mensagem:" + envelope.getTipoMensagem());
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO, "Roteando mensagem: " + envelope.getTipoMensagem());
             router.route(envelope, getSender());
         } catch (Exception e) {
             getSelf().tell(e, getSelf());
@@ -196,7 +196,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO,"Mensagem recebida no topico:" +topic);
+        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO, "Mensagem recebida no topico: " + topic);
         sendToBroker(message);
     }
 
@@ -213,7 +213,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             String publicKey = storage.getCentralPublicKey();
             message.setPayload(GzipUtil.compress(envelope.toJsonCriptografado(publicKey)));
             client.publish(envelope.getDestino(), message);
-            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO,"Enviando mensagem para central:" + envelope.getDestino());
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.COMUNICACAO, "Enviando mensagem para central: " + envelope.getDestino());
         } catch (Exception e) {
             getSelf().tell(e, getSelf());
         }
