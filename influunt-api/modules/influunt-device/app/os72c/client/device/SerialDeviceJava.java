@@ -3,7 +3,6 @@ package os72c.client.device;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-import com.google.common.primitives.Bytes;
 import com.typesafe.config.Config;
 import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
@@ -21,16 +20,9 @@ import os72c.client.exceptions.HardwareFailureException;
 import protocol.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.concurrent.BlockingQueue;
+import java.util.ArrayDeque;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static javafx.scene.input.KeyCode.F;
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 /**
  * Created by rodrigosol on 11/4/16.
@@ -67,7 +59,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     private ArrayDeque<String> fila = new ArrayDeque<String>();
 
 
-
     public SerialDeviceJava() {
         settings = Client.getConfig().getConfig("serial");
         porta = settings.getString("porta");
@@ -97,7 +88,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         serialPort.setParity(parity);
         try {
             InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Abrindo a porta de comunicação");
-            if(serialPort.openPort()) {//Open serial port
+            if (serialPort.openPort()) {//Open serial port
 
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Cumprindo delay");
                 Thread.sleep(startDelay);
@@ -114,7 +105,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                     .scheduleAtFixedRate(() -> {
                         try {
                             Mensagem mensagem;
-                            while(!fila.isEmpty()){
+                            while (!fila.isEmpty()) {
                                 mensagem = Mensagem.toMensagem(Hex.decodeHex(fila.pop().toCharArray()));
                                 mensagemRecebida(mensagem);
                                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
@@ -125,8 +116,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                     }, 0, 100, TimeUnit.MILLISECONDS);
 
 
-
-            }else{
+            } else {
                 InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível abrir comunicação pela porta:" + porta);
             }
         } catch (Exception e) {
@@ -155,7 +145,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             String encoded = "<I>".concat(Hex.encodeHexString(bytes)).concat("<F>");
             InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, encoded);
             int r = serialPort.writeBytes(encoded.getBytes(), encoded.getBytes().length);
-            if(r == -1){
+            if (r == -1) {
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
             }
             System.out.println("Bytes enviados:" + r);
@@ -253,7 +243,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     @Override
     public int getListeningEvents() {
-         return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+        return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
     }
 
     @Override
@@ -262,13 +252,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             return;
         }
 
-        while(serialPort.bytesAvailable()>0 ){
+        while (serialPort.bytesAvailable() > 0) {
             byte[] newData = new byte[serialPort.bytesAvailable()];
             int numRead = serialPort.readBytes(newData, newData.length);
 
             buffer.append(new String(newData, StandardCharsets.US_ASCII));
 
-            if(buffer.toString().matches("<I>.*<F>")) {
+            if (buffer.toString().matches("<I>.*<F>")) {
                 String parts[] = buffer.toString().split("<F>");
                 for (String part : parts) {
                     String texto = part.substring(part.lastIndexOf("<I>") + 3);
