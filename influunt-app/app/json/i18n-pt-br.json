@@ -222,6 +222,8 @@
     "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
     "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
     "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
+    "confirmacaoEnderecoTitulo": "Confirmação de Endereço",
+    "confirmacaoEndereco": "O endereço pesquisado é <strong>{descricao}</strong>?",
     "validacaoNumeroSMEE": "O número informado não é reconhecido na base do SMEE.",
     "opcoes": "Opções",
     "tipo": "Tipo",
