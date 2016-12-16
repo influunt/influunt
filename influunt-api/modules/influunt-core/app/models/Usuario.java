@@ -66,6 +66,9 @@ public class Usuario extends Model implements Subject, Serializable {
     @ManyToOne
     private Perfil perfil;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<DisparoAlarme> disparoAlarmes;
+
     @Column
     private String resetPasswordToken;
 
@@ -260,4 +263,11 @@ public class Usuario extends Model implements Subject, Serializable {
     }
 
 
+    public List<DisparoAlarme> getDisparoAlarmes() {
+        return disparoAlarmes;
+    }
+
+    public void setDisparoAlarmes(List<DisparoAlarme> disparoAlarmes) {
+        this.disparoAlarmes = disparoAlarmes;
+    }
 }

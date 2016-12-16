@@ -21,16 +21,19 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
 
+    private final long contadorTempoEstagio;
+
     private Long tempoAbatimentoCoordenado = 0L;
 
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                              EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
-                             Long tempoAbatimentoCoordenado, boolean inicio) {
+                             Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio) {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
         this.inicio = inicio;
         this.tabelaDeTemposEntreVerdeComAtraso = plano.tabelaEntreVerdeComAtraso();
+        this.contadorTempoEstagio = contadorTempoEstagio;
     }
 
     @Override
@@ -67,25 +70,36 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             diffEntreVerdes = 0L;
         }
 
-        if (tempoAbatimentoCoordenado != null && (tempoAbatimentoCoordenado > 0L || inicio)) {
-            //Compensação de diferença entre entreverdes
-            final Long tempoEntreVerdeDoPlano = tabelaDeTemposEntreVerde.get(
-                new Pair<Integer, Integer>(this.plano.getEstagioAnterior(estagioPlano).getPosicao(), estagioAtual.getPosicao()));
+        if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado()) {
+            if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano)) {
+                //Compensação de diferença entre entreverdes
+                final Long tempoEntreVerdeDoPlano = tabelaDeTemposEntreVerde.get(
+                    new Pair<Integer, Integer>(this.plano.getEstagioAnterior(estagioPlano).getPosicao(), estagioAtual.getPosicao()));
 
-            tempoAbatimentoCoordenado += (tempoEntreVerde - tempoEntreVerdeDoPlano);
+                tempoAbatimentoCoordenado += (tempoEntreVerde - tempoEntreVerdeDoPlano);
 
-            final long verdeSeguranca;
-            if (inicio) {
-                verdeSeguranca = estagioPlano.getTempoVerdeSeguranca() * 1000L;
-            } else {
-                verdeSeguranca = estagioPlano.getTempoVerdeSegurancaFaltante(estagioPlanoAtual);
+                final long verdeSeguranca;
+                if (inicio) {
+                    verdeSeguranca = estagioPlano.getTempoVerdeSeguranca() * 1000L;
+                } else {
+                    verdeSeguranca = estagioPlano.getTempoVerdeSegurancaFaltante(estagioPlanoAtual);
+                }
+
+                final long abatimento = Math.min(tempoVerde - verdeSeguranca, tempoAbatimentoCoordenado);
+
+                tempoVerde -= abatimento;
+
+                if (trocaDePlano(estagioPlanoAtual, estagioPlano) && estagioAnterior.equals(estagioAtual)) {
+                    tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
+                }
+
+                tempoAbatimentoCoordenado -= abatimento;
+            } else if (tempoAbatimentoCoordenado < 0) {
+                tempoVerde -= tempoAbatimentoCoordenado;
+                tempoAbatimentoCoordenado = 0L;
+
+                tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
             }
-
-            final long abatimento = Math.min(tempoVerde - verdeSeguranca, tempoAbatimentoCoordenado);
-
-            tempoVerde -= abatimento;
-
-            tempoAbatimentoCoordenado -= abatimento;
         }
 
         if (estagioPlano.getPlano().isManual()) {
@@ -95,6 +109,26 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, diffEntreVerdes, inicio);
 
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(listaEstagioPlanos.indexOf(estagioPlano) - index, this.intervalos);
+    }
+
+    private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAnterior, Estagio estagioAtual, long tempoVerde) {
+        final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
+        if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
+            tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
+            final long novoTempoVerde = Math.max(0, (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio);
+            tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
+            tempoVerde = novoTempoVerde;
+        }
+        return tempoVerde;
+    }
+
+    private boolean deveFazerAbatimento(EstagioPlano origem, EstagioPlano destino) {
+        return tempoAbatimentoCoordenado > 0L || inicio ||
+            (trocaDePlano(origem, destino) && !origem.getEstagio().equals(this.plano.getEstagioAnterior(destino)));
+    }
+
+    private boolean trocaDePlano(EstagioPlano origem, EstagioPlano destino) {
+        return !origem.getPlano().equals(destino.getPlano());
     }
 
     private EstagioPlano atualizaListaEstagiosComTransicoesProibidas(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlano) {

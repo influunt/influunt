@@ -63,6 +63,17 @@ var World = function () {
     return _this.waitForInverse('#toast-container div.toast-message', timeout);
   };
 
+  this.waitForToastWarningDisapear = function(timeout) {
+    var _this = this;
+    return _this.waitForInverse('div.toast-warning', timeout);
+  };
+
+  this.getToastMessage = function() {
+    var _this = this;
+    _this.sleep(300);
+    return _this.getElementByXpath('//div[contains(@class, "toast-message")]').getText();
+  };
+
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {

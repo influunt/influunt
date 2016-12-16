@@ -175,4 +175,20 @@ module.exports = function() {
   this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
     return planosPage.erroInEstagio(estagio);
   });
+
+  this.Given(/^e o usuário clicar em estágio dispensável$/, function () {
+    return planosPage.checkEstagioDispensavel();
+  });
+
+  this.Given(/^o usuário selecionar o estágio que recebe o estágio dispensável "([^"]*)"$/, function (estagio) {
+    return planosPage.selecionaEstagioQueRecebeDispensavel(estagio);
+  });
+
+  this.Given(/^o estágio "([^"]*)" deve estar selecionado para estágio dispensável$/, function (estagio) {
+    return planosPage.deveConterEstagioQueRecebeDispensavel(estagio);
+  });
+
+  this.Given(/^o valor da defasagem deverá ser "([^"]*)"$/, function (valor) {
+    return planosPage.valorDoKnob(valor);
+  });
 };

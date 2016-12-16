@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import protocol.Envelope;
+import utils.AtoresCentral;
 
 
 /**
@@ -21,7 +22,7 @@ public class EchoActorHandler extends UntypedActor {
                 log.info("Respondendo echo para controlador: {}", envelope.getConteudo().toString());
                 Envelope envelope1 = envelope.replayWithSameMessage("controlador/" + envelope.getIdControlador() + "/echo");
 
-                getContext().actorSelection("akka://application/user/servidor/CentralMQTT").tell(envelope1, getSelf());
+                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope1, getSelf());
             } else {
                 log.info("Controlador respondeu o echo: {}", envelope.getConteudo().toString());
             }

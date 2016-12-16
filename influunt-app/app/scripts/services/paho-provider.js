@@ -8,8 +8,9 @@
  * Service in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', function pahoProvider(MQTT_ROOT, $q, $timeout) {
+  .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', '$rootScope', function pahoProvider(MQTT_ROOT, $q, $timeout, $rootScope) {
 
+    var clearConnections;
     var isConnected = false;
     var client = new Paho.MQTT.Client(
       MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + JSON.parse(localStorage.usuario).id
@@ -17,18 +18,33 @@ angular.module('influuntApp')
     var subscribers = {};
     var timeoutId;
 
+    var RECONNECT_TIMEOUT_ID = 5000;
+    var reconnectTimeoutId;
+    var tryReconnect = function() {
+      clearTimeout(reconnectTimeoutId);
+      setTimeout(function() {
+
+        return connectClient()
+          .then(function(res) {
+            $rootScope.$broadcast('influuntApp.mqttConnectionRecovered');
+            return res;
+          })
+          .catch(function(err) {
+            return err;
+          });
+
+      }, RECONNECT_TIMEOUT_ID);
+    };
+
     client.onConnectionLost = function(res) {
-      isConnected = false;
-      if (res.errorCode !== 0) {
-        console.log('call here the onConnectionLostCallback');
-        throw new Error(res.errorMessage);
-      }
+      clearConnections();
+      tryReconnect();
     };
 
     client.onMessageArrived = function(message) {
       var fn = null;
       _.each(subscribers, function(value, key) {
-        if (message.destinationName.match(new RegExp(key))) {
+        if (message.destinationName.match(new RegExp(key.replace('+', '.*')))) {
           fn = value;
         }
       });
@@ -55,6 +71,10 @@ angular.module('influuntApp')
             onSuccess: function() {
               isConnected = true;
               deferred.resolve(true);
+            },
+            onFailure: function(error) {
+              tryReconnect();
+              deferred.reject(error);
             }
           });
         }, 200);
@@ -64,11 +84,13 @@ angular.module('influuntApp')
     };
 
     var disconnectClient = function() {
-      if (isConnected) {
         client.disconnect();
-        isConnected = false;
-        subscribers = {};
-      }
+        clearConnections();
+    };
+
+    clearConnections = function() {
+      isConnected = false;
+      subscribers = {};
     };
 
     var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
@@ -78,9 +100,9 @@ angular.module('influuntApp')
 
       var listenToAll = !dontListenToAll;
       subscribers[subscribedUrl] = onMessageArrivedCallback;
-      client.subscribe(subscribedUrl);
+      client.subscribe(subscribedUrl, {qos: 1});
       if (listenToAll) {
-        client.subscribe(subscribedUrl + '/+');
+        client.subscribe(subscribedUrl + '/+', {qos: 1});
       }
     };
 
@@ -93,11 +115,22 @@ angular.module('influuntApp')
       client.unsubscribe(subscribedUrl + '/+');
     };
 
+    var publish = function(topic, body) {
+      if (!isConnected) {
+        throw new Error('Client is not connected.');
+      }
+
+      var message = new Paho.MQTT.Message(JSON.stringify(body));
+      message.destinationName = topic;
+      return client.send(message);
+    };
+
     return {
       connect: connectClient,
       disconnect: disconnectClient,
       register: register,
-      unregister: unregister
+      unregister: unregister,
+      publish: publish
     };
 
   }]);

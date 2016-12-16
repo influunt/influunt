@@ -85,6 +85,8 @@ public class SimulacaoConfig {
 
         private int numero;
 
+        private boolean aceitaModoManual;
+
         private List<TipoGrupoSemaforico> tiposGruposSemaforicos = new ArrayList<>();
 
         public int getNumero() {
@@ -109,6 +111,14 @@ public class SimulacaoConfig {
 
         public void setEstagios(List<EstagioSimulacaoConfig> estagios) {
             this.estagios = estagios;
+        }
+
+        public boolean isAceitaModoManual() {
+            return aceitaModoManual;
+        }
+
+        public void setAceitaModoManual(boolean aceitaModoManual) {
+            this.aceitaModoManual = aceitaModoManual;
         }
     }
 

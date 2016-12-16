@@ -38,7 +38,7 @@ public class MonitoramentoController extends Controller {
 
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null);
         HashMap<String, ModoOperacaoPlano> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto();
 
@@ -55,7 +55,7 @@ public class MonitoramentoController extends Controller {
     public CompletionStage<Result> ultimoStatusDosAneis() {
         HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores();
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores();
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null);
 
         List<HashMap> statusPlanosPorAnel = TrocaDePlanoControlador.ultimoStatusPlanoPorAnel();
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
@@ -78,8 +78,9 @@ public class MonitoramentoController extends Controller {
     }
 
     public CompletableFuture<Result> detalheControlador(String id) {
-        Controlador controlador = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().eq("id", id).findUnique();
-        List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControlador(id);
+        ControladorFisico controladorFisico = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().eq("id", id).findUnique();
+        Controlador controlador = controladorFisico.getControladorSincronizado();
+        List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControladorUltimos30Dias(id);
         Collections.reverse(status);
         Integer totalOnline = StatusConexaoControlador.tempoOnline(status);
         Integer totalOffline = StatusConexaoControlador.tempoOffline(status);
@@ -93,7 +94,7 @@ public class MonitoramentoController extends Controller {
 
     private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {
         List<String> ids = erros.stream().map(erro -> erro.getIdControlador()).distinct().collect(Collectors.toList());
-        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("aneis.endereco").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
+        List<Controlador> controladores = Controlador.find.fetch("aneis.endereco").fetch("aneis").fetch("area", "descricao").fetch("subArea", "numero").fetch("endereco").where().in("id", ids).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
 
         erros.forEach(erro -> {
@@ -101,22 +102,24 @@ public class MonitoramentoController extends Controller {
             Controlador controlador;
             Anel anel = null;
             controlador = controladores.stream().filter(c -> Objects.equals(String.valueOf(c.getId()), idControlador)).findFirst().orElse(null);
-            if (erro.getIdAnel() != null) {
-                String idAnel = erro.getIdAnel();
-                anel = controlador.getAneis().stream().filter(a -> (a.isAtivo() && a.getId().toString().equals(idAnel))).findFirst().orElse(null);
-            }
+            if (controlador != null) {
+                if (erro.getIdAnel() != null) {
+                    String idAnel = erro.getIdAnel();
+                    anel = controlador.getAneis().stream().filter(a -> a.isAtivo() && a.getId().toString().equals(idAnel)).findFirst().orElse(null);
+                }
 
-            Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
-            itens.addObject()
-                .put("idControlador", controlador.getId().toString())
-                .put("idAnel", anel != null ? anel.getId().toString() : null)
-                .put("clc", controlador.getCLC())
-                .put("cla", anel != null ? anel.getCLA() : null)
-                .putPOJO("endereco", Json.toJson(endereco))
-                .put("data", Long.parseLong(erro.getTimestamp().toString()))
-                .put("descricaoEvento", erro.getConteudo().get("descricaoEvento").asText())
-                .put("tipo", erro.getConteudo().get("tipoEvento").get("tipo").asText())
-                .put("tipoEventoControlador", erro.getConteudo().get("tipoEvento").get("tipoEventoControlador").asText());
+                Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
+                itens.addObject()
+                    .put("idControlador", controlador.getId().toString())
+                    .put("idAnel", anel != null ? anel.getId().toString() : null)
+                    .put("clc", controlador.getCLC())
+                    .put("cla", anel != null ? anel.getCLA() : null)
+                    .putPOJO("endereco", Json.toJson(endereco))
+                    .put("data", Long.parseLong(erro.getTimestamp().toString()))
+                    .put("descricaoEvento", erro.getConteudo().get("descricaoEvento").asText())
+                    .put("tipo", erro.getConteudo().get("tipoEvento").get("tipo").asText())
+                    .put("tipoEventoControlador", erro.getConteudo().get("tipoEvento").get("tipoEventoControlador").asText());
+            }
         });
 
         return itens;
@@ -124,7 +127,7 @@ public class MonitoramentoController extends Controller {
 
     @NotNull
     private ObjectNode controladoresToJson(HashMap<String, Object> controladoresStatus) {
-        List<Controlador> controladores = Controlador.find.select("id, nomeEndereco").fetch("area", "descricao").fetch("subArea", "numero").where().in("id", controladoresStatus.keySet()).findList();
+        List<ControladorFisico> controladores = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().in("id", controladoresStatus.keySet()).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         controladores.forEach(controlador -> {
             LinkedHashMap status = ((LinkedHashMap) controladoresStatus.get(controlador.getId().toString()));
@@ -136,7 +139,7 @@ public class MonitoramentoController extends Controller {
                     motivoFalhaControlador = status.get("motivoFalhaControlador").toString();
                 }
             }
-            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco()).put("data", timestamp).put("motivoFalha", motivoFalhaControlador);
+            itens.addObject().put("id", controlador.getId().toString()).put("clc", controlador.getControladorSincronizado().getCLC()).put("endereco", controlador.getControladorSincronizado().getNomeEndereco()).put("data", timestamp).put("motivoFalha", motivoFalhaControlador);
         });
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.putArray("data").addAll(itens);

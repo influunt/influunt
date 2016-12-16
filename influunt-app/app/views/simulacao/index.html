@@ -8,7 +8,7 @@
 
       <div class='ibox float-e-margins'>
         <div class='col-sm-3'>
-          <div class='ibox float-e-margins' >
+          <div class='ibox float-e-margins'>
             <div class='ibox-title'>
               <h5>{{ 'simulacao.parametros' | translate }}</h5>
               <div class='ibox-tools'>
@@ -40,7 +40,7 @@
                 <div class='col-sm-12'>
                   <div class='row form-group'>
                     <div class='col-sm-12' data-ng-class="{ 'has-error': errors.inicioControlador }">
-                      <label class="control-label">{{ 'simulacao.inicioControl' | translate }}</label>
+                      <label class="control-label">{{ 'simulacao.inicioSimulacao' | translate }}</label>
                       <input type="text"
                              class="form-control text-center"
                              uib-datepicker-popup="dd/MM/yyyy"
@@ -68,84 +68,6 @@
                         </div>
                         <div class='col-sm-4'>
                           <select class='form-control m-b' name='segundo' data-ng-model="inicioControlador.segundo">
-                            <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class='col-sm-12'>
-                  <div class='row form-group'>
-                    <div class='col-sm-12' data-ng-class="{ 'has-error': errors.inicioSimulacao }">
-                      <label class="control-label">{{ 'simulacao.inicioSimulacao' | translate }}</label>
-                      <input type="text"
-                             class="form-control text-center"
-                             uib-datepicker-popup="dd/MM/yyyy"
-                             ng-model="inicioSimulacao.date"
-                             ng-click="inicioSimulacao.opened = true"
-                             is-open="inicioSimulacao.opened"
-                             datepicker-options="dateOptions"
-                             ng-required="true"
-                             close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
-                             clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
-                             current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
-                      <p class="help-block error-msg" data-ng-repeat="error in errors.inicioSimulacao">{{ error }}</p>
-                    </div>
-                    <div class="col-sm-12 m-t">
-                      <div class="row">
-                        <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="inicioSimulacao.hora">
-                            <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
-                          </select>
-                        </div>
-                        <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="inicioSimulacao.minuto">
-                            <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
-                          </select>
-                        </div>
-                        <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="inicioSimulacao.segundo">
-                            <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class='col-sm-12'>
-                  <div class='row form-group'>
-                    <div class='col-sm-12' data-ng-class="{ 'has-error': errors.fimSimulacao }">
-                      <label class="control-label">{{ 'simulacao.fimSimulacao' | translate }}</label>
-                      <input type="text"
-                             class="form-control text-center"
-                             uib-datepicker-popup="dd/MM/yyyy"
-                             ng-model="fimSimulacao.date"
-                             ng-click="fimSimulacao.opened = true"
-                             is-open="fimSimulacao.opened"
-                             datepicker-options="dateOptions"
-                             ng-required="true"
-                             close-text="{{ 'simulacao.datepicker.fechar' | translate }}"
-                             clear-text="{{ 'simulacao.datepicker.limpar' | translate }}"
-                             current-text="{{ 'simulacao.datepicker.hoje' | translate }}">
-                      <p class="help-block error-msg" data-ng-repeat="error in errors.fimSimulacao">{{ error }}</p>
-                    </div>
-                    <div class="col-sm-12 m-t">
-                      <div class="row">
-                        <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="fimSimulacao.hora">
-                            <option data-ng-repeat="hora in horas track by $index" value="{{$index}}">{{ hora }}</option>
-                          </select>
-                        </div>
-                        <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="fimSimulacao.minuto">
-                            <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{ minuto }}</option>
-                          </select>
-                        </div>
-                        <div class='col-sm-4'>
-                          <select class='form-control m-b' name='account' data-ng-model="fimSimulacao.segundo">
                             <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{ segundo }}</option>
                           </select>
                         </div>

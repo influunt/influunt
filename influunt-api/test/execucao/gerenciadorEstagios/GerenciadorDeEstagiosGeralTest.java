@@ -25,8 +25,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
 
         avancar(gerenciadorDeEstagios, 100);
 
-        plano.imprimirTabelaEntreVerde();
-
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(36)).getEstagio().getPosicao().intValue());
@@ -45,8 +43,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         grupoSemaforicoPlano5.setAtivado(false);
 
         avancar(gerenciadorDeEstagios, 105);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(0, new GrupoCheck(1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
@@ -102,16 +98,14 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         Pair<Integer, TipoDetector> detector2 = getDetector(anel, 2);
 
         avancar(gerenciadorDeEstagios, 70);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(70), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 10);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(80), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 164);
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector));
-        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plus(10000L), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, anel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, anel.getPosicao()));
+        gerenciadorDeEstagios.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector2, anel.getPosicao()));
         avancar(gerenciadorDeEstagios, 500);
-        imprimirListaEstagios(listaEstagios);
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(0, new GrupoCheck(6, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
@@ -119,19 +113,19 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         verificaGruposSemaforicos(0, new GrupoCheck(6, 8000, 28000, EstadoGrupoSemaforico.VERDE));
 
         verificaGruposSemaforicos(0, new GrupoCheck(7, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaGruposSemaforicos(0, new GrupoCheck(6, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(0, new GrupoCheck(7, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(0, new GrupoCheck(7, 8000, 28000, EstadoGrupoSemaforico.VERMELHO));
 
         verificaGruposSemaforicos(0, new GrupoCheck(8, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaGruposSemaforicos(0, new GrupoCheck(6, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(0, new GrupoCheck(8, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(0, new GrupoCheck(8, 8000, 28000, EstadoGrupoSemaforico.VERMELHO));
 
         verificaGruposSemaforicos(0, new GrupoCheck(9, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaGruposSemaforicos(0, new GrupoCheck(6, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(0, new GrupoCheck(9, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(0, new GrupoCheck(9, 8000, 28000, EstadoGrupoSemaforico.VERMELHO));
 
         verificaGruposSemaforicos(0, new GrupoCheck(10, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaGruposSemaforicos(0, new GrupoCheck(6, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(0, new GrupoCheck(10, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(0, new GrupoCheck(10, 8000, 28000, EstadoGrupoSemaforico.VERDE));
 
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(28)).getEstagio().getPosicao().intValue());
@@ -217,13 +211,13 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         verificaGruposSemaforicos(86, new GrupoCheck(10, 4000, 9000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(86, new GrupoCheck(10, 9000, 39000, EstadoGrupoSemaforico.VERMELHO));
 
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(125)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(150)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(168)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(193)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(221)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(243)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(125)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(155)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(177)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(195)).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(223)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(244)).getEstagio().getPosicao().intValue());
+
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(283)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(313)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(335)).getEstagio().getPosicao().intValue());
@@ -278,8 +272,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
             new Pair<Integer, TipoDetector>(detector1.getPosicao(), detector1.getTipo()),
             3));
         avancar(gerenciadorDeEstagios, 20);
-        imprimirListaEstagios(listaEstagios);
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(0, new GrupoCheck(11, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
@@ -455,8 +447,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
             new Pair<Integer, TipoDetector>(detector1.getPosicao(), detector1.getTipo()),
             3));
         avancar(gerenciadorDeEstagios, 20);
-        imprimirListaEstagios(listaEstagios);
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
@@ -517,8 +507,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         gerenciadorDeEstagios = getGerenciadorDeEstagios(1, plano);
 
         avancar(gerenciadorDeEstagios, 105);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(0, new GrupoCheck(1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
@@ -710,8 +698,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
 
         avancar(gerenciadorDeEstagios, 300);
 
-        plano.imprimirTabelaEntreVerde();
-
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao).getEstagio().getPosicao());
         verificaGruposSemaforicos(0, new GrupoCheck(11, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
         verificaGruposSemaforicos(0, new GrupoCheck(12, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
@@ -743,8 +729,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         gerenciadorDeEstagios = getGerenciadorDeEstagios(3, plano);
 
         avancar(gerenciadorDeEstagios, 300);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao).getEstagio().getPosicao());
         verificaGruposSemaforicos(0, new GrupoCheck(11, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
@@ -784,8 +768,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
             new Pair<Integer, TipoDetector>(detector.getPosicao(), detector.getTipo()),
             2));
         avancar(gerenciadorDeEstagios, 100);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());

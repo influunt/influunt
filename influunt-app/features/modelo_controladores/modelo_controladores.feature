@@ -3,7 +3,7 @@
 Funcionalidade: tela de cadastro de modelos de controladores
 
   Cenário: Acesso à tela de novo modelo de crontroladores
-    Dado que o usuário esteja na tela de listagem de modelos
+    E que o usuário esteja na tela de listagem de modelos
     E clicar no botão de Novo Modelo
     Então o sistema deverá redirecionar para o formulário de cadastro de novos modelos
 

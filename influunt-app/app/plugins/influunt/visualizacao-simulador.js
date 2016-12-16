@@ -5,7 +5,7 @@ var influunt;
   var components;
   (function (components) {
     var Simulador = (function () {
-      function Simulador(inicioSimulacao,fimSimulacao,velocidade,config, mqttUrl, mqttPort) {
+      function Simulador(inicioSimulacao,velocidade,config, mqttUrl, mqttPort) {
         var game;
 
         velocidade = parseFloat(velocidade);
@@ -52,6 +52,8 @@ var influunt;
 
         var modoManualAtivado = false;
 
+        var mqttClient;
+
         function decodeEstado(estado,ctx) {
           switch(estado){
             case 'DESLIGADO':
@@ -92,17 +94,20 @@ var influunt;
 
         function getPlanoAtual(tempo){
           for(var i =  planos.length - 1; i >= 0 ; i--){
-            if(tempo >= planos[i][0]){
-              return planos[i];
+            if(tempo >= planos[i][0]) {
+              var planoAtual = _.cloneDeep(planos[i]);
+              planoAtual[2] = planoAtual[2].map(function(label, numeroAnel) {
+                var anel = _.find(config.aneis, {numero: (numeroAnel + 1)});
+                var isModoManualAtivado = situacaoLedManual === 'ligado';
+                return anel.aceitaModoManual && isModoManualAtivado ? 'MANUAL' : label;
+              });
+
+              return planoAtual;
             }
           }
         }
 
         function getModo(modo) {
-          if (situacaoLedManual === 'ligado') {
-            return 'MAN';
-          }
-
           switch (modo) {
             case 'TEMPO_FIXO_ISOLADO': return 'TFI';
             case 'TEMPO_FIXO_COORDENADO': return 'TFC';
@@ -125,7 +130,7 @@ var influunt;
 
         function verificaLed(){
           var result = _.some(modoManual,function(e){
-            return tempo >= e[0] / 10  && tempo < e[1] / 10; 
+            return tempo >= e[0] / 10  && tempo < e[1] / 10;
           }) ? 'ligado' : 'desligado';
 
           situacaoLedManual = result;
@@ -150,9 +155,14 @@ var influunt;
           }
         }
 
-        function loadMore() {
+        function loadMore(inicio) {
+          var pagina;
+          if(inicio) {
+            pagina = 0;
+          } else {
+            pagina = (parseInt(tempo / 256)+1);
+          }
           removeFuture(true);
-          var pagina = (parseInt(tempo / 256)+1);
           var message = new Paho.MQTT.Message(JSON.stringify({pagina: pagina}));
             message.destinationName = 'simulador/' + config.simulacaoId + '/proxima_pagina';
             client.send(message);
@@ -176,7 +186,7 @@ var influunt;
           tempo = Math.max(0,tempo - velocidade);
           relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
-          verificaLed();          
+          verificaLed();
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();
           atualizaBotoesVisiveis();
@@ -275,15 +285,15 @@ var influunt;
               botao.play('OFF');
             }
           });
-          
+
           repeater = game.time.events.repeat(1000, 1000, moveToLeft, this);
         }
-        
+
         function removeFuture(next){
           var removeAfter;
-          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560) + MARGEM_LATERAL) : 
+          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560) + MARGEM_LATERAL) :
                                ((parseInt(tempo / 256) * 2560) + MARGEM_LATERAL);
-          
+
           for(var i = intervalosGroup.children.length - 1; i >= 0; i--) {
             if(intervalosGroup.children[i].x >= removeAfter){
               intervalosGroup.children[i].body = null;
@@ -309,7 +319,7 @@ var influunt;
             loadingGroup.visible = true;
 
             removeFuture();
-            
+
             var message = new Paho.MQTT.Message(JSON.stringify(json));
             message.destinationName = 'simulador/' + config.simulacaoId + '/detector';
             client.send(message);
@@ -326,27 +336,27 @@ var influunt;
             disparo: (disparo.unix() + 1) * 1000,
             ativarModoManual: modoManualAtivado
           };
-          
+
           _.remove(modoManual, function(e) {
-            return tempo >= e[0] / 10  && tempo <= e[1] / 10; 
+            return tempo >= e[0] / 10  && tempo <= e[1] / 10;
           });
 
           loadingGroup.visible = true;
           removeFuture();
-          
+
           var message = new Paho.MQTT.Message(JSON.stringify(json));
           message.destinationName = 'simulador/' + config.simulacaoId + '/alternar_modo_manual';
           client.send(message);
         }
-        
+
         function ativaModoManual() {
           toggleModoManual(true);
         }
-        
+
         function desativaModoManual() {
           toggleModoManual(false);
         }
-        
+
         function trocarEstagioManual() {
           var disparo = inicioSimulacao.clone();
           disparo.add(tempo, 'seconds');
@@ -360,7 +370,7 @@ var influunt;
           message.destinationName = 'simulador/' + config.simulacaoId + '/trocar_estagio';
           client.send(message);
         }
-        
+
         function criaLedManual(){
           led = game.add.sprite(850 , 10, 'leds');
           led.animations.add('desligado', [0], 1, false);
@@ -369,7 +379,7 @@ var influunt;
 
           led.fixedToCamera = true;
         }
-        
+
         function criaControles(){
           var inicio = 200, y = 10;
           specBotoes = [
@@ -844,6 +854,7 @@ var influunt;
 
         function processaManual(manuais){
           manuais.forEach(function(manual){
+            manual[2] = [1, 3];
             var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
             if(modoManual.length === 0){
               modoManual.push([x,undefined]);
@@ -858,7 +869,7 @@ var influunt;
             }
           });
           modoManual.forEach(function(m){
-            desenhaEventoDoControlador(m[0],'#2E7D32',"EM","Entrada do modo manual"); 
+            desenhaEventoDoControlador(m[0],'#2E7D32',"EM","Entrada do modo manual");
             desenhaEventoDoControlador(m[1],'#2E7D32',"SM","Saída do modo manual",m[1]);
           });
         }
@@ -903,6 +914,7 @@ var influunt;
           var onConnect = function () {
             // Once a connection has been made, make a subscription and send a message.
             client.subscribe('simulador/' + config.simulacaoId + '/estado');
+            loadMore(true);
           };
 
           // Create a client instance
@@ -926,12 +938,13 @@ var influunt;
 
           function onConnectionLost(responseObject) {
             if (responseObject.errorCode !== 0) {
-              console.log('onConnectionLost:'+responseObject.errorMessage);
+              console.log('onConnectionLost: '+responseObject.errorMessage);
             }
           }
 
           // connect the client
           client.connect({onSuccess:onConnect});
+          mqttClient = client;
 
           criaAneis();
 
@@ -963,6 +976,11 @@ var influunt;
         }
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
+
+        game.stop = function() {
+          mqttClient.disconnect();
+          game.state.destroy();
+        }
 
         return game;
       }

@@ -1,39 +1,26 @@
 package integracao;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
 import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.Gson;
-import json.ControladorCustomSerializer;
 import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
-import protocol.Envelope;
-import protocol.EtapaTransacao;
-import protocol.TipoMensagem;
-import protocol.TipoTransacao;
-import server.conn.CentralMessageBroker;
-import status.Transacao;
-import utils.EncryptionUtil;
 import utils.TransacaoHelper;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.validation.groups.Default;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -50,20 +37,21 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void enviarPlanosOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException {
+    public void enviarPlanosOK() throws BadPaddingException, DecoderException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
 
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+
+        await().until(() -> onPublishFutureList.size() > 6);
 
         enviarPacotePlano();
         assertTransacaoOk();
     }
 
     @Test
-    public void enviarPlanosNaoOK() {
+    public void enviarPlanosNaoOK() throws IOException {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().until(() -> onPublishFutureList.size() > 6);
 
         enviarPacotePlano();
         assertTransacaoErro();
@@ -77,7 +65,7 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     private void enviarPacotePlano() {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarPacotePlanos(controlador);
+        transacaoHelper.enviarPacotePlanos(Arrays.asList(controlador), 60000L);
     }
 
 }

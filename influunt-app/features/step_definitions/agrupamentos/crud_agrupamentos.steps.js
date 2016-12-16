@@ -8,24 +8,12 @@ module.exports = function() {
   var agrupamentosPage = new AgrupamentosPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^que exista ao menos um agrupamento cadastrado no sistema$/, function() {
-    return agrupamentosPage.existeAoMenosUmAgrupamento();
-  });
-
   this.Given(/^o usuário em evento selecionar o valor "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
     return agrupamentosPage.selecionarValor(valor, select);
   });
 
   this.Given(/^o usuário em evento selecionar o valor plano "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
     return agrupamentosPage.selecionarValor(valor, select);
-  });
-
-  this.Given(/^que este controlador esteja finalizado$/, function() {
-    return agrupamentosPage.controladorConfigurado();
-  });
-
-  this.Given(/^o usuário acessar a tela de listagem de agrupamentos$/, function() {
-    return agrupamentosPage.indexPage();
   });
 
   this.Given(/^deve ser exibida uma lista com os agrupamentos já cadastrados no sistema$/, function() {
@@ -52,10 +40,6 @@ module.exports = function() {
     return agrupamentosPage.textoExisteNaTabela(nome);
   });
 
-  this.Given(/^o sistema deverá retornar à tela de listagem de agrupamentos$/, function() {
-    return agrupamentosPage.isIndex();
-  });
-
   this.Given(/^clicar no botão de visualizar um agrupamento$/, function() {
     return objetosComuns.clicarLinkComTexto('Visualizar');
   });
@@ -75,7 +59,6 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário acessar o formulário de edição de agrupamentos$/, function() {
-    agrupamentosPage.indexPage();
     return objetosComuns.clicarLinkComTexto('Editar');
   });
 
@@ -95,10 +78,13 @@ module.exports = function() {
     });
   });
 
-
   this.Given(/^nenhum agrupamento deve ser excluído$/, function() {
     return agrupamentosPage.nenhumAgrupamentoDeveSerExcluido().then(function(res) {
       return expect(res).to.be.true;
     });
+  });
+
+  this.Given(/^o usuário agrupar o controlador "([^"]*)"$/, function(controlador) {
+    return agrupamentosPage.agruparControlador(controlador);
   });
 };

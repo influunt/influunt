@@ -28,7 +28,10 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
         Detector detector = gerenciadorDeEstagios.getDetector(key.getFirst(), key.getSecond());
 
         if (detector.isComFalha()) {
-            gerenciadorDeEstagios.onEvento(new EventoMotor(null, TipoEvento.REMOCAO_FALHA_DETECTOR_PEDESTRE, key, detector.getAnel().getPosicao()));
+            gerenciadorDeEstagios.onEvento(new EventoMotor(gerenciadorDeEstagios.getTimestamp(),
+                TipoEvento.REMOCAO_FALHA_DETECTOR_PEDESTRE,
+                key,
+                detector.getAnel().getPosicao()));
         }
 
         EstagioPlano estagioPlano = plano.getEstagiosPlanos()
@@ -38,6 +41,10 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
             .findFirst()
             .orElse(null);
         if (estagioPlano != null) {
+            if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
+                gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+            }
+
             int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
             if (compare < 0) {
                 if (!estagiosProximoCiclo.contains(estagioPlano)) {

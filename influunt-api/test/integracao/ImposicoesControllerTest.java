@@ -4,6 +4,8 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import checks.PlanosCheck;
 import checks.TabelaHorariosCheck;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.routes;
 import models.Anel;
 import models.Controlador;
@@ -16,6 +18,7 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import javax.validation.groups.Default;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -23,7 +26,6 @@ import java.util.stream.Collectors;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.route;
 
@@ -33,86 +35,120 @@ import static play.test.Helpers.route;
 public class ImposicoesControllerTest extends BasicMQTTTest {
 
     @Test
-    public void imposicaoPacotePlanosTestOk() {
+    public void imposicaoPacotePlanosTestOk() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
+        ObjectNode json = Json.newObject();
+        ArrayNode aneis = json.putArray("aneisIds");
+
+        aneisIds.stream().forEach(a -> {
+            aneis.add(a.toString());
+        });
+
+        json.put("timeout", 60);
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.pacotePlano().url())
-            .bodyJson(Json.toJson(aneisIds));
+            .bodyJson(json);
         Result result = route(request);
         assertEquals(OK, result.status());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(1, ids.keySet().size());
-        assertEquals(controlador.getId().toString(), ids.keySet().toArray()[0]);
 
         assertTransacaoOk();
     }
 
     @Test
-    public void imposicaoPacotePlanosTestErro() {
+    public void imposicaoPacotePlanosTestErro() throws IOException {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
+        ObjectNode json = Json.newObject();
+        ArrayNode aneis = json.putArray("aneisIds");
+
+        aneisIds.stream().forEach(a -> {
+            aneis.add(a.toString());
+        });
+
+        json.put("timeout", 60);
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.pacotePlano().url())
-            .bodyJson(Json.toJson(aneisIds));
+            .bodyJson(json);
         Result result = route(request);
         assertEquals(OK, result.status());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(1, ids.keySet().size());
-        assertEquals(controlador.getId().toString(), ids.keySet().toArray()[0]);
 
         assertTransacaoErro();
     }
 
     @Test
-    public void envioConfiguracaoCompletaTestOk() {
+    public void envioConfiguracaoCompletaTestOk() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
+        ObjectNode json = Json.newObject();
+        ArrayNode aneis = json.putArray("aneisIds");
+
+        aneisIds.stream().forEach(a -> {
+            aneis.add(a.toString());
+        });
+
+        json.put("timeout", 60);
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.configuracaoCompleta().url())
-            .bodyJson(Json.toJson(aneisIds));
+            .bodyJson(json);
         Result result = route(request);
         assertEquals(OK, result.status());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(1, ids.keySet().size());
-        assertEquals(controlador.getId().toString(), ids.keySet().toArray()[0]);
 
         assertTransacaoOk();
     }
 
     @Test
-    public void envioConfiguracaoCompletaTestErro() {
+    public void envioConfiguracaoCompletaTestErro() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().orElse(null);
         anel.setAtivo(true);
         controlador.update();
 
         List<UUID> aneisIds = controlador.getAneis().stream().map(Anel::getId).collect(Collectors.toList());
+
+        ObjectNode json = Json.newObject();
+        ArrayNode aneis = json.putArray("aneisIds");
+
+        aneisIds.stream().forEach(a -> {
+            aneis.add(a.toString());
+        });
+
+        json.put("timeout", 60);
+
+
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.configuracaoCompleta().url())
-            .bodyJson(Json.toJson(aneisIds));
+            .bodyJson(json);
         Result result = route(request);
         assertEquals(OK, result.status());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(1, ids.keySet().size());
-        assertEquals(controlador.getId().toString(), ids.keySet().toArray()[0]);
 
         assertTransacaoErro();
     }
@@ -121,18 +157,18 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
     public void imposicaoModoOperacaoTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
-//        List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
         List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
         List<String> aneisIds = new ArrayList<>();
         aneisIds.add(aneis.get(0).getId().toString());
 
         Map<String, Object> params = new HashMap<>();
-        params.put("aneis", aneisIds.toArray());
+        params.put("aneisIds", aneisIds.toArray());
         params.put("horarioEntrada", new DateTime().plusSeconds(10).getMillis());
         params.put("modoOperacao", ModoOperacaoPlano.INTERMITENTE);
         params.put("duracao", 30);
+        params.put("timeout", 60);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.modoOperacao().url())
@@ -140,32 +176,31 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
+        await().until(() -> onPublishFutureList.size() >= 9 + 4);
 
-//TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 7 * aneisIds.size(), onPublishFutureList.size()/**/);
+        // 7 -> configuração inicial
+        // 4 * aneis -> 4 mensagens para cada transaçao
+        // 2 -> Mensagem da APP
+        assertEquals(9 + 4, onPublishFutureList.size());
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
         assertEquals(aneisIds.size(), ids.keySet().size());
-        ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
     }
 
     @Test
     public void imposicaoModoOperacaoTestErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<String> aneisIds = controlador.getAneis().stream().filter(Anel::isAtivo).map(anel -> anel.getId().toString()).collect(Collectors.toList());
-//        List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
-//        List<String> aneisIds = new ArrayList<>();
-//        aneisIds.add(aneis.get(0).getId().toString());
 
         Map<String, Object> params = new HashMap<>();
-        params.put("aneis", aneisIds.toArray());
+        params.put("aneisIds", aneisIds.toArray());
         params.put("modoOperacao", ModoOperacaoPlano.INTERMITENTE);
         params.put("horarioEntrada", new DateTime().plusSeconds(10).getMillis());
         params.put("duracao", -1);
+        params.put("timeout", 60);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.modoOperacao().url())
@@ -173,20 +208,21 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
-//TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 9 + 4);
+
+        // 7 -> configuração inicial
+        // 4 * aneis -> 4 mensagens para cada transaçao
+        // 2 -> Mensagem da APP
+        assertTrue(onPublishFutureList.size() >= 9 + 4);
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
-        assertEquals(aneisIds.size(), ids.keySet().size());
-        ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
     }
 
     @Test
     public void imposicaoPlanoTestOk() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
         List<String> aneisIds = aneis.stream().map(anel -> anel.getId().toString()).collect(Collectors.toList());
@@ -199,10 +235,11 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
 
 
         Map<String, Object> params = new HashMap<>();
-        params.put("aneis", aneisIds.toArray());
+        params.put("aneisIds", aneisIds.toArray());
         params.put("posicaoPlano", posicaoPlano);
-        params.put("horarioEntrada", new DateTime().plusSeconds(10).getMillis());
+        params.put("horarioEntrada", new DateTime().plusSeconds(1).getMillis());
         params.put("duracao", 30);
+        params.put("timeout", 60);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.plano().url())
@@ -210,33 +247,31 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        // 6 -> configuração inicial
-        // 5 * aneis -> 5 mensagens para cada transaçao
-        // 1 -> mensagem de troca de plano
-        await().until(() -> onPublishFutureList.size() >= 6 + 7 * aneisIds.size());
+        // 7 -> configuração inicial
+        // 4 * aneis -> 4 mensagens para cada transaçao
+        // 2 -> Mensagem da APP
+        await().atMost(20, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() >= 9 + 4);
 
-        //TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 7 * aneisIds.size(), onPublishFutureList.size());
+        assertTrue(onPublishFutureList.size() >= 9 + 4);
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
-        assertEquals(aneisIds.size(), ids.keySet().size());
-        ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
     }
 
     @Test
     public void imposicaoPlanoTestErro() {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
         List<String> aneisIds = aneis.stream().map(anel -> anel.getId().toString()).collect(Collectors.toList());
 
         Map<String, Object> params = new HashMap<>();
-        params.put("aneis", aneisIds.toArray());
-        params.put("horarioEntrada", new DateTime().plusSeconds(10).getMillis());
+        params.put("aneisIds", aneisIds.toArray());
+        params.put("horarioEntrada", new DateTime().plusSeconds(1).getMillis());
         params.put("posicaoPlano", -1);
         params.put("duracao", 30);
+        params.put("timeout", 60);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.plano().url())
@@ -244,24 +279,26 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
-        await().until(() -> onPublishFutureList.size() >= 6 + 5 * aneisIds.size());
-//TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6 + 5 * aneisIds.size(), onPublishFutureList.size());
+        await().until(() -> onPublishFutureList.size() >= 9 + 4);
+
+        // 7 -> configuração inicial
+        // 4 * aneis -> 4 mensagens para cada transaçao
+        // 2 -> Mensagem da APP
+        assertTrue(onPublishFutureList.size() >= 9 + 4);
 
         Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
-        assertEquals(aneisIds.size(), ids.keySet().size());
-        ids.forEach((anelId, transacaoId) -> assertTrue(aneisIds.contains(anelId)));
     }
 
     @Test
-    public void liberarImposicaoTestOk() {
+    public void liberarImposicaoTestOk() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
+        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 6);
 
         Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
         Map<String, Object> params = new HashMap<>();
-        params.put("anelId", anel.getId().toString());
+        params.put("aneisIds", Arrays.asList(anel.getId().toString()));
+        params.put("timeout", 60);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(routes.ImposicoesController.liberar().url())
@@ -269,27 +306,16 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         Result result = route(request);
         assertEquals(OK, result.status());
 
+        await().until(() -> onPublishFutureList.size() >= 9 + 4);
+
+        // 7 -> configuração inicial
+        // 4 * aneis -> 4 mensagens para cada transaçao
+        // 2 -> Mensagem da APP
+        assertEquals(9 + 4, onPublishFutureList.size());
+
         assertTransacaoOk();
     }
 
-    @Test
-    public void liberarImposicaoTestAnelNaoExistente() {
-        controlador = new ControladorHelper().setPlanos(controlador);
-        startClient();
-        await().atMost(10, TimeUnit.SECONDS).until(() -> onPublishFutureList.size() > 8);
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("anelId", "1234");
-
-        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.ImposicoesController.liberar().url())
-            .bodyJson(Json.toJson(params));
-        Result result = route(request);
-        assertEquals(NOT_FOUND, result.status());
-
-        //TODO: Verificar com o Pedro as novas mensagens
-//        assertEquals(6, onPublishFutureList.size());
-    }
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,

@@ -16,10 +16,9 @@ public class ComEstagioDispensavelTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void comEstagioDispensavelETransicaoProibida() {
-        inicioControlador = new DateTime(2016, 11, 16, 22, 59, 30, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 16, 22, 59, 30, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 500);
 

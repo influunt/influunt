@@ -189,7 +189,7 @@ public class Endereco extends Model implements Serializable {
 
     @AssertTrue(message = "não pode ficar em branco, caso não seja preenchido a altura numérica.")
     public boolean isLocalizacao2() {
-        return !(this.getLocalizacao2() == null && this.getAlturaNumerica() == null);
+        return !((this.getLocalizacao2() == null || this.getLocalizacao2().isEmpty()) && this.getAlturaNumerica() == null);
     }
 
     public void setLocalizacao2(String localizacao2) {

@@ -57,8 +57,8 @@ public class MotorEventoHandler {
                 handleFaseVermelhaGrupoSemaforico(eventoMotor);
                 break;
 
-            case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
-            case ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO:
+            case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
+            case REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO:
                 //TODO: Qual a diferenca para FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA
                 break;
 

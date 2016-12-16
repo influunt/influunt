@@ -47,7 +47,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.setStatusVersao(StatusVersao.SINCRONIZADO);
         versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -96,7 +96,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         controlador.update();
 
         VersaoControlador versaoControlador = controlador.getVersaoControlador();
-        versaoControlador.setStatusVersao(StatusVersao.ATIVO);
+        versaoControlador.setStatusVersao(StatusVersao.SINCRONIZADO);
         versaoControlador.update();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
@@ -332,7 +332,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         assertEquals(200, postResult.status());
         assertNotNull("ID Controldor Clonado", controladorRetornado.getId());
-        assertEquals("StatusDevice Controlador", controladorRetornado.getVersaoControlador().getStatusVersao(), StatusVersao.ATIVO);
+        assertEquals("StatusDevice Controlador", controladorRetornado.getVersaoControlador().getStatusVersao(), StatusVersao.SINCRONIZADO);
         assertFields(controlador, controladorRetornado);
     }
 
@@ -436,7 +436,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
 
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.update();
-        controlador.setStatusVersao(StatusVersao.ATIVO);
+        controlador.setStatusVersao(StatusVersao.SINCRONIZADO);
 
         int totalTabelasHorarias = TabelaHorario.find.findRowCount();
         int totalEventos = Evento.find.findRowCount();
@@ -671,6 +671,11 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro("Controlador", "O controlador não pode ser finalizado sem o número do SMEE preenchido.", "numeroSmeePreenchido")
         ));
+
+        controlador.setExclusivoParaTeste(true);
+        erros = new InfluuntValidator<Controlador>().validate(controlador,
+            javax.validation.groups.Default.class, ControladorFinalizaConfiguracaoCheck.class);
+        assertEquals(0, erros.size());
     }
 
     @Test

@@ -4,12 +4,12 @@
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
           <fieldset>
-            <div class="row margin-top-20">
-              <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+            <div class="row margin-top-20 margin-left-right-10">
+              <div class="col-sm-12 actions clearfix">
                 <div class="left">
-                  <a class="btn btn-success"
+                  <a class="btn btn-success" type="button"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.instalacao' | translate }}"
-                      type="button" data-target="#modal-instalacao" data-toggle="modal">
+                      data-target="#modal-instalacao" data-toggle="modal">
                     <i class="fa fa-wrench"></i> {{ 'controladores.geral.instalacao' | translate }}
                   </a>
                 </div>
@@ -39,7 +39,7 @@
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
                       type="button"
                       ng-click="copiar(objeto.id)"
-                      ng-if="(objeto.statusControlador == 'ATIVO' || objeto.statusControlador == 'CONFIGURADO') && podeEditarControlador(objeto) && !controladorBloqueadoParaEdicao()"
+                      ng-if="(objeto.statusControlador == 'SINCRONIZADO' || objeto.statusControlador == 'CONFIGURADO') && podeEditarControlador(objeto) && !controladorBloqueadoParaEdicao()"
                       permission permission-only="'criarControlador'">
                     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                   </a>
@@ -80,7 +80,8 @@
 
             <influunt-modal-instalacao
               resource="'controladores'"
-              resource-id="$state.params.id"></influunt-modal-instalacao>
+              resource-id="$state.params.id">
+            </influunt-modal-instalacao>
           </fieldset>
 
 

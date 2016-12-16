@@ -13,7 +13,8 @@ var MapasPage = function () {
 
   this.clicarAnelMapa = function(anel) {
     return world.sleep(1000).then(function(){
-      return world.getElementByXpath('//img[contains(@src, "images/leaflet/influunt-icons/anel-controle-central.svg")]['+anel+']').click();
+      return world.getElementByXpath(
+        '//img[contains(@src, "images/leaflet/influunt-icons/anel-controle-central.svg")][contains(@class, "leaflet-marker-icon")]['+anel+']').click();
     });
   };
 
@@ -33,7 +34,7 @@ var MapasPage = function () {
 
   this.clicarMenuFiltros = function(acao) {
     var classToClick = acao === 'fechar' ? 'a-angle-left' : 'fa-map';
-    return world.sleep(500).then(function(){
+    return world.sleep(1000).then(function(){
       return world.waitForSweetOverlayDisappear().then(function() {
         return world.getElementByXpath('//i[contains(@class, "'+classToClick+'")]').click();
       });
@@ -65,10 +66,9 @@ var MapasPage = function () {
   };
 
   this.checkPointsOnMapa = function(tipoIcone, quantidade) {
-    var icone = tipoIcone === 'anel' ? 'anel-controle-central.svg' : 'controlador.svg';
     return world.sleep(500).then(function(){
       return world.calculateByXpath(
-        '//div[contains(@class, "leaflet-marker-pane")]//img[contains(@src, "images/leaflet/influunt-icons/'+icone+'")]', quantidade);
+        '//div[contains(@class, "leaflet-marker-pane")]//img[contains(@src, "images/leaflet/influunt-icons/'+tipoIcone+'")]', quantidade);
     });
   };
 

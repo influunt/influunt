@@ -58,8 +58,8 @@ describe('Controller: ControladoresAtrasoDeGrupoCtrl', function () {
         verdesConflitantes: [{idJson: 'vc1'}],
         estagiosGruposSemaforicos: [{idJson: 'egs1'}, {idJson: 'egs3'}],
         transicoes: [
-          {idJson: 't1', origem: {idJson: 'e1'}, destino: {idJson: 'e2'}}, 
-          {idJson: 't2', origem: {idJson: 'e2'}, destino: {idJson: 'e1'}}, 
+          {idJson: 't1', origem: {idJson: 'e1'}, destino: {idJson: 'e2'}},
+          {idJson: 't2', origem: {idJson: 'e2'}, destino: {idJson: 'e1'}},
           {idJson: 't3', origem: {idJson: 'e3'}, destino: {idJson: 'e4'}}
         ],
         tabelasEntreVerdesTransicoes: [{idJson: 'tevt1', tempoAmarelo: 1}],
@@ -126,15 +126,15 @@ describe('Controller: ControladoresAtrasoDeGrupoCtrl', function () {
             {idJson: 'e4', id: 'e4', posicao: 2, anel: {idJson: 2}}
           ],
           gruposSemaforicos: [
-            {idJson: 'gs2', transicoes: [{idJson: 't2'}], posicao: 2},
-            {idJson: 'gs1', transicoes: [{idJson: 't1'}], posicao: 1},
-            {idJson: 'gs3', transicoes: [{idJson: 't3'}], posicao: 3}
+            {idJson: 'gs2', transicoesComGanhoDePassagem: [], transicoes: [{idJson: 't2'}], posicao: 2},
+            {idJson: 'gs1', transicoesComGanhoDePassagem: [], transicoes: [{idJson: 't1'}], posicao: 1},
+            {idJson: 'gs3', transicoesComGanhoDePassagem: [], transicoes: [{idJson: 't3'}], posicao: 3}
           ],
           verdesConflitantes: [{idJson: 'vc1'}],
           estagiosGruposSemaforicos: [{idJson: 'egs1'}, {idJson: 'egs3'}],
           transicoes: [
-            {idJson: 't1', origem: {idJson: 'e1'}, destino: {idJson: 'e2'}}, 
-            {idJson: 't2', origem: {idJson: 'e2'}, destino: {idJson: 'e1'}}, 
+            {idJson: 't1', origem: {idJson: 'e1'}, destino: {idJson: 'e2'}},
+            {idJson: 't2', origem: {idJson: 'e2'}, destino: {idJson: 'e1'}},
             {idJson: 't3', origem: {idJson: 'e3'}, destino: {idJson: 'e4'}}
           ],
           tabelasEntreVerdesTransicoes: [{idJson: 'tevt1', tempoAmarelo: 1}],
@@ -194,7 +194,7 @@ describe('Controller: ControladoresAtrasoDeGrupoCtrl', function () {
         expect(scope.podeSalvar()).not.toBeTruthy();
 
         scope.selecionaGrupoSemaforico(scope.currentGruposSemaforicos[1], 1);
-        expect(scope.possuiInformacoesPreenchidas()).not.toBeTruthy();
+        expect(scope.possuiInformacoesPreenchidas()).toBeTruthy();
 
         scope.selecionaGrupoSemaforico(scope.currentGruposSemaforicos[0], 0);
         scope.selecionaAnelAtrasoDeGrupo(1);

@@ -7,8 +7,8 @@
  * # influuntModalTimeline
  */
 angular.module('influuntApp')
-  .directive('influuntModalInstalacao', ['Restangular', 'toast', '$filter', 'influuntBlockui',
-    function (Restangular, toast, $filter, influuntBlockui) {
+  .directive('influuntModalInstalacao', ['Restangular', 'toast', '$filter', 'influuntBlockui', '$http',
+    function (Restangular, toast, $filter, influuntBlockui, $http) {
       return {
         templateUrl: 'views/directives/influunt-modal-instalacao.html',
         restrict: 'E',
@@ -18,14 +18,18 @@ angular.module('influuntApp')
           title: '@'
         },
         link: function(scope) {
+          var prepareDownloadData;
+
           scope.instalacao = function(resource, id) {
             return Restangular.one(resource, id).all('instalacao').customGET()
               .then(function(res) {
                 scope.instalacaoControlador = {
                   id: res.idControlador,
                   publicKey: res.publicKey,
-                  privateKey: res.privateKey
+                  privateKey: res.privateKey,
+                  senha: res.senha
                 };
+                prepareDownloadData();
               })
               .catch(function(err) {
                 toast.error($filter('translate')('geral.mensagens.default_erro'));
@@ -41,6 +45,20 @@ angular.module('influuntApp')
           scope.$watch('resourceId', function(resourceId) {
             return resourceId && scope.instalacao(scope.resource, resourceId);
           });
+
+          prepareDownloadData = function() {
+            $http.get('/resources/controlador.conf').then(function(response) {
+              var config = response.data
+                  .replace(/\|CONTROLADOR_ID\|/g, scope.instalacaoControlador.id)
+                  .replace(/\|CHAVE_PUBLICA\|/g, scope.instalacaoControlador.publicKey)
+                  .replace(/\|CHAVE_PRIVADA\|/g, scope.instalacaoControlador.privateKey)
+                  .replace(/\|PASSWORD\|/g, scope.instalacaoControlador.senha);
+
+              var blob = new Blob([config], { type: 'text/plain' });
+              scope.downloadUrl = window.URL.createObjectURL(blob);
+              scope.filename = 'application.conf';
+            });
+          };
         }
       };
     }]);

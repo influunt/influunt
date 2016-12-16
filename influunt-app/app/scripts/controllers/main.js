@@ -9,23 +9,17 @@
  */
 angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
-                           'Restangular', 'influuntBlockui', 'PermissionsService', 'pahoProvider', 'toast',
-                           'eventosDinamicos', 'audioNotifier', 'Idle',
+                           'Restangular', 'influuntBlockui', 'PermissionsService',
+                           'eventosDinamicos', 'audioNotifier', 'Idle', 'alarmesDinamicoService',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
-                      Restangular, influuntBlockui, PermissionsService, pahoProvider, toast,
-                      eventosDinamicos, audioNotifier, Idle) {
+                      Restangular, influuntBlockui, PermissionsService,
+                      eventosDinamicos, audioNotifier, Idle, alarmesDinamicoService) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
       Idle.watch();
 
-      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, exibirAlerta,
-          statusControladoresWatcher, alarmesEFalhasWatcher, trocaPlanoWatcher, onlineOfflineWatcher,
-          handleAlarmesEFalhas, handleRecuperacaoFalhas, logout;
-
+      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas;
       var LIMITE_ALARMES_FALHAS = 10;
-      var FALHA = 'FALHA';
-      var REMOCAO_FALHA = 'REMOCAO_FALHA';
-
 
       $scope.pagination = {
         current: 1,
@@ -64,7 +58,9 @@ angular.module('influuntApp')
               });
             }
           })
-          .finally(influuntBlockui.unblock);
+          .finally(function() {
+            return $state.current.name === 'app.main' && influuntBlockui.unblock();
+          });
       };
 
       $scope.carregarControladores = function(onlines) {
@@ -118,102 +114,23 @@ angular.module('influuntApp')
       };
 
       registerWatchers = function() {
-        pahoProvider.connect()
-          .then(function() {
-            pahoProvider.register(eventosDinamicos.STATUS_CONTROLADORES, statusControladoresWatcher);
-            pahoProvider.register(eventosDinamicos.ALARMES_FALHAS, alarmesEFalhasWatcher);
-            pahoProvider.register(eventosDinamicos.TROCA_PLANO, trocaPlanoWatcher);
-            pahoProvider.register(eventosDinamicos.CONTROLADOR_ONLINE, onlineOfflineWatcher);
-            pahoProvider.register(eventosDinamicos.CONTROLADOR_OFFLINE, onlineOfflineWatcher);
-          });
-      };
-
-      onlineOfflineWatcher = function(payload) {
-        var mensagem = JSON.parse(payload);
-        $scope.statusObj.onlines = $scope.statusObj.onlines || {};
-
-        return getControlador(mensagem.idControlador)
-          .then(function(controlador) {
-            var isOnline = mensagem.tipoMensagem === 'CONTROLADOR_ONLINE';
-            $scope.statusObj.onlines[mensagem.idControlador] = isOnline;
-            atualizaDadosDinamicos();
-
-            var msg = isOnline ?
-              'controladores.mapaControladores.alertas.controladorOnline' :
-              'controladores.mapaControladores.alertas.controladorOffline';
-
-            msg = $filter('translate')(msg, {CONTROLADOR: controlador.CLC});
-            exibirAlerta(msg, !isOnline);
-          });
-      };
-
-      trocaPlanoWatcher = function(payload) {
-        var mensagem = JSON.parse(payload);
-
-        return getControlador(mensagem.idControlador)
-          .then(function(controlador) {
-            mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
-            var posicaoAnel = parseInt(mensagem.conteudo.anel.posicao);
-            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-
-            $scope.statusObj.imposicaoPlanos = $scope.statusObj.imposicaoPlanos || {};
-            $scope.statusObj.modosOperacoes  = $scope.statusObj.modosOperacoes || {};
-
-            $scope.statusObj.modosOperacoes[mensagem.idControlador] = _.get(mensagem, 'conteudo.plano.modoOperacao');
-            $scope.statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.imposicaoDePlano');
-            atualizaDadosDinamicos();
-
-            var msg = $filter('translate')(
-              'controladores.mapaControladores.alertas.trocaPlanoAnelEControlador',
-              {ANEL: anel.CLA, CONTROLADOR: controlador.CLC}
-            );
-            exibirAlerta(msg);
-          });
-      };
-
-      alarmesEFalhasWatcher = function(payload) {
-        var mensagem = JSON.parse(payload);
-        mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
-        $scope.statusObj.erros = $scope.statusObj.erros || {};
-
-        switch(_.get(mensagem, 'conteudo.tipoEvento.tipoEventoControlador')) {
-          case FALHA:
-            return handleAlarmesEFalhas(mensagem);
-          case REMOCAO_FALHA:
-            return handleRecuperacaoFalhas(mensagem);
+        if ($state.current.name !== 'app.mapa_controladores') {
+          var alarmes =  alarmesDinamicoService($scope.statusObj);
+          alarmes.onEventTriggered(atualizaDadosDinamicos);
+          alarmes.setListaControladores(null);
+          alarmes.onClickToast(null);
+          alarmes.registerWatchers();
         }
-      };
-
-      statusControladoresWatcher = function(payload) {
-        var mensagem = JSON.parse(payload);
-        $scope.statusObj.status = $scope.statusObj.status || {};
-
-        return getControlador(mensagem.idControlador)
-          .then(function(controlador) {
-            $scope.statusObj.status[mensagem.idControlador] = _.get(mensagem, 'conteudo.status');
-            atualizaDadosDinamicos();
-
-            var msg = $filter('translate')(
-              'controladores.mapaControladores.alertas.mudancaStatusControlador',
-              {CONTROLADOR: controlador.CLC}
-            );
-            exibirAlerta(msg);
-          });
       };
 
       atualizaDadosDinamicos = function() {
-        $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
-        $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
-        $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
-        $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
-        $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
-      };
-
-      exibirAlerta = function(msg, isPrioritario) {
-        if ($scope.eventos.exibirAlertas || isPrioritario) {
-          toast.warn(msg);
-          audioNotifier.notify();
-        }
+        $timeout(function() {
+          $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
+          $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
+          $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
+          $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
+          $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
+        });
       };
 
       getControlador = function(idControlador) {
@@ -222,10 +139,6 @@ angular.module('influuntApp')
 
       logout = function() {
         Restangular.one('logout', localStorage.token).remove()
-          .then(function() {
-            localStorage.removeItem('token');
-            $state.go('login');
-          })
           .catch(function(err) {
             if (err.status === 401) {
               err.data.forEach(function(error) {
@@ -233,71 +146,22 @@ angular.module('influuntApp')
               });
             }
           })
-        .finally(influuntBlockui.unblock);
+        .finally(function() {
+          localStorage.removeItem('token');
+          $state.go('login');
+          influuntBlockui.unblock();
+        });
       };
 
-      handleAlarmesEFalhas = function(mensagem) {
-        return getControlador(mensagem.idControlador)
-          .then(function(controlador) {
-            var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
-            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-            var endereco = anel !== null ? anel.endereco : controlador.endereco;
-            endereco = _.find(controlador.todosEnderecos, {idJson: endereco.idJson});
-
-            var falha = {
-              clc: controlador.CLC,
-              data: mensagem.carimboDeTempo,
-              endereco: $filter('nomeEndereco')(endereco),
-              id: mensagem.idControlador,
-              descricaoEvento: _.get(mensagem, 'conteudo.descricaoEvento')
-            };
-
-            $scope.statusObj.erros = $scope.statusObj.erros || [];
-            $scope.statusObj.erros.push(falha);
-            atualizaDadosDinamicos();
-
-
-            var msg = $filter('translate')('controladores.mapaControladores.alertas.controladorEmFalha', {CONTROLADOR: controlador.CLC});
-            if (anel) {
-              msg = $filter('translate')('controladores.mapaControladores.alertas.anelEmFalha', {ANEL: anel.CLA});
-            }
-
-            exibirAlerta(msg, true);
-          })
-          .finally(influuntBlockui.unblock);
-      };
-
-      handleRecuperacaoFalhas = function(mensagem) {
-        return getControlador(mensagem.idControlador)
-          .then(function(controlador) {
-            var sampleFalha;
-            _.filter($scope.statusObj.erros, function(falha) {
-              return !!mensagem.conteudo.tipoEvento.tipo.match(new RegExp(falha.tipo + '$')) &&
-                !!mensagem.conteudo.tipoEvento.tipoEventoControlador.match(new RegExp(falha.tipoEventoControlador + '$'));
-            })
-            .map(function(falha) {
-              sampleFalha = falha;
-              falha.recuperado = true;
+      loadAlarmesEFalhas = function() {
+        $scope.$root.alarmesAtivados = {};
+        var usuarioId = $scope.getUsuario().id;
+        return Restangular.one('usuarios', usuarioId).all('alarmes_e_falhas').getList()
+          .then(function(res) {
+            _.each(res, function(obj) {
+              $scope.$root.alarmesAtivados[obj.chave] = true;
             });
-
-            var posicaoAnel = _.get(mensagem, 'conteudo.params[0]');
-            var anel = _.find(controlador.aneis, {posicao: posicaoAnel});
-            atualizaDadosDinamicos();
-
-            var msg = $filter('translate')(
-              'controladores.mapaControladores.alertas.controladorRecuperouDeFalha',
-              {CONTROLADOR: controlador.CLC, FALHA: sampleFalha.descricaoEvento}
-            );
-            if (anel) {
-              msg = $filter('translate')(
-                'controladores.mapaControladores.alertas.anelRecuperouDeFalha',
-                {ANEL: anel.CLA, FALHA: sampleFalha.descricaoEvento}
-              );
-            }
-
-            exibirAlerta(msg, true);
-          })
-          .finally(influuntBlockui.unblock);
+          });
       };
 
       $scope.getUsuario = function() {
@@ -323,8 +187,19 @@ angular.module('influuntApp')
         );
       });
 
+      $scope.$on('influuntApp.mqttConnectionRecovered', function() {
+        $scope.loadDashboard();
+        loadAlarmesEFalhas();
+      });
+
       $http.get('/json/menus.json').then(function(res) {
         $scope.menus = res.data;
         checkRoleForMenus();
       });
+
+      $scope.loadDashboard();
+      loadAlarmesEFalhas();
+
+      $scope.$root.$on('$stateChangeSuccess', registerWatchers);
+
     }]);

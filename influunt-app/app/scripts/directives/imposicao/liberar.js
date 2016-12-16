@@ -7,43 +7,62 @@
  * # liberar
  */
 angular.module('influuntApp')
-  .directive('liberarImposicao', ['Restangular', 'influuntBlockui', 'influuntAlert', '$filter', 'toast', 'mqttTransactionStatusService',
-    function (Restangular, influuntBlockui, influuntAlert, $filter, toast, mqttTransactionStatusService) {
+  .directive('liberarImposicao', ['Restangular', 'influuntBlockui', 'influuntAlert', '$filter', 'liberarImposicaoNotifier',
+    function (Restangular, influuntBlockui, influuntAlert, $filter, liberarImposicaoNotifier) {
       return {
-        template: '<a data-ng-click="liberarPlanoImposto(anel)">{{ "imporConfig.liberacao.liberar" | translate }}</a>',
+        template: '<a data-ng-click="liberarPlanoImposto()">{{ "imporConfig.liberacao.liberar" | translate }}</a>',
         restrict: 'E',
         scope: {
           anel: '=',
-          idsTransacoes: '='
+          transacoes: '='
         },
         link: function liberar(scope) {
           scope.idsTransacoes = {};
-          var transactionTracker;
           scope.liberarPlanoImposto = function() {
             return influuntAlert.confirm($filter('translate')('imporConfig.liberacao.confirmLiberarImposicao'))
               .then(function(res) {
-                return res && Restangular.all('imposicoes').all('liberar').post({anelId: scope.anel.id});
-              })
-              .then(function(response) {
-                _.each(response.plain(), function(transacaoId, id) {
-                  scope.idsTransacoes[id] = transacaoId;
-                  return transactionTracker(transacaoId);
-                });
+                return res && Restangular.all('imposicoes')
+                  .all('liberar')
+                  .post({
+                    aneisIds: [scope.anel.id],
+                    timeout: 60
+                  });
               })
               .finally(influuntBlockui.unblock);
           };
 
-          transactionTracker = function(id) {
-            return mqttTransactionStatusService
-              .watchTransaction(id)
-              .then(function(transmitido) {
-                if (transmitido) {
-                  toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
-                } else {
-                  toast.warn($filter('translate')('imporConfig.liberacao.erro'));
-                }
-              });
-          };
+          scope.$watch('transacoes', function(transacoes) {
+            liberarImposicaoNotifier.notify(transacoes, scope.anel);
+          }, true);
         }
       };
-    }]);
+    }])
+    .factory('liberarImposicaoNotifier', ['$filter', 'toast', function ($filter, toast) {
+      var debouncerId;
+      var notify = function(transacoes, anel) {
+          if (_.isObject(transacoes) && _.isObject(anel)) {
+            var transacao = transacoes[anel.id] || transacoes[anel.controladorFisicoId];
+
+            if (!_.isObject(transacao)) {
+              return false;
+            }
+
+            if (transacao.tipoTransacao === 'LIBERAR_IMPOSICAO') {
+              clearTimeout(debouncerId);
+              debouncerId = setTimeout(function() {
+                if (transacao.statusPacote === 'DONE') {
+                  toast.success($filter('translate')('imporConfig.liberacao.sucesso'));
+                } else if (transacao.statusPacote === 'ABORT') {
+                  // @todo: Adicionar mensagem de erro do mqtt?
+                  toast.warn($filter('translate')('imporConfig.liberacao.erro'));
+                }
+              }, 200);
+            }
+          }
+      };
+
+      return {
+        notify: notify
+      };
+    }])
+  ;

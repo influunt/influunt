@@ -1,19 +1,31 @@
 package handlers;
 
+import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
 import play.libs.Json;
-import protocol.*;
+import protocol.Envelope;
+import protocol.EtapaTransacao;
+import protocol.TipoMensagem;
 import status.Transacao;
-import utils.AtoresCentral;
 
 /**
  * Created by rodrigosol on 9/6/16.
  */
 public class TransacaoActorHandler extends UntypedActor {
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+    private Transacao transacao;
+
+    private ActorRef manager;
+
+    public TransacaoActorHandler(Transacao transacao, ActorRef manager) {
+        this.transacao = transacao;
+        this.manager = manager;
+    }
+
 
     @Override
     public void onReceive(Object message) throws Exception {
@@ -24,33 +36,20 @@ public class TransacaoActorHandler extends UntypedActor {
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("CENTRAL - TX Recebida: {}", transacao);
                 switch (transacao.etapaTransacao) {
-                    case NEW:
-                        transacao.updateStatus(EtapaTransacao.PREPARE_TO_COMMIT);
-                        envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
-                        publishTransactionStatus(transacao, StatusTransacao.INICIADA);
-                        break;
-
                     case PREPARE_OK:
                         transacao.updateStatus(EtapaTransacao.COMMIT);
-                        envelope.setDestino(DestinoControlador.transacao(envelope.getIdControlador()));
                         break;
 
                     case PREPARE_FAIL:
-                        transacao.updateStatus(EtapaTransacao.FAILED);
-                        envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
+                        transacao.updateStatus(EtapaTransacao.ABORT);
                         break;
 
                     case COMMITED:
                         transacao.updateStatus(EtapaTransacao.COMPLETED);
-                        envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.OK);
                         break;
 
                     case ABORTED:
-                        transacao.updateStatus(EtapaTransacao.FAILED);
-                        envelope.setDestino(DestinoApp.transacao(transacao.transacaoId));
-                        publishTransactionStatus(transacao, StatusTransacao.ERRO);
+                        transacao.updateStatus(EtapaTransacao.ABORTED);
                         break;
 
                     default:
@@ -59,15 +58,9 @@ public class TransacaoActorHandler extends UntypedActor {
 
                 log.info("CENTRAL - TX Enviada: {}", transacao);
                 envelope.setConteudo(transacao.toJson().toString());
-                getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
+                manager.tell(transacao, getSelf());
             }
         }
-    }
-
-    private void publishTransactionStatus(Transacao transacao, StatusTransacao status) {
-        Envelope envelope = MensagemStatusTransacao.getMensagem(transacao, status);
-        log.info("CENTRAL ENVIANDO STATUS TRANSAÇÃO: {}", status);
-        getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
     }
 
 }

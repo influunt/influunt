@@ -9,12 +9,15 @@
                 <p><strong>{{ 'controladores.id' | translate }}:</strong> {{ instalacaoControlador.id }}</p>
                 <p class="word-wrap"><strong>{{ 'controladores.publicKey' | translate }}:</strong> {{ instalacaoControlador.publicKey }}</p>
                 <p class="word-wrap"><strong>{{ 'controladores.privateKey' | translate }}:</strong> {{ instalacaoControlador.privateKey }}</p>
+                <p class="word-wrap"><strong>{{ 'controladores.senha' | translate }}:</strong> {{ instalacaoControlador.senha }}</p>
+
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
+        <a class="btn btn-primary left" href="{{ downloadUrl }}" download="{{ filename }}">{{ 'controladores.geral.downloadConfig' | translate }}</a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">
           {{ 'geral.crud.fechar' | translate }}
         </button>

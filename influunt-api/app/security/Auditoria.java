@@ -53,16 +53,16 @@ public class Auditoria {
         return lista;
     }
 
-    public void insert() {
-        auditorias().insert(this);
-    }
-
     public static PlayJongo getJongo() {
         return jongo;
     }
 
     public static void setJongo(PlayJongo jongo) {
         Auditoria.jongo = jongo;
+    }
+
+    public void insert() {
+        auditorias().insert(this);
     }
 
     public String get_id() {

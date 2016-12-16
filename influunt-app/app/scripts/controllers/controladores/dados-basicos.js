@@ -8,11 +8,17 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies', 'breadcrumbs',
-    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies, breadcrumbs) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert',
+                                                'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies',
+                                                'breadcrumbs', 'ROOT_API_SMEE',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert,
+              Restangular, toast, PermissionsService, PermissionStrategies,
+              breadcrumbs, ROOT_API_SMEE) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs;
+      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs, confirmaEnderecoSMEE,
+          alertaSmeeNaoEncontrado;
+      var CAMPOS_SMEE = ['numeroSMEE', 'numeroSMEEConjugado1', 'numeroSMEEConjugado2', 'numeroSMEEConjugado3'];
 
       $scope.PermissionStrategies = PermissionStrategies;
 
@@ -22,6 +28,57 @@ angular.module('influuntApp')
           setarAreaControlador();
           updateBreadcrumbs();
         }).finally(influuntBlockui.unblock);
+      };
+
+      $scope.consultaNumeroSMEE = function(field) {
+        var numero = $scope.objeto[field];
+
+        $scope.checkingSMEE = $scope.checkingSMEE || {};
+        if (numero) {
+          $scope.checkingSMEE[field] = true;
+          return Restangular
+            .oneUrl('api_smee', ROOT_API_SMEE)
+            .one('local', numero)
+            .get()
+            .then(function(res) {
+              if (res.IdLocal !== null && res.IdLocal !== undefined) {
+                confirmaEnderecoSMEE(res.Descricao);
+              } else {
+                alertaSmeeNaoEncontrado();
+              }
+            })
+            .catch(function(res) {
+              // bad request.
+              if (res.status === 400) {
+                alertaSmeeNaoEncontrado();
+              }
+            })
+            .finally(function() {
+              $scope.checkingSMEE[field] = false;
+            });
+        }
+      };
+
+      alertaSmeeNaoEncontrado = function() {
+        influuntAlert.alert(
+          $filter('translate')('controladores.confirmacaoEnderecoTitulo'),
+          $filter('translate')('controladores.validacaoNumeroSMEE')
+        )
+        .then(function() {
+          $scope.objeto.numeroSMEE = null;
+        });
+      };
+
+      confirmaEnderecoSMEE = function(descricao) {
+        influuntAlert.confirm(
+          $filter('translate')('controladores.confirmacaoEnderecoTitulo'),
+          $filter('translate')('controladores.confirmacaoEndereco', {descricao: descricao})
+        )
+        .then(function(resposta) {
+          if (!resposta) {
+            $scope.objeto.numeroSMEE = null;
+          }
+        });
       };
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {

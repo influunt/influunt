@@ -30,10 +30,6 @@ public abstract class Simulador implements MotorCallback {
 
     private Controlador controlador;
 
-    private DateTime inicio;
-
-    private DateTime fim;
-
     private Map<DateTime, List<EventoMotor>> eventos = new HashMap<>();
 
     private Motor motor;
@@ -42,15 +38,15 @@ public abstract class Simulador implements MotorCallback {
 
     private long tempoSimulacao = 0L;
 
-    public Simulador(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {
+    public Simulador(Controlador controlador, ParametroSimulacao parametros) {
         this.controlador = controlador;
-        this.dataInicioControlador = inicioSimulado;
+        this.dataInicioControlador = parametros.getInicioControlador();
         this.parametros = parametros;
-        setup(inicioSimulado, controlador, parametros);
+        setup(controlador, parametros);
     }
 
-    private void setup(DateTime inicioSimulado, Controlador controlador, ParametroSimulacao parametros) {
-        motor = new Motor(controlador, parametros.getInicioControlador(), inicioSimulado, this);
+    private void setup(Controlador controlador, ParametroSimulacao parametros) {
+        motor = new Motor(controlador, parametros.getInicioControlador(), this);
         this.eventos.clear();
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getImposicoes().stream().forEach(param -> addEvento(param.toEvento()));
@@ -60,7 +56,7 @@ public abstract class Simulador implements MotorCallback {
         this.parametros.getAlarmes().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getInsercaoDePlugDeControleManual().stream().forEach(param -> addEvento(param.toEvento()));
         this.parametros.getTrocasEstagioModoManual().stream().forEach(param -> addEvento(param.toEvento()));
-        this.ponteiro = parametros.getInicioSimulacao();
+        this.ponteiro = parametros.getInicioControlador();
     }
 
     public void setControlador(Controlador controlador) {
@@ -86,7 +82,7 @@ public abstract class Simulador implements MotorCallback {
 
     public void simular(DateTime fim) throws Exception {
         DateTime inicioSimulacao = dataInicioControlador;
-        setup(inicioSimulacao, controlador, parametros);
+        setup(controlador, parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
             processaEventos(inicioSimulacao);

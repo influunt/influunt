@@ -12,15 +12,24 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E que o usuário deixe os campos em branco
     Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Dados Básicos"
+    Então o sistema deverá indicar erro no campo "endereco"
+    E o sistema deverá indicar erro no campo "area"
+    E o sistema deverá indicar erro no campo "endereco2" com a mensagem "não pode ficar em branco, caso não seja preenchido a altura numérica."
+    E o sistema deverá indicar erro no campo "modelo"
     E o sistema irá continuar no passo "Dados Básicos"
+
+  Cenário: Validar o número do SMEE buscando da base do SMEE
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário preencher o campo NÚMERO SMEE com "1"
+    E o usuário clicar no botão "Salvar e Avançar"
+    Então o sistema deverá indicar erro no campo "numeroSMEE" com a mensagem "O número informado não é reconhecido na base do SMEE."
 
   Cenário: Salvar dados básicos do controlador
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"
     E o usuário adicionar imagem ao "Croqui"
     E o usuário selecionar o valor "1" no campo "Área"
-    E o usuário preencher o campo NÚMERO SMEE com 123
+    E o usuário preencher o campo NÚMERO SMEE com "1234"
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
     E o usuário preencher o campo "Altura Numérica" com "123"
@@ -28,6 +37,11 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o valor "Mínima" no campo "Modelo"
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
+
+  Cenário: Salvar anéis do controlador
+    Dado que o usuário esteja no wizard no passo "Anéis"
+    Quando o usuário adicionar imagem ao "Anel 1 DWG"
+    Então o sistema deverá apresentar erro com a frase "Não foi possível adicionar este arquivo. Exclua-o e tente novamente."
 
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"

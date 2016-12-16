@@ -8,6 +8,7 @@ import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import play.api.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
+import utils.TipoLogControlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +52,11 @@ public class StatusConexaoControlador {
 
     public static List<StatusConexaoControlador> findByIdControlador(String idControlador) {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
+    }
+
+    public static List<StatusConexaoControlador> findByIdControladorUltimos30Dias(String idControlador) {
+        long ultimos30Dias = DateTime.now().minusDays(30).getMillis();
+        return toList(status().find("{ idControlador: #, timestamp: { $gte: # } }", idControlador, ultimos30Dias).sort("{timestamp: -1}").as(Map.class));
     }
 
     public static HashMap<String, Boolean> ultimoStatusDosControladores() {
@@ -175,13 +181,16 @@ public class StatusConexaoControlador {
 
     public static void log(String idControlador, long carimboDeTempo, boolean online) {
         new StatusConexaoControlador(idControlador, carimboDeTempo, online).save();
+        String mensagem = online ? "Conectado" : "Desconectado";
+        LogControlador.log(idControlador, carimboDeTempo, mensagem, TipoLogControlador.REMOCAO_FALHA);
     }
 
     private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(Boolean online) {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Object> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            status().aggregate("{$sort:{timestamp:-1}}").and("{$match: {'conectado': " + online + "}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'conectado': {$first: '$conectado'}}}").
+                and("{$match: {'conectado': " + online + "}}").
                 as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), m);

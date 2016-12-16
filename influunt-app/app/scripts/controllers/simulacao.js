@@ -15,8 +15,8 @@ angular.module('influuntApp')
 function ($scope, $controller, Restangular, influuntBlockui, HorariosService, influuntAlert,
           $filter, handleValidations, $stateParams, MQTT_ROOT) {
 
-  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros, abrirModalSimulacao,
-            calculaDisparo;
+  var loadControlador, atualizaDetectores, atualizaPlanos, carregaModos, iniciarSimulacao, getMoment, resetParametros,
+      abrirModalSimulacao, calculaDisparo, pararSimulacaoNaApi;
 
   $scope.init = function() {
     var controladorId = $stateParams.id;
@@ -43,8 +43,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     };
 
     $scope.inicioControlador = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
-    $scope.inicioSimulacao = { hora: '0', minuto: '0', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
-    $scope.fimSimulacao = { hora: '0', minuto: '5', segundo: '0', date: new Date(new Date().setHours(0, 0, 0, 0)) };
 
     $scope.disparosDetectores = { disparos: [] };
     $scope.imposicoesPlanos = { imposicoes: [] };
@@ -156,7 +154,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       }
       }
   }, true);
-  
+
   $scope.$watch('parametrosSimulacao.liberacaoImposicoes', function(parametro) {
     if (parametro) {
       var length = $scope.parametrosSimulacao.liberacaoImposicoes.length;
@@ -202,23 +200,6 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     }
   }, true);
 
-  $scope.$watch('inicioSimulacao', function(inicioSimulacao) {
-    if (inicioSimulacao && inicioSimulacao.date && inicioSimulacao.hora && inicioSimulacao.minuto && inicioSimulacao.segundo) {
-      var date = moment(inicioSimulacao.date);
-      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), inicioSimulacao.hora, inicioSimulacao.minuto, inicioSimulacao.segundo);
-      $scope.parametrosSimulacao.inicioSimulacao = dateMoment;
-    }
-  }, true);
-
-  $scope.$watch('fimSimulacao', function(fimSimulacao) {
-    if (fimSimulacao && fimSimulacao.date && fimSimulacao.hora && fimSimulacao.minuto && fimSimulacao.segundo) {
-      var date = moment(fimSimulacao.date);
-      var dateMoment = getMoment(date.year(), date.month()+1, date.date(), fimSimulacao.hora, fimSimulacao.minuto, fimSimulacao.segundo);
-      $scope.parametrosSimulacao.fimSimulacao = dateMoment;
-    }
-  }, true);
-
-
   calculaDisparo = function(disparo) {
     if (disparo.date && disparo.hora && disparo.minuto && disparo.segundo) {
       var date = moment(disparo.date);
@@ -250,7 +231,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
       });
     }
   }, true);
-  
+
   $scope.$watch('liberacoesImposicoes.liberacoes', function(liberacoes) {
     if (liberacoes) {
       _.forEach($scope.liberacoesImposicoes.liberacoes, function(disparo, index) {
@@ -393,6 +374,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     return Restangular.all('simulacao').post($scope.parametrosSimulacao)
       .then(function(response) {
         $scope.errors = {};
+        $scope.simulacaoId = response.simulacaoId;
         abrirModalSimulacao();
         iniciarSimulacao($scope.parametrosSimulacao, response);
         resetParametros();
@@ -420,11 +402,11 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     if (_.isEmpty($scope.parametrosSimulacao.imposicaoPlanos)) {
       $scope.parametrosSimulacao.imposicaoPlanos = [{}];
     }
-    
+
     if (_.isEmpty($scope.parametrosSimulacao.imposicaoModos)) {
       $scope.parametrosSimulacao.imposicaoModos = [{}];
     }
-    
+
     if (_.isEmpty($scope.parametrosSimulacao.liberacaoImposicoes)) {
       $scope.parametrosSimulacao.liberacaoImposicoes = [{}];
     }
@@ -439,17 +421,21 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   iniciarSimulacao = function(params, config) {
-    var inicioSimulacao = moment(params.inicioSimulacao),
-        fimSimulacao = moment(params.fimSimulacao),
+    var inicioControlador = moment(params.inicioControlador),
         velocidade = params.velocidade;
     $scope.simulacao = new influunt.components.Simulador(
-      inicioSimulacao, fimSimulacao, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
+      inicioControlador, velocidade, config, MQTT_ROOT.url, MQTT_ROOT.port
     );
   };
 
   $scope.pararSimulacao = function() {
-    $scope.simulacao.state.destroy();
+    $scope.simulacao.stop();
     $('#canvas').html('');
+    pararSimulacaoNaApi();
+  };
+
+  pararSimulacaoNaApi = function() {
+    return Restangular.one('simulacao', $scope.simulacaoId).customPOST(null, 'parar').finally(influuntBlockui.unblock);
   };
 
 }]);

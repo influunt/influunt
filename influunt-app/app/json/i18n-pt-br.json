@@ -5,6 +5,17 @@
     "aviso": "Você está utilizado o navegador <strong id='nav'>Internet Explorer</strong>. Esse sistema não foi projetado para ser utilizado nesse navegador.",
     "recomendacao": "Comportamentos não esperados podem acontecer durante a utilização. Recomenda-se a utilização do navegador Google Chrome, versão 51 ou superior."
   },
+  "alarmesEFalhas": {
+    "titulo": "Desarme de Alarmes",
+    "configurar": "Configurar perfil de alarmes",
+    "descricao": "Descrição",
+    "tiposEventos": {
+      "falhas": "Falhas",
+      "remocaoFalhas": "Remoção de falhas",
+      "alarmes": "Alarmes",
+      "trocaPlano": "Troca de Plano"
+    }
+  },
   "auditorias": {
     "classe": "Classe",
     "titulo": "Auditoria",
@@ -18,9 +29,7 @@
     "titulo": "Simulação",
     "parametros": "Parâmetros",
     "simulacaoCompleta": "Simulação Completa",
-    "inicioControl": "Início Operação Controlador",
     "inicioSimulacao": "Início da Simulação",
-    "fimSimulacao": "Fim da Simulação",
     "horario": "Horário",
     "progDisparo": "Programar disparo de detectores",
     "progImposicao": "Programar imposição de planos",
@@ -88,10 +97,18 @@
     }
   },
   "controladores": {
+    "controladorParaSimulacao": "Controlador exclusivo para testes",
+    "controladorParaSimulacaoMsg": "Este controlador foi configurado exclusivamente para testes.",
     "nomeEndereco": "Localização",
     "titulo": "Programação",
     "detector": "Detector",
     "print": "Imprimir",
+    "teste": "teste",
+    "filtroControladoresTestes": {
+      "exibirTodos": "Exibir todos",
+      "exibirSomenteTestes": "Somente teste",
+      "exibirSomenteReais": "Somente reais"
+    },
     "mapaControladores": {
       "exibirAlertasDeEventos": "Exibir alertas de todos eventos",
       "acoes": "Ações",
@@ -119,6 +136,7 @@
       "alertas": {
         "anelEmFalha": "O anel <strong>{ANEL}</strong> entrou em falha",
         "anelRecuperouDeFalha": "O anel <strong>{ANEL}</strong> se recuperou da falha:  \"<strong>{FALHA}</strong>\"",
+        "controladorEnviouAlerta": "O controlador <strong>{CONTROLADOR}</strong> enviou um alerta",
         "controladorEmFalha": "O controlador <strong>{CONTROLADOR}</strong> entrou em falha",
         "controladorRecuperouDeFalha": "O controlador <strong>{CONTROLADOR}</strong> se recuperou da falha:  \"<strong>{FALHA}</strong>\"",
         "trocaPlanoAnel": "Troca de plano no anel <strong>{ANEL}</strong>",
@@ -168,6 +186,7 @@
     "id": "ID",
     "publicKey": "Chave Pública",
     "privateKey": "Chave Privada",
+    "senha": "Senha",
     "CLC": "CLC",
     "CLA": "CLA",
     "configuracao_grupo": "Grupos Semafóricos",
@@ -203,6 +222,9 @@
     "numeroSMEEConjugado1": "Num. SMEE conjugado 1",
     "numeroSMEEConjugado2": "Num. SMEE conjugado 2",
     "numeroSMEEConjugado3": "Num. SMEE conjugado 3",
+    "confirmacaoEnderecoTitulo": "Confirmação de Endereço",
+    "confirmacaoEndereco": "O endereço pesquisado é <strong>{descricao}</strong>?",
+    "validacaoNumeroSMEE": "O número informado não é reconhecido na base do SMEE.",
     "opcoes": "Opções",
     "tipo": "Tipo",
     "versaoFirmware": "Versão do Firmware",
@@ -238,7 +260,8 @@
       "verTelaAnterior": "Ver Resumo",
       "simular": "Simular",
       "msgTooltipSimular": "Simular operação do controlador",
-      "instalacao": "Instalação"
+      "instalacao": "Instalação",
+      "downloadConfig": "Baixar Configuração"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",
@@ -289,7 +312,7 @@
       "tabela": "TABELA",
       "novaTabela": "Nova Tabela",
       "descricao": "Descrição",
-      "modoIntermitenteOuApagado": "Intermitente ou Apagado"
+      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -321,7 +344,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
-      "modoIntermitenteOuApagado": "Intermitente ou Apagado",
+      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
@@ -488,7 +511,7 @@
       "erroAoDeletar": "Ocorreu um erro ao apagar o plano."
     },
     "renomearPlano": {
-      "tituloAlert": "renomear plano",
+      "tituloAlert": "Renomear Plano",
       "mensagemAlert": "Digite no campo abaixo um nome para este plano"
     },
     "copiarPlano": {
@@ -505,6 +528,7 @@
     "planoManualExclusivo": "Plano Manual (Exclusivo)",
     "modoOperacao": "MODO DE OPERAÇÃO",
     "modoManual": "Manual",
+    "temporario": "Temporário",
     "modosOperacao": {
       "atuado": "Atuado",
       "ATUADO": "Atuado",
@@ -650,8 +674,8 @@
     "novo": "Novo",
     "configurado": "Configurado",
     "ativo": "Ativo",
-    "inoperante": "Inoperante",
-    "operandoFalhas": "Operando Com Falhas",
+    "emManutencao": "Em Manutenção",
+    "comFalhas": "Operando com Falhas",
     "inativo": "Inativo",
     "atuado": "Atuado",
     "manual": "Manual",
@@ -819,11 +843,44 @@
     "veicular": "Veicular"
   },
   "imporConfig": {
-    "titulo": "Painel de Facilidades",
-    "status": "Status",
+    "abortar": "Abortar",
+    "alterarStatus": "Alterar Status",
+    "ativarControlador": "Ativar Controlador",
     "cla": "CLA",
-    "local": "Local",
+    "codigoFalha": "Código da Falha",
+    "colocarEmManutencao": "Colocar Em Manutenção",
+    "continuar": "Continuar",
+    "dadosControlador": "Dados do Controlador",
+    "dataEvento": "Data do Evento",
+    "dataFalha": "Data da Falha",
+    "dataRemocaoFalha": "Data Remoção Falha",
+    "estagioAtual": "Estágio",
+    "falha": "Falha",
+    "inativar": "Inativar",
+    "indicacaoFalhas": "Indicação de Falhas",
     "info": "Info",
+    "local": "Local",
+    "log": "Log",
+    "modoOperacaoTitulo": "Modo de operação",
+    "momentoCiclo": "Momento do Ciclo",
+    "online": "Online",
+    "parametrosControlador": "Logs do Controlador",
+    "pendingWarning": "Alguns itens desta transação não poderão ser concluídos. Continuar o processo para os demais?",
+    "planoForcado": "Plano Forçado",
+    "planoImpostoFalha": "Plano Imposto por Falha",
+    "posicaoPlano": "Posição do Plano",
+    "relogio": "Relógio",
+    "status": "Status",
+    "statusControlador": "Status do Controlador",
+    "statusPlano": "Status do Plano",
+    "titulo": "Comandos da Central",
+    "tabelaHoraria": "Tabela Horária",
+    "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
+    "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
+    "aletarcaoStatus": {
+      "sucesso": "Alteração executada com sucesso",
+      "erro": "Não foi possível alterar o status do controlador"
+    },
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",
       "erro": "Não foi possível finalizar a liberação",
@@ -833,11 +890,12 @@
       "sucesso": "Liberação executada com sucesso"
     },
     "sincronizacao": {
-      "sucesso": "Sincronização executada com sucesso",
-      "erro": "Não foi possível finalizar a sincronização dos dados com o controlador"
+      "titulo": "Enviar",
+      "sucesso": "Envio executado com sucesso",
+      "erro": "Não foi possível finalizar o envio dos dados para o controlador"
     },
     "plano": {
-      "criarPlanoExclusivo": "Criar plano exclusivo",
+      "criarPlanoExclusivo": "Criar plano temporário",
       "duracao": "Duração",
       "editar": "Editar",
       "erro": "Não foi possível finalizar a imposição de plano no controlador",
@@ -852,34 +910,50 @@
       }
     },
     "modo_operacao": {
+      "titulo": "Impor Modo",
       "sucesso": "Imposição de modo de operação executada com sucesso",
       "erro": "Não foi possível finalizar a imposição de modo de operação no controlador"
     },
+    "lerDados": "Ler Dados",
     "imporModo": "Impor Modo",
-    "sincronizar": "Sincronizar",
+    "sincronizar": "Enviar",
     "entrada": "Entrada",
     "horaEntrada": "Hora de Entrada",
     "duracao": "Duração",
     "editar": "Editar",
     "imporApagado": "Impor modo Apagado",
     "imporInterm": "impor modo interminente",
-    "sincronizarApenas": "Sincronizar apenas Tabela Horária",
-    "sincronizarHoraPlano": "Sincronizar Tabela Horária e Planos",
-    "sincronizarHPConfig": "Sincronizar Tabela Horária, Planos, Configurações",
-    "sincronizando": "Sincronizando",
-    "configurado": "Configurado"
+    "sincronizarTabelaHorariaImadiato": "Enviar e implementar tabela horária imediatamente",
+    "sincronizarTabelaHoraria": "Enviar e implementar tabela horária na próxima troca de planos",
+    "sincronizarPlano": "Enviar planos",
+    "sincronizarHPConfig": "Enviar tabela horária, planos e configuração do controlador",
+    "sincronizando": "Enviando",
+    "transacao": "Transação",
+    "tempoMaximoEspera": "Tempo máximo de espera",
+    "configurado": "Configurado",
+    "tooltip": {
+      "lerDadosOffline": "O controlador está offline"
+    }
   },
   "ATIVO": "Ativo",
+  "SINCRONIZADO": "Sincronizado",
   "CONFIGURADO": "Configurado",
   "EDITANDO": "Em Edição",
   "EM_CONFIGURACAO": "Em Configuração",
   "EM_EDICAO": "Em Edição",
+  "EM_MANUTENCAO": "Em Manutenção",
   "FALHA": "Em falha",
   "INATIVO": "Inativo",
   "INOPERANTE": "Inoperante",
   "OPERANDO_COM_FALHAS": "Operando com falhas",
   "ONLINE": "Online",
   "OFFLINE": "Offline",
+  "ALARME_FALHA": "Alarme e Falhas",
+  "REMOCAO_FALHA": "Remoção de Falhas",
+  "STATUS_CONEXAO": "Status Conexão",
+  "STATUS_CONTROLADOR": "Status Controlador",
+  "TRANSACAO": "Transação",
+  "TROCA_PLANO": "Troca de Plano",
   "relatorios": {
     "auditorias": "Auditorias",
     "ciclo": "Ciclo",
@@ -904,7 +978,9 @@
     "estado": "Estado",
     "nomeCruzamento": "Nome do cruzamento",
     "local": "Local",
+    "logControladores": "Log Controladores",
     "plano": "Plano",
+    "mensagem": "Mensagem",
     "modo": "Modo",
     "emFalha": "Em falha",
     "planos": "Planos",

@@ -27,9 +27,8 @@ INSERT INTO `usuarios` (`id`, `login`, `senha`, `email`, `nome`, `root`, `area_i
                        ('90574f0a-cd7b-477c-9fa6-98c426813ea8', 'mobilab', '$2a$10$bfiF2TyTirIyEh6AmWK1huI5.ol0.OxBC3hM9a7Nrc2x9TM.SBooG', 'mobilab@mobilab.com.br', 'Mobilab',             false, @AreaId, @PerfilAdministradorId, NOW(), NOW()),
                        ('2f0e0547-3135-428b-8f6d-0a1098eca0a5', 'root',    '$2a$10$EzudGIqkxquJjLGawuMrOu9K6S28yc/R/YSAVxsvb5bSryOYWd5eq', 'root@influunt.com.br',   'Administrador Geral', true,  @AreaId, @PerfilAdministradorId, NOW(), NOW());
 
-
-
 -- # Permissões no APP
+
 SET @listarControladoresId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@listarControladoresId, 'listarControladores', '[Programação] - Ver Controladores Cadastrados', 'Ver lista de controladores cadastrados. A lista de controladores é a que é mostrada ao clicar no link "Programação". Se o usuário não tiver essa permissão, o link "Programação" é escondido do usuário.', NOW(), NOW());
@@ -510,6 +509,11 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/perfis/$id<[^/]+>', '[Perfil] - Exibir Perfil', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'visualizarPerfis', '[Perfis] - Ver Detalhes de Perfis', 'O usuário com essa permissão pode ver a listagem de Perfis.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@DefinirPermissoesId, @PermissaoId);
 
 
@@ -552,9 +556,6 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 -- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 
-
-
-
 -- # CRUD controladores
 
 Set @PermissaoId = RANDOM_UUID();
@@ -569,6 +570,8 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarPlanosId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@verTabelaHorariaId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarTabelaHorariaId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);
+
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/mapas', '[Controladores] - Listar Controladores (Mapas)', NOW(), NOW());
@@ -592,6 +595,7 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarPlanosId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@verTabelaHorariaId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarTabelaHorariaId, @PermissaoId);
+
 
 -- TODO: verificar onde essa rota é usada
 Set @PermissaoId = RANDOM_UUID();
@@ -723,8 +727,8 @@ INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atua
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/controladores/$id<[^/]+>/remover_planos_tabelas_horarias', '[Controladores] - Remover Planos e Tabelas Horarios do  Controlador', NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'DELETE /api/v1/controladores/$id<[^/]+>/remover_planos_tabelas_horarios', '[Controladores] - Remover Planos e Tabelas Horarios do  Controlador', NOW(), NOW());
+-- INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 
@@ -866,6 +870,11 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/monitoramento/status_aneis', '[Monitoramento] - Visualizar Status dos aneis', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/monitoramento/modo_operacoes_controladores', '[Monitoramento] - Visualizar Modos de Operação dos Controladores', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
@@ -881,9 +890,19 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/monitoramento/status_aneis', '[Monitoramento] - Visualizar Status dos aneis', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/usuarios/$usuario_id<[^/]+>/alarmes_e_falhas', '[DesarmeAlarmes] - Alarmes e Falhas', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'configurarAlarmesFalhas', '[DesarmeAlarmes] - Configurar perfil de desarme de alarmes', 'O usuário com essa permissão pode alterar o perfil do desarme de alarmes.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/usuarios/$usuario_id<[^/]+>/alarmes_e_falhas', '[DesarmeAlarmes] - Alarmes e Falhas', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
 
 -- # Erros Controladores
 
@@ -904,6 +923,11 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEng
 
 Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/monitoramento/erros_controladores/$id<[^/]+>/historico/$pagina<[^/]+>/$tamanho<[^/]+>', '[Monitoramento] - Visualizar Último Erros de Controlador com Paginação', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/monitoramento/alarmes_e_falhas', '[AlarmesEFalhas] - Visualizar desarme de Alarmes e Falhas', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
 
@@ -1033,14 +1057,6 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 -- # Permissao Relatorios
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/auditoria', '[Relatórios] - Relatório de Auditoria', NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'gerarRelatorioAuditorias', '[Relatórios] - Gerar Relatórios Auditoria', 'O usuário com essa permissão pode gerar relatórios de auditoria.', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
-
-Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controladores_status', '[Relatórios] - Relatório de Controladores por Status', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
@@ -1057,14 +1073,6 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controladores_entreverdes', '[Relatórios] - Relatório de Controladores com Atualizações Entreverdes', NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
-SET @permAppId = RANDOM_UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'gerarRelatorioControladoresEntreverdes', '[Relatórios] - Gerar Relatórios Controladores com Atualizações Entreverdes', 'O usuário com essa permissão pode gerar relatórios de controladores com atualizações entreverdes.', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
-
-Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/planos', '[Relatórios] - Relatório de Planos', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
@@ -1073,17 +1081,25 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/tabela_horaria', '[Relatórios] - Relatório de Tabela Horária em um determinado dia.', NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);
-
-Set @PermissaoId = RANDOM_UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controlador/$id<[^/]+>', '[Relatórios] - Relatório do controlador', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/controlador/$id<[^/]+>', '[Relatórios] - Imprimir PDF Controlador', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 SET @permAppId = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'gerarRelatorioControlador', '[Relatórios] - Gerar Relatório do Controlador em PDF', 'O usuário com essa permissão pode gerar relatórios de controladores e fazer o download em PDF.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/log_controladores', '[Relatórios] - Relatório de Log de Controladores', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'gerarRelatorioLogControladores', '[Relatórios] - Gerar Relatórios Log Controladores', 'O usuário com essa permissão pode gerar relatórios de logs de controladores.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/relatorios/tabela_horaria', '[Relatórios] - Relatório de Tabela Horária em um determinado dia.', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);
 
 -- # Permissao Simulação
 Set @SimularId = RANDOM_UUID();
@@ -1099,3 +1115,34 @@ Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/simulacao', '[Simulação] - Simular Funcionamento de Controlador', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@SimularId, @PermissaoId);
+
+
+-- # Instalação Controlador
+Set @InstalacaoId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@InstalacaoId, 'instalacaoControlador', '[Instalação] - Instalação Controlador', 'O usuário com essa permissão pode visualizar a instalação de um controlador.', NOW(), NOW());
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/$id<[^/]+>/instalacao', '[Controladores] - Visualizar Instalação do controlador.', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@InstalacaoId, @PermissaoId);
+
+
+-- # Impor configuração
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/plano', '[Imposição] - Impor plano e tabela horária', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'imporPlanos', '[Imposição] - Impor planos e tabelas horárias', 'O usuário com essa permissão pode acessar a tela de "Impor Configuração" e impor planos e tabelas horárias em controladores.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+
+Set @PermissaoId = RANDOM_UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/configuracao_completa', '[Imposição] - Impor plano, tabela horária e configuração', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+
+SET @permAppId = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'imporConfiguracaoCompleta', '[Imposição] - Impor planos, tabelas horárias e configuração de um controlador', 'O usuário com essa permissão pode acessar a tela de "Impor Configuração" e impor planos, tabelas horárias e configuração em controladores.', NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);

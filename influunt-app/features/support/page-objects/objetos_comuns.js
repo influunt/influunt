@@ -4,32 +4,9 @@ var worldObj = require('../world');
 var world = new worldObj.World();
 
 var ObjetosComuns = function () {
-  this.cadastrarControlador = function() {
-    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
-  };
 
-  this.cadastrarPlanoParaControlador = function() {
-    return world.execSqlScript('features/support/scripts/controladores/plano_controlador.sql');
-  };
-
-  this.cadastrarTabelaHorariaParaControlador = function() {
-    return world.execSqlScript('features/support/scripts/controladores/tabela_horaria_controlador.sql');
-  };
-
-  this.controladoresAreasDiferentes = function() {
-    return world.execSqlScript('features/support/scripts/controladores/controladores_por_areas.sql');
-  };
-
-  this.variosControladores = function() {
-    return world.execSqlScript('features/support/scripts/controladores/controladores.sql');
-  };
-
-  this.variosControladoresConfigurados = function() {
-    return world.execSqlScript('features/support/scripts/controladores/controladores_finalizados.sql');
-  };
-
-  this.desabilitarPermissoes = function() {
-    return world.execSqlScript('features/support/scripts/perfis/remover_permissoes.sql');
+  var xpathBotoesControladores = function(botao, controlador) {
+    return '//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
   this.clicarLinkNovo = function() {
@@ -71,7 +48,7 @@ var ObjetosComuns = function () {
   };
 
   this.limparCampo = function(campo) {
-    return world.clearField(campo);
+    return world.clearFieldByXpath('//input[contains(@name, "'+campo+'")]');
   };
 
   this.errosImpeditivos = function(texto){
@@ -212,19 +189,18 @@ var ObjetosComuns = function () {
   this.clicarBotaoEspecificoTabelaControladores = function(botao, controlador) {
     var _this = this;
     return world.waitForOverlayDisappear().then(function() {
-      return _this.botaoAcaoControladores(botao, controlador).click();
+      return world.sleep(600);
+    }).then(function() {
+      return world.waitForOverlayDisappear().then(function() {
+        return world.getElementByXpath(xpathBotoesControladores(botao,controlador)).click();
+      });
     });
-  };
-
-  this.botaoAcaoControladores = function(botao, controlador) {
-    var _this = this;
-    return world.getElementByXpath(_this.xpathBotoesControladores(botao,controlador));
   };
 
   this.naoPodeMostraBotaoControlador = function(botao, controlador) {
     var _this = this;
     return world.waitForOverlayDisappear().then(function() {
-      return world.waitForByXpathInverse(_this.xpathBotoesControladores(botao,controlador));
+      return world.waitForByXpathInverse(xpathBotoesControladores(botao,controlador));
     });
   };
 
@@ -232,10 +208,6 @@ var ObjetosComuns = function () {
     return world.waitForOverlayDisappear().then(function() {
       return world.shoulNotFindLinkByText(botao);
     });
-  };
-
-  this.xpathBotoesControladores = function(botao, controlador) {
-   return '//td[contains(text(), "'+controlador+'")]//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
   this.selecionarBySelect2Option = function(field, option) {
@@ -299,6 +271,19 @@ var ObjetosComuns = function () {
 
   this.clicarVisualizarResumo = function() {
     return world.getElementByXpath('//i[contains(@class, "fa-eye")]').click();
+  };
+
+  this.enderecoBreadcrumb = function(endereco) {
+    return world.waitForByXpath('//p[contains(@class, "cruzamento")][contains(text(), "'+endereco+'")]');
+  };
+
+  this.textoToast = function() {
+    world.sleep(2000);
+    return world.getToastMessage();
+  };
+
+  this.aguardar = function(time) {
+    return world.sleep(time);
   };
 
   this.verificarValoresEmLinhasNaTabela = function(valor) {

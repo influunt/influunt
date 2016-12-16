@@ -16,63 +16,73 @@
             <thead>
               <tr>
                 <th class='fit-to-content'></th>
+                <th>{{ 'imporConfig.online' | translate }}</th>
                 <th>{{ 'imporConfig.status' | translate }}</th>
                 <th>{{ 'imporConfig.cla' | translate }}</th>
                 <th>{{ 'imporConfig.local' | translate }}</th>
                 <th>{{ 'imporConfig.info' | translate }}</th>
+                <th>{{ 'geral.crud.opcoes' | translate }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr data-ng-repeat="anel in lista">
-                <td class='fit-to-content'>
+              <tr data-ng-repeat="anel in lista | orderBy:'CLA'">
+                <td class="fit-to-content">
                   <div class="ichecks-checkbox">
                     <label class="i-checks">
                       <input type="checkbox"
                         ichecks
+                        data-is-disabled="!anel.online"
                         ng-model="isAnelChecked[anel.id]"
                         data-if-checked="selecionaAnel(anel.id)"
                         data-if-unchecked="desselecionaAnel(anel.id)">
                     </label>
                   </div>
                 </td>
+                <td class="fit-to-content">
+                  <p data-ng-bind-html="anel.online | trueOrFalseIcon"></p>
+                </td>
                 <td>{{ anel.status | translate }}</td>
                 <td>{{ anel.CLA }}</td>
                 <td>{{ anel.endereco }}</td>
                 <td>
-                  <influunt-mqtt-transaction-status
-                    ng-if="!!idsTransacoes[anel.id] || !!idsTransacoes[anel.controlador.id]"
-                    data-transaction-id="idsTransacoes[anel.id] || idsTransacoes[anel.controlador.id]">
-                  </influunt-mqtt-transaction-status>
                   <div data-ng-if="anel.hasPlanoImposto">
                     <strong>{{ 'imporConfig.liberacao.modoImposto' | translate }}: </strong> {{ anel.modoOperacao }}
                     <strong>{{ 'imporConfig.liberacao.inicio' | translate }}: </strong> {{ anel.inicio }}
-                    <liberar-imposicao anel="anel" ids-transacoes="idsTransacoes"></liberar-imposicao>
+                    <liberar-imposicao
+                        anel="anel"
+                        transacoes="statusObj.transacoes"
+                        data-ng-if="anel.online"></liberar-imposicao>
                   </div>
+                </td>
+                <td>
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados"
+                     data-ng-if="anel.online"
+                     permission permission-only="'lerDadosControlador'"
+                     data-ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
+                  <a class="btn btn-primary" disabled
+                     data-ng-if="!anel.online"
+                     permission permission-only="'lerDadosControlador'"
+                     tooltips tooltip-template="<strong>{{ 'imporConfig.tooltip.lerDadosOffline' | translate }}</strong>">
+                    {{ 'imporConfig.lerDados' | translate }}
+                  </a>
+                  <ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
                 </td>
               </tr>
             </tbody>
           </table>
           <ng-include src="'views/common/footer-pagination.html'"></ng-include>
 
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="row">
-                <div class="col-sm-4 col-sm-offset-8">
-                  <div class="right">
-                    <imposicao-plano
-                        aneis-selecionados="aneisSelecionadosObj"
-                        ids-transacoes="idsTransacoes">
-                    </imposicao-plano>
-                    <imposicao-modo
-                        aneis-selecionados="aneisSelecionadosObj"
-                        ids-transacoes="idsTransacoes">
-                    </imposicao-modo>
-                    <sincronizacao
-                      aneis-selecionados="aneisSelecionadosObj"
-                      ids-transacoes="idsTransacoes"></sincronizacao>
-                  </div>
-                </div>
-              </div>
+          <div class="row" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos',
+              'sincronizarTabelaHoraria', 'colocarControladorManutencao', 'ativarControlador', 'desativarControlador',
+              'imporPlanos', 'imporModoOperacao']">
+            <div class="col-sm-4 col-sm-offset-8">
+              <button data-toggle="modal"
+                      data-target="#modal-transacoes-distribuidas"
+                      class="btn btn-w-m btn-primary pull-right"
+                      data-ng-disabled="!(aneisSelecionadosObj && aneisSelecionadosObj.length > 0)"
+                      data-ng-click="limpaTransacoesAnteriores()">
+                {{ 'controladores.mapaControladores.acoes' | translate }}
+              </button>
             </div>
           </div>
         </div>
@@ -80,3 +90,4 @@
     </div>
   </div>
 </div>
+<ng-include src="'views/impor_config/modal-transacoes.html'"></ng-include>

@@ -10,12 +10,11 @@
 * Inicializa as configurações do Restangular com os devidos valores (salvos em app/scripts/ngConstants.js)
 */
 angular.module('influuntApp')
-.config(['IdleProvider', 'KeepaliveProvider',
-  function(IdleProvider, KeepaliveProvider) {
+.config(['IdleProvider',
+  function(IdleProvider) {
 
     var UM_MINUTO = 60;
     IdleProvider.idle(30 * UM_MINUTO);
     IdleProvider.timeout(5);
-    KeepaliveProvider.interval(10);
 
   }]);

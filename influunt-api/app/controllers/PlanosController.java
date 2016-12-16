@@ -36,7 +36,7 @@ public class PlanosController extends Controller {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
 
-        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json);
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json, getUsuario());
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
         if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
@@ -104,5 +104,9 @@ public class PlanosController extends Controller {
             return CompletableFuture.completedFuture(ok());
         }
         return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY));
+    }
+
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
     }
 }

@@ -30,6 +30,11 @@ angular.module('influuntApp')
         imagensUrl: APP_ROOT + '/imagens'
       };
 
+      var filtroControladoresTestes = {};
+      filtroControladoresTestes[$filter('translate')('controladores.filtroControladoresTestes.exibirTodos')] = null;
+      filtroControladoresTestes[$filter('translate')('controladores.filtroControladoresTestes.exibirSomenteTestes')] = 1;
+      filtroControladoresTestes[$filter('translate')('controladores.filtroControladoresTestes.exibirSomenteReais')] = 0;
+
       $scope.pesquisa = {
         campos: [
           {
@@ -59,6 +64,12 @@ angular.module('influuntApp')
             label: 'controladores.modelo',
             tipo: 'texto'
           },
+          {
+            nome: 'exclusivoParaTeste',
+            label: 'controladores.controladorParaSimulacao',
+            tipo: 'select',
+            options: {'Exibir Todos': null, 'Somente Teste': 1, 'Somente Reais': 0}
+          }
         ]
       };
 
@@ -488,8 +499,10 @@ angular.module('influuntApp')
                   $scope.index();
                 })
                 .catch(function(err) {
-                  toast.clear();
-                  influuntAlert.alert('Controlador', err.data[0].message);
+                  if (err.status === 422) {
+                    toast.clear();
+                    influuntAlert.alert('Controlador', err.data[0].message);
+                  }
                 })
                 .finally(influuntBlockui.unblock);
             }

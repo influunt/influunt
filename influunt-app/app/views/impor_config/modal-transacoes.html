@@ -1,0 +1,104 @@
+<div class="modal inmodal" id="modal-transacoes-distribuidas" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <form role="form">
+              <div class="row">
+                <div class="col-sm-12">
+
+                  <!-- transacao -->
+                  <div class="form-group">
+                    <label class="control-label">{{ 'imporConfig.transacao' | translate }}</label>
+                    <select name="subareas"
+                            class="form-control"
+                            data-ng-model="tipoTransacao"
+                            data-ng-change="limpaTransacoesAnteriores()">
+                      <option value="imposicao-plano" permission permission-only="'imporPlanos'">{{ 'imporConfig.plano.titulo' | translate }}</option>
+                      <option value="imposicao-modo" permission permission-only="'imporModoOperacao'">{{ 'imporConfig.modo_operacao.titulo' | translate }}</option>
+                      <option value="sincronizacao" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos', 'sincronizarTabelaHoraria']">{{ 'imporConfig.sincronizacao.titulo' | translate }}</option>
+                      <option value="alterar-status" permission permission-only="['colocarControladorManutencao', 'ativarControlador', 'desativarControlador']">{{ 'imporConfig.alterarStatus' | translate }}</option>
+                    </select>
+                  </div>
+
+                  <!-- tempo máximo de permanência -->
+                  <div class="form-group">
+                    <label class="ng-binding">{{ 'imporConfig.tempoMaximoEspera' | translate }}</label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" ng-model="dadosTransacao.tempoMaximoEspera" name="tempoMaximoEspera">
+                      <span class="input-group-addon ng-binding">{{ 'geral.segundo' | translate }}</span>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div>
+                    <sincronizacao
+                      aneis-selecionados="aneisSelecionadosObj"
+                      ids-transacoes="idsTransacoes"
+                      transacoes="statusObj.transacoes"
+                      timeout="dadosTransacao.tempoMaximoEspera"
+                      data-ng-if="tipoTransacao === 'sincronizacao'">
+                    </sincronizacao>
+
+                    <imposicao-modo
+                        aneis-selecionados="aneisSelecionadosObj"
+                        ids-transacoes="idsTransacoes"
+                        timeout="dadosTransacao.tempoMaximoEspera"
+                        data-ng-if="tipoTransacao === 'imposicao-modo'">
+                    </imposicao-modo>
+
+                    <imposicao-plano
+                        aneis-selecionados="aneisSelecionadosObj"
+                        ids-transacoes="idsTransacoes"
+                        timeout="dadosTransacao.tempoMaximoEspera"
+                        data-ng-if="tipoTransacao === 'imposicao-plano'">
+                    </imposicao-plano>
+
+                    <alterar-status
+                      aneis-selecionados="aneisSelecionadosObj"
+                      ids-transacoes="idsTransacoes"
+                      transacoes="statusObj.transacoes"
+                      timeout="dadosTransacao.tempoMaximoEspera"
+                      data-ng-if="tipoTransacao === 'alterar-status'">
+                    </alterar-status>
+                  </div>
+
+                  <hr>
+
+                  <div>
+                    <ul>
+                      <li data-ng-repeat="anel in lista | filter:isAnelCheckedFilter | orderBy: 'CLA'">
+                        {{ anel.CLA }} - {{ anel.endereco }}
+                        <influunt-mqtt-transaction-status
+                          ng-if="!!statusObj.transacoes[anel.controladorFisicoId]"
+                          data-status-transaction="statusObj.transacoes[anel.controladorFisicoId].statusTransacao">
+                        </influunt-mqtt-transaction-status>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center has-error" data-ng-if="transacoesPendentes.length > 0">
+        <p class="help-block error-msg">
+          {{ 'imporConfig.pendingWarning' | translate }}
+        </p>
+        <button type="button"
+            class="btn btn-primary"
+            data-ng-click="continuar(transacoesPendentes)">
+          {{ 'imporConfig.continuar' | translate }}
+        </button>
+        <button type="button"
+            class="btn btn-default btn-danger m-b-xs"
+            data-ng-click="abortar(transacoesPendentes)">
+          {{ 'imporConfig.abortar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

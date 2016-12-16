@@ -1636,6 +1636,10 @@ header .nav-secon li a {
     .tooltipster-sidetip.tooltipster-error-tag.tooltipster-top .tooltipster-arrow-border {
         border-top-color: #f2dede;
     }
+
+    .badge.badge-flask {
+      background-color: #fbc02d;
+    }
     .badge.badge-danger.badge-notification {
         font-size: 8px;
         color: white;
@@ -2491,12 +2495,14 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
 
 .margin-top-20 { margin-top: 20px; }
 .margin-bottom-10 { margin-bottom: 10px; }
+.margin-left-right-10 { margin: 0 10px; }
 .padding-right-10 { padding-right: 10px; }
 .padding-right-20 { padding-right: 20px; }
 .padding-right-30 { padding-right: 30px; }
 .modal-sm { width: 25%; }
 .modal-md { width: 50%; }
 .modal-lg { width: 95%; }
+
 
 .breadcrumb {
     margin-top: 23px;
@@ -2636,12 +2642,16 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   color: #ec4758;
 }
 
-.certo {
+.grey-scaled i {
+  color: #ccc !important;
+}
+
+i.certo {
   font-size: 18px;
   color: #1ab394;
 }
 
-.errado {
+i.errado {
   font-size: 18px;
   color: #ec4758;
 }
@@ -2660,4 +2670,14 @@ p.velocidade-error {
 
 .word-wrap {
   word-wrap: break-word;
+}
+
+// FIX FOOTER
+.page-simulacao,
+.page-mapa_controladores {
+  .footer {
+    min-height: 70px;
+    position: static;
+    margin-top: 10px;
+  }
 }

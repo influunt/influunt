@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
   "uk.co.modular-it" % "bean-utils" % "0.9.10",
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
+  "commons-io" % "commons-io" % "2.5",
   "net.coobird" % "thumbnailator" % "0.4.8",
   "com.google.code.gson" % "gson" % "2.7",
   "org.jfree" % "jfreesvg" % "3.1",

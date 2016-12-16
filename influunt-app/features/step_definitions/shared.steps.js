@@ -6,28 +6,8 @@ var expect = require('chai').expect;
 module.exports = function() {
   var sharedSteps = new ObjetosComuns();
 
-  this.Given(/^que o sistema possui ao menos um controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarControlador();
-  });
-
-  this.Given(/^que o sistema possua controladores cadastrados$/, function() {
-    return sharedSteps.variosControladores();
-  });
-
-  this.Given(/^que o sistema possua controladores cadastrados e configurados$/, function() {
-    return sharedSteps.variosControladoresConfigurados();
-  });
-
-  this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarPlanoParaControlador();
-  });
-
-  this.Given(/^que o sistema possua tabela horária para o controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarTabelaHorariaParaControlador();
-  });
-
-  this.Given(/^for desabilitada no perfil visualizar todas as áreas$/, function () {
-    return sharedSteps.desabilitarPermissoes();
+  this.Given(/^o usuário acessar a tela de listagem de "([^"]*)"$/, function(path) {
+    return sharedSteps.indexPage(path);
   });
 
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
@@ -46,6 +26,12 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe um alerta com a mensagem "([^"]*)"$/, function(msg) {
     return sharedSteps.textoSweetAlert().then(function(text) {
+      expect(text).to.equal(msg);
+    });
+  });
+
+  this.Given(/^o sistema exibe uma mensagem "([^"]*)"$/, function(msg) {
+    return sharedSteps.textoToast().then(function(text) {
       expect(text).to.equal(msg);
     });
   });
@@ -99,10 +85,6 @@ module.exports = function() {
     return sharedSteps.checarTotalInseridosNaTabela(numero);
   });
 
-  this.Given(/^que possua controladores com áreas diferentes cadastrados$/, function () {
-    return sharedSteps.controladoresAreasDiferentes();
-  });
-
   this.Given(/^o usuário preencha o alert com "([^"]*)"$/, function (descricao) {
     return sharedSteps.preencherSweetAlert(descricao);
   });
@@ -110,6 +92,12 @@ module.exports = function() {
   this.Given(/^o sistema deverá indicar erro no campo "([^"]*)"$/, function (nomeCampo) {
     return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
       return expect(result).to.exist;
+    });
+  });
+
+  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)" com a mensagem "([^"]*)"$/, function (nomeCampo, msg) {
+    return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
+      return expect(result).to.equal(msg);
     });
   });
 
@@ -198,5 +186,17 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" com valor "([^"]*)"$/, function (coluna, valor) {
     return sharedSteps.verificarTabelaPorThETd(coluna, valor);
+  });
+
+  this.Given(/^o usuário limpar o campo "([^"]*)"$/, function (campo) {
+    return sharedSteps.limparCampo(campo);
+  });
+
+  this.Given(/^o sistema deve mostrar o endereço "([^"]*)" no breadcrumb$/, function (endereco) {
+    return sharedSteps.enderecoBreadcrumb(endereco);
+  });
+
+  this.Given(/^que o usuário aguarde um tempo de "([^"]*)" milisegundos$/, function (time) {
+    return sharedSteps.aguardar(time);
   });
 };

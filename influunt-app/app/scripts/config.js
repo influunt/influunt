@@ -10,12 +10,12 @@
  */
 angular
   .module('influuntApp')
-  .config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$compileProvider',
+    function ($stateProvider, $urlRouterProvider, $compileProvider) {
 
       $urlRouterProvider.otherwise(function($injector) {
         var $state = $injector.get('$state');
-        $state.go('app.main');
+        $state.go('login');
       });
 
       $stateProvider
@@ -63,10 +63,7 @@ angular
 
         .state('app.main', {
           url: '/main',
-          templateUrl: 'views/main.html',
-          onExit: ['pahoProvider', function(pahoProvider) {
-            pahoProvider.disconnect();
-          }]
+          templateUrl: 'views/main.html'
         })
 
         .state('app.dashboard_detalhe_controlador', {
@@ -584,10 +581,7 @@ angular
               only: 'verNoMapa',
               redirectTo: 'app.main'
             }
-          },
-          onExit: ['pahoProvider', function(pahoProvider) {
-            pahoProvider.disconnect();
-          }]
+          }
         })
 
         .state('app.planos', {
@@ -881,6 +875,20 @@ angular
           }
         })
 
+        .state('app.alarmes_e_falhas', {
+          url: '/usuarios/:id/alarmes-e-falhas',
+          templateUrl: 'views/usuarios/alarmes-e-falhas.html',
+          controller: 'AlarmesEFalhasCtrl',
+          data: {
+            title: 'alarmesEFalhas.titulo',
+            breadcrumb: 'alarmesEFalhas.titulo',
+            permissions: {
+              only: 'configurarAlarmesFalhas',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
         // CRUD Agrupamentos
         .state('app.agrupamentos', {
           url: '/agrupamentos',
@@ -994,6 +1002,10 @@ angular
           controllerAs: 'imporConfig',
           data: {
             title: 'imporConfig.titulo',
+            permissions: {
+              only: 'acessarPainelDeFacilidades',
+              redirectTo: 'app.main'
+            }
           }
         })
 
@@ -1068,10 +1080,27 @@ angular
             }
           }
         })
+
+        .state('app.relatorios_log_controladores', {
+          url: '/relatorios/log_controladores',
+          templateUrl: 'views/relatorios/logControladores.html',
+          controller: 'RelatoriosLogControladoresCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.logControladores',
+            permissions: {
+              only: 'gerarRelatorioLogControladores',
+              redirectTo: 'app.main'
+            }
+          }
+        })
       ;
 
       // Prevent router from automatic state resolving
       $urlRouterProvider.deferIntercept();
+
+      // habilita download de blobs (configuração do controlador)
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
     }])
 
   .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',

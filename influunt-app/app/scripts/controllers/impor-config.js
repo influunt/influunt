@@ -13,11 +13,12 @@ angular.module('influuntApp')
     function ($scope, $controller, $filter, Restangular,
               influuntBlockui, pahoProvider, eventosDinamicos) {
 
-      var setData, setAneisPlanosImpostos, updateImposicoesEmAneis, registerWatcher;
+      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest;
 
-      // Herda todo o comportamento do crud basico.
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
+      $scope.dadosControlador = {erros: ''};
+      $scope.dadosTransacao = {tempoMaximoEspera: 60};
 
       $scope.pesquisa = {
         campos: [
@@ -44,6 +45,7 @@ angular.module('influuntApp')
         perPage: 30,
         current: 1
       };
+
       $scope.esconderPerPage = true;
 
       $scope.aneisSelecionados = [];
@@ -60,17 +62,8 @@ angular.module('influuntApp')
             setData(res);
             return Restangular.one('monitoramento', 'status_aneis').get();
           })
-          .then(setAneisPlanosImpostos)
-          .then(registerWatcher)
+          .then(updateImposicoesEmAneis)
           .finally(influuntBlockui.unblock);
-      };
-
-      var filtraObjetosAneis = function() {
-        $scope.aneisSelecionadosObj = _.filter($scope.lista, function(anel) {
-          return $scope.aneisSelecionados.indexOf(anel.id) >= 0;
-        });
-
-        return $scope.aneisSelecionadosObj;
       };
 
       $scope.selecionaAnel = function(anelId) {
@@ -83,46 +76,103 @@ angular.module('influuntApp')
         filtraObjetosAneis();
       };
 
+      $scope.isAnelCheckedFilter = function(anel) {
+        return $scope.isAnelChecked && anel && $scope.isAnelChecked[anel.id];
+      };
+
+      $scope.continuar = function(transacoesPendentes) {
+        return resolvePendingRequest(_.first(transacoesPendentes), 'CONTINUE');
+      };
+
+      $scope.abortar = function(transacoesPendentes) {
+        return resolvePendingRequest(_.first(transacoesPendentes), 'CANCEL');
+      };
+
+      $scope.lerDados = function(controladorId) {
+        return Restangular.one('monitoramento/').customGET('erros_controladores/' + controladorId + '/historico_falha/0/60', null)
+          .then(function(listaErros) {
+            $scope.dadosControlador.erros = listaErros;
+            return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados');
+          })
+          .finally(influuntBlockui.unblock);
+      };
+
+      $scope.limpaTransacoesAnteriores = function() {
+        $scope.statusObj.transacoes = {};
+      };
+
+      resolvePendingRequest = function(transacaoId, acao) {
+        return pahoProvider.connect().then(function() {
+          var topic = eventosDinamicos.RESOLVE_PENDING_REQUEST.replace(':transacaoId', transacaoId);
+          return pahoProvider.publish(topic, { transacaoId: transacaoId,  acao: acao });
+        });
+      };
+
+      filtraObjetosAneis = function() {
+        $scope.aneisSelecionadosObj = _.filter($scope.lista, function(anel) {
+          return $scope.aneisSelecionados.indexOf(anel.id) >= 0;
+        });
+
+        return $scope.aneisSelecionadosObj;
+      };
+
       setData = function(response) {
         $scope.lista = response.data;
 
         $scope.idsTransacoes = {};
         _.each($scope.lista, function(anel) {
-          $scope.idsTransacoes[anel.controlador] = null;
+          $scope.idsTransacoes[anel.controladorFisicoId] = null;
         });
 
         $scope.pagination.totalItems = $scope.lista.length;
       };
 
-      setAneisPlanosImpostos = function(statusObj) {
-        return updateImposicoesEmAneis(statusObj.statusPlanos);
-      };
-
-      updateImposicoesEmAneis = function(statuses) {
+      updateImposicoesEmAneis = function(statusObj) {
+        var statuses = statusObj.statusPlanos;
         return _.map(statuses, function(status) {
           return _
             .chain($scope.lista)
-            .find({controlador: {id: status.idControlador}, posicao: parseInt(status.anelPosicao)})
+            .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
             .set('hasPlanoImposto', status.hasPlanoImposto)
             .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
-            .set('inicio', status.inicio)
+            .set('inicio', status.inicio || moment().format('DD/MM/YYYY HH:mm:ss'))
             .value();
         });
       };
 
-      registerWatcher = function() {
-        pahoProvider.connect()
-          .then(function() {
-            pahoProvider.register(eventosDinamicos.TROCA_PLANO, function(payload) {
-              var message = JSON.parse(payload);
-              message.conteudo = _.isString(message.conteudo) ? JSON.parse(message.conteudo) : message.conteudo;
-              message.hasPlanoImposto = _.get(message, 'conteudo.imposicaoDePlano');
-              message.anelPosicao = parseInt(_.get(message, 'conteudo.anel.posicao'));
-              message.inicio = _.get(message, 'conteudo.momentoDaTroca');
-              return updateImposicoesEmAneis([message]);
-            });
-          });
-      };
+      $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
+        if (_.isObject(dadosControlador)) {
+          $scope.dadosControlador = $scope.dadosControlador || {};
+          $scope.dadosControlador.conteudo = dadosControlador;
+        }
+      });
+
+      $scope.$watch('statusObj.statusPlanos', function(statuses) {
+        return _.isArray(statuses) && updateImposicoesEmAneis({statusPlanos: statuses});
+      }, true);
+
+      $scope.$watch('statusObj.onlines', function(onlines) {
+        return _.each(onlines, function(value, key) {
+          return _
+            .chain($scope.lista)
+            .filter({ controladorFisicoId: key })
+            .each(function(anel) { anel.online = value; })
+            .value();
+        });
+      }, true);
+
+      $scope.$watch('statusObj.transacoes', function(transacoesPorControlador) {
+        if (!_.isEmpty(transacoesPorControlador)) {
+          $scope.transacoesPendentes = $scope.transacoesPendentes || [];
+          if (transacoesPorControlador) {
+            $scope.transacoesPendentes = _
+              .chain(transacoesPorControlador)
+              .values()
+              .filter('isPending')
+              .map('id')
+              .uniq()
+              .value();
+          }
+        }
+      }, true);
     }]);
-
-

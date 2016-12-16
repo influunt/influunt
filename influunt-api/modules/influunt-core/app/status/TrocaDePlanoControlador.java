@@ -10,6 +10,7 @@ import org.jongo.MongoCursor;
 import play.api.Play;
 import play.libs.Json;
 import uk.co.panaxiom.playjongo.PlayJongo;
+import utils.TipoLogControlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public class TrocaDePlanoControlador {
 
     public static List<HashMap> ultimoStatusPlanoPorAnel() {
         String sortQuery = "{ $sort: {timestamp: -1} }";
-        String groupQuery = "{ $group: { _id: { $concat: ['$idControlador', '-', '$conteudo.anel.posicao'] }, idControlador: { $first: '$idControlador' }, anelPosicao: { $first: '$conteudo.anel.posicao' }, hasPlanoImposto: { $first: '$conteudo.imposicaoDePlano' }, inicio: {$first: '$conteudo.momentoOriginal'}, modoOperacao: { $first: '$conteudo.plano.modoOperacao' }, planoPosicao: { $first: '$conteudo.plano.posicao' } } }";
+        String groupQuery = "{ $group: { _id: { $concat: ['$idControlador', '-', '$conteudo.anel.posicao'] }, idControlador: { $first: '$idControlador' }, controladorFisicoId: { $first: '$idControlador' }, anelPosicao: { $first: '$conteudo.anel.posicao' }, hasPlanoImposto: { $first: '$conteudo.imposicaoDePlano' }, inicio: {$first: '$conteudo.momentoOriginal'}, modoOperacao: { $first: '$conteudo.plano.modoOperacao' }, planoPosicao: { $first: '$conteudo.plano.posicao' } } }";
 
         Aggregate.ResultsIterator<Map> ultimoStatus = trocas().aggregate(sortQuery).and(groupQuery).as(Map.class);
         List<HashMap> resultado = new ArrayList<>();
@@ -142,6 +143,7 @@ public class TrocaDePlanoControlador {
 
     public static void log(long carimboDeTempo, String idControlador, String idAnel, JsonNode conteudo) {
         new TrocaDePlanoControlador(carimboDeTempo, idControlador, idAnel, conteudo).save();
+        LogControlador.log(idControlador, carimboDeTempo, conteudo.get("descricaoEvento").asText(), TipoLogControlador.TROCA_PLANO);
     }
 
     public ModoOperacaoPlano getModoOperacao() {

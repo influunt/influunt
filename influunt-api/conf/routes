@@ -44,6 +44,7 @@ POST      /api/v1/controladores/associacao_detectores                 controller
 GET       /api/v1/controladores/:id                                   controllers.ControladoresController.findOne(id)
 DELETE    /api/v1/controladores/:id                                   controllers.ControladoresController.delete(id)
 GET       /api/v1/controladores/:id/simulacao                         controllers.ControladoresController.getControladorForSimulacao(id)
+GET       /api/v1/controladores/:id/status_dinamico                   controllers.ControladoresController.findOneByControladorFisico(id)
 POST      /api/v1/controladores/:id/edit                              controllers.ControladoresController.edit(id)
 GET       /api/v1/controladores/:id/instalacao                        controllers.ControladoresController.instalacao(id)
 GET       /api/v1/controladores/:id/timeline                          controllers.ControladoresController.timeline(id)
@@ -55,6 +56,7 @@ GET       /api/v1/controladores/:id/editar_planos                     controller
 GET       /api/v1/controladores/:id/editar_tabelas_horarias           controllers.ControladoresController.editarTabelaHoraria(id)
 PUT       /api/v1/controladores/:id/atualizar_descricao               controllers.ControladoresController.atualizarDescricao(id)
 DELETE    /api/v1/controladores/:id/remover_planos_tabelas_horarias   controllers.ControladoresController.removerPlanosTabelasHorarios(id)
+POST      /api/v1/controladores/ler_dados                             controllers.ControladoresController.lerDados
 
 # Fabricantes
 GET       /api/v1/fabricantes                                         controllers.FabricantesController.findAll()
@@ -165,10 +167,15 @@ GET       /api/v1/monitoramento/troca_planos_controladores/:id/historico/:pagina
 
 
 # Alarmes e Falhas Controladores
+GET       /api/v1/usuarios/:usuario_id/alarmes_e_falhas                                        controllers.monitoramento.AlarmesEFalhasController.getAlarmesEFalhasDoUsuario(usuario_id)
+POST      /api/v1/usuarios/:usuario_id/alarmes_e_falhas                                        controllers.monitoramento.AlarmesEFalhasController.create(usuario_id)
+
+GET       /api/v1/monitoramento/alarmes_e_falhas                                               controllers.monitoramento.AlarmesEFalhasController.findAll()
 GET       /api/v1/monitoramento/erros_controladores/:id                                        controllers.monitoramento.AlarmesEFalhasControladorController.findOne(id)
 GET       /api/v1/monitoramento/erros_controladores                                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimosAlarmesEFalhasDosControladores()
 GET       /api/v1/monitoramento/erros_controladores/:id/ultimo_erro                            controllers.monitoramento.AlarmesEFalhasControladorController.ultimoAlarmeFalhaControlador(id)
 GET       /api/v1/monitoramento/erros_controladores/:id/historico/:pagina/:tamanho             controllers.monitoramento.AlarmesEFalhasControladorController.historico(id,pagina,tamanho)
+GET       /api/v1/monitoramento/erros_controladores/:id/historico_falha/:pagina/:tamanho        controllers.monitoramento.AlarmesEFalhasControladorController.historicoFalha(id,pagina,tamanho)
 
 # Monitoramento
 GET       /api/v1/monitoramento/status_controladores                                            controllers.monitoramento.MonitoramentoController.ultimoStatusDosControladores()
@@ -183,6 +190,7 @@ POST      /api/v1/cucumber                                                      
 
 #Simulação
 POST       /api/v1/simulacao                                                                    controllers.simulacao.SimuladorController.simular
+POST       /api/v1/simulacao/:id/parar                                                          controllers.simulacao.SimuladorController.pararSimulacao(id)
 
 # Asset
 GET       /assets/*file                                                                         controllers.Assets.at(path="/public", file)
@@ -194,10 +202,15 @@ GET       /api/v1/relatorios/controladores_falhas                               
 GET       /api/v1/relatorios/controlador/:id                                                    controllers.RelatoriosController.gerarRelatorioControlador(id)
 GET       /api/v1/relatorios/planos                                                             controllers.RelatoriosController.gerarRelatorioPlanos()
 GET       /api/v1/relatorios/tabela_horaria                                                     controllers.RelatoriosController.gerarRelatorioTabelaHoraria
+GET       /api/v1/relatorios/log_controladores                                                  controllers.RelatoriosController.gerarRelatorioLogControladores()
 
 # Imposições
 POST       /api/v1/imposicoes/pacote_plano                                                      controllers.ImposicoesController.pacotePlano
+POST       /api/v1/imposicoes/tabela_horaria                                                    controllers.ImposicoesController.tabelaHoraria
 POST       /api/v1/imposicoes/configuracao_completa                                             controllers.ImposicoesController.configuracaoCompleta
 POST       /api/v1/imposicoes/modo_operacao                                                     controllers.ImposicoesController.modoOperacao
 POST       /api/v1/imposicoes/plano                                                             controllers.ImposicoesController.plano
 POST       /api/v1/imposicoes/liberar                                                           controllers.ImposicoesController.liberar
+POST       /api/v1/imposicoes/colocar_manutencao                                                controllers.ImposicoesController.colocarManutencao
+POST       /api/v1/imposicoes/inativar                                                          controllers.ImposicoesController.inativar
+POST       /api/v1/imposicoes/ativar                                                            controllers.ImposicoesController.ativar

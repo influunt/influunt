@@ -20,8 +20,6 @@ public enum TipoEvento {
     ALARME_AMARELO_INTERMITENTE(TipoEventoControlador.ALARME, 29, "Amarelo Intermitente", "Amarelo Intermitente", null),
     ALARME_SEMAFORO_APAGADO(TipoEventoControlador.ALARME, 30, "Semáforo apagado", "Semafóro apagado", null),
     ALARME_ACERTO_RELOGIO_GPS(TipoEventoControlador.ALARME, 52, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
-    ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.ALARME, 7, "Foco vermelho apagado", "Anel %s: Foco vermelho do G%s apagado", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
-    ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO(TipoEventoControlador.ALARME, 8, "Foco vermelho apagado removida", "Anel %s: Foco vermelho do G%s apagado removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
 
 
     //Falhas
@@ -38,17 +36,18 @@ public enum TipoEvento {
 
     FALHA_SEQUENCIA_DE_CORES(TipoEventoControlador.FALHA, 7, true, "Falha sequencia de cores", "Anel %s: Falha sequencia de cores", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
-    FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 8, true, "Verdes conflitantes", "Anel %s: Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    FALHA_VERDES_CONFLITANTES(TipoEventoControlador.FALHA, 8, true, "Verdes conflitantes", "Anel %s: Falha de Verdes conflitantes", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
 
     FALHA_WATCH_DOG(TipoEventoControlador.FALHA, 9, true, "Falha CPU", "Falha CPU", null),
     FALHA_MEMORIA(TipoEventoControlador.FALHA, 10, true, "Falha Memoria", "Falha Memoria", null),
+    FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 11, "Foco vermelho apagado", "Anel %s: Foco vermelho do G%s apagado", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
 
     //Remocao de Falhas
     REMOCAO_FALHA_DETECTOR_PEDESTRE(TipoEventoControlador.REMOCAO_FALHA, 1, "Detector pedestre - Remoção de falha", "Anel %s: Falha no DP%s removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
     REMOCAO_FALHA_DETECTOR_VEICULAR(TipoEventoControlador.REMOCAO_FALHA, 2, "Detector veicular - Remoção de falha", "Anel %s: Falha no DV%s removida", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
     REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO(TipoEventoControlador.REMOCAO_FALHA, 3, true, "Fase vermelha do grupo semafórico apagada removida", "%s: Fase vermelha do G%s apagada removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
-    REMOCAO_FALHA_VERDES_CONFLITANTES(TipoEventoControlador.REMOCAO_FALHA, 4, true, "Verdes conflitantes removido", "Anel %s: Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
-
+    REMOCAO_FALHA_VERDES_CONFLITANTES(TipoEventoControlador.REMOCAO_FALHA, 4, true, "Verdes conflitantes removido", "Anel %s: Falha de Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
+    REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO(TipoEventoControlador.REMOCAO_FALHA, 5, "Foco vermelho apagado removida", "Anel %s: Foco vermelho do G%s apagado removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),

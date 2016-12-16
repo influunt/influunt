@@ -29,7 +29,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO)) {
+            if (TipoMensagem.CONFIGURACAO.equals(envelope.getTipoMensagem())) {
                 if (envelope.getEmResposta() == null) {
                 } else {
                     Envelope envelopeSinal;
@@ -38,22 +38,22 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     if (controlador != null) {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
-                        envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao());
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_OK, idControlador, DestinoCentral.pedidoConfiguracao());
                         envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
                     } else {
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
+
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
                     if (envelopeStatus != null) {
                         getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                     }
-                    //Se OK, avisa o motor para colocar o controlador no ar
-                    if (envelopeSinal.getTipoMensagem().equals(TipoMensagem.OK)) {
+
+                    //Se controlador completo, avisa o motor para colocar o controlador no ar
+                    if (storage.getControlador() != null && storage.getControlador().isCompleto()) {
                         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
                     }
-
-                    getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
                 }
             }
         } else if (message instanceof String) {

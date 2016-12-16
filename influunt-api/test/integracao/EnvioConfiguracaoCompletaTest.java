@@ -7,6 +7,8 @@ import org.junit.Test;
 import utils.TransacaoHelper;
 
 import javax.validation.groups.Default;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -28,20 +30,19 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     }
 
     @Test
-    public void envioConfiguracaoCompletaOk() {
+    public void envioConfiguracaoCompletaOk() throws InterruptedException, IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
-
+        await().until(() -> onPublishFutureList.size() > 6);
         enviarConfiguracaoCompleta(controlador);
         assertTransacaoOk();
     }
 
     @Test
-    public void envioConfiguracaoCompletaErro() throws InterruptedException, ExecutionException, TimeoutException {
+    public void envioConfiguracaoCompletaErro() throws InterruptedException, ExecutionException, TimeoutException, IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().until(() -> onPublishFutureList.size() > 6);
 
         Anel anel = controlador.getAneis().stream().filter(anel1 -> !anel1.isAtivo()).findAny().orElse(null);
         anel.setAtivo(true);
@@ -61,6 +62,6 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
 
     private void enviarConfiguracaoCompleta(Controlador controlador) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarConfiguracaoCompleta(controlador);
+        transacaoHelper.enviarConfiguracaoCompleta(Arrays.asList(controlador), 1000L);
     }
 }

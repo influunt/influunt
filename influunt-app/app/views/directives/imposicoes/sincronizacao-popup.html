@@ -1,0 +1,27 @@
+<button data-toggle="modal"
+        data-target="#modal-sincronizar"
+        class="btn btn-w-m btn-primary"
+        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
+        {{ 'imporConfig.sincronizar' | translate }}
+</button>
+
+<!-- modal | sincronizar -->
+<div class="modal inmodal" id="modal-sincronizar" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <sincronizacao
+                aneis-selecionados="aneisSelecionados"
+                ids-transacoes="idsTransacoes"
+                track-transaction="trackTransaction"
+                transacoes="transacoes"
+                dismiss-on-submit="true">
+            </sincronizacao>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

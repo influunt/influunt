@@ -25,4 +25,16 @@ public class FalhasEAlertasService {
 
     }
 
+    public static List<TipoEvento> getRemocaoDeFalhas() {
+        return Arrays.stream(TipoEvento.values())
+            .filter(tipoEvento -> tipoEvento.getTipoEventoControlador().equals(TipoEventoControlador.REMOCAO_FALHA))
+            .collect(Collectors.toList());
+    }
+
+    public static List<TipoEvento> getEventosTrocaDePlano() {
+        return Arrays.stream(TipoEvento.values())
+            .filter(tipoEvento -> tipoEvento.getTipoEventoControlador().equals(TipoEventoControlador.TROCA_PLANO))
+            .collect(Collectors.toList());
+    }
+
 }

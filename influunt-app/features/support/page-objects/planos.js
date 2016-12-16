@@ -58,11 +58,16 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoApagarEstagio = function(estagio) {
-     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click().then(function() {
-      return world.waitFor('div#modal-configuracao-estagio');
-    }).then(function() {
-      return world.waitForAnimationFinishes('div.modal-content');
-    });
+    return world.waitForOverlayDisappear()
+      .then(function(){
+        return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click();
+      })
+      .then(function() {
+        return world.waitFor('div#modal-configuracao-estagio');
+      })
+      .then(function() {
+        return world.waitForAnimationFinishes('div.modal-content');
+      });
   };
 
   this.marcarValorConfig = function(field, value) {
@@ -125,8 +130,8 @@ var PlanosPage = function () {
   };
 
   this.selecionarPlano = function(valor) {
-    var campo = 'select[name="controladores"]';
-    return world.selectOption(campo, valor);
+    var campo = 'controladores';
+    return world.select2OptionByXpath(campo, valor);
   };
 
   this.nomePlanoAlterado = function(plano) {
@@ -181,6 +186,22 @@ var PlanosPage = function () {
 
   this.alertVerdeSeguranca = function() {
     return world.getTextInSweetAlert();
+  };
+
+  this.checkEstagioDispensavel = function() {
+    return world.getElementByXpath('//input[contains(@name, "dispensavel")]/..').click();
+  };
+
+  this.selecionaEstagioQueRecebeDispensavel = function(estagio) {
+    return world.getElementByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(text(), "'+estagio+'")]').click();
+  };
+
+  this.deveConterEstagioQueRecebeDispensavel = function(estagio) {
+    return world.waitForByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(@selected, "selected")][contains(text(), "'+estagio+'")]');
+  };
+
+  this.valorDoKnob = function(valor) {
+    return world.waitForByXpath('//influunt-knob[contains(@title, "DEFASAGEM")]//p[contains(@class, "knob-value")][contains(text(), "'+valor+'")]');
   };
 };
 

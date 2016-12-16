@@ -21,10 +21,10 @@ angular.module('influuntApp')
       $scope.inicializaResourceHistorico('planos');
 
       var selecionaAnel, adicionaEstagioASequencia, carregaDadosPlano, getOpcoesEstagiosDisponiveis,
-          getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, removerPlanoLocal,
+          getErrosGruposSemaforicosPlanos, getErrosPlanoAtuadoSemDetector, duplicarPlano, limparPlanoLocal,
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
-          getErrosNumeroEstagiosPlanoManual;
+          getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, clearErrosOnChange;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -135,11 +135,11 @@ angular.module('influuntApp')
           .then(function(res) {
             if (res) {
               if (angular.isUndefined(plano.id)) {
-                removerPlanoLocal(plano, index);
+                limparPlanoLocal(plano, index);
               } else {
                 Restangular.one('planos', plano.id).remove()
                   .then(function() {
-                    removerPlanoLocal(plano, index);
+                    limparPlanoLocal(plano, index);
                   }).catch(function() {
                     toast.error($filter('translate')('planos.resetarPlano.erroAoDeletar'));
                   })
@@ -424,8 +424,10 @@ angular.module('influuntApp')
        * de forma estática (todo o diagrama deve assumir um dos modos acima).
        */
       $scope.$watch('currentPlano', function() {
-        $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
+        diagramaDebouncer = $timeout(function() {
+          clearErrosOnChange();
+          atualizaDiagramaIntervalos();
+        }, 500);
       }, true);
 
       $scope.$watch('currentEstagioPlano', function() {
@@ -437,6 +439,13 @@ angular.module('influuntApp')
         $timeout.cancel(diagramaDebouncer);
         diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
       }, true);
+
+      clearErrosOnChange = function() {
+        var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + ']';
+        if (_.get($scope.errors, path)) {
+          _.set($scope.errors, path, undefined);
+        }
+      };
 
       duplicarPlano = function(plano) {
         var novoPlano = _.cloneDeep(plano);
@@ -473,16 +482,23 @@ angular.module('influuntApp')
           if (errosGruposSemaforicosPlanos) {
             _.each(errosGruposSemaforicosPlanos, function(erro, index) {
               if(erro && angular.isArray(erro.respeitaVerdesDeSeguranca)) {
-                var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
-                var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
-                var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
-                var texto = 'G' + grupoSemaforico.posicao + ' - ' + erro.respeitaVerdesDeSeguranca[0];
-                erros.push(texto);
+                erros.push(adicionaGrupoSemaforicoNaMensagemDeErro(index, erro.respeitaVerdesDeSeguranca[0]));
+              }
+
+              if(erro && angular.isArray(erro.respeitaVerdesDeSegurancaSemDispensavel)) {
+                erros.push(adicionaGrupoSemaforicoNaMensagemDeErro(index, erro.respeitaVerdesDeSegurancaSemDispensavel[0]));
               }
             });
           }
         }
         return erros;
+      };
+
+      adicionaGrupoSemaforicoNaMensagemDeErro = function(index, mensagem){
+        var grupoSemaforicoPlanoIdJson = $scope.currentPlano.gruposSemaforicosPlanos[index].idJson;
+        var grupoSemaforicoPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoSemaforicoPlanoIdJson});
+        var grupoSemaforico = _.find($scope.objeto.gruposSemaforicos, {idJson: grupoSemaforicoPlano.grupoSemaforico.idJson});
+        return 'G' + grupoSemaforico.posicao + ' - ' + mensagem;
       };
 
       getErrosUltrapassaTempoCiclo = function(listaErros, currentPlanoIndex) {
@@ -493,8 +509,8 @@ angular.module('influuntApp')
           if (errosUltrapassaTempoCiclo) {
             _.each(errosUltrapassaTempoCiclo, function (errosNoPlano){
               if(errosNoPlano) {
-                var texto = errosNoPlano.replace("{temposEstagios}", tempoEstagiosPlanos[$scope.currentAnelIndex][currentPlanoIndex])
-                  .replace("{tempoCiclo}", tempoCiclo[$scope.currentAnelIndex][currentPlanoIndex]);
+                var texto = errosNoPlano.replace('{temposEstagios}', tempoEstagiosPlanos[$scope.currentAnelIndex][currentPlanoIndex])
+                  .replace('{tempoCiclo}', tempoCiclo[$scope.currentAnelIndex][currentPlanoIndex]);
                 erros.push(texto);
               }
             });
@@ -640,7 +656,7 @@ angular.module('influuntApp')
         }
       };
 
-      removerPlanoLocal = function(plano, index) {
+      limparPlanoLocal = function(plano, index) {
         var idPlano = plano.id;
         var indexPlano = _.findIndex($scope.objeto.planos, {idJson: plano.idJson});
         $scope.objeto.planos.splice(indexPlano, 1);
@@ -651,7 +667,7 @@ angular.module('influuntApp')
         if(plano.manualExclusivo) {
           planoService.criarPlanoManualExclusivo($scope.objeto, $scope.currentAnel);
         } else if (plano.planoTemporario) {
-          planoService.criarPlanoExclusivoDeImposicao($scope.objeto, $scope.currentAnel);
+          planoService.criarPlanoExclusivoTemporario($scope.objeto, $scope.currentAnel);
         } else {
           planoService.adicionar($scope.objeto, $scope.currentAnel, plano.posicao);
         }

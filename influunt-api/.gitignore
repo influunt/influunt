@@ -1,6 +1,5 @@
 log
 logs
-log
 target
 /.idea
 /.idea_modules
@@ -12,3 +11,7 @@ imagens/*
 /bin/
 local
 form.properties
+*-tcplocalhost1883
+*-tcp1270011883
+*-tcpmosquittorarolabscombr1883
+*.log

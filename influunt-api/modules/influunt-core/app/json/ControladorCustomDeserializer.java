@@ -184,6 +184,10 @@ public class ControladorCustomDeserializer {
     }
 
     public Controlador getControladorFromJson(JsonNode node) {
+        return getControladorFromJson(node, null);
+    }
+
+    public Controlador getControladorFromJson(JsonNode node, Usuario usuario) {
         parseAneis(node);
         parseEstagios(node);
         parseGruposSemaforicos(node);
@@ -205,37 +209,58 @@ public class ControladorCustomDeserializer {
         parseCidades(node);
         parseAreas(node);
         parseAtrasosDeGrupo(node);
-        parseVersoesPlanos(node);
-        parseVersoesTabelasHorarias(node);
+        parseVersoesPlanos(node, usuario);
+        parseVersoesTabelasHorarias(node, usuario);
 
         consumers.forEach(c -> c.accept(caches));
 
         return controlador;
     }
 
-    public Controlador getPacotesFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
-        ObjectNode node = ((ObjectNode) configuracaoControladorJson);
-        for (JsonNode innerNode : pacotePlanosJson.get("versoesPlanos")) {
-            if (innerNode.has("anel") && innerNode.get("anel").has("idJson")) {
-                for (JsonNode anelNode : node.get("aneis")) {
-                    if (anelNode.get("idJson").asText().equals(innerNode.get("anel").get("idJson").asText())) {
-                        ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", innerNode.get("idJson"));
+
+    public Controlador getPacotePlanosFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+        JsonNode controladorJson = buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
+        return getControladorFromJson(controladorJson);
+    }
+
+    private JsonNode buildControladorJsonFromPacotePlanos(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson) {
+        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+
+        for (JsonNode versaoPlanoJson : pacotePlanosJson.get("versoesPlanos")) {
+            if (versaoPlanoJson.has("anel") && versaoPlanoJson.get("anel").has("idJson")) {
+                for (JsonNode anelNode : controladorJson.get("aneis")) {
+                    if (anelNode.get("idJson").asText().equals(versaoPlanoJson.get("anel").get("idJson").asText())) {
+                        ((ObjectNode) anelNode.get("versaoPlano")).set("idJson", versaoPlanoJson.get("idJson"));
                     }
                 }
 
             }
         }
-        node.set("versoesPlanos", pacotePlanosJson.get("versoesPlanos"));
-        node.set("planos", pacotePlanosJson.get("planos"));
-        node.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
-        node.set("intervalos", pacotePlanosJson.get("intervalos"));
-        node.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
+        controladorJson.set("versoesPlanos", pacotePlanosJson.get("versoesPlanos"));
+        controladorJson.set("planos", pacotePlanosJson.get("planos"));
+        controladorJson.set("gruposSemaforicosPlanos", pacotePlanosJson.get("gruposSemaforicosPlanos"));
+        controladorJson.set("estagiosPlanos", pacotePlanosJson.get("estagiosPlanos"));
 
-        node.set("versoesTabelasHorarias", pacotePlanosJson.get("versoesTabelasHorarias"));
-        node.set("tabelasHorarias", pacotePlanosJson.get("tabelasHorarias"));
-        node.set("eventos", pacotePlanosJson.get("eventos"));
+        return controladorJson;
+    }
 
-        return getControladorFromJson(node);
+    public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson) {
+        ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
+        controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
+        controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
+        controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
+
+        return getControladorFromJson(controladorJson);
+    }
+
+    public Controlador getPacoteConfiguracaoCompletaFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson, JsonNode pacoteTabelaHorariaJson) {
+        ObjectNode controladorJson = (ObjectNode) buildControladorJsonFromPacotePlanos(configuracaoControladorJson, pacotePlanosJson);
+
+        controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
+        controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
+        controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
+
+        return getControladorFromJson(controladorJson);
     }
 
     private void parseAneis(JsonNode node) {
@@ -283,12 +308,12 @@ public class ControladorCustomDeserializer {
         }
     }
 
-    private void parseVersoesTabelasHorarias(JsonNode node) {
+    private void parseVersoesTabelasHorarias(JsonNode node, Usuario usuario) {
         if (node.has("versoesTabelasHorarias")) {
             List<VersaoTabelaHoraria> versoesTabelaHorarias = new ArrayList<VersaoTabelaHoraria>();
             for (JsonNode nodeVersaoTabelaHoraria : node.get("versoesTabelasHorarias")) {
-                VersaoTabelaHoraria versaoTabelaHoraria = parseVersaoTabelaHoraria(nodeVersaoTabelaHoraria);
-                versoesTabelasHorariasCache.put(versaoTabelaHoraria.getIdJson().toString(), versaoTabelaHoraria);
+                VersaoTabelaHoraria versaoTabelaHoraria = parseVersaoTabelaHoraria(nodeVersaoTabelaHoraria, usuario);
+                versoesTabelasHorariasCache.put(versaoTabelaHoraria.getIdJson(), versaoTabelaHoraria);
                 versoesTabelaHorarias.add(versaoTabelaHoraria);
             }
             controlador.setVersoesTabelasHorarias(versoesTabelaHorarias);
@@ -356,11 +381,11 @@ public class ControladorCustomDeserializer {
         }
     }
 
-    private void parseVersoesPlanos(JsonNode node) {
+    private void parseVersoesPlanos(JsonNode node, Usuario usuario) {
         if (node.has("versoesPlanos")) {
             for (JsonNode innerNode : node.get("versoesPlanos")) {
-                VersaoPlano versaoPlano = parseVersaoPlano(innerNode);
-                versoesPlanosCache.put(versaoPlano.getIdJson().toString(), versaoPlano);
+                VersaoPlano versaoPlano = parseVersaoPlano(innerNode, usuario);
+                versoesPlanosCache.put(versaoPlano.getIdJson(), versaoPlano);
             }
         }
     }
@@ -1009,8 +1034,13 @@ public class ControladorCustomDeserializer {
         return tabelaEntreVerdesTransicao;
     }
 
-    private VersaoPlano parseVersaoPlano(JsonNode node) {
-        VersaoPlano versaoPlano = new VersaoPlano();
+    private VersaoPlano parseVersaoPlano(JsonNode node, Usuario usuario) {
+        VersaoPlano versaoPlano;
+        if (usuario == null) {
+            versaoPlano = new VersaoPlano();
+        } else {
+            versaoPlano = new VersaoPlano(usuario);
+        }
 
         if (node.has("id")) {
             versaoPlano.setId(UUID.fromString(node.get("id").asText()));
@@ -1189,8 +1219,13 @@ public class ControladorCustomDeserializer {
         return estagioPlano;
     }
 
-    private VersaoTabelaHoraria parseVersaoTabelaHoraria(JsonNode node) {
-        VersaoTabelaHoraria versaoTabelaHoraria = new VersaoTabelaHoraria();
+    private VersaoTabelaHoraria parseVersaoTabelaHoraria(JsonNode node, Usuario usuario) {
+        VersaoTabelaHoraria versaoTabelaHoraria;
+        if (usuario == null) {
+            versaoTabelaHoraria = new VersaoTabelaHoraria();
+        } else {
+            versaoTabelaHoraria = new VersaoTabelaHoraria(usuario);
+        }
 
         if (node.has("id")) {
             versaoTabelaHoraria.setId(UUID.fromString(node.get("id").asText()));
@@ -1463,6 +1498,10 @@ public class ControladorCustomDeserializer {
                 controlador.setArea((Area) map.get(areaId));
             };
             runLater(c);
+        }
+
+        if (node.has("exclusivoParaTeste")) {
+            controlador.setExclusivoParaTeste(node.get("exclusivoParaTeste").asBoolean());
         }
 
         if (node.has("subarea") && !node.get("subarea").get("id").isNull()) {
@@ -1802,4 +1841,5 @@ public class ControladorCustomDeserializer {
     private void runLater(Consumer<Map<String, Map>> c) {
         consumers.add(c);
     }
+
 }

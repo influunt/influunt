@@ -1,8 +1,13 @@
 package integracao;
 
+import models.Anel;
 import models.ModoOperacaoPlano;
 import org.junit.Test;
 import utils.TransacaoHelper;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;
 
@@ -12,28 +17,28 @@ import static org.awaitility.Awaitility.await;
 public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
 
     @Test
-    public void imporModoOK() {
+    public void imporModoOK() throws IOException {
         controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().until(() -> onPublishFutureList.size() > 6);
 
         long horarioEntrada = System.currentTimeMillis() + 60000L;
-        imporModoOperacao(1, horarioEntrada, 30);
+        imporModoOperacao(getAnel(1), horarioEntrada, 30);
         assertTransacaoOk();
     }
 
     @Test
-    public void imporModoComErro() {
+    public void imporModoComErro() throws IOException {
         startClient();
-        await().until(() -> onPublishFutureList.size() > 8);
+        await().until(() -> onPublishFutureList.size() > 6);
 
         long horarioEntrada = System.currentTimeMillis() + 60000L;
-        imporModoOperacao(-1, horarioEntrada, -1);
+        imporModoOperacao(getAnel(1), horarioEntrada, -1);
         assertTransacaoErro();
     }
 
-    private void imporModoOperacao(int numeroAnel, Long horarioEntrada, int duracao) {
+    private void imporModoOperacao(Anel anel, Long horarioEntrada, int duracao) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporModoOperacao(controlador, ModoOperacaoPlano.INTERMITENTE, numeroAnel, horarioEntrada, duracao);
+        transacaoHelper.imporModoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L);
     }
 }

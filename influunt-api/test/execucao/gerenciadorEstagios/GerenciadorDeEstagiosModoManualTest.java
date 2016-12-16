@@ -2,10 +2,7 @@ package execucao.gerenciadorEstagios;
 
 import execucao.GerenciadorDeEstagiosTest;
 import integracao.ControladorHelper;
-import models.Anel;
-import models.EstagioPlano;
-import models.ModoOperacaoPlano;
-import models.Plano;
+import models.*;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -54,8 +51,6 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 200);
 
-        plano.imprimirTabelaEntreVerde();
-
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(36)).getEstagio().getPosicao().intValue());
@@ -74,14 +69,15 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         Plano plano = getPlano(anel, 7);
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
+        Estagio estagio = anel.findEstagioByPosicao(3);
+        estagio.setTempoMaximoPermanencia(100);
+
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);
 
         avancar(gerenciadorDeEstagios, 100);
         trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 140);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
@@ -105,15 +101,12 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
 
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);
-        avancar(gerenciadorDeEstagios, 600);
-
-        plano.imprimirTabelaEntreVerde();
+        avancar(gerenciadorDeEstagios, 300);
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(37)).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(300)).getEstagio().getPosicao().intValue());
-        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(369)).getEstagio().getPosicao().intValue());
     }
 
     @Test
@@ -136,8 +129,6 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         avancar(gerenciadorDeEstagios, 63);
         trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
@@ -189,8 +180,6 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         avancar(gerenciadorDeEstagios, 48);
         trocarEstagioModoManual(gerenciadorDeEstagios);
         avancar(gerenciadorDeEstagios, 100);
-
-        plano.imprimirTabelaEntreVerde();
 
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());

@@ -20,9 +20,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void motorTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 210);
 
@@ -75,9 +74,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaModoApagadoTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 19, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 19, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 210);
@@ -141,14 +139,19 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void saidaModoIntermitenteTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 18, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 18, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         //Avancar
         avancarSegundos(motor, 210);
 
         assertEquals("Plano Atual", 10, getPlanoTrocaEfetiva(3, 72).getPosicao().intValue());
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 4, listaEstagios.get(inicioExecucao.plusSeconds(53)).get(3).getEstagio().getPosicao().intValue());
+
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(72)).get(3).getEstagio().getPosicao());
         verificaGruposSemaforicos(72, new GrupoCheck(3, 11, 0, 11000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(72, new GrupoCheck(3, 11, 11000, 14000, EstadoGrupoSemaforico.VERMELHO));
@@ -201,9 +204,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaModoIntermitenteTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 20, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 20, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 210);
 
@@ -214,9 +216,8 @@ public class TrocaDeModosOperacaoTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaESaidaModoIntermitenteNoEntreverdeTest() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 21, 0, 0);
         inicioExecucao = new DateTime(2016, 10, 20, 21, 0, 0);
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 210);
 

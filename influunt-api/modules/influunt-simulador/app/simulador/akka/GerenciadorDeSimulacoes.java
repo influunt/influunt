@@ -6,9 +6,7 @@ import akka.actor.Props;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.simulador.parametros.ParametroSimulacao;
-
-import java.util.ArrayList;
-import java.util.List;
+import play.Configuration;
 
 /**
  * Created by rodrigosol on 10/4/16.
@@ -16,27 +14,23 @@ import java.util.List;
 @Singleton
 public class GerenciadorDeSimulacoes {
 
-    private final ActorSystem system;
-
-    private ActorRef servidor;
-
-    private List<ActorRef> simuladores = new ArrayList<>();
+    private ActorRef gerenciadorActor;
 
     @Inject
-    public GerenciadorDeSimulacoes(ActorSystem system) {
-        this.system = system;
+    public GerenciadorDeSimulacoes(Configuration configuration, ActorSystem system) {
+        Configuration mqtt = configuration.getConfig("central").getConfig("mqtt");
+        gerenciadorActor = system.actorOf(Props.create(GerenciadorDeSimulacoesActor.class,
+            mqtt.getString("host"),
+            mqtt.getString("port"),
+            mqtt.getString("login"),
+            mqtt.getString("senha")), "GerenciadorDeSimulacoes");
     }
 
-    public void finish() {
-        system.terminate();
+    public void pararSimulacao(String simulacaoId) {
+        gerenciadorActor.tell(simulacaoId, ActorRef.noSender());
     }
 
     public void iniciarSimulacao(ParametroSimulacao params) {
-        ActorRef simulador = system.actorOf(Props.create(SimuladorActor.class,
-            "mosquitto.rarolabs.com.br",
-            "1883",
-            params), "simulador_" + params.getId().toString());
-
-        simuladores.add(simulador);
+        gerenciadorActor.tell(params, ActorRef.noSender());
     }
 }

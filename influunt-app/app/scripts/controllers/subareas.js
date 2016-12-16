@@ -61,9 +61,11 @@ angular.module('influuntApp')
       };
 
       $scope.onSubmit = function() {
-        $scope.objeto.controladoresAssociados = $scope.objeto.controladoresAssociados.map(function(i) {
-          return {id: i.id};
-        });
+        if ($scope.objeto && _.isArray($scope.objeto.controladoresAssociados)) {
+          $scope.objeto.controladoresAssociados = $scope.objeto.controladoresAssociados.map(function(i) {
+            return {id: i.id};
+          });
+        }
 
         return $scope.save();
       };

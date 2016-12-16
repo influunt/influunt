@@ -36,10 +36,9 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
     @Test
     public void demandaPrioritariaDentroDoModoManual() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 29, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 29, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         Anel anel = getAnel(3);
         Pair<Integer, TipoDetector> detector = getDetector(anel, 3);
@@ -139,10 +138,9 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
     @Test
     public void saidaManualParaCoordenado() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 30, 0, 0, 0);
         inicioExecucao = new DateTime(2016, 11, 30, 0, 0, 0);
         controlador = getControlador();
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 5);
         acionarModoManual(motor);
@@ -176,5 +174,36 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
         assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(18)));
         assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(35)));
+    }
+
+    @Test
+    public void coordenadoComDemandaPrioritaria() throws IOException {
+        inicioExecucao = new DateTime(2016, 12, 1, 0, 0, 0);
+        controlador = getControlador();
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        Anel anel = getAnel(3);
+        Pair<Integer, TipoDetector> detector = getDetector(anel, 3);
+
+        avancarSegundos(motor, 154);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(154), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, 3));
+        avancarSegundos(motor, 200);
+
+        assertEquals("Anel 1 - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Anel 2 - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(130)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Anel 3 - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(140)).get(3).getEstagio().getPosicao().intValue());
+
+        //Acionamento demanda prioritaria
+        assertEquals("Anel 3 - E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(156)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("Anel 3 - E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(172)).get(3).getEstagio().getPosicao().intValue());
+
+        //Saida demanda prioritaria
+        assertEquals("Anel 3 - E1", 2, listaEstagios.get(inicioExecucao.plusSeconds(208)).get(3).getEstagio().getPosicao().intValue());
+
+        //Sincronização após demanda prioritaria
+        assertEquals("Anel 1 - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(240)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Anel 2 - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(250)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Anel 3 - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(260)).get(3).getEstagio().getPosicao().intValue());
+
     }
 }

@@ -44,11 +44,11 @@ public class GerenciadorDeTabelaHoraria {
 
     private void processaEvento(Evento evento) {
         for (Integer inicio : evento.getDiaDaSemana().momentosDeAtivacao(getMSNoDia(evento))) {
-            adiconarEvento(evento, inicio);
+            adicionarEvento(evento, inicio);
         }
     }
 
-    private void adiconarEvento(Evento evento, int inicio) {
+    private void adicionarEvento(Evento evento, int inicio) {
         if (rangeMap.getEntry(0) == null) {
             rangeMap.put(closed(inicio, ULTIMO_MS_DA_SEMANA), evento);
             rangeMap.put(closedOpen(PRIMEIRO_MS_DA_SEMANA, inicio), evento);

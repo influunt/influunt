@@ -75,16 +75,19 @@ public class VersaoPlano extends Model implements Serializable {
         super();
         this.idJson = UUID.randomUUID().toString();
         this.statusVersao = StatusVersao.EDITANDO;
-        this.descricao = "Planos criado";
+    }
+
+    public VersaoPlano(Usuario usuario) {
+        this();
+        this.usuario = usuario;
+        if (usuario != null && usuario.getNome() != null) {
+            this.descricao = "Versão criada pelo usuário: ".concat(usuario.getNome());
+        }
     }
 
     public VersaoPlano(Anel anel, Usuario usuario) {
-        super();
-        this.idJson = UUID.randomUUID().toString();
+        this(usuario);
         this.anel = anel;
-        this.usuario = usuario;
-        this.descricao = "Planos criado pelo usuário:".concat(usuario.getNome());
-        this.statusVersao = StatusVersao.EDITANDO;
     }
 
     /**
@@ -193,7 +196,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     public boolean isAtivo() {
-        return StatusVersao.ATIVO.equals(this.getStatusVersao());
+        return StatusVersao.SINCRONIZADO.equals(this.getStatusVersao());
     }
 
     public boolean isEditando() {
@@ -205,7 +208,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     public void ativar() {
-        setStatusVersao(StatusVersao.ATIVO);
+        setStatusVersao(StatusVersao.SINCRONIZADO);
     }
 
     public void finalizar() {

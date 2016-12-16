@@ -40,11 +40,9 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Erro> erros = parseErrors((ArrayNode) json);
 
-        assertEquals(5, erros.size());
+        assertEquals(3, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro("ParametroSimulacao", "não pode ficar em branco", "inicioControlador"),
-            new Erro("ParametroSimulacao", "não pode ficar em branco", "inicioSimulacao"),
-            new Erro("ParametroSimulacao", "não pode ficar em branco", "fimSimulacao"),
             new Erro("ParametroSimulacao", "não pode ficar em branco", "controlador"),
             new Erro("ParametroSimulacao", "não pode ficar em branco", "velocidade")
         ));
@@ -58,11 +56,9 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         json = Json.parse(Helpers.contentAsString(result));
         erros = parseErrors((ArrayNode) json);
 
-        assertEquals(20, erros.size());
+        assertEquals(18, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro("ParametroSimulacao", "não pode ficar em branco", "inicioControlador"),
-            new Erro("ParametroSimulacao", "não pode ficar em branco", "inicioSimulacao"),
-            new Erro("ParametroSimulacao", "não pode ficar em branco", "fimSimulacao"),
             new Erro("ParametroSimulacao", "não pode ficar em branco", "controlador"),
             new Erro("ParametroSimulacao", "não pode ficar em branco", "velocidade"),
             new Erro("ParametroSimulacao", "não pode ficar em branco", "detectores[0].disparo"),
@@ -94,9 +90,7 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
             "\"imposicaoModos\":[{\"modo\":\"TEMPO_FIXO_ISOLADO\",\"anel\":{\"posicao\":1},\"disparo\":\"2016-02-01T02:20:00.000Z\",\"duracao\":2}]," +
             "\"idControlador\":\"" + controlador.getId().toString() + "\"," +
             "\"velocidade\":\"0.5\"," +
-            "\"inicioControlador\":\"2016-02-01T02:00:00.000Z\"," +
-            "\"inicioSimulacao\":\"2016-02-01T02:00:00.000Z\"," +
-            "\"fimSimulacao\":\"2016-02-01T03:00:00.000Z\"}";
+            "\"inicioControlador\":\"2016-02-01T02:00:00.000Z\"}";
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
             .uri(controllers.simulacao.routes.SimuladorController.simular().url())

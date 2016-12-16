@@ -19,10 +19,9 @@ public class TrocaPlanosEmModoManualTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entrada() throws IOException {
-        inicioControlador = new DateTime(2016, 10, 20, 22, 0, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 10, 20, 22, 0, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 10);
         acionarModoManual(motor);
@@ -60,10 +59,9 @@ public class TrocaPlanosEmModoManualTest extends GerenciadorDeTrocasTest {
 
     @Test
     public void entradaDepoisDeIntermitente() throws IOException {
-        inicioControlador = new DateTime(2016, 11, 24, 23, 0, 0);
-        inicioExecucao = inicioControlador;
-        instante = inicioControlador;
-        Motor motor = new Motor(controlador, inicioControlador, inicioExecucao, this);
+        inicioExecucao = new DateTime(2016, 11, 24, 23, 0, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 10);
         acionarModoManual(motor);

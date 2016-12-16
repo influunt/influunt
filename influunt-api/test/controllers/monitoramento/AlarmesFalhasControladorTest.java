@@ -15,6 +15,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import status.AlarmesFalhasControlador;
+import status.LogControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
     public void setUp() throws InterruptedException {
         jongo = provideApplication().injector().instanceOf(PlayJongo.class);
         AlarmesFalhasControlador.jongo = jongo;
+        LogControlador.jongo = jongo;
 
         jongo.getCollection(AlarmesFalhasControlador.COLLECTION).drop();
 
@@ -62,7 +64,7 @@ public class AlarmesFalhasControladorTest extends WithInfluuntApplicationNoAuthe
             "2",
             "2",
             Json.toJson(new EventoMotor(new DateTime(),
-                TipoEvento.ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA,
+                TipoEvento.FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA,
                 grupoSemaforico,
                 2
             ))

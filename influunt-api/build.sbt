@@ -8,6 +8,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
     .dependsOn(influuntCore,influuntDevice,influuntCentral,influuntSimulador)
     .aggregate(influuntCore,influuntDevice,influuntCentral,influuntSimulador)
 
+
 lazy val influuntCentral = (project in file("modules/influunt-central")).enablePlugins(PlayJava, PlayEbean)
   .dependsOn(influuntCore)
   .aggregate(influuntCore)
@@ -48,7 +49,7 @@ libraryDependencies ++= Seq(
   "org.hamcrest" % "hamcrest-library" % "1.3",
   "commons-beanutils" % "commons-beanutils" % "1.9.2",
   "net.coobird" % "thumbnailator" % "0.4.8",
-  "io.moquette" % "moquette-broker" % "0.8" exclude("org.slf4j", "slf4j-log4j12"),
+  "io.moquette" % "moquette-broker" % "0.8.1" exclude("org.slf4j", "slf4j-log4j12"),
   "org.mindrot" % "jbcrypt" % "0.3m",
   "org.apache.commons" % "commons-math3" % "3.6.1",
   "com.typesafe.play" %% "play-mailer" % "5.0.0",
@@ -64,6 +65,7 @@ libraryDependencies ++= Seq(
   "net.sf.jasperreports" % "jasperreports" % "6.3.1",
   "com.github.jhonnymertz" % "java-wkhtmltopdf-wrapper" % "1.0.1-RELEASE",
   "org.awaitility" % "awaitility-scala" % "2.0.0")
+
 
 jacoco.settings
 parallelExecution in jacoco.Config := false

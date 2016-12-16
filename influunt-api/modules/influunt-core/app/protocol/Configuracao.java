@@ -2,6 +2,7 @@ package protocol;
 
 import json.ControladorCustomSerializer;
 import models.Controlador;
+import models.ControladorFisico;
 import models.StatusVersao;
 import org.fusesource.mqtt.client.QoS;
 import utils.RangeUtils;
@@ -19,7 +20,8 @@ public class Configuracao {
     }
 
     public static Envelope getMensagem(Envelope envelope) {
-        Controlador controlador = Controlador.find.byId(UUID.fromString(envelope.getIdControlador()));
+        Controlador controlador = ControladorFisico.find.byId(UUID.fromString(envelope.getIdControlador())).getControladorConfiguradoOuSincronizado();
+
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
         if (controlador != null && !controlador.getVersaoControlador().getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
             return new Envelope(TipoMensagem.CONFIGURACAO,

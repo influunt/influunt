@@ -30,15 +30,12 @@ var FabricantesPage = function () {
 
   this.isIndex = function() {
     return world.sleep().then(function() {
-      return world.getElementByXpath('//div[contains(@class, "app.fabricantes_show")]');
+      return world.getElementByXpath('//div[contains(@class, "page-fabricantes_show")]');
     });
   };
 
   this.newPage = function() {
-    world.visit(NEW_PATH);
-    return world.waitFor(inputNomeFabricante).then(function() {
-      return world.waitForOverlayDisappear();
-    });
+    return world.visit(NEW_PATH);
   };
 
   this.existeAoMenosUmFabricante = function() {

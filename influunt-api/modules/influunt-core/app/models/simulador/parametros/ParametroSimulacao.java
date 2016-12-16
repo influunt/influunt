@@ -35,14 +35,6 @@ public class ParametroSimulacao {
     @NotNull(message = "não pode ficar em branco")
     private DateTime inicioControlador;
 
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @NotNull(message = "não pode ficar em branco")
-    private DateTime inicioSimulacao;
-
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @NotNull(message = "não pode ficar em branco")
-    private DateTime fimSimulacao;
-
     @Valid
     private List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
 
@@ -102,22 +94,6 @@ public class ParametroSimulacao {
 
     public void setInicioControlador(DateTime inicioControlador) {
         this.inicioControlador = inicioControlador;
-    }
-
-    public DateTime getInicioSimulacao() {
-        return inicioSimulacao;
-    }
-
-    public void setInicioSimulacao(DateTime inicioSimulacao) {
-        this.inicioSimulacao = inicioSimulacao;
-    }
-
-    public DateTime getFimSimulacao() {
-        return fimSimulacao;
-    }
-
-    public void setFimSimulacao(DateTime fimSimulacao) {
-        this.fimSimulacao = fimSimulacao;
     }
 
     public List<ParametroSimulacaoDetector> getDetectores() {
@@ -189,6 +165,7 @@ public class ParametroSimulacao {
                 .compareTo(o2.getPosicao())).forEach(anel -> {
             SimulacaoConfig.AnelSimulacaoConfig anelSimulacaoConfig = new SimulacaoConfig.AnelSimulacaoConfig();
             anelSimulacaoConfig.setNumero(anel.getPosicao());
+            anelSimulacaoConfig.setAceitaModoManual(anel.isAceitaModoManual());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
                 .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
             anel.getEstagios().forEach(estagio -> {
