@@ -95,7 +95,7 @@ public class MotorEventoHandler {
 
             case ALARME_AMARELO_INTERMITENTE:
             case ALARME_SEMAFORO_APAGADO:
-            case ALARME_ACERTO_RELOGIO_GPS:
+            case FALHA_ACERTO_RELOGIO_GPS:
                 break;
 
             case IMPOSICAO_PLANO:
