@@ -13,11 +13,9 @@ A tabela abaixo apresentado o significado de cada estado:
 | Campo| Descrição |
 | ------------ | ------------- |
 | NOVO | O sistema foi instalado em um novo controlador, porém o mesmo ainda não recebeu sua configuração inicial|
-| CONFIGURADO | O controlador foi corretamente configurado e aguarda comando para iniciar a operação|
 | ATIVO | O controlador está ativo e operando normalmente |
 | EM_MANUTENCAO | O controlador foi colocado em manutenção |
-| INATIVO | O controlador foi inativado. Só será ativado novamente se um comando de ativação for dado por um operador|
-| OPERANDO_COM_FALHAS |O controlador detectou uma falha de menor gravidade, porém continua operando|
+| COM_FALHAS |O controlador detectou uma falha de menor gravidade, porém continua operando|
 | INOPERANTE |O controlador detectou uma falha de maior gravidade e interrompeu sua operação |
 
 ## Transições
@@ -27,13 +25,12 @@ A tabela abaixo lista as possíveis transições entre os estados do controlador
 | De| Para | Mensagem | Disparo | Descrição |
 |---|------|----------|---------|-----------|
 |-  |NOVO  | ---      | Automático | Todo novo controlador deve começar com o status NOVO| 
-|NOVO|CONFIGURADO|CONFIGURACAO INICIAL|Automático|O controlador recebeu da central sua configuração inicial e está pronto para entrar em operação| 
-|CONFIGURADO, EM MANUTENCAO, INATIVO|ATIVO|ATIVAR|Manual|O operador enviou o comando de ativar| 
-|OPERANDO COM FALHAS, INOPERANTE|ATIVO|ATIVAR|Automático|O controlador percebeu que a falha foi sanada e que o controlador voltou a operar normalmente|
-|ATIVO, OPERANDO COM FALHAS, INOPERANTE|EM MANUTENCAO|COLOCAR EM MANUTENCAO|Manual|O operador enviou o comando de colocar em manutenção|
-|ATIVO, INOPERANTE|OPERANDO COM FALHAS|REPORTAR FALHA|Automático|O controlador percebeu um falha leve e continua operando mesmo assim| 
-|ATIVO, OPERANDO COM FALHAS|INOPERANTE|REPORTAR FALHA GRAVE|Automático|O controlador percebeu um falha grave e interrompeu sua operação| 
-|ATIVO, EM MANUTENCAO, OPERANDO COM FALHAS, INOPERANTE, CONFIGURADO|INATIVO|INATIVAR| Automático|O operador enviou comando para inativar o controlador| 
+|NOVO|ATIVO|CONFIGURACAO INICIAL|Automático|O controlador recebeu da central sua configuração inicial e está pronto para entrar em operação| 
+|EM MANUTENCAO, INATIVO|ATIVO|ATIVAR|Manual|O operador enviou o comando de ativar| 
+|COM FALHAS|ATIVO|ATIVAR|Automático|O controlador percebeu que a falha foi sanada e que o controlador voltou a operar normalmente|
+|ATIVO, COM FALHAS|EM MANUTENCAO|COLOCAR EM MANUTENCAO|Manual|O operador enviou o comando de colocar em manutenção|
+|ATIVO|COM FALHAS|REPORTAR FALHA|Automático|O controlador percebeu um falha leve e continua operando mesmo assim| 
+|ATIVO, EM MANUTENCAO, COM FALHAS|INATIVO|INATIVAR| Manual|O operador enviou comando para inativar o controlador| 
 
 ## Mensagem do Ciclo de Vida: Controlador / Central
 
@@ -45,7 +42,7 @@ A tabela abaixo lista as possíveis transições entre os estados do controlador
 
 
 ### CONFIGURAÇÃO INCIAL
-Quando um controlador com status NOVO se conectar à internet ele deve solicitar à central sua configuração. Para isso, deve enviar a mensagem CONFIGURACAO_INICIAL [CONFIGURACAO_INICIAL](#CONFIGURACAO_INICIAL) para o tópico[/central/configuracao](comunicao/topicos#central_echo).
+Quando um controlador com status NOVO se conectar à internet ele deve solicitar à central sua configuração. Para isso, deve enviar a mensagem CONFIGURACAO_INICIAL [CONFIGURACAO_INICIAL](#CONFIGURACAO_INICIAL) para o tópico[/central/configuracao](/protocolos/alto_nivel/introducao/).
 
 O conteúdo da mensagem é vazio.
 
@@ -59,38 +56,17 @@ Essa mensagem contém todas as configurações necessárias para a operação de
 O conteúdo dessa mensagem está especificado no tópico [Configuração do Controlador](/protocolos/alto_nivel/configuracao/)
 
 ### ATIVAR
-Mensagem enviada para colocar o controlador no modo de operação ATIVO. Pode ser enviada manualmente pelo operador para tirar o controlador dos estados de INATIVO e EM_MANUTENCAO, ou pelo próprio controlador ao se recuperar de uma falaha.
+Mensagem enviada para colocar o controlador no modo de operação ATIVO. Pode ser enviada manualmente pelo operador para tirar o controlador dos estados de INATIVO e EM_MANUTENCAO, ou pelo próprio controlador ao se recuperar de uma falha.
 
 
-```JSON
-```
 ### COLOCAR EM MANUTENÇÃO
 O operador pode enviar a mensagem COLOCAR_EM_MANUTENCAO para realizar manutenções programadas ou de exceção em um controlador.
 
 
-
-```JSON
-```
-
 ### REPORTAR FALHA
-Quando o controlador detecta uma falha que permita que ele continue operando ele deve enviar a mensagem REPORTAR_FALHA ao entrar no estado OPERANDO_COM_FALHAS.
+Quando o controlador detecta uma falha que permita que ele continue operando ele deve enviar a mensagem de FALHA ao entrar no estado COM_FALHAS.
 
-
-```JSON
-```
-
-### REPORTAR FALHA GRAVE
-Quando o controlador detecta uma falha grave que não permita que ele continue operando, ele deve enviar a mensagem REPORTAR_FALHA_GRAVE ao entrar no estado INOPERANTE.
-
-
-
-```JSON
-```
 
 ### INATIVAR
 Um operador pode colocar um controlador como INATIVO. Esse estado deve ser utilizado para um controlador que não fará mais parte da rede.
 
-
-
-```JSON
-```

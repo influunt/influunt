@@ -19,7 +19,6 @@ public enum TipoEvento {
     ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR(TipoEventoControlador.ALARME, 4, "Fechamento da porta do painel de facilidades do controlador", null, null),
     ALARME_AMARELO_INTERMITENTE(TipoEventoControlador.ALARME, 29, "Amarelo Intermitente", "Amarelo Intermitente", null),
     ALARME_SEMAFORO_APAGADO(TipoEventoControlador.ALARME, 30, "Semáforo apagado", "Semafóro apagado", null),
-    ALARME_ACERTO_RELOGIO_GPS(TipoEventoControlador.ALARME, 52, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
 
 
     //Falhas
@@ -41,6 +40,7 @@ public enum TipoEvento {
     FALHA_WATCH_DOG(TipoEventoControlador.FALHA, 9, true, "Falha CPU", "Falha CPU", null),
     FALHA_MEMORIA(TipoEventoControlador.FALHA, 10, true, "Falha Memoria", "Falha Memoria", null),
     FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 11, "Foco vermelho apagado", "Anel %s: Foco vermelho do G%s apagado", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
+    FALHA_ACERTO_RELOGIO_GPS(TipoEventoControlador.FALHA, 12, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
 
     //Remocao de Falhas
     REMOCAO_FALHA_DETECTOR_PEDESTRE(TipoEventoControlador.REMOCAO_FALHA, 1, "Detector pedestre - Remoção de falha", "Anel %s: Falha no DP%s removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),

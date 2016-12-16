@@ -16,9 +16,9 @@ Os seguintes campos são obrigatórios no envelope:
 | idMensagem | UUID  | Identificador único e global no formato _UUID_ que identifica unicamente essa mensagem. Deve ser gerado no momento da construção do envelope |
 | destino | Texto  | Tópico _MQTT_ em que a mensagem deve ser publicada. Para lista de tópicos veja a seção [MQTT](comunicacao/mqtt) |
 | qos | Inteiro | Qualidade do serviço no protocolo _MQTT_ que deve ser empregado para esse envelope. Deve estar de acordo com os requisitos da [mensagem](comunicacao/mensagens.md) |
-| carimboDeTempo | Número Longo | Carimbo de tempo referente ao momento de criação do envelope. Deve estar no formato milissegundo desde 1 de janeiro de 1970|
+| carimboDeTempo | Número Longo | Carimbo de tempo referente ao momento de criação do envelope. Deve estar no formato milissegundo desde 1 de janeiro de 1970 UTC|
 | conteudo | Objeto _JSON_ ou Texto Criptografado representando um Objeto _JSON_ | Mensagem a ser entregue pelo envelope. Pode ser diretamente o objeto _JSON_ ou, nos casos onde seja requerido, criptografado e convertido para _BASE64_|
-| emResposta | UUID | Identificador único e global no formado _UUID_ da mensagem original para quando essa for uma resposta |
+| emResposta | UUID | Identificador único e global no formato _UUID_ da mensagem original para quando essa for uma resposta |
 
 
 

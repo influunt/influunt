@@ -12,17 +12,13 @@ A seguir estão detalhados todos os eventos possíveis:
 |ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR|	2|	 Fechamento da porta principal do controlador|
 |ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR|	3|	 Abertura da porta do painel de facilidades do controlador|
 |ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR|	4|	 Fechamento da porta do painel de facilidades do controlador|
-|ALARME_AMARELO_INTERMITENTE|	4|	 Amarelo Intermitente|
-|ALARME_SEMAFORO_APAGADO|	5|	 Semáforo apagado|
-|ALARME_ACERTO_RELOGIO_GPS|	6|	 Falha acerto relógio GPS|
-|ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA|	7|	 Foco vermelho apagado|
-|ALARME_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_REMOCAO|	8|	 Foco vermelho apagado removida|
-
+|ALARME_AMARELO_INTERMITENTE|	5|	 Amarelo Intermitente|
+|ALARME_SEMAFORO_APAGADO|	6|	 Semáforo apagado|
 
 ### Campos do contéudo
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| timestamp | Número Longo |S | Carimbo de tempo referente ao momento da ocorrência do evento. Deve estar no formato milissegundo desde 1 de janeiro de 1970|
+| timestamp | Número Longo |S | Carimbo de tempo referente ao momento da ocorrência do evento. Deve estar no formato milissegundo desde 1 de janeiro de 1970 UTC|
 | tipoEvento | Objeto JSON | S | Objeto que descreve o tipo de evento ocorrido
 | descricaoEvento | Texto | S | Descrição completa do evento ocorrido
 | params | Lista | N | Lista de parâmetros necessários para identificar o evento ocorrido
@@ -107,18 +103,21 @@ Exemplo:
 ```
 
 ## Falha
-|Nome do Evento | Código| Descrição |
-| -------------- |-------|-----------|
-|FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO|	1|	 Detector pedestre - Falta de acionamento|
-|FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO|	2|	 Detector pedestre - Acionamento direto|
-|FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO|	3|	 Detector veicular - Falta de acionamento|
-|FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO|	4|	 Detector veicular - Acionamento direto|
-|FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO|	5|	 Desrespeito ao tempo máximo de permanência no estágio|
-|FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA|	6|	 Fase vermelha do grupo semafórico apagada|
-|FALHA_SEQUENCIA_DE_CORES|	7|	 Falha sequência de cores|
-|FALHA_VERDES_CONFLITANTES|	8|	 Verdes conflitantes|
-|FALHA_WATCH_DOG|	9|	 Falha CPU|
-|FALHA_MEMORIA|	10|	 Falha Memória|
+|Nome do Evento | Código| Descrição | Parâmetros |
+| -------------- |-------|-----------|------------|
+|FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO|	1|	 Detector pedestre - Falta de acionamento|1) Nº Detector|
+|FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO|	2|	 Detector pedestre - Acionamento direto|1) Nº Detector|
+|FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO|	3|	 Detector veicular - Falta de acionamento|1) Nº Detector|
+|FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO|	4|	 Detector veicular - Acionamento direto|1) Nº Detector|
+|FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO|	5|	 Desrespeito ao tempo máximo de permanência no estágio|1) Nº Anel|
+|FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA|	6|	 Fase vermelha do grupo semafórico apagada|1) Nº Grupo Semafórico|
+|FALHA_SEQUENCIA_DE_CORES|	7|	 Falha sequência de cores|1) Nº Anel|
+|FALHA_VERDES_CONFLITANTES|	8|	 Verdes conflitantes|1) Nº Anel|
+|FALHA_WATCH_DOG|	9|	 Falha CPU||
+|FALHA_MEMORIA|	10|	 Falha Memória||
+|FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA|	11|	 Foco vermelho apagado|1) Nº Grupo Semafórico|
+|FALHA_COMUNICACAO_BAIXO_NIVEL|	12|	 Falha na comunicação do protocolo de baixo nível||
+|FALHA_ACERTO_RELOGIO_GPS|	13|	 Falha acerto relógio GPS||
 
 ```JSON
 {
@@ -145,12 +144,14 @@ Exemplo:
 ```
 
 ## Remoção de Falhas
-|Nome do Evento | Código| Descrição |
-| -------------- |-------|-----------|
-|REMOCAO_FALHA_DETECTOR_PEDESTRE|	1|	 Detector pedestre - Remoção de falha|
-|REMOCAO_FALHA_DETECTOR_VEICULAR|	2|	 Detector veicular - Remoção de falha|
-|REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO|	3|	 Fase vermelha do grupo semafórico apagada removida|
-|REMOCAO_FALHA_VERDES_CONFLITANTES|	4|	 Verdes conflitantes removido|
+|Nome do Evento | Código| Descrição | Parâmetros |
+| -------------- |-------|-----------|-----------|
+|REMOCAO_FALHA_DETECTOR_PEDESTRE|	1|	 Detector pedestre - Remoção de falha|1) Nº Detector|
+|REMOCAO_FALHA_DETECTOR_VEICULAR|	2|	 Detector veicular - Remoção de falha|1) Nº Detector|
+|REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO|	3|	 Fase vermelha do grupo semafórico apagada removida|1) Nº Grupo Semafórico|
+|REMOCAO_FALHA_VERDES_CONFLITANTES|	4|	 Verdes conflitantes removido|1) Nº Anel|
+|REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO|	5|	Foco vermelho apagado removida|1) Nº Grupo Semafórico|
+|REMOCAO_COMUNICACAO_BAIXO_NIVEL|	6|	Comunicação do protocolo de baixo nível recuperada||
 
 ```JSON
 {

@@ -37,7 +37,7 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 | idControlador | UUID | Identificador do Controlador |
 | content | Texto   | Um [envelope](/comunicacao/envelope) que foi criptografado com a chave do campo key |
 
-## Criptogrando um envelope
+## Criptografando um envelope
 Antes de enviar uma mensagem o envelope deve ser criptografado. Os passos são os seguintes:
 
 1. Obtém-se o _JSON_ do envelope

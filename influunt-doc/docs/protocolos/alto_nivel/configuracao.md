@@ -150,7 +150,7 @@ A figura abaixo apresenta os objetos que fazem parte da configuração de um con
 
 ## Anel
 
-Característica que permite a um controlador operar como se fossem vários controladores independentes. Cada anel é responsável pelo controle de certo número de grupos focais e a programação semafórica que ocorre nesses grupos focais é totalmente independente da programação semafórica dos demais grupos focais do controlador, exceto pelo tempo de ciclo, que tem de ser igual para o controlador e todos os seus anéis.
+Característica que permite a um controlador operar como se fossem vários controladores independentes. Cada anel é responsável pelo controle de certo número de grupos focais e a programação semafórica que ocorre nesses grupos focais é totalmente independente da programação semafórica dos demais grupos focais do controlador.
 
 ### Especificação
 

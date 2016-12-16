@@ -5,11 +5,15 @@ O protocolo de baixo nível especifica um protocolo serial para controladores qu
 
 | Campo| Tamanho| Descrição |
 | ------------ | ------------- | ------------ |
+|Header| 3 bytes | <I\> |
 | Tamanho      | 8 bits        | Tamanho em bytes da mensagem que está sendo enviada|
 |Tipo de Mensagem| 8 bits | Descreve o tipo de mensagem que está sendo enviada conforme a tabela de tipo de mensagem|
 |Sequencia | 16 bits | Número sequência da mensagem. Deve ser incrementado a cada nova mensagem enviada |
 |Mensagem | Variável | Conteúdo da mensagem que está sendo enviada | 
 |Checksum | 8 bits   | _Checksum_ de toda a mensagem utilizando o algorítmo _LRC_ | 
+|Trailler| 3 bytes | <F\> |
+
+O conteúdo entre o Header e Trailler deve ser convertido para um _String_ representando cada byte em Hexadecimal com duas casas, no caso de um caracter inserir zero a esquerda. 
 
 ### Mensagem de Início
 O 72c envia a mensagem de início ao hardware para informar que está pronto para começar o envio de estágios.
@@ -42,7 +46,7 @@ O 72c informa a configuração dos grupos semafóricos de um determinado anel. E
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Reservado para uso futuro|
 | Quantidade de Grupos Semafóricos| 5 bits | Quantidade de grupos semafóricos que fazem parte dessa configuração de estágio|
-| Configuração do Grupo Semafórico| 9 bytes por grupo semafórico | Configuração dos tempos de cada grupo semafórico | 
+| Configuração do Grupo Semafórico| 10 bytes por grupo semafórico | Configuração dos tempos de cada grupo semafórico | 
 
 ### Grupo semafórico
 
@@ -50,9 +54,10 @@ Descreve como um grupo semafórico deve se comportar nesse estágio:
 
 | Campo| Tamanho| Descrição |
 | ------------ | ------------- | ------------ |
+|Reservado | 4 bits | Reservado|
 |Flag pedestre/veicular | 1 bit | Se verdadeiro, esse é um grupo semafórico de pedestre|
-|Flag composição dos tempos| 2 bits| Ver tabela de flag composição dos tempos  |
-|Grupo | 5 bits | Número do grupo semafórico|
+|Flag composição dos tempos| 3 bits| Ver tabela de flag composição dos tempos  |
+|Grupo | 8 bits | Número do grupo semafórico|
 |Tempo De Atraso de Grupo ou Entreverde | 16 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.|
 |Tempo Amarelo| 16 bits| Tempo de amarelo para veicular ou vermelho intermitente para pedestre|
 |Tempo Vermelho Limpeza| 16 bits| Tempo de vermelho de limpeza|
@@ -66,6 +71,7 @@ Descreve como um grupo semafórico deve se comportar nesse estágio:
 |1     | O grupo semafórico estará verde durante o tempo de estágio | 
 |2     | O grupo semafórico estará vermelho durante o tempo de estágio |
 |3     | O grupo semafórico estará em amarelo intermitente para veícular ou desligado para pedestre durante o tempo de estágio |
+|4     | O grupo semafórico está executando à sequencia de partida |
 
 
 ### Detector
