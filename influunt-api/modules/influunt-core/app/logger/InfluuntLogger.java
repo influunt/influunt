@@ -39,7 +39,7 @@ public class InfluuntLogger {
         eventos.stream().forEach(e -> eventosLogaveis.add(TipoEvento.valueOf(e.toString())));
     }
 
-    public static void configureLog(String path, String name, int tamanho, boolean compactFormat, List<?> eventos,NivelLog nivelLog) {
+    public static void configureLog(String path, String name, int tamanho, boolean compactFormat, List<?> eventos, NivelLog nivelLog) {
         setEventos(eventos);
         compact = compactFormat;
         nivel = nivelLog;
@@ -48,14 +48,14 @@ public class InfluuntLogger {
         loggerOficial.setLevel(Level.INFO);
     }
 
-    public static void log(NivelLog nivelLog,TipoLog tipo, String msg) {
-        if(nivel.compareTo(nivelLog) >= 0) {
+    public static void log(NivelLog nivelLog, TipoLog tipo, String msg) {
+        if (nivel.compareTo(nivelLog) >= 0) {
             loggerOficial.info(String.format("[%s] %s", tipo, msg));
         }
     }
 
-    public static void log(NivelLog nivelLog,TipoLog tipo, TipoEvento tipoEvento) {
-        if(nivel.compareTo(nivelLog) >= 0) {
+    public static void log(NivelLog nivelLog, TipoLog tipo, TipoEvento tipoEvento) {
+        if (nivel.compareTo(nivelLog) >= 0) {
             if (compact) {
                 loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString()));
             } else {
@@ -63,13 +63,14 @@ public class InfluuntLogger {
             }
         }
     }
-    public static void log(NivelLog nivelLog,TipoLog tipoLog,Transacao transacao) {
-        if(nivel.compareTo(nivelLog) >= 0) {
+
+    public static void log(NivelLog nivelLog, TipoLog tipoLog, Transacao transacao) {
+        if (nivel.compareTo(nivelLog) >= 0) {
             log(nivelLog, tipoLog, String.format("[%s] %s", transacao.getTipoTransacao(), transacao.getEtapaTransacao().getMessage()));
         }
     }
 
-    public static void log(NivelLog nivelLog,TipoLog tipoLog,EventoMotor eventoMotor) {
+    public static void log(NivelLog nivelLog, TipoLog tipoLog, EventoMotor eventoMotor) {
         if (nivel.compareTo(nivelLog) >= 0) {
             if (compact) {
                 loggerOficial.info(String.format("[%s] %s", tipoLog, eventoMotor.getTipoEvento().toString()));

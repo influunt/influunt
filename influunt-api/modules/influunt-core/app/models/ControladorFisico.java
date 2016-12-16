@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -55,15 +56,15 @@ public class ControladorFisico extends Model implements Serializable {
     @Column
     private StatusDevice statusDevice;
 
-    @Ignore
+    @JsonIgnore
     @Column(columnDefinition = "TEXT")
     private String centralPrivateKey;
 
-    @Ignore
+    @JsonIgnore
     @Column(columnDefinition = "TEXT")
     private String centralPublicKey;
 
-    @Ignore
+    @JsonIgnore
     @Column(columnDefinition = "TEXT")
     private String controladorPublicKey;
 
@@ -71,13 +72,12 @@ public class ControladorFisico extends Model implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String controladorPrivateKey;
 
-    @Ignore
+    @JsonIgnore
     private String password;
 
     @Ignore
     @Column(name = "password_hash")
     private String passwordHash;
-
 
 
     @Column

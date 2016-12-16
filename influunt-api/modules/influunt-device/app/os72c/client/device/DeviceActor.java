@@ -48,7 +48,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private TreeSet<String> falhasAtuais = new TreeSet<>();
 
-    private Long tempoDecorrido =0l;
+    private Long tempoDecorrido = 0L;
 
 
     public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {

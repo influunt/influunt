@@ -267,9 +267,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             int numRead = serialPort.readBytes(newData, newData.length);
 
             buffer.append(new String(newData, StandardCharsets.US_ASCII));
-            System.out.println("-----------------------------");
-            System.out.println(buffer.toString());
-            System.out.println("-----------------------------");
 
             if(buffer.toString().matches("<I>.*<F>")) {
                 String parts[] = buffer.toString().split("<F>");
