@@ -11,6 +11,7 @@ import logger.TipoLog;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import os72c.client.observer.EstadoDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
@@ -32,6 +33,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private final Storage storage;
 
+    private final EstadoDevice estadoDevice;
+
     private Controlador controlador;
 
     private String id;
@@ -50,50 +53,53 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Long tempoDecorrido = 0L;
 
+    private boolean pronto = false;
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device, String id) {
+
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice) {
         this.storage = mapStorage;
         this.device = device;
         this.id = id;
+        this.estadoDevice = estadoDevice;
         start();
     }
 
     @Override
     public void preStart() throws Exception {
         this.context = getContext();
+        this.device.start(this);
     }
 
     private synchronized void start() {
 
-        if (!iniciado) {
+        if (!iniciado && pronto) {
 
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Verificando a configuração do controlador");
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "Verificando a configuração do controlador");
             this.controlador = storage.getControlador();
             if (controlador != null) {
-                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"Configuração encontrada");
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "Configuração encontrada");
                 iniciado = true;
-                this.device.start(this);
                 this.motor = new Motor(this.controlador, new DateTime(), this);
 
                 executor = Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
                         try {
 
-                            if(tempoDecorrido % 1000 == 0) {
-                                InfluuntLogger.log(NivelLog.SUPERDETALHADO,TipoLog.EXECUCAO, "TICK:" + tempoDecorrido);
+                            if (tempoDecorrido % 1000 == 0) {
+                                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TICK: " + tempoDecorrido);
                             }
-                            tempoDecorrido+=100;
+                            tempoDecorrido += 100;
                             motor.tick();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }, 0, 100, TimeUnit.MILLISECONDS);
 
-                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,"O controlador foi colocado em execução");
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "O controlador foi colocado em execução");
 
             } else {
-                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"Não existe configuração para iniciar o motor");
-                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"O controlador será iniciado quando um configuração for recebida");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "Não existe configuração para iniciar o motor");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "O controlador será iniciado quando um configuração for recebida");
             }
         }
     }
@@ -110,7 +116,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
-
     }
 
     @Override
@@ -150,6 +155,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         device.sendEstagio(intervalos);
+
+        if (estadoDevice.getPlanos().isEmpty()) {
+            motor.getEstagios().stream().forEach(gerenciadorDeEstagios -> {
+                estadoDevice.putPlanos(gerenciadorDeEstagios.getAnel(), motor.getEventoAtual().getPlano(gerenciadorDeEstagios.getAnel()));
+            });
+        }
     }
 
     @Override
@@ -164,11 +175,14 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
         Envelope envelope = TrocaPlanoEfetiva.getMensagem(id, agendamentoTrocaPlano);
         sendMessage(envelope);
+
+        estadoDevice.putPlanos(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getPlano());
     }
 
     private void sendMessage(Envelope envelope) {
         context.actorFor(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
+
 
     @Override
     public void onReceive(Object message) throws Exception {
@@ -209,6 +223,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     alterarControladorNoMotor();
                     break;
             }
+        } else if (message instanceof String && "RESTART".equals(message)) {
+            throw new RuntimeException(message.toString());
         }
     }
 
@@ -220,26 +236,37 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onReady() {
-
+        pronto = true;
+        start();
     }
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        Anel anel = null;
-        if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
-            if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
-                eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_VEICULAR)) {
-                anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
-            } else if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(GRUPO_SEMAFORICO)) {
-                anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
+        if (TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
+            if((Boolean) eventoMotor.getParams()[0]) {
+                getSelf().tell("RESTART", getSelf());
+            } else {
+                sendAlarmeOuFalha(eventoMotor);
             }
-        }
+        } else if (TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
+            sendRemocaoFalha(eventoMotor);
+        } else {
+            Anel anel = null;
+            if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
+                if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
+                    eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_VEICULAR)) {
+                    anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
+                } else if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(GRUPO_SEMAFORICO)) {
+                    anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
+                }
+            }
 
-        if (anel != null) {
-            eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
-                anel.getPosicao()});
+            if (anel != null) {
+                eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
+                    anel.getPosicao()});
+            }
+            motor.onEvento(eventoMotor);
         }
-        motor.onEvento(eventoMotor);
     }
 
     private Anel buscarAnelPorDetector(Pair<Integer, TipoDetector> pair) {
@@ -291,7 +318,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         storage.setControladorStaging(null);
     }
 
-
     @Override
     public void aroundPostStop() {
         if (motor != null) {
@@ -299,5 +325,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             executor.cancel(true);
         }
         super.aroundPostStop();
+    }
+
+    @Override
+    public void postStop() throws Exception {
+        super.postStop();
     }
 }

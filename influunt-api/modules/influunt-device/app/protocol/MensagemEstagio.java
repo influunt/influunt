@@ -41,7 +41,7 @@ public class MensagemEstagio extends Mensagem {
 
     @Override
     public int innerSize() {
-        return 1 + mensagemGrupo.length * 9;
+        return 1 + mensagemGrupo.length * 10;
     }
 
     public byte getFlags() {

@@ -12,9 +12,11 @@ import logger.TipoLog;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
+import os72c.client.observer.EstadoDevice;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
 import os72c.client.storage.Storage;
+import os72c.client.utils.AtoresDevice;
 import protocol.ControladorOffline;
 import protocol.ControladorOnline;
 import protocol.Envelope;
@@ -39,6 +41,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private final String senha;
 
+    private final EstadoDevice estadoDevice;
 
     private Router router;
 
@@ -54,7 +57,9 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
-    public MQTTClientActor(final String id, final String host, final String port, final String login, final String senha, Storage storage, Router router) {
+
+    public MQTTClientActor(final String id, final String host, final String port, final String login,
+                           final String senha, Storage storage, Router router, EstadoDevice estadoDevice) {
         this.id = id;
         this.host = host;
         this.port = port;
@@ -62,6 +67,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         this.senha = senha;
         this.storage = storage;
         this.router = router;
+        this.estadoDevice = estadoDevice;
 
         InfluuntLogger.logger.info("Iniciando a comunicacao MQTT");
         InfluuntLogger.logger.info("Criando referencia para o messagebroker");
@@ -159,6 +165,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             storage.getModelo());
         sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
+
+        getContext().actorSelection(AtoresDevice.deadLetterPath(id)).tell("VERIFICAR_DEADLETTER", getSelf());
+
+        estadoDevice.setConectado(true);
     }
 
 
