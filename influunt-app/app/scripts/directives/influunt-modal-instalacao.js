@@ -49,12 +49,14 @@ angular.module('influuntApp')
           prepareDownloadData = function() {
             $http.get('/resources/controlador.conf').then(function(response) {
               var config = response.data
-                  .replace('|CONTROLADOR_ID|', scope.instalacaoControlador.id)
-                  .replace('|CHAVE_PUBLICA|', scope.instalacaoControlador.publicKey)
-                  .replace('|CHAVE_PRIVADA|', scope.instalacaoControlador.privateKey);
+                  .replace(/\|CONTROLADOR_ID\|/g, scope.instalacaoControlador.id)
+                  .replace(/\|CHAVE_PUBLICA\|/g, scope.instalacaoControlador.publicKey)
+                  .replace(/\|CHAVE_PRIVADA\|/g, scope.instalacaoControlador.privateKey)
+                  .replace(/\|PASSWORD\|/g, scope.instalacaoControlador.senha);
 
               var blob = new Blob([config], { type: 'text/plain' });
               scope.downloadUrl = window.URL.createObjectURL(blob);
+              scope.filename = 'application.conf';
             });
           };
         }

@@ -606,6 +606,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         this.imposto = imposto;
     }
 
+    @JsonIgnore
     public String getDescricaoModoOperacao() {
         StringBuffer buffer = new StringBuffer();
         switch (getModoOperacao()) {

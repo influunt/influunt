@@ -3,7 +3,6 @@ package os72c.client.device;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-import com.google.common.primitives.Bytes;
 import com.typesafe.config.Config;
 import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
@@ -21,16 +20,9 @@ import os72c.client.exceptions.HardwareFailureException;
 import protocol.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.concurrent.BlockingQueue;
+import java.util.ArrayDeque;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static javafx.scene.input.KeyCode.F;
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 /**
  * Created by rodrigosol on 11/4/16.
@@ -68,7 +60,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     private boolean informarFalhaAbertura = true;
 
-
     public SerialDeviceJava() {
         settings = Client.getConfig().getConfig("serial");
         porta = settings.getString("porta");
@@ -101,7 +92,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Abrindo a porta de comunicação");
             }
             if(serialPort.openPort()) {//Open serial port
-
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Cumprindo delay");
                 Thread.sleep(startDelay);
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Limpando buffer");
@@ -117,7 +107,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                     .scheduleAtFixedRate(() -> {
                         try {
                             Mensagem mensagem;
-                            while(!fila.isEmpty()){
+                            while (!fila.isEmpty()) {
                                 mensagem = Mensagem.toMensagem(Hex.decodeHex(fila.pop().toCharArray()));
                                 mensagemRecebida(mensagem);
                                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
@@ -176,6 +166,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             String encoded = "<I>".concat(Hex.encodeHexString(bytes)).concat("<F>");
             InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, encoded);
             int r = serialPort.writeBytes(encoded.getBytes(), encoded.getBytes().length);
+
             if(r == -1){
                 callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL, true));
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
@@ -275,7 +266,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     @Override
     public int getListeningEvents() {
-         return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+        return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
     }
 
     @Override
@@ -284,13 +275,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             return;
         }
 
-        while(serialPort.bytesAvailable()>0 ){
+        while (serialPort.bytesAvailable() > 0) {
             byte[] newData = new byte[serialPort.bytesAvailable()];
             int numRead = serialPort.readBytes(newData, newData.length);
 
             buffer.append(new String(newData, StandardCharsets.US_ASCII));
 
-            if(buffer.toString().matches("<I>.*<F>")) {
+            if (buffer.toString().matches("<I>.*<F>")) {
                 String parts[] = buffer.toString().split("<F>");
                 for (String part : parts) {
                     String texto = part.substring(part.lastIndexOf("<I>") + 3);

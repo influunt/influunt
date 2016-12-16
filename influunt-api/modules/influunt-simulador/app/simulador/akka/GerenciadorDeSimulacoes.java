@@ -8,42 +8,29 @@ import com.google.inject.Singleton;
 import models.simulador.parametros.ParametroSimulacao;
 import play.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by rodrigosol on 10/4/16.
  */
 @Singleton
 public class GerenciadorDeSimulacoes {
 
-    private final ActorSystem system;
-
-    private ActorRef servidor;
-
-    private List<ActorRef> simuladores = new ArrayList<>();
+    private ActorRef gerenciadorActor;
 
     @Inject
-    private Configuration configuration;
-
-    @Inject
-    public GerenciadorDeSimulacoes(ActorSystem system) {
-        this.system = system;
-    }
-
-    public void finish() {
-        system.terminate();
-    }
-
-    public void iniciarSimulacao(ParametroSimulacao params) {
+    public GerenciadorDeSimulacoes(Configuration configuration, ActorSystem system) {
         Configuration mqtt = configuration.getConfig("central").getConfig("mqtt");
-        ActorRef simulador = system.actorOf(Props.create(SimuladorActor.class,
+        gerenciadorActor = system.actorOf(Props.create(GerenciadorDeSimulacoesActor.class,
             mqtt.getString("host"),
             mqtt.getString("port"),
             mqtt.getString("login"),
-            mqtt.getString("senha"),
-            params), "simulador_" + params.getId().toString());
+            mqtt.getString("senha")), "GerenciadorDeSimulacoes");
+    }
 
-        simuladores.add(simulador);
+    public void pararSimulacao(String simulacaoId) {
+        gerenciadorActor.tell(simulacaoId, ActorRef.noSender());
+    }
+
+    public void iniciarSimulacao(ParametroSimulacao params) {
+        gerenciadorActor.tell(params, ActorRef.noSender());
     }
 }

@@ -52,6 +52,7 @@ public class SimuladorActor extends UntypedActor {
 
     private int pagina;
 
+
     public SimuladorActor(String host, String port, String login, String senha, ParametroSimulacao params) {
         this.params = params;
         this.simulador = new SimuladorAkka(this, params);
@@ -61,8 +62,12 @@ public class SimuladorActor extends UntypedActor {
             client = new MqttClient("tcp://" + host + ":" + port, "sim_" + id);
             MqttConnectOptions opts = new MqttConnectOptions();
 
-            if (!"".equals(login)) { opts.setUserName(login); }
-            if (!"".equals(senha)) { opts.setPassword(senha.toCharArray()); }
+            if (!"".equals(login)) {
+                opts.setUserName(login);
+            }
+            if (!"".equals(senha)) {
+                opts.setPassword(senha.toCharArray());
+            }
 
             opts.setAutomaticReconnect(false);
             opts.setConnectionTimeout(10);
@@ -139,6 +144,15 @@ public class SimuladorActor extends UntypedActor {
 
     }
 
+    @Override
+    public void postStop() {
+        try {
+            super.postStop();
+            client.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void storeEstagio(int anel, DateTime timeStamp, IntervaloGrupoSemaforico intervaloGrupoSemaforico) {
         if (!estagios.containsKey(anel)) {
