@@ -8,8 +8,9 @@
  * Service in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', function pahoProvider(MQTT_ROOT, $q, $timeout) {
+  .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', '$rootScope', function pahoProvider(MQTT_ROOT, $q, $timeout, $rootScope) {
 
+    var clearConnections;
     var isConnected = false;
     var client = new Paho.MQTT.Client(
       MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + JSON.parse(localStorage.usuario).id
@@ -17,11 +18,27 @@ angular.module('influuntApp')
     var subscribers = {};
     var timeoutId;
 
+    var RECONNECT_TIMEOUT_ID = 5000;
+    var reconnectTimeoutId;
+    var tryReconnect = function() {
+      clearTimeout(reconnectTimeoutId);
+      setTimeout(function() {
+
+        return connectClient()
+          .then(function(res) {
+            $rootScope.$broadcast('influuntApp.mqttConnectionRecovered');
+            return res;
+          })
+          .catch(function(err) {
+            return err;
+          });
+
+      }, RECONNECT_TIMEOUT_ID);
+    };
+
     client.onConnectionLost = function(res) {
-      isConnected = false;
-      if (res.errorCode !== 0) {
-        throw new Error(res.errorMessage);
-      }
+      clearConnections();
+      tryReconnect();
     };
 
     client.onMessageArrived = function(message) {
@@ -54,6 +71,10 @@ angular.module('influuntApp')
             onSuccess: function() {
               isConnected = true;
               deferred.resolve(true);
+            },
+            onFailure: function(error) {
+              tryReconnect();
+              deferred.reject(error);
             }
           });
         }, 200);
@@ -63,11 +84,13 @@ angular.module('influuntApp')
     };
 
     var disconnectClient = function() {
-      if (isConnected) {
         client.disconnect();
-        isConnected = false;
-        subscribers = {};
-      }
+        clearConnections();
+    };
+
+    clearConnections = function() {
+      isConnected = false;
+      subscribers = {};
     };
 
     var register = function(subscribedUrl, onMessageArrivedCallback, dontListenToAll) {
