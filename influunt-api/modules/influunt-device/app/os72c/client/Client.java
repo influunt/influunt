@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.stream.Materializer;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import os72c.client.conf.DeviceConfig;
 import os72c.client.conn.ClientActor;
 import os72c.client.device.DeviceBridge;
+import os72c.client.observer.EstadoDevice;
 import os72c.client.storage.*;
 import play.Application;
 import play.api.Play;
@@ -47,6 +49,8 @@ public class Client {
     private final String centralPublicKey;
 
     private final String privateKey;
+
+    private final EstadoDevice estadoDevice = Play.current().injector().instanceOf(EstadoDevice.class);
 
     private ActorRef servidor;
 
@@ -96,9 +100,7 @@ public class Client {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-
         }
-
 
         InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("ID CONTROLADOR  :%s", id));
         InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT HOST       :%s", host));
@@ -107,7 +109,8 @@ public class Client {
         InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT PWD        :%s", senha));
         InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
-        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, login, senha, centralPublicKey, privateKey, storage, device), id);
+        servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, login,
+            senha, centralPublicKey, privateKey, storage, device, estadoDevice), id);
 
     }
 
