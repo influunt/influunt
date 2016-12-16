@@ -35,6 +35,8 @@ public class ClientActor extends UntypedActor {
                     if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
                         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
+                    } else if (t instanceof RuntimeException && "RESTART".equals(t.getMessage())) {
+                        return SupervisorStrategy.restart();
                     } else {
                         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();

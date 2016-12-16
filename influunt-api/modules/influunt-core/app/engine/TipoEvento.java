@@ -41,6 +41,7 @@ public enum TipoEvento {
     FALHA_WATCH_DOG(TipoEventoControlador.FALHA, 9, true, "Falha CPU", "Falha CPU", null),
     FALHA_MEMORIA(TipoEventoControlador.FALHA, 10, true, "Falha Memoria", "Falha Memoria", null),
     FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 11, "Foco vermelho apagado", "Anel %s: Foco vermelho do G%s apagado", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
+    FALHA_COMUNICACAO_BAIXO_NIVEL(TipoEventoControlador.FALHA, 12, true, "Falha na comunicação do protocolo de baixo nível", "Falha na comunicação do protocolo de baixo nível", null),
 
     //Remocao de Falhas
     REMOCAO_FALHA_DETECTOR_PEDESTRE(TipoEventoControlador.REMOCAO_FALHA, 1, "Detector pedestre - Remoção de falha", "Anel %s: Falha no DP%s removida", new TipoEventoParamsDescriptor("Detector pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),
@@ -48,6 +49,7 @@ public enum TipoEvento {
     REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO(TipoEventoControlador.REMOCAO_FALHA, 3, true, "Fase vermelha do grupo semafórico apagada removida", "%s: Fase vermelha do G%s apagada removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
     REMOCAO_FALHA_VERDES_CONFLITANTES(TipoEventoControlador.REMOCAO_FALHA, 4, true, "Verdes conflitantes removido", "Anel %s: Falha de Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
     REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO(TipoEventoControlador.REMOCAO_FALHA, 5, "Foco vermelho apagado removida", "Anel %s: Foco vermelho do G%s apagado removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
+    REMOCAO_COMUNICACAO_BAIXO_NIVEL(TipoEventoControlador.REMOCAO_FALHA, 6, true, "Comunicação do protocolo de baixo nível recuperada", "Comunicação do protocolo de baixo nível recuperada", null),
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),

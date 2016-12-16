@@ -223,6 +223,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                     alterarControladorNoMotor();
                     break;
             }
+        } else if (message instanceof String && "RESTART".equals(message)) {
+            throw new RuntimeException(message.toString());
         }
     }
 
@@ -240,21 +242,31 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onEvento(EventoMotor eventoMotor) {
-        Anel anel = null;
-        if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
-            if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
-                eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_VEICULAR)) {
-                anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
-            } else if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(GRUPO_SEMAFORICO)) {
-                anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
+        if (TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
+            if((Boolean) eventoMotor.getParams()[0]) {
+                getSelf().tell("RESTART", getSelf());
+            } else {
+                sendAlarmeOuFalha(eventoMotor);
             }
-        }
+        } else if (TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
+            sendRemocaoFalha(eventoMotor);
+        } else {
+            Anel anel = null;
+            if (eventoMotor.getTipoEvento().getParamsDescriptor() != null) {
+                if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_PEDESTRE) ||
+                    eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(DETECTOR_VEICULAR)) {
+                    anel = buscarAnelPorDetector((Pair<Integer, TipoDetector>) eventoMotor.getParams()[0]);
+                } else if (eventoMotor.getTipoEvento().getParamsDescriptor().getTipo().equals(GRUPO_SEMAFORICO)) {
+                    anel = buscarAnelPorGrupo((Integer) eventoMotor.getParams()[0]);
+                }
+            }
 
-        if (anel != null) {
-            eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
-                anel.getPosicao()});
+            if (anel != null) {
+                eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
+                    anel.getPosicao()});
+            }
+            motor.onEvento(eventoMotor);
         }
-        motor.onEvento(eventoMotor);
     }
 
     private Anel buscarAnelPorDetector(Pair<Integer, TipoDetector> pair) {
