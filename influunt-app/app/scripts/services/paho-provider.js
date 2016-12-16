@@ -10,10 +10,10 @@
 angular.module('influuntApp')
   .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', '$rootScope', function pahoProvider(MQTT_ROOT, $q, $timeout, $rootScope) {
 
-    var clearConnections;
+    var clearConnections, connectClient;
     var isConnected = false;
     var client = new Paho.MQTT.Client(
-      MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + JSON.parse(localStorage.usuario).id
+      MQTT_ROOT.url, MQTT_ROOT.port, 'influunt-app-' + UUID.generate()
     );
     var subscribers = {};
     var timeoutId;
@@ -23,7 +23,6 @@ angular.module('influuntApp')
     var tryReconnect = function() {
       clearTimeout(reconnectTimeoutId);
       setTimeout(function() {
-
         return connectClient()
           .then(function(res) {
             $rootScope.$broadcast('influuntApp.mqttConnectionRecovered');
@@ -32,11 +31,10 @@ angular.module('influuntApp')
           .catch(function(err) {
             return err;
           });
-
       }, RECONNECT_TIMEOUT_ID);
     };
 
-    client.onConnectionLost = function(res) {
+    client.onConnectionLost = function() {
       clearConnections();
       tryReconnect();
     };
@@ -50,7 +48,6 @@ angular.module('influuntApp')
       });
 
       if (!_.isFunction(fn)) {
-        console.warn('Função de callback para o topic ', message.destinationName, ' não implementada.');
         return false;
       }
 
@@ -59,7 +56,7 @@ angular.module('influuntApp')
       });
     };
 
-    var connectClient = function() {
+    connectClient = function() {
       var deferred = $q.defer();
 
       if (isConnected) {

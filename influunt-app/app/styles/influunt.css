@@ -2962,7 +2962,17 @@ p.velocidade-error {
 
 .page-simulacao .footer,
 .page-mapa_controladores .footer {
-  min-height: 70px;
-  position: static;
+  position: fixed;
+  bottom: 0;
+  min-height: 50px;
   margin-top: 10px;
 }
+
+@media (max-height: 768px) {
+  .page-simulacao .footer,
+  .page-mapa_controladores .footer {
+    position: static;
+    min-height: 60px;
+  }
+}
+
