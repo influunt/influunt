@@ -146,7 +146,11 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Anel getAnel() {
-        return getVersaoPlano().getAnel();
+        if (getVersaoPlano() != null) {
+            return getVersaoPlano().getAnel();
+        }
+
+        return null;
     }
 
     public VersaoPlano getVersaoPlano() {
@@ -243,6 +247,12 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @Transient
+    public boolean isTemporario() {
+        return Objects.equals(this.getAnel().getControlador().getModelo().getLimitePlanos() + 1, this.posicao);
+    }
+
+    @JsonIgnore
+    @Transient
     public boolean isApagada() {
         return Objects.nonNull(getModoOperacao()) && ModoOperacaoPlano.APAGADO.equals(getModoOperacao());
     }
@@ -257,6 +267,19 @@ public class Plano extends Model implements Cloneable, Serializable {
     @Transient
     public boolean isModoOperacaoVerde() {
         return Objects.nonNull(getModoOperacao()) && !ModoOperacaoPlano.APAGADO.equals(getModoOperacao()) && !ModoOperacaoPlano.INTERMITENTE.equals(getModoOperacao());
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = PlanosCheck.class, message = "Este plano deve ser configurado em todos os aneis.")
+    public boolean isPlanoPresenteEmTodosOsAneis() {
+        if (getAnel() != null && !this.isTemporario() && getAnel().isAtivo()) {
+            return this.getAnel().getControlador().getAneisAtivos().stream().allMatch(anel -> {
+                return anel.getPlanos().stream()
+                    .anyMatch(plano -> plano != null && Objects.equals(plano.posicao, this.posicao));
+            });
+        }
+
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.")
