@@ -33,7 +33,7 @@ public abstract class GerenciadorDeEventos {
     }
 
     public static void onEvento(GerenciadorDeEstagios gerenciadorDeEstagios, EventoMotor eventoMotor) {
-        InfluuntLogger.log(NivelLog.NORMAL,TipoLog.EXECUCAO,eventoMotor);
+        InfluuntLogger.log(NivelLog.NORMAL, TipoLog.EXECUCAO, eventoMotor);
         switch (eventoMotor.getTipoEvento()) {
             case ACIONAMENTO_DETECTOR_PEDESTRE:
                 new DetectorPedestreHandle(gerenciadorDeEstagios).processar(eventoMotor);

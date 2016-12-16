@@ -13,6 +13,7 @@ import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
 import play.libs.Json;
 
@@ -62,15 +63,17 @@ public class SimuladorActor extends UntypedActor {
 
             if (!"".equals(login)) { opts.setUserName(login); }
             if (!"".equals(senha)) { opts.setPassword(senha.toCharArray()); }
-            
+
             opts.setAutomaticReconnect(false);
             opts.setConnectionTimeout(10);
-            opts.setWill("simulador/" + id + "/morreu", "1".getBytes(), 1, true);
+            opts.setWill("simulador/" + id + "/morreu", "morreu".getBytes(), QoS.AT_LEAST_ONCE.ordinal(), false);
+
             client.connect(opts);
             client.subscribe("simulador/" + id + "/proxima_pagina", 1, (topic, message) -> {
                 JsonNode root = Json.parse(message.getPayload());
                 proximaPagina(root.get("pagina").asInt());
             });
+
             client.subscribe("simulador/" + id + "/detector", 1, (topic, message) -> {
                 JsonNode root = Json.parse(message.getPayload());
                 TipoDetector td = TipoDetector.valueOf(root.get("tipo").asText());
@@ -94,15 +97,6 @@ public class SimuladorActor extends UntypedActor {
 
                 trocarEstagioModoManual(disparo);
             });
-
-            client.publish("simulador/" + id + "/pronto", "1".getBytes(), 1, true);
-            try {
-                proximaPagina(0);
-            } catch (Exception e) {
-                e.printStackTrace();
-                send();
-            }
-
 
         } catch (MqttException e) {
             e.printStackTrace();
@@ -156,7 +150,7 @@ public class SimuladorActor extends UntypedActor {
 
     public void send() {
         try {
-            client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, true);
+            client.publish("simulador/" + id + "/estado", getJson().getBytes(), 1, false);
             estagios.clear();
             trocasDePlanos.clear();
             alarmes.clear();

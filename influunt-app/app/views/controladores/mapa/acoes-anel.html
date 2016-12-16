@@ -11,7 +11,6 @@
         <p>{{ currentAnel.localizacao }}</p>
       </div>
 
-
       <div class="ibox-content">
         <h3>{{ 'controladores.mapaControladores.status.titulo' | translate }}</h3>
         <ul>
@@ -36,7 +35,10 @@
 
           <li data-ng-if="currentAnel.hasPlanoImposto">
             <strong>{{ 'controladores.mapaControladores.planoImposto' | translate }}</strong>
-            <liberar-imposicao anel="currentAnel" transacoes="statusObj.transacoes"></liberar-imposicao>
+            <liberar-imposicao
+              anel="currentAnel"
+              transacoes="statusObj.transacoes"
+              data-ng-if="currentControlador.online"></liberar-imposicao>
           </li>
 
         </ul>
@@ -56,7 +58,7 @@
 
       <div class="ibox-content" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos',
               'sincronizarTabelaHoraria', 'colocarControladorManutencao', 'ativarControlador', 'desativarControlador',
-              'imporPlanos', 'imporModoOperacao']">
+              'imporPlanos', 'imporModoOperacao']" data-ng-if="currentControlador.online">
         <h3>{{ 'controladores.mapaControladores.acoes' | translate }}</h3>
 
         <imposicao-plano-popup

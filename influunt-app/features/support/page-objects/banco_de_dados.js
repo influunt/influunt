@@ -20,7 +20,7 @@ var BancoDeDados = function () {
     return world.execSqlScript('features/support/scripts/controladores/controladores_por_areas.sql');
   };
 
-  this.variosControladores = function() {
+  this.controladores = function() {
     return world.execSqlScript('features/support/scripts/controladores/controladores.sql');
   };
 
@@ -42,6 +42,14 @@ var BancoDeDados = function () {
 
   this.existeAoMenosUmAgrupamento = function() {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
+  };
+
+  this.variosControladores = function() {
+    return world.execSqlScript('features/support/scripts/controladores/controladores.sql');
+  };
+
+  this.removeControladores = function() {
+    return world.execSqlScript('features/support/scripts/controladores/remove_controladores.sql');
   };
 };
 module.exports = BancoDeDados;

@@ -13,9 +13,9 @@ Funcionalidade: Realizar filtros no mapa
   Cenário: Exibir todos os controladores e aneis configurados
     Dado usuário estiver na tela de mapa
     Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "1" controladores offline
-    E o sistema deverá mostrar no mapa "2" aneis
-    E o sistema deverá mostrar no mapa "1" aneis offline
+    E o sistema deverá mostrar no mapa "0" controladores offline
+    E o sistema deverá mostrar no mapa "3" aneis
+    E o sistema deverá mostrar no mapa "0" aneis offline
 
   Cenário: Realizar zoom no mapa
     Dado usuário estiver na tela de mapa
@@ -31,37 +31,37 @@ Funcionalidade: Realizar filtros no mapa
     E o usuário realizar um "Zoom out" no mapa
     E o usuário clicar no grupo de aneis "2"
     Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "1" controladores offline
-    E o sistema deverá mostrar no mapa "2" aneis
-    E o sistema deverá mostrar no mapa "1" aneis offline
+    E o sistema deverá mostrar no mapa "0" controladores offline
+    E o sistema deverá mostrar no mapa "3" aneis
+    E o sistema deverá mostrar no mapa "0" aneis offline
 
   Cenário: Quero visualizar apenas os controladores
     Dado usuário estiver na tela de mapa
     Quando o usuário clicar no menu filtros para "abrir"
     E o usuário clicar na opção "Anéis" para filtrar
     Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "1" controladores offline
+    E o sistema deverá mostrar no mapa "0" controladores offline
     # TODO aguardando a resolução da issue #1559
-    # E o sistema deverá mostrar no mapa "0" aneis
+    E o sistema deverá mostrar no mapa "0" aneis
 
   Cenário: Quero filtar no mapa pelo o número do controlador 1.000.0001
     Dado usuário estiver na tela de mapa
     E o usuário clicar na opção "Anéis" para filtrar
     E o usuário selecionar o valor "1.000.0001" para o campo "controladores"
-    Então o sistema deverá mostrar no mapa "1" controladores offline
-    E o sistema deverá mostrar no mapa "1" aneis offline
+    Então o sistema deverá mostrar no mapa "0" controladores offline
+    E o sistema deverá mostrar no mapa "0" aneis offline
 
   Cenário: Quero filtar no mapa pelo o número do controlador 1.003.0002
     Dado usuário estiver na tela de mapa
     E o usuário selecionar o valor "1.003.0002" para o campo "controladores"
     Então o sistema deverá mostrar no mapa "1" controladores
-    E o sistema deverá mostrar no mapa "1" aneis
+    E o sistema deverá mostrar no mapa "2" aneis
 
   Cenário: Quero filtar no mapa pelo o número do controlador 1.000.0003
     Dado usuário estiver na tela de mapa
     E o usuário selecionar o valor "1.000.0003" para o campo "controladores"
     Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "2" aneis
+    E o sistema deverá mostrar no mapa "3" aneis
 
   Cenário: Quero remover do meu filtro os controladores selecionados
     Dado usuário estiver na tela de mapa
@@ -73,7 +73,7 @@ Funcionalidade: Realizar filtros no mapa
     E o sistema deverá mostrar no mapa "2" aneis
     Quando o usuário remover o "1.000.0003" selecionado do campo "controladores"
     Então o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "2" aneis
+    E o sistema deverá mostrar no mapa "3" aneis
 
   Cenário: Quero filtar no mapa pela área
     Dado usuário estiver na tela de mapa

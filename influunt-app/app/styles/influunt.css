@@ -2762,6 +2762,10 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   margin-bottom: 10px;
 }
 
+.margin-left-right-10 {
+  margin: 0 10px;
+}
+
 .padding-right-10 {
   padding-right: 10px;
 }
@@ -2928,12 +2932,16 @@ form.dropzone.croqui .dz-preview a.dz-remove, .dropzone-previews a.dz-remove {
   color: #ec4758;
 }
 
-.certo {
+.grey-scaled i {
+  color: #ccc !important;
+}
+
+i.certo {
   font-size: 18px;
   color: #1ab394;
 }
 
-.errado {
+i.errado {
   font-size: 18px;
   color: #ec4758;
 }

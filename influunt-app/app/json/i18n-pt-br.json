@@ -258,7 +258,8 @@
       "verTelaAnterior": "Ver Resumo",
       "simular": "Simular",
       "msgTooltipSimular": "Simular operação do controlador",
-      "instalacao": "Instalação"
+      "instalacao": "Instalação",
+      "downloadConfig": "Baixar Configuração"
     },
     "associacaoDetectores": {
       "adicionarDetector": "Adicionar Detector",
@@ -309,7 +310,7 @@
       "tabela": "TABELA",
       "novaTabela": "Nova Tabela",
       "descricao": "Descrição",
-      "modoIntermitenteOuApagado": "Intermitente ou Apagado"
+      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -341,7 +342,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
-      "modoIntermitenteOuApagado": "Intermitente ou Apagado",
+      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"
@@ -855,13 +856,14 @@
     "falha": "Falha",
     "inativar": "Inativar",
     "indicacaoFalhas": "Indicação de Falhas",
-    "online": "Online",
     "info": "Info",
     "local": "Local",
     "log": "Log",
     "modoOperacaoTitulo": "Modo de operação",
     "momentoCiclo": "Momento do Ciclo",
+    "online": "Online",
     "parametrosControlador": "Logs do Controlador",
+    "pendingWarning": "Alguns itens desta transação não poderão ser concluídos. Continuar o processo para os demais?",
     "planoForcado": "Plano Forçado",
     "planoImpostoFalha": "Plano Imposto por Falha",
     "posicaoPlano": "Posição do Plano",
@@ -869,13 +871,13 @@
     "status": "Status",
     "statusControlador": "Status do Controlador",
     "statusPlano": "Status do Plano",
-    "titulo": "Painel de Facilidades",
+    "titulo": "Comandos da Central",
     "tabelaHoraria": "Tabela Horária",
     "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
     "aletarcaoStatus": {
       "sucesso": "Alteração executada com sucesso",
-      "erro": "Não foi possível alterar o status com o controlador"
+      "erro": "Não foi possível alterar o status do controlador"
     },
     "liberacao": {
       "confirmLiberarImposicao": "Liberar imposição?",

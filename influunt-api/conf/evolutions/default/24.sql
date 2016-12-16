@@ -31,5 +31,5 @@ alter table controladores_fisicos  drop column `central_private_key`;
 alter table controladores_fisicos  drop column `central_public_key`;
 alter table controladores_fisicos  drop column `controlador_public_key`;
 alter table controladores_fisicos  drop column `controlador_private_key`;
-alter table controladores_fisicos drop column `controlador_sincronizado_id`;
+alter table controladores_fisicos  drop column `controlador_sincronizado_id`;
 alter table controladores drop column `sincronizado`;

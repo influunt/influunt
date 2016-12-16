@@ -131,7 +131,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
         try {
-            opts.setWill(controladorOffline.getDestino(), GzipUtil.compress(controladorOffline.toJsonCriptografado(storage.getCentralPublicKey())), 1, false);
+            opts.setWill(controladorOffline.getDestino(),
+                GzipUtil.compress(controladorOffline.toJsonCriptografado(storage.getCentralPublicKey())),
+                QoS.AT_LEAST_ONCE.ordinal(),
+                false);
         } catch (IOException e) {
             e.printStackTrace();
         }

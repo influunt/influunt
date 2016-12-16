@@ -44,9 +44,9 @@ angular.module('influuntApp')
               var transacao = transacoes[anel.controladorFisicoId];
               var isPacoteTabelaHoraria = transacao && tiposTransacao.indexOf(transacao.tipoTransacao) >= 0;
 
-              if (isPacoteTabelaHoraria && transacao.status === 'DONE') {
+              if (isPacoteTabelaHoraria && transacao.statusPacote === 'DONE') {
                 toast.success($filter('translate')('imporConfig.' + tipo + '.sucesso'));
-              } else if (isPacoteTabelaHoraria && transacao.status === 'ABORTED') {
+              } else if (isPacoteTabelaHoraria && transacao.statusPacote === 'ABORTED') {
                 // @todo: Adicionar mensagem de erro do mqtt?
                 toast.error($filter('translate')('imporConfig.' + tipo + '.erro'));
               }
