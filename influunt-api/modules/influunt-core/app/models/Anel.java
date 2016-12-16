@@ -285,6 +285,16 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     @Transient
+    public VersaoPlano getVersaoPlanoAtivoOuConfiguradoOuEmEdicao() {
+        VersaoPlano ativoOuConfigurado = getVersaoPlanoAtivoOuConfigurado();
+        if (ativoOuConfigurado != null) {
+            return ativoOuConfigurado;
+        }
+
+        return getVersaoPlanoEmEdicao();
+    }
+
+    @Transient
     public VersaoPlano getVersaoPlanoAtivoOuConfigurado() {
         if (getVersaoPlanoAtivo() != null) {
             return getVersaoPlanoAtivo();
