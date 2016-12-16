@@ -54,7 +54,7 @@ angular.module('influuntApp')
 
         scope.filterCityPoints = function(predictions) {
           var requiredTerms = ['São Paulo', 'SP'];
-          return predictions.filter(function(prediction) {
+          return _.isArray(predictions) && predictions.filter(function(prediction) {
             var predictionTerms = _.map(prediction.terms, 'value');
             return requiredTerms.every(function(term) {
               return predictionTerms.indexOf(term) >= 0;

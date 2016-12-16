@@ -27,7 +27,8 @@ angular.module('influuntApp')
           type: 'warning',
           title: title,
           text: text,
-          showConfirmButton: true
+          showConfirmButton: true,
+          html: true
         }, function() {
           deferred.resolve(true);
         });
@@ -45,7 +46,8 @@ angular.module('influuntApp')
         var defer = $q.defer(),
             options = Objects.merge(defaultOptions, {
               title: title,
-              text: text
+              text: text,
+              html: true
             });
 
         SweetAlert.swal(options, function (confirmado) {
@@ -66,7 +68,8 @@ angular.module('influuntApp')
             options = Objects.merge(defaultOptions, {
               title: title,
               text: text,
-              type: 'input'
+              type: 'input',
+              html: true
             });
 
         SweetAlert.swal(options, function (inputvalue) {
@@ -92,7 +95,8 @@ angular.module('influuntApp')
             options = Objects.merge(defaultOptions, {
               title: title,
               text: text,
-              cancelButtonText: $filter('translate')('geral.mensagens.nao')
+              cancelButtonText: $filter('translate')('geral.mensagens.nao'),
+              html: true
             });
 
         SweetAlert.swal(options, function (confirmado) {
@@ -110,7 +114,8 @@ angular.module('influuntApp')
               title: title,
               text: text,
               showConfirmButton: false,
-              cancelButtonText: $filter('translate')('geral.mensagens.ok')
+              cancelButtonText: $filter('translate')('geral.mensagens.ok'),
+              html: true
             });
 
         SweetAlert.swal(options, function (confirmado) {
