@@ -207,7 +207,7 @@ angular.module('influuntApp')
         return _.chain(filtrosMapa.getAneis($scope.filtro, controlador.aneis))
           .filter('ativo')
           .orderBy('posicao')
-          .filter(function(anel) {
+          .filter(function() {
             return $scope.filtro.exibirAneis;
           })
           .map(function(anel) {
@@ -382,7 +382,7 @@ angular.module('influuntApp')
             marker = {
               tipo: 'ANEL',
               idJson: idMarker
-            }
+            };
           }
 
           $scope.setCurrentObject(marker);
