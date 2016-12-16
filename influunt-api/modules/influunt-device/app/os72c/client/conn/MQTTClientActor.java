@@ -79,6 +79,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     @Override
     public void postStop() throws Exception {
+        System.out.println("MORREU MQTT CLIENT");
         super.postStop();
     }
 

@@ -96,7 +96,6 @@ public class ClientActor extends UntypedActor{
     }
 
     private void setup() {
-
         actorTrasacao = getContext().actorOf(Props.create(TransacaoManagerActorHandler.class, this.id, storage), "actorTransacao");
         List<Routee> routees = new ArrayList<Routee>();
         for (int i = 0; i < 5; i++) {
@@ -106,6 +105,10 @@ public class ClientActor extends UntypedActor{
         }
         router = new Router(new RoundRobinRoutingLogic(), routees);
 
+        startMQTT();
+    }
+
+    private void startMQTT(){
         mqqtControlador = getContext().actorOf(Props.create(MQTTClientActor.class, id, host, port,login,senha, storage, router), "ControladorMQTT");
         this.getContext().watch(mqqtControlador);
         mqqtControlador.tell("CONNECT", getSelf());
@@ -117,9 +120,8 @@ public class ClientActor extends UntypedActor{
             final Terminated t = (Terminated) message;
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
         } else if ("RESTART".equals(message)) {
-            setup();
+            startMQTT();
         }
-
     }
 
     @Override
@@ -128,6 +130,11 @@ public class ClientActor extends UntypedActor{
     }
 
 
+    @Override
+    public void postStop() throws Exception {
+        System.out.println("MORREU CLIENTACTOR");
+        super.postStop();
+    }
 }
 
 

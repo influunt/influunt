@@ -294,7 +294,6 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         storage.setControladorStaging(null);
     }
 
-
     @Override
     public void aroundPostStop() {
         if (motor != null) {
@@ -302,5 +301,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             executor.cancel(true);
         }
         super.aroundPostStop();
+    }
+
+    @Override
+    public void postStop() throws Exception {
+        System.out.println("MORREU DEVICEACTOR");
+        super.postStop();
     }
 }

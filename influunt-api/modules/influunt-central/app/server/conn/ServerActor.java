@@ -47,10 +47,18 @@ public class ServerActor extends UntypedActor {
 
     private ActorRef actorPacoteTrasancaoManager;
 
+    private Props mqttProps;
 
     public ServerActor(final String mqttHost, final String mqttPort) {
         this.mqttHost = mqttHost;
         this.mqttPort = mqttPort;
+
+        mqttProps = BackoffSupervisor.props(Backoff.onFailure(
+            Props.create(MQTTServerActor.class, mqttHost, mqttPort, router),
+            "CentralMQTT",
+            Duration.create(1, TimeUnit.SECONDS),
+            Duration.create(10, TimeUnit.SECONDS),
+            0).withSupervisorStrategy(strategy));
     }
 
     @Override
@@ -64,15 +72,9 @@ public class ServerActor extends UntypedActor {
         actorPacoteTrasancaoManager = getContext().actorOf(Props.create(PacoteTransacaoManagerActorHandler.class), "actorPacoteTransacaoManager");
 
         router = getContext().actorOf(new RoundRobinPool(5).props(Props.create(CentralMessageBroker.class, actorPacoteTrasancaoManager)), "centralMessageBroker");
+    }
 
-        Props mqttProps = BackoffSupervisor.props(Backoff.onFailure(
-            Props.create(MQTTServerActor.class, mqttHost, mqttPort, router),
-            "CentralMQTT",
-            Duration.create(1, TimeUnit.SECONDS),
-            Duration.create(10, TimeUnit.SECONDS),
-            0).withSupervisorStrategy(strategy));
-
-
+    private void startMQTT() {
         mqttCentral = getContext().actorOf(mqttProps, "CentralMQTT");
         this.getContext().watch(mqttCentral);
         mqttCentral.tell("CONNECT", getSelf());
@@ -92,9 +94,8 @@ public class ServerActor extends UntypedActor {
             final Terminated t = (Terminated) message;
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
         } else if ("RESTART".equals(message)) {
-            setup();
+            startMQTT();
         }
-
     }
 
     @Override
