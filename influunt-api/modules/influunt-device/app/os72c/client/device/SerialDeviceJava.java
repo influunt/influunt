@@ -13,6 +13,7 @@ import logger.InfluuntLogger;
 import logger.NivelLog;
 import logger.TipoLog;
 import models.TipoDetector;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.Client;
@@ -20,14 +21,15 @@ import os72c.client.exceptions.HardwareFailureException;
 import protocol.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static javafx.scene.input.KeyCode.F;
 import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 /**
@@ -54,13 +56,15 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     private com.fazecast.jSerialComm.SerialPort serialPort;
 
-    private ScheduledExecutorService executor;
+    StringBuffer buffer = new StringBuffer();
 
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;
 
     private int sequencia = 0;
+
+    private ArrayDeque<String> fila = new ArrayDeque<String>();
 
 
 
@@ -84,7 +88,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     public void start(DeviceBridgeCallback deviceBridgeCallback) {
         this.callback = deviceBridgeCallback;
-        this.executor = Executors.newScheduledThreadPool(1);
+
 
         serialPort = com.fazecast.jSerialComm.SerialPort.getCommPort(porta);
         serialPort.setBaudRate(baudrate);
@@ -93,18 +97,38 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         serialPort.setParity(parity);
         try {
             InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Abrindo a porta de comunicação");
-            serialPort.openPort();//Open serial port
+            if(serialPort.openPort()) {//Open serial port
 
-            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Cumprindo delay");
-            Thread.sleep(startDelay);
-            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Limpando buffer");
-            int bytesAvailable = serialPort.bytesAvailable();
-            if (bytesAvailable > 0) {
-                byte[] lixo = new byte[bytesAvailable];
-                serialPort.readBytes(lixo, bytesAvailable);
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Cumprindo delay");
+                Thread.sleep(startDelay);
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Limpando buffer");
+                int bytesAvailable = serialPort.bytesAvailable();
+                if (bytesAvailable > 0) {
+                    byte[] lixo = new byte[bytesAvailable];
+                    serialPort.readBytes(lixo, bytesAvailable);
+                }
+                serialPort.addDataListener(this);
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Comunicação serial pronta para iniciar");
+
+                Executors.newScheduledThreadPool(1)
+                    .scheduleAtFixedRate(() -> {
+                        try {
+                            Mensagem mensagem;
+                            while(!fila.isEmpty()){
+                                mensagem = Mensagem.toMensagem(Hex.decodeHex(fila.pop().toCharArray()));
+                                mensagemRecebida(mensagem);
+                                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }, 0, 100, TimeUnit.MILLISECONDS);
+
+
+
+            }else{
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível abrir comunicação pela porta:" + porta);
             }
-            serialPort.addDataListener(this);
-            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Comunicação serial pronta para iniciar");
         } catch (Exception e) {
             e.printStackTrace();
             InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível iniciar a comunicação serial");
@@ -127,10 +151,15 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         try {
             byte[] bytes = mensagem.toByteArray();
 
-            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Enviando %d bytes pela serial", bytes.length));
-            //byte[] mgs = Bytes.concat("<I>".getBytes(), bytes, "<F>".getBytes());
-            //serialPort.writeBytes(mgs, mgs.length);
-            serialPort.writeBytes(bytes, bytes.length);
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Enviando %d bytes pela serial", bytes.length));
+            String encoded = "<I>".concat(Hex.encodeHexString(bytes)).concat("<F>");
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, encoded);
+            int r = serialPort.writeBytes(encoded.getBytes(), encoded.getBytes().length);
+            if(r == -1){
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
+            }
+            System.out.println("Bytes enviados:" + r);
+
         } catch (Exception e) {
             InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, e.getMessage());
             e.printStackTrace();
@@ -233,34 +262,26 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             return;
         }
 
-        StringBuffer buffer = new StringBuffer();
-
         while(serialPort.bytesAvailable()>0 ){
-            byte[] newData = new byte[1];
-            int numRead = serialPort.readBytes(newData, 1);
+            byte[] newData = new byte[serialPort.bytesAvailable()];
+            int numRead = serialPort.readBytes(newData, newData.length);
+
             buffer.append(new String(newData, StandardCharsets.US_ASCII));
-        }
+            System.out.println("-----------------------------");
+            System.out.println(buffer.toString());
+            System.out.println("-----------------------------");
 
-
-        Pattern pattern = Pattern.compile("<I>.*<F>");
-        Matcher matcher = pattern.matcher(buffer);
-
-
-
-        while(matcher.find()) {
-            Mensagem mensagem = null;
-            try {
-                mensagem = Mensagem.toMensagem(buffer.substring(matcher.start()+3,matcher.end()-3).getBytes(StandardCharsets.US_ASCII));
-                mensagemRecebida(mensagem);
-                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
-
-            } catch (Exception e) {
-                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, e.getMessage());
-                e.printStackTrace();
+            if(buffer.toString().matches("<I>.*<F>")) {
+                String parts[] = buffer.toString().split("<F>");
+                for (String part : parts) {
+                    String texto = part.substring(part.lastIndexOf("<I>") + 3);
+                    if (texto.length() > 0 && texto.length() % 2 == 0) {
+                        fila.push(texto);
+                    }
+                }
+                buffer = new StringBuffer();
             }
-
         }
-
     }
 }
 

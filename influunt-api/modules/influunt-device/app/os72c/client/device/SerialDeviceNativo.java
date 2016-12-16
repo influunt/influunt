@@ -29,7 +29,6 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class SerialDeviceNativo implements DeviceBridge, SerialPortEventListener {
 
-
     private final Config settings;
 
     private final int startDelay;
