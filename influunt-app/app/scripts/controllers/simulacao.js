@@ -374,6 +374,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
     return Restangular.all('simulacao').post($scope.parametrosSimulacao)
       .then(function(response) {
         $scope.errors = {};
+        $scope.simulacaoId = response.simulacaoId;
         abrirModalSimulacao();
         iniciarSimulacao($scope.parametrosSimulacao, response);
         resetParametros();
@@ -428,13 +429,13 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   $scope.pararSimulacao = function() {
-    $scope.simulacao.state.destroy();
+    $scope.simulacao.stop();
     $('#canvas').html('');
     pararSimulacaoNaApi();
   };
 
   pararSimulacaoNaApi = function() {
-    return Restangular.all('simulacao/parar').post(null).finally(influuntBlockui.unblock);
+    return Restangular.one('simulacao', $scope.simulacaoId).customPOST(null, 'parar').finally(influuntBlockui.unblock);
   };
 
 }]);

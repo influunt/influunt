@@ -52,6 +52,8 @@ var influunt;
 
         var modoManualAtivado = false;
 
+        var mqttClient;
+
         function decodeEstado(estado,ctx) {
           switch(estado){
             case 'DESLIGADO':
@@ -936,12 +938,13 @@ var influunt;
 
           function onConnectionLost(responseObject) {
             if (responseObject.errorCode !== 0) {
-              console.log('onConnectionLost:'+responseObject.errorMessage);
+              console.log('onConnectionLost: '+responseObject.errorMessage);
             }
           }
 
           // connect the client
           client.connect({onSuccess:onConnect});
+          mqttClient = client;
 
           criaAneis();
 
@@ -973,6 +976,11 @@ var influunt;
         }
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
+
+        game.stop = function() {
+          mqttClient.disconnect();
+          game.state.destroy();
+        }
 
         return game;
       }
