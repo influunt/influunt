@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 
 var worldObj = require('../world');
 var world = new worldObj.World();
@@ -513,7 +513,7 @@ var WizardControladorPage = function () {
   this.preencherCampoSMEECom = function(numero) {
     return world.setValue('[name="numeroSMEE"]', numero)
       .then(function() {
-        return world.waitForOverlayDisappear()
+        return world.waitForOverlayDisappear();
       })
       .then(function(){
         return world.getElement('div').click();

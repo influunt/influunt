@@ -33,12 +33,16 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuário preencher o campo NÚMERO SMEE com "0"
     E o usuário realizar um scroll down
-    Então o sistema deverá indicar erro no campo "numeroSMEE" com a mensagem "O número informado não é reconhecido na base do SMEE."
+    Então o sistema exibe um alerta com a mensagem "O número informado não é reconhecido na base do SMEE."
+    E o usuário confirmar
 
   Cenário: Preencher o valor SMEE correto
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário limpar o campo "SMEE"
     E o usuário preencher o campo NÚMERO SMEE com "1234"
-    E clicar no botão para ir pro próximo passo
+    Então o sistema exibe um alerta com a mensagem "O endereço pesquisado é RIO BONITO, AV DO x NEUCHATEL, R x GUIDO BONI, PC - (**)?"
+    E o usuário confirmar
+    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
 
   Cenário: Salvar anéis do controlador

@@ -104,9 +104,13 @@ var MongoInsert = function () {
     assert.equal(null, err);
     var tableTrocaPlanosControldaores = 'trocaPlanosControladores';
     var tableAlarmesFalhasControladores = 'alarmes_falhas_controladores';
-    var tableStatusControladores = 'status_conexao_controlador'
+    var tableStatusControladores = 'status_conexao_controlador';
 
     clearDb(db, trocaPlanosControladores, tableTrocaPlanosControldaores, function() {
+      db.close();
+    });
+
+    clearDb(db, statusControlador, tableStatusControladores, function() {
       db.close();
     });
 
@@ -127,6 +131,10 @@ var MongoInsert = function () {
     });
 
     insertDocuments(db, alarmesFalhasControladores2, tableAlarmesFalhasControladores, () => {
+      db.close();
+    });    
+
+    insertDocuments(db, statusControlador, tableStatusControladores, () => {
       db.close();
     });
   });
