@@ -86,7 +86,7 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
 
 SET @acessarPainelDeFacilidades = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@acessarPainelDeFacilidades, 'acessarPainelDeFacilidades', '[Painel de Facilidades] - Acessar o Painel de Facilidades', 'O usuário com essa permissão pode acessar o painel de facilidades. Se o usuário não tiver essa permissão o menu "Painel de Facilidades" é escondido.', NOW(), NOW());
+  (@acessarPainelDeFacilidades, 'acessarPainelDeFacilidades', '[Comandos da Central] - Acessar os Comandos da Central', 'O usuário com essa permissão pode acessar a tela com os comandos da central.. Se o usuário não tiver essa permissão o menu "Comandos da Central" é escondido.', NOW(), NOW());
 
 
 -- # CRUD Cidades
@@ -1152,7 +1152,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'imporPlanos', '[Painel de Facilidades] - Impor planos', 'O usuário com essa permissão pode realizar uma imposição de planos através do painel de facilidades.', NOW(), NOW());
+  (@permAppId, 'imporPlanos', '[Comandos da Central] - Impor planos', 'O usuário com essa permissão pode realizar uma imposição de planos através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1164,7 +1164,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'imporModoOperacao', '[Painel de Facilidades] - Impor Modo de Operação', 'O usuário com essa permissão pode realizar uma imposição de modo de operação através do painel de facilidades.', NOW(), NOW());
+  (@permAppId, 'imporModoOperacao', '[Comandos da Central] - Impor Modo de Operação', 'O usuário com essa permissão pode realizar uma imposição de modo de operação através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1176,7 +1176,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'sincronizarConfiguracaoCompleta', '[Painel de Facilidades] - Sincronizar Tabela Horária, Planos e Configuração do Controlador', 'O usuário com essa permissão pode fazer a sincronização de tabela horária, planos e configuração de controladores.', NOW(), NOW());
+  (@permAppId, 'sincronizarConfiguracaoCompleta', '[Comandos da Central] - Sincronizar Tabela Horária, Planos e Configuração do Controlador', 'O usuário com essa permissão pode fazer a sincronização de tabela horária, planos e configuração de controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1187,7 +1187,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'sincronizarPlanos', '[Painel de Facilidades] - Sincronizar Planos', 'O usuário com essa permissão pode fazer a sincronização de planos em controladores.', NOW(), NOW());
+  (@permAppId, 'sincronizarPlanos', '[Comandos da Central] - Sincronizar Planos', 'O usuário com essa permissão pode fazer a sincronização de planos em controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1198,7 +1198,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'sincronizarTabelaHoraria', '[Painel de Facilidades] - Sincronizar Tabela Horária', 'O usuário com essa permissão pode fazer a sincronização de tabelas horárias em controladores.', NOW(), NOW());
+  (@permAppId, 'sincronizarTabelaHoraria', '[Comandos da Central] - Sincronizar Tabela Horária', 'O usuário com essa permissão pode fazer a sincronização de tabelas horárias em controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1209,7 +1209,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'lerDadosControlador', '[Painel de Facilidades] - Ler Dados do Controlador', 'O usuário com essa permissão pode ler os dados dos controladores.', NOW(), NOW());
+  (@permAppId, 'lerDadosControlador', '[Comandos da Central] - Ler Dados do Controlador', 'O usuário com essa permissão pode ler os dados dos controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1221,7 +1221,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'colocarControladorManutencao', '[Painel de Facilidades] - Colocar Controlador em Manutenção', 'O usuário com essa permissão pode colocar um controlador em manutenção.', NOW(), NOW());
+  (@permAppId, 'colocarControladorManutencao', '[Comandos da Central] - Colocar Controlador em Manutenção', 'O usuário com essa permissão pode colocar um controlador em manutenção.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1232,7 +1232,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'ativarControlador', '[Painel de Facilidades] - Ativar um controlador', 'O usuário com essa permissão pode ativar um controlador através do painel de facilidades.', NOW(), NOW());
+  (@permAppId, 'ativarControlador', '[Comandos da Central] - Ativar um controlador', 'O usuário com essa permissão pode ativar um controlador através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
@@ -1243,7 +1243,7 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@permAppId, 'desativarControlador', '[Painel de Facilidades] - Desativar um controlador', 'O usuário com essa permissão pode desativar um controlador através do painel de facilidades.', NOW(), NOW());
+  (@permAppId, 'desativarControlador', '[Comandos da Central] - Desativar um controlador', 'O usuário com essa permissão pode desativar um controlador através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
