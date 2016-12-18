@@ -55,7 +55,7 @@
           <div class="vertical-timeline-block" ng-repeat="item in controlador.historico">
             <div class="vertical-timeline-icon" ng-class="item.conectado ? 'navy-bg' : 'red-bg'">
             </div>
-            <span class="vertical-date">{{item.timestamp | influuntDate: 'dddd'}} <br/><small>{{item.timestamp | influuntDate: 'll'}}</small></span>
+            <span class="vertical-date">{{item.timestamp | influuntDate: 'dddd'}} <br/><small>{{item.timestamp | influuntDate }}</small></span>
             <div class="vertical-timeline-content">
               <h2>{{ item.conectado ? 'main.controlOn' : 'main.controlOff' | translate }}</h2>
             </div>

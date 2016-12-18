@@ -260,17 +260,14 @@ public class ControladoresReportService extends ReportService<Controlador> {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
                     paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
-                    paramsAux.remove("subareaAgrupamento");
-                    paramsAux.remove("filtrarPor_eq");
                 }
-
             } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
                     paramsAux.put("aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
-                    paramsAux.remove("subareaAgrupamento");
-                    paramsAux.remove("filtrarPor_eq");
                 }
             }
+            paramsAux.remove("subareaAgrupamento");
+            paramsAux.remove("filtrarPor_eq");
         }
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
         List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(c -> c.getControladorFisicoId()).collect(Collectors.toList()));
@@ -279,7 +276,8 @@ public class ControladoresReportService extends ReportService<Controlador> {
         logs.forEach(log -> {
             if (tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
                 Controlador controlador = controladores.stream().filter((c -> c.getControladorFisicoId().equals(log.getIdControlador()))).findFirst().get();
-                itens.addObject().put("horario", log.getTimestamp()).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
+                String date = new DateTime(log.getTimestamp()).toString();
+                itens.addObject().put("horario", date).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
                     .put("tipo", log.getTipoLogControlador().toString()).put("mensagem", log.getMensagem());
             }
         });

@@ -24,7 +24,7 @@
                       <td ng-if="!online"><i class="fa fa-circle text-danger"></i> {{ 'main.offline' | translate }}</td>
                       <td>{{ controlador.clc }}</td>
                       <td>{{ controlador.endereco }}</td>
-                      <td>{{ online ? 'main.onDesde' : 'main.offDesde' | translate }} - {{ controlador.data |  influuntDate: 'll'}}.
+                      <td>{{ online ? 'main.onDesde' : 'main.offDesde' | translate }} - {{ controlador.data |  influuntDate }}.
                         <a ui-sref="app.dashboard_detalhe_controlador({id: controlador.id})"
                            data-dismiss="modal"
                            permission permission-only="verControlador"> {{ 'main.verHistorico' | translate }}
