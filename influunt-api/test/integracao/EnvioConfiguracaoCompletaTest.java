@@ -62,6 +62,6 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
 
     private void enviarConfiguracaoCompleta(Controlador controlador) {
         TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarConfiguracaoCompleta(Arrays.asList(controlador), 1000L);
+        transacaoHelper.enviarConfiguracaoCompleta(Arrays.asList(controlador), 10000L);
     }
 }
