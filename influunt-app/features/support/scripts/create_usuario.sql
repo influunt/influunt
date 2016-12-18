@@ -77,6 +77,10 @@ SET @GerarRelatorioTabelaHoraria = RANDOM_UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@GerarRelatorioTabelaHoraria, 'gerarRelatorioTabelaHoraria', '[Relatórios] - Gerar relatórios de tabelas horárias', 'Gerar um relatório de uma tabela horária em um determinado dia. Se o usuário não tiver essa permissão o link "Tabela Horária" no menu "Relatórios" é escondido.', NOW(), NOW());
 
+SET @acessarPainelDeFacilidades = RANDOM_UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@acessarPainelDeFacilidades, 'acessarPainelDeFacilidades', '[Painel de Facilidades] - Acessar o Painel de Facilidades', 'O usuário com essa permissão pode acessar o painel de facilidades. Se o usuário não tiver essa permissão o menu "Painel de Facilidades" é escondido.', NOW(), NOW());
+
 
 
 -- # CRUD Cidades

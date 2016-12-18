@@ -46,7 +46,7 @@ public class EnderecoSerializer extends JsonSerializer<Endereco> {
             controlador.setEndereco(null);
             controlador.setGruposSemaforicos(null);
             controlador.setVersoesTabelasHorarias(null);
-            controlador.setVersaoControlador(null);
+            controlador.getVersaoControlador().setControlador(null);
             jgen.writeObjectField("controlador", controlador);
         }
         if (endereco.getDataCriacao() != null) {

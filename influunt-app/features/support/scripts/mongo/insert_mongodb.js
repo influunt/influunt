@@ -11,7 +11,7 @@ var NumberLong = Long.fromString('1479756629334');
 var MongoInsert = function () {
   var trocaPlanosControladores = [
     {'_id' : ObjectId('58334b5573835c48f22fb7a0'),
-     'idControlador' : '279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',
+     'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
      'idAnel' : '043007e5-ee02-4383-bde1-87346abdc895',
      'timestamp' : NumberLong,
      'conteudo' : {'momentoDaTroca' : '21/11/2016 17:30:29',
@@ -27,7 +27,7 @@ var MongoInsert = function () {
   var alarmesFalhasControladores1 = [
     {
       '_id' : ObjectId('5833538c2d4e4bfb76af0d84'),
-      'idControlador' : '279d3e6e-b3ab-4e9f-8358-67e393e5ed0f',
+      'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
       'idAnel' : '043007e5-ee02-4383-bde1-87346abdc895',
       'recuperado' : false,
       'timestamp' : NumberLong,
@@ -41,7 +41,7 @@ var MongoInsert = function () {
                      'tipoParam' : 'DETECTOR_VEICULAR',
                      'descricao' : 'Detector veicular - Falta de acionamento' },
       'descricaoEvento' : 'Falha CPU',
-      'params' : []
+      'params' : [1, false]
       }
     }
   ];
@@ -50,16 +50,29 @@ var MongoInsert = function () {
     {
       '_id' : ObjectId('5833538c2d4e4bfb76af0d83'),
       'idControlador' : 'd7c27564-e0b1-4eda-8a6c-2c265ed24c2f',
+      'idAnel' : '33e2bbf0-72ad-4d11-98d8-1bb440c370b0',
+      'recuperado' : false,
       'timestamp' : NumberLong,
       'conteudo' : { 'timestamp' : '18/11/2016 20:59:23',
                      'tipoEvento' : {
                      'tipo' : 'FALHA_WATCH_DOG',
                      'tipoEventoControlador' : 'FALHA',
+                     'descricaoParam' : 'Detector Veicular',
+                     'tipoParam' : 'DETECTOR_VEICULAR',
                      'codigo' : 9,
                      'descricao' : 'Falha CPU' },
       'descricaoEvento' : 'Falha CPU',
-       'params' : []
+       'params' : [1, false]
       }
+    }
+  ];
+
+  var statusControlador = [
+    {
+      '_id' : ObjectId('57dafa79dd605a97ce6003e4'),
+      'idControlador' : '3c802c00-6d7f-423d-b6e7-cfc8e744c8ae',
+      'timestamp' : NumberLong,
+      'conectado' : true
     }
   ];
 
@@ -91,8 +104,13 @@ var MongoInsert = function () {
     assert.equal(null, err);
     var tableTrocaPlanosControldaores = 'trocaPlanosControladores';
     var tableAlarmesFalhasControladores = 'alarmes_falhas_controladores';
+    var tableStatusControladores = 'status_conexao_controlador';
 
     clearDb(db, trocaPlanosControladores, tableTrocaPlanosControldaores, function() {
+      db.close();
+    });
+
+    clearDb(db, statusControlador, tableStatusControladores, function() {
       db.close();
     });
 
@@ -113,6 +131,10 @@ var MongoInsert = function () {
     });
 
     insertDocuments(db, alarmesFalhasControladores2, tableAlarmesFalhasControladores, () => {
+      db.close();
+    });    
+
+    insertDocuments(db, statusControlador, tableStatusControladores, () => {
       db.close();
     });
   });
