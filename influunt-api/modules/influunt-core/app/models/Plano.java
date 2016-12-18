@@ -272,7 +272,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @JsonIgnore
     @AssertTrue(groups = PlanosCheck.class, message = "Este plano deve ser configurado em todos os aneis.")
     public boolean isPlanoPresenteEmTodosOsAneis() {
-        if (getAnel() != null && !this.isTemporario() && getAnel().isAtivo()) {
+        if (getAnel() != null && !this.isTemporario() && !this.isManual() && getAnel().isAtivo()) {
             return this.getAnel().getControlador().getAneisAtivos().stream().allMatch(anel -> {
                 return anel.getPlanos().stream()
                     .anyMatch(plano -> plano != null && Objects.equals(plano.posicao, this.posicao));
