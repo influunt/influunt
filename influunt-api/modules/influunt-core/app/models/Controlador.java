@@ -132,6 +132,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private Boolean sincronizado = false;
 
     @Column
+    @NotNull
     private boolean exclusivoParaTeste = false;
 
     @JsonIgnore

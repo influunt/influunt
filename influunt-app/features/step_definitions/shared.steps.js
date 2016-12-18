@@ -107,8 +107,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^o sistema deverá mostrar o controlador da área "([^"]*)"$/, function (numeroClc) {
-    return sharedSteps.checarClcControladorListagem(numeroClc);
+  this.Given(/^o sistema deverá mostrar o controlador da rua "([^"]*)"$/, function (endereco) {
+    return sharedSteps.checarControladorPorEndereco(endereco);
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {

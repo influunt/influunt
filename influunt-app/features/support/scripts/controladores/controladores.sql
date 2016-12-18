@@ -115,12 +115,12 @@ INSERT INTO `imagens` (`id`, `id_json`, `filename`, `content_type`, `data_criaca
   (@Croqui23Id,RANDOM_UUID(),'sinal.png','image/png',NOW(),NOW()),
   (@Croqui24Id,RANDOM_UUID(),'sinal.png','image/png',NOW(),NOW());
 
-INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`, `data_criacao`, `data_atualizacao`)
+INSERT INTO `controladores` (`id`, `id_json`, `croqui_id`, `nome_endereco`, `sequencia`, `numero_smee`, `numero_smeeconjugado1`, `numero_smeeconjugado2`, `numero_smeeconjugado3`, `firmware`, `modelo_id`, `area_id`, `subarea_id`, `bloqueado`, `planos_bloqueado`,`sincronizado`,`exclusivo_para_teste`,`data_criacao`, `data_atualizacao`)
 VALUES
-  (@Controlador1Id,RANDOM_UUID(), NULL, 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area1Id,NULL,'FALSE', 'FALSE', NOW(),NOW()),
-  (@Controlador2Id,RANDOM_UUID(), NULL, 'R. Bela Cintra com Av. Paulista',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area2Id,NULL,'FALSE', 'FALSE', NOW(),NOW()),
-  (@Controlador3Id,RANDOM_UUID(), NULL, 'Av. Paulista, nº 2000',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area3Id,NULL, 'FALSE', 'FALSE', NOW(),NOW()),
-  (@Controlador4Id,RANDOM_UUID(), NULL, 'Av. Paulista com R. Pamplona',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area4Id,NULL,'FALSE', 'FALSE', NOW(),NOW());
+  (@Controlador1Id,RANDOM_UUID(), NULL, 'Av. Paulista com R. Bela Cintra',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area1Id,NULL,'FALSE', 'FALSE', 'FALSE', 'FALSE', NOW(),NOW()),
+  (@Controlador2Id,RANDOM_UUID(), NULL, 'R. Bela Cintra com Av. Paulista',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area2Id,NULL,'FALSE', 'FALSE','FALSE', 'FALSE', NOW(),NOW()),
+  (@Controlador3Id,RANDOM_UUID(), NULL, 'Av. Paulista, nº 2000',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area3Id,NULL, 'FALSE', 'FALSE','FALSE', 'FALSE', NOW(),NOW()),
+  (@Controlador4Id,RANDOM_UUID(), NULL, 'Av. Paulista com R. Pamplona',1,NULL,NULL,NULL,NULL,NULL, @ModeloId, @Area4Id,NULL,'FALSE', 'FALSE', 'FALSE', 'FALSE', NOW(),NOW());
 
 INSERT INTO `enderecos` (`id`, `id_json`, `controlador_id`, `anel_id`, `localizacao`, `latitude`, `longitude`, `localizacao2`, `altura_numerica`, `referencia`, `data_criacao`, `data_atualizacao`)
 VALUES
