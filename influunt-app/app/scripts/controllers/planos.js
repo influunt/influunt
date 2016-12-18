@@ -286,7 +286,8 @@ angular.module('influuntApp')
         }
       };
 
-      $scope.getErrosEstagiosPlanos = function(index) {
+      $scope.getErrosEstagiosPlanos = function(estagioPlano) {
+        var index = _.findIndex($scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson});
         var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + getIndexPlano($scope.currentAnel, $scope.currentPlano) + '].estagiosPlanos[' + index + ']');
         return erros;
       };
