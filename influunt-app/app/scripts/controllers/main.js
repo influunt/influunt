@@ -26,10 +26,6 @@ angular.module('influuntApp')
         maxSize: 5
       };
 
-      $scope.eventos = {
-        exibirAlertas: false
-      };
-
       $scope.sair = function() {
         influuntAlert
           .confirm(
@@ -44,6 +40,8 @@ angular.module('influuntApp')
       };
 
       $scope.loadDashboard = function() {
+        _.set($scope.$root, 'eventos.exibirTodosAlertas', JSON.parse(localStorage.exibirAlertas));
+
         Restangular.one('monitoramento', 'status_controladores')
           .get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
           .then(function(res) {
@@ -167,6 +165,12 @@ angular.module('influuntApp')
       $scope.getUsuario = function() {
         return JSON.parse(localStorage.usuario);
       };
+
+      $scope.$watch('$root.eventos.exibirTodosAlertas', function(exibirAlertas) {
+        if (!_.isUndefined(exibirAlertas)) {
+          localStorage.setItem('exibirAlertas', exibirAlertas);
+        }
+      });
 
       $scope.$on('IdleStart', function() {
         $('#modal-idle-warning').modal('show');
