@@ -199,6 +199,7 @@ angular.module('influuntApp')
               anelPosicao: posicaoAnel,
               hasPlanoImposto: mensagem.conteudo.imposicaoDePlano,
               modoOperacao: mensagem.conteudo.plano.modoOperacao,
+              saida: mensagem.conteudo.dataSaidaImposicao,
               tipoControleVigente: mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL'
             };
 
@@ -214,9 +215,11 @@ angular.module('influuntApp')
 
           anel.hasPlanoImposto = mensagem.conteudo.imposicaoDePlano;
           anel.modoOperacao = mensagem.conteudo.plano.modoOperacao;
+          anel.saida = mensagem.conteudo.dataSaidaImposicao;
           anel.tipoControleVigente = mensagem.conteudo.plano.modoOperacao === 'MANUAL' ? 'MANUAL' : 'CENTRAL';
 
           obj.hasPlanoImposto = anel.hasPlanoImposto;
+          obj.saida = anel.saida;
           obj.modoOperacao = anel.modoOperacao;
           obj.planoPosicao = posicaoPlano;
 

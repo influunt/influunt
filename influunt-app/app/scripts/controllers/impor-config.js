@@ -135,7 +135,7 @@ angular.module('influuntApp')
             .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
             .set('hasPlanoImposto', status.hasPlanoImposto)
             .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
-            .set('inicio', status.inicio || moment().format('DD/MM/YYYY HH:mm:ss'))
+            .set('saida', status.saida)
             .value();
         });
       };
