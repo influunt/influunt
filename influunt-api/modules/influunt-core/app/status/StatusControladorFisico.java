@@ -1,6 +1,7 @@
 package status;
 
 import models.StatusDevice;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
@@ -51,12 +52,15 @@ public class StatusControladorFisico {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, StatusDevice> ultimoStatusDosControladores() {
-        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
+    public static HashMap<String, StatusDevice> ultimoStatusDosControladores(List<String> ids) {
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         HashMap<String, StatusDevice> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'statusDevice': {$first:'$statusDevice'}}}").
-                as(Map.class);
+            status()
+                .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+                .and("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}}}")
+                .as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), StatusDevice.valueOf(m.get("statusDevice").toString()));
         }

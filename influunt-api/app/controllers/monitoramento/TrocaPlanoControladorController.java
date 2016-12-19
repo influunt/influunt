@@ -2,7 +2,10 @@ package controllers.monitoramento;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.Erro;
+import models.ControladorFisico;
 import models.ModoOperacaoPlano;
+import models.Usuario;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -10,10 +13,12 @@ import play.mvc.Security;
 import security.Secured;
 import status.TrocaDePlanoControlador;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 /**
  * Created by lesiopinheiro on 9/26/16.
@@ -33,7 +38,15 @@ public class TrocaPlanoControladorController extends Controller {
     }
 
     public CompletionStage<Result> ultimoModoOperacaoDosControladores() {
-        HashMap<String, ModoOperacaoPlano> map = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
+        Usuario usuario = getUsuario();
+
+        if (usuario == null) {
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
+        }
+
+        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+
+        HashMap<String, ModoOperacaoPlano> map = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
 
@@ -55,5 +68,9 @@ public class TrocaPlanoControladorController extends Controller {
             return CompletableFuture.completedFuture(ok(Json.toJson(trocaDePlanoControlador)));
         }
 
+    }
+
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
     }
 }

@@ -3,6 +3,7 @@ package status;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.AgendamentoTrocaPlano;
 import models.ModoOperacaoPlano;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
@@ -60,11 +61,14 @@ public class TrocaDePlanoControlador {
         return toList(trocas().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, Boolean> ultimoStatusPlanoImposto() {
+    public static HashMap<String, Boolean> ultimoStatusPlanoImposto(List<String> ids) {
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         HashMap<String, Boolean> hash = new HashMap<>();
-        Aggregate.ResultsIterator<Map> ultimoStatus =
-            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'hasPlanoImposto': {$first:'$conteudo.imposicaoDePlano'}}}").
-                as(Map.class);
+        Aggregate.ResultsIterator<Map> ultimoStatus = trocas()
+            .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+            .and("{$sort:{timestamp:-1}}")
+            .and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'hasPlanoImposto': {$first:'$conteudo.imposicaoDePlano'}}}")
+            .as(Map.class);
         for (Map m : ultimoStatus) {
             boolean hasPlanoImposto = m.get("hasPlanoImposto") == null ? false : Boolean.valueOf(m.get("hasPlanoImposto").toString());
             hash.put(m.get("_id").toString(), hasPlanoImposto);
@@ -73,11 +77,15 @@ public class TrocaDePlanoControlador {
         return hash;
     }
 
-    public static HashMap<String, ModoOperacaoPlano> ultimoModoOperacaoDosControladores() {
+    public static HashMap<String, ModoOperacaoPlano> ultimoModoOperacaoDosControladores(List<String> ids) {
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         HashMap<String, ModoOperacaoPlano> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'modoOperacao': {$first:'$conteudo.plano.modoOperacao'}}}").
-                as(Map.class);
+            trocas()
+                .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+                .and("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'modoOperacao': {$first:'$conteudo.plano.modoOperacao'}}}")
+                .as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), ModoOperacaoPlano.valueOf(m.get("modoOperacao").toString()));
         }
@@ -114,11 +122,16 @@ public class TrocaDePlanoControlador {
         return toList(result);
     }
 
-    public static List<HashMap> ultimoStatusPlanoPorAnel() {
+    public static List<HashMap> ultimoStatusPlanoPorAnel(List<String> ids) {
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         String sortQuery = "{ $sort: {timestamp: -1} }";
         String groupQuery = "{ $group: { _id: { $concat: ['$idControlador', '-', '$conteudo.anel.posicao'] }, idControlador: { $first: '$idControlador' }, controladorFisicoId: { $first: '$idControlador' }, anelPosicao: { $first: '$conteudo.anel.posicao' }, hasPlanoImposto: { $first: '$conteudo.imposicaoDePlano' }, inicio: {$first: '$conteudo.momentoOriginal'}, modoOperacao: { $first: '$conteudo.plano.modoOperacao' }, planoPosicao: { $first: '$conteudo.plano.posicao' } } }";
 
-        Aggregate.ResultsIterator<Map> ultimoStatus = trocas().aggregate(sortQuery).and(groupQuery).as(Map.class);
+        Aggregate.ResultsIterator<Map> ultimoStatus = trocas()
+            .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+            .and(sortQuery)
+            .and(groupQuery)
+            .as(Map.class);
         List<HashMap> resultado = new ArrayList<>();
         for (Map m : ultimoStatus) {
             resultado.add((HashMap) m);

@@ -3,6 +3,7 @@ package status;
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.TipoEvento;
 import engine.TipoEventoControlador;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.jongo.Aggregate;
@@ -78,8 +79,10 @@ public class AlarmesFalhasControlador {
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, TipoEvento> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimo =
-            alarmesFalhas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'}, 'tipoEvento': {$first: '$conteudo.tipoEvento.tipo'}}}").
-                as(Map.class);
+            alarmesFalhas()
+                .aggregate("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'}, 'tipoEvento': {$first: '$conteudo.tipoEvento.tipo'}}}")
+                .as(Map.class);
         for (Map m : ultimo) {
             hash.put(m.get("_id").toString(), TipoEvento.valueOf(m.get("tipoEvento").toString()));
         }
@@ -87,12 +90,14 @@ public class AlarmesFalhasControlador {
         return hash;
     }
 
-    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit, String query) {
+    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit, String query, List<String> ids) {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
 
-        long ultimos30Dias = new DateTime().getMillis() - 1000 * 60 * 60 * 24 * 30L;
+        long ultimos30Dias = DateTime.now().minusDays(30).getMillis();
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
 
-        Aggregate jongoQuery = alarmesFalhas().aggregate("{ $match: { recuperado: false }  }");
+        Aggregate jongoQuery = alarmesFalhas().aggregate("{ $match: { recuperado: false }  }")
+            .and("{ $match: { idControlador: {$in: " + controladoresIds + "} } }");
         jongoQuery.and(" { $match: { timestamp: { $gt: " + ultimos30Dias + " } } } ");
         if (query != null) {
             jongoQuery.and("{ $match: { 'conteudo.descricaoEvento': { $regex: '"+ query +"', $options: 'i' } } }");

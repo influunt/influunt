@@ -18,10 +18,7 @@ import status.LogControlador;
 import status.StatusConexaoControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static play.test.Helpers.OK;
@@ -37,6 +34,8 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     private Http.Context context;
 
     private Optional<String> tokenComAcesso;
+
+    private ArrayList<String> controladoresIds;
 
     private PlayJongo jongo;
 
@@ -57,17 +56,18 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         Thread.sleep(10);
         StatusConexaoControlador.log("2", System.currentTimeMillis(), true);
 
+        controladoresIds = new ArrayList<>();
+        controladoresIds.add("1");
+        controladoresIds.add("2");
     }
 
     @Test
     public void testUltimoStatusDosControlador() {
-        HashMap<String, Boolean> usc = StatusConexaoControlador.ultimoStatusDosControladores();
+        HashMap<String, Boolean> usc = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
         assertEquals(2, usc.size());
 
         assertFalse(usc.get("1"));
         assertTrue(usc.get("2"));
-
-
     }
 
     @Test
@@ -117,6 +117,17 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void testUltimoStatusDeTodosControladoresApi() {
+        Controlador c1 = new ControladorHelper().getControlador();
+        c1.getVersaoControlador().getControladorFisico().setControladorSincronizado(c1);
+        c1.getVersaoControlador().getControladorFisico().save();
+        c1.save();
+        StatusConexaoControlador.log(c1.getControladorFisicoId(), System.currentTimeMillis(), false);
+
+        Controlador c2 = new ControladorHelper().getControlador();
+        c2.getVersaoControlador().getControladorFisico().setControladorSincronizado(c2);
+        c2.getVersaoControlador().getControladorFisico().save();
+        c2.save();
+        StatusConexaoControlador.log(c2.getControladorFisicoId(), System.currentTimeMillis(), true);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
             .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatusDosControladores().url());
@@ -128,8 +139,8 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
         assertEquals(2, json.size());
         System.out.println(json.toString());
-        assertFalse(json.get("1").asBoolean());
-        assertTrue(json.get("2").asBoolean());
+        assertFalse(json.get(c1.getControladorFisicoId()).asBoolean());
+        assertTrue(json.get(c2.getControladorFisicoId()).asBoolean());
 
     }
 

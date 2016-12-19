@@ -1,5 +1,6 @@
 package status;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
@@ -59,12 +60,15 @@ public class StatusConexaoControlador {
         return toList(status().find("{ idControlador: #, timestamp: { $gte: # } }", idControlador, ultimos30Dias).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, Boolean> ultimoStatusDosControladores() {
-        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
+    public static HashMap<String, Boolean> ultimoStatusDosControladores(List<String> ids) {
         HashMap<String, Boolean> hash = new HashMap<>();
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'conectado': {$first:'$conectado'}}}").
-                as(Map.class);
+            status()
+                .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+                .and("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'conectado': {$first:'$conectado'}}}")
+                .as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), (boolean) m.get("conectado"));
         }
@@ -72,12 +76,12 @@ public class StatusConexaoControlador {
         return hash;
     }
 
-    public static HashMap<String, Object> ultimoStatusDosControladoresOfflines() {
-        return ultimoStatusDosControladoresPorSituacao(false);
+    public static HashMap<String, Object> ultimoStatusDosControladoresOfflines(List<String> ids) {
+        return ultimoStatusDosControladoresPorSituacao(ids, false);
     }
 
-    public static HashMap<String, Object> ultimoStatusDosControladoresOnlines() {
-        return ultimoStatusDosControladoresPorSituacao(true);
+    public static HashMap<String, Object> ultimoStatusDosControladoresOnlines(List<String> ids) {
+        return ultimoStatusDosControladoresPorSituacao(ids, true);
     }
 
     public static StatusConexaoControlador ultimoStatus(String idControlador) {
@@ -185,13 +189,16 @@ public class StatusConexaoControlador {
         LogControlador.log(idControlador, carimboDeTempo, mensagem, TipoLogControlador.STATUS_CONEXAO);
     }
 
-    private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(Boolean online) {
+    private static HashMap<String, Object> ultimoStatusDosControladoresPorSituacao(List<String> ids, Boolean online) {
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
         HashMap<String, Object> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'conectado': {$first: '$conectado'}}}").
-                and("{$match: {'conectado': " + online + "}}").
-                as(Map.class);
+            status()
+                .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+                .and("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'conectado': {$first: '$conectado'}}}")
+                .and("{$match: {'conectado': " + online + "}}")
+                .as(Map.class);
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), m);
         }

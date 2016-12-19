@@ -33,11 +33,11 @@
               </thead>
               <tbody>
                 <tr data-ng-repeat="status in lista">
-                  <td>{{status.cla}}</td>
-                  <td>{{status.endereco}}</td>
-                  <td>{{status.estado}}</td>
-                  <td>{{status.plano}}</td>
-                  <td>{{status.modo}}</td>
+                  <td>{{ status.cla }}</td>
+                  <td>{{ status.endereco }}</td>
+                  <td>{{ status.estado }}</td>
+                  <td>{{ status.plano }}</td>
+                  <td>{{ 'planos.modosOperacao.' + status.modo | translate }}</td>
                 </tr>
               </tbody>
             </div>

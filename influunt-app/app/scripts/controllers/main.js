@@ -39,7 +39,7 @@ angular.module('influuntApp')
       };
 
       $scope.loadDashboard = function() {
-        _.set($scope.$root, 'eventos.exibirTodosAlertas', JSON.parse(localStorage.exibirAlertas));
+        _.set($scope.$root, 'eventos.exibirTodosAlertas', JSON.parse(localStorage.exibirAlertas || 'false'));
 
         Restangular.one('monitoramento', 'status_controladores')
           .get()
