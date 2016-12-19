@@ -94,55 +94,29 @@ public class StatusConexaoControlador {
         return toList(result);
     }
 
-    public static Integer tempoOnline(List<StatusConexaoControlador> status) {
+    public static Integer tempoOnlineOffline(List<StatusConexaoControlador> status, boolean online) {
         if (!status.isEmpty()) {
+            boolean offline = !online;
             // ordenar em ordem crescente
             status = status.stream().sorted((s1, s2) -> s1.getTimestamp().compareTo(s2.getTimestamp())).collect(Collectors.toList());
 
-            long totalOnlineMillis = 0L;
+            long tempoTotalMillis = 0L;
             StatusConexaoControlador ultimoStatus = status.get(0);
             StatusConexaoControlador statusAtual;
 
             for (int i = 1; i < status.size(); i++) {
                 statusAtual = status.get(i);
-                if (ultimoStatus.isConectado()) {
-                    totalOnlineMillis += statusAtual.getTimestamp() - ultimoStatus.getTimestamp();
+                if ((online && ultimoStatus.isConectado()) || (offline && !ultimoStatus.isConectado())) {
+                    tempoTotalMillis += statusAtual.getTimestamp() - ultimoStatus.getTimestamp();
                 }
                 ultimoStatus = statusAtual;
             }
 
-            if (ultimoStatus.isConectado()) {
-                totalOnlineMillis += DateTime.now().getMillis() - ultimoStatus.getTimestamp();
+            if ((online && ultimoStatus.isConectado()) || (offline && !ultimoStatus.isConectado())) {
+                tempoTotalMillis += DateTime.now().getMillis() - ultimoStatus.getTimestamp();
             }
 
-            return (int) totalOnlineMillis / 1000 / 60 / 60;
-        }
-
-        return 0;
-    }
-
-    public static Integer tempoOffline(List<StatusConexaoControlador> status) {
-        if (!status.isEmpty()) {
-            // ordenar em ordem crescente
-            status = status.stream().sorted((s1, s2) -> s1.getTimestamp().compareTo(s2.getTimestamp())).collect(Collectors.toList());
-
-            long totalOfflineMillis = 0L;
-            StatusConexaoControlador ultimoStatus = status.get(0);
-            StatusConexaoControlador statusAtual;
-
-            for (int i = 1; i < status.size(); i++) {
-                statusAtual = status.get(i);
-                if (!ultimoStatus.isConectado()) {
-                    totalOfflineMillis += statusAtual.getTimestamp() - ultimoStatus.getTimestamp();
-                }
-                ultimoStatus = statusAtual;
-            }
-
-            if (!ultimoStatus.isConectado()) {
-                totalOfflineMillis += DateTime.now().getMillis() - ultimoStatus.getTimestamp();
-            }
-
-            return (int) totalOfflineMillis / 1000 / 60 / 60;
+            return (int) tempoTotalMillis / 1000 / 60 / 60;
         }
 
         return 0;
