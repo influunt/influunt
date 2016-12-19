@@ -8,6 +8,7 @@
 @import url(./../plugins/footable/footable.core.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../../bower_components/select2/dist/css/select2.css);
+@import url(./font-open-sans.css);
 @import url(./font-awesome.css);
 @import url(./animate.css);
 @import url(./style.css);
