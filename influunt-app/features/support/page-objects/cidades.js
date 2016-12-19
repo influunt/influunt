@@ -70,10 +70,8 @@ var CidadesPage = function () {
     return world.clickButton(novaCidadeButton);
   };
 
-  this.cidadeIdH5 = function() {
-    return world.getElementByXpath('//h5/small').then(function(element) {
-      return element.getText();
-    });
+  this.cidadeIdH5 = function(cidade) {
+    return world.waitForByXpath('//h5/small[contains(text(), "'+cidade+'")]');
   };
 
   this.clicarNaoConfirmacaoApagarRegistro = function() {

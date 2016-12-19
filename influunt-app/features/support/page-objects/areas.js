@@ -43,8 +43,8 @@ var AreasPage = function () {
     });
   };
 
-  this.getItensTabela = function() {
-    return world.getElements('tbody tr td');
+  this.getItensTabela = function(quantidadeItens) {
+    return world.countTableSize(quantidadeItens);
   };
 
   this.clicarBotaoNovaArea = function() {

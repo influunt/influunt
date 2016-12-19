@@ -208,6 +208,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Detectores"
     E que o usuário adicione um detector do tipo "Veicular"
     E que o usuário adicione um detector do tipo "Veicular"
+    E o usuário realizar um scroll down
     E que o usuário adicione um detector do tipo "Pedestre"
     Quando o usuário clicar no botão para ir pro próximo passo
     E o sistema irá continuar no passo "Detectores"

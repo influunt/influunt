@@ -14,6 +14,10 @@ var ObjetosComuns = function () {
     return ''+enderecoControlador+'//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
+  this.indexPage = function(path) {
+    return world.visit('/app/'+path+'/');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.waitForToastMessageDisapear().then(function (){
@@ -39,9 +43,10 @@ var ObjetosComuns = function () {
 
   this.clicarLinkComTexto = function(texto) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.waitForToastMessageDisapear().then(function (){
-         return world.findLinkByText(texto).click();
-      });
+      return world.waitForToastMessageDisapear()
+    })
+    .then(function (){
+      return world.findLinkByText(texto).click();
     });
   };
 
@@ -61,7 +66,7 @@ var ObjetosComuns = function () {
   };
 
   this.textoSweetAlert = function() {
-    return world.sleep(400).then(function(){
+    return world.sleep(600).then(function(){
       return world.getTextInSweetAlert();
     });
   };

@@ -41,7 +41,7 @@ module.exports = function() {
   });
 
   this.Given(/^o registro da cidade deverá ser salvo com nome igual a "([^"]*)"$/, function (nome) {
-      return cidadesPage.textoExisteNaTabela(nome);
+    return cidadesPage.textoExisteNaTabela(nome);
   });
 
   this.Given(/^o sistema deverá retornar à tela de listagem de cidades$/, function() {
@@ -54,10 +54,8 @@ module.exports = function() {
     objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
-  this.Given(/^o sistema deverá redirecionar para a tela de visualização de cidades$/, function() {
-    return cidadesPage.cidadeIdH5().then(function(cidadeId) {
-      expect(cidadeId).to.match(/ - #/);
-    });
+  this.Given(/^o sistema deverá redirecionar para o show da ciddade "([^"]*)"$/, function(cidade) {
+    return cidadesPage.cidadeIdH5(cidade);
   });
 
   this.Given(/^clicar no botão de editar cidade$/, function() {
