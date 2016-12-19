@@ -404,11 +404,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
 
     void run() {
         for (int i = 0; i < 16; i++) {
-            if (times[i][0] > 0) {
-                colors[i] = getColorAndDecrement(i);
-            } else {
-                colors[i] = DESLIGADO;
-            }
+            colors[i] = getColorAndDecrement(i);
         }
     }
 
