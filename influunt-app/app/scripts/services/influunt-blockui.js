@@ -13,8 +13,10 @@ angular.module('influuntApp')
       $.blockUI({message: '<img class="influunt-block-ui" src="images/loading.gif">'});
     };
 
-    var unblock = function() {
-      $.unblockUI();
+    var unblock = function(unblock) {
+      if (unblock) {
+        $.unblockUI();
+      }
     };
 
     return  {

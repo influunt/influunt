@@ -55,13 +55,12 @@ public class LogControlador {
     public static List<LogControlador> ultimosLogsControladores(List<String> ids) {
         ArrayList<LogControlador> list = new ArrayList<>();
 
-        ArrayList<String> predicates = new ArrayList<>();
-        String aux = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
-        predicates.add("{ $match: { idControlador: { $in: " + aux + "}}}");
-        predicates.add("{ $sort: { timestamp: -1 } }");
-        predicates.add("{ $project: { _id: 0, idControlador: 1, mensagem: 1, timestamp: 1, tipoLog: 1 } }");
-
-        Aggregate.ResultsIterator<Map> results = logs().aggregate(String.join(",", predicates)).as(Map.class);
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
+        Aggregate.ResultsIterator<Map> results = logs()
+            .aggregate("{ $match: { idControlador: { $in: " + controladoresIds + "}}}")
+            .and("{ $sort: { timestamp: -1 } }")
+            .and("{ $project: { _id: 0, idControlador: 1, mensagem: 1, timestamp: 1, tipoLogControlador: 1 } }")
+            .as(Map.class);
 
         for (Map m : results) {
             list.add(new LogControlador(m));
