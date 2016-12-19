@@ -23,7 +23,7 @@ public class InfluuntLogAppender extends RollingFileAppender<ILoggingEvent> {
 
         // Log the date, level, class name (no package), and the message.
         fPatternLayout = new PatternLayout();
-        fPatternLayout.setPattern("%d{HH:mm:ss.SSS} - %msg");
+        fPatternLayout.setPattern("%d{dd/MM/yyyy HH:mm:ss.SSS} - %msg");
         fPatternLayout.setContext(context);
         fPatternLayout.start();
 
