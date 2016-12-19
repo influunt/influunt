@@ -105,7 +105,9 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                 tempoVerde = estagioPlano.getTempoVerdeSeguranca() * 1000L;
             }
 
-            tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde, false);
+            if (!plano.isManual()) {
+                tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde, false);
+            }
         }
 
         if (estagioPlano.getPlano().isManual()) {

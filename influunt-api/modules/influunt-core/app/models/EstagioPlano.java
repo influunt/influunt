@@ -289,7 +289,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     }
 
     private int adicionaTempoEstagioDuplo(int tempo, boolean atuado) {
-        if(getEstagioPlanoAnterior().getEstagio().equals(getEstagio())) {
+        if(getEstagioPlanoAnterior() != null && getEstagioPlanoAnterior().getEstagio().equals(getEstagio())) {
             if (atuado) {
                 tempo += getEstagioPlanoAnterior().getTempoVerdeMaximo();
             } else {
@@ -297,7 +297,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             }
         }
 
-        if(getEstagioPlanoProximo().getEstagio().equals(getEstagio())) {
+        if(getEstagioPlanoProximo() != null && getEstagioPlanoProximo().getEstagio().equals(getEstagio())) {
             if (atuado) {
                 tempo += getEstagioPlanoProximo().getTempoVerdeMaximo();
             } else {
@@ -372,6 +372,11 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public EstagioPlano getEstagioPlanoAnterior(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
+
+        if (index == -1) {
+            return null;
+        }
+
         if (index == 0) {
             return listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
         }
@@ -385,6 +390,11 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public EstagioPlano getEstagioPlanoProximo(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
+
+        if (index == -1) {
+            return null;
+        }
+
         if (index == listaEstagioPlanos.size() - 1) {
             return listaEstagioPlanos.get(0);
         }
