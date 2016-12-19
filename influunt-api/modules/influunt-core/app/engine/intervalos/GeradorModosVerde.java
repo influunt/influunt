@@ -100,9 +100,12 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
                 tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
             }
-        } else if ((!estagioPlano.getPlano().equals(estagioPlanoAtual.getPlano()) || inicio) &&
-            tempoVerde < (estagioPlano.getTempoVerdeSeguranca() * 1000L)) {
-            tempoVerde = estagioPlano.getTempoVerdeSeguranca() * 1000L;
+        } else if ((!estagioPlano.getPlano().equals(estagioPlanoAtual.getPlano()) || inicio)) {
+            if (tempoVerde < (estagioPlano.getTempoVerdeSeguranca() * 1000L)) {
+                tempoVerde = estagioPlano.getTempoVerdeSeguranca() * 1000L;
+            }
+
+            tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde, false);
         }
 
         if (estagioPlano.getPlano().isManual()) {
@@ -115,11 +118,18 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
     }
 
     private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAnterior, Estagio estagioAtual, long tempoVerde) {
+        return ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde, true);
+    }
+
+    private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAnterior, Estagio estagioAtual,
+                                                           long tempoVerde, boolean comAbatimento) {
         final long tempoDecorridoNoEstagio = contadorTempoEstagio + tempoVerde;
         if (estagioAtual.isTempoMaximoPermanenciaAtivado() &&
-            tempoDecorridoNoEstagio > estagioAtual.getTempoMaximoPermanencia() * 1000L) {
+            tempoDecorridoNoEstagio > (estagioAtual.getTempoMaximoPermanencia() * 1000L)) {
             final long novoTempoVerde = Math.max(0, (estagioAtual.getTempoMaximoPermanencia() * 1000L) - contadorTempoEstagio);
-            tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
+            if (comAbatimento) {
+                tempoAbatimentoCoordenado -= (tempoVerde - novoTempoVerde);
+            }
             tempoVerde = novoTempoVerde;
         }
         return tempoVerde;
