@@ -39,6 +39,10 @@ public class AgendamentoTrocaPlano {
 
     private boolean saidaImposicao = false;
 
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    private DateTime dataSaidaImposicao;
+
     public AgendamentoTrocaPlano() {
         super();
     }
@@ -144,6 +148,14 @@ public class AgendamentoTrocaPlano {
 
     public void setSaidaImposicao(boolean saidaImposicao) {
         this.saidaImposicao = saidaImposicao;
+    }
+
+    public void setDataSaidaImposicao(DateTime dataSaidaImposicao) {
+        this.dataSaidaImposicao = dataSaidaImposicao;
+    }
+
+    public DateTime getDataSaidaImposicao() {
+        return dataSaidaImposicao;
     }
 
     public String getDescricaoEvento() {

@@ -74,7 +74,6 @@ angular.module('influuntApp')
             }
           })
           .finally(influuntBlockui.unblock);
-
       };
 
   }]);

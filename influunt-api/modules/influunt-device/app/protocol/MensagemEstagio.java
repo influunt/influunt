@@ -77,4 +77,8 @@ public class MensagemEstagio extends Mensagem {
         });
         return stringBuffer.toString();
     }
+
+    public MensagemGrupo[] getMensagemGrupo() {
+        return mensagemGrupo;
+    }
 }
