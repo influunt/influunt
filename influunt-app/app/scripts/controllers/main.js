@@ -19,7 +19,6 @@ angular.module('influuntApp')
       Idle.watch();
 
       var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas;
-      var LIMITE_ALARMES_FALHAS = 10;
 
       $scope.pagination = {
         current: 1,
@@ -43,7 +42,7 @@ angular.module('influuntApp')
         _.set($scope.$root, 'eventos.exibirTodosAlertas', JSON.parse(localStorage.exibirAlertas));
 
         Restangular.one('monitoramento', 'status_controladores')
-          .get({limite_alarmes_falhas: LIMITE_ALARMES_FALHAS})
+          .get()
           .then(function(res) {
             $scope.statusObj = res;
             atualizaDadosDinamicos();

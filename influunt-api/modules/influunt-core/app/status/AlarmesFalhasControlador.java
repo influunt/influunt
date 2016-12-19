@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import engine.TipoEvento;
 import engine.TipoEventoControlador;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
@@ -89,19 +90,22 @@ public class AlarmesFalhasControlador {
     public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit, String query) {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
 
-        ArrayList<String> predicates = new ArrayList<>();
-        if (query == null) {
-            predicates.add("{ $match: { recuperado: false }  }");
-        } else {
-            predicates.add("{ $match: { recuperado: false, 'conteudo.descricaoEvento': { $regex: '"+ query +"', $options: 'i' } } }");
-        }
-        predicates.add("{ $sort: { timestamp: -1 } }");
-        predicates.add("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
-        if (limit != null) {
-            predicates.add("{ $limit: ".concat(String.valueOf(limit)).concat("}"));
+        long ultimos30Dias = new DateTime().getMillis() - 1000 * 60 * 60 * 24 * 30L;
+
+        Aggregate jongoQuery = alarmesFalhas().aggregate("{ $match: { recuperado: false }  }");
+        jongoQuery.and(" { $match: { timestamp: { $gt: " + ultimos30Dias + " } } } ");
+        if (query != null) {
+            jongoQuery.and("{ $match: { 'conteudo.descricaoEvento': { $regex: '"+ query +"', $options: 'i' } } }");
         }
 
-        Aggregate.ResultsIterator<Map> results = alarmesFalhas().aggregate(String.join(",", predicates)).as(Map.class);
+        jongoQuery.and("{ $sort: { timestamp: -1 } }");
+        jongoQuery.and("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
+
+        if (limit != null) {
+            jongoQuery.and("{ $limit: ".concat(String.valueOf(limit)).concat("}"));
+        }
+
+        Aggregate.ResultsIterator<Map> results = jongoQuery.as(Map.class);
 
         for (Map m : results) {
             list.add(new AlarmesFalhasControlador(m));
