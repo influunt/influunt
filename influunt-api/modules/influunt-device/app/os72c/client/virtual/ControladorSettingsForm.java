@@ -39,8 +39,6 @@ public class ControladorSettingsForm {
 
     public JPanel form;
 
-    private JTextField login;
-
     private JTextField senha;
 
     private JCheckBox cleanBD;
@@ -72,7 +70,6 @@ public class ControladorSettingsForm {
             c.idControlador.setText(prop.getProperty("idControlador"));
             c.host.setText(prop.getProperty("host"));
             c.port.setText(prop.getProperty("port"));
-            c.login.setText(prop.getProperty("login"));
             c.senha.setText(prop.getProperty("senha"));
             c.chavePrivada.setText(prop.getProperty("privateKey"));
             c.chavePublica.setText(prop.getProperty("publicKey"));
@@ -97,7 +94,6 @@ public class ControladorSettingsForm {
             prop.setProperty("host", host.getText());
             prop.setProperty("port", port.getText());
             prop.setProperty("privateKey", chavePrivada.getText());
-            prop.setProperty("login", login.getText());
             prop.setProperty("password", senha.getText());
             prop.setProperty("publicKey", chavePublica.getText());
 
@@ -111,7 +107,11 @@ public class ControladorSettingsForm {
             deviceConfig.setPort(port.getText());
             deviceConfig.setCentralPublicKey(chavePublica.getText());
             deviceConfig.setPrivateKey(chavePrivada.getText());
-            deviceConfig.setLogin(login.getText());
+            if (senha.getText().isEmpty()) {
+                deviceConfig.setLogin("");
+            } else {
+                deviceConfig.setLogin(idControlador.getText());
+            }
             deviceConfig.setSenha(senha.getText());
             deviceConfig.setDeviceBridge(new ControladorForm());
 
@@ -156,7 +156,7 @@ public class ControladorSettingsForm {
      */
     private void $$$setupUI$$$() {
         form = new JPanel();
-        form.setLayout(new GridLayoutManager(9, 2, new Insets(10, 10, 10, 10), -1, -1));
+        form.setLayout(new GridLayoutManager(8, 2, new Insets(10, 10, 10, 10), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("ID do Controlador");
         form.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -175,7 +175,7 @@ public class ControladorSettingsForm {
         form.add(host, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         iniciarControladorButton = new JButton();
         iniciarControladorButton.setText("Iniciar Controlador");
-        form.add(iniciarControladorButton, new GridConstraints(8, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        form.add(iniciarControladorButton, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
         label4.setText("MQTT Port");
         form.add(label4, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -183,27 +183,22 @@ public class ControladorSettingsForm {
         port.setText("1883");
         form.add(port, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("MQTT Login");
+        label5.setText("MQTT Senha");
         form.add(label5, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label6 = new JLabel();
-        label6.setText("MQTT Senha");
-        form.add(label6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        login = new JTextField();
-        form.add(login, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        form.add(panel1, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        form.add(panel1, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         cleanBD = new JCheckBox();
         cleanBD.setText("Limpar Banco de Dados");
         panel1.add(cleanBD, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         chavePublica = new JTextField();
         chavePublica.setText("");
         form.add(chavePublica, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label7 = new JLabel();
-        label7.setText("Chave Publica");
-        form.add(label7, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label6 = new JLabel();
+        label6.setText("Chave Publica");
+        form.add(label6, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         senha = new JPasswordField();
-        form.add(senha, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        form.add(senha, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**

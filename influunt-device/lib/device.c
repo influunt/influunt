@@ -57,7 +57,7 @@ int getColorAndDecrement(line){
 
 void run(int * colors){
   for(int i = 0; i < 16; i++){
-    if(times[i][0] > 0){
+    if(times[i][1] > 0 || times[i][2] > 0 || times[i][3] > 0 || times[i][4] > 0){
       colors[i] = getColorAndDecrement(i);
     }else{
       colors[i] = DESLIGADO;
