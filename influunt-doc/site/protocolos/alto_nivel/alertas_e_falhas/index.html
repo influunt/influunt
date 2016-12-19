@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Alertas e Falhas - Influunt Documentação</title>
+  
+
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Alertas e Falhas";
+    var mkdocs_page_input_path = "protocolos/alto_nivel/alertas_e_falhas.md";
+    var mkdocs_page_url = "/protocolos/alto_nivel/alertas_e_falhas/";
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../../js/highlight.pack.js"></script>
+  <script src="../../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Influunt Documentação</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Comunicação</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../comunicacao/introducao/">Introdução</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../comunicacao/envelope/">Envelope</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../comunicacao/seguranca/">Segurança</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Protocolos</span></li>
+
+        
+            
+    <ul class="subnav">
+    <li><span>Alto Nível</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../introducao/">Introdução</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../conectividade/">Conectividade</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ciclo_vida/">Ciclo de Vida</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../configuracao/">Configuração do Controlador</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../transacoes/">Transações</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Alertas e Falhas</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#alarmes-e-falhas">Alarmes e Falhas</a></li>
+                
+                    <li><a class="toctree-l4" href="#alarme">Alarme</a></li>
+                
+                    <li><a class="toctree-l4" href="#falha">Falha</a></li>
+                
+                    <li><a class="toctree-l4" href="#remocao-de-falhas">Remoção de Falhas</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+    </ul>
+
+        
+            
+    <ul class="subnav">
+    <li><span>Baixo Nível</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../baixo_nivel/introducao/">Introdução</a>
+        
+    </li>
+
+        
+    </ul>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Log</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../log/especificacao/">Especificação</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Influunt Documentação</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Protocolos &raquo;</li>
+        
+      
+        
+          <li>Alto Nível &raquo;</li>
+        
+      
+    
+    <li>Alertas e Falhas</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="alarmes-e-falhas">Alarmes e Falhas</h1>
+<p>Diversos tipos de eventos podem ser gerados durante a execução do controlador. Esses eventos podem ser transmitidos à central ou serem gravados no log. No caso do 72c, o arquivo de configuração define quais eventos serão enviados e gravados.</p>
+<p>A seguir estão detalhados todos os eventos possíveis:</p>
+<h2 id="alarme">Alarme</h2>
+<table>
+<thead>
+<tr>
+<th>Nome do Evento</th>
+<th>Código</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALARME_ABERTURA_DA_PORTA_PRINCIPAL_DO_CONTROLADOR</td>
+<td>1</td>
+<td>Abertura da porta principal do controlador</td>
+</tr>
+<tr>
+<td>ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR</td>
+<td>2</td>
+<td>Fechamento da porta principal do controlador</td>
+</tr>
+<tr>
+<td>ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR</td>
+<td>3</td>
+<td>Abertura da porta do painel de facilidades do controlador</td>
+</tr>
+<tr>
+<td>ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR</td>
+<td>4</td>
+<td>Fechamento da porta do painel de facilidades do controlador</td>
+</tr>
+<tr>
+<td>ALARME_AMARELO_INTERMITENTE</td>
+<td>5</td>
+<td>Amarelo Intermitente</td>
+</tr>
+<tr>
+<td>ALARME_SEMAFORO_APAGADO</td>
+<td>6</td>
+<td>Semáforo apagado</td>
+</tr>
+</tbody>
+</table>
+<h3 id="campos-do-conteudo">Campos do contéudo</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>timestamp</td>
+<td>Número Longo</td>
+<td>S</td>
+<td>Carimbo de tempo referente ao momento da ocorrência do evento. Deve estar no formato milissegundo desde 1 de janeiro de 1970 UTC</td>
+</tr>
+<tr>
+<td>tipoEvento</td>
+<td>Objeto JSON</td>
+<td>S</td>
+<td>Objeto que descreve o tipo de evento ocorrido</td>
+</tr>
+<tr>
+<td>descricaoEvento</td>
+<td>Texto</td>
+<td>S</td>
+<td>Descrição completa do evento ocorrido</td>
+</tr>
+<tr>
+<td>params</td>
+<td>Lista</td>
+<td>N</td>
+<td>Lista de parâmetros necessários para identificar o evento ocorrido</td>
+</tr>
+</tbody>
+</table>
+<h3 id="campos-do-tipo-de-evento">Campos do tipo de evento</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tipoEvento</td>
+<td>Texto</td>
+<td>S</td>
+<td>Tipo de evento ocorrido</td>
+</tr>
+<tr>
+<td>tipoEventoControlador</td>
+<td>ALARME, FALHA, REMOCAO_FALHA, DETECTOR_VEICULAR, DETECTOR_PEDESTRE, MODO_MANUAL, IMPOSICAO, TROCA_PLANO</td>
+<td>S</td>
+<td>Agrupamento que descreve o tipo de evento</td>
+</tr>
+<tr>
+<td>codigo</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Código do evento ocorrido</td>
+</tr>
+<tr>
+<td>descricao</td>
+<td>Texto</td>
+<td>S</td>
+<td>Descrição simplificada do evento ocorrido</td>
+</tr>
+<tr>
+<td>descricaoParam</td>
+<td>Texto</td>
+<td>S</td>
+<td>Descrição do tipo de paramêtro</td>
+</tr>
+<tr>
+<td>tipoParam</td>
+<td>DETECTOR_VEICULAR, DETECTOR_PEDESTRE, ANEL, GRUPO_SEMAFORICO, PLANO, MODO_OPERACAO_PLANO</td>
+<td>S</td>
+<td>Descrição do tipo de paramêtro</td>
+</tr>
+</tbody>
+</table>
+<h3 id="possiveis-parametros">Possíveis paramêtros</h3>
+<p>DETECTOR_VEICULAR</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do anel ao qual o detector está associado</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do detector veicular</td>
+</tr>
+</tbody>
+</table>
+<p>DETECTOR_PEDESTRE</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do anel ao qual o detector está associado</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do detector pedestre</td>
+</tr>
+</tbody>
+</table>
+<p>ANEL</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do anel</td>
+</tr>
+</tbody>
+</table>
+<p>GRUPO_SEMAFORICO</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do anel ao qual o grupo semafórico está associado</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do grupo semafórico</td>
+</tr>
+</tbody>
+</table>
+<p>PLANO</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do anel</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do plano</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Duração em minutos da imposição do plano</td>
+</tr>
+</tbody>
+</table>
+<p>MODO_OPERACAO_PLANO</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Número do anel</td>
+</tr>
+<tr>
+<td>2</td>
+<td>String</td>
+<td>S</td>
+<td>Modo de operação</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Duração em minutos da imposição de modo</td>
+</tr>
+</tbody>
+</table>
+<p>Exemplo:</p>
+<pre><code class="JSON">{
+  &quot;tipoMensagem&quot;: &quot;ALARME_FALHA&quot;,
+  &quot;idControlador&quot;: &quot;7abfa23d-5646-4b8c-87ae-e68addbabb36&quot;,
+  &quot;destino&quot;: &quot;app/alarmes_falhas/9b22cf91-dadf-40eb-8601-2d98bf642da8&quot;,
+  &quot;qos&quot;: 2,
+  &quot;carimboDeTempo&quot;: 1479929117853,
+  &quot;conteudo&quot;: {
+    &quot;timestamp&quot;:&quot;16/11/2016 16:14:33&quot;,
+    &quot;tipoEvento&quot;:{
+      &quot;tipo&quot;:&quot;ALARME_AMARELO_INTERMITENTE&quot;,
+      &quot;tipoEventoControlador&quot;:&quot;ALARME&quot;,
+      &quot;codigo&quot;: 29,
+      &quot;descricao&quot;: &quot;Amarelo Intermitente&quot;,
+      &quot;descricaoParam&quot;: &quot;&quot;,
+      &quot;tipoParam&quot;: &quot;&quot;
+    },
+    &quot;descricaoEvento&quot;: &quot;Amarelo Intermitente&quot;,
+    &quot;params&quot;:[1]
+  },
+  &quot;emResposta&quot;: &quot;null&quot;
+}
+</code></pre>
+
+<h2 id="falha">Falha</h2>
+<table>
+<thead>
+<tr>
+<th>Nome do Evento</th>
+<th>Código</th>
+<th>Descrição</th>
+<th>Parâmetros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO</td>
+<td>1</td>
+<td>Detector pedestre - Falta de acionamento</td>
+<td>1) Nº Detector</td>
+</tr>
+<tr>
+<td>FALHA_DETECTOR_PEDESTRE_ACIONAMENTO_DIRETO</td>
+<td>2</td>
+<td>Detector pedestre - Acionamento direto</td>
+<td>1) Nº Detector</td>
+</tr>
+<tr>
+<td>FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO</td>
+<td>3</td>
+<td>Detector veicular - Falta de acionamento</td>
+<td>1) Nº Detector</td>
+</tr>
+<tr>
+<td>FALHA_DETECTOR_VEICULAR_ACIONAMENTO_DIRETO</td>
+<td>4</td>
+<td>Detector veicular - Acionamento direto</td>
+<td>1) Nº Detector</td>
+</tr>
+<tr>
+<td>FALHA_DESRESPEITO_AO_TEMPO_MAXIMO_DE_PERMANENCIA_NO_ESTAGIO</td>
+<td>5</td>
+<td>Desrespeito ao tempo máximo de permanência no estágio</td>
+<td>1) Nº Anel</td>
+</tr>
+<tr>
+<td>FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA</td>
+<td>6</td>
+<td>Fase vermelha do grupo semafórico apagada</td>
+<td>1) Nº Grupo Semafórico</td>
+</tr>
+<tr>
+<td>FALHA_SEQUENCIA_DE_CORES</td>
+<td>7</td>
+<td>Falha sequência de cores</td>
+<td>1) Nº Anel</td>
+</tr>
+<tr>
+<td>FALHA_VERDES_CONFLITANTES</td>
+<td>8</td>
+<td>Verdes conflitantes</td>
+<td>1) Nº Anel</td>
+</tr>
+<tr>
+<td>FALHA_WATCH_DOG</td>
+<td>9</td>
+<td>Falha CPU</td>
+<td></td>
+</tr>
+<tr>
+<td>FALHA_MEMORIA</td>
+<td>10</td>
+<td>Falha Memória</td>
+<td></td>
+</tr>
+<tr>
+<td>FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA</td>
+<td>11</td>
+<td>Foco vermelho apagado</td>
+<td>1) Nº Grupo Semafórico</td>
+</tr>
+<tr>
+<td>FALHA_COMUNICACAO_BAIXO_NIVEL</td>
+<td>12</td>
+<td>Falha na comunicação do protocolo de baixo nível</td>
+<td></td>
+</tr>
+<tr>
+<td>FALHA_ACERTO_RELOGIO_GPS</td>
+<td>13</td>
+<td>Falha acerto relógio GPS</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="JSON">{
+  &quot;tipoMensagem&quot;: &quot;ALARME_FALHA&quot;,
+  &quot;idControlador&quot;: &quot;7abfa23d-5646-4b8c-87ae-e68addbabb36&quot;,
+  &quot;destino&quot;: &quot;app/alarmes_falhas/9b22cf91-dadf-40eb-8601-2d98bf642da8&quot;,
+  &quot;qos&quot;: 2,
+  &quot;carimboDeTempo&quot;: 1479929117853,
+  &quot;conteudo&quot;: {
+    &quot;timestamp&quot;:&quot;16/11/2016 16:14:33&quot;,
+    &quot;tipoEvento&quot;:{
+      &quot;tipo&quot;:&quot;FALHA_VERDES_CONFLITANTES&quot;,
+      &quot;tipoEventoControlador&quot;:&quot;FALHA&quot;,
+      &quot;codigo&quot;:11,
+      &quot;descricao&quot;: &quot;Falha do MQTT - anel 1&quot;,
+      &quot;descricaoParam&quot;:&quot;Anel&quot;,
+      &quot;tipoParam&quot;:&quot;ANEL&quot;
+    },
+    &quot;descricaoEvento&quot;: &quot;Falha do MQTT - anel 1&quot;,
+    &quot;params&quot;:[1]
+  },
+  &quot;emResposta&quot;: &quot;null&quot;
+}
+</code></pre>
+
+<h2 id="remocao-de-falhas">Remoção de Falhas</h2>
+<table>
+<thead>
+<tr>
+<th>Nome do Evento</th>
+<th>Código</th>
+<th>Descrição</th>
+<th>Parâmetros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REMOCAO_FALHA_DETECTOR_PEDESTRE</td>
+<td>1</td>
+<td>Detector pedestre - Remoção de falha</td>
+<td>1) Nº Detector</td>
+</tr>
+<tr>
+<td>REMOCAO_FALHA_DETECTOR_VEICULAR</td>
+<td>2</td>
+<td>Detector veicular - Remoção de falha</td>
+<td>1) Nº Detector</td>
+</tr>
+<tr>
+<td>REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO</td>
+<td>3</td>
+<td>Fase vermelha do grupo semafórico apagada removida</td>
+<td>1) Nº Grupo Semafórico</td>
+</tr>
+<tr>
+<td>REMOCAO_FALHA_VERDES_CONFLITANTES</td>
+<td>4</td>
+<td>Verdes conflitantes removido</td>
+<td>1) Nº Anel</td>
+</tr>
+<tr>
+<td>REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO</td>
+<td>5</td>
+<td>Foco vermelho apagado removida</td>
+<td>1) Nº Grupo Semafórico</td>
+</tr>
+<tr>
+<td>REMOCAO_COMUNICACAO_BAIXO_NIVEL</td>
+<td>6</td>
+<td>Comunicação do protocolo de baixo nível recuperada</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="JSON">{
+  &quot;tipoMensagem&quot;: &quot;REMOCAO_FALHA&quot;,
+  &quot;idControlador&quot; : &quot;7abfa23d-5646-4b8c-87ae-e68addbabb36&quot;,
+  &quot;idAnel&quot; : &quot;7edd7d2a-0bb2-49b3-995c-b1d741b394af&quot;,
+  &quot;destino&quot;: &quot;app/alarmes_falhas/9b22cf91-dadf-40eb-8601-2d98bf642da8&quot;,
+  &quot;qos&quot;: 2,
+  &quot;carimboDeTempo&quot;: 1479929117853,
+  &quot;conteudo&quot;: {
+    &quot;timestamp&quot;:&quot;16/11/2016 16:14:33&quot;,
+    &quot;tipoEvento&quot;:{
+      &quot;tipo&quot;:&quot;REMOCAO_FALHA_VERDES_CONFLITANTES&quot;,
+      &quot;tipoEventoControlador&quot;:&quot;REMOCAO_FALHA&quot;,
+      &quot;codigo&quot;:11,
+      &quot;descricao&quot;: &quot;Falha do MQTT - anel 1&quot;,
+      &quot;descricaoParam&quot;:&quot;Anel&quot;,
+      &quot;tipoParam&quot;:&quot;ANEL&quot;
+    },
+    &quot;descricaoEvento&quot;: &quot;Falha do MQTT - anel 1&quot;,
+    &quot;params&quot;:[1]
+  },
+  &quot;emResposta&quot;: &quot;null&quot;
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../baixo_nivel/introducao/" class="btn btn-neutral float-right" title="Introdução">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../transacoes/" class="btn btn-neutral" title="Transações"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../transacoes/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../baixo_nivel/introducao/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>

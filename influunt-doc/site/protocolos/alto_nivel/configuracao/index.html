@@ -1,0 +1,4983 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Configuração do Controlador - Influunt Documentação</title>
+  
+
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Configuração do Controlador";
+    var mkdocs_page_input_path = "protocolos/alto_nivel/configuracao.md";
+    var mkdocs_page_url = "/protocolos/alto_nivel/configuracao/";
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../../js/highlight.pack.js"></script>
+  <script src="../../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Influunt Documentação</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Comunicação</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../comunicacao/introducao/">Introdução</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../comunicacao/envelope/">Envelope</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../comunicacao/seguranca/">Segurança</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Protocolos</span></li>
+
+        
+            
+    <ul class="subnav">
+    <li><span>Alto Nível</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../introducao/">Introdução</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../conectividade/">Conectividade</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ciclo_vida/">Ciclo de Vida</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Configuração do Controlador</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#introducao">Introdução</a></li>
+                
+                    <li><a class="toctree-l4" href="#controlador">Controlador</a></li>
+                
+                    <li><a class="toctree-l4" href="#anel">Anel</a></li>
+                
+                    <li><a class="toctree-l4" href="#grupo-semaforico">Grupo Semafórico</a></li>
+                
+                    <li><a class="toctree-l4" href="#estagio">Estágio</a></li>
+                
+                    <li><a class="toctree-l4" href="#detector">Detector</a></li>
+                
+                    <li><a class="toctree-l4" href="#transicao">Transição</a></li>
+                
+                    <li><a class="toctree-l4" href="#transicao-com-ganho-de-passagem">Transição com ganho de passagem</a></li>
+                
+                    <li><a class="toctree-l4" href="#transicao-proibida">Transição Proibida</a></li>
+                
+                    <li><a class="toctree-l4" href="#tabela-entreverdes">Tabela Entreverdes</a></li>
+                
+                    <li><a class="toctree-l4" href="#tabela-entreverdes-transicao">Tabela Entreverdes Transição</a></li>
+                
+                    <li><a class="toctree-l4" href="#estagio-grupo-semaforico">Estágio Grupo Semáforico</a></li>
+                
+                    <li><a class="toctree-l4" href="#verde-conflitante">Verde Conflitante</a></li>
+                
+                    <li><a class="toctree-l4" href="#plano">Plano</a></li>
+                
+                    <li><a class="toctree-l4" href="#estagio-plano">Estágio Plano</a></li>
+                
+                    <li><a class="toctree-l4" href="#grupo-semaforico-plano">Grupo Semafórico Plano</a></li>
+                
+                    <li><a class="toctree-l4" href="#versao-plano">Versão Plano</a></li>
+                
+                    <li><a class="toctree-l4" href="#versao-tabela-horaria">Versão Tabela Horária</a></li>
+                
+                    <li><a class="toctree-l4" href="#tabela-horaria">Tabela Horária</a></li>
+                
+                    <li><a class="toctree-l4" href="#evento">Evento</a></li>
+                
+                    <li><a class="toctree-l4" href="#atraso-de-grupo">Atraso de Grupo</a></li>
+                
+                    <li><a class="toctree-l4" href="#exemplo-completo">Exemplo Completo</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../transacoes/">Transações</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../alertas_e_falhas/">Alertas e Falhas</a>
+        
+    </li>
+
+        
+    </ul>
+
+        
+            
+    <ul class="subnav">
+    <li><span>Baixo Nível</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../baixo_nivel/introducao/">Introdução</a>
+        
+    </li>
+
+        
+    </ul>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Log</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../../log/especificacao/">Especificação</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Influunt Documentação</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Protocolos &raquo;</li>
+        
+      
+        
+          <li>Alto Nível &raquo;</li>
+        
+      
+    
+    <li>Configuração do Controlador</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="introducao">Introdução</h1>
+<p>A estrutura do controlador é definida pelo objeto <a href="#controlador">CONTROLADOR</a> que inclui seus dados básicos e listas de objetos associados. Para evitar referências cruzadas e problemas de navegação no grafo de objetos, adotou-se uma estratura de <em>JSON</em> desnormatizada. Sendo assim, todos os objetos são escritos diretamente na raiz do controlador e não internamente de forma hierárquica. Em compensação os objetos internos trazem referências para os objetos externos.</p>
+<p>A figura abaixo apresenta os objetos que fazem parte da configuração de um controlador. As setas representam referências entre esses objetos.</p>
+<p><img alt="Controlador" src="../../../img/controlador.png" /></p>
+<h2 id="controlador">Controlador</h2>
+<p>É o equipamento que fica em campo (na rua), sendo responsável pelo gerenciamento e controle dos semáforos. As programações semafóricas são inseridas neste equipamento.</p>
+<h3 id="especificacao">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto [UUID] (https://en.wikipedia.org/wiki/Universally_unique_identifier)</td>
+<td>S</td>
+<td>Identificador do Controlador</td>
+</tr>
+<tr>
+<td>numeroSMEE</td>
+<td>Texto</td>
+<td>N</td>
+<td>Número SMEE do Controlador</td>
+</tr>
+<tr>
+<td>nomeEndereco</td>
+<td>Texto</td>
+<td>N</td>
+<td>Descrição da localização do controlador</td>
+</tr>
+<tr>
+<td>dataCriacao</td>
+<td>Data</td>
+<td>N</td>
+<td>Data de Criação do controlador</td>
+</tr>
+<tr>
+<td>dataAtualizacao</td>
+<td>Data</td>
+<td>N</td>
+<td>Data da última atualização do controlador</td>
+</tr>
+<tr>
+<td>CLC</td>
+<td>Texto</td>
+<td>N</td>
+<td>Código de Localização do Controlador</td>
+</tr>
+<tr>
+<td>aneis</td>
+<td>vetor de <a href="#anel">anel</a></td>
+<td>S</td>
+<td>Lista dos anéis do controlador</td>
+</tr>
+<tr>
+<td>estagios</td>
+<td>vetor de <a href="#estagio">estagio</a></td>
+<td>S</td>
+<td>Lista dos estágios do controlador</td>
+</tr>
+<tr>
+<td>gruposSemaforicos</td>
+<td>vetor de <a href="#grupo-semaforico">grupos semáforicos</a></td>
+<td>S</td>
+<td>Lista dos grupos semafóricos do controlador</td>
+</tr>
+<tr>
+<td>detectores</td>
+<td>vetor de <a href="#detector">detector</a></td>
+<td>S</td>
+<td>Lista dos detectores do controlador</td>
+</tr>
+<tr>
+<td>transicoesProibidas</td>
+<td>vetor de <a href="#transicao-proibida">transição proibada</a></td>
+<td>S</td>
+<td>Lista das transições proibidas</td>
+</tr>
+<tr>
+<td>estagiosGruposSemaforicos</td>
+<td>vetor de <a href="#estagio-grupo-semaforico">estágio grupo semáforico</a></td>
+<td>S</td>
+<td>Lista de estágios grupos semafóricos</td>
+</tr>
+<tr>
+<td>transicoes</td>
+<td>vetor de <a href="#transicao">transição</a></td>
+<td>S</td>
+<td>Lista de transições</td>
+</tr>
+<tr>
+<td>verdesConflitantes</td>
+<td>vetor de <a href="#verde-conflitante">verde conflitante</a></td>
+<td>S</td>
+<td>Lista de verdes conflitantes</td>
+</tr>
+<tr>
+<td>tabelaEntreVerdes</td>
+<td>vetor de <a href="#tabela-entre-verdes">tabela entre verdes</a></td>
+<td>S</td>
+<td>Lista de tabelas de entre verdes</td>
+</tr>
+<tr>
+<td>tabelasEntreVerdesTransicoes</td>
+<td>vetor de <a href="#tabela-entre-verdes-transicao">tabela entre verdes transição</a></td>
+<td>S</td>
+<td>Lista de tabelas de entre verdes transições</td>
+</tr>
+<tr>
+<td>versoesPlanos</td>
+<td>vetor de <a href="#versao-plano">versão plano</a></td>
+<td>S</td>
+<td>Lista de versões planos</td>
+</tr>
+<tr>
+<td>planos</td>
+<td>vetor de <a href="#planos">plano</a></td>
+<td>S</td>
+<td>Lista de planos</td>
+</tr>
+<tr>
+<td>gruposSemaforicosPlanos</td>
+<td>vetor de <a href="#grupo-semaforico-plano">grupo semafórico plano</a></td>
+<td>S</td>
+<td>Lista de grupos semafóricos planos</td>
+</tr>
+<tr>
+<td>estagiosPlanos</td>
+<td>vetor de <a href="#estagio-plano">estágio plano</a></td>
+<td>S</td>
+<td>Lista de estágios planos</td>
+</tr>
+<tr>
+<td>versoesTabelasHorarias</td>
+<td>vetor de <a href="#versao-tabela-horaria">versão de tabela horária</a></td>
+<td>S</td>
+<td>Lista de versões de tabelas horárias</td>
+</tr>
+<tr>
+<td>tabelasHorarias</td>
+<td>vetor de <a href="#tabela-horaria">tabela horária</a></td>
+<td>S</td>
+<td>Lista de tabelas horárias</td>
+</tr>
+<tr>
+<td>eventos</td>
+<td>vetor de <a href="#evento">eventos</a></td>
+<td>S</td>
+<td>Lista de eventos</td>
+</tr>
+<tr>
+<td>limiteEstagio</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>limiteGrupoSemaforico</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>limiteAnel</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>limiteDetectorPedestre</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>limiteDetectorVeicular</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>limiteTabelasEntreVerdes</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>limitePlanos</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeMinimoMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeMinimoMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeMaximoMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeMaximoMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>extensaoVerdeMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>extensaoVerdeMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeIntermediarioMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeIntermediarioMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>defasagemMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>defasagemMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>amareloMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>amareloMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>vermelhoIntermitenteMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>vermelhoIntermitenteMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>vermelhoLimpezaVeicularMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>vermelhoLimpezaVeicularMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>vermelhoLimpezaPedestreMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>vermelhoLimpezaPedestreMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>atrasoGrupoMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>atrasoGrupoMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeSegurancaVeicularMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeSegurancaVeicularMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeSegurancaPedestreMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>verdeSegurancaPedestreMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>maximoPermanenciaEstagioMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>maximoPermanenciaEstagioMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>defaultMaximoPermanenciaEstagioVeicular</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>cicloMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>cicloMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>ausenciaDeteccaoMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>ausenciaDeteccaoMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>deteccaoPermanenteMin</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+<tr>
+<td>deteccaoPermanenteMax</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>utilizado para validação pelo 72c</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json">Exemplo JSON</h3>
+<pre><code class="JSON">{
+  &quot;id&quot;: &quot;bdf5005e-9aa3-40a4-b0de-2e38a8aef48e&quot;,
+  &quot;numeroSMEE&quot;: &quot;123&quot;,
+  &quot;numeroSMEEConjugado1&quot;: &quot;123&quot;,
+  &quot;numeroSMEEConjugado2&quot;: &quot;123&quot;,
+  &quot;numeroSMEEConjugado3&quot;: &quot;123&quot;,
+  &quot;nomeEndereco&quot;: &quot;R. Dr. Cícero de Castro com R. Carlos Chagas&quot;,
+  &quot;dataCriacao&quot;: &quot;12/08/2016 11:27:34&quot;,
+  &quot;dataAtualizacao&quot;: &quot;15/08/2016 09:44:03&quot;,
+  &quot;CLC&quot;: &quot;1.000.0001&quot;,
+  &quot;limiteEstagio&quot;: 16,
+    &quot;limiteGrupoSemaforico&quot;: 16,
+    &quot;limiteAnel&quot;: 4,
+    &quot;limiteDetectorPedestre&quot;: 4,
+    &quot;limiteDetectorVeicular&quot;: 8,
+    &quot;limiteTabelasEntreVerdes&quot;: 2,
+    &quot;limitePlanos&quot;: 16,
+    &quot;verdeMin&quot;: &quot;1&quot;,
+    &quot;verdeMax&quot;: &quot;255&quot;,
+    &quot;verdeMinimoMin&quot;: &quot;10&quot;,
+    &quot;verdeMinimoMax&quot;: &quot;255&quot;,
+    &quot;verdeMaximoMin&quot;: &quot;10&quot;,
+    &quot;verdeMaximoMax&quot;: &quot;255&quot;,
+    &quot;extensaoVerdeMin&quot;: &quot;1.0&quot;,
+    &quot;extensaoVerdeMax&quot;: &quot;10.0&quot;,
+    &quot;verdeIntermediarioMin&quot;: &quot;10&quot;,
+    &quot;verdeIntermediarioMax&quot;: &quot;255&quot;,
+    &quot;defasagemMin&quot;: &quot;0&quot;,
+    &quot;defasagemMax&quot;: &quot;255&quot;,
+    &quot;amareloMin&quot;: &quot;3&quot;,
+    &quot;amareloMax&quot;: &quot;5&quot;,
+    &quot;vermelhoIntermitenteMin&quot;: &quot;3&quot;,
+    &quot;vermelhoIntermitenteMax&quot;: &quot;32&quot;,
+    &quot;vermelhoLimpezaVeicularMin&quot;: &quot;0&quot;,
+    &quot;vermelhoLimpezaVeicularMax&quot;: &quot;20&quot;,
+    &quot;vermelhoLimpezaPedestreMin&quot;: &quot;0&quot;,
+    &quot;vermelhoLimpezaPedestreMax&quot;: &quot;5&quot;,
+    &quot;atrasoGrupoMin&quot;: &quot;0&quot;,
+    &quot;atrasoGrupoMax&quot;: &quot;20&quot;,
+    &quot;verdeSegurancaVeicularMin&quot;: &quot;10&quot;,
+    &quot;verdeSegurancaVeicularMax&quot;: &quot;30&quot;,
+    &quot;verdeSegurancaPedestreMin&quot;: &quot;4&quot;,
+    &quot;verdeSegurancaPedestreMax&quot;: &quot;10&quot;,
+    &quot;maximoPermanenciaEstagioMin&quot;: &quot;20&quot;,
+    &quot;maximoPermanenciaEstagioMax&quot;: &quot;255&quot;,
+    &quot;defaultMaximoPermanenciaEstagioVeicular&quot;: 127,
+    &quot;cicloMin&quot;: &quot;30&quot;,
+    &quot;cicloMax&quot;: &quot;255&quot;,
+    &quot;ausenciaDeteccaoMin&quot;: &quot;0&quot;,
+    &quot;ausenciaDeteccaoMax&quot;: &quot;5800&quot;,
+    &quot;deteccaoPermanenteMin&quot;: &quot;0&quot;,
+    &quot;deteccaoPermanenteMax&quot;: &quot;10&quot;,
+  &quot;aneis&quot;: [],
+  &quot;estagios&quot;: [],
+  &quot;gruposSemaforicos&quot;: [],
+  &quot;detectores&quot;: [],
+  &quot;transicoesProibidas&quot;: [],
+  &quot;estagiosGruposSemaforicos&quot;: [],
+  &quot;verdesConflitantes&quot;: [],
+  &quot;transicoes&quot;: [],
+  &quot;tabelasEntreVerdes&quot;: [],
+  &quot;tabelasEntreVerdesTransicoes&quot;: []
+}
+</code></pre>
+
+<h2 id="anel">Anel</h2>
+<p>Característica que permite a um controlador operar como se fossem vários controladores independentes. Cada anel é responsável pelo controle de certo número de grupos focais e a programação semafórica que ocorre nesses grupos focais é totalmente independente da programação semafórica dos demais grupos focais do controlador.</p>
+<h3 id="especificacao_1">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Anel</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Anel para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>numeroSMEE</td>
+<td>Texto</td>
+<td>N</td>
+<td>Número SMEE do Anel</td>
+</tr>
+<tr>
+<td>CLA</td>
+<td>Texto</td>
+<td>N</td>
+<td>Código de Localização do Anel</td>
+</tr>
+<tr>
+<td>aceitaModoManual</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Determina se esse anel aceita a operação em modo manual</td>
+</tr>
+<tr>
+<td>ativo</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Identifica se esse anel está ativo</td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do anel no controlador</td>
+</tr>
+<tr>
+<td>estagios</td>
+<td>vetor de referência aos <a href="#estagio">estagios</a></td>
+<td>S</td>
+<td>Lista com as referências de estágios desse anel</td>
+</tr>
+<tr>
+<td>gruposSemaforicos</td>
+<td>vetor de referência aos <a href="#grupo-semaforico">grupos Semaforicos</a></td>
+<td>S</td>
+<td>Lista com as referências de grupos semafóricos desse anel</td>
+</tr>
+<tr>
+<td>detectores</td>
+<td>vetor de referência aos <a href="#detector">detectores</a></td>
+<td>S</td>
+<td>Lista com as referências de detectores desse anel</td>
+</tr>
+<tr>
+<td>endereco</td>
+<td>referência ao <a href="#endereco">endereco</a></td>
+<td>S</td>
+<td>Endereço do anel</td>
+</tr>
+<tr>
+<td>versaoPlano</td>
+<td>referência à <a href="#versaoPlano">versaoPlano</a></td>
+<td>S</td>
+<td>Versão plano ativa para esse anel</td>
+</tr>
+<tr>
+<td>planos</td>
+<td>vetor de referência aos <a href="#plano">planos</a></td>
+<td>S</td>
+<td>Lista de planos vinculadas à versão plano desse anel</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_1">Exemplo JSON</h3>
+<pre><code class="JSON">  {
+        &quot;id&quot;: &quot;fd9b7112-f87a-4c19-ade4-648b83de954b&quot;,
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;,
+        &quot;numeroSMEE&quot;: &quot;-&quot;,
+        &quot;ativo&quot;: true,
+        &quot;aceitaModoManual&quot;: true,
+        &quot;posicao&quot;: 1,
+        &quot;CLA&quot;: &quot;1.000.0003.1&quot;,
+        &quot;versaoPlano&quot;: {
+          &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;
+        },
+        &quot;estagios&quot;: [
+          {
+            &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+          }
+        ],
+        &quot;gruposSemaforicos&quot;: [
+          {
+            &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+          }
+        ],
+        &quot;detectores&quot;: [
+          {
+            &quot;idJson&quot;: &quot;9266bda5-68df-4784-8645-2c8123c99206&quot;
+          }
+        ],
+        &quot;planos&quot;: [
+          {
+            &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+          },
+          {
+            &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+          }
+        ],
+        &quot;endereco&quot;: {
+          &quot;idJson&quot;: &quot;363048ec-e138-470b-bbdb-ba053ce6c732&quot;
+        }
+      }
+</code></pre>
+
+<h2 id="grupo-semaforico">Grupo Semafórico</h2>
+<p>Conjunto de grupos focais com indicações luminosas idênticas às que controlam grupos de movimentos que recebem simultaneamente o direito de passagem e que possuem as mesmas fases. Utiliza-se a notação <em>Gn</em> para identificar tanto nos projetos como nas programações semafóricas o grupo semafórico de número <em>"n"</em>. Quanto aos tipos, temos: grupo semafórico veicular composto de 3 fases (vermelha, amarela e verde) e grupo semafórico de pedestre composto de 2 fases (vermelha e verde).</p>
+<h3 id="especificacao_2">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Grupo Semáforico</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Grupo Semáforico para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>tipo</td>
+<td>Texto</td>
+<td>S</td>
+<td>PEDESTRE ou VEICULAR</td>
+</tr>
+<tr>
+<td>descricao</td>
+<td>Texto</td>
+<td>N</td>
+<td>Descrição do Grupo Semafórico</td>
+</tr>
+<tr>
+<td>faseVermelhaApagadaAmareloIntermitente</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Define se, caso houver uma falha na fase vermelha do grupo semáforico, o anel entra em amarelo intermitente</td>
+</tr>
+<tr>
+<td>tempoVerdeSeguranca</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de verde de segurança do grupo semáforico</td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do grupo semafórico no controlador</td>
+</tr>
+<tr>
+<td>anel</td>
+<td>referência ao <a href="#anel">anel</a></td>
+<td>S</td>
+<td>Referência ao anel ao qual esse grupo semáforico faz parte</td>
+</tr>
+<tr>
+<td>verdesConflitantesOrigem</td>
+<td>vetor de referência de <a href="#verde-conflitante">verdes conflitantes</a></td>
+<td>S</td>
+<td>Lista com as referências de verdes conflitantes que tem esse grupo semáforico como origem</td>
+</tr>
+<tr>
+<td>verdesConflitantesDestino</td>
+<td>vetor de referência de <a href="#verde-conflitante">verdes conflitantes</a></td>
+<td>S</td>
+<td>Lista com as referências de verdes conflitantes que tem esse grupo semáforico como destino</td>
+</tr>
+<tr>
+<td>estagiosGruposSemaforicos</td>
+<td>vetor de referência de <a href="#estagio-grupo-semaforico">estágio grupo semafórico</a></td>
+<td>S</td>
+<td>Lista com as referências de estágios grupos semafóricos associados a esse grupo semáforico</td>
+</tr>
+<tr>
+<td>transicoes</td>
+<td>vetor de referência de <a href="#transicao">transições</a></td>
+<td>S</td>
+<td>Lista com as referências de transições desse grupo semáforico</td>
+</tr>
+<tr>
+<td>tabelasEntreVerdes</td>
+<td>vetor de referência de <a href="#tabela-entre-verdes">tabelas de entre verdes</a></td>
+<td>S</td>
+<td>Lista com as referências de tabelas de entre verdes desse grupo semáforico</td>
+</tr>
+<tr>
+<td>transicoesComGanhoDePassagem</td>
+<td>vetor de referência de <a href="#transicao">transições</a></td>
+<td>S</td>
+<td>Lista com as referências de transições desse grupo semáforico com ganho de passagem</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_2">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;fcfeadf1-d6ad-476b-8b60-a214dfc136ee&quot;,
+      &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;,
+      &quot;tipo&quot;: &quot;VEICULAR&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;faseVermelhaApagadaAmareloIntermitente&quot;: true,
+      &quot;tempoVerdeSeguranca&quot;: 10,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;verdesConflitantesOrigem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;30b011f5-252b-403b-9dd6-0f78c855a527&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;267a6b1c-e080-49fe-a2e3-b2523e8f3d04&quot;
+        }
+      ],
+      &quot;verdesConflitantesDestino&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3f945224-1773-41a1-bd8e-0b5a306a1196&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;6eaff012-323a-453d-98ff-8fa1459086f9&quot;
+        }
+      ],
+      &quot;transicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;2e7a6b8e-ac62-409a-bba6-e79eaaa61d35&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;8fcdd78a-0458-465b-932c-b2aff44d215d&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;8536fd3e-92dc-4edb-90e8-9e4593647178&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;665d8334-e9ec-4493-8fed-e56ee4d5dd48&quot;
+        }
+      ],
+      &quot;transicoesComGanhoDePassagem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;fe70918a-cad5-4cf0-ac53-198c7425d448&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;8a520f64-3e5c-4fc6-82cb-ff813389f6d2&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;17aeafb5-c255-4bb7-9611-0fc04aef9cd9&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;fd113800-4da3-4e84-9974-1286b2551ef6&quot;
+        }
+      ],
+      &quot;tabelasEntreVerdes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;
+        }
+      ]
+    }
+</code></pre>
+
+<h2 id="estagio">Estágio</h2>
+<p>Intervalo de tempo em que um ou mais grupos semafóricos recebem simultaneamente o direito de passagem. O estágio compreende o tempo de verde e o entreverdes que o segue.</p>
+<h3 id="especificacao_3">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Estágio</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Estágio para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>tempoMaximoPermanencia</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>O tempo máximo que o estágio pode ter direito de passagem</td>
+</tr>
+<tr>
+<td>tempoMaximoPermanenciaAtivado</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Define se o tempo máximo de permanência será monitorado</td>
+</tr>
+<tr>
+<td>demandaPrioritaria</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Define se o estágio é de demanda prioritária</td>
+</tr>
+<tr>
+<td>tempoVerdeDemandaPrioritaria</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Tempo de verde do estágio de demanda prioritária</td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do estágio no anel</td>
+</tr>
+<tr>
+<td>anel</td>
+<td>referência ao <a href="#anel">anel</a></td>
+<td>S</td>
+<td>Referência ao anel ao qual essse estágio faz parte</td>
+</tr>
+<tr>
+<td>origemDeTransicoesProibidas</td>
+<td>vetor de referência das <a href="#transicao-proibida">transições proibidas</a></td>
+<td>S</td>
+<td>Lista com as referências de transições proibidas que tem esse estágio como origem</td>
+</tr>
+<tr>
+<td>destinoDeTransicoesProibidas</td>
+<td>vetor de referência das <a href="#transicao-proibida">transições proibidas</a></td>
+<td>S</td>
+<td>Lista com as referências de transições proibidas que tem esse estágio como destino</td>
+</tr>
+<tr>
+<td>alternativaDeTransicoesProibidas</td>
+<td>vetor de referência das <a href="#transicao-proibida">transições proibidas</a></td>
+<td>S</td>
+<td>Lista com as referências de transições proibidas que tem esse estágio como alternativa</td>
+</tr>
+<tr>
+<td>estagiosGruposSemaforicos</td>
+<td>vetor de referência de <a href="#estagio-grupo-semafórico">estágios grupos semáforicos</a></td>
+<td>S</td>
+<td>Lista com as referências de estágios grupos semáforicos que estão associados a esse estágio</td>
+</tr>
+<tr>
+<td>estagiosPlanos</td>
+<td>vetor de referência de <a href="#estagioPlano">estagioPlano</a></td>
+<td>S</td>
+<td>Lista com as referências de estágios planos que estão associados a esse estágio</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_3">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;efb8af71-bf56-4d78-b21e-c3dfb4d43e61&quot;,
+      &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;,
+      &quot;tempoMaximoPermanencia&quot;: 127,
+      &quot;tempoMaximoPermanenciaAtivado&quot;: true,
+      &quot;demandaPrioritaria&quot;: false,
+      &quot;tempoVerdeDemandaPrioritaria&quot;: 1,
+      &quot;posicao&quot;: 2,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;imagem&quot;: {
+        &quot;idJson&quot;: &quot;247c65f6-9866-4cd3-ae87-4c1adaf77174&quot;
+      },
+      &quot;origemDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;destinoDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;alternativaDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3f945224-1773-41a1-bd8e-0b5a306a1196&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;f33e8a3e-e4e2-4e18-aa8d-35b5ac39f0fd&quot;
+        }
+      ],
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;14f22263-4dff-4ab2-93ce-8e5ddd006fc7&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9289488d-2986-4850-8ae0-234a7abc3a61&quot;
+        }
+      ]
+    }
+</code></pre>
+
+<h2 id="detector">Detector</h2>
+<p>Dispositivo de atuação acoplado ao controlador podendo ser:</p>
+<ol>
+<li>
+<p>Detector Veicular</p>
+<ul>
+<li>Sensor destinado a registrar a presença ou passagem de veículos.</li>
+</ul>
+</li>
+<li>
+<p>Botoeira </p>
+<ul>
+<li>Dispositivo dotado de um botão que, ao ser acionado, envia um sinal ao controlador solicitando a implementação de um estágio dispensável.</li>
+</ul>
+</li>
+</ol>
+<h3 id="especificacao_4">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Detector</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Detector para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>tipo</td>
+<td>Texto</td>
+<td>S</td>
+<td>PEDESTRE ou VEICULAR</td>
+</tr>
+<tr>
+<td>monitorado</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Define se o detector será monitorado</td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do detector no controlador</td>
+</tr>
+<tr>
+<td>tempoAusenciaDeteccao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo para disparar alarme de ausência de detecção</td>
+</tr>
+<tr>
+<td>tempoDeteccaoPermanente</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo para disparar alarme de detecção permanente</td>
+</tr>
+<tr>
+<td>anel</td>
+<td>referência ao <a href="#anel">anel</a></td>
+<td>S</td>
+<td>Referência ao anel ao qual esse detector faz parte</td>
+</tr>
+<tr>
+<td>estagio</td>
+<td>referência ao <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio ao qual esse detector faz parte</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_4">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;a13f89e2-9e77-416a-9f92-3bbfe100a855&quot;,
+      &quot;idJson&quot;: &quot;9266bda5-68df-4784-8645-2c8123c99206&quot;,
+      &quot;tipo&quot;: &quot;VEICULAR&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;monitorado&quot;: false,
+      &quot;tempoAusenciaDeteccao&quot;: 0,
+      &quot;tempoDeteccaoPermanente&quot;: 0,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="transicao">Transição</h2>
+<p>Representa a transição entre o estágio que está perdendo o direito de passagem e o estágio que irá ganhar o direito de passagem.</p>
+<h3 id="especificacao_5">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Transição</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Transição para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>origem</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio de origem</td>
+</tr>
+<tr>
+<td>tipo</td>
+<td>PERDA_DE_PASSAGEM ou GANHO_DE_PASSAGEM</td>
+<td>S</td>
+<td>Tipo da transição</td>
+</tr>
+<tr>
+<td>modoIntermitenteOuApagado</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Define se essa transição será utilizada quando houver transição para os modos de amarelo intermitente ou apagado</td>
+</tr>
+<tr>
+<td>tempoAtrasoGrupo</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Tempo de atraso de grupo quando houver</td>
+</tr>
+<tr>
+<td>atrasoDeGrupo</td>
+<td>referência ao <a href="#atraso-de-grupo">atraso de grupo</a></td>
+<td>S</td>
+<td>Referência ao atraso de grupo</td>
+</tr>
+<tr>
+<td>destino</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio de destino</td>
+</tr>
+<tr>
+<td>tabelaEntreVerdesTransicoes</td>
+<td>vetor de referência das <a href="#tabela-entre-verdes-transicao">tabela de entre verdes transição proibidas</a></td>
+<td>S</td>
+<td>Lista com as referências de tabelas de entre verdes transições</td>
+</tr>
+<tr>
+<td>grupoSemaforico</td>
+<td>referência a <a href="#grupo-semaforico">grupo semáforico</a></td>
+<td>S</td>
+<td>Referência ao grupo semafórico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_5">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;328da97a-c3ae-411e-bcee-a45177f3dae2&quot;,
+      &quot;idJson&quot;: &quot;fffcf552-5427-4ef9-9c9d-8a334a9bd61e&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9752f26d-30fa-488b-8098-895329911d4e&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;ebf362ee-29e4-47b7-a974-179fd98e11c0&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    }
+</code></pre>
+
+<h2 id="transicao-com-ganho-de-passagem">Transição com ganho de passagem</h2>
+<p>Representa a transição entre o estágio que está ganhando o direito de passagem e o estágio que irá perder o direito de passagem.</p>
+<h3 id="especificacao_6">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Transição</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Transição para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>origem</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio de origem</td>
+</tr>
+<tr>
+<td>tipo</td>
+<td>PERDA_DE_PASSAGEM ou GANHO_DE_PASSAGEM</td>
+<td>S</td>
+<td>Tipo da transição</td>
+</tr>
+<tr>
+<td>modoIntermitenteOuApagado</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Define se essa transição será utilizada quando houver transição para os modos de amarelo intermitente ou apagado</td>
+</tr>
+<tr>
+<td>tempoAtrasoGrupo</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Tempo de atraso de grupo quando houver</td>
+</tr>
+<tr>
+<td>atrasoDeGrupo</td>
+<td>referência ao <a href="#atraso-de-grupo">atraso de grupo</a></td>
+<td>S</td>
+<td>Referência ao atraso de grupo</td>
+</tr>
+<tr>
+<td>destino</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio de destino</td>
+</tr>
+<tr>
+<td>tabelaEntreVerdesTransicoes</td>
+<td>vetor de referência das <a href="#tabela-entre-verdes-transicao">tabela de entre verdes transição proibidas</a></td>
+<td>S</td>
+<td>Lista com as referências de tabelas de entre verdes transições</td>
+</tr>
+<tr>
+<td>grupoSemaforico</td>
+<td>referência a <a href="#grupo-semaforico">grupo semáforico</a></td>
+<td>S</td>
+<td>Referência ao grupo semafórico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_6">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;328da97a-c3ae-411e-bcee-a45177f3dae2&quot;,
+      &quot;idJson&quot;: &quot;fffcf552-5427-4ef9-9c9d-8a334a9bd61e&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9752f26d-30fa-488b-8098-895329911d4e&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;ebf362ee-29e4-47b7-a974-179fd98e11c0&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    }
+</code></pre>
+
+<h2 id="transicao-proibida">Transição Proibida</h2>
+<p>Representa a proibição de transição entre dois estágios.</p>
+<h3 id="especificacao_7">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Transição Proibida</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Transição Proibida para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>origem</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio de origem</td>
+</tr>
+<tr>
+<td>destino</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio de destino</td>
+</tr>
+<tr>
+<td>alternativo</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio alternativo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_7">Exemplo JSON</h3>
+<pre><code class="JSON">    {
+      &quot;id&quot;: &quot;40253953-a75e-4c2b-8574-c1a2f1d10bc2&quot;,
+      &quot;idJson&quot;: &quot;ac8c11e2-4d05-4624-b199-ddac68f507a1&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;b6a7553a-bb45-4d49-9cf3-9979f6ffb9a0&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;0aa7c531-f3bf-4c5e-98b9-75fb02a9b44b&quot;
+      },
+      &quot;alternativo&quot;: {
+        &quot;idJson&quot;: &quot;810b2ab2-7559-4e86-b3ec-b53e137354b2&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="tabela-entreverdes">Tabela Entreverdes</h2>
+<p>Agrupamento de Tabela Entreverdes Transição.</p>
+<h3 id="especificacao_8">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Tabela de Entreverdes</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Tabela de Entreverdes para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição da Tabela Entreverdes no anel</td>
+</tr>
+<tr>
+<td>descricao</td>
+<td>Texto</td>
+<td>S</td>
+<td>Descrição da Tabela de Entreverdes</td>
+</tr>
+<tr>
+<td>grupoSemaforico</td>
+<td>referência a <a href="#grupo-semaforico">grupo semáforico</a></td>
+<td>S</td>
+<td>Referência ao grupo semafórico</td>
+</tr>
+<tr>
+<td>tabelaEntreVerdesTransicoes</td>
+<td>vetor de referência de <a href="#tabela-entre-verdes-transicao">tabelas de entre verdes transições</a></td>
+<td>S</td>
+<td>Lista com as referências de Tabelas de Entreverdes transições dessa Tabela de Entreverdes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_8">Exemplo JSON</h3>
+<pre><code class="JSON">    {
+      &quot;id&quot;: &quot;943934ba-a8b5-4014-8795-84240f21b75b&quot;,
+      &quot;idJson&quot;: &quot;0036f201-af00-4a82-bacf-1f8fe97281c8&quot;,
+      &quot;descricao&quot;: &quot;PADRÃO&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;41f04b7e-742f-4722-8e73-689d9c0ef6f1&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9cc359ee-a47e-44f9-8098-750c114f8d32&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;18a6bd08-9d8c-4fc1-b089-9aa8c390bfe1&quot;
+        }
+      ]
+    }
+</code></pre>
+
+<h2 id="tabela-entreverdes-transicao">Tabela Entreverdes Transição</h2>
+<p>Intervalo de tempo compreendido entre o final do verde de um estágio e o início do verde do estágio subsequente inserido com o propósito de evitar acidentes entre os usuários que estão perdendo seu direito de passagem e aqueles que vão passar a ganhá-lo. No caso de grupos focais veiculares, compõe-se do período de amarelo seguido do período de vermelho geral. No caso de grupos focais de pedestres consiste do período de vermelho intermitente de pedestre seguido do período de vermelho geral.</p>
+<h3 id="especificacao_9">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Tabela de Entreverdes Transição</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Tabela de Entreverdes Transição para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>tempoAmarelo</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Tempo de amarelo do entreverdes</td>
+</tr>
+<tr>
+<td>tempoVermelhoIntermitente</td>
+<td>Inteiro</td>
+<td>N</td>
+<td>Tempo de vermelho intermitente</td>
+</tr>
+<tr>
+<td>tempoVermelhoLimpeza</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de vermelho de limpeza do entreverdes</td>
+</tr>
+<tr>
+<td>tempoAtrasoGrupo</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de atraso de grupo</td>
+</tr>
+<tr>
+<td>tabelaEntreVerdes</td>
+<td>referência a <a href="#tabela-entre-verdes">tabela de entre verdes</a></td>
+<td>S</td>
+<td>Referência à Tabela de Entreverdes</td>
+</tr>
+<tr>
+<td>transicao</td>
+<td>referência à <a href="#transicao">transição</a></td>
+<td>S</td>
+<td>Referência à transição</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_9">Exemplo JSON</h3>
+<pre><code class="JSON">    {
+      &quot;id&quot;: &quot;de33f221-f7f0-4118-90d4-49d3dd21ba3a&quot;,
+      &quot;idJson&quot;: &quot;9c912de8-9ca5-411f-af6a-768c172da0a3&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;0&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;3a0bb61c-492f-4727-ac7e-785d270f4b2f&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;91882aea-8354-4526-955f-69d3c999ae8d&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="estagio-grupo-semaforico">Estágio Grupo Semáforico</h2>
+<p>Objeto que representa a associação entre grupos semafóricos x estágios.</p>
+<h3 id="especificacao_10">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Estágio Grupo Semafórico</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Estágio Grupo Semafórico para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>estagio</td>
+<td>referência a <a href="#estagio">estágio</a></td>
+<td>S</td>
+<td>Referência ao estágio</td>
+</tr>
+<tr>
+<td>grupoSemaforico</td>
+<td>referência a <a href="#grupo-semaforico">grupo semáforico</a></td>
+<td>S</td>
+<td>Referência ao grupo semafórico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_10">Exemplo JSON</h3>
+<pre><code class="JSON">    {
+      &quot;id&quot;: &quot;eee3b305-7e8e-4c1e-bd46-8f83f462b506&quot;,
+      &quot;idJson&quot;: &quot;4530082c-744e-47ee-b5c2-a0e042d7f0d7&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;090768c2-4e9f-4247-9c64-d73425c31a29&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;873c4c1b-b518-4919-a937-3812f9fe9017&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="verde-conflitante">Verde Conflitante</h2>
+<p>Representa um conflito entre dois grupos semafóricos que não têm permissão de movimento simultâneo.</p>
+<h3 id="especificacao_11">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Verde Conflitante</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Verde Conflitante para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>origem</td>
+<td>referência a um <a href="#grupo-semaforico">grupo semáforico</a></td>
+<td>S</td>
+<td>Referência ao grupo semáforico de origem</td>
+</tr>
+<tr>
+<td>destino</td>
+<td>referência a um <a href="#grupo-semaforico">grupo semáforico</a></td>
+<td>S</td>
+<td>Referência ao grupo semáforico de destino</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_11">Exemplo JSON</h3>
+<pre><code class="JSON">    {
+      &quot;id&quot;: &quot;6bd31d57-933c-4113-aed4-583b692568aa&quot;,
+      &quot;idJson&quot;: &quot;2b9327f7-d070-45bf-9ce9-7cc1ac5c09ad&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;41f04b7e-742f-4722-8e73-689d9c0ef6f1&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;6102fc65-b3fb-48ca-bd5f-35365a6bb284&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="plano">Plano</h2>
+<p>Denomina-se plano semafórico, ou simplesmente plano, o conjunto de parâmetros introduzidos no controlador ou na central de controle que determina a sequência e as durações dos tempos exibidos pelo semáforo. O período de vigência de um plano está estabelecido na tabela horária. </p>
+<h3 id="especificacao_12">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Plano</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Plano para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do plano no anel</td>
+</tr>
+<tr>
+<td>descricao</td>
+<td>Texto</td>
+<td>N</td>
+<td>Descrição do plano</td>
+</tr>
+<tr>
+<td>tempoCiclo</td>
+<td>inteiro</td>
+<td>S</td>
+<td>Tempo de ciclo do plano em segundos</td>
+</tr>
+<tr>
+<td>defasagem</td>
+<td>inteiro</td>
+<td>S</td>
+<td>Tempo de defasagem no modo coordenado em segundos</td>
+</tr>
+<tr>
+<td>posicaoTabelaEntreVerde</td>
+<td>inteiro</td>
+<td>S</td>
+<td>Número da tabela entreverde que será utilizada nesse plano</td>
+</tr>
+<tr>
+<td>modoOperacao</td>
+<td>TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL</td>
+<td>S</td>
+<td>Modo de operação do plano</td>
+</tr>
+<tr>
+<td>anel</td>
+<td>referência ao <a href="#anel">anel</a></td>
+<td>S</td>
+<td>Referência ao anel ao qual essse plano faz parte</td>
+</tr>
+<tr>
+<td>versaoPlano</td>
+<td>referência a <a href="#versaoPlano">versaoPlano</a></td>
+<td>S</td>
+<td>Versão desse plano</td>
+</tr>
+<tr>
+<td>estagiosPlanos</td>
+<td>vetor de referência de <a href="#estagio-grupo-semaforico">estágio plano</a></td>
+<td>S</td>
+<td>Lista com as referências de estágios planos associado a esse plano</td>
+</tr>
+<tr>
+<td>estagiosGruposSemaforicos</td>
+<td>vetor de referência de <a href="#estagio-grupo-semaforico">estágio grupo semafórico</a></td>
+<td>S</td>
+<td>Lista com as referências de estágios grupos semafóricos associados a esse plano</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_12">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;6604cb8b-f6fa-4d07-95db-4446b5133e21&quot;,
+      &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;,
+      &quot;posicao&quot;: 2,
+      &quot;descricao&quot;: &quot;PLANO 2&quot;,
+      &quot;tempoCiclo&quot;: 60,
+      &quot;defasagem&quot;: 0,
+      &quot;posicaoTabelaEntreVerde&quot;: 1,
+      &quot;modoOperacao&quot;: &quot;TEMPO_FIXO_ISOLADO&quot;,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;versaoPlano&quot;: {
+        &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;
+      },
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;adfad1fc-cd40-45ef-9d61-3fbd21868358&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;a0a9b5dc-0be0-4029-b49f-67d30e95527a&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9289488d-2986-4850-8ae0-234a7abc3a61&quot;
+        }
+      ],
+      &quot;gruposSemaforicosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;4f08509e-1c83-4997-b31d-cbfa5044f3f8&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;7168bfe5-77d1-4acd-8fa7-9fa71d218fcf&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9eefb1c0-e1c7-46d8-911f-b57d6c73d25f&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;06604fba-5d00-40f2-b8fd-be97ea0734b3&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9df48edc-74ec-433b-b5fe-157054b53cd9&quot;
+        }
+      ]
+    }
+</code></pre>
+
+<h2 id="estagio-plano">Estágio Plano</h2>
+<p>Associação entre um estágio do anel e a sequência de estágios do plano.</p>
+<h3 id="especificacao_13">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Estágio Plano</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Estágio Plano para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do estágio na sequência de estágios do plano</td>
+</tr>
+<tr>
+<td>tempoVerde</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de verde em segundos</td>
+</tr>
+<tr>
+<td>tempoVerdeMinimo</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de verde mínimo em caso de modo atuado. Tempo em segundos</td>
+</tr>
+<tr>
+<td>tempoVerdeMaximo</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de verde máximo em caso de modo atuado. Tempo em segundos</td>
+</tr>
+<tr>
+<td>tempoVerdeIntermediario</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de verde intermediario em caso de modo atuado. Tempo em segundos</td>
+</tr>
+<tr>
+<td>tempoExtensaoVerde</td>
+<td>Decimal</td>
+<td>S</td>
+<td>Tempo de extensão de verde em caso modo atuado. Tempo em segundos</td>
+</tr>
+<tr>
+<td>dispensavel</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Indica se o estágio é dispensável</td>
+</tr>
+<tr>
+<td>estagio</td>
+<td>referência ao <a href="#estagio">estagio</a></td>
+<td>S</td>
+<td>Referência ao estagio</td>
+</tr>
+<tr>
+<td>plano</td>
+<td>referência ao <a href="#plano">plano</a></td>
+<td>S</td>
+<td>Referência ao plano</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_13">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;488e19af-0eb3-4c38-be7e-0a6f1b21799c&quot;,
+      &quot;idJson&quot;: &quot;525d8368-d643-4cb2-b7fe-486a2bdf3c33&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;tempoVerde&quot;: 20,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="grupo-semaforico-plano">Grupo Semafórico Plano</h2>
+<p>Associação entre um grupo semafórico do anel com o plano.</p>
+<h3 id="especificacao_14">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Grupo Semafórico Plano</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Grupo Semafórico Plano para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>ativado</td>
+<td>Booleano</td>
+<td>S</td>
+<td>Indica se o grupo semafórico está ativo no plano</td>
+</tr>
+<tr>
+<td>grupoSemaforico</td>
+<td>referência ao <a href="#grupo-semaforico">grupo semafórico</a></td>
+<td>S</td>
+<td>Referência ao grupo semafórico</td>
+</tr>
+<tr>
+<td>plano</td>
+<td>referência ao <a href="#plano">plano</a></td>
+<td>S</td>
+<td>Referência ao plano</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_14">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;94065e0b-c61d-4f7a-bf81-a75a6c12e0db&quot;,
+      &quot;idJson&quot;: &quot;9eefb1c0-e1c7-46d8-911f-b57d6c73d25f&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;ativado&quot;: true
+    }
+</code></pre>
+
+<h2 id="versao-plano">Versão Plano</h2>
+<p>Versão de um conjunto de planos de um anel</p>
+<h3 id="especificacao_15">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Versão Plano</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Versão Plano para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>anel</td>
+<td>referência ao <a href="#anel">anel</a></td>
+<td>S</td>
+<td>Referência ao anel ao qual essa versão de planos faz parte</td>
+</tr>
+<tr>
+<td>planos</td>
+<td>vetor de referência aos <a href="#plano">planos</a></td>
+<td>S</td>
+<td>Lista de planos vinculadas à versão plano desse anel</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_15">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;51f77d2c-5e64-4ced-a2bd-046c883913d8&quot;,
+      &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;,
+      &quot;statusVersao&quot;: &quot;CONFIGURADO&quot;,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;planos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+        }
+      ]
+    }
+</code></pre>
+
+<h2 id="versao-tabela-horaria">Versão Tabela Horária</h2>
+<p>Versão de um tabela horária do controlador</p>
+<h3 id="especificacao_16">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Versão Tabela Horária</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Versão Tabela Horária para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>tabelaHoraria</td>
+<td>referência a <a href="#tabela-horaria">tabelaHoraria</a></td>
+<td>S</td>
+<td>Referência à tabela horária</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_16">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;e8f0ce22-60b7-4cb9-bd75-5845108044ee&quot;,
+      &quot;idJson&quot;: &quot;1c888cb9-c4d9-4f51-b642-c9cb3f49b20d&quot;,
+      &quot;statusVersao&quot;: &quot;CONFIGURADO&quot;,
+      &quot;tabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;
+      },
+    }
+</code></pre>
+
+<h2 id="tabela-horaria">Tabela Horária</h2>
+<p>É parte da programação de um controlador semafórico que determina os horários, dias da semana e datas em que se deve efetuar a troca de planos. Os horários, dias da semana e datas são os eventos de ativação de planos</p>
+<h3 id="especificacao_17">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Tabela Horária</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador da Tabela Horária para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>versaoTabelaHoraria</td>
+<td>referência a <a href="#versao-tabela-horaria">versão tabela horária</a></td>
+<td>S</td>
+<td>Referência à versão tabela horária</td>
+</tr>
+<tr>
+<td>eventos</td>
+<td>vetor de <a href="#evento">eventos</a></td>
+<td>S</td>
+<td>Lista de eventos da tabela horária</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_17">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;0f2eaf6f-9acc-4d19-a861-161ecfcb925a&quot;,
+      &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;,
+      &quot;versaoTabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;1c888cb9-c4d9-4f51-b642-c9cb3f49b20d&quot;
+      },
+      &quot;eventos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;03c024db-e277-49be-88a5-a5db0592ee47&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;b9070f2a-c59f-433d-b0bd-ca0646fc175e&quot;
+        }
+      ]
+    }
+</code></pre>
+
+<h2 id="evento">Evento</h2>
+<p>São os horários, dias da semana e datas programados na Tabela de Mudança de Planos para a troca de planos.</p>
+<h3 id="especificacao_18">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Evento</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Evento para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>posicao</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Posição do evento na tabela horária</td>
+</tr>
+<tr>
+<td>tipo</td>
+<td>ESPECIAL_NAO_RECORRENTE, ESPECIAL_RECORRENTE, NORMAL</td>
+<td>S</td>
+<td>Tipo de evento</td>
+</tr>
+<tr>
+<td>diaDaSemana</td>
+<td>TODOS_OS_DIAS, SEGUNDA_A_SABADO, SEGUNDA_A_SEXTA, SABADO_A_DOMINGO, DOMINGO, SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO</td>
+<td>S</td>
+<td>Indica quando o evento será ativado</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Data</td>
+<td>S</td>
+<td>Indica uma data para ativação quando o evento for do tipo ESPECIAL_RECORRENTE e ESPECIAL_NAO_RECORRENTE</td>
+</tr>
+<tr>
+<td>horario</td>
+<td>Hora</td>
+<td>S</td>
+<td>Indica o horário de ativação do evento</td>
+</tr>
+<tr>
+<td>posicaoPlano</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Indica qual plano será ativado</td>
+</tr>
+<tr>
+<td>tabelaHoraria</td>
+<td>referência a <a href="#tabela-horaria">tabelaHoraria</a></td>
+<td>S</td>
+<td>Referência à tabela horária</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_18">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;6fded171-e25a-4f68-9b3c-37445f21c962&quot;,
+      &quot;idJson&quot;: &quot;03c024db-e277-49be-88a5-a5db0592ee47&quot;,
+      &quot;posicao&quot;: &quot;1&quot;,
+      &quot;tipo&quot;: &quot;NORMAL&quot;,
+      &quot;diaDaSemana&quot;: &quot;Todos os dias da semana&quot;,
+      &quot;data&quot;: &quot;02-12-2016&quot;,
+      &quot;horario&quot;: &quot;00:00:00.000&quot;,
+      &quot;posicaoPlano&quot;: &quot;1&quot;,
+      &quot;tabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;
+      }
+    }
+</code></pre>
+
+<h2 id="atraso-de-grupo">Atraso de Grupo</h2>
+<p>Definições de atraso de grupo para os grupos semafóricos em determinada transição.</p>
+<h3 id="especificacao_19">Especificação</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Atraso de Grupo</td>
+</tr>
+<tr>
+<td>idJson</td>
+<td>Texto <em>UUID</em></td>
+<td>S</td>
+<td>Identificador do Atraso de Grupo para referências dentro do <em>JSON</em></td>
+</tr>
+<tr>
+<td>atrasoDeGrupo</td>
+<td>Inteiro</td>
+<td>S</td>
+<td>Tempo de atraso de grupo em segundos</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo-json_19">Exemplo JSON</h3>
+<pre><code class="JSON">{
+      &quot;id&quot;: &quot;3d8027af-c3cf-4103-b339-44f48726d855&quot;,
+      &quot;idJson&quot;: &quot;e5b82afd-f49f-4e52-948c-ad18366276b8&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+}
+</code></pre>
+
+<h2 id="exemplo-completo">Exemplo Completo</h2>
+<pre><code class="JSON">{
+  &quot;id&quot;: &quot;95a85464-1cc4-4fa4-8008-bc14e99aed4c&quot;,
+  &quot;versoesTabelasHorarias&quot;: [
+    {
+      &quot;id&quot;: &quot;e8f0ce22-60b7-4cb9-bd75-5845108044ee&quot;,
+      &quot;idJson&quot;: &quot;1c888cb9-c4d9-4f51-b642-c9cb3f49b20d&quot;,
+      &quot;statusVersao&quot;: &quot;CONFIGURADO&quot;,
+      &quot;tabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;
+      },
+      &quot;dataCriacao&quot;: &quot;02/12/2016 15:52:33&quot;,
+      &quot;dataAtualizacao&quot;: &quot;05/12/2016 13:47:57&quot;
+    }
+  ],
+  &quot;numeroSMEE&quot;: &quot;123&quot;,
+  &quot;sequencia&quot;: 3,
+  &quot;limiteEstagio&quot;: 16,
+  &quot;limiteGrupoSemaforico&quot;: 16,
+  &quot;limiteAnel&quot;: 4,
+  &quot;limiteDetectorPedestre&quot;: 4,
+  &quot;limiteDetectorVeicular&quot;: 8,
+  &quot;limiteTabelasEntreVerdes&quot;: 2,
+  &quot;limitePlanos&quot;: 16,
+  &quot;nomeEndereco&quot;: &quot;Av. Cruzeiro do Sul, nº 123&quot;,
+  &quot;dataCriacao&quot;: &quot;02/12/2016 15:41:41&quot;,
+  &quot;dataAtualizacao&quot;: &quot;05/12/2016 13:47:37&quot;,
+  &quot;CLC&quot;: &quot;1.000.0003&quot;,
+  &quot;bloqueado&quot;: false,
+  &quot;planosBloqueado&quot;: false,
+  &quot;verdeMin&quot;: &quot;1&quot;,
+  &quot;verdeMax&quot;: &quot;255&quot;,
+  &quot;verdeMinimoMin&quot;: &quot;10&quot;,
+  &quot;verdeMinimoMax&quot;: &quot;255&quot;,
+  &quot;verdeMaximoMin&quot;: &quot;10&quot;,
+  &quot;verdeMaximoMax&quot;: &quot;255&quot;,
+  &quot;extensaoVerdeMin&quot;: &quot;1.0&quot;,
+  &quot;extensaoVerdeMax&quot;: &quot;10.0&quot;,
+  &quot;verdeIntermediarioMin&quot;: &quot;10&quot;,
+  &quot;verdeIntermediarioMax&quot;: &quot;255&quot;,
+  &quot;defasagemMin&quot;: &quot;0&quot;,
+  &quot;defasagemMax&quot;: &quot;255&quot;,
+  &quot;amareloMin&quot;: &quot;3&quot;,
+  &quot;amareloMax&quot;: &quot;5&quot;,
+  &quot;vermelhoIntermitenteMin&quot;: &quot;3&quot;,
+  &quot;vermelhoIntermitenteMax&quot;: &quot;32&quot;,
+  &quot;vermelhoLimpezaVeicularMin&quot;: &quot;0&quot;,
+  &quot;vermelhoLimpezaVeicularMax&quot;: &quot;20&quot;,
+  &quot;vermelhoLimpezaPedestreMin&quot;: &quot;0&quot;,
+  &quot;vermelhoLimpezaPedestreMax&quot;: &quot;5&quot;,
+  &quot;atrasoGrupoMin&quot;: &quot;0&quot;,
+  &quot;atrasoGrupoMax&quot;: &quot;20&quot;,
+  &quot;verdeSegurancaVeicularMin&quot;: &quot;10&quot;,
+  &quot;verdeSegurancaVeicularMax&quot;: &quot;30&quot;,
+  &quot;verdeSegurancaPedestreMin&quot;: &quot;4&quot;,
+  &quot;verdeSegurancaPedestreMax&quot;: &quot;10&quot;,
+  &quot;maximoPermanenciaEstagioMin&quot;: &quot;20&quot;,
+  &quot;maximoPermanenciaEstagioMax&quot;: &quot;255&quot;,
+  &quot;defaultMaximoPermanenciaEstagioVeicular&quot;: 127,
+  &quot;cicloMin&quot;: &quot;30&quot;,
+  &quot;cicloMax&quot;: &quot;255&quot;,
+  &quot;ausenciaDeteccaoMin&quot;: &quot;0&quot;,
+  &quot;ausenciaDeteccaoMax&quot;: &quot;5800&quot;,
+  &quot;deteccaoPermanenteMin&quot;: &quot;0&quot;,
+  &quot;deteccaoPermanenteMax&quot;: &quot;10&quot;,
+  &quot;statusControlador&quot;: &quot;CONFIGURADO&quot;,
+  &quot;statusControladorReal&quot;: &quot;CONFIGURADO&quot;,
+  &quot;area&quot;: {
+    &quot;idJson&quot;: &quot;011f16c3-b59e-11e6-970d-0401fa9c1b01&quot;
+  },
+  &quot;endereco&quot;: {
+    &quot;idJson&quot;: &quot;2ad86fb7-ea77-4dbe-b904-2386d561f0ba&quot;
+  },
+  &quot;modelo&quot;: {
+    &quot;id&quot;: &quot;011f2a13-b59e-11e6-970d-0401fa9c1b01&quot;,
+    &quot;idJson&quot;: &quot;011f2a2c-b59e-11e6-970d-0401fa9c1b01&quot;,
+    &quot;descricao&quot;: &quot;Modelo Básico&quot;,
+    &quot;fabricante&quot;: {
+      &quot;id&quot;: &quot;011f1c41-b59e-11e6-970d-0401fa9c1b01&quot;,
+      &quot;nome&quot;: &quot;Raro Labs&quot;
+    }
+  },
+  &quot;aneis&quot;: [
+    {
+      &quot;id&quot;: &quot;a262b498-accd-4816-ab14-fd77b12ba8bb&quot;,
+      &quot;idJson&quot;: &quot;aa3fbc6f-552c-4fca-ad69-d341dcd95f56&quot;,
+      &quot;ativo&quot;: false,
+      &quot;aceitaModoManual&quot;: true,
+      &quot;posicao&quot;: 4,
+      &quot;CLA&quot;: &quot;1.000.0003.4&quot;,
+      &quot;estagios&quot;: [
+
+      ],
+      &quot;gruposSemaforicos&quot;: [
+
+      ],
+      &quot;detectores&quot;: [
+
+      ],
+      &quot;planos&quot;: [
+
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;a91db360-2132-47c8-ade9-71aed4a46c1a&quot;,
+      &quot;idJson&quot;: &quot;e6024b3e-2525-48a2-8fe5-9176ee59189e&quot;,
+      &quot;ativo&quot;: false,
+      &quot;aceitaModoManual&quot;: true,
+      &quot;posicao&quot;: 3,
+      &quot;CLA&quot;: &quot;1.000.0003.3&quot;,
+      &quot;estagios&quot;: [
+
+      ],
+      &quot;gruposSemaforicos&quot;: [
+
+      ],
+      &quot;detectores&quot;: [
+
+      ],
+      &quot;planos&quot;: [
+
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;e517deed-9ce9-4ddd-8b33-76b75158af9f&quot;,
+      &quot;idJson&quot;: &quot;17c10350-3f5c-4f61-8106-8d94c9b8b880&quot;,
+      &quot;ativo&quot;: false,
+      &quot;aceitaModoManual&quot;: true,
+      &quot;posicao&quot;: 2,
+      &quot;CLA&quot;: &quot;1.000.0003.2&quot;,
+      &quot;estagios&quot;: [
+
+      ],
+      &quot;gruposSemaforicos&quot;: [
+
+      ],
+      &quot;detectores&quot;: [
+
+      ],
+      &quot;planos&quot;: [
+
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;fd9b7112-f87a-4c19-ade4-648b83de954b&quot;,
+      &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;,
+      &quot;numeroSMEE&quot;: &quot;-&quot;,
+      &quot;ativo&quot;: true,
+      &quot;aceitaModoManual&quot;: true,
+      &quot;posicao&quot;: 1,
+      &quot;CLA&quot;: &quot;1.000.0003.1&quot;,
+      &quot;versaoPlano&quot;: {
+        &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;
+      },
+      &quot;estagios&quot;: [
+        {
+          &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+        }
+      ],
+      &quot;gruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+        }
+      ],
+      &quot;detectores&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9266bda5-68df-4784-8645-2c8123c99206&quot;
+        }
+      ],
+      &quot;planos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+        }
+      ],
+      &quot;endereco&quot;: {
+        &quot;idJson&quot;: &quot;363048ec-e138-470b-bbdb-ba053ce6c732&quot;
+      }
+    }
+  ],
+  &quot;estagios&quot;: [
+    {
+      &quot;id&quot;: &quot;9e9726b0-3e37-4875-bdd2-363aed4ccdf9&quot;,
+      &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;,
+      &quot;tempoMaximoPermanencia&quot;: 127,
+      &quot;tempoMaximoPermanenciaAtivado&quot;: true,
+      &quot;demandaPrioritaria&quot;: true,
+      &quot;tempoVerdeDemandaPrioritaria&quot;: 30,
+      &quot;posicao&quot;: 4,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;imagem&quot;: {
+        &quot;idJson&quot;: &quot;333dc024-900c-45a1-b748-9381ccee2e93&quot;
+      },
+      &quot;detector&quot;: {
+        &quot;idJson&quot;: &quot;9266bda5-68df-4784-8645-2c8123c99206&quot;
+      },
+      &quot;origemDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;destinoDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;alternativaDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;1308104a-2716-4a5b-a8c8-fde7b38d1576&quot;
+        }
+      ],
+      &quot;estagiosPlanos&quot;: [
+
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;efb8af71-bf56-4d78-b21e-c3dfb4d43e61&quot;,
+      &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;,
+      &quot;tempoMaximoPermanencia&quot;: 127,
+      &quot;tempoMaximoPermanenciaAtivado&quot;: true,
+      &quot;demandaPrioritaria&quot;: false,
+      &quot;tempoVerdeDemandaPrioritaria&quot;: 1,
+      &quot;posicao&quot;: 2,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;imagem&quot;: {
+        &quot;idJson&quot;: &quot;247c65f6-9866-4cd3-ae87-4c1adaf77174&quot;
+      },
+      &quot;origemDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;destinoDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;alternativaDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3f945224-1773-41a1-bd8e-0b5a306a1196&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;f33e8a3e-e4e2-4e18-aa8d-35b5ac39f0fd&quot;
+        }
+      ],
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;14f22263-4dff-4ab2-93ce-8e5ddd006fc7&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9289488d-2986-4850-8ae0-234a7abc3a61&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;b5604c1d-1aa1-4994-b3c1-6f2adfb124f5&quot;,
+      &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;,
+      &quot;tempoMaximoPermanencia&quot;: 127,
+      &quot;tempoMaximoPermanenciaAtivado&quot;: true,
+      &quot;demandaPrioritaria&quot;: false,
+      &quot;tempoVerdeDemandaPrioritaria&quot;: 1,
+      &quot;posicao&quot;: 1,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;imagem&quot;: {
+        &quot;idJson&quot;: &quot;b74c8502-3802-4958-ac77-9fc9a9037a4e&quot;
+      },
+      &quot;origemDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;destinoDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;alternativaDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;6eaff012-323a-453d-98ff-8fa1459086f9&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;c74422ae-d4d6-4fc6-9a14-45011b92a8ff&quot;
+        }
+      ],
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;525d8368-d643-4cb2-b7fe-486a2bdf3c33&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;a0a9b5dc-0be0-4029-b49f-67d30e95527a&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;b2ac996a-ffa4-4f40-9074-19a1330fd7b5&quot;,
+      &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;,
+      &quot;tempoMaximoPermanencia&quot;: 127,
+      &quot;tempoMaximoPermanenciaAtivado&quot;: true,
+      &quot;demandaPrioritaria&quot;: false,
+      &quot;tempoVerdeDemandaPrioritaria&quot;: 1,
+      &quot;posicao&quot;: 3,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;imagem&quot;: {
+        &quot;idJson&quot;: &quot;c8236221-0b33-4836-b519-5ee7a39aa444&quot;
+      },
+      &quot;origemDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;destinoDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;alternativaDeTransicoesProibidas&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;de6d7e7c-5eea-46f2-a8ea-2cfa4e322c80&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9410153c-71cb-4671-ad01-b7d04d8f1003&quot;
+        }
+      ],
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;adfad1fc-cd40-45ef-9d61-3fbd21868358&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;a66880b7-f5a1-41d9-8516-0df903822f9b&quot;
+        }
+      ]
+    }
+  ],
+  &quot;gruposSemaforicos&quot;: [
+    {
+      &quot;id&quot;: &quot;58c8cc1c-5af9-42f7-bd86-955dd7f02980&quot;,
+      &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;,
+      &quot;tipo&quot;: &quot;PEDESTRE&quot;,
+      &quot;posicao&quot;: 3,
+      &quot;faseVermelhaApagadaAmareloIntermitente&quot;: false,
+      &quot;tempoVerdeSeguranca&quot;: 4,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;verdesConflitantesOrigem&quot;: [
+
+      ],
+      &quot;verdesConflitantesDestino&quot;: [
+        {
+          &quot;idJson&quot;: &quot;081d1852-f164-4160-b957-6650180a419d&quot;
+        }
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;f33e8a3e-e4e2-4e18-aa8d-35b5ac39f0fd&quot;
+        }
+      ],
+      &quot;transicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;ad3563fa-6030-423e-a5e9-649d3e06b4a8&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;c6798fd4-c483-4f24-b2ee-60e173b3f5f8&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;b176dce2-a26c-47d3-8338-cda039d52274&quot;
+        }
+      ],
+      &quot;transicoesComGanhoDePassagem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;1f4292a4-f66b-41eb-9d82-580707362d93&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;c25ca12e-5dc5-40bb-b057-9f3d458eaa86&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;c5299ae7-a0d5-4b19-b23b-68a83817459a&quot;
+        }
+      ],
+      &quot;tabelasEntreVerdes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;e1d85886-a591-4f57-b0a7-8d760d5d3757&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;fcfeadf1-d6ad-476b-8b60-a214dfc136ee&quot;,
+      &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;,
+      &quot;tipo&quot;: &quot;VEICULAR&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;faseVermelhaApagadaAmareloIntermitente&quot;: true,
+      &quot;tempoVerdeSeguranca&quot;: 10,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;verdesConflitantesOrigem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;30b011f5-252b-403b-9dd6-0f78c855a527&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;267a6b1c-e080-49fe-a2e3-b2523e8f3d04&quot;
+        }
+      ],
+      &quot;verdesConflitantesDestino&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3f945224-1773-41a1-bd8e-0b5a306a1196&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;6eaff012-323a-453d-98ff-8fa1459086f9&quot;
+        }
+      ],
+      &quot;transicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;2e7a6b8e-ac62-409a-bba6-e79eaaa61d35&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;8fcdd78a-0458-465b-932c-b2aff44d215d&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;8536fd3e-92dc-4edb-90e8-9e4593647178&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;665d8334-e9ec-4493-8fed-e56ee4d5dd48&quot;
+        }
+      ],
+      &quot;transicoesComGanhoDePassagem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;fe70918a-cad5-4cf0-ac53-198c7425d448&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;8a520f64-3e5c-4fc6-82cb-ff813389f6d2&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;17aeafb5-c255-4bb7-9611-0fc04aef9cd9&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;fd113800-4da3-4e84-9974-1286b2551ef6&quot;
+        }
+      ],
+      &quot;tabelasEntreVerdes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;5aa15474-8207-42f2-b352-b38d2dc5a409&quot;,
+      &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;,
+      &quot;tipo&quot;: &quot;PEDESTRE&quot;,
+      &quot;posicao&quot;: 4,
+      &quot;faseVermelhaApagadaAmareloIntermitente&quot;: false,
+      &quot;tempoVerdeSeguranca&quot;: 4,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;verdesConflitantesOrigem&quot;: [
+
+      ],
+      &quot;verdesConflitantesDestino&quot;: [
+        {
+          &quot;idJson&quot;: &quot;267a6b1c-e080-49fe-a2e3-b2523e8f3d04&quot;
+        }
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;de6d7e7c-5eea-46f2-a8ea-2cfa4e322c80&quot;
+        }
+      ],
+      &quot;transicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;13d0ffd3-2c3a-4e39-a4e0-c1f6b93c6d07&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;51f17cdb-5031-4984-a7a3-42f88f9ca74f&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9e0bd29e-1252-4e76-94e9-2583cd6c83fa&quot;
+        }
+      ],
+      &quot;transicoesComGanhoDePassagem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;d9f0d320-f2d4-4ae9-90f5-888bb21f2218&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;3342f580-b30c-41ea-9d09-3dc6bc0a1b3c&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;3631df74-1782-43d9-8d20-0900121ca56b&quot;
+        }
+      ],
+      &quot;tabelasEntreVerdes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;c54eaa1a-f4b9-460c-a15a-b3111d7f9caf&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;d9862640-c0c7-4be0-aa82-7fc36b8ff3c3&quot;,
+      &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;,
+      &quot;tipo&quot;: &quot;VEICULAR&quot;,
+      &quot;posicao&quot;: 5,
+      &quot;faseVermelhaApagadaAmareloIntermitente&quot;: true,
+      &quot;tempoVerdeSeguranca&quot;: 10,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;verdesConflitantesOrigem&quot;: [
+
+      ],
+      &quot;verdesConflitantesDestino&quot;: [
+        {
+          &quot;idJson&quot;: &quot;30b011f5-252b-403b-9dd6-0f78c855a527&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;53630e63-9563-4e6f-8d08-28af503eef58&quot;
+        }
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;1308104a-2716-4a5b-a8c8-fde7b38d1576&quot;
+        }
+      ],
+      &quot;transicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;58653dcd-9edb-4a32-92fa-dff2074f518c&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;fffcf552-5427-4ef9-9c9d-8a334a9bd61e&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;fd0a1df2-1a35-4afe-8e65-455b701819a7&quot;
+        }
+      ],
+      &quot;transicoesComGanhoDePassagem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;adb968a3-0f4a-4a3f-ad2d-23ffae4ad37f&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;e4514bc8-eab0-4aa2-8d0d-178124bfbd88&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;dbb34115-9aa5-4186-99e8-a8fadb59409c&quot;
+        }
+      ],
+      &quot;tabelasEntreVerdes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;86e6c9e0-5c52-4bcb-8d9d-d98042e116a7&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;bdb84414-ff87-46d7-9e19-d7719ac14512&quot;,
+      &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;,
+      &quot;tipo&quot;: &quot;VEICULAR&quot;,
+      &quot;posicao&quot;: 2,
+      &quot;faseVermelhaApagadaAmareloIntermitente&quot;: true,
+      &quot;tempoVerdeSeguranca&quot;: 10,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;verdesConflitantesOrigem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;53630e63-9563-4e6f-8d08-28af503eef58&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;081d1852-f164-4160-b957-6650180a419d&quot;
+        }
+      ],
+      &quot;verdesConflitantesDestino&quot;: [
+
+      ],
+      &quot;estagiosGruposSemaforicos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9410153c-71cb-4671-ad01-b7d04d8f1003&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;c74422ae-d4d6-4fc6-9a14-45011b92a8ff&quot;
+        }
+      ],
+      &quot;transicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;7f2f40d2-9ec5-4d69-8460-d0fbd7940851&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;ff770854-4c93-4042-9c02-cd12b77d0214&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;656882f1-6941-461d-97b4-a4d930237e91&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;b9f70f8c-c368-4e27-bedd-24cb6fe3a024&quot;
+        }
+      ],
+      &quot;transicoesComGanhoDePassagem&quot;: [
+        {
+          &quot;idJson&quot;: &quot;49e18cd9-e8f4-45d2-9d0d-979105c81175&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;b480a036-0209-41d3-8902-fe4f716e09ac&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;6ee57fe1-37c0-4b14-98e8-47368dd2d2a2&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;4bda3e05-ebb4-4424-8f15-fff4e5145236&quot;
+        }
+      ],
+      &quot;tabelasEntreVerdes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;c946dc57-c1a4-4b5c-8652-f013acb741a0&quot;
+        }
+      ]
+    }
+  ],
+  &quot;detectores&quot;: [
+    {
+      &quot;id&quot;: &quot;a13f89e2-9e77-416a-9f92-3bbfe100a855&quot;,
+      &quot;idJson&quot;: &quot;9266bda5-68df-4784-8645-2c8123c99206&quot;,
+      &quot;tipo&quot;: &quot;VEICULAR&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;monitorado&quot;: false,
+      &quot;tempoAusenciaDeteccao&quot;: 0,
+      &quot;tempoDeteccaoPermanente&quot;: 0,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      }
+    }
+  ],
+  &quot;transicoesProibidas&quot;: [
+
+  ],
+  &quot;estagiosGruposSemaforicos&quot;: [
+    {
+      &quot;id&quot;: &quot;4859fc6f-3e65-4917-9100-864b469fd22b&quot;,
+      &quot;idJson&quot;: &quot;f33e8a3e-e4e2-4e18-aa8d-35b5ac39f0fd&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;b94a13c2-1045-4e0a-84f3-da628e0ffd23&quot;,
+      &quot;idJson&quot;: &quot;6eaff012-323a-453d-98ff-8fa1459086f9&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;bb2a59af-a1cb-4069-80a6-a57db44c72bf&quot;,
+      &quot;idJson&quot;: &quot;c74422ae-d4d6-4fc6-9a14-45011b92a8ff&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;14fde7a4-8275-46b7-b43b-49cb6df813dd&quot;,
+      &quot;idJson&quot;: &quot;de6d7e7c-5eea-46f2-a8ea-2cfa4e322c80&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;8d90b844-9c07-49a2-8f44-7f0405a6d7a7&quot;,
+      &quot;idJson&quot;: &quot;9410153c-71cb-4671-ad01-b7d04d8f1003&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;cf27d18d-dc1c-4ef2-a4b1-7a82b75b9a1f&quot;,
+      &quot;idJson&quot;: &quot;1308104a-2716-4a5b-a8c8-fde7b38d1576&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;17dfac1b-0d0c-496f-adf8-e80993f9c165&quot;,
+      &quot;idJson&quot;: &quot;3f945224-1773-41a1-bd8e-0b5a306a1196&quot;,
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      }
+    }
+  ],
+  &quot;verdesConflitantes&quot;: [
+    {
+      &quot;id&quot;: &quot;280c37ba-e1d4-4a98-b033-0e731a2f413b&quot;,
+      &quot;idJson&quot;: &quot;30b011f5-252b-403b-9dd6-0f78c855a527&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;81914e35-cce3-4d67-93db-d6ecd9804b72&quot;,
+      &quot;idJson&quot;: &quot;53630e63-9563-4e6f-8d08-28af503eef58&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;63d17845-ec31-43f1-9e74-28b6ad4cba66&quot;,
+      &quot;idJson&quot;: &quot;267a6b1c-e080-49fe-a2e3-b2523e8f3d04&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;90735b07-b95f-4e05-8837-75e905636726&quot;,
+      &quot;idJson&quot;: &quot;081d1852-f164-4160-b957-6650180a419d&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      }
+    }
+  ],
+  &quot;transicoes&quot;: [
+    {
+      &quot;id&quot;: &quot;328da97a-c3ae-411e-bcee-a45177f3dae2&quot;,
+      &quot;idJson&quot;: &quot;fffcf552-5427-4ef9-9c9d-8a334a9bd61e&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9752f26d-30fa-488b-8098-895329911d4e&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;ebf362ee-29e4-47b7-a974-179fd98e11c0&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;af8d081f-e50b-45cf-ac8e-1a36c13b4019&quot;,
+      &quot;idJson&quot;: &quot;656882f1-6941-461d-97b4-a4d930237e91&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3ada4d77-e096-47b3-b7c2-22562a2545df&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;59cd0a99-e02c-4b7e-80bf-af8f8ed5df89&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;1f14a018-bcd6-4645-880c-026874404e46&quot;,
+      &quot;idJson&quot;: &quot;58653dcd-9edb-4a32-92fa-dff2074f518c&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;8714db53-7170-4e5e-ae33-bf79616cca01&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;2e566b5e-3c17-48dc-9ee8-55adf7106275&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;55fbba60-63b7-44c0-8fbf-bad2fc3493ff&quot;,
+      &quot;idJson&quot;: &quot;51f17cdb-5031-4984-a7a3-42f88f9ca74f&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3adcdab1-0d49-48fe-b188-7bd7b609bbf4&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;be73d5c1-6cc0-4e62-b36a-41f6de9b05c7&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;b2b44dca-be26-4ac7-835b-4221ee408153&quot;,
+      &quot;idJson&quot;: &quot;b9f70f8c-c368-4e27-bedd-24cb6fe3a024&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;c28e66aa-f462-4dae-bed1-32b50861733c&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;a0188c63-3f49-4b92-aa50-1f3268909969&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;68e94f83-ee0e-4754-ab0a-53b7635f756b&quot;,
+      &quot;idJson&quot;: &quot;7f2f40d2-9ec5-4d69-8460-d0fbd7940851&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;eee33794-681b-41b9-ba2c-6f6bac385a25&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;d9bb8c6b-299c-4346-a508-2fe4ae5285ab&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;4c5ce469-ee59-4ad2-8b20-bd3e9cf4475e&quot;,
+      &quot;idJson&quot;: &quot;c6798fd4-c483-4f24-b2ee-60e173b3f5f8&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;264b716e-1ce4-47a4-9248-2403fd23cc91&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;b1668f4a-1eae-485d-b845-7e66eb9d5535&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;17c92f27-ad70-4a60-ad8c-f1786f05ff82&quot;,
+      &quot;idJson&quot;: &quot;ad3563fa-6030-423e-a5e9-649d3e06b4a8&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;5c47cf1a-4766-485f-9b07-6789566c4361&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;6f24308c-a6d4-4b94-a114-937fc1f4ca5e&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;11f7dceb-cd4c-4918-82f7-69bea7e5a8a2&quot;,
+      &quot;idJson&quot;: &quot;13d0ffd3-2c3a-4e39-a4e0-c1f6b93c6d07&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;6ef0603a-0361-43cd-9d18-799eb8c6d04c&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;e5b82afd-f49f-4e52-948c-ad18366276b8&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;a7225d9e-5bc9-44b9-beb8-0b3188b91e76&quot;,
+      &quot;idJson&quot;: &quot;ff770854-4c93-4042-9c02-cd12b77d0214&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;bcde1192-3a5d-48d9-90ba-a7d5b74d1847&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;3b08c18a-daa0-49e0-a1a1-bd8f7433a1b6&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;05edbb2d-f693-4765-86ac-214bcd581a0c&quot;,
+      &quot;idJson&quot;: &quot;2e7a6b8e-ac62-409a-bba6-e79eaaa61d35&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;e00b6764-ece2-4b82-89aa-c44e7e451ab8&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;9ef0a1f7-e40f-4b0c-818a-3bdc5f90e759&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;94adc687-5291-45d7-9f39-d9035b64f14e&quot;,
+      &quot;idJson&quot;: &quot;9e0bd29e-1252-4e76-94e9-2583cd6c83fa&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;74aff95e-f66e-4b21-af94-b96074b6479f&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;2469dbd6-39ff-4ffa-b72c-c3ee2526b749&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;a2d3a73d-afcb-4b73-a9bd-2be1bcd196f5&quot;,
+      &quot;idJson&quot;: &quot;8536fd3e-92dc-4edb-90e8-9e4593647178&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;2473db48-7b61-4fc8-b2a3-822d02854fdd&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;1482636f-a03c-4470-b2e5-b8dd9e465179&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;901fa449-f841-4010-a367-63bc2650070f&quot;,
+      &quot;idJson&quot;: &quot;b176dce2-a26c-47d3-8338-cda039d52274&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;7b0a7aba-813a-4a3e-a5af-80b5ffb0d8ba&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;830193d5-14d3-4c4d-b587-b853f141f95a&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;1c8d8892-3d46-436a-9901-30756ea4428c&quot;,
+      &quot;idJson&quot;: &quot;8fcdd78a-0458-465b-932c-b2aff44d215d&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;617a3c20-7284-43ed-ab8f-9c43a21f54f2&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;e6c3a4f2-85d9-47f7-af80-91be361358b2&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;e5f6a7cc-b809-4e58-b0a8-7e6357968333&quot;,
+      &quot;idJson&quot;: &quot;665d8334-e9ec-4493-8fed-e56ee4d5dd48&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;9d5bbd25-180c-4cd3-b75c-a2771e07d8c2&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;73982283-f44d-4215-809b-923733d0b409&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;9fe00fee-b6fb-4be2-b815-c9eb985013e4&quot;,
+      &quot;idJson&quot;: &quot;fd0a1df2-1a35-4afe-8e65-455b701819a7&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;2419ea42-ebbd-4104-94d6-7e7fcef6b01b&quot;
+        }
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;PERDA_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;6251cbdd-de6f-435f-9e59-b32d7daaef9c&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    }
+  ],
+  &quot;transicoesComGanhoDePassagem&quot;: [
+    {
+      &quot;id&quot;: &quot;d47aa7ed-e4b1-460c-93c6-e2801361b996&quot;,
+      &quot;idJson&quot;: &quot;fd113800-4da3-4e84-9974-1286b2551ef6&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;22f4cdd7-5513-438e-becf-103aa2168a16&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;5fdc3600-7868-49ff-a276-10d5ad35230f&quot;,
+      &quot;idJson&quot;: &quot;3342f580-b30c-41ea-9d09-3dc6bc0a1b3c&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;4cabae1a-50db-4fb5-9d8b-26d14cc180da&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;93039553-2b6e-46ae-b0ef-144befbea4d3&quot;,
+      &quot;idJson&quot;: &quot;8a520f64-3e5c-4fc6-82cb-ff813389f6d2&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;d3933152-8491-4405-9502-37e85fe6ecb5&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;d8c64e73-fc04-4ea0-bbc6-2bbd60e0e819&quot;,
+      &quot;idJson&quot;: &quot;c5299ae7-a0d5-4b19-b23b-68a83817459a&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;acc2bc83-6758-4910-9008-d6ead0cf2bb8&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;b80c2398-46c4-4c92-8d2c-cd6b9532fe4f&quot;,
+      &quot;idJson&quot;: &quot;17aeafb5-c255-4bb7-9611-0fc04aef9cd9&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;08f48a39-1ec3-4125-892e-f0986ccf7351&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;0542f64c-784a-466f-94cf-aef604ae4245&quot;,
+      &quot;idJson&quot;: &quot;49e18cd9-e8f4-45d2-9d0d-979105c81175&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;dccd32e2-a0d8-437c-868c-013468619c23&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;88fa5f75-7ca7-409d-827b-5b19fdc5ac81&quot;,
+      &quot;idJson&quot;: &quot;1f4292a4-f66b-41eb-9d82-580707362d93&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;20e6c46b-692f-4dc6-aa63-a78b1f6adb8a&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;cde2a1c7-4211-4c06-9dde-db256fd8e4cc&quot;,
+      &quot;idJson&quot;: &quot;3631df74-1782-43d9-8d20-0900121ca56b&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;32146a51-ac22-4263-ae74-b6d7e36ba37a&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;b168060b-2238-408b-b220-b20ad02b1dce&quot;,
+      &quot;idJson&quot;: &quot;c25ca12e-5dc5-40bb-b057-9f3d458eaa86&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;281d7e4b-b963-433b-84f2-f899bfa3c5f0&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;45a41b94-5bfe-4550-9c10-fddd44f0396e&quot;,
+      &quot;idJson&quot;: &quot;fe70918a-cad5-4cf0-ac53-198c7425d448&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;34f0be96-9c2d-42c4-bd00-4ba6064364e8&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;c2b4c85f-be43-454c-a3f2-6d81180cc902&quot;,
+      &quot;idJson&quot;: &quot;dbb34115-9aa5-4186-99e8-a8fadb59409c&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;55c44d33-ac3f-4048-a6b0-7d5011785106&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;c7899e20-2aef-4204-b66b-410c67bfdc7a&quot;,
+      &quot;idJson&quot;: &quot;6ee57fe1-37c0-4b14-98e8-47368dd2d2a2&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;82d1c599-8f58-40d4-b372-637be01cc7e2&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;0018d40c-a15e-4f90-8d3e-a383660f126e&quot;,
+      &quot;idJson&quot;: &quot;adb968a3-0f4a-4a3f-ad2d-23ffae4ad37f&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;3deda506-ef44-407e-a333-2dbbd1942922&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;de703411-a1a9-4442-b049-a324d1dff09e&quot;,
+      &quot;idJson&quot;: &quot;4bda3e05-ebb4-4424-8f15-fff4e5145236&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;179f53aa-a192-4801-bbe0-5867d376326e&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;3f2f8708-234b-408f-ba3f-b3476b6499ae&quot;,
+      &quot;idJson&quot;: &quot;d9f0d320-f2d4-4ae9-90f5-888bb21f2218&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;024455ff-8750-4b11-80b9-4d8c9a043d08&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;955f0f1f-5618-49ce-8b65-fd64283b2ce0&quot;,
+      &quot;idJson&quot;: &quot;e4514bc8-eab0-4aa2-8d0d-178124bfbd88&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;cf988bc2-eb8f-4907-9f84-34606dc60f9f&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;ed8dd6ef-d3a8-4f98-befb-7e454201267f&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;bae3b7c2-26f9-444e-8487-3cced88927f1&quot;,
+      &quot;idJson&quot;: &quot;b480a036-0209-41d3-8902-fe4f716e09ac&quot;,
+      &quot;origem&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      },
+      &quot;destino&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+
+      ],
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tipo&quot;: &quot;GANHO_DE_PASSAGEM&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;atrasoDeGrupo&quot;: {
+        &quot;idJson&quot;: &quot;df71a274-69f6-4217-ba99-8dcbb853f190&quot;
+      },
+      &quot;modoIntermitenteOuApagado&quot;: false
+    }
+  ],
+  &quot;tabelasEntreVerdes&quot;: [
+    {
+      &quot;id&quot;: &quot;ee2d218a-81aa-449c-a5f5-8d887ed2bd4d&quot;,
+      &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;,
+      &quot;descricao&quot;: &quot;PADRÃO&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;617a3c20-7284-43ed-ab8f-9c43a21f54f2&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9d5bbd25-180c-4cd3-b75c-a2771e07d8c2&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;2473db48-7b61-4fc8-b2a3-822d02854fdd&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;e00b6764-ece2-4b82-89aa-c44e7e451ab8&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;a7d5c297-9577-41b7-a398-dd4a7c59d827&quot;,
+      &quot;idJson&quot;: &quot;c54eaa1a-f4b9-460c-a15a-b3111d7f9caf&quot;,
+      &quot;descricao&quot;: &quot;PADRÃO&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;74aff95e-f66e-4b21-af94-b96074b6479f&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;6ef0603a-0361-43cd-9d18-799eb8c6d04c&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;3adcdab1-0d49-48fe-b188-7bd7b609bbf4&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;7e88f59a-e5c9-47fe-abea-7b3bff09323a&quot;,
+      &quot;idJson&quot;: &quot;86e6c9e0-5c52-4bcb-8d9d-d98042e116a7&quot;,
+      &quot;descricao&quot;: &quot;PADRÃO&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;8714db53-7170-4e5e-ae33-bf79616cca01&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;2419ea42-ebbd-4104-94d6-7e7fcef6b01b&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9752f26d-30fa-488b-8098-895329911d4e&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;2dca241d-b847-409b-b7ce-5f456e7894aa&quot;,
+      &quot;idJson&quot;: &quot;c946dc57-c1a4-4b5c-8652-f013acb741a0&quot;,
+      &quot;descricao&quot;: &quot;PADRÃO&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;3ada4d77-e096-47b3-b7c2-22562a2545df&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;c28e66aa-f462-4dae-bed1-32b50861733c&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;eee33794-681b-41b9-ba2c-6f6bac385a25&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;bcde1192-3a5d-48d9-90ba-a7d5b74d1847&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;b6ee456d-f9c4-44fb-a91c-d76b05f9fca8&quot;,
+      &quot;idJson&quot;: &quot;e1d85886-a591-4f57-b0a7-8d760d5d3757&quot;,
+      &quot;descricao&quot;: &quot;PADRÃO&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;tabelaEntreVerdesTransicoes&quot;: [
+        {
+          &quot;idJson&quot;: &quot;7b0a7aba-813a-4a3e-a5af-80b5ffb0d8ba&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;264b716e-1ce4-47a4-9248-2403fd23cc91&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;5c47cf1a-4766-485f-9b07-6789566c4361&quot;
+        }
+      ]
+    }
+  ],
+  &quot;tabelasEntreVerdesTransicoes&quot;: [
+    {
+      &quot;id&quot;: &quot;9fceba8b-863c-4329-8f3e-cfcd5d1c4169&quot;,
+      &quot;idJson&quot;: &quot;9752f26d-30fa-488b-8098-895329911d4e&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;86e6c9e0-5c52-4bcb-8d9d-d98042e116a7&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;fffcf552-5427-4ef9-9c9d-8a334a9bd61e&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;4cfbc8e5-873a-4190-9b14-7b7d3a0536cf&quot;,
+      &quot;idJson&quot;: &quot;c28e66aa-f462-4dae-bed1-32b50861733c&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c946dc57-c1a4-4b5c-8652-f013acb741a0&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;b9f70f8c-c368-4e27-bedd-24cb6fe3a024&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;6f302706-b918-49de-b5c0-b48ee77064cb&quot;,
+      &quot;idJson&quot;: &quot;6ef0603a-0361-43cd-9d18-799eb8c6d04c&quot;,
+      &quot;tempoVermelhoIntermitente&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c54eaa1a-f4b9-460c-a15a-b3111d7f9caf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;13d0ffd3-2c3a-4e39-a4e0-c1f6b93c6d07&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;157eb558-3435-4d1a-8c49-b91c2a6af051&quot;,
+      &quot;idJson&quot;: &quot;74aff95e-f66e-4b21-af94-b96074b6479f&quot;,
+      &quot;tempoVermelhoIntermitente&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c54eaa1a-f4b9-460c-a15a-b3111d7f9caf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;9e0bd29e-1252-4e76-94e9-2583cd6c83fa&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;0afb5554-40aa-497d-83a5-1adb1d3a2120&quot;,
+      &quot;idJson&quot;: &quot;617a3c20-7284-43ed-ab8f-9c43a21f54f2&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;8fcdd78a-0458-465b-932c-b2aff44d215d&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;78d42dee-9f77-4529-b590-75e156488738&quot;,
+      &quot;idJson&quot;: &quot;264b716e-1ce4-47a4-9248-2403fd23cc91&quot;,
+      &quot;tempoVermelhoIntermitente&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;e1d85886-a591-4f57-b0a7-8d760d5d3757&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;c6798fd4-c483-4f24-b2ee-60e173b3f5f8&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;af22114f-92b0-4d5f-a4c8-93ae54c94823&quot;,
+      &quot;idJson&quot;: &quot;2473db48-7b61-4fc8-b2a3-822d02854fdd&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;8536fd3e-92dc-4edb-90e8-9e4593647178&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;9c883be5-32f1-47e4-8d53-83a1bbcc0e08&quot;,
+      &quot;idJson&quot;: &quot;eee33794-681b-41b9-ba2c-6f6bac385a25&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c946dc57-c1a4-4b5c-8652-f013acb741a0&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;7f2f40d2-9ec5-4d69-8460-d0fbd7940851&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;05de1d0b-de43-4644-a74a-a7ed4970c014&quot;,
+      &quot;idJson&quot;: &quot;3ada4d77-e096-47b3-b7c2-22562a2545df&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c946dc57-c1a4-4b5c-8652-f013acb741a0&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;656882f1-6941-461d-97b4-a4d930237e91&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;a5f15f6b-a9dd-4c14-871d-7a93c68921b8&quot;,
+      &quot;idJson&quot;: &quot;bcde1192-3a5d-48d9-90ba-a7d5b74d1847&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c946dc57-c1a4-4b5c-8652-f013acb741a0&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;ff770854-4c93-4042-9c02-cd12b77d0214&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;692d5787-7dbd-482f-b145-5f6712caae0c&quot;,
+      &quot;idJson&quot;: &quot;2419ea42-ebbd-4104-94d6-7e7fcef6b01b&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;86e6c9e0-5c52-4bcb-8d9d-d98042e116a7&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;fd0a1df2-1a35-4afe-8e65-455b701819a7&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;816e2f72-c47f-4645-ae7b-ca1602f63935&quot;,
+      &quot;idJson&quot;: &quot;5c47cf1a-4766-485f-9b07-6789566c4361&quot;,
+      &quot;tempoVermelhoIntermitente&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;e1d85886-a591-4f57-b0a7-8d760d5d3757&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;ad3563fa-6030-423e-a5e9-649d3e06b4a8&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;1da8941f-e77c-4eca-b09c-ae374178cda9&quot;,
+      &quot;idJson&quot;: &quot;8714db53-7170-4e5e-ae33-bf79616cca01&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;86e6c9e0-5c52-4bcb-8d9d-d98042e116a7&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;58653dcd-9edb-4a32-92fa-dff2074f518c&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;1526acc7-663c-453c-8e97-fd12398ab67f&quot;,
+      &quot;idJson&quot;: &quot;9d5bbd25-180c-4cd3-b75c-a2771e07d8c2&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;665d8334-e9ec-4493-8fed-e56ee4d5dd48&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;e4c4b1dc-8206-4d72-aaa1-cfec322c3e33&quot;,
+      &quot;idJson&quot;: &quot;e00b6764-ece2-4b82-89aa-c44e7e451ab8&quot;,
+      &quot;tempoAmarelo&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;ff9e2246-7495-463c-a8fa-f45016ed8ddf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;2e7a6b8e-ac62-409a-bba6-e79eaaa61d35&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;91d455a4-be19-42cc-a049-1f465ab52fed&quot;,
+      &quot;idJson&quot;: &quot;3adcdab1-0d49-48fe-b188-7bd7b609bbf4&quot;,
+      &quot;tempoVermelhoIntermitente&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;c54eaa1a-f4b9-460c-a15a-b3111d7f9caf&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;51f17cdb-5031-4984-a7a3-42f88f9ca74f&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;43397243-42cc-41d5-bd5a-e03a320451df&quot;,
+      &quot;idJson&quot;: &quot;7b0a7aba-813a-4a3e-a5af-80b5ffb0d8ba&quot;,
+      &quot;tempoVermelhoIntermitente&quot;: &quot;3&quot;,
+      &quot;tempoVermelhoLimpeza&quot;: &quot;3&quot;,
+      &quot;tempoAtrasoGrupo&quot;: &quot;0&quot;,
+      &quot;tabelaEntreVerdes&quot;: {
+        &quot;idJson&quot;: &quot;e1d85886-a591-4f57-b0a7-8d760d5d3757&quot;
+      },
+      &quot;transicao&quot;: {
+        &quot;idJson&quot;: &quot;b176dce2-a26c-47d3-8338-cda039d52274&quot;
+      }
+    }
+  ],
+  &quot;planos&quot;: [
+    {
+      &quot;id&quot;: &quot;6604cb8b-f6fa-4d07-95db-4446b5133e21&quot;,
+      &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;,
+      &quot;posicao&quot;: 2,
+      &quot;descricao&quot;: &quot;PLANO 2&quot;,
+      &quot;tempoCiclo&quot;: 60,
+      &quot;defasagem&quot;: 0,
+      &quot;posicaoTabelaEntreVerde&quot;: 1,
+      &quot;modoOperacao&quot;: &quot;TEMPO_FIXO_ISOLADO&quot;,
+      &quot;dataCriacao&quot;: &quot;02/12/2016 15:51:59&quot;,
+      &quot;dataAtualizacao&quot;: &quot;05/12/2016 13:47:38&quot;,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;versaoPlano&quot;: {
+        &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;
+      },
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;adfad1fc-cd40-45ef-9d61-3fbd21868358&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;a0a9b5dc-0be0-4029-b49f-67d30e95527a&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9289488d-2986-4850-8ae0-234a7abc3a61&quot;
+        }
+      ],
+      &quot;gruposSemaforicosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;4f08509e-1c83-4997-b31d-cbfa5044f3f8&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;7168bfe5-77d1-4acd-8fa7-9fa71d218fcf&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9eefb1c0-e1c7-46d8-911f-b57d6c73d25f&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;06604fba-5d00-40f2-b8fd-be97ea0734b3&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;9df48edc-74ec-433b-b5fe-157054b53cd9&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;8d0e91d8-37bf-4ce3-a55e-4ff276915471&quot;,
+      &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;descricao&quot;: &quot;PLANO 1&quot;,
+      &quot;tempoCiclo&quot;: 66,
+      &quot;defasagem&quot;: 0,
+      &quot;posicaoTabelaEntreVerde&quot;: 1,
+      &quot;modoOperacao&quot;: &quot;TEMPO_FIXO_ISOLADO&quot;,
+      &quot;dataCriacao&quot;: &quot;02/12/2016 15:49:50&quot;,
+      &quot;dataAtualizacao&quot;: &quot;05/12/2016 13:47:38&quot;,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;versaoPlano&quot;: {
+        &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;
+      },
+      &quot;estagiosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;525d8368-d643-4cb2-b7fe-486a2bdf3c33&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;14f22263-4dff-4ab2-93ce-8e5ddd006fc7&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;a66880b7-f5a1-41d9-8516-0df903822f9b&quot;
+        }
+      ],
+      &quot;gruposSemaforicosPlanos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;061061bd-7fb8-4164-b10c-da13a2afc911&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;b8bb25c8-4a38-4e97-b050-2c62253864e1&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;23805ff4-84bd-452b-89dc-a5a7a10be756&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;0c4d7e5b-24de-4b4f-afd5-ae8043f01f5d&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;d986bd81-ec4f-49f7-ae6d-daa29074e3ed&quot;
+        }
+      ]
+    }
+  ],
+  &quot;gruposSemaforicosPlanos&quot;: [
+    {
+      &quot;id&quot;: &quot;94065e0b-c61d-4f7a-bf81-a75a6c12e0db&quot;,
+      &quot;idJson&quot;: &quot;9eefb1c0-e1c7-46d8-911f-b57d6c73d25f&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;bc4e3758-1c52-46e1-8f64-3fb52152015c&quot;,
+      &quot;idJson&quot;: &quot;06604fba-5d00-40f2-b8fd-be97ea0734b3&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;70ae77b7-f0c9-4511-87b0-8698eec98ad3&quot;,
+      &quot;idJson&quot;: &quot;7168bfe5-77d1-4acd-8fa7-9fa71d218fcf&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;fcf295db-f398-484e-8262-a01357a39ecf&quot;,
+      &quot;idJson&quot;: &quot;9df48edc-74ec-433b-b5fe-157054b53cd9&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;3c266d07-1f3d-4b1b-8778-0b529fb8b2d6&quot;,
+      &quot;idJson&quot;: &quot;061061bd-7fb8-4164-b10c-da13a2afc911&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;bf3104fe-53fe-4bb8-b019-052ac6fd6171&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;5bea30d2-6fa5-4825-af0e-5e0629747836&quot;,
+      &quot;idJson&quot;: &quot;b8bb25c8-4a38-4e97-b050-2c62253864e1&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;3a8c52b6-8852-44bf-a335-41d0392c8173&quot;,
+      &quot;idJson&quot;: &quot;4f08509e-1c83-4997-b31d-cbfa5044f3f8&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;9af866e1-5c4d-415f-9165-ee174984eb83&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;9403fe0e-26d5-43bb-9a11-8e0dc8851fa2&quot;,
+      &quot;idJson&quot;: &quot;0c4d7e5b-24de-4b4f-afd5-ae8043f01f5d&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;a84438d9-8235-44f7-8717-71c2551da441&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;7be6a493-bee4-4195-99d6-4597d0385181&quot;,
+      &quot;idJson&quot;: &quot;23805ff4-84bd-452b-89dc-a5a7a10be756&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1a54dbf4-1fd1-49aa-b30e-bdb23593865a&quot;
+      },
+      &quot;ativado&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;f3f4db5a-9b99-4c42-bb97-1fe060cd44a2&quot;,
+      &quot;idJson&quot;: &quot;d986bd81-ec4f-49f7-ae6d-daa29074e3ed&quot;,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;grupoSemaforico&quot;: {
+        &quot;idJson&quot;: &quot;1ab0cca0-5afb-4ef8-9a6e-ff227c89913b&quot;
+      },
+      &quot;ativado&quot;: true
+    }
+  ],
+  &quot;estagiosPlanos&quot;: [
+    {
+      &quot;id&quot;: &quot;488e19af-0eb3-4c38-be7e-0a6f1b21799c&quot;,
+      &quot;idJson&quot;: &quot;525d8368-d643-4cb2-b7fe-486a2bdf3c33&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;tempoVerde&quot;: 20,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;498f02e2-c235-459a-b3e8-f9ccf03919ae&quot;,
+      &quot;idJson&quot;: &quot;14f22263-4dff-4ab2-93ce-8e5ddd006fc7&quot;,
+      &quot;posicao&quot;: 2,
+      &quot;tempoVerde&quot;: 20,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;67929f35-903d-42f1-bf3f-503cbfd5c392&quot;,
+      &quot;idJson&quot;: &quot;adfad1fc-cd40-45ef-9d61-3fbd21868358&quot;,
+      &quot;posicao&quot;: 3,
+      &quot;tempoVerde&quot;: 22,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;a47c25ad-1af2-4780-a34e-357cec51202b&quot;,
+      &quot;idJson&quot;: &quot;a66880b7-f5a1-41d9-8516-0df903822f9b&quot;,
+      &quot;posicao&quot;: 3,
+      &quot;tempoVerde&quot;: 8,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;4c7b3da1-2a97-48cc-a57f-15b94b09a371&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;f6d9e348-0ee4-4c3a-8fd8-add9fa040390&quot;,
+      &quot;idJson&quot;: &quot;9289488d-2986-4850-8ae0-234a7abc3a61&quot;,
+      &quot;posicao&quot;: 1,
+      &quot;tempoVerde&quot;: 10,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;145240e9-7282-4260-9d39-855bcd811ffc&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;a7564113-767b-441c-ad00-dd6ad2dce3e5&quot;,
+      &quot;idJson&quot;: &quot;a0a9b5dc-0be0-4029-b49f-67d30e95527a&quot;,
+      &quot;posicao&quot;: 2,
+      &quot;tempoVerde&quot;: 10,
+      &quot;tempoVerdeMinimo&quot;: 0,
+      &quot;tempoVerdeMaximo&quot;: 0,
+      &quot;tempoVerdeIntermediario&quot;: 0,
+      &quot;tempoExtensaoVerde&quot;: 0.0,
+      &quot;dispensavel&quot;: false,
+      &quot;plano&quot;: {
+        &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+      },
+      &quot;estagio&quot;: {
+        &quot;idJson&quot;: &quot;ffc6db20-8ef8-4435-9558-4eb631a17e61&quot;
+      }
+    }
+  ],
+  &quot;cidades&quot;: [
+    {
+      &quot;id&quot;: &quot;011efdb6-b59e-11e6-970d-0401fa9c1b01&quot;,
+      &quot;idJson&quot;: &quot;011f0dcf-b59e-11e6-970d-0401fa9c1b01&quot;,
+      &quot;nome&quot;: &quot;São Paulo&quot;,
+      &quot;areas&quot;: [
+        {
+          &quot;idJson&quot;: &quot;011f16c3-b59e-11e6-970d-0401fa9c1b01&quot;
+        }
+      ]
+    }
+  ],
+  &quot;areas&quot;: [
+    {
+      &quot;id&quot;: &quot;011effc7-b59e-11e6-970d-0401fa9c1b01&quot;,
+      &quot;idJson&quot;: &quot;011f16c3-b59e-11e6-970d-0401fa9c1b01&quot;,
+      &quot;descricao&quot;: 1,
+      &quot;cidade&quot;: {
+        &quot;idJson&quot;: &quot;011f0dcf-b59e-11e6-970d-0401fa9c1b01&quot;
+      },
+      &quot;limites&quot;: [
+
+      ],
+      &quot;subareas&quot;: [
+
+      ]
+    }
+  ],
+  &quot;limites&quot;: [
+
+  ],
+  &quot;todosEnderecos&quot;: [
+    {
+      &quot;id&quot;: &quot;9d616f04-007b-4afe-9fb6-dfe90042c53b&quot;,
+      &quot;idJson&quot;: &quot;363048ec-e138-470b-bbdb-ba053ce6c732&quot;,
+      &quot;localizacao&quot;: &quot;Av. Cruzeiro do Sul&quot;,
+      &quot;latitude&quot;: -23.5249206,
+      &quot;longitude&quot;: -46.62531130000002,
+      &quot;localizacao2&quot;: &quot;&quot;,
+      &quot;alturaNumerica&quot;: 123
+    },
+    {
+      &quot;id&quot;: &quot;1230d853-7296-44bf-9342-a610762e9b92&quot;,
+      &quot;idJson&quot;: &quot;2ad86fb7-ea77-4dbe-b904-2386d561f0ba&quot;,
+      &quot;localizacao&quot;: &quot;Av. Cruzeiro do Sul&quot;,
+      &quot;latitude&quot;: -23.5249206,
+      &quot;longitude&quot;: -46.62531130000002,
+      &quot;localizacao2&quot;: &quot;&quot;,
+      &quot;alturaNumerica&quot;: 123
+    }
+  ],
+  &quot;imagens&quot;: [
+    {
+      &quot;id&quot;: &quot;e169f69c-66df-4aba-9752-f66d8c3142a3&quot;,
+      &quot;idJson&quot;: &quot;c8236221-0b33-4836-b519-5ee7a39aa444&quot;,
+      &quot;fileName&quot;: &quot;Screen Shot 2016-06-19 at 13.13.05.png&quot;,
+      &quot;contentType&quot;: &quot;image/png&quot;
+    },
+    {
+      &quot;id&quot;: &quot;fbc68e94-4f6c-41ae-a91d-df9ad446380c&quot;,
+      &quot;idJson&quot;: &quot;333dc024-900c-45a1-b748-9381ccee2e93&quot;,
+      &quot;fileName&quot;: &quot;Screen Shot 2016-06-19 at 13.12.21.png&quot;,
+      &quot;contentType&quot;: &quot;image/png&quot;
+    },
+    {
+      &quot;id&quot;: &quot;6c1ad2c7-500f-4bb7-b4a1-6866cc87ea88&quot;,
+      &quot;idJson&quot;: &quot;b74c8502-3802-4958-ac77-9fc9a9037a4e&quot;,
+      &quot;fileName&quot;: &quot;Screen Shot 2016-06-19 at 13.12.55.png&quot;,
+      &quot;contentType&quot;: &quot;image/png&quot;
+    },
+    {
+      &quot;id&quot;: &quot;1d09fc3d-bf50-4c08-80ec-1385be74456b&quot;,
+      &quot;idJson&quot;: &quot;247c65f6-9866-4cd3-ae87-4c1adaf77174&quot;,
+      &quot;fileName&quot;: &quot;Screen Shot 2016-06-19 at 13.12.51.png&quot;,
+      &quot;contentType&quot;: &quot;image/png&quot;
+    }
+  ],
+  &quot;atrasosDeGrupo&quot;: [
+    {
+      &quot;id&quot;: &quot;3d8027af-c3cf-4103-b339-44f48726d855&quot;,
+      &quot;idJson&quot;: &quot;e5b82afd-f49f-4e52-948c-ad18366276b8&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;16fb7060-7211-4816-83d9-e651e294839e&quot;,
+      &quot;idJson&quot;: &quot;55c44d33-ac3f-4048-a6b0-7d5011785106&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;d9d1e348-6390-43ed-af0b-33dce1166366&quot;,
+      &quot;idJson&quot;: &quot;20e6c46b-692f-4dc6-aa63-a78b1f6adb8a&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;b1563c60-56bb-49d2-925b-2c1571f5c2aa&quot;,
+      &quot;idJson&quot;: &quot;be73d5c1-6cc0-4e62-b36a-41f6de9b05c7&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;94366fbb-2506-4e45-af43-2f0a37f19fed&quot;,
+      &quot;idJson&quot;: &quot;08f48a39-1ec3-4125-892e-f0986ccf7351&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;25c0ce5c-a594-4e7b-8a77-abdca817b355&quot;,
+      &quot;idJson&quot;: &quot;d9bb8c6b-299c-4346-a508-2fe4ae5285ab&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;3b90854e-461c-4bfc-92e0-57b045f516a1&quot;,
+      &quot;idJson&quot;: &quot;9ef0a1f7-e40f-4b0c-818a-3bdc5f90e759&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;4803c98f-0470-41d1-85e5-c241945112b4&quot;,
+      &quot;idJson&quot;: &quot;32146a51-ac22-4263-ae74-b6d7e36ba37a&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;f2e1bda8-d445-466f-9779-ccd401753990&quot;,
+      &quot;idJson&quot;: &quot;82d1c599-8f58-40d4-b372-637be01cc7e2&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;f03f1b26-49a6-4650-87cc-d6360ec4edfc&quot;,
+      &quot;idJson&quot;: &quot;22f4cdd7-5513-438e-becf-103aa2168a16&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;4779b510-953f-47c8-89b8-56038a0d51f9&quot;,
+      &quot;idJson&quot;: &quot;3deda506-ef44-407e-a333-2dbbd1942922&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;9927290d-9371-4f09-88f4-ad1fa3e42cb8&quot;,
+      &quot;idJson&quot;: &quot;2e566b5e-3c17-48dc-9ee8-55adf7106275&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;88c09f96-7467-41bd-9b05-43067941cfb9&quot;,
+      &quot;idJson&quot;: &quot;73982283-f44d-4215-809b-923733d0b409&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;7071c6a6-8909-45f6-b88d-e4b8f82d2a6a&quot;,
+      &quot;idJson&quot;: &quot;acc2bc83-6758-4910-9008-d6ead0cf2bb8&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;e363a9d3-bf70-4de2-8b52-3c87ddb6f432&quot;,
+      &quot;idJson&quot;: &quot;6f24308c-a6d4-4b94-a114-937fc1f4ca5e&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;deae61d3-452b-438d-a9a7-511fdd0a4b98&quot;,
+      &quot;idJson&quot;: &quot;df71a274-69f6-4217-ba99-8dcbb853f190&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;d36a34bc-339f-42c2-af49-bec941b73440&quot;,
+      &quot;idJson&quot;: &quot;2469dbd6-39ff-4ffa-b72c-c3ee2526b749&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;200bfcaa-83a0-47f4-92a2-3ff35e785ec1&quot;,
+      &quot;idJson&quot;: &quot;1482636f-a03c-4470-b2e5-b8dd9e465179&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;de778c42-dee1-41e2-8e3e-2edc0ac10323&quot;,
+      &quot;idJson&quot;: &quot;024455ff-8750-4b11-80b9-4d8c9a043d08&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;2b190857-ccad-45a6-a4fb-1b855327b67a&quot;,
+      &quot;idJson&quot;: &quot;b1668f4a-1eae-485d-b845-7e66eb9d5535&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;b4a09d50-41de-48da-88a4-87510bf88eea&quot;,
+      &quot;idJson&quot;: &quot;830193d5-14d3-4c4d-b587-b853f141f95a&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;67b32786-e600-4697-a4f7-640bb53a2a5c&quot;,
+      &quot;idJson&quot;: &quot;6251cbdd-de6f-435f-9e59-b32d7daaef9c&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;e14ed6dc-8a92-47af-bbf1-af87ac71c557&quot;,
+      &quot;idJson&quot;: &quot;ed8dd6ef-d3a8-4f98-befb-7e454201267f&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;13880052-1f89-4a73-be7a-5ea2b2d7f9bd&quot;,
+      &quot;idJson&quot;: &quot;ebf362ee-29e4-47b7-a974-179fd98e11c0&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;789385cb-0cc0-4183-b558-d8d89a7b9b48&quot;,
+      &quot;idJson&quot;: &quot;281d7e4b-b963-433b-84f2-f899bfa3c5f0&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;4cc2bf8b-c405-4ec3-b940-03f0f2a3b7cd&quot;,
+      &quot;idJson&quot;: &quot;3b08c18a-daa0-49e0-a1a1-bd8f7433a1b6&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;cd37a109-f50c-4100-80c6-420e5ab49231&quot;,
+      &quot;idJson&quot;: &quot;d3933152-8491-4405-9502-37e85fe6ecb5&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;bc85a314-cb0d-4e2f-a326-b5c4826609f8&quot;,
+      &quot;idJson&quot;: &quot;dccd32e2-a0d8-437c-868c-013468619c23&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;0ae3ea2a-1294-4a37-afeb-211be453d90d&quot;,
+      &quot;idJson&quot;: &quot;34f0be96-9c2d-42c4-bd00-4ba6064364e8&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;cdd917ab-b5f8-4546-8c11-751d3cb1b9b9&quot;,
+      &quot;idJson&quot;: &quot;e6c3a4f2-85d9-47f7-af80-91be361358b2&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;d294a0a6-ca78-49db-afff-8c5f2620cfa1&quot;,
+      &quot;idJson&quot;: &quot;59cd0a99-e02c-4b7e-80bf-af8f8ed5df89&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;d8a61816-7840-4055-9461-2fe658373157&quot;,
+      &quot;idJson&quot;: &quot;a0188c63-3f49-4b92-aa50-1f3268909969&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;13956506-df6b-4a55-9bc4-bcda89b47609&quot;,
+      &quot;idJson&quot;: &quot;179f53aa-a192-4801-bbe0-5867d376326e&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    },
+    {
+      &quot;id&quot;: &quot;797d87a4-02ba-489f-8622-e21325813711&quot;,
+      &quot;idJson&quot;: &quot;4cabae1a-50db-4fb5-9d8b-26d14cc180da&quot;,
+      &quot;atrasoDeGrupo&quot;: 0
+    }
+  ],
+  &quot;versaoControlador&quot;: {
+    &quot;id&quot;: &quot;5da087a3-bde4-4792-bc7a-72397c30802e&quot;,
+    &quot;idJson&quot;: null,
+    &quot;descricao&quot;: &quot;Inicial&quot;,
+    &quot;statusVersao&quot;: &quot;CONFIGURADO&quot;,
+    &quot;controlador&quot;: {
+      &quot;id&quot;: &quot;95a85464-1cc4-4fa4-8008-bc14e99aed4c&quot;
+    },
+    &quot;controladorFisico&quot;: {
+      &quot;id&quot;: &quot;2a99dfef-ac95-48cf-8d18-0c5b04440b1d&quot;
+    },
+    &quot;usuario&quot;: {
+      &quot;id&quot;: &quot;011f34ac-b59e-11e6-970d-0401fa9c1b01&quot;,
+      &quot;nome&quot;: &quot;Administrador Geral&quot;,
+      &quot;login&quot;: &quot;root&quot;,
+      &quot;email&quot;: &quot;root@influunt.com.br&quot;
+    }
+  },
+  &quot;statusVersao&quot;: &quot;CONFIGURADO&quot;,
+  &quot;versoesPlanos&quot;: [
+    {
+      &quot;id&quot;: &quot;51f77d2c-5e64-4ced-a2bd-046c883913d8&quot;,
+      &quot;idJson&quot;: &quot;f03abf36-4851-4568-9fe4-926dcece2276&quot;,
+      &quot;statusVersao&quot;: &quot;CONFIGURADO&quot;,
+      &quot;anel&quot;: {
+        &quot;idJson&quot;: &quot;4b0d7379-4273-4f33-a5f3-e39963758b8e&quot;
+      },
+      &quot;planos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;18968fe5-898f-427c-8227-fa2e0019e5ec&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;584e8708-14dc-40cc-8e73-df2dfef26f17&quot;
+        }
+      ]
+    }
+  ],
+  &quot;tabelasHorarias&quot;: [
+    {
+      &quot;id&quot;: &quot;0f2eaf6f-9acc-4d19-a861-161ecfcb925a&quot;,
+      &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;,
+      &quot;versaoTabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;1c888cb9-c4d9-4f51-b642-c9cb3f49b20d&quot;
+      },
+      &quot;eventos&quot;: [
+        {
+          &quot;idJson&quot;: &quot;03c024db-e277-49be-88a5-a5db0592ee47&quot;
+        },
+        {
+          &quot;idJson&quot;: &quot;b9070f2a-c59f-433d-b0bd-ca0646fc175e&quot;
+        }
+      ]
+    }
+  ],
+  &quot;eventos&quot;: [
+    {
+      &quot;id&quot;: &quot;6fded171-e25a-4f68-9b3c-37445f21c962&quot;,
+      &quot;idJson&quot;: &quot;03c024db-e277-49be-88a5-a5db0592ee47&quot;,
+      &quot;posicao&quot;: &quot;1&quot;,
+      &quot;tipo&quot;: &quot;NORMAL&quot;,
+      &quot;diaDaSemana&quot;: &quot;Todos os dias da semana&quot;,
+      &quot;data&quot;: &quot;02-12-2016&quot;,
+      &quot;horario&quot;: &quot;00:00:00.000&quot;,
+      &quot;posicaoPlano&quot;: &quot;1&quot;,
+      &quot;tabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;c25330e1-dade-46b5-a8a1-efb84397f950&quot;,
+      &quot;idJson&quot;: &quot;b9070f2a-c59f-433d-b0bd-ca0646fc175e&quot;,
+      &quot;posicao&quot;: &quot;2&quot;,
+      &quot;tipo&quot;: &quot;NORMAL&quot;,
+      &quot;diaDaSemana&quot;: &quot;Todos os dias da semana&quot;,
+      &quot;data&quot;: &quot;02-12-2016&quot;,
+      &quot;horario&quot;: &quot;00:00:10.000&quot;,
+      &quot;posicaoPlano&quot;: &quot;2&quot;,
+      &quot;tabelaHoraria&quot;: {
+        &quot;idJson&quot;: &quot;696ac25e-d49f-464b-a552-fe930de72404&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../transacoes/" class="btn btn-neutral float-right" title="Transações">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../ciclo_vida/" class="btn btn-neutral" title="Ciclo de Vida"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../ciclo_vida/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../transacoes/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
