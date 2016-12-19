@@ -39,8 +39,6 @@ public class ControladorSettingsForm {
 
     public JPanel form;
 
-    private JTextField login;
-
     private JTextField senha;
 
     private JCheckBox cleanBD;
@@ -72,7 +70,6 @@ public class ControladorSettingsForm {
             c.idControlador.setText(prop.getProperty("idControlador"));
             c.host.setText(prop.getProperty("host"));
             c.port.setText(prop.getProperty("port"));
-            c.login.setText(prop.getProperty("login"));
             c.senha.setText(prop.getProperty("senha"));
             c.chavePrivada.setText(prop.getProperty("privateKey"));
             c.chavePublica.setText(prop.getProperty("publicKey"));
@@ -97,7 +94,6 @@ public class ControladorSettingsForm {
             prop.setProperty("host", host.getText());
             prop.setProperty("port", port.getText());
             prop.setProperty("privateKey", chavePrivada.getText());
-            prop.setProperty("login", login.getText());
             prop.setProperty("password", senha.getText());
             prop.setProperty("publicKey", chavePublica.getText());
 
@@ -111,7 +107,11 @@ public class ControladorSettingsForm {
             deviceConfig.setPort(port.getText());
             deviceConfig.setCentralPublicKey(chavePublica.getText());
             deviceConfig.setPrivateKey(chavePrivada.getText());
-            deviceConfig.setLogin(login.getText());
+            if (!"".equals(senha.getText())) {
+                deviceConfig.setLogin(idControlador.getText());
+            } else {
+                deviceConfig.setLogin("");
+            }
             deviceConfig.setSenha(senha.getText());
             deviceConfig.setDeviceBridge(new ControladorForm());
 
@@ -188,8 +188,6 @@ public class ControladorSettingsForm {
         final JLabel label6 = new JLabel();
         label6.setText("MQTT Senha");
         form.add(label6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        login = new JTextField();
-        form.add(login, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         form.add(panel1, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

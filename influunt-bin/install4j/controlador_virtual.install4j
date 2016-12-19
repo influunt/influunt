@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="6.1.4" transformSequenceNumber="5">
-  <directoryPresets config="/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/controlador_virtual" />
+  <directoryPresets config="/Users/leonardo/Downloads/chave_rarolabs/rarolabs.p12" />
   <application name="Influunt - Controlador Virtual" distributionSourceDir="" applicationId="3252-6417-6122-6678" mediaDir="/Users/leonardo/ProjetosRaro/influunt/influunt-bin/instaladores/controlador_virtual" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="influunt" publisher="Raro Läbs" publisherWeb="http://www.rarolabs.com.br" version="1.0" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="b2f15a74cffacf1" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="pt_BR" customLocalizationFile="" />
@@ -13,7 +13,7 @@
     </searchSequence>
     <variables />
     <mergedProjects />
-    <codeSigning macEnabled="false" macPkcs12File="" windowsEnabled="false" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="" />
+    <codeSigning macEnabled="false" macPkcs12File="/Users/leonardo/Downloads/chave_rarolabs/rarolabs.p12" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="/Users/leonardo/Downloads/chave_rarolabs/rarolabs.p12" />
   </application>
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
@@ -30,7 +30,7 @@
   </files>
   <launchers>
     <launcher name="influunt" id="23" customizedId="" external="false" excludeFromMenu="false" unixMode="755" unixAutoStart="true" menuName="" icnsFile="" customMacBundleIdentifier="false" macBundleIdentifier="" swtApp="false" fileset="" macBundleBinary="JavaApplicationStub" addMacEntitlements="false" macEntitlementsFile="" useCustomMacosExecutableName="false" customMacosExecutableName="" useJavaMinVersionOverride="false" javaMinVersionOverride="" useJavaMaxVersionOverride="false" javaMaxVersionOverride="">
-      <executable name="influunt" type="1" iconSet="true" iconFile="" executableDir="lib" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
+      <executable name="influunt" type="1" iconSet="true" iconFile="" executableDir="lib" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="requireAdministrator" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
       <splashScreen show="true" width="0" height="0" bitmapFile="/Users/leonardo/ProjetosRaro/influunt/influunt-app/app/images/simbolo.png" windowsNative="false" textOverlay="false">
