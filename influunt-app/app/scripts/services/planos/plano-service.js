@@ -288,10 +288,13 @@ angular.module('influuntApp')
             var nemAssociadoNemDemandaPrioritaria = isGrupoNemAssociadoNemDemandaPrioritaria(controlador, anel, fakenPlano, grupo);
 
             if (nemAssociadoNemDemandaPrioritaria) {
-              g.ativado = false;
-            } else {
-              g.ativado = grupoPlano.ativado;
+              grupoPlano.ativado = false;
+              var grupoSemaforicoPlano = _.find(controlador.gruposSemaforicosPlanos, {idJson: grupoPlano.idJson});
+              grupoSemaforicoPlano.ativado = false;
             }
+
+            g.ativado = grupoPlano.ativado;
+
             if(!g.ativado){
               g.intervalos.unshift({
                 status: modoOperacaoService.get('APAGADO'),
