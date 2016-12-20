@@ -86,9 +86,15 @@
     <script src="/bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
     <script src="/bower_components/toastr/toastr.js"></script>
     <script src="/bower_components/ng-idle/angular-idle.js"></script>
+    <script src="/bower_components/raven-js/dist/raven.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
+    <script>
+    Raven
+      .config('https://4e03a4fc238d4837a41bee1ef38cce25@sentry.io/123700')
+      .addPlugin(Raven.Plugins.Angular)
+      .install();
+    </script>
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="plugins/jquery-ui-1.12.0/jquery-ui.js"></script>
     <script src="plugins/ui-bootstrap-tpls-1.1.2.min.js"></script>
