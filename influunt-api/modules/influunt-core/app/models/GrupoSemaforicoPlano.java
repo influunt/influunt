@@ -147,18 +147,20 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @AssertTrue(groups = PlanosCheck.class,
         message = "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.")
     public boolean isGrupoApagadoSeNaoAssociado() {
-        GrupoSemaforico grupo = getGrupoSemaforico();
-        List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream().map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());
-        boolean isDemandaPrioritaria = estagios.stream().anyMatch(Estagio::isDemandaPrioritaria);
-        if (!isDemandaPrioritaria) {
-            List<EstagioPlano> eps = estagios
-                .stream()
-                .map(Estagio::getEstagiosPlanos)
-                .flatMap(Collection::stream)
-                .filter(estagioPlano -> getPlano().equals(estagioPlano.getPlano()))
-                .collect(Collectors.toList());
-            if (eps.isEmpty() && isAtivado()) {
-                return false;
+        if (getPlano().isModoOperacaoVerde()) {
+            GrupoSemaforico grupo = getGrupoSemaforico();
+            List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream().map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());
+            boolean isDemandaPrioritaria = estagios.stream().anyMatch(Estagio::isDemandaPrioritaria);
+            if (!isDemandaPrioritaria) {
+                List<EstagioPlano> eps = estagios
+                    .stream()
+                    .map(Estagio::getEstagiosPlanos)
+                    .flatMap(Collection::stream)
+                    .filter(estagioPlano -> getPlano().equals(estagioPlano.getPlano()))
+                    .collect(Collectors.toList());
+                if (eps.isEmpty() && isAtivado()) {
+                    return false;
+                }
             }
         }
         return true;

@@ -23,8 +23,8 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
 
     @Test
     public void configuracaoValida() {
-        controlador = new ControladorHelper().setPlanos(controlador);
         startClient();
+        controlador = new ControladorHelper().setPlanos(controlador);
         List<Erro> erros = getErros(controlador);
         assertThat(erros, org.hamcrest.Matchers.empty());
     }
