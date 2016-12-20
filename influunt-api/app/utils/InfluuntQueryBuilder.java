@@ -186,6 +186,7 @@ public class InfluuntQueryBuilder {
             }
         }
 
+        pagedList.loadRowCount();
         return new InfluuntQueryResult(pagedList.getList(), pagedList.getTotalRowCount(), klass);
     }
 

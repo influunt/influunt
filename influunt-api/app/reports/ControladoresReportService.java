@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
+import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -44,6 +45,17 @@ public class ControladoresReportService extends ReportService<Controlador> {
         Map<String, String[]> paramsAux = new HashMap<>();
         paramsAux.putAll(params);
         paramsAux.remove("tipoRelatorio");
+
+        int page = 0;
+        int perPage = 30;
+        if (paramsAux.containsKey("page")) {
+            page = Integer.parseInt(paramsAux.get("page")[0]);
+            paramsAux.remove("page");
+        }
+        if (paramsAux.containsKey("per_page")) {
+            perPage = Integer.parseInt(paramsAux.get("per_page")[0]);
+            paramsAux.remove("per_page");
+        }
 
         if (params.containsKey("filtrarPor_eq")) {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
@@ -99,13 +111,26 @@ public class ControladoresReportService extends ReportService<Controlador> {
                     estado = "Sob plano vigente";
                     descricaoPlano = troca.getConteudo().get("plano").get("descricao").asText();
                 }
-                itens.addObject().put("cla", anel.getCLA()).putPOJO(ENDERECO, anel.getEndereco().nomeEndereco()).put("estado", estado).put("plano", descricaoPlano).put("modo", troca.getConteudo().get("plano").get("modoOperacao").asText());
+                itens.addObject()
+                    .put("cla", anel.getCLA())
+                    .put(ENDERECO, anel.getEndereco().nomeEndereco())
+                    .put("estado", estado)
+                    .put("plano", descricaoPlano)
+                    .put("modo", troca.getConteudo().get("plano").get("modoOperacao").asText());
             }
         });
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        retorno.putArray("data").addAll(itens);
-
+        ArrayNode data = retorno.putArray("data");
+        int skip = page * perPage;
+        for (int i = skip; i < skip + perPage; i++) {
+            if (i < itens.size()) {
+                data.add(itens.get(i));
+            } else {
+                break;
+            }
+        }
+        retorno.put("total", itens.size());
         return retorno;
     }
 
@@ -172,6 +197,17 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.put("area.id", areaId);
         }
 
+        int page = 0;
+        int perPage = 30;
+        if (paramsAux.containsKey("page")) {
+            page = Integer.parseInt(paramsAux.get("page")[0]);
+            paramsAux.remove("page");
+        }
+        if (paramsAux.containsKey("per_page")) {
+            perPage = Integer.parseInt(paramsAux.get("per_page")[0]);
+            paramsAux.remove("per_page");
+        }
+
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
         List<String> controladoresPermitidos = ControladorFisico.getControladorPorArea(area).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
@@ -198,9 +234,18 @@ public class ControladoresReportService extends ReportService<Controlador> {
             }
         });
 
-        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        retorno.putArray("data").addAll(itens);
 
+        ObjectNode retorno = JsonNodeFactory.instance.objectNode();
+        ArrayNode data = retorno.putArray("data");
+        int skip = page * perPage;
+        for (int i = skip; i < skip + perPage; i++) {
+            if (i < itens.size()) {
+                data.add(itens.get(i));
+            } else {
+                break;
+            }
+        }
+        retorno.put("total", itens.size());
         return retorno;
     }
 
@@ -270,6 +315,18 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("subareaAgrupamento");
             paramsAux.remove("filtrarPor_eq");
         }
+
+        int page = 0;
+        int perPage = 30;
+        if (paramsAux.containsKey("page")) {
+            page = Integer.parseInt(paramsAux.get("page")[0]);
+            paramsAux.remove("page");
+        }
+        if (paramsAux.containsKey("per_page")) {
+            perPage = Integer.parseInt(paramsAux.get("per_page")[0]);
+            paramsAux.remove("per_page");
+        }
+
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
         List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(Controlador::getControladorFisicoId).collect(Collectors.toList()));
 
@@ -277,15 +334,23 @@ public class ControladoresReportService extends ReportService<Controlador> {
         logs.forEach(log -> {
             if (tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
                 Controlador controlador = controladores.stream().filter((c -> c.getControladorFisicoId().equals(log.getIdControlador()))).findFirst().get();
-                String date = new DateTime(log.getTimestamp()).toString();
+                String date = InfluuntDateTimeSerializer.parse(new DateTime(log.getTimestamp()));
                 itens.addObject().put("horario", date).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
                     .put("tipo", log.getTipoLogControlador().toString()).put("mensagem", log.getMensagem());
             }
         });
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
-        retorno.putArray("data").addAll(itens);
-
+        ArrayNode data = retorno.putArray("data");
+        int skip = page * perPage;
+        for (int i = skip; i < skip + perPage; i++) {
+            if (i < itens.size()) {
+                data.add(itens.get(i));
+            } else {
+                break;
+            }
+        }
+        retorno.put("total", itens.size());
         return retorno;
     }
 
