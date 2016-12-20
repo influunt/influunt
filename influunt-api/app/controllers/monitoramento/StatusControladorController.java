@@ -2,19 +2,22 @@ package controllers.monitoramento;
 
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
+import checks.Erro;
+import models.ControladorFisico;
+import models.Usuario;
 import play.libs.Json;
+import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import status.StatusConexaoControlador;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
-import static play.mvc.Results.notFound;
-import static play.mvc.Results.ok;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 9/8/16.
@@ -23,7 +26,7 @@ import static play.mvc.Results.ok;
 @DeferredDeadbolt
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
-public class StatusControladorController {
+public class StatusControladorController extends Controller {
 
     public CompletionStage<Result> findOne(String id) {
         List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControlador(id);
@@ -35,7 +38,14 @@ public class StatusControladorController {
     }
 
     public CompletionStage<Result> ultimoStatusDosControladores() {
-        HashMap<String, Boolean> map = StatusConexaoControlador.ultimoStatusDosControladores();
+        Usuario usuario = getUsuario();
+
+        if (usuario == null) {
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
+        }
+
+        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        HashMap<String, Boolean> map = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
 
@@ -60,5 +70,8 @@ public class StatusControladorController {
 
     }
 
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
+    }
 
 }

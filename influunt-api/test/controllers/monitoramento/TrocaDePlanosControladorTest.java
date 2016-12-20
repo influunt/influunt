@@ -13,6 +13,7 @@ import status.LogControlador;
 import status.TrocaDePlanoControlador;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -88,7 +89,11 @@ public class TrocaDePlanosControladorTest extends WithInfluuntApplicationNoAuthe
 
     @Test
     public void testUltimosModoOperacaoDosControladores() {
-        HashMap<String, ModoOperacaoPlano> usc = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores();
+        ArrayList<String> controladoresIds = new ArrayList<>();
+        controladoresIds.add("1");
+        controladoresIds.add("2");
+
+        HashMap<String, ModoOperacaoPlano> usc = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores(controladoresIds);
 
         assertEquals(2, usc.size());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, usc.get("1"));
