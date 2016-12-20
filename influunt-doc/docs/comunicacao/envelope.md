@@ -28,14 +28,14 @@ A seguir é apresentado um exemplo de envelope:
 
 ```JSON
   {
-    'tipoMensagem': 'CONEXAO',
-    'idControlador':'56074e06-439b-409f-b37d-4e0dc884084f',
-    'idMensagem': '56074e06-439b-409f-b37d-4e0dc8840856'
-    'destino': '/controladores/56074e06-439b-409f-b37d-4e0dc884084f/atualizarConfiguracoes',
-    'qos': 1,
-    'carimboDeTempo': '1471272798600',
-    'conteudo' : {},
-    'emResposta': '56074e06-439b-409f-b37d-4e0dc884084d'
-  }
+    "tipoMensagem": "CONEXAO",
+    "idControlador":"56074e06-439b-409f-b37d-4e0dc884084f",
+    "idMensagem": "56074e06-439b-409f-b37d-4e0dc8840856"
+    "destino": "/controladores/56074e06-439b-409f-b37d-4e0dc884084f/atualizarConfiguracoes",
+    "qos": 1,
+    "carimboDeTempo": "1471272798600",
+    "conteudo" : {},
+    "emResposta": "56074e06-439b-409f-b37d-4e0dc884084d"
+  }
 ```
 
