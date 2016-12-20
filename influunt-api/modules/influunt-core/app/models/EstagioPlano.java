@@ -268,16 +268,43 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo máximo de permanência.")
     public boolean isUltrapassaTempoMaximoPermanencia() {
-
         if (getEstagio().isTempoMaximoPermanenciaAtivado()) {
             RangeUtils rangeUtils = getPlano().getAnel().getControlador().getRangeUtils();
+            int tempo;
             if (getPlano().isAtuado() && rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
-                return getTempoVerdeMaximo() <= getEstagio().getTempoMaximoPermanencia();
+                tempo = getTempoVerdeMaximo();
+
+                tempo = adicionaTempoEstagioDuplo(tempo, true);
+
+                return tempo <= getEstagio().getTempoMaximoPermanencia();
             } else if ((getPlano().isTempoFixoCoordenado() || getPlano().isTempoFixoIsolado()) && rangeUtils.TEMPO_VERDE.contains(getTempoVerde())) {
-                return getTempoVerde() <= getEstagio().getTempoMaximoPermanencia();
+                tempo = getTempoVerde();
+
+                tempo = adicionaTempoEstagioDuplo(tempo, false);
+
+                return tempo <= getEstagio().getTempoMaximoPermanencia();
             }
         }
         return true;
+    }
+
+    private int adicionaTempoEstagioDuplo(int tempo, boolean atuado) {
+        if(getEstagioPlanoAnterior() != null && getEstagioPlanoAnterior().getEstagio().equals(getEstagio())) {
+            if (atuado) {
+                tempo += getEstagioPlanoAnterior().getTempoVerdeMaximo();
+            } else {
+                tempo += getEstagioPlanoAnterior().getTempoVerde();
+            }
+        }
+
+        if(getEstagioPlanoProximo() != null && getEstagioPlanoProximo().getEstagio().equals(getEstagio())) {
+            if (atuado) {
+                tempo += getEstagioPlanoProximo().getTempoVerdeMaximo();
+            } else {
+                tempo += getEstagioPlanoProximo().getTempoVerde();
+            }
+        }
+        return tempo;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.")
@@ -345,14 +372,29 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public EstagioPlano getEstagioPlanoAnterior(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
+
+        if (index == -1) {
+            return null;
+        }
+
         if (index == 0) {
             return listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
         }
         return listaEstagioPlanos.get(index - 1);
     }
 
+    public EstagioPlano getEstagioPlanoProximo() {
+        List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+        return getEstagioPlanoProximo(listaEstagioPlanos);
+    }
+
     public EstagioPlano getEstagioPlanoProximo(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
+
+        if (index == -1) {
+            return null;
+        }
+
         if (index == listaEstagioPlanos.size() - 1) {
             return listaEstagioPlanos.get(0);
         }
