@@ -29,8 +29,10 @@ Funcionalidade: Finalizar um controlador
 
   Cenário: Adicionar um SMEE para controlador
     Dado o usuário clicar no botão "Configuração"
-    E o usuário clicar no botão "Editar"
+    E o usuário clicar em "Editar"
     E o usuário preencher o campo NÚMERO SMEE com "1234"
+    Então o sistema exibe um alerta com a mensagem "O endereço pesquisado é RIO BONITO, AV DO x NEUCHATEL, R x GUIDO BONI, PC - (**)?"
+    E o usuário confirmar
     E o usuário clicar no botão "Salvar e Avançar"
     Então o sistema irá avançar para o passo "Anéis"
 

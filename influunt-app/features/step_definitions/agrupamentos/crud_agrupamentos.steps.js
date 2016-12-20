@@ -17,9 +17,7 @@ module.exports = function() {
   });
 
   this.Given(/^deve ser exibida uma lista com os agrupamentos já cadastrados no sistema$/, function() {
-    return agrupamentosPage.getItensTabela().then(function(itens) {
-      expect(itens).to.have.length.at.least(4);
-    });
+    return agrupamentosPage.getItensTabela("1");
   });
 
   this.Given(/^clicar no botão de Novo Agrupamento$/, function() {
