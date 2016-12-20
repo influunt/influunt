@@ -887,7 +887,9 @@
       "inicio": "Início",
       "saida": "Saída",
       "liberar": "Liberar",
+      "imposicao": "Imposição",
       "modoImposto": "Modo imposto",
+      "planoImposto": "Plano imposto",
       "sucesso": "Liberação executada com sucesso"
     },
     "sincronizacao": {

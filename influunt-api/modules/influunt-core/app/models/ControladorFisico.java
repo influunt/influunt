@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
@@ -23,6 +24,7 @@ import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -256,6 +258,34 @@ public class ControladorFisico extends Model implements Serializable {
 
     public Controlador getControladorSincronizado() {
         return controladorSincronizado;
+    }
+
+    public static List<ControladorFisico> getControladorPorUsuario(Usuario usuario) {
+        Area area = null;
+        if (!usuario.isRoot() && !usuario.podeAcessarTodasAreas()) {
+            area = usuario.getArea();
+
+            if (area == null) {
+                return Collections.emptyList();
+            }
+        }
+
+        return getControladorPorArea(area);
+    }
+
+    public static List<ControladorFisico> getControladorPorArea(Area area) {
+        ExpressionList<ControladorFisico> query = ControladorFisico
+            .find
+            .fetch("controladorSincronizado")
+            .fetch("controladorSincronizado.area")
+            .where()
+            .isNotNull("controladorSincronizado");
+
+        if (area != null) {
+            query.eq("controladorSincronizado.area", area);
+        }
+
+        return query.findList();
     }
 
     public void setControladorSincronizado(Controlador controladorSincronizado) {
