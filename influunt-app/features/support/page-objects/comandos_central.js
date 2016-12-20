@@ -15,14 +15,12 @@ var ComandosCentral = function () {
           expect(text).to.be.equal('Sincronizado');
       });
     });
+  };
 
-  // this.selecionarAnelSincronizado = function(anelCla) {
-  //   return world.waitForOverlayDisappear()
-  //     .then(function (){
-  //       return world.getElementByXpath('//*[ancestor::tr[td[text()="'anelCla'"]]][3]').clcik();
-  //   });
-
-
+  this.selecionarAnelSincronizado = function(anelCla) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.getElementByXpath('//td[text()="'+anelCla+'"]/parent::tr//ins').clcik();
+    });
   };
 };
 

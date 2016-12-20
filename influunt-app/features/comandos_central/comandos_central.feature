@@ -10,4 +10,4 @@ Funcionalidade: Realizar comandos em controladores
 
   Cenário: Impor planos
     Dado o usuário selecionar o anel "1.003.0002.1"
-    E o sistema dever possuir o anel "1.003.0002.2" sincronizado
+    E o usuário clicar no botão "Ações"

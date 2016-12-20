@@ -9,7 +9,7 @@ module.exports = function() {
     return comandoCentral.verificaAnelSincronizado(anelCla);
   });
 
-  this.Given(/^  o usuário selecionar o anel "([^"]*)" /, function (anelCla) {
+  this.Given(/^o usuário selecionar o anel "([^"]*)" /, function (anelCla) {
     return comandoCentral.selecionarAnelSincronizado(anelCla);
   });
 };
