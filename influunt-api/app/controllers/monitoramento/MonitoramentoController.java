@@ -112,9 +112,8 @@ public class MonitoramentoController extends Controller {
         ControladorFisico controladorFisico = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().eq("id", id).findUnique();
         Controlador controlador = controladorFisico.getControladorSincronizado();
         List<StatusConexaoControlador> status = StatusConexaoControlador.findByIdControladorUltimos30Dias(id);
-        Collections.reverse(status);
-        Integer totalOnline = StatusConexaoControlador.tempoOnline(status);
-        Integer totalOffline = StatusConexaoControlador.tempoOffline(status);
+        Integer totalOnline = StatusConexaoControlador.tempoOnlineOffline(status, true);
+        Integer totalOffline = StatusConexaoControlador.tempoOnlineOffline(status, false);
 
         Long percentual = (totalOnline != 0) ? (totalOnline * 100) / (totalOnline + totalOffline) * 1L : 0L;
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();

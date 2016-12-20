@@ -271,7 +271,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("filtrarPor_eq");
         }
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
-        List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(c -> c.getControladorFisicoId()).collect(Collectors.toList()));
+        List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(Controlador::getControladorFisicoId).collect(Collectors.toList()));
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         logs.forEach(log -> {

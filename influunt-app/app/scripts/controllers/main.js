@@ -56,7 +56,7 @@ angular.module('influuntApp')
             }
           })
           .finally(function() {
-            return $state.current.name === 'app.main' && influuntBlockui.unblock();
+            influuntBlockui.unblock();
           });
       };
 
@@ -158,7 +158,7 @@ angular.module('influuntApp')
             _.each(res, function(obj) {
               $scope.$root.alarmesAtivados[obj.chave] = true;
             });
-          });
+          }).finally(influuntBlockui.unblock);
       };
 
       $scope.getUsuario = function() {

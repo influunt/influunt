@@ -125,7 +125,15 @@ public class TrocaDePlanoControlador {
     public static List<HashMap> ultimoStatusPlanoPorAnel(List<String> ids) {
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         String sortQuery = "{ $sort: {timestamp: -1} }";
-        String groupQuery = "{ $group: { _id: { $concat: ['$idControlador', '-', '$conteudo.anel.posicao'] }, idControlador: { $first: '$idControlador' }, controladorFisicoId: { $first: '$idControlador' }, anelPosicao: { $first: '$conteudo.anel.posicao' }, hasPlanoImposto: { $first: '$conteudo.imposicaoDePlano' }, inicio: {$first: '$conteudo.momentoOriginal'}, modoOperacao: { $first: '$conteudo.plano.modoOperacao' }, planoPosicao: { $first: '$conteudo.plano.posicao' } } }";
+        String groupQuery = "{ $group: { _id: { $concat: ['$idControlador', '-', '$conteudo.anel.posicao'] }, " +
+            "idControlador: { $first: '$idControlador' }, " +
+            "controladorFisicoId: { $first: '$idControlador' }, " +
+            "anelPosicao: { $first: '$conteudo.anel.posicao' }, " +
+            "hasPlanoImposto: { $first: '$conteudo.imposicaoDePlano' }, " +
+            "inicio: {$first: '$conteudo.momentoOriginal'}, " +
+            "saida: {$first: '$conteudo.dataSaidaImposicao'}, " +
+            "modoOperacao: { $first: '$conteudo.plano.modoOperacao' }, " +
+            "planoPosicao: { $first: '$conteudo.plano.posicao' } } }";
 
         Aggregate.ResultsIterator<Map> ultimoStatus = trocas()
             .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")

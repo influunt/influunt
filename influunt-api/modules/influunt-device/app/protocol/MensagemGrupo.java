@@ -196,6 +196,9 @@ public class MensagemGrupo {
         this.flagPedestreVeicular = flagPedestreVeicular;
     }
 
+    public FlagUltimoTempo getFlagUltimoTempo() {
+        return flagUltimoTempo;
+    }
 
     public int getGrupo() {
         return grupo;

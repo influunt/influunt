@@ -33,13 +33,17 @@ public class ImporPlanoHandle extends GerenciadorDeEventos {
             plano.setImposto(true);
 
             reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
-            AgendamentoTrocaPlano agendamentoTrocaPlano = new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp());
-            agendamentoTrocaPlano.setImposicaoPlano(true);
-            gerenciadorDeEstagios.trocarPlano(agendamentoTrocaPlano);
 
-            //Agendar liberação
             Long horarioEntrada = (Long) eventoMotor.getParams()[3];
             Integer duracao = (Integer) eventoMotor.getParams()[2];
+
+            AgendamentoTrocaPlano agendamentoTrocaPlano = new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp());
+            agendamentoTrocaPlano.setImposicaoPlano(true);
+            agendamentoTrocaPlano.setDataSaidaImposicao(new DateTime(horarioEntrada).plusMinutes(duracao));
+            gerenciadorDeEstagios.trocarPlano(agendamentoTrocaPlano);
+
+
+            //Agendar liberação
             EventoMotor liberacao = new EventoMotor(new DateTime(horarioEntrada).plusMinutes(duracao),
                 TipoEvento.LIBERAR_IMPOSICAO,
                 eventoMotor.getParams()[1]);
