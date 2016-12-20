@@ -70,7 +70,7 @@ var MongoInsert = function () {
   var statusControlador = [
     {
       '_id' : ObjectId('57dafa79dd605a97ce6003e4'),
-      'idControlador' : '3c802c00-6d7f-423d-b6e7-cfc8e744c8ae',
+      'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
       'timestamp' : NumberLong,
       'conectado' : true
     }
@@ -104,7 +104,7 @@ var MongoInsert = function () {
     assert.equal(null, err);
     var tableTrocaPlanosControldaores = 'trocaPlanosControladores';
     var tableAlarmesFalhasControladores = 'alarmes_falhas_controladores';
-    var tableStatusControladores = 'status_conexao_controlador';
+    var tableStatusControladores = 'status_conexao_controladores';
 
     clearDb(db, trocaPlanosControladores, tableTrocaPlanosControldaores, function() {
       db.close();
@@ -132,7 +132,7 @@ var MongoInsert = function () {
 
     insertDocuments(db, alarmesFalhasControladores2, tableAlarmesFalhasControladores, () => {
       db.close();
-    });    
+    });
 
     insertDocuments(db, statusControlador, tableStatusControladores, () => {
       db.close();
