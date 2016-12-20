@@ -417,9 +417,10 @@ public class ControladoresController extends Controller {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            controlador.delete();
+        } else if (controladorService.cancelar(controlador)) {
             return CompletableFuture.completedFuture(ok());
+        } else {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("Controlador", "Erro ao cancelar edição de controlador", "controlador")))));
         }
     }
 

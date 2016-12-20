@@ -294,6 +294,11 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.naoDeveApresentarErro = function() {
+    world.sleep(500);
+    return world.waitForByXpathInverse('//div[contains(@class, "toast-error")]');
+  };
+
   this.aguardar = function(time) {
     return world.sleep(time);
   };
