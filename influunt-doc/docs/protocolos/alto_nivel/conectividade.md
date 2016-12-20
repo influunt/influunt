@@ -1,5 +1,5 @@
 # Mantendo a Conectividade Entre os Controladores e a Central
-Todo controlador deve manter a central informada dos momentos em que ele está conectado e em que perde conexão com a internet.
+Todo controlador deve manter a central informada dos momentos em que ele está conectado e que perde conexão com a internet.
 
 
 Para isso, ao se conectar deve enviar a mensagem [CONTROLADOR_ONLINE](#CONTROLADOR_ONLINE) e deixar como testamento a mensagem [CONTROLADOR_OFFLINE](#CONTROLADOR_OFFLINE).
