@@ -21,3 +21,4 @@ influunt-api/central-tcp*
 influunt-bin/instaladores/*
 influunt-api/influunt.log*
 db
+mongodump

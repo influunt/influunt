@@ -204,5 +204,7 @@ module.exports = function() {
     return sharedSteps.naoDeveApresentarErro();
   });
 
-
+  this.Given(/^o sistema deverá redirecionar para o show "([^"]*)"$/, function(title) {
+    return sharedSteps.showH5(title);
+  });
 };

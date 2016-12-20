@@ -49,7 +49,7 @@ Funcionalidade: tela de cadastro de áreas
   Cenário: Acesso à tela de detalhes de área
     Quando o usuário acessar a tela de listagem de áreas
     E clicar no botão de visualizar área
-    Então o sistema deverá redirecionar para a tela de visualização de áreas
+    Então o sistema deverá redirecionar para o show "51"
 
   Cenário: Acesso à tela de edição de áreas
     Quando o usuário acessar a tela de listagem de áreas
