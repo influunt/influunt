@@ -34,7 +34,7 @@ Funcionalidade: tela de cadastro de cidades
   Cenário: Acesso à tela de detalhes de cidades
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de visualizar cidade
-    Então o sistema deverá redirecionar para o show da ciddade "Belo Horizonte"
+    Então o sistema deverá redirecionar para o show "Belo Horizonte"
 
   Cenário: Acesso à tela de edição de cidades
     Quando o usuário acessar a tela de listagem de cidades

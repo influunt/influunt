@@ -54,10 +54,6 @@ module.exports = function() {
     objetosComuns.clicarLinkComTexto('Visualizar');
   });
 
-  this.Given(/^o sistema deverá redirecionar para o show da ciddade "([^"]*)"$/, function(cidade) {
-    return cidadesPage.cidadeIdH5(cidade);
-  });
-
   this.Given(/^clicar no botão de editar cidade$/, function() {
     objetosComuns.clicarLinkComTexto('Editar');
   });

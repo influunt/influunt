@@ -168,7 +168,7 @@ var ObjetosComuns = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
-    world.sleep(400);
+    world.sleep(600);
     return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
       return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
     });
@@ -323,6 +323,11 @@ var ObjetosComuns = function () {
       });
     });
   };
+
+  this.showH5 = function(title) {
+    return world.waitForByXpath('//h5/small[contains(text(), "'+title+'")]');
+  };
+
 };
 
 module.exports = ObjetosComuns;
