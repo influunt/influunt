@@ -25,9 +25,9 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 
 ```JSON
 {
-  key=469caede37e5336f...adb131458c3, 
-  idControlador=1d473b41-7136-4b1d-a077-3dc17828c225, 
-  content=f09138a8a9113e57c30994221cb6ed...671ad94f9870d97a69cf41c3c1105189
+  "key"="469caede37e5336f...adb131458c3", 
+  "idControlador"="1d473b41-7136-4b1d-a077-3dc17828c225", 
+  "content"="f09138a8a9113e57c30994221cb6ed...671ad94f9870d97a69cf41c3c1105189"
 } 
 ```
 
