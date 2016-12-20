@@ -1,4 +1,6 @@
 #Influnnt
+
+![Diagrama de Componentes](/influunt-doc/diagramas/componentes.png?raw=true "Componentes do Sistema")
 ## Referências
 
 ## Dependências
