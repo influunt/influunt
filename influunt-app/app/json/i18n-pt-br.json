@@ -886,7 +886,9 @@
       "erro": "Não foi possível finalizar a liberação",
       "inicio": "Início",
       "liberar": "Liberar",
+      "imposicao": "Imposição",
       "modoImposto": "Modo imposto",
+      "planoImposto": "Plano imposto",
       "sucesso": "Liberação executada com sucesso"
     },
     "sincronizacao": {
