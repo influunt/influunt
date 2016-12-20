@@ -1,5 +1,5 @@
 # Alarmes e Falhas
-Diversos tipos de eventos podem ser gerados durante a execução do controlador. Esses eventos podem ser transmitidos à central ou serem gravados no log. No caso do 72c, o arquivo de configuração define quais eventos serão enviados e gravados.
+Diversos tipos de eventos podem ser gerados durante a execução do controlador. Esses eventos podem ser transmitidos à central ou gravados no log. No caso do 72c, o arquivo de configuração define quais eventos serão enviados e gravados.
 
 
 
