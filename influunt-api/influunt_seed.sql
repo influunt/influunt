@@ -1246,5 +1246,36 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
   (@permAppId, 'desativarControlador', '[Comandos da Central] - Desativar um controlador', 'O usuário com essa permissão pode desativar um controlador através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
+# Configuração dos perfis de monitoramento.
+Set @monitPermissoesId = UUID();
+Set @listPermissoesId = UUID();
+Set @salvarPermissaoId = UUID();
+
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@monitPermissoesId, 'GET /api/v1/monitoramento/alarmes_e_falhas', '[Monitoramento] - Receber alertas e Alarmes', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@listPermissoesId, 'GET /api/v1/usuarios/$usuario_id<[^/]+>/alarmes_e_falhas', '[Monitoramento] - Ver Configuração de Perfil de Alarmes', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@salvarPermissaoId, 'POST /api/v1/usuarios/$usuario_id<[^/]+>/alarmes_e_falhas', '[Monitoramento] - Salvar Configuração de Perfil de Alarmes', NOW(), NOW());
+
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @monitPermissoesId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilOperadorId, @monitPermissoesId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @monitPermissoesId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilTecnicoId, @monitPermissoesId);
+
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @listPermissoesId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilOperadorId, @listPermissoesId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @listPermissoesId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilTecnicoId, @listPermissoesId);
+
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @salvarPermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilOperadorId, @salvarPermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @salvarPermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilTecnicoId, @salvarPermissaoId);
+
+SET @permAppId = UUID();
+INSERT INTO `permissoes_app`  (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+(@permAppId, 'configurarAlarmesFalhas', '[Monitoramento] - Configurar Perfil de Alarmes', 'O usuário com esta permissão pode configurar um perfil de alertas dos diversos eventos de controladores que deseja receber', NOW(), NOW());
+
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @monitPermissoesId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @listPermissoesId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @salvarPermissaoId);
 
 COMMIT;

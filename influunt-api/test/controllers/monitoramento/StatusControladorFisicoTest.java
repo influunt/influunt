@@ -2,7 +2,9 @@ package controllers.monitoramento;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
+import integracao.ControladorHelper;
 import models.Cidade;
+import models.Controlador;
 import models.StatusDevice;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,10 +15,7 @@ import play.test.Helpers;
 import status.StatusControladorFisico;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static play.test.Helpers.OK;
@@ -56,7 +55,10 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
     @Test
     public void testUltimoStatusDosControlador() {
-        HashMap<String, StatusDevice> usc = StatusControladorFisico.ultimoStatusDosControladores();
+        ArrayList<String> controladoresIds = new ArrayList<>();
+        controladoresIds.add("1");
+        controladoresIds.add("2");
+        HashMap<String, StatusDevice> usc = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
         assertEquals(2, usc.size());
 
         assertEquals(StatusDevice.CONFIGURADO, usc.get("1"));
@@ -110,6 +112,18 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     @Test
     public void testUltimoStatusDeTodosControladoresApi() {
 
+        Controlador c1 = new ControladorHelper().getControlador();
+        c1.getVersaoControlador().getControladorFisico().setControladorSincronizado(c1);
+        c1.getVersaoControlador().getControladorFisico().save();
+        c1.save();
+        StatusControladorFisico.log(c1.getControladorFisicoId(), System.currentTimeMillis(), StatusDevice.CONFIGURADO);
+
+        Controlador c2 = new ControladorHelper().getControlador();
+        c2.getVersaoControlador().getControladorFisico().setControladorSincronizado(c2);
+        c2.getVersaoControlador().getControladorFisico().save();
+        c2.save();
+        StatusControladorFisico.log(c2.getControladorFisicoId(), System.currentTimeMillis(), StatusDevice.ATIVO);
+
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
             .uri(routes.StatusControladorFisicoController.ultimoStatusDosControladores().url());
         Result postResult = route(postRequest);
@@ -120,8 +134,8 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         assertEquals(2, json.size());
 
-        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get("1").asText());
-        assertEquals(StatusDevice.ATIVO.toString(), json.get("2").asText());
+        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get(c1.getControladorFisicoId()).asText());
+        assertEquals(StatusDevice.ATIVO.toString(), json.get(c2.getControladorFisicoId()).asText());
     }
 
     @Test
