@@ -525,7 +525,7 @@ var WizardControladorPage = function () {
   };
 
   this.changeEstagioPosicao = function(estagio){
-    return world.sleep(600).then(function(){
+    return world.waitForOverlayDisappear().then(function(){
       return world.getElementByXpath('//hgroup//p[contains(text(), '+estagio+')]//following-sibling::button//i[contains(@class, "fa-arrow-down")]').click();
     });
   };
