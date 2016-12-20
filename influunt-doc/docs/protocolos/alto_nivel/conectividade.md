@@ -21,9 +21,9 @@ que ele pode receber comandos remotos. A figura abaixo abaixo apresenta o diagra
 
 ```JSON
 {
-  'dataHora':'1471272798600',
-  'versao72c': '1.0.0',
-  'status' : 'ver tabela de status'
+  "dataHora":"1471272798600",
+  "versao72c": "1.0.0",
+  "status" : "ver tabela de status"
 }
 ```
 
@@ -42,6 +42,6 @@ Ao se conectar, o controlador deve publicar a mensagem de testamento [CONTROLADO
 
 ```JSON
 {
-  'dataHora':'1471272798600'
+  "dataHora":"1471272798600"
 }
 ```
