@@ -4,6 +4,8 @@ import engine.EventoMotor;
 import org.fusesource.mqtt.client.QoS;
 import play.libs.Json;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 /**
  * Created by rodrigosol on 9/6/16.
  */
