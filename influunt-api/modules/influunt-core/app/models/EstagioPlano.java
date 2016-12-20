@@ -467,7 +467,9 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             .orElse(0);
     }
 
-    public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde, List<EstagioPlano> listaEstagioPlanos) {
+    public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
+                                                                List<EstagioPlano> listaEstagioPlanos,
+                                                                EstagioPlano estagioPlanoPassado) {
         final int index = listaEstagioPlanos.indexOf(this) + 1;
         if (index < listaEstagioPlanos.size() && listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()) {
             return getTempoVerdeSeguranca();
@@ -477,7 +479,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
             EstagioPlano estagioPlanoProximo = getEstagioPlanoProximo(plano.getEstagiosOrdenados());
             if (estagioPlanoAnterior.isDispensavel() &&
-                !listaEstagioPlanos.contains(estagioPlanoAnterior) &&
+                !estagioPlanoAnterior.equals(estagioPlanoPassado) &&
                 this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())) {
                 tempoVerdeDoEstagioDispensavel += estagioPlanoAnterior.getTempoVerde();
                 tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
