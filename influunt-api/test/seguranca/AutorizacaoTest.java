@@ -14,7 +14,6 @@ import play.mvc.Result;
 import play.routing.Router;
 import play.test.Helpers;
 
-import javax.persistence.PersistenceException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -179,17 +178,11 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         Result result = route(request);
         assertEquals(403, result.status());
 
-        try {
-            request = new Http.RequestBuilder().method("DELETE")
-                .uri(routes.ControladoresController.delete(controlador1.getId().toString()).url())
-                .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
-            result = route(request);
-            assertEquals(200, result.status());
-        } catch (PersistenceException ex) {
-            // TODO: Ocorre um erro ao deletar um controlador com tabela horária (issue #825)
-            // esse try catch é somente para o teste passar e pode ser removido quando
-            // a issue #825 for resolvida.
-        }
+        request = new Http.RequestBuilder().method("DELETE")
+            .uri(routes.ControladoresController.delete(controlador1.getId().toString()).url())
+            .header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(200, result.status());
     }
 
 
@@ -541,11 +534,21 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         assertEquals(expectedResult, result.status());
 
         // edit
+        request = new Http.RequestBuilder().method("PUT")
+            .uri(routes.ControladoresController.finalizar(controlador.getId().toString()).url()).bodyJson(Json.parse("{\"descricao\": \"Teste\"}")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
+        result = route(request);
+        assertEquals(expectedResult, result.status());
+
+
         controlador.setStatusVersao(StatusVersao.SINCRONIZADO);
         request = new Http.RequestBuilder().method("POST")
             .uri(routes.ControladoresController.edit(controlador.getId().toString()).url()).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
         result = route(request);
         assertEquals(expectedResult, result.status());
+
+        if (expectedResult == 200) {
+            controlador = Controlador.find.byId(UUID.fromString(Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class).get("id").toString()));
+        }
 
         // timeline
         request = new Http.RequestBuilder().method("GET")

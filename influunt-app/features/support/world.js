@@ -114,6 +114,12 @@ var World = function () {
     }, waitTimeout);
   };
 
+  this.haveNoError = function (xpath) {
+    return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(element) {
+      return self.elementShouldNotPresent(element);
+    });
+  };
+
   this.elementShouldNotPresent = function(isElementPresent) {
     return !isElementPresent;
   };

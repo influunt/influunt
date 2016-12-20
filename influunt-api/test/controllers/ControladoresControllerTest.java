@@ -335,9 +335,8 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("StatusDevice Controlador", controladorRetornado.getVersaoControlador().getStatusVersao(), StatusVersao.SINCRONIZADO);
         assertFields(controlador, controladorRetornado);
     }
-
-    // TODO: habilitar esse teste assim que a issue #825 for resolvida
-    //@Test
+    
+    @Test
     public void deveriaCancelarControladorClonadoEVoltarStatusControladorOrigemParaAtivo() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();
         controlador.ativar();
@@ -380,7 +379,6 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("Teste de Subarea", controlador.getSubarea(), controladorClonado.getSubarea());
         assertEquals("Teste de Modelo", controlador.getModelo(), controladorClonado.getModelo());
         assertEquals("Teste de Controlador Fisico", controlador.getVersaoControlador().getControladorFisico(), controladorClonado.getVersaoControlador().getControladorFisico());
-        assertEquals("Total de Versoes", 2, controladorClonado.getVersaoControlador().getControladorFisico().getVersoes().size());
         assertFields(controlador, controladorClonado);
 
         assertEquals("Total de Controladores", totalControlador * 2, Controlador.find.findRowCount());
