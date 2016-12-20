@@ -99,7 +99,7 @@ public class TrocaDePlanoControlador {
                 .and("{$group:{_id:'$idAnel', 'timestamp': {$max:'$timestamp'}, " +
                     " idAnel: {$first: '$idAnel'}," +
                     " idControlador: {$first: '$idControlador'}," +
-                    " conteudo: {$first: '$conteudo'}}}")/**/
+                    " conteudo: {$first: '$conteudo'}}}")
                 .as(Map.class);
         List<TrocaDePlanoControlador> resultado = new ArrayList<>();
         for (Map m : ultimoStatus) {
