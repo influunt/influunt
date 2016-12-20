@@ -199,4 +199,10 @@ module.exports = function() {
   this.Given(/^que o usuário aguarde um tempo de "([^"]*)" milisegundos$/, function (time) {
     return sharedSteps.aguardar(time);
   });
+
+  this.Given(/^o sistema não deve apresentar erro$/, function () {
+    return sharedSteps.naoDeveApresentarErro();
+  });
+
+
 };

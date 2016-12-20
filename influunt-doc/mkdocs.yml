@@ -1,0 +1,17 @@
+site_name: Influunt Documentação
+theme: readthedocs
+pages:
+- Comunicação:
+  - 'Introdução': 'comunicacao/introducao.md'
+  - 'Envelope': 'comunicacao/envelope.md'
+  - 'Segurança': 'comunicacao/seguranca.md'
+- Protocolos:
+  - 'Protocolo de Alto Nível': 'protocolos/alto_nivel/introducao.md'
+  - 'Conectividade': 'protocolos/alto_nivel/conectividade.md'
+  - 'Ciclo de Vida': 'protocolos/alto_nivel/ciclo_vida.md'
+  - 'Configuração do Controlador': 'protocolos/alto_nivel/configuracao.md'
+  - 'Transações': 'protocolos/alto_nivel/transacoes.md'
+  - 'Alertas e Falhas': 'protocolos/alto_nivel/alertas_e_falhas.md'
+  - 'Protovolo de Baixo Nível': 'protocolos/baixo_nivel/introducao.md'
+- Log:
+  - 'Especificação': 'log/especificacao.md'

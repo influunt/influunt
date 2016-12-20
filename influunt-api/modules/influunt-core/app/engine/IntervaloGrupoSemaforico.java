@@ -106,19 +106,14 @@ public class IntervaloGrupoSemaforico {
                 RangeMap<Long, EstadoGrupoSemaforico> intervalo = TreeRangeMap.create();
 
                 if (grupoSemaforicoPlano.isAtivado()) {
-                    if (grupo.isVeicular()) {
-                        intervalo.put(Range.closedOpen(0L, 5000L), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
-                    } else {
-                        intervalo.put(Range.closedOpen(0L, 5000L), EstadoGrupoSemaforico.DESLIGADO);
-                    }
+                    intervalo.put(Range.closedOpen(0L, 5000L),
+                        grupo.isVeicular() ? EstadoGrupoSemaforico.AMARELO_INTERMITENTE : EstadoGrupoSemaforico.DESLIGADO);
 
                     intervalo.put(Range.closedOpen(5000L, tempoTotalSequenciaPartida), EstadoGrupoSemaforico.VERMELHO);
 
-                    if (estagio.getGruposSemaforicos().contains(grupo)) {
-                        intervalo.put(Range.closedOpen(tempoTotalSequenciaPartida, tempoVerde), EstadoGrupoSemaforico.VERDE);
-                    } else {
-                        intervalo.put(Range.closedOpen(tempoTotalSequenciaPartida, tempoVerde), EstadoGrupoSemaforico.VERMELHO);
-                    }
+
+                    intervalo.put(Range.closedOpen(tempoTotalSequenciaPartida, tempoVerde),
+                        estagio.getGruposSemaforicos().contains(grupo) ? EstadoGrupoSemaforico.VERDE : EstadoGrupoSemaforico.VERMELHO);
                 } else {
                     intervalo.put(Range.closedOpen(0L, 5000L), EstadoGrupoSemaforico.DESLIGADO);
                     intervalo.put(Range.closedOpen(5000L, tempoTotalSequenciaPartida), EstadoGrupoSemaforico.DESLIGADO);
