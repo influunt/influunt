@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -263,6 +264,10 @@ public class ControladorFisico extends Model implements Serializable {
         Area area = null;
         if (!usuario.isRoot() && !usuario.podeAcessarTodasAreas()) {
             area = usuario.getArea();
+
+            if (area == null) {
+                return Collections.emptyList();
+            }
         }
 
         return getControladorPorArea(area);

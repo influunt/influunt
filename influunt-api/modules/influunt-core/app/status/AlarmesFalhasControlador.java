@@ -103,8 +103,9 @@ public class AlarmesFalhasControlador {
             jongoQuery.and("{ $match: { 'conteudo.descricaoEvento': { $regex: '"+ query +"', $options: 'i' } } }");
         }
 
-        jongoQuery.and("{ $sort: { timestamp: -1 } }");
-        jongoQuery.and("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
+        jongoQuery
+            .and("{ $sort: { timestamp: -1 } }")
+            .and("{ $project: { _id: 0, idControlador: 1, idAnel: 1, timestamp: 1, conteudo: 1 } }");
 
         if (limit != null) {
             jongoQuery.and("{ $limit: ".concat(String.valueOf(limit)).concat("}"));
