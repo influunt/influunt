@@ -14,7 +14,6 @@ public class InfluuntValidator<T> {
 
     public static Validator validator;
 
-
     public InfluuntValidator() {
         if (validator == null) {
             validator = Validation.buildDefaultValidatorFactory().getValidator();
