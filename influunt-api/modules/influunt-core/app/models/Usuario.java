@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Hours;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -269,5 +270,10 @@ public class Usuario extends Model implements Subject, Serializable {
 
     public void setDisparoAlarmes(List<DisparoAlarme> disparoAlarmes) {
         this.disparoAlarmes = disparoAlarmes;
+    }
+
+    @AssertTrue(message = "não pode ficar em branco")
+    public boolean isPerfilObrigatorioSeNaoForRoot() {
+        return isRoot() || getPerfil() != null;
     }
 }
