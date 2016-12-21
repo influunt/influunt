@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          clearErrosOnChange;
+          clearErrosOnChange, atualizaDiagramaEClearErrors;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -212,6 +212,7 @@ angular.module('influuntApp')
         var grupoSemaforico = gruposSemaforicos[grupo.posicao-1];
         var grupoSemaforioPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {plano: {idJson: $scope.currentPlano.idJson}, grupoSemaforico: {idJson: grupoSemaforico.idJson}});
         grupoSemaforioPlano.ativado = isAtivo;
+        atualizaDiagramaIntervalos();
         if (!isAtivo) {
           grupo.intervalos.unshift({
             status: modoOperacaoService.get('APAGADO'),
@@ -418,6 +419,12 @@ angular.module('influuntApp')
         }
       };
 
+      atualizaDiagramaEClearErrors = function() {
+        diagramaDebouncer = $timeout(function() {
+          clearErrosOnChange();
+          atualizaDiagramaIntervalos();
+        }, 500);
+      }
 
       /**
        * Renderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
@@ -426,22 +433,11 @@ angular.module('influuntApp')
        * Caso o modo de operação do plano for "amarelo intermitente" ou "desligado", o diagrama deverá ser gerado
        * de forma estática (todo o diagrama deve assumir um dos modos acima).
        */
-      $scope.$watch('currentPlano', function() {
-        diagramaDebouncer = $timeout(function() {
-          clearErrosOnChange();
-          atualizaDiagramaIntervalos();
-        }, 500);
-      }, true);
+      $scope.$watch('currentPlano', atualizaDiagramaEClearErrors, true);
 
-      $scope.$watch('currentEstagioPlano', function() {
-        $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
-      }, true);
+      $scope.$watch('currentEstagioPlano', atualizaDiagramaEClearErrors, true);
 
-      $scope.$watch('currentEstagiosPlanos', function() {
-        $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
-      }, true);
+      $scope.$watch('currentEstagiosPlanos', atualizaDiagramaEClearErrors, true);
 
       clearErrosOnChange = function() {
         var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + $scope.currentPlanoIndex + '].ultrapassaTempoCiclo';

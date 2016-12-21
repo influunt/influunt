@@ -32,3 +32,7 @@ beforeEach(inject(function ($httpBackend) {
   // Carrega um usuário root para não existir problemas com permissões.
   localStorage.setItem('usuario', JSON.stringify({root: true, permissoes: []}));
 }));
+
+afterEach(inject(function(influuntBlockui) {
+  influuntBlockui.unblock(true);
+}));
