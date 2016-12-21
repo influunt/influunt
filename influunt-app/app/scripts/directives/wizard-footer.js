@@ -21,6 +21,18 @@ angular.module('influuntApp')
         scope.getStepTitle = function(step) {
           return $filter('translate')($state.get(step).data.title);
         };
+
+        scope.translateBotaoSalvar = function(step) {
+          var stepEntreVerdes = "app.wizard_controladores.entre_verdes";
+          var botaoEntreVerdes = 'geral.tooltip.naoPodeSalvarSemConfirmacaoEntreVerdes';
+          var botaoDefault = 'geral.tooltip.naoPodeSalvarSemConfirmacao';
+
+          if (step === stepEntreVerdes){
+            return $filter('translate')(botaoEntreVerdes);
+          } else {
+            return $filter('translate')(botaoDefault);
+          }
+        };
       }
     };
   }]);
