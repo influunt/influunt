@@ -9,6 +9,8 @@ import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import com.google.common.collect.EvictingQueue;
 
+import java.nio.charset.Charset;
+
 /**
  * Created by rodrigosol on 12/1/16.
  */
@@ -32,6 +34,7 @@ public class InfluuntLogAppender extends RollingFileAppender<ILoggingEvent> {
         PatternLayoutEncoder encoder = new PatternLayoutEncoder();
         encoder.setContext(getContext());
         encoder.setPattern("%d{dd/MM/yyyy HH:mm:ss.SSS} %msg%n");
+        encoder.setCharset(Charset.forName("UTF-8"));
         setEncoder(encoder);
         encoder.start();
 
