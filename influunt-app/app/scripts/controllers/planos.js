@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          clearErrosOnChange;
+          clearErrosOnChange, atualizaDiagramaEClearErrors;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -212,6 +212,7 @@ angular.module('influuntApp')
         var grupoSemaforico = gruposSemaforicos[grupo.posicao-1];
         var grupoSemaforioPlano = _.find($scope.objeto.gruposSemaforicosPlanos, {plano: {idJson: $scope.currentPlano.idJson}, grupoSemaforico: {idJson: grupoSemaforico.idJson}});
         grupoSemaforioPlano.ativado = isAtivo;
+        atualizaDiagramaIntervalos();
         if (!isAtivo) {
           grupo.intervalos.unshift({
             status: modoOperacaoService.get('APAGADO'),
@@ -312,12 +313,12 @@ angular.module('influuntApp')
         }
 
 
-        $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
+        $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano, true);
         // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
         $scope.currentPlano.configurado = $scope.currentPlano.configurado || deveAtivarPlano;
       };
 
-      $scope.selecionaPlano = function(plano, index) {
+      $scope.selecionaPlano = function(plano, index, semTimeout) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
         var versoes = _
@@ -327,7 +328,13 @@ angular.module('influuntApp')
 
         $scope.currentVersaoPlanoIndex = _.findIndex(versoes, {anel: {idJson: $scope.currentAnel.idJson}});
         $scope.currentVersaoPlano = versoes[$scope.currentVersaoPlanoIndex];
-        $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
+        if (semTimeout) {
+            $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
+        } else {
+          $timeout(function() {
+            $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
+          });
+        }
         return $scope.currentEstagiosPlanos;
       };
 
@@ -418,6 +425,12 @@ angular.module('influuntApp')
         }
       };
 
+      atualizaDiagramaEClearErrors = function() {
+        diagramaDebouncer = $timeout(function() {
+          clearErrosOnChange();
+          atualizaDiagramaIntervalos();
+        }, 500);
+      }
 
       /**
        * Renderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
@@ -426,22 +439,11 @@ angular.module('influuntApp')
        * Caso o modo de operação do plano for "amarelo intermitente" ou "desligado", o diagrama deverá ser gerado
        * de forma estática (todo o diagrama deve assumir um dos modos acima).
        */
-      $scope.$watch('currentPlano', function() {
-        diagramaDebouncer = $timeout(function() {
-          clearErrosOnChange();
-          atualizaDiagramaIntervalos();
-        }, 500);
-      }, true);
+      $scope.$watch('currentPlano', atualizaDiagramaEClearErrors, true);
 
-      $scope.$watch('currentEstagioPlano', function() {
-        $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
-      }, true);
+      $scope.$watch('currentEstagioPlano', atualizaDiagramaEClearErrors, true);
 
-      $scope.$watch('currentEstagiosPlanos', function() {
-        $timeout.cancel(diagramaDebouncer);
-        diagramaDebouncer = $timeout(atualizaDiagramaIntervalos, 500);
-      }, true);
+      $scope.$watch('currentEstagiosPlanos', atualizaDiagramaEClearErrors, true);
 
       clearErrosOnChange = function() {
         var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + $scope.currentPlanoIndex + '].ultrapassaTempoCiclo';

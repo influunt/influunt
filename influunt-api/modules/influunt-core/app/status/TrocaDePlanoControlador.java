@@ -95,11 +95,12 @@ public class TrocaDePlanoControlador {
 
     public static List<TrocaDePlanoControlador> ultimasTrocasDePlanosDosControladores() {
         Aggregate.ResultsIterator<Map> ultimoStatus =
-            trocas().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idAnel', 'timestamp': {$max:'$timestamp'}, " +
-                " idAnel: {$first: '$idAnel'}," +
-                " idControlador: {$first: '$idControlador'}," +
-                " conteudo: {$first: '$conteudo'}}}").
-                as(Map.class);
+            trocas().aggregate("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idAnel', 'timestamp': {$max:'$timestamp'}, " +
+                    " idAnel: {$first: '$idAnel'}," +
+                    " idControlador: {$first: '$idControlador'}," +
+                    " conteudo: {$first: '$conteudo'}}}")
+                .as(Map.class);
         List<TrocaDePlanoControlador> resultado = new ArrayList<>();
         for (Map m : ultimoStatus) {
             resultado.add(new TrocaDePlanoControlador(m));

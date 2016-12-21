@@ -25,9 +25,9 @@ var influunt;
         var i = 0;
         var j = 0;
         var t = 0;
-        var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao, 
-            tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, 
-            tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao;
+        var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao,
+            tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza,
+            tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao, grupoSemaforicoPlano;
 
         // cria uma matriz de tamanho quantidadeGruposSemaforicos x tempoCiclo, inicializada com -1 em todos os campos.
         var diagrama = _.times(plano.quantidadeGruposSemaforicos, function() { return _.times(plano.tempoCiclo, _.constant(-1)); });
@@ -43,7 +43,8 @@ var influunt;
           if (estagioAtual.idJson !== estagioAnterior.idJson) {
             for(j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               grupo = estagioAnterior.gruposSemaforicos[j];
-              if(!_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
+              grupoSemaforicoPlano = _.find(plano.gruposSemaforicosPlanos, { grupoSemaforico: { idJson: grupo.idJson } });
+              if (grupoSemaforicoPlano.ativado !== false && !_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
                 tabelaEntreVerde = _.find(grupo.tabelasEntreVerdes, {'posicao': plano.posicaoTabelaEntreVerde});
                 transicao = _.find(grupo.transicoes, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
                 tabelaEntreVerdesTransicao = _.find(transicao.tabelaEntreVerdesTransicoes, {'tabelaEntreVerdes': {'idJson': tabelaEntreVerde.idJson}});
@@ -74,22 +75,21 @@ var influunt;
           }
 
           for(j = 0; j < estagioAtual.gruposSemaforicos.length; j++){
-             grupo = estagioAtual.gruposSemaforicos[j];
-             var inicio;
-             if(!_.find(estagioAnterior.gruposSemaforicos, {'id': grupo.id})){
-               transicao = _.find(grupo.transicoesComGanhoDePassagem, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
-               tempoAtrasoGrupo = transicao && transicao.tempoAtrasoGrupo ? parseInt(transicao.tempoAtrasoGrupo) : 0;
-               inicio = instante + tempoCiclo - tempoAtrasoGrupo;
-             }else{
-               inicio = tempoCiclo;
-             }
-             for(t = inicio; t < tempoCiclo + instante + tempoVerde; t++){
-               diagrama[plano.posicaoGruposSemaforicos['G' + grupo.posicao]][t] = VERDE;
-             }
+            grupo = estagioAtual.gruposSemaforicos[j];
+            var inicio;
+            if (!_.find(estagioAnterior.gruposSemaforicos, {'id': grupo.id})){
+              transicao = _.find(grupo.transicoesComGanhoDePassagem, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
+              tempoAtrasoGrupo = parseInt(_.get(transicao, 'tempoAtrasoGrupo', 0));
+              inicio = instante + tempoCiclo - tempoAtrasoGrupo;
+            } else {
+              inicio = tempoCiclo;
+            }
+            for (t = inicio; t < tempoCiclo + instante + tempoVerde; t++) {
+              diagrama[plano.posicaoGruposSemaforicos['G' + grupo.posicao]][t] = VERDE;
+            }
           }
 
           tempoCiclo += instante + (tempoVerde || 0);
-
           estagios.push({id: UUID.generate(), posicao: estagioAtual.posicao, duracao: instante + tempoVerde, gruposSemaforicos: estagioAtual.gruposSemaforicos});
           instante = 0;
         }

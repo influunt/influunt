@@ -14,6 +14,10 @@ var ObjetosComuns = function () {
     return ''+enderecoControlador+'//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
+  this.indexPage = function(path) {
+    return world.visit('/app/'+path+'/');
+  };
+
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.waitForToastMessageDisapear().then(function (){
@@ -39,9 +43,10 @@ var ObjetosComuns = function () {
 
   this.clicarLinkComTexto = function(texto) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.waitForToastMessageDisapear().then(function (){
-         return world.findLinkByText(texto).click();
-      });
+      return world.waitForToastMessageDisapear()
+    })
+    .then(function (){
+      return world.findLinkByText(texto).click();
     });
   };
 
@@ -61,7 +66,7 @@ var ObjetosComuns = function () {
   };
 
   this.textoSweetAlert = function() {
-    return world.sleep(400).then(function(){
+    return world.sleep(600).then(function(){
       return world.getTextInSweetAlert();
     });
   };
@@ -163,7 +168,7 @@ var ObjetosComuns = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
-    world.sleep(400);
+    world.sleep(600);
     return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
       return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
     });
@@ -318,6 +323,11 @@ var ObjetosComuns = function () {
       });
     });
   };
+
+  this.showH5 = function(title) {
+    return world.waitForByXpath('//h5/small[contains(text(), "'+title+'")]');
+  };
+
 };
 
 module.exports = ObjetosComuns;

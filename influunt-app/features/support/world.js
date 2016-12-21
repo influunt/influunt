@@ -273,7 +273,7 @@ var World = function () {
 
   this.shoulNotFindLinkByText = function(text) {
     return driver.isElementPresent(webdriver.By.linkText(text)).then(function(isElementPresent) {
-        return !isElementPresent;
+      return !isElementPresent;
     });
   };
 

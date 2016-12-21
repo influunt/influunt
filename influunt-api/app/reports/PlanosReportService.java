@@ -3,14 +3,12 @@ package reports;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Anel;
-import models.Area;
-import models.Plano;
-import models.StatusDevice;
+import models.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import utils.InfluuntQueryBuilder;
+import utils.InfluuntQueryResult;
 import utils.InfluuntUtils;
 
 import java.io.ByteArrayInputStream;
@@ -64,11 +62,15 @@ public class PlanosReportService extends ReportService<Plano> {
             paramsAux.put("versaoPlano.anel.controlador.area.id", areaId);
         }
 
+        String[] modoOperacao = {Integer.toString(ModoOperacaoPlano.MANUAL.ordinal())};
+        paramsAux.put("modo_operacao_ne", modoOperacao);
+
         List<String> fetches = Arrays.asList("versaoPlano.anel", "versaoPlano.anel.controlador.area");
-        List<Plano> planos = (List<Plano>) new InfluuntQueryBuilder(Plano.class, paramsAux).fetch(fetches).query().getResult();
+        InfluuntQueryResult result = new InfluuntQueryBuilder(Plano.class, paramsAux).fetch(fetches).query();
+        List<Plano> planos = (List<Plano>) result.getResult();
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
-        planos.stream().filter(plano -> !plano.isManual()).forEach(plano -> {
+        planos.stream().forEach(plano -> {
             ArrayNode estagios = JsonNodeFactory.instance.arrayNode();
             Anel anel = plano.getAnel();
             plano.getEstagiosOrdenados().forEach(estagio -> {
@@ -83,13 +85,13 @@ public class PlanosReportService extends ReportService<Plano> {
                 .put("endereco", anel.getEndereco().nomeEndereco())
                 .put("ciclo", plano.getTempoCiclo().toString())
                 .put("defasagem", plano.getDefasagem().toString())
-                .putPOJO("estagios", estagios)
-                .put("controlador_id", anel.getControlador().getId().toString());
-
+                .put("controlador_id", anel.getControlador().getId().toString())
+                .set("estagios", estagios);
         });
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.putArray("data").addAll(itens);
+        retorno.put("total", result.getTotal());
 
         return retorno;
     }

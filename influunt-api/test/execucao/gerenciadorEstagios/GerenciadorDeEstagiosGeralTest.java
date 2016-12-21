@@ -58,12 +58,12 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
         verificaGruposSemaforicos(0, new GrupoCheck(3, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
 
         verificaGruposSemaforicos(0, new GrupoCheck(4, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaGruposSemaforicos(0, new GrupoCheck(4, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(0, new GrupoCheck(4, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(0, new GrupoCheck(4, 5000, 8000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(4, 8000, 18000, EstadoGrupoSemaforico.DESLIGADO));
 
         verificaGruposSemaforicos(0, new GrupoCheck(5, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaGruposSemaforicos(0, new GrupoCheck(5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaGruposSemaforicos(0, new GrupoCheck(5, 8000, 18000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(0, new GrupoCheck(5, 5000, 8000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(0, new GrupoCheck(5, 8000, 18000, EstadoGrupoSemaforico.DESLIGADO));
 
         assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(18, new GrupoCheck(1, 0, 3000, EstadoGrupoSemaforico.AMARELO));

@@ -12,6 +12,8 @@ import models.StatusDevice;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * Created by lesiopinheiro on 06/12/16.
  */
@@ -52,7 +54,7 @@ public class LerDadosControlador {
         });
         ArrayNode dados = JsonNodeFactory.instance.arrayNode();
         InfluuntLogAppender.evictingQueue.forEach(erro -> {
-            dados.addObject().put("texto", erro.toString());
+            dados.addObject().put("texto", new String(erro.getBytes(StandardCharsets.UTF_8)));
         });
         controladorJson.putPOJO("planos", itens);
         controladorJson.putPOJO("dados", dados);

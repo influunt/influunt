@@ -943,7 +943,7 @@ var influunt;
           }
 
           // connect the client
-          client.connect({onSuccess:onConnect});
+          client.connect({ onSuccess: onConnect });
           mqttClient = client;
 
           criaAneis();

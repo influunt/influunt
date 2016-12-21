@@ -746,6 +746,9 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         plano = criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 40);
         criarEstagioPlano(anel, plano, 1, 1, 15, true);
         criarEstagioPlano(anel, plano, 2, 2, 10, false);
+        GrupoSemaforicoPlano grupoSemaforicoPlano = plano.getGruposSemaforicosPlanos()
+            .stream().filter(e -> e.getGrupoSemaforico().getPosicao().equals(8)).findFirst().get();
+        grupoSemaforicoPlano.setAtivado(false);
         criarPlano(anel, 16, ModoOperacaoPlano.INTERMITENTE, null);
 
         anel = getAnel(3);

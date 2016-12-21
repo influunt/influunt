@@ -34,27 +34,27 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
                 detector.getAnel().getPosicao()));
         }
 
-        EstagioPlano estagioPlano = plano.getEstagiosPlanos()
+        plano.getEstagiosPlanos()
             .stream()
             .filter(EstagioPlano::isDispensavel)
             .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
-            .findFirst()
-            .orElse(null);
-        if (estagioPlano != null) {
-            if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
-                gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
-            }
+            .forEach(estagioPlano -> {
+                if (estagioPlano != null) {
+                    if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
+                        gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+                    }
 
-            int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
-            if (compare < 0) {
-                if (!estagiosProximoCiclo.contains(estagioPlano)) {
-                    gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+                    int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
+                    if (compare < 0) {
+                        if (!estagiosProximoCiclo.contains(estagioPlano)) {
+                            gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+                        }
+                    } else if (compare > 0) {
+                        if (!listaEstagioPlanos.contains(estagioPlano)) {
+                            gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+                        }
+                    }
                 }
-            } else if (compare > 0) {
-                if (!listaEstagioPlanos.contains(estagioPlano)) {
-                    gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
-                }
-            }
-        }
+            });
     }
 }

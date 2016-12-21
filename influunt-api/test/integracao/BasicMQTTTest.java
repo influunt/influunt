@@ -85,6 +85,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         this.deviceConfig.setPrivateKey(controlador.getControladorPrivateKey());
 
         setConfig();
+
     }
 
     @After
@@ -98,6 +99,7 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
         onSubscribeFutureList.clear();
         onPublishFutureList.clear();
         Thread.sleep(100);
+
     }
 
     protected void setConfig() throws IOException, InterruptedException {
