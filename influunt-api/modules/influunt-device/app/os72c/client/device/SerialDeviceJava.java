@@ -110,7 +110,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                             while (!fila.isEmpty()) {
                                 mensagem = Mensagem.toMensagem(Hex.decodeHex(fila.pop().toCharArray()));
                                 mensagemRecebida(mensagem);
-                                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
+                                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -169,12 +169,12 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
             if (r == -1) {
                 callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL, true));
-                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
             }
             System.out.println("Bytes enviados:" + r);
 
         } catch (Exception e) {
-            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, e.getMessage());
+            InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, e.getMessage());
             e.printStackTrace();
         }
 
@@ -186,7 +186,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         MensagemEstagio mensagem = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO, getSequencia(),
             intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         mensagem.addIntervalos(intervaloGrupoSemaforico);
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.print());
+        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, mensagem.print());
         send(mensagem);
     }
 

@@ -1282,14 +1282,14 @@
           expect(resposta.gruposSemaforicos[0].intervalos[4].status).toBe(3);
         });
 
-        it('Os intervalos do G2 devem durar 50(vermelho), 20(verde), 3(amarelo), 2(vermelho limpeza) e 25(vermelho)', function() {
+        it('Os intervalos do G2 devem durar 50(vermelho), 25(verde), 3(amarelo), 2(vermelho limpeza) e 20(vermelho)', function() {
           expect(resposta.gruposSemaforicos[1].intervalos.length).toBe(5);
 
           expect(resposta.gruposSemaforicos[1].intervalos[0].duracao).toBe(50);
-          expect(resposta.gruposSemaforicos[1].intervalos[1].duracao).toBe(20);
+          expect(resposta.gruposSemaforicos[1].intervalos[1].duracao).toBe(25);
           expect(resposta.gruposSemaforicos[1].intervalos[2].duracao).toBe(3);
           expect(resposta.gruposSemaforicos[1].intervalos[3].duracao).toBe(2);
-          expect(resposta.gruposSemaforicos[1].intervalos[4].duracao).toBe(25);
+          expect(resposta.gruposSemaforicos[1].intervalos[4].duracao).toBe(20);
 
           expect(resposta.gruposSemaforicos[1].intervalos[0].status).toBe(3);
           expect(resposta.gruposSemaforicos[1].intervalos[1].status).toBe(1);
@@ -1393,18 +1393,20 @@
           expect(resposta.gruposSemaforicos[0].intervalos[4].status).toBe(3);
         });
 
-        it('Os intervalos do G2 devem durar 3(amarelo), 2(vermelho limpeza), 75(vermelho), 20(verde)', function() {
-          expect(resposta.gruposSemaforicos[1].intervalos.length).toBe(4);
+        it('Os intervalos do G2 devem durar 5(amarelo), 3(amarelo), 2(vermelho limpeza), 70(vermelho), 20(verde)', function() {
+          expect(resposta.gruposSemaforicos[1].intervalos.length).toBe(5);
 
-          expect(resposta.gruposSemaforicos[1].intervalos[0].duracao).toBe(3);
-          expect(resposta.gruposSemaforicos[1].intervalos[1].duracao).toBe(2);
-          expect(resposta.gruposSemaforicos[1].intervalos[2].duracao).toBe(75);
-          expect(resposta.gruposSemaforicos[1].intervalos[3].duracao).toBe(20);
+          expect(resposta.gruposSemaforicos[1].intervalos[0].duracao).toBe(5);
+          expect(resposta.gruposSemaforicos[1].intervalos[1].duracao).toBe(3);
+          expect(resposta.gruposSemaforicos[1].intervalos[2].duracao).toBe(2);
+          expect(resposta.gruposSemaforicos[1].intervalos[3].duracao).toBe(70);
+          expect(resposta.gruposSemaforicos[1].intervalos[4].duracao).toBe(20);
 
-          expect(resposta.gruposSemaforicos[1].intervalos[0].status).toBe(2);
-          expect(resposta.gruposSemaforicos[1].intervalos[1].status).toBe(6);
-          expect(resposta.gruposSemaforicos[1].intervalos[2].status).toBe(3);
-          expect(resposta.gruposSemaforicos[1].intervalos[3].status).toBe(1);
+          expect(resposta.gruposSemaforicos[1].intervalos[0].status).toBe(1);
+          expect(resposta.gruposSemaforicos[1].intervalos[1].status).toBe(2);
+          expect(resposta.gruposSemaforicos[1].intervalos[2].status).toBe(6);
+          expect(resposta.gruposSemaforicos[1].intervalos[3].status).toBe(3);
+          expect(resposta.gruposSemaforicos[1].intervalos[4].status).toBe(1);
         });
 
         it('Os intervalos do G3 devem durar 10(vermelho), 20(verde) 3(amarelo) 2(vermelho limpeza) e 65(vermelho)', function() {
