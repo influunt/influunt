@@ -796,8 +796,12 @@ public class ControladorCustomSerializer {
             areaJson.putObject("cidade").put(ID_JSON, area.getCidade().getIdJson());
         }
 
-        refLimites("limites", area.getLimitesGeograficos(), areaJson);
-        refSubareas("subareas", area.getSubareas(), areaJson);
+        if(area.getLimitesGeograficos()!=null) {
+            refLimites("limites", area.getLimitesGeograficos(), areaJson);
+        }
+        if(area.getSubareas() != null) {
+            refSubareas("subareas", area.getSubareas(), areaJson);
+        }
         return areaJson;
     }
 

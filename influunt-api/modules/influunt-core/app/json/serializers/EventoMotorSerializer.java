@@ -8,6 +8,7 @@ import engine.EventoMotor;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class EventoMotorSerializer extends JsonSerializer<EventoMotor> {
             jgen.writeObjectField("tipoEvento", eventoMotor.getTipoEvento());
 
             if (eventoMotor.getParams() != null) {
-                jgen.writeObjectField("descricaoEvento", eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()));
+                jgen.writeObjectField("descricaoEvento", new String(eventoMotor.getTipoEvento().getMessage(eventoMotor.getStringParams()).getBytes(StandardCharsets.UTF_8)));
             }
         }
 
