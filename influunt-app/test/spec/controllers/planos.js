@@ -712,6 +712,7 @@ describe('Controller: PlanosCtrl', function() {
       });
       scope.selecionaPlano(plano, 0);
       scope.$apply();
+      $timeout.flush();
 
       sequenciaOriginal = _.clone(scope.currentEstagiosPlanos);
     });
@@ -1064,6 +1065,8 @@ describe('Controller: PlanosCtrl', function() {
         var plano = scope.currentPlanos[6];
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
+        $timeout.flush();
+        
         plano.configurado = false;
 
         expect(plano.posicao).toBe(6);
@@ -1093,6 +1096,7 @@ describe('Controller: PlanosCtrl', function() {
         var plano = scope.currentPlanos[6];
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
+        $timeout.flush();
         plano.configurado = false;
 
         expect(plano.posicao).toBe(6);
@@ -1159,6 +1163,7 @@ describe('Controller: PlanosCtrl', function() {
         var plano = scope.currentPlanos[10];
         plano.configurado = true;
         scope.selecionaPlano(plano, 10);
+        $timeout.flush();
         plano.configurado = false;
 
         expect(plano.posicao).toBe(11);
@@ -1188,6 +1193,7 @@ describe('Controller: PlanosCtrl', function() {
         var plano = scope.currentPlanos[6];
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
+        $timeout.flush();
         plano.configurado = false;
 
         expect(plano.posicao).toBe(7);
@@ -1333,15 +1339,18 @@ describe('Controller: PlanosCtrl', function() {
     it('Deve existir um erro de defasagem no plano 1 e não existir no plano 0', function() {
       expect(scope.erroDefasagem()).toBeFalsy();
       scope.selecionaPlano(scope.currentPlanos[1], 1);
+      $timeout.flush();
       expect(scope.erroDefasagem()).toBeTruthy();
       expect(scope.erroDefasagem()[0]).toBe("Defasagem deve estar entre 0 e o tempo de ciclo");
     });
 
     it('Deve existir erros em estagios planos', function() {
       scope.selecionaPlano(scope.currentPlanos[0], 0);
+      $timeout.flush();
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[1])).toBeTruthy();
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[1]).tempoVerdeIntermediarioFieldEntreMinimoMaximo[0]).toBe('O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.');
       scope.selecionaPlano(scope.currentPlanos[1], 1);
+      $timeout.flush();
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[2])).toBeTruthy();
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[2]).estagioQueRecebeEstagioDispensavel[0]).toBe('O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.');
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[2]).tempoVerdeMinimoFieldMenorMaximo[0]).toBe('O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.');
@@ -1351,6 +1360,7 @@ describe('Controller: PlanosCtrl', function() {
 
     it('Deve existir erros no plano', function() {
       scope.selecionaPlano(scope.currentPlanos[3], 3);
+      $timeout.flush();
       var erros = scope.errors.aneis[0].versoesPlanos[0];
       expect(scope.getErrosPlanos(erros).length).toBe(3);
       expect(scope.getErrosPlanos(erros)[0]).toBe('G2 - O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável.');
@@ -1390,11 +1400,11 @@ describe('Controller: PlanosCtrl', function() {
       $httpBackend.flush();
       scope.selecionaAnelPlanos(0);
       scope.$apply();
-      $timeout.flush();
       var index = _.findIndex(scope.objeto.planos, {
         posicao: 5
       });
       scope.selecionaPlano(scope.objeto.planos[index], index);
+      $timeout.flush();
     }));
 
     it('Deve ter erro nos aneis 0 e 1, e nao ter erro nos aneis 2 e 3', function() {
@@ -1410,6 +1420,7 @@ describe('Controller: PlanosCtrl', function() {
     });
 
     it('Deve existir erros em estagios planos', function() {
+      scope.currentEstagiosPlanos = _.orderBy(scope.currentEstagiosPlanos, 'posicao');
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[0])).toBeFalsy();
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[1])).toBeFalsy();
       expect(scope.getErrosEstagiosPlanos(scope.currentEstagiosPlanos[2])).toBeTruthy();

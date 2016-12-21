@@ -225,7 +225,8 @@
                                             data-ng-repeat="estagioPlano in currentEstagiosPlanos"
                                             data-ng-click="selecionaEstagioPlano(estagioPlano, $index)"
                                             data-ng-class="{'origem-transicao-proibida': estagioPlano.origemTransicaoProibida, 'destino-transicao-proibida': estagioPlano.destinoTransicaoProibida}"
-                                            ng-init="$$cacheEstagio = getEstagio(estagioPlano)">
+                                            ng-init="$$cacheEstagio = getEstagio(estagioPlano)"
+                                            data-ng-if="getEstagio(estagioPlano).posicao">
                                           <div class="sortable">
                                             <h4 class="ng-binding" id="E{{ $$cacheEstagio.posicao }}">
                                               <span class="badge badge-danger"

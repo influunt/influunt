@@ -313,12 +313,12 @@ angular.module('influuntApp')
         }
 
 
-        $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano);
+        $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano, true);
         // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
         $scope.currentPlano.configurado = $scope.currentPlano.configurado || deveAtivarPlano;
       };
 
-      $scope.selecionaPlano = function(plano, index) {
+      $scope.selecionaPlano = function(plano, index, semTimeout) {
         $scope.currentPlanoIndex = index;
         $scope.currentPlano = plano;
         var versoes = _
@@ -328,7 +328,13 @@ angular.module('influuntApp')
 
         $scope.currentVersaoPlanoIndex = _.findIndex(versoes, {anel: {idJson: $scope.currentAnel.idJson}});
         $scope.currentVersaoPlano = versoes[$scope.currentVersaoPlanoIndex];
-        $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
+        if (semTimeout) {
+            $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
+        } else {
+          $timeout(function() {
+            $scope.currentEstagiosPlanos = planoService.atualizaEstagiosPlanos($scope.objeto, $scope.currentPlano);
+          });
+        }
         return $scope.currentEstagiosPlanos;
       };
 
