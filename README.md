@@ -26,7 +26,7 @@ Para instar a central é necessário instalar as seguintes dependências:
 ### 72c
 
 O 72c pode ser executado em qualquer sistema operacional que suporte uma máquina virtual java (JVM) standard edition (SE) 1.8 ou superior.
-Dessa forma, antes de instalar o 72c certifique-se que o JVM está instalada e a versão é compatível:
+Dessa forma, antes de instalar o 72c certifique-se que a JVM está instalada e a versão é compatível:
 ```bash
 java -version
 java version "1.8.0_102"
@@ -34,9 +34,9 @@ Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
 Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 ```
 
-Se você estiver utilizando uma versão de linux compatível com gerenciado de pacotes do debian ou rpm, você poderá instalar diretamente os binários:
+Se você estiver utilizando uma versão de linux compatível com gerenciador de pacotes do debian ou rpm, você poderá instalar diretamente os binários:
 
-Baixe o pacote binário correspondente a versão do influunt que deseja instalar. [Download](https://github.com/influunt/influunt/releases)
+Baixe o pacote binário correspondente à versão do influunt que deseja instalar. [Download](https://github.com/influunt/influunt/releases)
 
 No caso do debian, instale o pacote no sistema operacional utilizando o comando *dpkg -i*:
 ```bash
@@ -68,16 +68,16 @@ sudo /etc/init.d/72c start
 ```
 Nesse caso, o 72c será iniciado automaticamente quando o sistema operacional for reinciado.
 
-#### Protótipo 72c com PI + Arduino
-Para montar um prótipo de controlador utilizando o raspiberry PI em conjunto com uma placa Arduino siga as seguintes instruções:
+#### Protótipo 72c com Raspberry PI + Arduino
+Para montar um prótipo de controlador utilizando o Raspberry PI em conjunto com uma placa Arduino siga as seguintes instruções:
 
 ##### Preparando o Arduino
 1. Monte seu protótipo de acordo com esse [schema](https://github.com/influunt/influunt/blob/staging/influunt-arduino/influunt_schema.pdf)
 2. Instale o [Arduino IDE](https://www.arduino.cc/en/Main/Software)
-3. Abra o projeto influunt.ino do Arduino IDE. O projeto encontra-se na pasta /influunt-arduino
+3. Abra o projeto influunt.ino no Arduino IDE. O projeto encontra-se na pasta /influunt-arduino
 4. Conecte o ardunino com o cabo USB e faça o upload do arquivo binário.
 
-##### Preparando o Raspiberry PI
+##### Preparando o Raspberry PI
 1. Instale o [raspbian](https://www.raspbian.org/) no cartão de memória
 2. Configure o acesso a internet
 
@@ -85,7 +85,7 @@ Para montar um prótipo de controlador utilizando o raspiberry PI em conjunto co
 1. Conecte a porta USB do PI no Arduino
 2. Verifique qual porta serial foi criada no sistema operacional (```ls /dev/tty*```)
 3. Instale o 72c conforme orientação anterior. Utilize o pacote .deb
-4. No arquivo de configuração do arquivo configura a porta serial e o baud rate para 9600.
+4. No arquivo de configuração do arquivo configure a porta serial com o valor obtido no item 2 e o baud rate para 9600.
 5. Inicie o 72c
 
 ##Status
