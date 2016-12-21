@@ -47,7 +47,7 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
         MensagemGrupo[] mensagemGrupo = mensagemEstagio.getMensagemGrupo();
 
-        checkGrupo(mensagemGrupo, 1, "V", 3, 0, 3000, 3000, 249000);
+        checkGrupo(mensagemGrupo, 1, "V", 3, 2000, 3000, 3000, 247000);
         checkGrupo(mensagemGrupo, 2, "V", 3, 8000, 0, 0, 247000);
         checkGrupo(mensagemGrupo, 3, "V", 0, 8000, 0, 0, 247000);
         checkGrupo(mensagemGrupo, 4, "V", 0, 8000, 0, 0, 247000);

@@ -321,9 +321,12 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")
     public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
-        if (getEstagioQueRecebeEstagioDispensavel() != null) {
+        if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
-            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
+            return getEstagioQueRecebeEstagioDispensavel()
+                .getIdJson()
+                .equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) ||
+                getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
         }
         return true;
     }
