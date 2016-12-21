@@ -472,23 +472,28 @@
           gruposSemaforicosPlanos: [
             {
               grupoSemaforico: {
-                posicao: 1
+                posicao: 1,
+                idJson: 'G1-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 2
+                posicao: 2,
+                idJson: 'G2-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 3
+                posicao: 3,
+                idJson: 'G3-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 4
+                posicao: 4,
+                idJson: 'G4-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 5
+                posicao: 5,
+                idJson: 'G5-JSON'
               }
             }
           ]
@@ -550,6 +555,7 @@
         beforeEach(function() {
           var diagramaIntervaloBuilder = new influunt.components.DiagramaIntervalos(plano, valoresMinimos);
           resposta = diagramaIntervaloBuilder.calcula();
+          resposta.gruposSemaforicos = _.orderBy(resposta.gruposSemaforicos, 'posicao');
         });
 
         it('Deve conter uma lista de erros vazia', function() {
@@ -1097,19 +1103,23 @@
           gruposSemaforicosPlanos: [
             {
               grupoSemaforico: {
-                posicao: 1
+                posicao: 1,
+                idJson: 'G5-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 2
+                posicao: 2,
+                idJson: 'G6-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 3
+                posicao: 3,
+                idJson: 'G7-JSON'
               }
             }, {
               grupoSemaforico: {
-                posicao: 4
+                posicao: 4,
+                idJson: 'G8-JSON'
               }
             }
           ]
