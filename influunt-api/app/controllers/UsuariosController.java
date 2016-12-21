@@ -27,9 +27,7 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public CompletionStage<Result> create() {
-
         JsonNode json = request().body().asJson();
-
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
         }
@@ -39,7 +37,7 @@ public class UsuariosController extends Controller {
         if (erros.isEmpty()) {
             if (Usuario.find.where().ieq("login", usuario.getLogin()).findRowCount() != 0) {
                 return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(
-                    Arrays.asList(new Erro("usuario", "login já utilizado", "login"))))
+                    Collections.singletonList(new Erro("usuario", "login já utilizado", "login"))))
                 );
             } else {
                 usuario.save();
