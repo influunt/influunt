@@ -1,12 +1,12 @@
 #Influnnt
 
 ![Diagrama de Componentes](/influunt-doc/diagramas/componentes.png?raw=true "Componentes do Sistema")
+
 ## Referências
 
-### [Manual do Usuário](/influunt-doc/manuais/manual_do_usuario.pdf]
-### [Especificação do Protocolo de Comunicação](http://influunt.github.io)
-### [Especificação da CET](influunt-doc/manuais/especificacao_cet.pdf)
-
+* [Manual do Usuário](/influunt-doc/manuais/manual_do_usuario.pdf)
+* [Especificação do Protocolo de Comunicação](http://influunt.github.io)
+* [Especificação da CET](influunt-doc/manuais/especificacao_cet.pdf)
 
 ## Dependências
 Para instar a central é necessário instalar as seguintes dependências:
