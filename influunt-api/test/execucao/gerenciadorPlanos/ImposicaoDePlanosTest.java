@@ -36,9 +36,9 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
 
         avancarSegundos(motor, 110);
 
-        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.AMARELO));
-        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 6000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 0, 2000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 2000, 5000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 11000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
@@ -168,9 +168,9 @@ public class ImposicaoDePlanosTest extends GerenciadorDeTrocasTest {
             inicioExecucao.plusSeconds(60).getMillis()));
         avancarSegundos(motor, 60);
 
-        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.AMARELO));
-        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 6000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 0, 2000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 2000, 5000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(70, new GrupoCheck(1, 1, 11000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 

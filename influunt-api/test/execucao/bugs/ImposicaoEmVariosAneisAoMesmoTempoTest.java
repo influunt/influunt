@@ -79,9 +79,9 @@ public class ImposicaoEmVariosAneisAoMesmoTempoTest extends GerenciadorDeTrocasT
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 7000, 10000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 10000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 0, 4000, EstadoGrupoSemaforico.AMARELO));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 4000, 5000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 5000, 7000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 0, 2000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 2000, 6000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 6000, 7000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 7000, 10000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 10000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
@@ -91,9 +91,9 @@ public class ImposicaoEmVariosAneisAoMesmoTempoTest extends GerenciadorDeTrocasT
 
 
         anel = 2;
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 0, 4000, EstadoGrupoSemaforico.AMARELO));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 4000, 7000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 7000, 9000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 0, 2000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 2000, 6000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 6000, 9000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 9000, 12000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 9, 12000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
@@ -110,9 +110,9 @@ public class ImposicaoEmVariosAneisAoMesmoTempoTest extends GerenciadorDeTrocasT
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 12, 9000, 12000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 12, 12000, 255000, EstadoGrupoSemaforico.DESLIGADO));
 
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 0, 4000, EstadoGrupoSemaforico.AMARELO));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 4000, 5000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 5000, 9000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 0, 4000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 4000, 8000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 8000, 9000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 9000, 12000, EstadoGrupoSemaforico.VERMELHO));
         verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 13, 12000, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
 
