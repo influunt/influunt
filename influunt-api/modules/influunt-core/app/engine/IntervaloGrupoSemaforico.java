@@ -264,7 +264,7 @@ public class IntervaloGrupoSemaforico {
 
             if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                 final Transicao transicao;
-                final long tempoAtraso;
+                long tempoAtraso;
                 if (estagio.getId() != null) {
                     transicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAnterior, estagio);
                     tempoAtraso = Math.min(transicao.getTempoAtrasoGrupo() * 1000L, duracaoEntreverde);
@@ -274,25 +274,32 @@ public class IntervaloGrupoSemaforico {
                 }
 
                 final TabelaEntreVerdesTransicao tabelaEntreVerdes = grupoSemaforico.findTabelaEntreVerdesTransicaoByTransicao(plano.getPosicaoTabelaEntreVerde(), transicao);
-                final long tempo;
+                long tempoAmarelo;
                 final EstadoGrupoSemaforico estadoAmarelo;
+                final long vermelhoLimpeza = tabelaEntreVerdes.getTempoVermelhoLimpeza() * 1000L;
 
-                intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
                 if (grupoSemaforico.isPedestre()) {
-                    tempo = Math.min(((tabelaEntreVerdes.getTempoVermelhoIntermitente() * 1000L) + tempoAtraso), duracaoEntreverde);
+                    tempoAmarelo = tabelaEntreVerdes.getTempoVermelhoIntermitente() * 1000L;
                     estadoAmarelo = EstadoGrupoSemaforico.VERMELHO_INTERMITENTE;
                 } else {
-                    tempo = Math.min(((tabelaEntreVerdes.getTempoAmarelo() * 1000L) + tempoAtraso), duracaoEntreverde);
+                    tempoAmarelo = tabelaEntreVerdes.getTempoAmarelo() * 1000L;
                     estadoAmarelo = EstadoGrupoSemaforico.AMARELO;
                 }
 
-                intervalos.put(Range.closedOpen(tempoAtraso, tempo), estadoAmarelo);
-                final long vermelhoLimpeza = tabelaEntreVerdes.getTempoVermelhoLimpeza() * 1000L;
-                if ((duracaoEntreverde - tempoVermelhoIntegral) > (tempo + vermelhoLimpeza)) {
-                    intervalos.put(Range.closedOpen(tempo, tempo + vermelhoLimpeza), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
-                    intervalos.put(Range.closedOpen(tempo + vermelhoLimpeza, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO);
+                if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverde - tempoVermelhoIntegral)) {
+                    tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverde - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
+                }
+                tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde);
+
+                intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
+                intervalos.put(Range.closedOpen(tempoAtraso, tempoAmarelo), estadoAmarelo);
+
+
+                if ((duracaoEntreverde - tempoVermelhoIntegral) > (tempoAmarelo + vermelhoLimpeza)) {
+                    intervalos.put(Range.closedOpen(tempoAmarelo, tempoAmarelo + vermelhoLimpeza), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
+                    intervalos.put(Range.closedOpen(tempoAmarelo + vermelhoLimpeza, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO);
                 } else {
-                    intervalos.put(Range.closedOpen(tempo, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
+                    intervalos.put(Range.closedOpen(tempoAmarelo, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
                 }
 
             } else {

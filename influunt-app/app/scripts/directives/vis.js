@@ -144,7 +144,7 @@ angular.module('influuntApp')
               moveable: false,
               zoomable: false,
               type: 'range',
-              start: 1,
+              start: 0,
               end: parseInt(scope.tempoCiclo)
             };
             timeline.setOptions(options);
