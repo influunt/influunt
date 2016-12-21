@@ -76,7 +76,7 @@ angular.module('influuntApp')
                 });
               }
 
-              var initialState = 1;
+              var initialState = 0;
               if (grupo.intervalos[0].status === 0) {
                 items.push({
                   start: 0,
@@ -104,7 +104,7 @@ angular.module('influuntApp')
               }
             });
 
-            var initialState = 1;
+            var initialState = 0;
             estagios.forEach(function(estagio) {
               // Add o objeto da barra de titulos.
               items.push({
@@ -144,7 +144,7 @@ angular.module('influuntApp')
               moveable: false,
               zoomable: false,
               type: 'range',
-              start: 1,
+              start: 0,
               end: parseInt(scope.tempoCiclo)
             };
             timeline.setOptions(options);
