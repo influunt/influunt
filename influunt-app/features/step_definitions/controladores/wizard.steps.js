@@ -204,4 +204,7 @@ module.exports = function() {
     return wizardPage.changeEstagioPosicao(estagio);
   });
 
+  this.Given(/^o botão salvar e avançar deve ter a mensagem "([^"]*)"$/, function(msg){
+    return wizardPage.mensgagemTooltipeBotaoSalvar(msg);
+  });
 };
