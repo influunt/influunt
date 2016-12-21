@@ -79,7 +79,7 @@ var influunt;
             var inicio;
             if (!_.find(estagioAnterior.gruposSemaforicos, {'id': grupo.id})){
               transicao = _.find(grupo.transicoesComGanhoDePassagem, {'origem': {'idJson': estagioAnterior.idJson}, 'destino': {'idJson': estagioAtual.idJson}});
-              tempoAtrasoGrupo = transicao && transicao.tempoAtrasoGrupo ? parseInt(transicao.tempoAtrasoGrupo) : 0;
+              tempoAtrasoGrupo = parseInt(_.get(transicao, 'tempoAtrasoGrupo', 0));
               inicio = instante + tempoCiclo - tempoAtrasoGrupo;
             } else {
               inicio = tempoCiclo;
