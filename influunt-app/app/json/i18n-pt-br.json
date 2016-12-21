@@ -312,7 +312,7 @@
       "tabela": "TABELA",
       "novaTabela": "Nova Tabela",
       "descricao": "Descrição",
-      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado"
+      "modoIntermitenteOuApagado": "Entreverdes deste estágio a se utilizar na transição para os modos intermitente ou apagado"
     },
     "atrasoDeGrupo": {
       "titulo": "Atraso de Grupo"
@@ -344,7 +344,7 @@
       "vazio": "Não há dados a serem exibidos nesta seção",
       "vermelhoIntermitente": "Vermelho Intermitente",
       "vermelhoLimpeza": "Vermelho Limpeza",
-      "modoIntermitenteOuApagado": "Entreverdes na transição para os modos Amarelo intermitente e Apagado",
+      "modoIntermitenteOuApagado": "Entreverdes deste estágio a se utilizar na transição para os modos intermitente ou apagado",
       "submitPopup": {
         "titulo": "",
         "texto": "Descreva abaixo a modificação feita no cadastro deste controlador"

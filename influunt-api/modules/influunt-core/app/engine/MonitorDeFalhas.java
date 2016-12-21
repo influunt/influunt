@@ -139,7 +139,9 @@ public class MonitorDeFalhas {
         ).map(rangeEstadoGrupoSemaforicoEntry -> {
             for (long i = rangeEstadoGrupoSemaforicoEntry.getKey().lowerEndpoint(); i < rangeEstadoGrupoSemaforicoEntry.getKey().upperEndpoint(); i += 100) {
                 long finalI = i;
-                if (outros.stream().anyMatch(outro -> !outro.get(finalI).equals(EstadoGrupoSemaforico.VERMELHO))) {
+                if (outros.stream().anyMatch(outro -> !outro.get(finalI).equals(EstadoGrupoSemaforico.VERMELHO) &&
+                    !outro.get(finalI).equals(EstadoGrupoSemaforico.DESLIGADO) &&
+                    !outro.get(finalI).equals(EstadoGrupoSemaforico.AMARELO_INTERMITENTE))) {
                     return true;
                 }
             }

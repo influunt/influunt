@@ -21,8 +21,8 @@ var AgrupamentosPage = function () {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
   };
 
-  this.getItensTabela = function() {
-    return world.getElements('tbody tr td');
+  this.getItensTabela = function(quantity) {
+    return world.countTableSize(quantity)
   };
 
   this.formAgrupamentos = function() {
