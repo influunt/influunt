@@ -2085,10 +2085,6 @@ td.ng-scope {
   text-align: center;
 }
 
-ul li span.bubble {
-  cursor: pointer;
-}
-
 img.sample-img-estagios {
   width: 200px;
   height: 150px;
@@ -2962,17 +2958,7 @@ p.velocidade-error {
 
 .page-simulacao .footer,
 .page-mapa_controladores .footer {
-  position: fixed;
-  bottom: 0;
-  min-height: 50px;
+  min-height: 70px;
+  position: static;
   margin-top: 10px;
 }
-
-@media (max-height: 768px) {
-  .page-simulacao .footer,
-  .page-mapa_controladores .footer {
-    position: static;
-    min-height: 60px;
-  }
-}
-
