@@ -56,13 +56,13 @@
       </div>
     </div>
 
-    <div class="form-group" data-ng-class="{'has-error': errors.perfil}" permission permission-only="'editarUsuarios'">
+    <div class="form-group" data-ng-class="{'has-error': errors.perfilObrigatorioSeNaoForRoot}" permission permission-only="'editarUsuarios'">
       <label class="control-label col-sm-2 control-label">{{ 'usuarios.perfil' | translate }}</label>
       <div class="col-sm-9">
         <select name="usuario_perfil" class="form-control"
           data-ng-options="perfil.id as perfil.nome for perfil in perfis"
           data-ng-model="objeto.perfil.id"></select>
-        <p class="help-block error-msg" data-ng-repeat="error in errors.perfil">{{ error }}</p>
+        <p class="help-block error-msg" data-ng-repeat="error in errors.perfilObrigatorioSeNaoForRoot">{{ error }}</p>
       </div>
     </div>
 
