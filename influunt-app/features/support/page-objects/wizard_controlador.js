@@ -530,6 +530,12 @@ var WizardControladorPage = function () {
     });
   };
 
+  this.mensgagemTooltipeBotaoSalvar = function(msg){
+    return world.waitForOverlayDisappear().then(function(){
+      return world.waitForByXpath('//a[contains(@class, "btn-primary btn-footer right")][contains(@tooltip-template, "<b><span>'+msg+'</span></b>")]');
+    });
+  };
+
   this.associarDetectorEstagio = function(detector, estagio) {
     return world.execJavascript('return $(\'th:contains("'+estagio+'")\').index() + 1').then(function(col) {
       return world.scrollToDown().then(function() {

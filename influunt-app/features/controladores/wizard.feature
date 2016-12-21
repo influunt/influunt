@@ -136,6 +136,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Transições Proibidas"
 
+  Cenário: Deve mostrar o tooltip com uma mensagem
+    Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    Então o botão salvar e avançar deve ter a mensagem "É necessário preencher os dados ou confirmar que não há nada a ser feito em todos os anéis."
+
   Cenário: Tentar salvar uma transição proibida sem informar estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E que a tabela de estágios alternativos esteja em branco
@@ -165,6 +169,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     E que o usuário confirme que não há configurações a serem feitas nesse anel
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
+
+  Cenário: Deve mostrar o tooltip com uma mensagem diferente para entre verder
+    Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
+    Então o botão salvar e avançar deve ter a mensagem "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique todos os grupos "
 
   Cenário: Salvar tabela entre verdes
     Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
