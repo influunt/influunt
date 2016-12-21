@@ -4,9 +4,9 @@
 
 ## Referências
 
-* [Manual do Usuário](/influunt-doc/manuais/manual_do_usuario.pdf)
+* [Manual do Usuário](/influunt-doc/manual_usuario.pdf)
 * [Especificação do Protocolo de Comunicação](http://influunt.github.io)
-* [Especificação da CET](influunt-doc/manuais/especificacao_cet.pdf)
+* [Especificação da CET](influunt-doc/especificacao_cet.pdf)
 
 ## Dependências
 Para instar a central é necessário instalar as seguintes dependências:
