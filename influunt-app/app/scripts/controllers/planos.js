@@ -306,16 +306,21 @@ angular.module('influuntApp')
 
         var indexPlano = 0;
         var deveAtivarPlano = false;
+        var tempoCiclo;
         if (angular.isDefined($scope.currentPlano)) {
           indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
           deveAtivarPlano = $scope.currentPlano.configurado;
+          tempoCiclo = $scope.currentPlano.tempoCiclo;
         }
 
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano, true);
         // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
-        $scope.currentPlano.configurado = $scope.currentPlano.configurado || deveAtivarPlano;
+        if (!$scope.currentPlano.configurado && deveAtivarPlano) {
+          $scope.currentPlano.configurado = true;
+          $scope.currentPlano.tempoCiclo = tempoCiclo;
+        }
       };
 
       $scope.selecionaPlano = function(plano, index, semTimeout) {
@@ -430,7 +435,7 @@ angular.module('influuntApp')
           clearErrosOnChange();
           atualizaDiagramaIntervalos();
         }, 500);
-      }
+      };
 
       /**
        * Renderiza novamente o diagrama de intervalos quando qualquer aspecto do plano for alterado.
@@ -629,6 +634,19 @@ angular.module('influuntApp')
           plano.estagiosPlanos.forEach(function(e) {
             var estagio = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
             estagio.tempoVerde = null;
+            estagio.dispensavel = false;
+            estagio.estagioQueRecebeEstagioDispensavel = null;
+          });
+        } else if (plano.modoOperacao === 'INTERMITENTE' || plano.modoOperacao === 'APAGADO') {
+          plano.estagiosPlanos.forEach(function(e) {
+            var estagio = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
+            estagio.tempoVerdeMinimo = null;
+            estagio.tempoVerdeMaximo = null;
+            estagio.tempoVerdeIntermediario = null;
+            estagio.tempoExtensaoVerde = null;
+            estagio.tempoVerde = null;
+            estagio.dispensavel = false;
+            estagio.estagioQueRecebeEstagioDispensavel = null;
           });
         } else {
           plano.estagiosPlanos.forEach(function(e) {
@@ -655,8 +673,8 @@ angular.module('influuntApp')
             estagioPlano.tempoVerdeIntermediario = $scope.objeto.verdeIntermediarioMin;
             estagioPlano.tempoExtensaoVerde = $scope.objeto.extensaoVerdeMin;
           });
-        } else {
-          plano.tempoCiclo = $scope.objeto.cicloMin;
+        } else if (plano.modoOperacao !== 'INTERMITENTE' && plano.modoOperacao !== 'APAGADO') {
+          plano.tempoCiclo = plano.tempoCiclo || $scope.objeto.cicloMin;
           plano.estagiosPlanos.forEach(function(e) {
             var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
             var estagio = _.find($scope.objeto.estagios, {idJson: estagioPlano.estagio.idJson});

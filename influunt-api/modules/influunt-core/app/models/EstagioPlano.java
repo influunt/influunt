@@ -310,7 +310,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.")
     public boolean isEstagioQueRecebeEstagioDispensavel() {
         if (getPlano().isTempoFixoCoordenado() && isDispensavel()) {
-            return getEstagioQueRecebeEstagioDispensavel() != null;
+            return getEstagioQueRecebeEstagioDispensavel() != null || getEstagioQueRecebeEstagioDispensavel().isDestroy();
         }
         return true;
     }
