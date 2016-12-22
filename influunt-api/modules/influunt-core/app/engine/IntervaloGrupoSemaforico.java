@@ -289,7 +289,7 @@ public class IntervaloGrupoSemaforico {
                 if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverde - tempoVermelhoIntegral)) {
                     tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverde - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
                 }
-                tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde);
+                tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde - tempoVermelhoIntegral);
 
                 intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
                 intervalos.put(Range.closedOpen(tempoAtraso, tempoAmarelo), estadoAmarelo);

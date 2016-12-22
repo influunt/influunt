@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <Base64.h>
+//#include <Base64.h>
 
 #include <QueueList.h>
 
@@ -161,11 +161,7 @@ int getColorAndDecrement(int line) {
 
 void run(int * colors) {
   for (int i = 0; i < 16; i++) {
-    if (times[i][0] > 0) {
       colors[i] = getColorAndDecrement(i);
-    } else {
-      colors[i] = DESLIGADO;
-    }
   }
 }
 
