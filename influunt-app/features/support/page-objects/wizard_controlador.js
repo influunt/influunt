@@ -524,6 +524,10 @@ var WizardControladorPage = function () {
     return world.setValue('div.sweet-alert input', valor);
   };
 
+  this.verificaFraseNadaPreencher = function(texto){
+    return world.getElementByXpath('//span[contains(text(), "'+texto+'")]');
+  };
+
   this.changeEstagioPosicao = function(estagio){
     return world.waitForOverlayDisappear().then(function(){
       return world.getElementByXpath('//hgroup//p[contains(text(), '+estagio+')]//following-sibling::button//i[contains(@class, "fa-arrow-down")]').click();

@@ -162,6 +162,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que não há configurações a serem feitas nesse anel."
     E o usuário selecionar o anel 1
     E o usuário selecionar o valor "E1" no campo "Alternativa"
     E o usuário selecionar o anel 2
@@ -176,6 +177,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Salvar tabela entre verdes
     Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que será utilizada a configuração padrão para esse grupo semafórico."
     E que o usuário marque 4 no tempo "Amarelo" da transição "E1-E3"
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E1-E3"
     E que o usuário clique no grupo "G2"
@@ -195,6 +197,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar um atraso de grupo
     Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que não há configurações a serem feitas nesse anel."
     E que o usuário marque 15 no campo 1 para transições com perda de direito de passagem
     E que o usuário marque 20 no campo 1 para transições com ganho de direito de passagem
     E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
@@ -214,6 +217,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar detectores sem configurar
     Dado que o usuário esteja no wizard no passo "Detectores"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que não há configurações a serem feitas nesse anel."
     E que o usuário adicione um detector do tipo "Veicular"
     E que o usuário adicione um detector do tipo "Veicular"
     E o usuário realizar um scroll down
