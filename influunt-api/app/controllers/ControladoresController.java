@@ -345,25 +345,29 @@ public class ControladoresController extends Controller {
         final String nomeEndereco = params.containsKey("nomeDoEndereco") ? params.get("nomeDoEndereco")[0] : null;
         params.remove("nomeDoEndereco");
 
+
+        final String nomeEnderecoEq = params.containsKey("nomeDoEndereco_eq") ? params.get("nomeDoEndereco_eq")[0] : null;
+        params.remove("nomeDoEndereco_eq");
+
+
         // Dado que seja um usuário root ou um usuário sob uma área.
         if (u.isRoot() || u.podeAcessarTodasAreas() || u.getArea() != null) {
             List<ControladorFisico> controladoresFisicos = null;
             if (params.containsKey("filtrarPor_eq")) {
-                if ((params.containsKey("filtrarPor_eq") && "Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
+                if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                    params.remove("filtrarPor_eq");
                     if (params.containsKey("subareaAgrupamento")) {
                         params.put("controladorSincronizado.subarea.nome", params.get("subareaAgrupamento"));
                         params.remove("subareaAgrupamento");
-                        params.remove("filtrarPor_eq");
+                        controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado", "controladorSincronizado.area", "controladorSincronizado.subarea", "controladorSincronizado.aneis")).query().getResult();
                     }
-                    controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado", "controladorSincronizado.area", "controladorSincronizado.subarea", "controladorSincronizado.aneis")).query().getResult();
-
-                } else if ((params.containsKey("filtrarPor_eq") && "Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
+                } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                    params.remove("filtrarPor_eq");
                     if (params.containsKey("subareaAgrupamento")) {
                         params.put("controladorSincronizado.aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
                         params.remove("subareaAgrupamento");
-                        params.remove("filtrarPor_eq");
+                        controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis", "controladorSincronizado.aneis.agrupamentos", "controladorSincronizado.aneis.endereco")).query().getResult();
                     }
-                    controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis", "controladorSincronizado.aneis.agrupamentos", "controladorSincronizado.aneis.endereco")).query().getResult();
                 }
             }
             if (controladoresFisicos == null) {
@@ -384,7 +388,8 @@ public class ControladoresController extends Controller {
             ArrayNode itens = JsonNodeFactory.instance.arrayNode();
             aneis.forEach(anel -> {
                 if (anel.isAtivo() && (aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString()))) {
-                    if (nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) {
+                    if ((nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) &&
+                        (nomeEnderecoEq == null || anel.getEndereco().nomeEndereco().toLowerCase().equals(nomeEnderecoEq.toLowerCase()))) {
                         ObjectNode controlador = JsonNodeFactory.instance.objectNode();
                         controlador.put("id", anel.getControlador().getControladorFisicoId());
                         itens.addObject()

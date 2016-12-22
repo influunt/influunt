@@ -1186,7 +1186,7 @@ public class ControladorCustomDeserializer {
         if (node.has("destroy")) {
             estagioPlano.setDestroy(node.get("destroy").asBoolean());
         }
-        if (node.has("estagioQueRecebeEstagioDispensavel")) {
+        if (node.has("estagioQueRecebeEstagioDispensavel") && node.get("estagioQueRecebeEstagioDispensavel").has("idJson")) {
             final String estagioPlanoId = node.get("estagioQueRecebeEstagioDispensavel").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {
                 Map map = caches.get(ESTAGIOS_PLANOS);

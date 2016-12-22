@@ -394,6 +394,8 @@ describe('Controller: PlanosCtrl', function() {
           expect(estagio.tempoVerdeMaximo).toBe(scope.objeto.verdeMaximoMin);
           expect(estagio.tempoVerdeIntermediario).toBe(scope.objeto.verdeIntermediarioMin);
           expect(estagio.tempoExtensaoVerde).toBe(scope.objeto.extensaoVerdeMin);
+          expect(estagio.estagioQueRecebeEstagioDispensavel).toBe(null);
+          expect(estagio.dispensavel).toBeFalsy();
         });
       });
 
@@ -401,7 +403,7 @@ describe('Controller: PlanosCtrl', function() {
         inicializaTesteModoOperacao('TEMPO_FIXO_COORDENADO');
         var plano = scope.currentPlano;
 
-        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.tempoCiclo).toBe(60);
         expect(plano.defasagem).toBe(scope.objeto.defasagemMin);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {
@@ -423,7 +425,7 @@ describe('Controller: PlanosCtrl', function() {
         inicializaTesteModoOperacao('TEMPO_FIXO_ISOLADO');
         var plano = scope.currentPlano;
 
-        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.tempoCiclo).toBe(60);
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {
@@ -438,6 +440,7 @@ describe('Controller: PlanosCtrl', function() {
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);
           expect(estagio.tempoExtensaoVerde).toBe(null);
+          expect(estagio.estagioQueRecebeEstagioDispensavel).toBe(null);
         });
       });
 
@@ -445,21 +448,19 @@ describe('Controller: PlanosCtrl', function() {
         inicializaTesteModoOperacao('INTERMITENTE');
         var plano = scope.currentPlano;
 
-        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMax);
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {
             idJson: e.idJson
           });
-          if (isEstagioVeicular(scope.objeto, estagio)) {
-            expect(estagio.tempoVerde).toBe(10);
-          } else {
-            expect(estagio.tempoVerde).toBe(4);
-          }
           expect(estagio.tempoVerdeMinimo).toBe(null);
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);
           expect(estagio.tempoExtensaoVerde).toBe(null);
+          expect(estagio.tempoVerde).toBe(null);
+          expect(estagio.estagioQueRecebeEstagioDispensavel).toBe(null);
+          expect(estagio.dispensavel).toBeFalsy();
         });
       });
 
@@ -467,21 +468,19 @@ describe('Controller: PlanosCtrl', function() {
         inicializaTesteModoOperacao('APAGADO');
         var plano = scope.currentPlano;
 
-        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMin);
+        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMax);
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {
             idJson: e.idJson
           });
-          if (isEstagioVeicular(scope.objeto, estagio)) {
-            expect(estagio.tempoVerde).toBe(10);
-          } else {
-            expect(estagio.tempoVerde).toBe(4);
-          }
           expect(estagio.tempoVerdeMinimo).toBe(null);
           expect(estagio.tempoVerdeMaximo).toBe(null);
           expect(estagio.tempoVerdeIntermediario).toBe(null);
           expect(estagio.tempoExtensaoVerde).toBe(null);
+          expect(estagio.tempoVerde).toBe(null);
+          expect(estagio.estagioQueRecebeEstagioDispensavel).toBe(null);
+          expect(estagio.dispensavel).toBeFalsy();
         });
       });
     });
