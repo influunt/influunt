@@ -16,10 +16,6 @@ module.exports = function() {
     return agrupamentosPage.selecionarValor(valor, select);
   });
 
-  this.Given(/^deve ser exibido "([^"]*)" agrupamento na listagem$/, function(msg) {
-    return agrupamentosPage.getItensTabela(msg);
-  });
-
   this.Given(/^clicar no botão de Novo Agrupamento$/, function() {
     return objetosComuns.clicarLinkNovo();
   });

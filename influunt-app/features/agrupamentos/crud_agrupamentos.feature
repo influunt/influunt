@@ -5,7 +5,7 @@ Funcionalidade: tela de cadastro de agrupamentos
   Cenário: Listagem de agrupamentos
     Dado que o sistema possua controladores cadastrados e configurados
     Quando o usuário acesse a listagem de "agrupamentos"
-    Então deve ser exibido "1" agrupamento na listagem
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Acesso à tela de novo agrupamento
     Quando o usuário acesse a listagem de "agrupamentos"
@@ -44,7 +44,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Quando clicar no botão de salvar
     E sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
-    Então deve ser exibido "1" agrupamento na listagem
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Acesso à tela de detalhes de um agrupamento
     Dado o usuário acesse a listagem de "agrupamentos"
@@ -64,7 +64,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
-    Então deve ser exibido "1" agrupamento na listagem
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Validar tempo simétrico ou assimétrico
     Dado o usuário acesse a listagem de "agrupamentos"
@@ -82,11 +82,11 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário responde não
-    Então deve ser exibido "2" agrupamento na listagem
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Exclusão de agrupamentos com confirmação do usuário
     Dado o usuário acesse a listagem de "agrupamentos"
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário confirmar
-    Então deve ser exibido "2" agrupamento na listagem
+    Então o sistema deverá mostrar "1" items na tabela

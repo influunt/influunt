@@ -55,6 +55,11 @@ var ComandosCentral = function () {
     });
   };
 
+  this.getItensTabela = function(quantity) {
+    var xpathTable = '//table[contains(@class, "table")]//tbody//tr[contains(@class, "ng-scope")]'
+    return world.countTableSize(quantity, xpathTable)
+  };
+
   this.checkRadio = function(value) {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElementByXpath('//input[contains(@value, "'+value+'")]/parent::div').click();

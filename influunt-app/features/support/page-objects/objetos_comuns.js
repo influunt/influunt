@@ -147,8 +147,10 @@ var ObjetosComuns = function () {
   };
 
   this.checarTotalInseridosNaTabela = function(quantidade) {
+    var xpathTable = '//table[contains(@class, "table")]//tbody//tr'
     return world.sleep(300).then(function(){
-      return world.countTableSize(quantidade);
+
+      return world.countTableSize(quantidade, xpathTable);
     });
   };
 

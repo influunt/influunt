@@ -16,10 +16,6 @@ module.exports = function() {
     return areasPage.indexPage();
   });
 
-  this.Given(/^deve ser exibida uma lista com as áreas já cadastradas no sistema$/, function() {
-    return areasPage.getItensTabela("1");
-  });
-
   this.Given(/^clicar no botão de Nova Área$/, function() {
     return objetosComuns.clicarLinkNovo();
   });

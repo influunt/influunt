@@ -13,10 +13,10 @@ Funcionalidade: Realizar comandos em controladores
     E selecionar igual para "Localização"
     Quando preencher o campo "Localização" com "R. Pamplona com Av. Paulista"
     E o usuário clicar no botão pesquisar
-    Então o sistema deverá mostrar "1" items na tabela
+    Então deve ser exibido "1" aneis sincronizados na listagem
     Dado o usuário clicar em pesquisar
     Quando o usuário clicar em limpar a pesquisa
-    Então o sistema deverá mostrar "2" items na tabela
+    Então deve ser exibido "2" aneis sincronizados na listagem
 
   Cenário: Verificar validações em Impor planos
     Dado o usuário selecionar o anel "1.003.0002.1" para configuração

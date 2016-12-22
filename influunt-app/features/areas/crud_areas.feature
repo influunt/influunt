@@ -5,7 +5,7 @@ Funcionalidade: tela de cadastro de áreas
   Cenário: Listagem de áreas
     Dado que exista ao menos uma área cadastrada no sistema
     Quando o usuário acessar a tela de listagem de áreas
-    Então deve ser exibida uma lista com as áreas já cadastradas no sistema
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Acesso à tela de nova área
     Quando o usuário acessar a tela de listagem de áreas

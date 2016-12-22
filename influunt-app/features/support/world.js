@@ -207,9 +207,9 @@ var World = function () {
     }, Promise.resolve());
   };
 
-  this.countTableSize = function(numberElements) {
+  this.countTableSize = function(numberElements, xpathTable) {
     var numeroElementosEsperado = numberElements;
-    return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr')).then(function(elements){
+    return driver.findElements(webdriver.By.xpath(xpathTable)).then(function(elements){
       var sizeElementsOnTabele = elements.length.toString();
       return new Promise(function(resolve, reject) {
         if (sizeElementsOnTabele === numeroElementosEsperado) {
