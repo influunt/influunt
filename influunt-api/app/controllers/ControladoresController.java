@@ -345,6 +345,11 @@ public class ControladoresController extends Controller {
         final String nomeEndereco = params.containsKey("nomeDoEndereco") ? params.get("nomeDoEndereco")[0] : null;
         params.remove("nomeDoEndereco");
 
+
+        final String nomeEnderecoEq = params.containsKey("nomeDoEndereco_eq") ? params.get("nomeDoEndereco_eq")[0] : null;
+        params.remove("nomeDoEndereco_eq");
+
+
         // Dado que seja um usuário root ou um usuário sob uma área.
         if (u.isRoot() || u.podeAcessarTodasAreas() || u.getArea() != null) {
             List<ControladorFisico> controladoresFisicos = null;
@@ -383,7 +388,8 @@ public class ControladoresController extends Controller {
             ArrayNode itens = JsonNodeFactory.instance.arrayNode();
             aneis.forEach(anel -> {
                 if (anel.isAtivo() && (aneisIds.isEmpty() || aneisIds.contains(anel.getId().toString()))) {
-                    if (nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) {
+                    if ((nomeEndereco == null || anel.getEndereco().nomeEndereco().toLowerCase().contains(nomeEndereco.toLowerCase())) &&
+                        (nomeEnderecoEq == null || anel.getEndereco().nomeEndereco().toLowerCase().equals(nomeEnderecoEq.toLowerCase()))) {
                         ObjectNode controlador = JsonNodeFactory.instance.objectNode();
                         controlador.put("id", anel.getControlador().getControladorFisicoId());
                         itens.addObject()
