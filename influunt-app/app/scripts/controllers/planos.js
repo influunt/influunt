@@ -655,6 +655,9 @@ angular.module('influuntApp')
             estagio.tempoVerdeMaximo = null;
             estagio.tempoVerdeIntermediario = null;
             estagio.tempoExtensaoVerde = null;
+            if (plano.modoOperacao === 'TEMPO_FIXO_ISOLADO') {
+              estagio.estagioQueRecebeEstagioDispensavel = null;
+            }
           });
         }
 
@@ -673,7 +676,9 @@ angular.module('influuntApp')
             estagioPlano.tempoVerdeIntermediario = $scope.objeto.verdeIntermediarioMin;
             estagioPlano.tempoExtensaoVerde = $scope.objeto.extensaoVerdeMin;
           });
-        } else if (plano.modoOperacao !== 'INTERMITENTE' && plano.modoOperacao !== 'APAGADO') {
+        } else if (plano.modoOperacao === 'INTERMITENTE' || plano.modoOperacao === 'APAGADO') {
+          plano.tempoCiclo = $scope.objeto.cicloMax;
+        } else {
           plano.tempoCiclo = plano.tempoCiclo || $scope.objeto.cicloMin;
           plano.estagiosPlanos.forEach(function(e) {
             var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
