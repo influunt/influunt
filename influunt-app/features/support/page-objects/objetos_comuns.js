@@ -168,9 +168,10 @@ var ObjetosComuns = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
+    var cssSelector = '[name="'+campo+'"] + p[class*="error-msg"]';
     world.sleep(600);
-    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
-      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
+    return world.waitFor(cssSelector).then(function() {
+      return world.getElement(cssSelector).getText();
     });
   };
 

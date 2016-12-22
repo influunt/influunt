@@ -16,8 +16,8 @@ module.exports = function() {
     return agrupamentosPage.selecionarValor(valor, select);
   });
 
-  this.Given(/^deve ser exibida uma lista com os agrupamentos já cadastrados no sistema$/, function() {
-    return agrupamentosPage.getItensTabela("1");
+  this.Given(/^deve ser exibido "([^"]*)" agrupamento na listagem$/, function(msg) {
+    return agrupamentosPage.getItensTabela(msg);
   });
 
   this.Given(/^clicar no botão de Novo Agrupamento$/, function() {
@@ -76,10 +76,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^nenhum agrupamento deve ser excluído$/, function() {
-    return agrupamentosPage.nenhumAgrupamentoDeveSerExcluido().then(function(res) {
-      return expect(res).to.be.true;
-    });
+  this.Given(/^o sistema deve mostrar erro no campo controladores avulsos com a mensagem "([^"]*)"$/, function(msg) {
+    return agrupamentosPage.getErrorMessageInP(msg)
   });
 
   this.Given(/^o usuário agrupar o controlador "([^"]*)"$/, function(controlador) {

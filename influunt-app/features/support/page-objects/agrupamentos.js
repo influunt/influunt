@@ -83,6 +83,14 @@ var AgrupamentosPage = function () {
     });
   };
 
+  this.getErrorMessageInP = function(msg) {
+    var cssSelector = 'p[class*="error-msg"]'
+    world.sleep(600);
+    return world.waitFor(cssSelector).then(function() {
+      return world.getElement(cssSelector).getText();
+    });
+  };
+
   this.toastMessage = function() {
     return world.sleep(1000).then(function() {
       return world.waitFor('#toast-container div.toast-message').then(function() {

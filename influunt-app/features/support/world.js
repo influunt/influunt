@@ -209,7 +209,7 @@ var World = function () {
 
   this.countTableSize = function(numberElements) {
     var numeroElementosEsperado = numberElements;
-    return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr[contains(@class, "ng-scope")]')).then(function(elements){
+    return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr')).then(function(elements){
       var sizeElementsOnTabele = elements.length.toString();
       return new Promise(function(resolve, reject) {
         if (sizeElementsOnTabele === numeroElementosEsperado) {
