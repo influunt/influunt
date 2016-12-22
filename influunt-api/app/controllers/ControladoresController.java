@@ -349,22 +349,20 @@ public class ControladoresController extends Controller {
         if (u.isRoot() || u.podeAcessarTodasAreas() || u.getArea() != null) {
             List<ControladorFisico> controladoresFisicos = null;
             if (params.containsKey("filtrarPor_eq")) {
-                if ((params.containsKey("filtrarPor_eq") && "Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
+                if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                     if (params.containsKey("subareaAgrupamento")) {
                         params.put("controladorSincronizado.subarea.nome", params.get("subareaAgrupamento"));
                         params.remove("subareaAgrupamento");
-                        params.remove("filtrarPor_eq");
+                        controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado", "controladorSincronizado.area", "controladorSincronizado.subarea", "controladorSincronizado.aneis")).query().getResult();
                     }
-                    controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado", "controladorSincronizado.area", "controladorSincronizado.subarea", "controladorSincronizado.aneis")).query().getResult();
-
-                } else if ((params.containsKey("filtrarPor_eq") && "Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]))) {
+                } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                     if (params.containsKey("subareaAgrupamento")) {
                         params.put("controladorSincronizado.aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
                         params.remove("subareaAgrupamento");
-                        params.remove("filtrarPor_eq");
+                        controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis", "controladorSincronizado.aneis.agrupamentos", "controladorSincronizado.aneis.endereco")).query().getResult();
                     }
-                    controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis", "controladorSincronizado.aneis.agrupamentos", "controladorSincronizado.aneis.endereco")).query().getResult();
                 }
+                params.remove("filtrarPor_eq");
             }
             if (controladoresFisicos == null) {
                 controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis")).query().getResult();
