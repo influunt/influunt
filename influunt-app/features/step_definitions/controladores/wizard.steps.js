@@ -176,8 +176,8 @@ module.exports = function() {
     return wizardPage.clickBotaoSimSweet();
   });
 
-  this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
-    return wizardPage.selecionarValor();
+  this.Given(/^o sistema deverá mostrar um check box com a seguinte mensagem "([^"]*)"$/, function(mensagem){
+    return wizardPage.verificaFraseNadaPreencher(mensagem);
   });
 
   this.Given(/^que o usuário confirme que não há configurações a serem feitas nesse anel$/, function(){
