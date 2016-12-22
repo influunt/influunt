@@ -350,19 +350,20 @@ public class ControladoresController extends Controller {
             List<ControladorFisico> controladoresFisicos = null;
             if (params.containsKey("filtrarPor_eq")) {
                 if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                    params.remove("filtrarPor_eq");
                     if (params.containsKey("subareaAgrupamento")) {
                         params.put("controladorSincronizado.subarea.nome", params.get("subareaAgrupamento"));
                         params.remove("subareaAgrupamento");
                         controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado", "controladorSincronizado.area", "controladorSincronizado.subarea", "controladorSincronizado.aneis")).query().getResult();
                     }
                 } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
+                    params.remove("filtrarPor_eq");
                     if (params.containsKey("subareaAgrupamento")) {
                         params.put("controladorSincronizado.aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
                         params.remove("subareaAgrupamento");
                         controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis", "controladorSincronizado.aneis.agrupamentos", "controladorSincronizado.aneis.endereco")).query().getResult();
                     }
                 }
-                params.remove("filtrarPor_eq");
             }
             if (controladoresFisicos == null) {
                 controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis")).query().getResult();
