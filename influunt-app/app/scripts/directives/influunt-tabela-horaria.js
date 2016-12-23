@@ -10,11 +10,9 @@ angular.module('influuntApp')
   .directive('influuntTabelaHoraria', ['$controller', '$state', '$timeout', 'Restangular', '$filter', 'toast',
                                        'influuntAlert', 'influuntBlockui', 'geraDadosDiagramaIntervalo',
                                        'handleValidations', 'TabelaHorariaService', 'HorariosService', 'planoService',
-                                       'SimulacaoService', 'breadcrumbs',
     function ($controller, $state, $timeout, Restangular, $filter, toast,
               influuntAlert, influuntBlockui, geraDadosDiagramaIntervalo,
-              handleValidations, TabelaHorariaService, HorariosService, planoService,
-              SimulacaoService, breadcrumbs) {
+              handleValidations, TabelaHorariaService, HorariosService, planoService) {
       return {
         templateUrl: 'views/directives/influunt-tabela-horaria.html',
         restrict: 'E',
@@ -25,7 +23,7 @@ angular.module('influuntApp')
           podeVisualizarPlanos: '<',
           errors: '='
         },
-        link: function postLink(scope, element) {
+        link: function postLink(scope) {
 
           var adicionaTabelaHorario, adicionaEvento, atualizaDiagramaIntervalo, atualizaEventos, atualizaEventosNormais,
               atualizaPosicaoEventosDoTipo, atualizaPosicaoEventos, atualizaQuantidadeEventos, removerEventoNoCliente,
@@ -47,7 +45,6 @@ angular.module('influuntApp')
           scope.$watch('podeInicializar', function(podeInicializar) {
             if (podeInicializar && !inicializado) {
               inicializado = true;
-              console.log('init - objeto: ', scope.objeto)
               scope.init();
             }
           });

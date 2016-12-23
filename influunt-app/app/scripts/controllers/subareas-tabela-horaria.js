@@ -19,7 +19,6 @@ angular.module('influuntApp')
         loadTabelaHoraria()
           .then(function(response) {
             if (response) {
-              console.log(response.plain())
               $scope.objeto = response.plain();
             } else {
               $scope.objeto = {
@@ -30,15 +29,7 @@ angular.module('influuntApp')
             }
             $scope.objeto.subareaId = $scope.subareaId;
             $scope.podeInicializar = true;
-          })
-          .catch(function() {
-            console.log('opa')
           });
-        // $scope.objeto = {
-        //   subareaId: $scope.$state.params.id,
-        //   tabelasHorarias: [],
-        //   versoesTabelasHorarias: []
-        // };
       };
 
       loadTabelaHoraria = function() {
@@ -73,13 +64,12 @@ angular.module('influuntApp')
             $scope.errorsUibAlert = _.chain(res.data)
             .map(function(erro) { return erro.root + ': ' + erro.message; })
             .uniq()
-            .value()
+            .value();
 
             return $q.reject(handleValidations.buildValidationMessages(res.data, refObjeto));
           });
       };
 
-      // Tabela Horária
       $scope.submitForm = function() {
         return submit($scope.objeto)
           .then(function(res) { $scope.objeto = res; })

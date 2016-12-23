@@ -4,63 +4,6 @@
       <div class="step-content tabs-container body">
         <fieldset>
 
-        <!-- <pre>{{ objeto | json }}</pre> -->
-
-          <!-- <div class="row" ng-if="somenteVisualizacao">
-            <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
-              <div class="right">
-                <a class="btn btn-primary" type="button"
-                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
-                   data-target="#modal-timeline" data-toggle="modal">
-                  <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
-                </a>
-
-                <a class="btn btn-primary" type="button"
-                   tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
-                   data-ng-if="podeSimular(objeto)"
-                   ui-sref="app.simulacao({ id: objeto.id })"
-                   permission permission-sref="'app.simulacao'">
-                  <i class="fa fa-cogs"></i> {{ 'controladores.geral.simular' | translate }}
-                </a>
-                <a class="btn btn-primary" type="button"
-                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                   ng-click="editarTabelaHoraria(objeto.id)"
-                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'EDITANDO' || currentVersaoTabelaHoraria.statusVersao === undefined) && podeEditarControlador()"
-                   permission permission-only="'criarTabelaHoraria'">
-                  <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-                </a>
-                <a class="btn btn-primary" type="button"
-                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                   ng-click="clonarTabelaHoraria(objeto.id)"
-                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'ATIVO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO') && podeEditarControlador()"
-                   permission permission-only="'criarTabelaHoraria'">
-                  <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-                </a>
-
-                <a  data-ng-if="!podeEditarControlador()"
-                    disabled="disabled"
-                    tooltips tooltip-side="left" tooltip-template="{{ 'controladores.revisao.controladorEmEdicaoPor' | translate: {nomeUsuario: objeto.versaoControlador.usuario.nome} }}"
-                    class="btn btn-primary">
-                  <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
-                </a>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- <div class="row">
-            <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
-              <div class="right">
-                <a class="btn btn-primary btn-danger"
-                   type="button"
-                   tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.cancelarEdicao' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
-                   data-ng-click="cancelarEdicao()"
-                   data-ng-if="objeto.planosBloqueado">
-                  <i class="fa fa-trash"></i> {{ 'controladores.geral.cancelarEdicao' | translate }}
-                </a>
-              </div>
-            </div>
-          </div> -->
-
           <div class="row">
             <uib-alert type="danger" data-ng-if="errorsUibAlert">
               <div style="padding-left: 12px;">
@@ -92,12 +35,6 @@
             </div>
           </div>
 
-          <!-- <influunt-modal-timeline
-            resource="'tabelas_horarias'"
-            resource-id="$state.params.id"
-            mostrar-link-alteracoes="true"
-            link-alteracoes="app.tabelas_horarias_diff">
-          </influunt-modal-timeline> -->
         </fieldset>
       </div>
     </div>

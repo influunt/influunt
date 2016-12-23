@@ -183,9 +183,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
-        if (!erros.isEmpty()) {
-            System.out.println("opa");
-        }
         return erros.isEmpty() ? controlador : null;
     }
 

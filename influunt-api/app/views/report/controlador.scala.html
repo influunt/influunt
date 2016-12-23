@@ -1,123 +1,103 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @(controlador: Controlador)
 <meta charset="UTF-8">
 
 <table>
-  <tbody>
-    <tr>
-      <td><img class="logo" src="@controllers.routes.Assets.at("images/logo-escura.png").absoluteURL()"></td>
-    </tr>
-  </tbody>
+    <tbody>
+        <tr>
+            <td><img class="logo" src="@controllers.routes.Assets.at("images/logo-escura.png").absoluteURL()"></td>
+        </tr>
+    </tbody>
 </table>
 <hr>
-<!-- DADOS BASICOS -->
+    <!-- DADOS BASICOS -->
 <table class="table basicos">
-  <h3>Dados Básicos</h3>
-  <p><b>Cidade:</b> @controlador.getArea().getCidade().getNome | <b>Área:</b> @controlador.getArea().getDescricao | <b>Subárea:</b> @controlador.getSubarea() | <b>Número SMEE:</b> @controlador.getNumeroSMEE() | <b>CLC:</b> @controlador.getCLC()</p>
-  <tbody>
-    <tr>
-      <td>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><b>Num. SMEE conjugado 1:</b> @controlador.getNumeroSMEEConjugado1() <br> <b>Num. SMEE conjugado 2:</b> @controlador.getNumeroSMEEConjugado2() <br> <b>Num. SMEE conjugado 3:</b> @controlador.getNumeroSMEEConjugado3() <br> <b>Fabricante:</b> @controlador.getModelo().getFabricante().getNome() <br> <b>Modelo:</b> @controlador.getModelo().getDescricao()</p>
-      </td>
-      <td>
-        <p><b>Estágios:</b> @controlador.getTotalEstagios() <br> <b>Total de Anéis:</b> @controlador.getAneisAtivos().size() <br><b>Número de detector veicular:</b> @controlador.getTotalDetectoresVeicular() <br> <b>Número de detector pedestre:</b> @controlador.getTotalDetectoresPedestre()</p>
-      </td>
-      <td>@if(controlador.getCroqui() != null){ <img src="@controllers.routes.ImagensController.findOneVersion(controlador.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
-    </tr>
-  </tbody>
+    <h3>Dados Básicos</h3>
+    <p><b>Cidade:</b> @controlador.getArea().getCidade().getNome | <b>Área:</b> @controlador.getArea().getDescricao | <b>Subárea:</b> @controlador.getSubarea() | <b>Número SMEE:</b> @controlador.getNumeroSMEE() | <b>CLC:</b> @controlador.getCLC()</p>
+    <tbody>
+        <tr>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p><b>Num. SMEE conjugado 1:</b> @controlador.getNumeroSMEEConjugado1() <br> <b>Num. SMEE conjugado 2:</b> @controlador.getNumeroSMEEConjugado2() <br> <b>Num. SMEE conjugado 3:</b> @controlador.getNumeroSMEEConjugado3() <br> <b>Fabricante:</b> @controlador.getModelo().getFabricante().getNome() <br> <b>Modelo:</b> @controlador.getModelo().getDescricao()</p>
+            </td>
+            <td>
+                <p><b>Estágios:</b> @controlador.getTotalEstagios() <br> <b>Total de Anéis:</b> @controlador.getAneisAtivos().size() <br><b>Número de detector veicular:</b> @controlador.getTotalDetectoresVeicular() <br> <b>Número de detector pedestre:</b> @controlador.getTotalDetectoresPedestre()</p>
+            </td>
+            <td>@if(controlador.getCroqui() != null){ <img src="@controllers.routes.ImagensController.findOneVersion(controlador.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
+        </tr>
+    </tbody>
 </table>
 
-<!-- ANEIS -->
+    <!-- ANEIS -->
 @for(anel <- controlador.getAneisAtivos().iterator()) {
-  <table class="table">
-    <h3>ANEL @anel.getPosicao()</h3>
-    <tbody>
-      <tr>
-        <td>
-          <p><b>Aceita Modo Manual:</b> Sim</p>
-          <p><b>CLA:</b> @anel.getCLA</p>
-          <p><b>Número SMEE:</b> @anel.getNumeroSMEE</p>
-          <p><b>Logradouro:</b> @anel.getEndereco().nomeEndereco()</p>
-        </td>
-        <td>
-          <p><b>Grupos semafóricos de pedestres:</b> @anel.getTotalGrupoSemaforicosPedestre</p>
-          <p><b>Grupos semafóricos veiculares:</b> @anel.getTotalGrupoSemaforicosVeicular</p>
-          <p><b>Número de detectores pedestres:</b> @anel.getTotalDetectoresPedestre</p>
-          <p><b>Número de detectores veiculares:</b> @anel.getTotalDetectoresVeicular</p>
-        </td>
-        <td>@if(anel.getCroqui() != null) { <img src="@controllers.routes.ImagensController.findOneVersion(anel.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table">
+        <h3>ANEL @anel.getPosicao()</h3>
+        <tbody>
+            <tr>
+                <td>
+                    <p><b>Aceita Modo Manual:</b> Sim</p>
+                    <p><b>CLA:</b> @anel.getCLA</p>
+                    <p><b>Número SMEE:</b> @anel.getNumeroSMEE</p>
+                    <p><b>Logradouro:</b> @anel.getEndereco().nomeEndereco()</p>
+                </td>
+                <td>
+                    <p><b>Grupos semafóricos de pedestres:</b> @anel.getTotalGrupoSemaforicosPedestre</p>
+                    <p><b>Grupos semafóricos veiculares:</b> @anel.getTotalGrupoSemaforicosVeicular</p>
+                    <p><b>Número de detectores pedestres:</b> @anel.getTotalDetectoresPedestre</p>
+                    <p><b>Número de detectores veiculares:</b> @anel.getTotalDetectoresVeicular</p>
+                </td>
+                <td>@if(anel.getCroqui() != null) { <img src="@controllers.routes.ImagensController.findOneVersion(anel.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
+            </tr>
+        </tbody>
+    </table>
 
-  <!-- GRUPOS SEMAFÓRICOS -->
-  <table class="table table-striped">
-    <h3>Grupos Semafóricos</h3>
-    <thead>
-      <tr>
-        <th>Grupo</th>
-        <th>Descrição</th>
-        <th>Tipo</th>
-        <th>Fase Vermelha</th>
-        <th>Verde segurança</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(grupo <- anel.getGruposSemaforicos().iterator()) {
-          <tr>
-              <td>Grupo @grupo.getPosicao</td>
-              <td>@grupo.getDescricao</td>
-              <td>@grupo.getTipo</td>
-              <td>@if(grupo.isFaseVermelhaApagadaAmareloIntermitente) { "Colocar em amarelo intermitente" } else { "Não colocar em amarelo intermitente" }</td>
-              <td>@grupo.getTempoVerdeSeguranca</td>
-          </tr>
-      }
-    </tbody>
-  </table>
-  <!-- ASSOCIAÇÃO X GRUPO -->
-  <table class="table">
-    <h3>Associação Estágio x Grupo Semafórico</h3>
-    <tbody>
-        @for(estagio <- anel.getEstagios().iterator()) {
-          <tr class="associacao">
-            <td>
-              <b>@estagio.getDescricao</b>
-              <hr>
-              @if(estagio.getImagem() != null) { <img src="@controllers.routes.ImagensController.findOneVersion(estagio.getImagem().getId().toString(), "thumb").absoluteURL()">}
-              <hr>
-              <p>@estagio.getDescricaoEstagiosGruposSemaforicos() <br> Tempo Max. Perman.: @estagio.getTempoMaximoPermanencia()s</p>
-            </td>
-          </tr>
+        <!-- GRUPOS SEMAFÓRICOS -->
+    <table class="table table-striped">
+        <h3>Grupos Semafóricos</h3>
+        <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Fase Vermelha</th>
+                <th>Verde segurança</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(grupo <- anel.getGruposSemaforicos().iterator()) {
+            <tr>
+                <td>Grupo @grupo.getPosicao</td>
+                <td>@grupo.getDescricao</td>
+                <td>@grupo.getTipo</td>
+                <td>@if(grupo.isFaseVermelhaApagadaAmareloIntermitente) { "Colocar em amarelo intermitente" } else { "Não colocar em amarelo intermitente" }</td>
+                <td>@grupo.getTempoVerdeSeguranca</td>
+            </tr>
         }
-    </tbody>
-  </table>
-  <!-- VERDES CONFLITANTES -->
-  <table class="table">
-    <h3>Verdes Conflitantes</h3>
-    <tbody>
+        </tbody>
+    </table>
+        <!-- ASSOCIAÇÃO X GRUPO -->
+    <table class="table">
+        <h3>Associação Estágio x Grupo Semafórico</h3>
+        <tbody>
+        @for(estagio <- anel.getEstagios().iterator()) {
+            <tr class="associacao">
+                <td>
+                    <b>@estagio.getDescricao</b>
+                    <hr>
+                    @if(estagio.getImagem() != null) { <img src="@controllers.routes.ImagensController.findOneVersion(estagio.getImagem().getId().toString(), "thumb").absoluteURL()">}
+                    <hr>
+                    <p>@estagio.getDescricaoEstagiosGruposSemaforicos() <br> Tempo Max. Perman.: @estagio.getTempoMaximoPermanencia()s</p>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+        <!-- VERDES CONFLITANTES -->
+    <table class="table">
+        <h3>Verdes Conflitantes</h3>
+        <tbody>
         @for(grupo <- anel.getGruposSemaforicos().iterator()) {
             @for(verdeConflitante <- grupo.getVerdesConflitantes().iterator()) {
                 <tr class="verdes">
@@ -125,18 +105,18 @@
                 </tr>
             }
         }
-    </tbody>
-  </table>
-  <!-- TRANSIÇÕES PROIBIDAS -->
-  <table class="table table-striped">
-    <h3>Transições Proibidas</h3>
-    <thead>
-      <tr>
-        <th>Transição Proibida</th>
-        <th>Alternativa</th>
-      </tr>
-    </thead>
-    <tbody>
+        </tbody>
+    </table>
+        <!-- TRANSIÇÕES PROIBIDAS -->
+    <table class="table table-striped">
+        <h3>Transições Proibidas</h3>
+        <thead>
+            <tr>
+                <th>Transição Proibida</th>
+                <th>Alternativa</th>
+            </tr>
+        </thead>
+        <tbody>
         @for(estagio <- anel.getEstagios().iterator()) {
             @for(transicaoProibida <- estagio.getOrigemDeTransicoesProibidas().iterator()) {
                 <tr>
@@ -145,140 +125,141 @@
                 </tr>
             }
         }
-    </tbody>
-  </table>
-  <!-- TABELA ENTRE VERDES -->
-  <h3>Tabela de Entreverdes</h3>
-  @for(grupo <- anel.getGruposSemaforicos().iterator()) {
-      @for(tabelaEntreVerdes <- grupo.getTabelasEntreVerdes().iterator()) {
-          <p><b>Grupos Semafórico:</b> @grupo.toString <b>Tabela de Entreverdes</b> @tabelaEntreVerdes.getDescricao</p>
-          <table class="table table-striped">
-              <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Amarelo</th>
-                      <th>Vermelho Limpeza</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @for(transicao <- tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().iterator()) {
-                      <tr>
-                          <td>@transicao.getTransicao().getOrigem().toString()-@transicao.getTransicao().getDestino().toString()</td>
-                          <td>@transicao.getTempoAmarelo()s</td>
-                          <td>@transicao.getTempoVermelhoLimpeza()s</td>
-                      </tr>
-                  }
-              </tbody>
-          </table>
+        </tbody>
+    </table>
+        <!-- TABELA ENTRE VERDES -->
+    <h3>Tabela de Entreverdes</h3>
+    @for(grupo <- anel.getGruposSemaforicos().iterator()) {
+        @for(tabelaEntreVerdes <- grupo.getTabelasEntreVerdes().iterator()) {
+            <p><b>Grupos Semafórico:</b> @grupo.toString <b>Tabela de Entreverdes</b> @tabelaEntreVerdes.getDescricao</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Amarelo</th>
+                        <th>Vermelho Limpeza</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(transicao <- tabelaEntreVerdes.getTabelaEntreVerdesTransicoes().iterator()) {
+                    <tr>
+                        <td>@transicao.getTransicao().getOrigem().toString()-@transicao.getTransicao().getDestino().toString()</td>
+                        <td>@transicao.getTempoAmarelo()s</td>
+                        <td>@transicao.getTempoVermelhoLimpeza()s</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
 
-      }
-  }
+        }
+    }
 
-  <!-- ATRASO DE GRUPO -->
-  <h3>Atraso de Grupo</h3>
-  @for(grupo <- anel.getGruposSemaforicos().iterator()) {
-      <p><b>Grupos Semafórico:</b> @grupo.toString </p>
-      <table class="table table-striped">
-          <thead>
-              <tr>
-                  <th>Transições com perda de direito de passagem</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td><b>E1-E3</b> Grupo de atraso: 0s</td>
-              </tr>
-          </tbody>
-      </table>
-      <table class="table table-striped">
-          <thead>
-              <tr>
-                  <th>Transições com ganho de direito de passagem</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td><b>E1-E3</b> Grupo de atraso: 0s</td>
-              </tr>
-          </tbody>
-      </table>
-  }
-  <!-- DETECTORES -->
-  <table class="table table-striped">
-    <thead>
-      <h3>Detectores</h3>
-      <tr>
-        <th>#</th>
-        <th>Estágio</th>
-        <th>Monitoramento de Falha</th>
-        <th>Ausência de Detecção</th>
-        <th>Ausência de Detecção Permanente</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(detector <- anel.getDetectores().iterator()) {
-          <tr>
-              <td><b>@detector.toString()</b></td>
-              <td>@detector.getEstagio.toString()</td>
-              <td>@(if(detector.isMonitorado()) "Sim" else "Não")</td>
-              <td>@detector.getTempoAusenciaDeteccao()s</td>
-              <td>@detector.getTempoDeteccaoPermanente() min</td>
-          </tr>
-      }
-    </tbody>
-  </table>
+        <!-- ATRASO DE GRUPO -->
+    <h3>Atraso de Grupo</h3>
+    @for(grupo <- anel.getGruposSemaforicos().iterator()) {
+        <p><b>Grupos Semafórico:</b> @grupo.toString </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Transições com perda de direito de passagem</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>E1-E3</b> Grupo de atraso: 0s</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Transições com ganho de direito de passagem</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>E1-E3</b> Grupo de atraso: 0s</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+        <!-- DETECTORES -->
+    <table class="table table-striped">
+        <thead>
+            <h3>Detectores</h3>
+            <tr>
+                <th>#</th>
+                <th>Estágio</th>
+                <th>Monitoramento de Falha</th>
+                <th>Ausência de Detecção</th>
+                <th>Ausência de Detecção Permanente</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(detector <- anel.getDetectores().iterator()) {
+            <tr>
+                <td><b>@detector.toString()</b></td>
+                <td>@detector.getEstagio.toString()</td>
+                <td>@(if(detector.isMonitorado()) "Sim" else "Não")</td>
+                <td>@detector.getTempoAusenciaDeteccao()s</td>
+                <td>@detector.getTempoDeteccaoPermanente() min</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 <style media="">
-  * {
+* {
     font-family: Arial, Verdana, sans-serif;
     font-size: 12px;
-  }
+}
 
-  h3 {
+h3 {
     padding: 0.2rem;
     font-size: 16px;
     text-transform: uppercase;
-  }
-  .logo {
+}
+.logo {
     width: 100px;
     float: right;
-  }
-  .table {
+}
+.table {
     width: 100%;
     max-width: 100%;
     margin-bottom: 2rem;
     border: 1px solid #999;
     border-top: 3px solid #999;
     padding: 10px;
-  }
+}
 
-  .table th,
-  .table td {
+.table th,
+.table td {
     padding: 0.2rem;
     vertical-align: top;
-  }
+}
 
-  .table thead th {
+.table thead th {
     vertical-align: bottom;
     text-align: left;
     font-size: 14px;
-  }
+}
 
-  .table-striped tbody tr:nth-of-type(odd) {
+.table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.05);
-  }
-  .basicos td p {
+}
+.basicos td p {
     margin-bottom: 5px;
-  }
-  tr {
+}
+tr {
     page-break-inside: avoid !important;
-  }
-  .associacao td,
-  .transicoes td,
-  .entreverdes td,
-  .verdes td {
+}
+.associacao td,
+.transicoes td,
+.entreverdes td,
+.verdes td {
     text-align: center;
     border: 1px solid #ccc;
     padding: 20px;
-  }
+}
 </style>
+

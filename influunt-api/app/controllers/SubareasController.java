@@ -137,7 +137,6 @@ public class SubareasController extends Controller {
 
             tabelaHorariaJson.get("versoesTabelasHorarias").forEach(vth -> {
                 ((ObjectNode) vth).remove("id");
-                ((ObjectNode) vth).put("statusVersao", StatusVersao.CONFIGURADO.toString());
             });
             tabelaHorariaJson.get("tabelasHorarias").forEach(th -> {
                 ((ObjectNode) th).remove("id");
