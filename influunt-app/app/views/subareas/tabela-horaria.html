@@ -4,7 +4,9 @@
       <div class="step-content tabs-container body">
         <fieldset>
 
-          <div class="row" ng-if="somenteVisualizacao">
+        <!-- <pre>{{ objeto | json }}</pre> -->
+
+          <!-- <div class="row" ng-if="somenteVisualizacao">
             <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
               <div class="right">
                 <a class="btn btn-primary" type="button"
@@ -12,7 +14,7 @@
                    data-target="#modal-timeline" data-toggle="modal">
                   <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
                 </a>
-                <!-- Botões "editar" habilitados -->
+
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
                    data-ng-if="podeSimular(objeto)"
@@ -30,12 +32,11 @@
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
                    ng-click="clonarTabelaHoraria(objeto.id)"
-                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'SINCRONIZADO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO') && podeEditarControlador()"
+                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'ATIVO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO') && podeEditarControlador()"
                    permission permission-only="'criarTabelaHoraria'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
 
-                <!-- Botão "editar" desabilitado -->
                 <a  data-ng-if="!podeEditarControlador()"
                     disabled="disabled"
                     tooltips tooltip-side="left" tooltip-template="{{ 'controladores.revisao.controladorEmEdicaoPor' | translate: {nomeUsuario: objeto.versaoControlador.usuario.nome} }}"
@@ -44,9 +45,9 @@
                 </a>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="row" ng-if="!somenteVisualizacao">
+          <!-- <div class="row">
             <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
               <div class="right">
                 <a class="btn btn-primary btn-danger"
@@ -58,21 +59,31 @@
                 </a>
               </div>
             </div>
+          </div> -->
+
+          <div class="row">
+            <uib-alert type="danger" data-ng-if="errorsUibAlert">
+              <div style="padding-left: 12px;">
+                <ul>
+                  <li data-ng-repeat="message in errorsUibAlert">{{ message }}</li>
+                </ul>
+              </div>
+            </uib-alert>
           </div>
 
-          <!-- <ng-include src="'views/tabela_horarios/tabs-eventos.html'"></ng-include> -->
+
           <influunt-tabela-horaria
             read-only="somenteVisualizacao"
             objeto="objeto"
             errors="errors"
             pode-inicializar="podeInicializar"
-            pode-visualizar-planos="true">
+            pode-visualizar-planos="false">
           </influunt-tabela-horaria>
 
 
-          <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix" ng-if="!somenteVisualizacao">
+          <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
             <div class="right">
-              <a tooltips tooltip-template="Descartar" ui-sref="app.controladores" class="btn btn-outline btn-info btn-footer right m-r-sm right">
+              <a tooltips tooltip-template="Descartar" ui-sref="app.subareas" class="btn btn-outline btn-info btn-footer right m-r-sm right">
                 {{ 'tabelaHorarios.descartar' | translate }}
               </a>
               <a data-ng-click="submitForm()" go-to-top tooltips tooltip-template="Salvar" class="btn btn-primary btn-footer right">
@@ -81,12 +92,12 @@
             </div>
           </div>
 
-          <influunt-modal-timeline
+          <!-- <influunt-modal-timeline
             resource="'tabelas_horarias'"
             resource-id="$state.params.id"
             mostrar-link-alteracoes="true"
             link-alteracoes="app.tabelas_horarias_diff">
-          </influunt-modal-timeline>
+          </influunt-modal-timeline> -->
         </fieldset>
       </div>
     </div>

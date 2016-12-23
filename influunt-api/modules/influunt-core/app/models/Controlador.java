@@ -183,7 +183,25 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        if (!erros.isEmpty()) {
+            System.out.println("opa");
+        }
         return erros.isEmpty() ? controlador : null;
+    }
+
+    public static Object checkConfiguracaoTabelaHoraria(Object controladorObject, Object pacoteTabelaHoraria) {
+        Controlador controlador = isPacoteTabelaHorariaValido(controladorObject, pacoteTabelaHoraria);
+        if (controlador == null) {
+            JsonNode controladorJson = Json.parse(controladorObject.toString());
+            JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+
+            controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson);
+            return new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+                ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        }
+        return controlador;
     }
 
 

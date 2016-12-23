@@ -92,6 +92,8 @@ angular.module('influuntApp')
         }
       }
 
+      console.log('scope.errors:', validationMessages)
+
       return validationMessages;
     };
 

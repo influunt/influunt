@@ -50,6 +50,12 @@
   "appPath": "app",
   "moduleName": "influuntApp",
   "overrides": {
+    "raven-js": {
+      "main": [
+        "dist/raven.js",
+        "dist/plugins/angular.js"
+      ]
+    },
     "angular-datepicker": {
       "main": [
         "./dist/angular-datepicker.css"
