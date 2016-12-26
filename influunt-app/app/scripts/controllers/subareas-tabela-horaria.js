@@ -61,10 +61,15 @@ angular.module('influuntApp')
             return res;
           })
           .catch(function(res) {
+            if (res.status !== 422) {
+              console.error(res);
+              return $q.reject();
+            }
+
             $scope.errorsUibAlert = _.chain(res.data)
-            .map(function(erro) { return erro.root + ': ' + erro.message; })
-            .uniq()
-            .value();
+              .map(function(erro) { return erro.root + ': ' + erro.message; })
+              .uniq()
+              .value();
 
             return $q.reject(handleValidations.buildValidationMessages(res.data, refObjeto));
           });
@@ -72,7 +77,6 @@ angular.module('influuntApp')
 
       $scope.submitForm = function() {
         return submit($scope.objeto)
-          .then(function(res) { $scope.objeto = res; })
           .catch(function(err) { $scope.errors = err; });
       };
 

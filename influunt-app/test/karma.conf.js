@@ -50,6 +50,7 @@ module.exports = function(config) {
       'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
       'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
       'bower_components/toastr/toastr.js',
+      'bower_components/toastr/toastr.css',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
       'bower_components/leaflet/dist/leaflet-src.js',
@@ -75,6 +76,9 @@ module.exports = function(config) {
       'bower_components/paho-mqtt/src/mqttws31.js',
       'bower_components/ng-idle/angular-idle.js',
       'bower_components/bootstrap/dist/js/bootstrap.js',
+      'bower_components/raven-js/dist/raven.js',
+      'bower_components/raven-js/dist/plugins/angular.js',
+      'bower_components/tooltipster/dist/js/tooltipster.bundle.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',
@@ -123,16 +127,16 @@ module.exports = function(config) {
       'PhantomJS'
     ],
 
-    reporters: ['progress', 'kjhtml', 'coverage'],
-    // reporters: ['progress', 'kjhtml'],
+    // reporters: ['progress', 'kjhtml', 'coverage'],
+    reporters: ['progress', 'kjhtml'],
 
     // plugins to enable
-    plugins: [
-      'karma-phantomjs-launcher',
-      'karma-jasmine',
-      'karma-jasmine-html-reporter',
-      'karma-coverage'
-    ],
+    // plugins: [
+    //   'karma-phantomjs-launcher',
+    //   'karma-jasmine',
+    //   'karma-jasmine-html-reporter',
+    //   'karma-coverage'
+    // ],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
@@ -144,19 +148,19 @@ module.exports = function(config) {
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-    preprocessors: {
-      'app/scripts/**/*.js': ['coverage'],
-      'app/plugins/influunt/**/*.js': ['coverage']
-    },
+    // preprocessors: {
+    //   'app/scripts/**/*.js': ['coverage'],
+    //   'app/plugins/influunt/**/*.js': ['coverage']
+    // },
 
-    coverageReporter: {
-      reporters: [
-        {
-          type: 'lcov',
-          dir: 'coverage/',
-          subdir: '.'
-        }
-      ]
-    }
+    // coverageReporter: {
+    //   reporters: [
+    //     {
+    //       type: 'lcov',
+    //       dir: 'coverage/',
+    //       subdir: '.'
+    //     }
+    //   ]
+    // }
   });
 };

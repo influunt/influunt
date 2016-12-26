@@ -10,7 +10,7 @@
  */
 angular
   .module('influuntApp', [
-    'ngRaven',
+    // 'ngRaven',
     'ngAnimate',
     'ngCookies',
     'ngResource',

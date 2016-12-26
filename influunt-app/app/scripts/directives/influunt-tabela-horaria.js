@@ -76,7 +76,7 @@ angular.module('influuntApp')
             scope.objeto.aneis = _.orderBy(scope.objeto.aneis, ['posicao']);
             scope.aneis = _.filter(scope.objeto.aneis, {ativo: true});
 
-            _.each(scope.objeto.eventos, function(evento){
+            _.each(scope.objeto.eventos, function(evento) {
               evento.hora = parseInt(evento.horario.split(':')[0]) + '';
               evento.minuto = parseInt(evento.horario.split(':')[1]) + '';
               evento.segundo = parseInt(evento.horario.split(':')[2]) + '';
@@ -103,6 +103,7 @@ angular.module('influuntApp')
               scope.currentVersaoTabelaHoraria = scope.objeto.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex];
               adicionaTabelaHorario(scope.objeto);
             }
+
 
             scope.currentTabelaHoraria = _.find(
               scope.objeto.tabelasHorarias, {idJson: scope.currentVersaoTabelaHoraria.tabelaHoraria.idJson}

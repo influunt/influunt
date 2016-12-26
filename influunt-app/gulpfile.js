@@ -62,6 +62,7 @@ var paths = {
     'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
     'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
     'bower_components/toastr/toastr.js',
+    'bower_components/toastr/toastr.css',
     'bower_components/sweetalert/dist/sweetalert.min.js',
     'bower_components/ngSweetAlert/SweetAlert.js',
     'bower_components/leaflet/dist/leaflet-src.js',
@@ -88,6 +89,9 @@ var paths = {
     'bower_components/ng-idle/angular-idle.js',
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'bower_components/phaser/build/phaser.js',
+    'bower_components/raven-js/dist/raven.js',
+    'bower_components/raven-js/dist/plugins/angular.js',
+    'bower_components/tooltipster/dist/js/tooltipster.bundle.js',
 
     // inspinea scripts.
     yeoman.app + '/plugins/jquery-ui-1.12.0/jquery-ui.js',
