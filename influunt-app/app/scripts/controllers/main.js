@@ -180,7 +180,7 @@ angular.module('influuntApp')
       });
 
       $scope.$on('IdleTimeout', function() {
-        $('#modal-idle-warning').modal('hide');
+        $('.modal').modal('hide');
         Idle.unwatch();
         logout();
 
