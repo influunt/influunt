@@ -1,10 +1,14 @@
 package controllers;
 
+import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import config.WithInfluuntApplicationNoAuthentication;
+import integracao.ControladorHelper;
+import json.ControladorCustomSerializer;
 import models.*;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
@@ -12,6 +16,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -251,4 +256,156 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         assertNotNull(controlador.getSubarea());
     }
 
+    @Test
+    public void testBuscarTabelaHorariaParaAssociacao() {
+        Controlador c1 = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+            .uri(routes.SubareasController.buscarTabelaHoraria(c1.getSubarea().getId().toString()).url());
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        assertTrue(json.has("versoesTabelasHorarias"));
+        assertTrue(json.has("tabelasHorarias"));
+        assertTrue(json.has("eventos"));
+        json.get("versoesTabelasHorarias").forEach(vth -> assertFalse(vth.has("id")));
+        json.get("tabelasHorarias").forEach(th -> assertFalse(th.has("id")));
+        json.get("eventos").forEach(e -> assertFalse(e.has("id")));
+        assertEquals(c1.getTabelaHoraria().getIdJson(), json.get("tabelasHorarias").get(0).get("idJson").asText());
+    }
+
+    @Test
+    public void testBuscarTabelaHorariaParaAssociacaoVazia() {
+        Controlador c1 = new ControladorHelper().getControlador();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+            .uri(routes.SubareasController.buscarTabelaHoraria(c1.getSubarea().getId().toString()).url());
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        assertTrue(json.has("versoesTabelasHorarias"));
+        assertTrue(json.has("tabelasHorarias"));
+        assertTrue(json.has("eventos"));
+        assertEquals(0, json.get("versoesTabelasHorarias").size());
+        assertEquals(0, json.get("tabelasHorarias").size());
+        assertEquals(0, json.get("eventos").size());
+    }
+
+    @Test
+    public void testBuscarTabelaHorariaParaAssociacaoSemControlador() {
+        Controlador c1 = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        c1.setStatusVersao(StatusVersao.ARQUIVADO);
+        c1.update();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
+            .uri(routes.SubareasController.buscarTabelaHoraria(c1.getSubarea().getId().toString()).url());
+        Result result = route(request);
+        assertEquals(OK, result.status());
+        assertTrue(Helpers.contentAsString(result).isEmpty());
+    }
+
+    @Test
+    public void testSalvarTabelaHorariaParaSubarea() {
+        Controlador dummy = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        ControladorHelper helper = new ControladorHelper();
+        TabelaHorario tabela = dummy.getTabelaHoraria();
+        tabela.setEventos(new ArrayList<>());
+        helper.criarEvento(tabela, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("01:00:00"), 1);
+        tabela.update();
+        dummy.refresh();
+
+        Controlador c1 = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        Controlador c2 = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        c2.setSubarea(c1.getSubarea());
+        c2.update();
+        String subareaId = c1.getSubarea().getId().toString();
+
+        assertEquals(1, c1.getVersoesTabelasHorarias().size());
+        assertEquals(1, c2.getVersoesTabelasHorarias().size());
+
+        JsonNode bodyJson = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(dummy);
+        bodyJson.get("versoesTabelasHorarias").forEach(vth -> {
+            ((ObjectNode) vth).remove("id");
+        });
+        bodyJson.get("tabelasHorarias").forEach(th -> {
+            ((ObjectNode) th).remove("id");
+        });
+        bodyJson.get("eventos").forEach(e -> {
+            ((ObjectNode) e).remove("id");
+        });
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.SubareasController.salvarTabelaHoraria(subareaId).url())
+            .bodyJson(bodyJson);
+        Result result = route(request);
+        assertEquals(OK, result.status());
+
+        c1.refresh();
+        c2.refresh();
+
+        assertEquals(2, c1.getVersoesTabelasHorarias().size());
+        assertEquals(2, c2.getVersoesTabelasHorarias().size());
+        assertEquals(1, c1.getTabelaHoraria().getEventos().size());
+        assertEquals(1, c2.getTabelaHoraria().getEventos().size());
+        assertEquals(DiaDaSemana.TODOS_OS_DIAS, c1.getTabelaHoraria().getEventos().get(0).getDiaDaSemana());
+        assertEquals(DiaDaSemana.TODOS_OS_DIAS, c2.getTabelaHoraria().getEventos().get(0).getDiaDaSemana());
+        assertEquals(LocalTime.parse("01:00:00").getMillisOfDay(), c1.getTabelaHoraria().getEventos().get(0).getHorario().getMillisOfDay());
+        assertEquals(LocalTime.parse("01:00:00").getMillisOfDay(), c2.getTabelaHoraria().getEventos().get(0).getHorario().getMillisOfDay());
+        assertEquals(1, c1.getTabelaHoraria().getEventos().get(0).getPosicaoPlano().intValue());
+        assertEquals(1, c2.getTabelaHoraria().getEventos().get(0).getPosicaoPlano().intValue());
+        assertEquals(1, c1.getTabelaHoraria().getEventos().get(0).getPosicao().intValue());
+        assertEquals(1, c2.getTabelaHoraria().getEventos().get(0).getPosicao().intValue());
+    }
+
+    @Test
+    public void testSalvarTabelaHorariaParaSubareaControladorInvalido() {
+        Controlador dummy = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        ControladorHelper helper = new ControladorHelper();
+        TabelaHorario tabela = dummy.getTabelaHoraria();
+        tabela.setEventos(new ArrayList<>());
+        helper.criarEvento(tabela, 1, DiaDaSemana.TODOS_OS_DIAS, LocalTime.parse("01:00:00"), 1);
+        tabela.update();
+        dummy.refresh();
+
+        Controlador c1 = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        Controlador c2 = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
+        c2.setSubarea(c1.getSubarea());
+        c2.update();
+        String subareaId = c1.getSubarea().getId().toString();
+
+        assertEquals(1, c1.getVersoesTabelasHorarias().size());
+        assertEquals(1, c2.getVersoesTabelasHorarias().size());
+
+        JsonNode bodyJson = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(c1);
+        bodyJson.get("versoesTabelasHorarias").forEach(vth -> {
+            ((ObjectNode) vth).remove("id");
+        });
+        bodyJson.get("tabelasHorarias").forEach(th -> {
+            ((ObjectNode) th).remove("id");
+        });
+        bodyJson.get("eventos").forEach(e -> {
+            ((ObjectNode) e).remove("id");
+            ((ObjectNode) e).put("posicaoPlano", 99);
+        });
+
+        int totalEventos = bodyJson.get("eventos").size();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.SubareasController.salvarTabelaHoraria(subareaId).url())
+            .bodyJson(bodyJson);
+        Result result = route(request);
+        assertEquals(UNPROCESSABLE_ENTITY, result.status());
+        JsonNode errosJson = Json.parse(Helpers.contentAsString(result));
+        // o dobro pois são dois controladores
+        assertEquals(totalEventos * 2, errosJson.size());
+    }
+
+    private List<Erro> getErrosControlador(Controlador controlador) {
+        return new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+    }
 }
