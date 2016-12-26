@@ -5,7 +5,7 @@ Funcionalidade: tela de cadastro de agrupamentos
   Cenário: Listagem de agrupamentos
     Dado que o sistema possua controladores cadastrados e configurados
     Quando o usuário acesse a listagem de "agrupamentos"
-    Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Acesso à tela de novo agrupamento
     Quando o usuário acesse a listagem de "agrupamentos"
@@ -23,7 +23,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Então o sistema deverá indicar erro no campo "agrupamentoPlanoDiaSemana"
     Então o sistema deverá indicar erro no campo "planoHora"
 
-  Cenário: Cadastro de agrupamentos
+  Cenário: Não posso salvar sem associar a pelo menos uma anel
     Dado o usuário acessar a tela de cadastro de novos agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"
     E o usuário preencher o campo "Descrição" com "Agrupamento 1"
@@ -34,10 +34,17 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário em evento selecionar o valor "10" no campo "Minuto"
     E o usuário em evento selecionar o valor "1" no campo "Segundo"
     E o usuário em evento selecionar o valor plano "1" no campo "Plano"
-    E clicar no botão de salvar
+    Quando clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
+    Quando o usuário confirmar
+    Então o sistema deve mostrar erro no campo controladores avulsos com a mensagem "este agrupamento deve ter pelo menos 1 anel."
+
+  Cenário: Salvar um agrupamento
+    Dado o usuário agrupar o controlador "1.003.0002"
+    Quando clicar no botão de salvar
+    E sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
-    Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
+    Então o sistema deverá mostrar "2" items na tabela
 
   Cenário: Acesso à tela de detalhes de um agrupamento
     Dado o usuário acesse a listagem de "agrupamentos"
@@ -57,7 +64,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
-    Então deve ser exibida uma lista com os agrupamentos já cadastrados no sistema
+    Então o sistema deverá mostrar "2" items na tabela
 
   Cenário: Validar tempo simétrico ou assimétrico
     Dado o usuário acesse a listagem de "agrupamentos"
@@ -75,11 +82,11 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário responde não
-    Então nenhum agrupamento deve ser excluído
+    Então o sistema deverá mostrar "2" items na tabela
 
   Cenário: Exclusão de agrupamentos com confirmação do usuário
     Dado o usuário acesse a listagem de "agrupamentos"
     E clicar no botão de excluir um agrupamento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento
     Quando o usuário confirmar
-    Então o item deverá ser excluido
+    Então o sistema deverá mostrar "1" items na tabela

@@ -191,4 +191,8 @@ module.exports = function() {
   this.Given(/^o valor da defasagem deverá ser "([^"]*)"$/, function (valor) {
     return planosPage.valorDoKnob(valor);
   });
+
+  this.Given(/^o usuário no diagrama selecionar o grupo "([^"]*)"$/, function (grupo) {
+    return planosPage.selectGrupoInDiagrama(grupo);
+  });
 };

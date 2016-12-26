@@ -2,6 +2,7 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
+var expect = require('chai').expect;
 
 var ObjetosComuns = function () {
 
@@ -43,7 +44,7 @@ var ObjetosComuns = function () {
 
   this.clicarLinkComTexto = function(texto) {
     return world.waitForOverlayDisappear().then(function (){
-      return world.waitForToastMessageDisapear()
+      return world.waitForToastMessageDisapear();
     })
     .then(function (){
       return world.findLinkByText(texto).click();
@@ -66,7 +67,7 @@ var ObjetosComuns = function () {
   };
 
   this.textoSweetAlert = function() {
-    return world.sleep(600).then(function(){
+    return world.sleep(1000).then(function(){
       return world.getTextInSweetAlert();
     });
   };
@@ -147,8 +148,9 @@ var ObjetosComuns = function () {
   };
 
   this.checarTotalInseridosNaTabela = function(quantidade) {
-    return world.sleep(300).then(function(){
-      return world.countTableSize(quantidade);
+    var xpathTable = '//table[contains(@class, "table")]//tbody//tr';
+    return world.sleep(600).then(function(){
+      return world.countTableSize(quantidade, xpathTable);
     });
   };
 
@@ -168,9 +170,10 @@ var ObjetosComuns = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
+    var cssSelector = '[name="'+campo+'"] + p[class*="error-msg"]';
     world.sleep(600);
-    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
-      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
+    return world.waitFor(cssSelector).then(function() {
+      return world.getElement(cssSelector).getText();
     });
   };
 
@@ -203,6 +206,17 @@ var ObjetosComuns = function () {
     }).then(function() {
       return world.waitForOverlayDisappear().then(function() {
         return world.getElementByXpath(xpathBotoesControladores(botao,controlador)).click();
+      });
+    });
+  };
+
+  this.clicarBotaoEspecificoTabela = function(botao, registro) {
+    var xpathBotao = '//td[contains(text(), "'+registro+'")]//following-sibling::td//a[contains(text(), "'+botao+'")]';
+    return world.waitForOverlayDisappear().then(function() {
+      return world.sleep(600);
+    }).then(function() {
+      return world.waitForOverlayDisappear().then(function() {
+        return world.getElementByXpath(xpathBotao).click();
       });
     });
   };
@@ -286,9 +300,11 @@ var ObjetosComuns = function () {
     return world.waitForByXpath('//p[contains(@class, "cruzamento")][contains(text(), "'+endereco+'")]');
   };
 
-  this.textoToast = function() {
+  this.textoToastSalvoSucesso = function(msg) {
     world.sleep(2000);
-    return world.getToastMessage();
+    return world.getSucessToastMessage().then(function(text) {
+      expect(text).to.equal(msg);
+    });
   };
 
   this.toastMessage = function() {
@@ -328,6 +344,9 @@ var ObjetosComuns = function () {
     return world.waitForByXpath('//h5/small[contains(text(), "'+title+'")]');
   };
 
+  this.clickForaModal = function() {
+    return world.closeModal('modal-transacoes-distribuidas');
+  };
 };
 
 module.exports = ObjetosComuns;

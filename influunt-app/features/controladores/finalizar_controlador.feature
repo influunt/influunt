@@ -30,6 +30,7 @@ Funcionalidade: Finalizar um controlador
   Cenário: Adicionar um SMEE para controlador
     Dado o usuário clicar no botão "Configuração"
     E o usuário clicar em "Editar"
+    E o usuário realizar um scroll down
     E o usuário preencher o campo NÚMERO SMEE com "1234"
     Então o sistema exibe um alerta com a mensagem "O endereço pesquisado é RIO BONITO, AV DO x NEUCHATEL, R x GUIDO BONI, PC - (**)?"
     E o usuário confirmar
@@ -51,8 +52,7 @@ Funcionalidade: Finalizar um controlador
     E o usuário selecionar o anel 2
     E o usuário adicionar imagem ao "Anel 2 como Estágio1"
     E o usuário clicar em "Salvar"
-    E o sistema exibe uma mensagem "Salvo com sucesso"
-    E o usuário acesse a listagem de "controladores"
+    E o usuário clicar em "Programação"
     Então o sistema deverá mostrar o status do controlador como "Em Edição"
     E o sistema "não pode" mostrar o botão "Finalizar Configuração"
     E o sistema "não pode" mostrar o botão "Ver ou Editar Planos"

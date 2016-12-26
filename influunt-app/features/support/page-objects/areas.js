@@ -43,10 +43,6 @@ var AreasPage = function () {
     });
   };
 
-  this.getItensTabela = function(quantidadeItens) {
-    return world.countTableSize(quantidadeItens);
-  };
-
   this.clicarBotaoNovaArea = function() {
     return world.clickButton(novaAreaButton);
   };

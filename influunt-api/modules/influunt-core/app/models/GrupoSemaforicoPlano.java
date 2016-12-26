@@ -147,7 +147,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @AssertTrue(groups = PlanosCheck.class,
         message = "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.")
     public boolean isGrupoApagadoSeNaoAssociado() {
-        if (getPlano().isModoOperacaoVerde()) {
+        if (getPlano().isModoOperacaoVerde() && !getPlano().isManual()) {
             GrupoSemaforico grupo = getGrupoSemaforico();
             List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream().map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());
             boolean isDemandaPrioritaria = estagios.stream().anyMatch(Estagio::isDemandaPrioritaria);

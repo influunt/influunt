@@ -26,12 +26,13 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe um alerta com a mensagem "([^"]*)"$/, function(msg) {
     return sharedSteps.textoSweetAlert().then(function(text) {
+      sharedSteps.aguardar(500);
       expect(text).to.equal(msg);
     });
   });
 
   this.Given(/^o sistema exibe uma mensagem "([^"]*)"$/, function(msg) {
-    return sharedSteps.textoToast().then(function(text) {
+    return sharedSteps.toastMessage().then(function(text) {
       expect(text).to.equal(msg);
     });
   });
@@ -151,6 +152,10 @@ module.exports = function() {
     return sharedSteps.clicarBotaoEspecificoTabelaControladores(botao, controlador);
   });
 
+  this.Given(/^o usuário na tabela clicar em "([^"]*)" do registro "([^"]*)"$/, function (botao, registro) {
+    return sharedSteps.clicarBotaoEspecificoTabela(botao, registro);
+  });
+
   this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
     var campo = '#estagio-alternativo-'+transicao+'';
     var selectSelector = 'select[name="alternativos"]';
@@ -207,4 +212,9 @@ module.exports = function() {
   this.Given(/^o sistema deverá redirecionar para o show "([^"]*)"$/, function(title) {
     return sharedSteps.showH5(title);
   });
+
+  this.Given(/^o usuário fechar o modal clicando nele$/, function () {
+    return sharedSteps.clickForaModal();
+  });
+
 };

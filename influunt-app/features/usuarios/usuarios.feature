@@ -4,8 +4,7 @@ Funcionalidade: Realizar cadastro de usuário
 
   Cenário: Listagem de usuários
     Dado que o usuário esteja logado no sistema
-    E o usuário acessar a tela de listagem de usuários
-    Então o sistema deverá redirecionar a listagem de usuários
+    Então o usuário acessar a tela de listagem de usuários
 
   Cenário: Acesso à tela de novo usuário
     Dado o usuário clicar em "Novo"
