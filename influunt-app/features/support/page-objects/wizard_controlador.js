@@ -467,6 +467,7 @@ var WizardControladorPage = function () {
   this.marcarTempoAtrasoGrupo = function(value, field) {
     var baseSelector = 'influunt-knob[title="'+field+'"]';
     world.sleep(500);
+    world.waitForOverlayDisappear();
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
@@ -475,6 +476,7 @@ var WizardControladorPage = function () {
   this.marcarTempoAtrasoGrupoTransicao = function(tipoTransicao, value, posicao) {
     var baseSelector = 'li[data-ng-repeat="transicao in '+tipoTransicao+'"] div.initial-position div.knob-item[id="tv_'+posicao+'"] influunt-knob[title="Atraso de Grupo"]';
     world.sleep(500);
+    world.waitForOverlayDisappear();
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
@@ -511,6 +513,7 @@ var WizardControladorPage = function () {
   };
 
   this.preencherCampoSMEECom = function(numero) {
+    world.sleep(1000);
     return world.setValue('[name="numeroSMEE"]', numero)
       .then(function() {
         return world.waitForOverlayDisappear();

@@ -14,15 +14,21 @@ Funcionalidade: Fluxo de cadastro de planos
 
   Cenário: Apresentar erro com estágios proibidos
     Dado que o usuário esteja na página de planos
-    E que o usuário selecione o modo de operação "Apagado"
+    E que o usuário selecione o modo de operação "Isolado"
     Então o sistema deverá apresentar erro de "transição proibida de E3 para E4"
+
+  Cenário: O sistema deve apresentar erro quando o tempo de ciclo é menor que os estágios
+    Dado que o usuário esteja na página de planos
+    E que o usuário clicar no plano 1
+    Quando que o usuário selecione o modo de operação "Isolado"
+    E que o usuário clique no botão apagar o estagio "E4"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário confirmar
+    Então o sistema deverá apresentar erro de "Tempo de Ciclo é diferente da soma dos tempos dos estágios."
 
   Cenário: Remover estágio com transição proibida
     Dado que o usuário esteja na página de planos
     E que o usuário selecione o modo de operação "Apagado"
-    E que o usuário clique no botão apagar o estagio "E4"
-    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
-    Quando o usuário confirmar
     Então a quantidade de estagios na lista deverá ser 3
 
   Cenário: Configurar Plano Isolado
@@ -66,6 +72,10 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário decide adicionar o estágio removido "+E1"
     Então a quantidade de estagios na lista deverá ser 3
 
+  Cenário: Reativar o grupo G1
+    Dado que o usuário esteja na página de planos
+    E o usuário no diagrama selecionar o grupo "G1"
+
   Cenário: Copiar um plano
     Dado que o usuário esteja na página de planos
     E que o usuário clicar em copiar o "PLANO 1"
@@ -84,7 +94,6 @@ Funcionalidade: Fluxo de cadastro de planos
 
   Cenário: Tentar salvar o plano incorreto
     Dado que o usuário esteja na página de planos
-    Então o sistema deverá apresentar erro de "Tempo de Ciclo é diferente da soma dos tempos dos estágios."
     E que o usuário marque 45 segundos para o "TEMPO DE CICLO"
     E o usuário clicar em "Salvar"
     E o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
@@ -107,6 +116,17 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário clique no botão de configurar o estágio "E3"
     E que o usuário marque 13 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-vermelho" em "31s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G1" com "indicacao-verde" em "11s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-vermelho" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-verde" em "12s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-amarelo" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G2" com "indicacao-vermelho" em "27s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "18s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-verde" em "13s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho-intermitente" em "3s" segundos
+    Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "11s" segundos
     E que o usuário selecione o anel 2
     E que o usuário clicar no plano 1
     E que o usuário marque 45 segundos para o "TEMPO DE CICLO"
@@ -189,18 +209,18 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário realize um scroll up
     E que o usuário selecione o anel 2
     E que o usuário clique no botão de configurar o estágio "E1"
-    E que o usuário marque 12 segundos para o "Tempo de Verde"
+    E que o usuário marque 22 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E2"
-    E que o usuário marque 12 segundos para o "Tempo de Verde"
+    E que o usuário marque 22 segundos para o "Tempo de Verde"
     E que o usuário clique no botão de fechar a caixa de configuração
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G4" com "indicacao-vermelho" em "3s" segundos
-    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G4" com "indicacao-verde" em "12s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G4" com "indicacao-verde" em "22s" segundos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G4" com "indicacao-amarelo" em "3s" segundos
-    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G4" com "indicacao-vermelho" em "12s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G4" com "indicacao-vermelho" em "22s" segundos
     Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-amarelo" em "3s" segundos
-    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-vermelho" em "15s" segundos
-    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-verde" em "12s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-vermelho" em "25s" segundos
+    Então o sistema deve mostrar o diagrama "Coordenado" no grupo "G5" com "indicacao-verde" em "22s" segundos
 
   Cenário: Configurar um plano temporário em modo coordenado
     Dado que o usuário esteja na página de planos
@@ -314,13 +334,13 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário marque 5 segundos para o "EXTENSÃO DE VERDE"
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E2"
-    E que o usuário marque 10 segundos para o "TEMPO DE VERDE MIN."
+    E que o usuário marque 13 segundos para o "TEMPO DE VERDE MIN."
     E que o usuário marque 20 segundos para o "TEMPO DE VERDE MAX."
     E que o usuário marque 15 segundos para o "TEMPO DE VERDE INTERMEDIÁRIO"
     E que o usuário marque 2 segundos para o "EXTENSÃO DE VERDE"
     E que o usuário clique no botão de fechar a caixa de configuração
     E que o usuário clique no botão de configurar o estágio "E3"
-    E que o usuário marque 5 segundos para o "TEMPO DE VERDE MIN."
+    Quando que o usuário marque 5 segundos para o "TEMPO DE VERDE MIN."
     Entao o sistema deverá mostrar um alerta para valor digitado menor que o limite mínimo
     E o usuário responde ok
     E que o usuário marque 34 segundos para o "TEMPO DE VERDE MAX."
@@ -332,7 +352,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E que o usuário selecione o modo de operação "Atuado"
     Então o diagrama de intervalos não deverá aparecer
     E que o usuário clique no botão de configurar o estágio "E1"
-    E que o usuário marque 10 segundos para o "TEMPO DE VERDE MIN."
+    E que o usuário marque 13 segundos para o "TEMPO DE VERDE MIN."
     E que o usuário marque 20 segundos para o "TEMPO DE VERDE MAX."
     E que o usuário marque 15 segundos para o "TEMPO DE VERDE INTERMEDIÁRIO"
     E que o usuário marque 10 segundos para o "EXTENSÃO DE VERDE"
