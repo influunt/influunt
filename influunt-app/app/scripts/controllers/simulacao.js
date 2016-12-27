@@ -109,6 +109,9 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
         .chain(controlador.aneis)
         .map('planos')
         .flatten()
+        .filter(function(p) {
+          return !p.isManual;
+        })
         .uniqBy('posicao')
         .orderBy('posicao')
         .value();
