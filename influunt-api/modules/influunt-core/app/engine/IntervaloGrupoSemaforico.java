@@ -37,10 +37,18 @@ public class IntervaloGrupoSemaforico {
 
     private final Plano plano;
 
+    private final long duracaoEntreverdeEntreverdeSemAtraso;
+
     private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
 
     public IntervaloGrupoSemaforico(IntervaloEstagio entreverde, IntervaloEstagio verde) {
-        this.duracaoEntreverde = (entreverde != null ? entreverde.getDuracao() : 0L);
+        if (entreverde != null) {
+            this.duracaoEntreverde = entreverde.getDuracao();
+            this.duracaoEntreverdeEntreverdeSemAtraso = Math.max(this.duracaoEntreverde - entreverde.getDiffEntreVerde(), 0L);
+        } else {
+            this.duracaoEntreverde = 0L;
+            this.duracaoEntreverdeEntreverdeSemAtraso = 0L;
+        }
         this.duracaoVerde = verde.getDuracao();
         this.duracao = this.duracaoEntreverde + this.duracaoVerde;
         this.entreverde = entreverde;
@@ -48,6 +56,8 @@ public class IntervaloGrupoSemaforico {
         this.estagioPlano = verde.getEstagioPlano();
         this.estagio = this.estagioPlano.getEstagio();
         this.estagioPlanoAnterior = verde.getEstagioPlanoAnterior();
+
+
 
         if (this.estagioPlanoAnterior != null) {
             this.estagioAnterior = this.estagioPlanoAnterior.getEstagio();
@@ -286,8 +296,8 @@ public class IntervaloGrupoSemaforico {
                     estadoAmarelo = EstadoGrupoSemaforico.AMARELO;
                 }
 
-                if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverde - tempoVermelhoIntegral)) {
-                    tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverde - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
+                if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeEntreverdeSemAtraso - tempoVermelhoIntegral)) {
+                    tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverdeEntreverdeSemAtraso - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
                 }
                 tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde - tempoVermelhoIntegral);
 
