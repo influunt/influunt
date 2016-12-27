@@ -150,9 +150,9 @@ public class Subarea extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = SubareasCheck.class,
-        message = "Já existe uma Subarea cadastrada com esse número.")
+        message = "Já existe uma subárea cadastrada com esse número.")
     public boolean isNumeroUnique() {
-        if (Objects.nonNull(getNumero())) {
+        if (Objects.nonNull(getNumero()) && getArea() != null) {
             Subarea subareaAux = Subarea.find.where().eq("area_id", getArea().getId().toString()).ieq("numero", getNumero().toString()).findUnique();
 
             return subareaAux == null || (this.getId() != null && subareaAux.getId().equals(this.getId()));
@@ -163,7 +163,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = SubareasCheck.class,
         message = "Já existe uma subárea cadastrada com esse nome.")
     public boolean isNomeUnique() {
-        if (Objects.nonNull(getNome())) {
+        if (Objects.nonNull(getNome()) && getArea() != null) {
             Subarea subareaAux = Subarea.find.where().eq("area_id", getArea().getId().toString()).ieq("nome", getNome().toString()).findUnique();
 
             return subareaAux == null || (this.getId() != null && subareaAux.getId().equals(this.getId()));
