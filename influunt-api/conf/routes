@@ -25,6 +25,8 @@ POST      /api/v1/subareas                                            controller
 PUT       /api/v1/subareas/:id                                        controllers.SubareasController.update(id)
 GET       /api/v1/subareas/:id                                        controllers.SubareasController.findOne(id)
 DELETE    /api/v1/subareas/:id                                        controllers.SubareasController.delete(id)
+GET       /api/v1/subareas/:id/tabela_horaria                         controllers.SubareasController.buscarTabelaHoraria(id)
+POST      /api/v1/subareas/:id/tabela_horaria                         controllers.SubareasController.salvarTabelaHoraria(id)
 
 # Controladores
 GET       /api/v1/controladores                                       controllers.ControladoresController.findAll()

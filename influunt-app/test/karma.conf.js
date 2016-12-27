@@ -50,6 +50,7 @@ module.exports = function(config) {
       'bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js',
       'bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js',
       'bower_components/toastr/toastr.js',
+      'bower_components/toastr/toastr.css',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/ngSweetAlert/SweetAlert.js',
       'bower_components/leaflet/dist/leaflet-src.js',
@@ -75,6 +76,9 @@ module.exports = function(config) {
       'bower_components/paho-mqtt/src/mqttws31.js',
       'bower_components/ng-idle/angular-idle.js',
       'bower_components/bootstrap/dist/js/bootstrap.js',
+      'bower_components/raven-js/dist/raven.js',
+      'bower_components/angular-raven/angular-raven.js',
+      'bower_components/tooltipster/dist/js/tooltipster.bundle.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',

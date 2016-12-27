@@ -57,6 +57,7 @@
                   <td>{{ subarea.nome }}</td>
                   <td>{{ subarea.numero }}</td>
                   <td>
+                    <a ui-sref="app.subareas_tabela_horaria({id: subarea.id})" permission permission-sref="'app.subareas_tabela_horaria'" class="btn btn-primary btn-xs">{{ 'subareas.tabelaHoraria' | translate }}</a>
                     <a ui-sref="app.subareas_show({id: subarea.id})" permission permission-sref="'app.subareas_show'" class="btn btn-primary btn-xs">{{ 'geral.crud.visualizar' | translate }}</a>
                     <a ui-sref="app.subareas_edit({id: subarea.id})" permission permission-sref="'app.subareas_edit'" class="btn btn-primary btn-xs">{{ 'geral.crud.editar' | translate }}</a>
                     <a data-ng-click="confirmDelete(subarea.id)" permission permission-only="'removerSubareas'" class="btn btn-danger btn-xs">{{ 'geral.crud.excluir' | translate }}</a>

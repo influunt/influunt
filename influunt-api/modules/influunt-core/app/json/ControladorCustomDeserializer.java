@@ -245,12 +245,16 @@ public class ControladorCustomDeserializer {
     }
 
     public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson) {
+        return getPacoteTabelaHorariaFromJson(configuracaoControladorJson, pacoteTabelaHorariaJson, null);
+    }
+
+    public Controlador getPacoteTabelaHorariaFromJson(JsonNode configuracaoControladorJson, JsonNode pacoteTabelaHorariaJson, Usuario usuario) {
         ObjectNode controladorJson = (ObjectNode) configuracaoControladorJson;
         controladorJson.set("versoesTabelasHorarias", pacoteTabelaHorariaJson.get("versoesTabelasHorarias"));
         controladorJson.set("tabelasHorarias", pacoteTabelaHorariaJson.get("tabelasHorarias"));
         controladorJson.set("eventos", pacoteTabelaHorariaJson.get("eventos"));
 
-        return getControladorFromJson(controladorJson);
+        return getControladorFromJson(controladorJson, usuario);
     }
 
     public Controlador getPacoteConfiguracaoCompletaFromJson(JsonNode configuracaoControladorJson, JsonNode pacotePlanosJson, JsonNode pacoteTabelaHorariaJson) {
@@ -279,7 +283,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagios")) {
             for (JsonNode innerNode : node.get("estagios")) {
                 Estagio estagio = parseEstagio(innerNode);
-                estagiosCache.put(estagio.getIdJson().toString(), estagio);
+                estagiosCache.put(estagio.getIdJson(), estagio);
             }
         }
     }
@@ -289,7 +293,7 @@ public class ControladorCustomDeserializer {
             List<GrupoSemaforico> grupoSemaforicos = new ArrayList<GrupoSemaforico>();
             for (JsonNode nodeGrupoSemaforico : node.get("gruposSemaforicos")) {
                 GrupoSemaforico grupoSemaforico = parseGrupoSemaforico(nodeGrupoSemaforico);
-                gruposSemaforicosCache.put(grupoSemaforico.getIdJson().toString(), grupoSemaforico);
+                gruposSemaforicosCache.put(grupoSemaforico.getIdJson(), grupoSemaforico);
                 grupoSemaforicos.add(grupoSemaforico);
             }
             controlador.setGruposSemaforicos(grupoSemaforicos);
@@ -302,7 +306,7 @@ public class ControladorCustomDeserializer {
 
             for (JsonNode innerNode : node.get("detectores")) {
                 Detector detector = parseDetector(innerNode);
-                detectoresCache.put(detector.getIdJson().toString(), detector);
+                detectoresCache.put(detector.getIdJson(), detector);
                 detectores.add(detector);
             }
         }
@@ -324,7 +328,7 @@ public class ControladorCustomDeserializer {
         if (node.has("transicoesProibidas")) {
             for (JsonNode innerNode : node.get("transicoesProibidas")) {
                 TransicaoProibida transicaoProibida = parseTransicaoProibida(innerNode);
-                transicaoProibidaCache.put(transicaoProibida.getIdJson().toString(), transicaoProibida);
+                transicaoProibidaCache.put(transicaoProibida.getIdJson(), transicaoProibida);
             }
         }
     }
@@ -333,7 +337,7 @@ public class ControladorCustomDeserializer {
         if (node.has("estagiosGruposSemaforicos")) {
             for (JsonNode innerNode : node.get("estagiosGruposSemaforicos")) {
                 EstagioGrupoSemaforico estagioGrupoSemaforico = parseEstagioGrupoSemaforico(innerNode);
-                estagioGrupoSemaforicoCache.put(estagioGrupoSemaforico.getIdJson().toString(), estagioGrupoSemaforico);
+                estagioGrupoSemaforicoCache.put(estagioGrupoSemaforico.getIdJson(), estagioGrupoSemaforico);
             }
         }
     }
@@ -351,7 +355,7 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelasEntreVerdes")) {
             for (JsonNode innerNode : node.get("tabelasEntreVerdes")) {
                 TabelaEntreVerdes tabelaEntreVerdes = parsetTabelaEntreVerdes(innerNode);
-                tabelasEntreVerdesCache.put(tabelaEntreVerdes.getIdJson().toString(), tabelaEntreVerdes);
+                tabelasEntreVerdesCache.put(tabelaEntreVerdes.getIdJson(), tabelaEntreVerdes);
             }
         }
     }
@@ -360,14 +364,14 @@ public class ControladorCustomDeserializer {
         if (node.has("transicoes")) {
             for (JsonNode innerNode : node.get("transicoes")) {
                 Transicao transicao = parseTransicao(innerNode);
-                transicaoCache.put(transicao.getIdJson().toString(), transicao);
+                transicaoCache.put(transicao.getIdJson(), transicao);
             }
         }
 
         if (node.has("transicoesComGanhoDePassagem")) {
             for (JsonNode innerNode : node.get("transicoesComGanhoDePassagem")) {
                 Transicao transicao = parseTransicao(innerNode);
-                transicaoCache.put(transicao.getIdJson().toString(), transicao);
+                transicaoCache.put(transicao.getIdJson(), transicao);
             }
         }
     }
@@ -376,7 +380,7 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelasEntreVerdesTransicoes")) {
             for (JsonNode innerNode : node.get("tabelasEntreVerdesTransicoes")) {
                 TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao = parsetTabelaEntreVerdesTransicao(innerNode);
-                tabelaEntreVerdesTransicaoCache.put(tabelaEntreVerdesTransicao.getIdJson().toString(), tabelaEntreVerdesTransicao);
+                tabelaEntreVerdesTransicaoCache.put(tabelaEntreVerdesTransicao.getIdJson(), tabelaEntreVerdesTransicao);
             }
         }
     }
@@ -405,7 +409,7 @@ public class ControladorCustomDeserializer {
         if (node.has("gruposSemaforicosPlanos")) {
             for (JsonNode nodeGrupoSemaforicoPlano : node.get("gruposSemaforicosPlanos")) {
                 GrupoSemaforicoPlano grupoSemaforicoPlano = parseGruposSemaforicosPlano(nodeGrupoSemaforicoPlano);
-                gruposSemaforicosPlanosCache.put(grupoSemaforicoPlano.getIdJson().toString(), grupoSemaforicoPlano);
+                gruposSemaforicosPlanosCache.put(grupoSemaforicoPlano.getIdJson(), grupoSemaforicoPlano);
             }
         }
     }
@@ -424,7 +428,7 @@ public class ControladorCustomDeserializer {
         if (node.has("eventos")) {
             for (JsonNode nodeEvento : node.get("eventos")) {
                 Evento evento = parseEvento(nodeEvento);
-                eventosCache.put(evento.getIdJson().toString(), evento);
+                eventosCache.put(evento.getIdJson(), evento);
             }
         }
     }
@@ -433,7 +437,7 @@ public class ControladorCustomDeserializer {
         if (node.has("tabelasHorarias")) {
             for (JsonNode nodeTabelaHoraria : node.get("tabelasHorarias")) {
                 TabelaHorario tabelaHoraria = parseTabelaHoraria(nodeTabelaHoraria);
-                tabelasHorariasCache.put(tabelaHoraria.getIdJson().toString(), tabelaHoraria);
+                tabelasHorariasCache.put(tabelaHoraria.getIdJson(), tabelaHoraria);
             }
         }
     }
@@ -442,7 +446,7 @@ public class ControladorCustomDeserializer {
         if (node.has("todosEnderecos")) {
             for (JsonNode innerNode : node.get("todosEnderecos")) {
                 Endereco endereco = parseEndereco(innerNode);
-                enderecosCache.put(endereco.getIdJson().toString(), endereco);
+                enderecosCache.put(endereco.getIdJson(), endereco);
             }
         }
     }
@@ -451,7 +455,7 @@ public class ControladorCustomDeserializer {
         if (node.has("areas")) {
             for (JsonNode innerNode : node.get("areas")) {
                 Area area = parseArea(innerNode);
-                areasCache.put(area.getIdJson().toString(), area);
+                areasCache.put(area.getIdJson(), area);
             }
         }
     }
@@ -460,7 +464,7 @@ public class ControladorCustomDeserializer {
         if (node.has("cidades")) {
             for (JsonNode innerNode : node.get("cidades")) {
                 Cidade cidade = parseCidade(innerNode);
-                cidadesCache.put(cidade.getIdJson().toString(), cidade);
+                cidadesCache.put(cidade.getIdJson(), cidade);
             }
         }
     }
@@ -469,7 +473,7 @@ public class ControladorCustomDeserializer {
         if (node.has("imagens")) {
             for (JsonNode innerNode : node.get("imagens")) {
                 Imagem imagem = parseImagem(innerNode);
-                imagensCache.put(imagem.getIdJson().toString(), imagem);
+                imagensCache.put(imagem.getIdJson(), imagem);
             }
         }
     }
@@ -478,7 +482,7 @@ public class ControladorCustomDeserializer {
         if (node.has("atrasosDeGrupo")) {
             for (JsonNode innerNode : node.get("atrasosDeGrupo")) {
                 AtrasoDeGrupo atrasoDeGrupo = parseAtrasoDeGrupo(innerNode);
-                atrasoDeGrupoCache.put(atrasoDeGrupo.getIdJson().toString(), atrasoDeGrupo);
+                atrasoDeGrupoCache.put(atrasoDeGrupo.getIdJson(), atrasoDeGrupo);
             }
         }
     }

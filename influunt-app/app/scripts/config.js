@@ -261,6 +261,21 @@ angular
           }
         })
 
+        .state('app.subareas_tabela_horaria', {
+          url: '/subareas/:id/tabela_horaria',
+          templateUrl: 'views/subareas/tabela-horaria.html',
+          controller: 'SubareasTabelaHorariaCtrl',
+          controllerAs: 'subareas_tabela_horaria',
+          data: {
+            title: 'subareas.titulo',
+            breadcrumb: 'subareas.mostrar',
+            permissions: {
+              only: 'cadastrarTabelaHorariaSubarea',
+              redirectTo: 'app.subareas'
+            }
+          }
+        })
+
         // Crud controladores.
         // TODO: verificar se essa rota é utilizada
         .state('app.controladores', {
