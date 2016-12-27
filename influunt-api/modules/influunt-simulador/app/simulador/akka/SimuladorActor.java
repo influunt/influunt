@@ -127,14 +127,18 @@ public class SimuladorActor extends UntypedActor {
 
     private void proximaPagina(DateTime disparo) throws Exception {
         final int diff = ((Long) ((disparo.getMillis() - params.getInicioControlador().getMillis()) / 1000)).intValue();
-        final int pagina = diff / SEGUNDOS_POR_PAGINA;
-        proximaPagina(pagina);
+        DateTime fim = disparo.plusSeconds(SEGUNDOS_POR_PAGINA);
+        simularProximaPagina((diff / SEGUNDOS_POR_PAGINA), fim);
     }
 
     private void proximaPagina(int pagina) throws Exception {
-        this.pagina = pagina;
         DateTime inicio = params.getInicioControlador().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
         DateTime fim = inicio.plusSeconds(SEGUNDOS_POR_PAGINA);
+        simularProximaPagina(pagina, fim);
+    }
+
+    private void simularProximaPagina(int pagina, DateTime fim) throws Exception {
+        this.pagina = pagina;
         simulador.simular(fim);
         send();
     }

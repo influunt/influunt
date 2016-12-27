@@ -155,6 +155,35 @@ var influunt;
           }
         }
 
+        function removeFuture(next){
+          var removeAfter, i;
+          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560) + MARGEM_LATERAL) :
+                               ((parseInt(tempo / 256) * 2560) + MARGEM_LATERAL);
+
+          for(i = intervalosGroup.children.length - 1; i >= 0; i--) {
+            if(intervalosGroup.children[i].x >= removeAfter){
+              intervalosGroup.children[i].body = null;
+              intervalosGroup.children[i].destroy();
+            }
+          }
+
+          for(i = eventosGroup.children.length - 1; i >= 0; i--) {
+            if(eventosGroup.children[i].x >= removeAfter){
+              eventosGroup.children[i].body = null;
+              eventosGroup.children[i].destroy();
+            }
+          }
+
+          var listaManuais = [];
+          for(i = modoManual.length - 1; i >=0; i--) {
+            if(modoManual[i][0] >= removeAfter) {
+              modoManual.splice(i, 1);
+            }
+          }
+
+          modoManual = listaManuais;
+        }
+
         function loadMore(inicio) {
           var pagina;
           if(inicio) {
@@ -263,13 +292,6 @@ var influunt;
           game.time.events.remove(repeater);
         }
 
-        function getAlturaDiagrama() {
-          var qtdeAneis = _.filter(config.aneis, function(a) { return a.tiposGruposSemaforicos.length > 0; }).length;
-          var qtdeGrupos = _.chain(config.aneis).map('tiposGruposSemaforicos').flatten().value().length;
-
-          return (qtdeAneis + qtdeGrupos) * ALTURA_GRUPO;
-        }
-
         function showEstagioManual() {
           return situacaoLedManual === 'ligado';
         }
@@ -287,26 +309,6 @@ var influunt;
           });
 
           repeater = game.time.events.repeat(1000, 1000, moveToLeft, this);
-        }
-
-        function removeFuture(next){
-          var removeAfter;
-          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560) + MARGEM_LATERAL) :
-                               ((parseInt(tempo / 256) * 2560) + MARGEM_LATERAL);
-
-          for(var i = intervalosGroup.children.length - 1; i >= 0; i--) {
-            if(intervalosGroup.children[i].x >= removeAfter){
-              intervalosGroup.children[i].body = null;
-              intervalosGroup.children[i].destroy();
-            }
-          }
-
-          for(var i = eventosGroup.children.length - 1; i >= 0; i--) {
-            if(eventosGroup.children[i].x >= removeAfter){
-              eventosGroup.children[i].body = null;
-              eventosGroup.children[i].destroy();
-            }
-          }
         }
 
         function botaoDetector(detector){
@@ -936,11 +938,6 @@ var influunt;
             }
           };
 
-          function onConnectionLost(responseObject) {
-            if (responseObject.errorCode !== 0) {
-              console.log('onConnectionLost: '+responseObject.errorMessage);
-            }
-          }
 
           // connect the client
           client.connect({ onSuccess: onConnect });
@@ -980,7 +977,7 @@ var influunt;
         game.stop = function() {
           mqttClient.disconnect();
           game.state.destroy();
-        }
+        };
 
         return game;
       }
