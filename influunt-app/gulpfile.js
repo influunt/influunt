@@ -90,7 +90,7 @@ var paths = {
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'bower_components/phaser/build/phaser.js',
     'bower_components/raven-js/dist/raven.js',
-    'bower_components/raven-js/dist/plugins/angular.js',
+    'bower_components/angular-raven/angular-raven.js',
     'bower_components/tooltipster/dist/js/tooltipster.bundle.js',
 
     // inspinea scripts.

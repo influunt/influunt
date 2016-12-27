@@ -53,7 +53,6 @@ describe('Controller: SubareasTabelaHorariaCtrl', function () {
       expect(scope.objeto.tabelasHorarias).toEqual([]);
       expect(scope.objeto.eventos).toBeDefined();
       expect(scope.objeto.eventos).toEqual([]);
-      expect(scope.objeto.subareaId).toEqual(subareaId);
     });
 
     it('deve iniciar o objeto com a resposta da API', function() {
@@ -66,7 +65,6 @@ describe('Controller: SubareasTabelaHorariaCtrl', function () {
       expect(scope.objeto.tabelasHorarias).toEqual(ControladorComPlanos.get().tabelasHorarias);
       expect(scope.objeto.eventos).toBeDefined();
       expect(scope.objeto.eventos).toEqual(ControladorComPlanos.get().eventos);
-      expect(scope.objeto.subareaId).toEqual(ControladorComPlanos.getSubareaId());
     });
   });
 

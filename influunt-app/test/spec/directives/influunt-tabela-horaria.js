@@ -223,7 +223,6 @@ describe('Directive: InfluuntTabelaHoraria', function () {
 
   describe('remover eventos', function () {
     beforeEach(function() {
-      // beforeEachFn(ControladorComPlanos);
       scope.objeto = ControladorComPlanos.get();
       scope.$apply();
     });
@@ -242,7 +241,7 @@ describe('Directive: InfluuntTabelaHoraria', function () {
         isolateScope.$apply();
       });
 
-      it('O elemento deve ser removido da coleção, das referências em Tabelas horarias e dos currentEventos', function() {
+      it('O elemento deve ser removido da coleção, das referências em Tabelas horárias e dos currentEventos', function() {
         var isolateScope = element.isolateScope();
         expect(_.find(isolateScope.objeto.tabelasHorarias[0].eventos, {idJson: 'E1'})).not.toBeDefined();
         expect(_.find(isolateScope.objeto.eventos, {idJson: 'E1'})).not.toBeDefined();

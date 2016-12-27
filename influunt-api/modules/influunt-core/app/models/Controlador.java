@@ -175,10 +175,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public static Controlador isPacoteTabelaHorariaValido(Object controladorObject, Object pacoteTabelaHoraria) {
+        return isPacoteTabelaHorariaValido(controladorObject, pacoteTabelaHoraria, null);
+    }
+
+    private static Controlador isPacoteTabelaHorariaValido(Object controladorObject, Object pacoteTabelaHoraria, Usuario usuario) {
         JsonNode controladorJson = Json.parse(controladorObject.toString());
         JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
 
-        Controlador controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson);
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson, usuario);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
@@ -186,8 +190,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return erros.isEmpty() ? controlador : null;
     }
 
-    public static Object checkConfiguracaoTabelaHoraria(Object controladorObject, Object pacoteTabelaHoraria) {
-        Controlador controlador = isPacoteTabelaHorariaValido(controladorObject, pacoteTabelaHoraria);
+    public static Object checkConfiguracaoTabelaHoraria(Object controladorObject, Object pacoteTabelaHoraria, Usuario usuario) {
+        Controlador controlador = isPacoteTabelaHorariaValido(controladorObject, pacoteTabelaHoraria, usuario);
         if (controlador == null) {
             JsonNode controladorJson = Json.parse(controladorObject.toString());
             JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());

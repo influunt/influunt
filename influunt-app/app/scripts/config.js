@@ -268,11 +268,11 @@ angular
           controllerAs: 'subareas_tabela_horaria',
           data: {
             title: 'subareas.titulo',
-            breadcrumb: 'subareas.mostrar'
-            // permissions: {
-            //   only: 'visualizarSubareas',
-            //   redirectTo: 'app.main'
-            // }
+            breadcrumb: 'subareas.mostrar',
+            permissions: {
+              only: 'cadastrarTabelaHorariaSubarea',
+              redirectTo: 'app.subareas'
+            }
           }
         })
 

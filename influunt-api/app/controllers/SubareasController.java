@@ -181,7 +181,7 @@ public class SubareasController extends Controller {
                     }
 
                     JsonNode controladorJson = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
-                    Object controladorOuErros = Controlador.checkConfiguracaoTabelaHoraria(controladorJson, json);
+                    Object controladorOuErros = Controlador.checkConfiguracaoTabelaHoraria(controladorJson, json, getUsuario());
                     if (controladorOuErros instanceof Controlador) {
                         Controlador c2 = (Controlador) controladorOuErros;
                         VersaoTabelaHoraria novaVersao = c2.getVersaoTabelaHoraria();
