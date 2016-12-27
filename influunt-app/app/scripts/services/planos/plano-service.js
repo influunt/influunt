@@ -331,7 +331,7 @@ angular.module('influuntApp')
             labelPosicao: 'G' + grupo.posicao,
             intervalos: [{
               status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
-              duracao: plano.tempoCiclo || controlador.cicloMax
+              duracao: controlador.cicloMax
             }]
           };
         });

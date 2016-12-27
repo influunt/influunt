@@ -448,7 +448,7 @@ describe('Controller: PlanosCtrl', function() {
         inicializaTesteModoOperacao('INTERMITENTE');
         var plano = scope.currentPlano;
 
-        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMax);
+        expect(plano.tempoCiclo).toBe(null);
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {
@@ -468,7 +468,7 @@ describe('Controller: PlanosCtrl', function() {
         inicializaTesteModoOperacao('APAGADO');
         var plano = scope.currentPlano;
 
-        expect(plano.tempoCiclo).toBe(scope.objeto.cicloMax);
+        expect(plano.tempoCiclo).toBe(null);
         expect(plano.defasagem).toBe(null);
         plano.estagiosPlanos.forEach(function(e) {
           var estagio = _.find(scope.objeto.estagiosPlanos, {
