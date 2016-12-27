@@ -214,6 +214,7 @@ public class ControladorCustomSerializer {
                 planoJson.put("posicao", plano.getPosicao());
                 planoJson.put("descricao", plano.getDescricao());
                 planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+                planoJson.put("isManual", plano.isManual());
             });
             anel.getGruposSemaforicos().stream().forEach(grupoSemaforico -> {
                 ObjectNode grupoJson = gruposJson.addObject();
@@ -1057,6 +1058,8 @@ public class ControladorCustomSerializer {
         }
         if (plano.getModoOperacao() != null) {
             planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+            planoJson.put("isManual", plano.isManual());
+            planoJson.put("isTemporario", plano.isTemporario());
         }
         if (plano.getDataCriacao() != null) {
             planoJson.put(DATA_CRIACAO, InfluuntDateTimeSerializer.parse(plano.getDataCriacao()));
