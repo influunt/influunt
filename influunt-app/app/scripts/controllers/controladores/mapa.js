@@ -462,4 +462,14 @@ angular.module('influuntApp')
       $scope.openAcoesAnel = function() {
         $('.acoes').addClass('open-acao-panel');
       };
+      
+      $scope.posicaoPlano = function(plano) {
+        if (plano.isManual) {
+          return $filter('translate')('planos.modoManual');
+        } else if (plano.isTemporario) {
+          return $filter('translate')('planos.temporario');
+        } else {
+          return plano.posicao;
+        }
+      };
     }]);
