@@ -1,51 +1,111 @@
-<td class="horario10px horarioColor{{evento.posicao}}" data-ng-class="{'horaStripes': TabelaHorariaService.isCurrentTipoEventoEspecial() || TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()}"></td>
+<td class="horario10px horarioColor{{evento.posicao}}"
+    data-ng-class="{'horaStripes': TabelaHorariaService.isCurrentTipoEventoEspecial() ||
+                                   TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()}">
+</td>
+
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoNormal()">
-  <select name="eventoDiaDaSemana" data-ng-model="evento.diaDaSemana" class="form-control" data-ng-change="verificaAtualizacao()" data-ng-if="!readOnly">
+  <select name="eventoDiaDaSemana"
+          data-ng-model="evento.diaDaSemana"
+          class="form-control"
+          data-ng-change="verificaAtualizacao()"
+          data-ng-if="!readOnly">
     <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
   </select>
   <span data-ng-if="readOnly">{{ evento.diaDaSemana | diaDaSemana }}</span>
 </td>
-<td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial() || TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
-  <input class="form-control" data-ng-model="evento.nome" data-ng-blur="verificaAtualizacao()" data-ng-if="!readOnly"></input>
+
+<td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial() ||
+                TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
+  <input class="form-control"
+         data-ng-model="evento.nome"
+         data-ng-blur="verificaAtualizacao()"
+         data-ng-if="!readOnly"
+         name="eventoDescricao">
+  </input>
   <span data-ng-if="readOnly">{{ evento.nome }}</span>
 </td>
+
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">
-  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" format="DD/MM/YYYY" data-ng-blur="verificaAtualizacao()" data-ng-if="!readOnly">
+  <input type="datetime"
+         class="form-control"
+         date-time data-ng-model="evento.dataMoment"
+         view="month"
+         auto-close="true"
+         min-view="date"
+         format="DD/MM/YYYY"
+         data-ng-blur="verificaAtualizacao()"
+         data-ng-if="!readOnly">
   <span data-ng-if="readOnly">{{ evento.dataMoment.format('DD/MM/YYYY') }}</span>
 </td>
+
 <td data-ng-if="TabelaHorariaService.isCurrentTipoEventoEspecial()">
-  <input type="datetime" class="form-control" date-time data-ng-model="evento.dataMoment" view="month" auto-close="true" min-view="date" max-view="month" min-date="minDate" max-date="maxDate" default-view="date" format="DD/MM" data-ng-blur="verificaAtualizacao()" data-ng-if="!readOnly">
+  <input type="datetime"
+         class="form-control"
+         date-time data-ng-model="evento.dataMoment"
+         view="month"
+         auto-close="true"
+         min-view="date"
+         max-view="month"
+         min-date="minDate"
+         max-date="maxDate"
+         default-view="date"
+         format="DD/MM"
+         data-ng-blur="verificaAtualizacao()"
+          data-ng-if="!readOnly">
   <span data-ng-if="readOnly">{{ evento.dataMoment.format('DD/MM') }}</span>
 </td>
+
 <td>
-  <select name="eventoHora" data-ng-model="evento.hora" class="form-control" data-ng-change="verificaAtualizacao()" data-ng-if="!readOnly">
+  <select name="eventoHora"
+          data-ng-model="evento.hora"
+          class="form-control"
+          data-ng-change="verificaAtualizacao()"
+          data-ng-if="!readOnly">
     <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
   </select>
   <span data-ng-if="readOnly">{{ evento.hora | padding }}</span>
 </td>
+
 <td>
-  <select name="eventoMinuto" data-ng-model="evento.minuto" class="form-control" data-ng-change="verificaAtualizacao()" data-ng-if="!readOnly">
+  <select name="eventoMinuto"
+  data-ng-model="evento.minuto"
+  class="form-control"
+  data-ng-change="verificaAtualizacao()"
+  data-ng-if="!readOnly">
     <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{minuto}}</option>
   </select>
   <span data-ng-if="readOnly">{{ evento.minuto | padding }}</span>
 </td>
+
 <td>
-  <select name="eventoSegundo" data-ng-model="evento.segundo" class="form-control" data-ng-change="verificaAtualizacao()" data-ng-if="!readOnly">
+  <select name="eventoSegundo"
+          data-ng-model="evento.segundo"
+          class="form-control"
+          data-ng-change="verificaAtualizacao()"
+          data-ng-if="!readOnly">
     <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{segundo}}</option>
   </select>
   <span data-ng-if="readOnly">{{ evento.segundo | padding }}</span>
 </td>
+
 <td>
-  <select name="eventoPlano" data-ng-model="evento.posicaoPlano" class="form-control" data-ng-change="verificaAtualizacao()"
-      inf-tooltip messages="erros" data-ng-if="!readOnly">
+  <select name="eventoPlano"
+          data-ng-model="evento.posicaoPlano"
+          class="form-control"
+          data-ng-change="verificaAtualizacao()"
+          inf-tooltip messages="erros"
+          data-ng-if="!readOnly">
     <option data-ng-repeat="plano in planos track by $index" value="{{$index+1}}">Plano {{$index + 1}}</option>
   </select>
-  <span class="badge badge-danger badge-estagio-alternativo pull-right" data-ng-if="erros" inf-tooltip messages="erros">
+  <span class="badge badge-danger badge-estagio-alternativo pull-right"
+        data-ng-if="erros"
+        inf-tooltip messages="erros">
     <i class="fa fa-exclamation"></i>
   </span>
   <span data-ng-if="readOnly">Plano {{ evento.posicaoPlano }}</span>
 </td>
-<td>
+
+<td data-ng-if="podeVisualizarPlano">
   <div class="ibox-tools">
     <a class="close-link"
         data-ng-if="podeVisualizarPlano"
@@ -54,7 +114,10 @@
         tooltips tooltip-template="Visualizar o diagrama de intervalos do plano selecionado">
       <i class="fa fa-eye fa-2x"></i>
     </a>
-    <a class="close-link" data-ng-click="removeEvento()" data-ng-if="podeRemover && !readOnly" tooltips tooltip-template="Remover o evento">
+    <a class="close-link"
+       data-ng-click="removeEvento()"
+       data-ng-if="podeRemover && !readOnly"
+       tooltips tooltip-template="Remover o evento">
       <i class="fa fa-trash fa-2x text-danger"></i>
     </a>
   </div>

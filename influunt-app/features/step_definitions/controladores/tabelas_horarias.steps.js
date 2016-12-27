@@ -27,8 +27,8 @@ module.exports = function() {
     return tabelasHorariasPage.enventoPossuiErro();
   });
 
-  this.Given(/^o sistema deverá apresentar a aba com o valor "([^"]*)"$/, function (valor) {
-    return tabelasHorariasPage.contagemNaAba(valor);
+  this.Given(/^o sistema deverá apresentar na aba "([^"]*)" com o valor "([^"]*)"$/, function (aba, valor) {
+    return tabelasHorariasPage.contagemNaAba(aba, valor);
   });
 
   this.Given(/^que o usuário remover o ultimo evento$/, function () {
@@ -67,4 +67,13 @@ module.exports = function() {
   this.Given(/^o quadro de horário deverá marcar "([^"]*)", na hora "([^"]*)", com a cor "([^"]*)"$/, function (diaSemana, hora, cor) {
     return tabelasHorariasPage.verificaQuadroHorario(diaSemana, hora, cor);
   });
+
+  this.Given(/^o usuário mudar de aba para Eventos "([^"]*)"$/, function (aba) {
+    return tabelasHorariasPage.mudarEvento(aba);
+  });
+
+  this.Given(/^o usuário preencher o campo evento com "([^"]*)"$/, function (valor) {
+    return tabelasHorariasPage.preencherDescricaoEvento('eventoDescricao', valor);
+  });
+
 };

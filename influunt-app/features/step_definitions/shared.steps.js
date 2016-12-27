@@ -217,4 +217,8 @@ module.exports = function() {
     return sharedSteps.clickForaModal();
   });
 
+  this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
+    return sharedSteps.setarData(valor);
+  });
+
 };

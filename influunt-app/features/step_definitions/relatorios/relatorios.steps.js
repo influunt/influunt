@@ -17,10 +17,6 @@ module.exports = function() {
     return relatoriosPage.selecionarValor(campo, valor);
   });
 
-  this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
-    return relatoriosPage.setarData(valor);
-  });
-
   this.Given(/^o usuário clicar em Gerar$/, function () {
     return relatoriosPage.clicarBotaoGerar();
   });
