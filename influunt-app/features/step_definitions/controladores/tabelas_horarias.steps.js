@@ -76,4 +76,8 @@ module.exports = function() {
     return tabelasHorariasPage.preencherDescricaoEvento('eventoDescricao', valor);
   });
 
+  this.Given(/^o sistema deverá mostrar um erro com a mensagem "([^"]*)"$/, function (msg) {
+    return tabelasHorariasPage.checkErroMensagem(msg);
+  });
+
 };

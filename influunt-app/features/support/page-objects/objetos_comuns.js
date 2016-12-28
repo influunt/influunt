@@ -16,7 +16,7 @@ var ObjetosComuns = function () {
   };
 
   this.indexPage = function(path) {
-    return world.visit('/app/'+path+'/');
+    return world.visit('/app/'+path+'');
   };
 
   this.clicarLinkNovo = function() {
@@ -30,6 +30,12 @@ var ObjetosComuns = function () {
   this.isListagemControladores = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.waitForByXpath('//h5[contains(text(), "Programação")]');
+    });
+  };
+
+  this.isListagem = function(title) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.waitForByXpath('//h5[contains(text(), "'+title+'")]');
     });
   };
 
@@ -346,6 +352,12 @@ var ObjetosComuns = function () {
 
   this.clickForaModal = function() {
     return world.closeModal('modal-transacoes-distribuidas');
+  };
+
+  this.isForm = function() {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('//form[contains(@class, "simple_form")]');
+    });
   };
 
   this.setarData = function(valor){

@@ -20,6 +20,10 @@ var TabelasHorariasPage = function () {
     return world.waitForByXpath('//ng-include[contains(@src, "views/tabela_horarios/tabs-eventos.html")]');
   };
 
+  this.checkErroMensagem = function(msg) {
+    return world.waitForByXpath('//li[contains(text(), "'+msg+'")]');
+  };
+
   this.mudarEvento = function(evento) {
     var xpath = ('//li[contains(@aria-selected, "false")]//a[contains(text(), "Eventos '+evento+'")]');
     return world.waitForOverlayDisappear().then(function (){

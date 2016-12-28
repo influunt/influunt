@@ -36,6 +36,10 @@ var ComandosCentral = function () {
     return world.getElementByXpath('//button[contains (@data-toggle, "modal")]').click();
   };
 
+  this.indexPage = function() {
+    return world.visit('/app/"impor_config"/');
+  };
+
   this.botaoStatus = function(status) {
     var desabilitado = '//button[contains (@disabled, "disabled")]';
     if (status === "habilitado") {
