@@ -50,7 +50,12 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
                             gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
                         }
                     } else if (compare > 0) {
-                        if (!listaEstagioPlanos.contains(estagioPlano)) {
+                        if (plano.isTempoFixoCoordenado() &&
+                            estagioPlano.estagioQueRecebeEstagioDispensavelEAnterior() &&
+                            estagioPlano.getEstagioQueRecebeEstagioDispensavel().getPosicao().compareTo(estagioPlanoAtual.getPosicao()) <= 0) {
+                            gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+
+                        } else if (!listaEstagioPlanos.contains(estagioPlano)) {
                             gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
                         }
                     }

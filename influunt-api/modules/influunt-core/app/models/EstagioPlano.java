@@ -483,7 +483,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
             EstagioPlano estagioPlanoProximo = getEstagioPlanoProximo(plano.getEstagiosOrdenados());
             if (estagioPlanoAnterior.isDispensavel() &&
-                !estagioPlanoAnterior.equals(estagioPlanoPassado) &&
+//                !estagioPlanoAnterior.equals(estagioPlanoPassado) &&
                 this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())) {
                 tempoVerdeDoEstagioDispensavel += estagioPlanoAnterior.getTempoVerde();
                 tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
@@ -533,5 +533,9 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     public Integer getInicio() {
         return getPlano().getDefasagem() + getPlano().getEstagiosOrdenados().stream()
             .filter(estagioPlano -> estagioPlano.getPosicao() < getPosicao()).mapToInt(EstagioPlano::getDuracaoEstagio).sum();
+    }
+
+    public boolean estagioQueRecebeEstagioDispensavelEAnterior() {
+        return getEstagioQueRecebeEstagioDispensavel().equals(getEstagioPlanoAnterior(getPlano().getEstagiosOrdenados()));
     }
 }
