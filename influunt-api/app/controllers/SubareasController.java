@@ -87,8 +87,16 @@ public class SubareasController extends Controller {
         if (subarea == null) {
             return CompletableFuture.completedFuture(notFound());
         }
-        subarea.delete();
-        return CompletableFuture.completedFuture(ok());
+
+        if (subarea.getControladores().isEmpty()) {
+            subarea.delete();
+            return CompletableFuture.completedFuture(ok());
+        } else {
+            Erro erro = new Erro("Subarea", "Essa subárea não pode ser removida, pois existe(m) controlador(es) vinculado(s) à mesma.", "");
+            return CompletableFuture.completedFuture(
+                status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
+            );
+        }
     }
 
     @Transactional
