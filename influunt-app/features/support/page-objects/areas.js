@@ -57,14 +57,6 @@ var AreasPage = function () {
     });
   };
 
-  this.textoFieldDescricaoArea = function() {
-    return world.waitFor(inputDescArea).then(function() {
-      return world.getElement(inputDescArea);
-    }).then(function(element) {
-     return element.getAttribute('value');
-    });
-  };
-
   this.textoConfirmacaoApagarRegistro = function() {
     return world.getTextInSweetAlert();
   };

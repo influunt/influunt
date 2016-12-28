@@ -32,8 +32,13 @@ module.exports = function() {
   this.Given(/^o usuário escolher "([^"]*)"$/, function (value) {
     return comandoCentral.checkRadio(value);
   });
-  
+
   this.Given(/^deve ser exibido "([^"]*)" aneis sincronizados na listagem$/, function(quantidade) {
     return comandoCentral.getItensTabela(quantidade);
   });
+
+  this.Given(/^o usuário acessar a tela de listagem de comandos da central$/, function() {
+    return comandoCentral.indexPage();
+  });
+
 };
