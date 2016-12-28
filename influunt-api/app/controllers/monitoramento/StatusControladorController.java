@@ -44,7 +44,7 @@ public class StatusControladorController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
         HashMap<String, Boolean> map = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
@@ -69,6 +69,7 @@ public class StatusControladorController extends Controller {
         }
 
     }
+
 
     private Usuario getUsuario() {
         return (Usuario) ctx().args.get("user");

@@ -46,5 +46,8 @@ angular
     'tmh.dynamicLocale',
 
     //DatePicker
-    'datePicker'
+    'datePicker',
+
+    //MorrisChart
+    'angular.morris'
   ]);

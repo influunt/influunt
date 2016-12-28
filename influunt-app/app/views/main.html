@@ -1,135 +1,318 @@
 <div class="container-fluid wrapper wrapper-content animated fadeInRight dashboard">
+
   <div class="col-lg-12">
-    <input type="checkbox" ichecks data-ng-model="$root.eventos.exibirTodosAlertas">
+    <input type="checkbox" ichecks data-ng-model="$root.eventos.exibirTodosAlertas" />
     <span>{{ 'controladores.mapaControladores.exibirAlertasDeEventos' | translate }}</span>
   </div>
-  <div class="col-lg-8 col-sm-12">
-    <div class="row">
-      <div class="col-lg-12 no-padding">
-        <div data-toggle="modal"
-             data-target="#modalControladores"
-             class="col-lg-3 col-sm-6"
-             ng-click="carregarControladores(true)"
-             permission permission-only="'visualizarStatusControladoresOnline'">
-          <div class="widget style1 navy-bg falseBtn">
-            <div class="row">
-              <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{dadosOnlines['true'] || 0}}</h2>
-              </div>
-              <div class="col-lg-8 col-sm-7 text-right">
-                <span> {{ 'main.controlOn' | translate }} </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-toggle="modal"
-             data-target="#modalControladores"
-             class="col-lg-3 col-sm-6"
-             ng-click="carregarControladores(false)"
-             permission permission-only="'visualizarStatusControladoresOffline'">
 
-          <div class="widget style1 red-bg falseBtn">
+  <div class="col-lg-12">
+    <div class="col-lg-8 col-sm-12">
+      <div class="row">
+        <div class="col-lg-12 padding-top-20">
+          <div class="col-lg-12 white-bg padding-bottom-20">
             <div class="row">
-              <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{dadosOnlines['false'] || 0}}</h2>
-              </div>
-              <div class="col-lg-8 col-sm-7 text-right">
-                <span> {{ 'main.controlOff' | translate }} </span>
+              <div class="col-lg-12 no-padding white-bg">
+                <div class="col-lg-3 col-sm-12">
+                  <div class="row">
+                    <div style="width:200px;height:200px"
+                        donut-chart
+                        donut-data="onlineOfflineChart"
+                        donut-label-color='"#000000"'
+                        donut-background-color='"#ffffff"'
+                        donut-colors='["#1ab394","#ed5565"]'
+                        donut-formatter='"number"'>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                  <div class="row">
+                    <div style="width:200px;height:200px"
+                        donut-chart
+                        donut-data="dadosStatusChart"
+                        donut-label-color='"#000000"'
+                        donut-background-color='"#ffffff"'
+                        donut-colors='["#1ab394","#ed5565","#f8ac59", "#d1dade"]'
+                        donut-formatter='"number"'>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                  <div class="row">
+                    <div style="width:200px;height:200px"
+                        donut-chart
+                        donut-data="statusLogicosChart"
+                        donut-label-color='"#000000"'
+                        donut-background-color='"#ffffff"'
+                        donut-colors="['#d1dade', '#1ab394', '#1c84c6', '#f8ac59']"
+                        donut-formatter='"number"'>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                  <div class="row">
+                    <div style="width:200px;height:200px"
+                        donut-chart
+                        donut-data="modosOperacoesChart"
+                        donut-label-color='"#000000"'
+                        donut-background-color='"#ffffff"'
+                        donut-colors='["#1ab394","#23c6c8","#1c84c6","#f8ac59", "#d1dade"]'
+                        donut-formatter='"number"'>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
-        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
-          <div class="widget style1 blue-bg falseBtn">
-            <div class="row">
-              <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{planosImpostos['true'] || 0}}</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 padding-top-20">
+          <div class="col-lg-12 white-bg padding-bottom-20">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5 tooltips tooltip-template="{{ 'main.statusConexaoHint' | translate }}" tooltip-side="right">
+                  {{ 'main.statusConexao' | translate }}
+                </h5>
               </div>
-              <div class="col-lg-8 col-sm-7 text-right">
-                <span> {{ 'main.controlImposicao' | translate }} </span>
+              <div class="col-lg-12 no-padding padding-top-20">
+                <table class="table table-bordered">
+                  <thead>
+                      <th>{{ 'main.status' | translate }}</th>
+                      <th>{{ 'main.numeroControladores' | translate }}</th>
+                      <th>{{ 'main.numeroAneis' | translate }}</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="label label-primary"
+                            tooltips tooltip-template="{{ 'main.hintModoOnline' | translate }}"
+                            tooltip-side="right">{{ 'main.online' | translate }}
+                        </span>
+                      </td>
+                      <td>{{ dadosOnlines['true'] || 0 }}</td>
+                      <td>{{ aneisOnlines['true'] || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span <span class="label label-danger"
+                            tooltips tooltip-template="{{ 'main.hintModoOffline' | translate }}"
+                            tooltip-side="right">{{ 'main.offline' | translate }}
+                        </span>
+                      </td>
+                      <td>{{ dadosOnlines['false'] || 0 }}</td>
+                      <td>{{ aneisOnlines['false'] || 0 }}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
-        <div data-toggle="modal" data-target="#myModal" class="col-lg-3 col-sm-6">
-          <div class="widget style1 lazur-bg falseBtn">
-            <div class="row">
-              <div class="col-lg-3 col-sm-3">
-                <h2 class="font-bold">{{modosOperacoes['MANUAL'] || 0}}</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 padding-top-20">
+          <div class="col-lg-12 white-bg padding-bottom-20">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5 tooltips tooltip-template="{{ 'main.statusFisicoHint' | translate }}" tooltip-side="right">
+                  {{ 'main.statusFisico' | translate }}
+                </h5>
               </div>
-              <div class="col-lg-8 col-sm-7 text-right">
-                <span> {{ 'main.controlManual' | translate }} </span>
+              <div class="col-lg-12 no-padding padding-top-20">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>{{ 'main.status' | translate }}</th>
+                      <th>{{ 'main.numeroControladores' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span
+                            class="label label-primary"
+                            tooltips tooltip-template="{{ 'main.operacaoNormalHint' | translate }}"
+                            tooltip-side="right">
+                          {{ 'main.operacaoNormal' | translate | uppercase }}
+                        </span>
+                      </td>
+                      <td>{{ dadosStatus.OPERACAO_NORMAL || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="label label-danger"
+                            tooltips tooltip-template="{{ 'main.operandoComFalhasHint' | translate }}"
+                            tooltip-side="right">
+                          {{ 'main.operandoComFalhas' | translate | uppercase }}
+                        </span>
+                      </td>
+                      <td>{{ dadosStatus.COM_FALHAS || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="label label-warning"
+                            tooltips tooltip-template="{{ 'main.amareloIntermitentePorfalhaHint' | translate }}"
+                            tooltip-side="right">
+                          {{ 'main.amareloIntermitentePorfalha' | translate | uppercase }}
+                        </span>
+                      </td>
+                      <td>{{ dadosStatus.AMARELO_INTERMITENTE || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="label"
+                              tooltips tooltip-template="{{ 'main.apagadoPorFalhaHint' | translate }}"
+                              tooltip-side="right">
+                          {{ 'main.apagadoPorFalha' | translate | uppercase }}
+                        </span>
+                      </td>
+                      <td>{{ dadosStatus.APAGADO || 0 }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 padding-top-20">
+          <div class="col-lg-12 white-bg padding-bottom-20">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5 tooltips tooltip-template="{{ 'main.statusLogicoHint' | translate }}" tooltip-side="right">
+                  {{ 'main.statusLogico' | translate }}
+                </h5>
+              </div>
+              <div class="col-lg-12 no-padding padding-top-20">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>{{ 'main.status' | translate }}</th>
+                      <th>{{ 'main.numeroControladores' | translate }}</th>
+                      <th>{{ 'main.numeroAneis' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span ng-bind-html="'EM_CONFIGURACAO' | statusControlador"
+                              tooltips tooltip-template="{{ 'main.emConfiguracaoHint' | translate }}"
+                              tooltip-side="right">
+                        </span>
+                      </td>
+                      <td>{{ statusLogicoControladores['EM_CONFIGURACAO'] }}</td>
+                      <td>{{ statusLogicoAneis['EM_CONFIGURACAO'] }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span ng-bind-html="'CONFIGURADO' | statusControlador"
+                              tooltips tooltip-template="{{ 'main.configuradoHint' | translate }}"
+                              tooltip-side="right"></span>
+                      </td>
+                      <td>{{ statusLogicoControladores['CONFIGURADO'] }}</td>
+                      <td>{{ statusLogicoAneis['CONFIGURADO'] }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span ng-bind-html="'SINCRONIZADO' | statusControlador"
+                              tooltips tooltip-template="{{ 'main.sincronizadoHint' | translate }}"
+                              tooltip-side="right"></span>
+                      </td>
+                      <td>{{ statusLogicoControladores['SINCRONIZADO'] }}</td>
+                      <td>{{ statusLogicoAneis['SINCRONIZADO'] }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span ng-bind-html="'EDITANDO' | statusControlador"
+                              tooltips tooltip-template="{{ 'main.editandoHint' | translate }}"
+                              tooltip-side="right"></span>
+                      </td>
+                      <td>{{ statusLogicoControladores['EDITANDO'] }}</td>
+                      <td>{{ statusLogicoAneis['EDITANDO'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 padding-top-20">
+          <div class="col-lg-12 white-bg padding-bottom-20">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>{{ 'main.modo' | translate }}</h5>
+              </div>
+              <div class="col-lg-12 no-padding padding-top-20">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>{{ 'main.modo' | translate }}</th>
+                      <th>{{ 'main.numeroAneis' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="label label-primary">{{ 'planos.modosOperacao.TEMPO_FIXO_COORDENADO' | translate | uppercase }}</span></td>
+                      <td>{{ modosOperacoesPorAneis['TEMPO_FIXO_COORDENADO'] || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td><span class="label label-info">{{ 'planos.modosOperacao.TEMPO_FIXO_ISOLADO' | translate | uppercase }}</span></td>
+                      <td>{{ modosOperacoesPorAneis['TEMPO_FIXO_ISOLADO'] || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td><span class="label label-success">{{ 'planos.modosOperacao.ATUADO' | translate | uppercase }}</span></td>
+                      <td>{{ modosOperacoesPorAneis['ATUADO'] || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td><span class="label label-warning">{{ 'planos.modosOperacao.INTERMITENTE' | translate | uppercase }}</span></td>
+                      <td>{{ modosOperacoesPorAneis['INTERMITENTE'] || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td><span class="label ">{{ 'planos.modosOperacao.APAGADO' | translate | uppercase }}</span></td>
+                      <td>{{ modosOperacoesPorAneis['APAGADO'] || 0 }}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-12 padding-top-20">
-        <div class="col-lg-12 white-bg padding-bottom-20">
-          <div class="ibox float-e-margins">
-            <div class="ibox-title">
-              <h5>{{ 'main.controlStatus' | translate }}</h5>
-            </div>
-            <div class="col-lg-12 no-padding padding-top-20">
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['NOVO'] || 0}}</button> {{ 'main.novo' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">{{dadosStatus['CONFIGURADO'] || 0}}</button> {{ 'main.configurado' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['ATIVO'] || 0}}</button> {{ 'main.ativo' | translate }}
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <hr>
-            </div>
-            <div class="col-lg-12 no-padding padding-botton-20">
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{dadosStatus['COM_FALHAS'] || 0}}</button> {{ 'main.comFalhas' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">{{dadosStatus['EM_MANUTENCAO'] || 0}}</button> {{ 'main.emManutencao' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{dadosStatus['INATIVO'] || 0}}</button> {{ 'main.inativo' | translate }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-lg-12 padding-top-20">
-        <div class="col-lg-12 white-bg padding-bottom-20">
-          <div class="ibox float-e-margins">
-            <div class="ibox-title">
-              <h5>{{ 'main.controlModo' | translate }}</h5>
-            </div>
-            <div class="col-lg-12 no-padding padding-top-20">
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{modosOperacoes['ATUADO'] || 0}}</button> {{ 'main.atuado' | translate }}
+    <div class="col-lg-4 col-sm-12">
+      <div class="ibox float-e-margins white-bg">
+        <div class="ibox-content ibox-heading yellow-bg">
+          <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ FALHAS: (errosControladores | falhaNaoRecuperada).length || 0 }"></h3>
+          <small>
+            <i class="fa fa-check-circle"></i>
+            <span data-ng-bind-html="'main.recuperaFalhas' | translate:{FALHAS: (errosControladores | falhaRecuperada).length}"></span>
+          </small>
+        </div>
+        <div class="ibox-content lista-falhas inspinia-timeline">
+          <div class="timeline-item" ng-repeat="erro in errosControladores | limitTo: 10">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-plug"
+                  data-ng-class="{'text-navy': erro.recuperado && erro.tipoEventoControlador !== 'ALARME','text-danger': !erro.recuperado && erro.tipoEventoControlador !== 'ALARME','text-warning': erro.tipoEventoControlador === 'ALARME'}">
+                </i> {{erro.data | influuntDate: 'HH:mm:ss'}}
+                <br>
+                <small class="text-navy">{{erro.data | influuntDate: 'fromNow'}}</small>
               </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-primary m-r-sm">{{modosOperacoes['TEMPO_FIXO_COORDENADO'] || 0}}</button> {{ 'main.coordenado' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{modosOperacoes['TEMPO_FIXO_ISOLADO'] || 0}}</button> {{ 'main.isolado' | translate }}
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <hr>
-            </div>
-            <div class="col-lg-12 no-padding padding-botton-20">
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-info m-r-sm">{{modosOperacoes['APAGADO'] || 0}}</button> {{ 'main.apagado' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-success m-r-sm">{{modosOperacoes['INTERMITENTE'] || 0}}</button> {{ 'main.interminente' | translate }}
-              </div>
-              <div class="col-lg-4 col-sm-4">
-                <button type="button" class="btn btn-danger m-r-sm">{{modosOperacoes['MANUAL'] || 0}}</button> {{ 'main.manual' | translate }}
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>{{ erro.descricaoEvento | humanize }}</strong></p>
+                <p><strong>{{erro.clc}}</strong><br>{{ erro.endereco | nomeEndereco }}</p>
               </div>
             </div>
           </div>
@@ -137,41 +320,12 @@
       </div>
     </div>
   </div>
-
-  <div class="col-lg-4 col-sm-12">
-    <div class="ibox float-e-margins white-bg">
-      <div class="ibox-content ibox-heading yellow-bg">
-        <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ FALHAS: (errosControladores | falhaNaoRecuperada).length || 0 }"></h3>
-        <small>
-          <i class="fa fa-check-circle"></i>
-          <span data-ng-bind-html="'main.recuperaFalhas' | translate:{FALHAS: (errosControladores | falhaRecuperada).length}"></span>
-        </small>
-      </div>
-      <div class="ibox-content lista-falhas inspinia-timeline">
-        <div class="timeline-item" ng-repeat="erro in errosControladores | limitTo: 10">
-          <div class="row">
-            <div class="col-xs-3 date">
-              <i class="fa fa-plug"
-                data-ng-class="{'text-navy': erro.recuperado && erro.tipoEventoControlador !== 'ALARME','text-danger': !erro.recuperado && erro.tipoEventoControlador !== 'ALARME','text-warning': erro.tipoEventoControlador === 'ALARME'}">
-              </i> {{erro.data | influuntDate: 'HH:mm:ss'}}
-              <br>
-              <small class="text-navy">{{erro.data | influuntDate: 'fromNow'}}</small>
-            </div>
-            <div class="col-xs-7 content no-top-border">
-              <p class="m-b-xs"><strong>{{ erro.descricaoEvento | humanize }}</strong></p>
-              <p><strong>{{erro.clc}}</strong><br>{{ erro.endereco | nomeEndereco }}</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
-
-  <ng-include src="'/views/dashboard/modal_controladores.html'"></ng-include>
-
 </div>
 
-  <script>
-    $(document).ready(function() {
-      $('.footable').footable();
-    });
-  </script>
+<ng-include src="'/views/dashboard/modal_controladores.html'"></ng-include>
+
+<script>
+  $(document).ready(function() {
+    $('.footable').footable();
+  });
+</script>

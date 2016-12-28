@@ -18,7 +18,8 @@ angular.module('influuntApp')
       $controller('BreadcrumbsCtrl', {$scope: $scope});
       Idle.watch();
 
-      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas;
+      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas,
+          atualizaOnlineOffline, atualizaStatusLogicos, atualizaModoOperacao, atualizaStatusFisicos;
 
       $scope.pagination = {
         current: 1,
@@ -122,12 +123,159 @@ angular.module('influuntApp')
 
       atualizaDadosDinamicos = function() {
         $timeout(function() {
-          $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
-          $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
-          $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
+          atualizaOnlineOffline();
+          atualizaModoOperacao();
+          atualizaStatusFisicos();
+          atualizaStatusLogicos();
+
           $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
           $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
         });
+      };
+
+      atualizaModoOperacao = function() {
+        $scope.modosOperacoesPorAneis = _
+          .chain($scope.statusObj.modosOperacoes)
+          .values()
+          .reduce(function(result, obj) {
+            result[obj.modoOperacao] = result[obj.modoOperacao] || 0;
+            result[obj.modoOperacao]++;
+            return result;
+          }, {})
+          .value();
+
+        $scope.modosOperacoesChart = [
+          {
+            label: $filter('translate')('planos.modosOperacao.TEMPO_FIXO_COORDENADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'TEMPO_FIXO_COORDENADO') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.TEMPO_FIXO_ISOLADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'TEMPO_FIXO_ISOLADO') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.ATUADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'ATUADO') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.INTERMITENTE'),
+            value: _.get($scope.modosOperacoesPorAneis, 'INTERMITENTE') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.APAGADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'APAGADO') || 0
+          }
+        ];
+      };
+
+      atualizaStatusFisicos = function() {
+        $scope.dadosStatus = _
+          .chain($scope.statusObj.status)
+          .values()
+          .reduce(function(collector, status) {
+            var operador = null;
+            switch(status) {
+              case 'CONFIGURADO':
+              case 'ATIVO':
+                operador = 'OPERACAO_NORMAL';
+                break;
+              case 'COM_FALHAS':
+                operador = status;
+                break;
+              default:
+                operador = status;
+                break;
+            }
+
+            collector[operador] = ++collector[operador] || 0;
+            return collector;
+          }, {})
+          .value();
+
+        $scope.dadosStatusChart = [
+          {
+            label: $filter('translate')('main.operacaoNormal'),
+            value: $scope.dadosStatus.OPERACAO_NORMAL || 0
+          },
+          {
+            label: $filter('translate')('main.operandoComFalhas'),
+            value: $scope.dadosStatus.COM_FALHAS || 0
+          },
+          {
+            label: $filter('translate')('main.amareloIntermitentePorfalha'),
+            value: $scope.dadosStatus.AMARELO_INTERMITENTE || 0
+          },
+          {
+            label: $filter('translate')('main.apagadoPorFalha'),
+            value: $scope.dadosStatus.APAGADO || 0
+          }
+        ];
+      };
+
+      atualizaStatusLogicos = function() {
+        $scope.statusLogicoControladores = _.chain($scope.statusObj.statusControladoresLogicos).values().countBy(_.identity).value();
+        $scope.statusLogicoAneis = _
+          .chain($scope.statusObj.statusControladoresLogicos)
+          .map(function(value, key) {
+             return {
+               status: value,
+               quantidadeAneis: $scope.statusObj.aneisPorControlador[key]
+             };
+           })
+           .reduce(function(result, obj) {
+             result[obj.status] = result[obj.status] || 0;
+             result[obj.status] += obj.quantidadeAneis;
+             return result;
+           }, {})
+           .value();
+
+        $scope.statusLogicosChart = [
+          {
+            label: $filter('translate')('EM_CONFIGURACAO'),
+            value: $scope.statusLogicoControladores.EM_CONFIGURACAO
+          },
+          {
+            label: $filter('translate')('CONFIGURADO'),
+            value: $scope.statusLogicoControladores.CONFIGURADO
+          },
+          {
+            label: $filter('translate')('SINCRONIZADO'),
+            value: $scope.statusLogicoControladores.SINCRONIZADO
+          },
+          {
+            label: $filter('translate')('EDITANDO'),
+            value: $scope.statusLogicoControladores.EDITANDO
+          }
+        ];
+      };
+
+      atualizaOnlineOffline = function() {
+        $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
+        $scope.aneisOnlines = _
+          .chain($scope.statusObj.onlines)
+          .map(function(value, key) {
+             return {
+               isOnline: value,
+               quantidadeAneis: $scope.statusObj.aneisPorControlador[key]
+             };
+           })
+           .reduce(function(result, obj) {
+             result[obj.isOnline] = result[obj.isOnline] || 0;
+             result[obj.isOnline] += obj.quantidadeAneis;
+             return result;
+           }, {})
+           .value();
+
+        $scope.onlineOfflineChart = [
+          {
+            label: $filter('translate')('main.online'),
+            value: $scope.dadosOnlines['true'] || 0
+          },
+          {
+            label: $filter('translate')('main.offline'),
+            value: $scope.dadosOnlines['false'] || 0
+          }
+        ];
       };
 
       getControlador = function(idControlador) {
@@ -204,5 +352,11 @@ angular.module('influuntApp')
       loadAlarmesEFalhas();
 
       $scope.$root.$on('$stateChangeSuccess', registerWatchers);
+
+      $scope.chart = [
+                    {label: "Download Sales", value: 12},
+                    {label: "In-Store Sales",value: 30},
+                    {label: "Mail-Order Sales", value: 20}
+                ];
 
     }]);

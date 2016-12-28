@@ -209,7 +209,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         }
 
         List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
-        List<String> controladoresPermitidos = ControladorFisico.getControladorPorArea(area).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<String> controladoresPermitidos = ControladorFisico.getControladoresSincronizadosPorArea(area).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
         List<AlarmesFalhasControlador> falhas = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, tipoFalhaQuery, controladoresPermitidos);
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();

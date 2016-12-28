@@ -227,7 +227,13 @@ angular.module('influuntApp')
           statusObj.imposicaoPlanos = statusObj.imposicaoPlanos || {};
           statusObj.modosOperacoes  = statusObj.modosOperacoes || {};
 
-          statusObj.modosOperacoes[mensagem.idControlador] = _.get(mensagem, 'conteudo.plano.modoOperacao');
+          statusObj.modosOperacoes[anel.id] = {
+            _id: anel.id,
+            idControlador: mensagem.idControlador,
+            modoOperacao: _.get(mensagem, 'conteudo.plano.modoOperacao'),
+            timestamp: mensagem.carimboDeTempo
+          };
+
           statusObj.imposicaoPlanos[mensagem.idControlador] = _.get(mensagem, 'conteudo.imposicaoDePlano');
         };
 
