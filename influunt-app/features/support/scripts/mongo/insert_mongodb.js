@@ -6,14 +6,15 @@ var MongoClient = mongo.MongoClient;
 
 var url = 'mongodb://127.0.0.1:27017/influuntdev';
 var ObjectId = mongo.ObjectID;
-var NumberLong = Long.fromString('1479756629334');
+var toDay = new Date();
+var toDayNumberLong = Long.fromString(''+toDay.getTime()+'');
 
 var MongoInsert = function () {
   var trocaPlanosControladores = [
     {'_id' : ObjectId('58334b5573835c48f22fb7a0'),
      'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
      'idAnel' : '043007e5-ee02-4383-bde1-87346abdc895',
-     'timestamp' : NumberLong,
+     'timestamp' : toDayNumberLong,
      'conteudo' : {'momentoDaTroca' : '21/11/2016 17:30:29',
                    'momentoOriginal' : '21/11/2016 17:30:29',
                    'anel' : {'posicao' : '1' },
@@ -28,9 +29,9 @@ var MongoInsert = function () {
     {
       '_id' : ObjectId('5833538c2d4e4bfb76af0d84'),
       'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
-      'idAnel' : '043007e5-ee02-4383-bde1-87346abdc895',
+      'idAnel' : '6c709913-6812-41d9-94a6-e36ee55e3b9c',
       'recuperado' : false,
-      'timestamp' : NumberLong,
+      'timestamp' : toDayNumberLong,
       'conteudo' : { 'timestamp' : '18/11/2016 20:59:23',
                      'tipoEvento' : {
                      'tipo' : 'FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO',
@@ -39,7 +40,7 @@ var MongoInsert = function () {
                      'descricaoParam' : 'Detector Veicular',
                      'codigo' : 3,
                      'tipoParam' : 'DETECTOR_VEICULAR',
-                     'descricao' : 'Detector veicular - Falta de acionamento' },
+                   },
       'descricaoEvento' : 'Falha CPU',
       'params' : [1, false]
       }
@@ -52,7 +53,7 @@ var MongoInsert = function () {
       'idControlador' : 'd7c27564-e0b1-4eda-8a6c-2c265ed24c2f',
       'idAnel' : '33e2bbf0-72ad-4d11-98d8-1bb440c370b0',
       'recuperado' : false,
-      'timestamp' : NumberLong,
+      'timestamp' : toDayNumberLong,
       'conteudo' : { 'timestamp' : '18/11/2016 20:59:23',
                      'tipoEvento' : {
                      'tipo' : 'FALHA_WATCH_DOG',
@@ -71,7 +72,7 @@ var MongoInsert = function () {
     {
       '_id' : ObjectId('57dafa79dd605a97ce6003e4'),
       'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
-      'timestamp' : NumberLong,
+      'timestamp' : toDayNumberLong,
       'conectado' : true
     }
   ];

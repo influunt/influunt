@@ -66,6 +66,10 @@ module.exports = function() {
     return sharedSteps.isIndexPage();
   });
 
+  this.Given(/^o sistema deverá redirecionar o usuário para a listagem "([^"]*)"$/, function (title) {
+    return sharedSteps.isListagem(title);
+  });
+
   this.Given(/^que o usuário deslogue no sistema$/, function () {
     return sharedSteps.deslogar();
   });
@@ -217,4 +221,11 @@ module.exports = function() {
     return sharedSteps.clickForaModal();
   });
 
+  this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
+    return sharedSteps.setarData(valor);
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário$/, function() {
+    return sharedSteps.isForm();
+  });
 };

@@ -10,7 +10,7 @@ Funcionalidade: tela de cadastro de áreas
   Cenário: Acesso à tela de nova área
     Quando o usuário acessar a tela de listagem de áreas
     E clicar no botão de Nova Área
-    Então o sistema deverá redirecionar para o formulário "Areas"
+    Então o sistema deverá redirecionar para o formulário
 
   Cenário: Cadastro de áreas
     Quando o usuário acessar a tela de cadastro de novas áreas
@@ -54,7 +54,7 @@ Funcionalidade: tela de cadastro de áreas
   Cenário: Acesso à tela de edição de áreas
     Quando o usuário acessar a tela de listagem de áreas
     E clicar no botão de editar área
-    Então o sistema deverá redirecionar para o formulário de edição de áreas
+    Então o sistema deverá redirecionar para o formulário
 
   Cenário: Edição de áreas
     Quando o usuário acessar o formulário de edição de áreas
