@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
+import org.apache.commons.math3.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -46,7 +47,7 @@ public class MonitoramentoController extends Controller {
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
+        HashMap<String, HashMap> status = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
         List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null, controladoresIds);
         Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
@@ -73,7 +74,7 @@ public class MonitoramentoController extends Controller {
 
         List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
+        HashMap<String, HashMap> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
         List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null, controladores);
 

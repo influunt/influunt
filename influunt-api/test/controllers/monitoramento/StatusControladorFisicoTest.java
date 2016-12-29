@@ -5,7 +5,9 @@ import config.WithInfluuntApplicationNoAuthentication;
 import integracao.ControladorHelper;
 import models.Cidade;
 import models.Controlador;
+import models.StatusAnel;
 import models.StatusDevice;
+import org.apache.commons.math3.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
@@ -43,13 +45,17 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
 
-        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO);
+        HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+        statusAneis.put(1, StatusAnel.NORMAL);
+        statusAneis.put(2, StatusAnel.COM_FALHA);
+
+        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO, statusAneis);
         Thread.sleep(10);
-        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.CONFIGURADO);
+        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.CONFIGURADO, statusAneis);
         Thread.sleep(10);
-        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.NOVO);
+        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.NOVO, statusAneis);
         Thread.sleep(10);
-        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.ATIVO);
+        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.ATIVO, statusAneis);
 
     }
 
@@ -58,11 +64,11 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         ArrayList<String> controladoresIds = new ArrayList<>();
         controladoresIds.add("1");
         controladoresIds.add("2");
-        HashMap<String, StatusDevice> usc = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
+        HashMap<String, HashMap> usc = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
         assertEquals(2, usc.size());
 
-        assertEquals(StatusDevice.CONFIGURADO, usc.get("1"));
-        assertEquals(StatusDevice.ATIVO, usc.get("2"));
+        assertEquals(StatusDevice.CONFIGURADO, StatusDevice.valueOf(usc.get("1").get("statusDevice").toString()));
+        assertEquals(StatusDevice.ATIVO, StatusDevice.valueOf(usc.get("2").get("statusDevice").toString()));
     }
 
     @Test
@@ -73,12 +79,16 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     @Test
     public void testHistoricoStatusControlador() throws InterruptedException {
         jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
+        HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+        statusAneis.put(1, StatusAnel.NORMAL);
+        statusAneis.put(2, StatusAnel.COM_FALHA);
+
         for (int i = 0; i < 100; i++) {
             Thread.sleep(10);
             if (i < 50) {
-                StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO);
+                StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO, statusAneis);
             } else {
-                StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.ATIVO);
+                StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.ATIVO, statusAneis);
             }
 
         }
@@ -111,18 +121,25 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
     @Test
     public void testUltimoStatusDeTodosControladoresApi() {
+        HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+        statusAneis.put(1, StatusAnel.NORMAL);
+        statusAneis.put(2, StatusAnel.COM_FALHA);
+
+        HashMap<Integer, StatusAnel> statusAneis1 = new HashMap<>();
+        statusAneis1.put(1, StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
+        statusAneis1.put(2, StatusAnel.MANUAL);
 
         Controlador c1 = new ControladorHelper().getControlador();
         c1.getVersaoControlador().getControladorFisico().setControladorSincronizado(c1);
         c1.getVersaoControlador().getControladorFisico().save();
         c1.save();
-        StatusControladorFisico.log(c1.getControladorFisicoId(), System.currentTimeMillis(), StatusDevice.CONFIGURADO);
+        StatusControladorFisico.log(c1.getControladorFisicoId(), System.currentTimeMillis(), StatusDevice.CONFIGURADO, statusAneis);
 
         Controlador c2 = new ControladorHelper().getControlador();
         c2.getVersaoControlador().getControladorFisico().setControladorSincronizado(c2);
         c2.getVersaoControlador().getControladorFisico().save();
         c2.save();
-        StatusControladorFisico.log(c2.getControladorFisicoId(), System.currentTimeMillis(), StatusDevice.ATIVO);
+        StatusControladorFisico.log(c2.getControladorFisicoId(), System.currentTimeMillis(), StatusDevice.ATIVO, statusAneis1);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
             .uri(routes.StatusControladorFisicoController.ultimoStatusDosControladores().url());
@@ -134,8 +151,14 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
         assertEquals(2, json.size());
 
-        assertEquals(StatusDevice.CONFIGURADO.toString(), json.get(c1.getControladorFisicoId()).asText());
-        assertEquals(StatusDevice.ATIVO.toString(), json.get(c2.getControladorFisicoId()).asText());
+        assertEquals(StatusDevice.CONFIGURADO, StatusDevice.valueOf(json.get(c1.getControladorFisicoId()).get("statusDevice").asText()));
+        assertEquals(StatusDevice.ATIVO, StatusDevice.valueOf(json.get(c2.getControladorFisicoId()).get("statusDevice").asText()));
+
+        assertEquals(StatusAnel.NORMAL, StatusAnel.valueOf(json.get(c1.getControladorFisicoId()).get("statusAneis").get("1").asText()));
+        assertEquals(StatusAnel.COM_FALHA, StatusAnel.valueOf(json.get(c1.getControladorFisicoId()).get("statusAneis").get("2").asText()));
+
+        assertEquals(StatusAnel.AMARELO_INTERMITENTE_POR_FALHA, StatusAnel.valueOf(json.get(c2.getControladorFisicoId()).get("statusAneis").get("1").asText()));
+        assertEquals(StatusAnel.MANUAL, StatusAnel.valueOf(json.get(c2.getControladorFisicoId()).get("statusAneis").get("2").asText()));
     }
 
     @Test

@@ -2,6 +2,7 @@ package os72c.client.observer;
 
 import com.google.inject.Singleton;
 import models.Plano;
+import models.StatusAnel;
 import models.StatusDevice;
 import org.apache.commons.math3.util.Pair;
 
@@ -19,6 +20,8 @@ public class EstadoDevice {
     private boolean conectado = false;
 
     private StatusDevice status;
+
+    private HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
 
     private Map<Integer, Plano> planos = new HashMap<>();
 
@@ -44,6 +47,20 @@ public class EstadoDevice {
     public void setStatus(StatusDevice status) {
         this.status = status;
         notifica();
+    }
+
+    public StatusAnel getStatusAnel(Integer anel) {
+        return statusAneis.get(anel);
+    }
+
+    public void setStatusAnel(Integer anel, StatusAnel statusAnel) {
+        this.statusAneis.put(anel, statusAnel);
+    }
+
+    public void setStatusAneis(StatusAnel statusAnel) {
+        for (int i = 1; i <= this.statusAneis.size(); i++) {
+            this.statusAneis.put(i, statusAnel);
+        }
     }
 
     public Map<Integer, Plano> getPlanos() {

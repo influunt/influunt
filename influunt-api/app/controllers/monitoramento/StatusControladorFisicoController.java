@@ -6,6 +6,7 @@ import checks.Erro;
 import models.ControladorFisico;
 import models.StatusDevice;
 import models.Usuario;
+import org.apache.commons.math3.util.Pair;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -47,7 +48,7 @@ public class StatusControladorFisicoController extends Controller {
 
         List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, StatusDevice> map = StatusControladorFisico.ultimoStatusDosControladores(controladores);
+        HashMap<String, HashMap> map = StatusControladorFisico.ultimoStatusDosControladores(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
 

@@ -6,10 +6,12 @@ import br.org.mapdb.Serializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engine.EventoMotor;
 import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Controlador;
+import models.StatusAnel;
 import models.StatusDevice;
 import os72c.client.observer.EstadoDevice;
 import play.api.Play;
@@ -27,6 +29,8 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, String> status;
 
+    private final HTreeMap<Integer, String> statusAneis;
+
     private final HTreeMap<String, String> controlador;
 
     private final HTreeMap<String, String> keys;
@@ -35,7 +39,7 @@ public class MapStorage implements Storage {
 
     private final HTreeMap<String, String> dadosHardware;
 
-    private final HTreeMap<String, Boolean> falhas;
+    private final HTreeMap<String, Integer> falhas;
 
     private final HTreeMap<String, Map<String, String>> tempData;
 
@@ -50,6 +54,12 @@ public class MapStorage implements Storage {
             .keySerializer(Serializer.STRING)
             .valueSerializer(Serializer.STRING)
             .layout(1, 1, 1)
+            .createOrOpen();
+
+        this.statusAneis = this.db.hashMap("statusAneis")
+            .keySerializer(Serializer.INTEGER)
+            .valueSerializer(Serializer.STRING)
+            .layout(1, 2, 1)
             .createOrOpen();
 
         if (!this.status.containsKey("status")) {
@@ -85,7 +95,7 @@ public class MapStorage implements Storage {
 
         this.falhas = this.db.hashMap("falhas")
             .keySerializer(Serializer.STRING)
-            .valueSerializer(Serializer.BOOLEAN)
+            .valueSerializer(Serializer.INTEGER)
             .layout(1, 2, 1)
             .createOrOpen();
 
@@ -118,6 +128,38 @@ public class MapStorage implements Storage {
         db.commit();
 
         estadoDevice.setStatus(statusDevice);
+    }
+
+    @Override
+    public void setStatusAnel(Integer anel, StatusAnel statusAnel) {
+        this.statusAneis.put(anel, statusAnel.toString());
+        db.commit();
+
+        estadoDevice.setStatusAnel(anel, statusAnel);
+    }
+
+    @Override
+    public void setStatusAneis(StatusAnel statusAnel) {
+        atualizarStatusAneis(statusAnel);
+
+        db.commit();
+
+        estadoDevice.setStatusAneis(statusAnel);
+    }
+
+    @Override
+    public StatusAnel getStatusAnel(Integer anel) {
+        return StatusAnel.valueOf(this.statusAneis.get(anel.toString()));
+    }
+
+    @Override
+    public HashMap<Integer, StatusAnel> getStatusAneis() {
+        HashMap<Integer, StatusAnel> status = new HashMap<>();
+        this.statusAneis.getEntries().stream().forEach(entry -> {
+            status.put(entry.getKey(),
+                StatusAnel.valueOf(entry.getValue()));
+        });
+        return status;
     }
 
     @Override
@@ -231,21 +273,37 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public void addFalha(TipoEvento falha) {
-        this.falhas.put(falha.toString(), true);
+    public void addFalha(EventoMotor falha) {
+        this.falhas.put(falha.getTipoEvento().toString(), falha.getAnel());
         this.status.put("status", StatusDevice.COM_FALHAS.toString());
+        if (falha.getAnel() > 0) {
+            this.statusAneis.put(falha.getAnel(), StatusDevice.COM_FALHAS.toString());
+        } else {
+            if (falha.getTipoEvento().isEntraEmIntermitente()) {
+                atualizarStatusAneis(StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
+            } else {
+                atualizarStatusAneis(StatusAnel.COM_FALHA);
+            }
+        }
         db.commit();
     }
 
     @Override
-    public void removeFalha(TipoEvento falha) {
-        if (this.falhas.containsKey(falha.toString())) {
-            this.falhas.remove(falha.toString());
+    public void removeFalha(EventoMotor falha) {
+        if (this.falhas.containsKey(falha.getTipoEvento().toString())) {
+            this.falhas.remove(falha.getTipoEvento().toString());
             if (!emFalha()) {
                 this.status.put("status", StatusDevice.ATIVO.toString());
             }
+            if (!emFalha(falha.getAnel())) {
+                this.statusAneis.put(falha.getAnel(), StatusAnel.NORMAL.toString());
+            }
             db.commit();
         }
+    }
+
+    private boolean emFalha(Integer anel) {
+        return this.falhas.values().contains(anel);
     }
 
     @Override
@@ -255,7 +313,7 @@ public class MapStorage implements Storage {
 
     @Override
     public void setTempData(String id, String key, String value) {
-        Map<String, String> map = null;
+        Map<String, String> map;
 
         if (!this.tempData.containsKey(id)) {
             map = new HashMap<>();
@@ -313,4 +371,9 @@ public class MapStorage implements Storage {
         this.db.commit();
     }
 
+    private void atualizarStatusAneis(StatusAnel statusAnel) {
+        for (int i = 1; i <= this.statusAneis.size(); i++) {
+            this.statusAneis.put(i, statusAnel.toString());
+        }
+    }
 }
