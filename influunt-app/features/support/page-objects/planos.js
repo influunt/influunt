@@ -184,6 +184,12 @@ var PlanosPage = function () {
       });
   };
 
+  this.selectGrupoInDiagrama = function(grupo) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//input[contains(@type, "checkbox")][contains(@name, "'+grupo+'")]').click();
+    });
+  };
+
   this.alertVerdeSeguranca = function() {
     return world.getTextInSweetAlert();
   };

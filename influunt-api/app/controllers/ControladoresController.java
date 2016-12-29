@@ -594,28 +594,28 @@ public class ControladoresController extends Controller {
         boolean checkIfExists = controlador.getId() != null;
         if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
-        } else {
-            List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validationGroups);
-            if (erros.size() > 0) {
-                return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
-            } else {
-                if (checkIfExists) {
-                    controlador.update();
-                } else {
-                    // Criar a primeira versão e o controlador físico
-                    ControladorFisico controladorFisico = new ControladorFisico();
-                    controladorFisico.criarChaves();
-                    VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
-                    versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
-                    controladorFisico.addVersaoControlador(versaoControlador);
-                    controladorFisico.setArea(controlador.getArea());
-                    controlador.save();
-                    controladorFisico.save();
-                }
-                Controlador controlador1 = Controlador.find.byId(controlador.getId());
+        }
 
-                return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validationGroups);
+        if (erros.size() > 0) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        } else {
+            if (checkIfExists) {
+                controlador.update();
+            } else {
+                // Criar a primeira versão e o controlador físico
+                ControladorFisico controladorFisico = new ControladorFisico();
+                controladorFisico.criarChaves();
+                VersaoControlador versaoControlador = new VersaoControlador(controlador, controladorFisico, getUsuario());
+                versaoControlador.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
+                controladorFisico.addVersaoControlador(versaoControlador);
+                controladorFisico.setArea(controlador.getArea());
+                controlador.save();
+                controladorFisico.save();
             }
+            Controlador controlador1 = Controlador.find.byId(controlador.getId());
+
+            return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
     }
 

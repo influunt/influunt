@@ -21,10 +21,6 @@ var AgrupamentosPage = function () {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
   };
 
-  this.getItensTabela = function(quantity) {
-    return world.countTableSize(quantity)
-  };
-
   this.formAgrupamentos = function() {
     return world.getElement(formAgrupamentos);
   };
@@ -80,6 +76,14 @@ var AgrupamentosPage = function () {
   this.agruparControlador = function(controlador) {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElementByXpath('//*[b="'+controlador+'"]//div[contains(@class, "icheckbox_square-green")]').click();
+    });
+  };
+
+  this.getErrorMessageInP = function(msg) {
+    var cssSelector = 'p[class*="error-msg"]'
+    world.sleep(600);
+    return world.waitFor(cssSelector).then(function() {
+      return world.getElement(cssSelector).getText();
     });
   };
 

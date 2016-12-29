@@ -396,10 +396,13 @@
     "controladores": "Controladores",
     "editar": "Editar Subárea",
     "mostrar": "Visualizar Subárea",
+    "adicionar": "Adicionar nova Subárea",
     "nome": "Nome",
     "novo": "Nova Subárea",
     "numero": "Número",
-    "titulo": "Subáreas"
+    "titulo": "Subáreas",
+    "tabelaHoraria": "Tabela Horária",
+    "naoPossuiControlador": "Esta subárea não possui nenhum controlador associado."
   },
   "cidades": {
     "areas": "ÁREAS",

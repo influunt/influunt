@@ -32,8 +32,8 @@ module.exports = function() {
   this.Given(/^o usuário escolher "([^"]*)"$/, function (value) {
     return comandoCentral.checkRadio(value);
   });
-
-  this.Given(/^o usuário fechar o modal clicando nele$/, function () {
-    return comandoCentral.clickForaModal();
+  
+  this.Given(/^deve ser exibido "([^"]*)" aneis sincronizados na listagem$/, function(quantidade) {
+    return comandoCentral.getItensTabela(quantidade);
   });
 };

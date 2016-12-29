@@ -5,7 +5,7 @@ Funcionalidade: tela de cadastro de áreas
   Cenário: Listagem de áreas
     Dado que exista ao menos uma área cadastrada no sistema
     Quando o usuário acessar a tela de listagem de áreas
-    Então deve ser exibida uma lista com as áreas já cadastradas no sistema
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Acesso à tela de nova área
     Quando o usuário acessar a tela de listagem de áreas
@@ -48,8 +48,8 @@ Funcionalidade: tela de cadastro de áreas
 
   Cenário: Acesso à tela de detalhes de área
     Quando o usuário acessar a tela de listagem de áreas
-    E clicar no botão de visualizar área
-    Então o sistema deverá redirecionar para o show "51"
+    E o usuário na tabela clicar em "Editar" do registro "55"
+    Então o sistema deverá redirecionar para o show "55"
 
   Cenário: Acesso à tela de edição de áreas
     Quando o usuário acessar a tela de listagem de áreas
@@ -70,11 +70,11 @@ Funcionalidade: tela de cadastro de áreas
     E clicar no botão de excluir uma área
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a área
     Quando o usuário responde não
-    Então nenhuma área deve ser excluída
+    Então o sistema deverá mostrar "2" items na tabela
 
   Cenário: Exclusão de áreas com confirmação do usuário
     Quando o usuário acessar a tela de listagem de áreas
     E clicar no botão de excluir uma área
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir a área
     Quando o usuário confirmar
-    Então a área deverá ser excluida
+    Então o sistema deverá mostrar "1" items na tabela

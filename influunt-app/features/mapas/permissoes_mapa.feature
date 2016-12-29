@@ -6,6 +6,7 @@ Funcionalidade: Verificar pelo perfil quais informações o usuário tem acesso 
     Dado que o usuário esteja logado no sistema
     E que o usuário deslogue no sistema
     E o usuário confirmar
+    E que o usuário aguarde um tempo de "1000" milisegundos
     Dado o usuário logue no sistema com usuário "mobilab" e perfil administrador
     Quando for desabilitada no perfil visualizar todas as áreas
     E que o sistema possua controladores cadastrados e configurados

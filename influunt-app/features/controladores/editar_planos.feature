@@ -64,8 +64,34 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     Quando o usuário clicar em "Salvar"
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
 
+  Cenário: Não pode salvar um estágio dispensável ao apagar o estágio que recebe o tempo
+    Dado que o usuário acesse a página de listagem de controladores
+    E o usuário clicar em "Planos" do controlador "Av. Paulista com R. Pamplona"
+    E o usuário clicar em "Editar"
+    Quando o "PLANO 1" deverá estar ativado
+    E que o usuário clicar no plano 1
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E e o usuário clicar em estágio dispensável
+    E o usuário selecionar o estágio que recebe o estágio dispensável "E3"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    Quando o usuário clicar em "Salvar"
+    Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
+    Dado o usuário clicar em "Planos" do controlador "Av. Paulista com R. Pamplona"
+    E o usuário clicar em "Editar"
+    Quando o "PLANO 1" deverá estar ativado
+    E que o usuário clicar no plano 1
+    E que o usuário clique no botão apagar o estagio "E3"
+    E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    E o usuário confirmar
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 21 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    Quando o usuário clicar em "Salvar"
+    Então o sistema deverá apresentar erro no estágio "E2"
+
   Cenário: Não pode salva um estágio com o tempo maior que de permanência
     Dado que o usuário acesse a página de listagem de controladores
+    E que o usuário acesse a página de listagem de controladores
     E o usuário clicar em "Planos" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     E o usuário clicar em "Editar"
     E que o usuário clicar no plano 1

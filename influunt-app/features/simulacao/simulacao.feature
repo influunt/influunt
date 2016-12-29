@@ -51,3 +51,4 @@ Funcionalidade: Simulação
   Cenário: Prencher corretamente os campos para alarme
     Dado usuário clicar em simular
     Então o simulador deverá aparecer
+    E o usuário clicar em fechar o modal "modal-simulacao"

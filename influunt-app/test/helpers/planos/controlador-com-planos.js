@@ -12,7 +12,7 @@ var ControladorComPlanos = {
       {
         id: '45b5c7a8-2cd8-47ac-bd71-08228ede44b3',
         idJson: '0ad750a9-1aca-4be5-9136-1e9152c6855a',
-        statusVersao: 'ATIVO',
+        statusVersao: 'SINCRONIZADO',
         tabelaHoraria: {
           idJson: '28d4e817-4b93-4011-8281-be48bca1cbf4'
         }
@@ -2593,13 +2593,25 @@ var ControladorComPlanos = {
         eventos: []
       }
     ],
-    eventos: []
+    eventos: [],
+    subarea: {
+      area: {
+        idJson: '3ace69be-bf58-49b7-8cef-ed337c4669ac'
+      },
+      id: '12345678',
+      idJson: UUID.generate(),
+      nome: 'Subárea de Teste',
+      numero: 123
+    }
   },
   getControladorId: function() {
     return this.obj.id;
   },
   getAnelAtivoId: function() {
     return _.find(this.obj.aneis, 'ativo').id;
+  },
+  getSubareaId: function() {
+    return this.obj.subarea.id
   },
   get: function() {
     return _.cloneDeep(this.obj);

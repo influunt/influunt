@@ -45,9 +45,10 @@
   </span>
   <span data-ng-if="readOnly">Plano {{ evento.posicaoPlano }}</span>
 </td>
-<td data-ng-if="podeVisualizarPlano">
+<td>
   <div class="ibox-tools">
     <a class="close-link"
+        data-ng-if="podeVisualizarPlano"
         data-ng-click="abrirPlano()"
         data-ng-show="!!evento.posicaoPlano"
         tooltips tooltip-template="Visualizar o diagrama de intervalos do plano selecionado">

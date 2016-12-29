@@ -30,7 +30,7 @@
                 <a class="btn btn-primary" type="button"
                    tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
                    ng-click="clonarTabelaHoraria(objeto.id)"
-                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'ATIVO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO') && podeEditarControlador()"
+                   ng-if="(currentVersaoTabelaHoraria.statusVersao === 'SINCRONIZADO' || currentVersaoTabelaHoraria.statusVersao === 'CONFIGURADO') && podeEditarControlador()"
                    permission permission-only="'criarTabelaHoraria'">
                   <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                 </a>
@@ -60,8 +60,13 @@
             </div>
           </div>
 
-          <ng-include src="'views/tabela_horarios/tabs-eventos.html'"></ng-include>
-
+          <influunt-tabela-horaria
+            read-only="somenteVisualizacao"
+            objeto="objeto"
+            errors="errors"
+            pode-inicializar="podeInicializar"
+            pode-visualizar-planos="true">
+          </influunt-tabela-horaria>
 
           <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix" ng-if="!somenteVisualizacao">
             <div class="right">
@@ -78,7 +83,8 @@
             resource="'tabelas_horarias'"
             resource-id="$state.params.id"
             mostrar-link-alteracoes="true"
-            link-alteracoes="app.tabelas_horarias_diff"></influunt-modal-timeline>
+            link-alteracoes="app.tabelas_horarias_diff">
+          </influunt-modal-timeline>
         </fieldset>
       </div>
     </div>
