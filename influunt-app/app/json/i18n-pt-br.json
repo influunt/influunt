@@ -643,6 +643,7 @@
     "recuperarSenhaSucesso": "Instruções para recuperar sua senha foram enviadas para seu e-mail"
   },
   "main": {
+    "conteudoNaoDisponivel": "Conteúdo não disponível",
     "resumo": "Resumo",
     "status": "Status",
     "online": "Online",

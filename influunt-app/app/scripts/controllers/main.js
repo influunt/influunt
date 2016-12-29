@@ -19,7 +19,7 @@ angular.module('influuntApp')
       Idle.watch();
 
       var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas,
-          atualizaOnlineOffline, atualizaStatusLogicos, atualizaModoOperacao, atualizaStatusFisicos;
+          atualizaOnlineOffline, atualizaStatusLogicos, atualizaModoOperacao, atualizaStatusFisicos, isChartEmpty;
 
       $scope.pagination = {
         current: 1,
@@ -95,6 +95,10 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
+      isChartEmpty = function(chartData) {
+        return _.chain(chartData).map('value').sum().value() === 0;
+      };
+
       $scope.menuVisible = {};
       checkRoleForMenus = function() {
         return _.each($scope.menus, function(menu) {
@@ -129,7 +133,11 @@ angular.module('influuntApp')
           atualizaStatusLogicos();
 
           $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
-          $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
+          $scope.errosControladores = _
+            .chain($scope.statusObj.erros)
+            .reject(function(erro) { return erro.tipo.match(/^REMOCAO/) })
+            .orderBy('data', 'desc')
+            .value();
         });
       };
 
@@ -162,10 +170,16 @@ angular.module('influuntApp')
             value: _.get($scope.modosOperacoesPorAneis, 'INTERMITENTE') || 0
           },
           {
+            label: $filter('translate')('planos.modosOperacao.MANUAL'),
+            value: _.get($scope.modosOperacoesPorAneis, 'MANUAL') || 0
+          },
+          {
             label: $filter('translate')('planos.modosOperacao.APAGADO'),
             value: _.get($scope.modosOperacoesPorAneis, 'APAGADO') || 0
           }
         ];
+
+        $scope.isModosOperacoesChartEmpty = isChartEmpty($scope.modosOperacoesChart);
       };
 
       atualizaStatusFisicos = function() {
@@ -179,7 +193,7 @@ angular.module('influuntApp')
         $scope.statusFisicoAneis = _.chain($scope.statusObj.status)
           .values()
           .map(function(obj) {
-            return _.values(obj.statusAneis)
+            return _.values(obj.statusAneis);
           })
           .flatten()
           .countBy(_.identity)
@@ -207,6 +221,8 @@ angular.module('influuntApp')
             value: $scope.statusFisicoAneis.MANUAL || 0
           }
         ];
+
+        $scope.isDadosStatusChartEmpty = isChartEmpty($scope.dadosStatusChart);
       };
 
       atualizaStatusLogicos = function() {
@@ -244,6 +260,8 @@ angular.module('influuntApp')
             value: $scope.statusLogicoControladores.EDITANDO
           }
         ];
+
+        $scope.isStatusLogicosChartEmpty = isChartEmpty($scope.statusLogicosChart);
       };
 
       atualizaOnlineOffline = function() {
@@ -273,6 +291,8 @@ angular.module('influuntApp')
             value: $scope.dadosOnlines['false'] || 0
           }
         ];
+
+        $scope.isOnlineOfflineChartEmpty = isChartEmpty($scope.onlineOfflineChart);
       };
 
       getControlador = function(idControlador) {

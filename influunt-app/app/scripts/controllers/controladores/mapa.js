@@ -19,8 +19,6 @@ angular.module('influuntApp')
           atualizaErros, atualizaStatusPlanos;
 
       var FALHA = 'FALHA';
-      var LOCAL = 'LOCAL';
-      var MANUAL = 'MANUAL';
       var OPERANDO_COM_FALHAS = 'OPERANDO_COM_FALHAS';
       var OFFLINE = 'OFFLINE';
 
