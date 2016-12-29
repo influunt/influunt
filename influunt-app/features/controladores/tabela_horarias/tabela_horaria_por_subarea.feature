@@ -1,6 +1,6 @@
 # language: pt
 @tabela_horaria_subarea
-Funcionalidade: Posso criar ou atualizar as tabelas horáriaa pela subárea
+Funcionalidade: Posso criar ou atualizar as tabelas horárias pela subárea
 
   Cenário: Criar uma tabela horária pela subárea
     Dado que o sistema possui ao menos um controlador cadastrado

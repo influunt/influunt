@@ -43,7 +43,7 @@ Funcionalidade: Cadastro de subáreas
     Quando o usuário confirmar
     Então o sistema deverá mostrar "0" items na tabela
 
-  Cenário: Acesso à tela de detalhes de área
+  Cenário: Acesso à tela de detalhes de subárea
     Dado que o sistema possua controladores cadastrados e configurados
     Quando o usuário acessar a tela de listagem de "subareas"
     E o usuário na tabela clicar em "Editar" do registro "AREA SUL PAULISTA"
