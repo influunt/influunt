@@ -227,5 +227,5 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá redirecionar para o formulário$/, function() {
     return sharedSteps.isForm();
-  })
+  });
 };

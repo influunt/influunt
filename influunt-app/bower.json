@@ -53,8 +53,7 @@
   "overrides": {
     "raven-js": {
       "main": [
-        "dist/raven.js",
-        "dist/plugins/angular.js"
+        "dist/raven.js"
       ]
     },
     "angular-datepicker": {

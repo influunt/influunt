@@ -196,6 +196,10 @@ Set @PermissaoId = RANDOM_UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/sem_subarea', '[Controladores] - Buscar Controladores que não possuem subáreas', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilEngenheiroId, @PermissaoId);
+SET @permAppId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@permAppId, 'controladresSemSubárea', '[Subárea] - Buscar controladores sem subárea', 'O usuário com essa permissão poderá selecioar os controladores que não possuem subárea. Se o usuário não tiver essa permissão o sistema não irá mostrar os controladores.',NOW(), NOW());
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
 
 
 -- # CRUD Subareas

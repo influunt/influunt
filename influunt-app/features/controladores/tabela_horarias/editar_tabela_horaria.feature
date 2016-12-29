@@ -25,7 +25,7 @@ Funcionalidade: Editar tabelas horárias
     E o usuário clicar em "Editar"
     Então o sistema deverá apresentar na aba "Eventos especiais não recorrentes" com o valor "0"
     Quando o usuário mudar de aba para Eventos "especiais não recorrentes"
-    E o usuário preencher o campo evento com "Dia Das Mãe"
+    E o usuário preencher o campo evento com "Dia Das Mães"
     E o usuário no campo data preencher com valor "10/05/2016"
     E o usuário selecionar o valor "10" no campo "Hora" para o evento
     E o usuário selecionar o valor "0" no campo "Minuto" para o evento
