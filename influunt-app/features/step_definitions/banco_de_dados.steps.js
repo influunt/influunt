@@ -21,6 +21,10 @@ module.exports = function() {
     }
   });
 
+  this.Given(/^que exista ao menos uma área cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
+    return banco.insertArea();
+  });
+
   this.Given(/^que o sistema possua controladores cadastrados e configurados$/, function() {
     return banco.variosControladoresConfigurados();
   });

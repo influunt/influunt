@@ -81,7 +81,7 @@ public class ModelosControladoresController extends Controller {
             modeloControlador.delete();
             return CompletableFuture.completedFuture(ok());
         } else {
-            Erro erro = new Erro("ModeloControlador", "Essa modelo não pode ser removida, pois existe(m) controlador(es) vinculado(s) ao mesmo.", "");
+            Erro erro = new Erro("ModeloControlador", "Esse modelo não pode ser removido, pois existe(m) controlador(es) vinculado(s) ao mesmo.", "");
             return CompletableFuture.completedFuture(
                 status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
             );

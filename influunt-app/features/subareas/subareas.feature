@@ -25,8 +25,7 @@ Funcionalidade: Cadastro de subáreas
     E o usuário selecionar "51" para o campo "area"
     E o usuário preencher o campo "Nome" com "Subárea Sul Paulista"
     E clicar no botão de salvar
-    Então o sistema deverá retornar à tela de listagem de áreas
-    E o sistema deverá mostrar na tabela o valor "1"
+    Então o sistema exibe uma mensagem "Salvo com sucesso"
 
   Cenário: O sistema deverá apresentar erro cadastrar uma subárea com mesmo nome
     Dado o usuário clicar em "Novo"
@@ -59,3 +58,10 @@ Funcionalidade: Cadastro de subáreas
     E clicar no botão de salvar
     Então o sistema deverá redirecionar o usuário para a listagem "Subáreas"
     E o sistema deverá mostrar na tabela o valor "Subárea Norte Paulista"
+
+  Cenário: Validar a não exclusão de subáreas que possuam associação
+    Dado o usuário clicar em "Excluir"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário confirmar
+    Então o sistema deverá mostrar "1" items na tabela
+    E o sistema exibe uma mensagem "Essa subárea não pode ser removida, pois existe(m) controlador(es) vinculado(s) à mesma."

@@ -84,7 +84,7 @@ public class CidadesController extends Controller {
                 cidade.delete();
                 return CompletableFuture.completedFuture(ok());
             } else {
-                Erro erro = new Erro("Cidade", "Essa cidade não pode ser removida, pois existe(m) àrea(s) vinculada(s) à mesma.", "");
+                Erro erro = new Erro("Cidade", "Essa cidade não pode ser removida, pois existe(m) área(s) vinculada(s) à mesma.", "");
                 return CompletableFuture.completedFuture(
                     status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
                 );
