@@ -169,45 +169,42 @@ angular.module('influuntApp')
       };
 
       atualizaStatusFisicos = function() {
-        $scope.dadosStatus = _
+        $scope.statusFisicoControladores = _
           .chain($scope.statusObj.status)
           .values()
-          .reduce(function(collector, status) {
-            var operador = null;
-            switch(status) {
-              case 'CONFIGURADO':
-              case 'ATIVO':
-                operador = 'OPERACAO_NORMAL';
-                break;
-              case 'COM_FALHAS':
-                operador = status;
-                break;
-              default:
-                operador = status;
-                break;
-            }
+          .map('statusDevice')
+          .countBy(_.identity)
+          .value();
 
-            collector[operador] = ++collector[operador] || 0;
-            return collector;
-          }, {})
+        $scope.statusFisicoAneis = _.chain($scope.statusObj.status)
+          .values()
+          .map(function(obj) {
+            return _.values(obj.statusAneis)
+          })
+          .flatten()
+          .countBy(_.identity)
           .value();
 
         $scope.dadosStatusChart = [
           {
             label: $filter('translate')('main.operacaoNormal'),
-            value: $scope.dadosStatus.OPERACAO_NORMAL || 0
+            value: $scope.statusFisicoAneis.NORMAL || 0
           },
           {
             label: $filter('translate')('main.operandoComFalhas'),
-            value: $scope.dadosStatus.COM_FALHAS || 0
+            value: $scope.statusFisicoAneis.COM_FALHAS || 0
           },
           {
             label: $filter('translate')('main.amareloIntermitentePorfalha'),
-            value: $scope.dadosStatus.AMARELO_INTERMITENTE || 0
+            value: $scope.statusFisicoAneis.AMARELO_INTERMITENTE_POR_FALHA || 0
           },
           {
             label: $filter('translate')('main.apagadoPorFalha'),
-            value: $scope.dadosStatus.APAGADO || 0
+            value: $scope.statusFisicoAneis.APAGADO_POR_FALHA || 0
+          },
+          {
+            label: $filter('translate')('main.manual'),
+            value: $scope.statusFisicoAneis.MANUAL || 0
           }
         ];
       };

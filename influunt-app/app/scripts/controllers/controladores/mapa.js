@@ -89,8 +89,23 @@ angular.module('influuntApp')
 
         var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
         controladores.forEach(function(controlador) {
-          controlador.status = $scope.statusObj.status[controlador.controladorFisicoId];
           controlador.online = !!$scope.statusObj.onlines[controlador.controladorFisicoId];
+          controlador.status = $scope.statusObj.status[controlador.controladorFisicoId];
+
+          if (_.get(controlador, 'status.statusAneis')) {
+            var statusAneis = controlador.status.statusAneis;
+            _
+              .chain(controlador.aneis)
+              .filter('ativo')
+              .each(function(anel) {
+                anel.status = statusAneis[anel.posicao] || anel.status;
+              })
+              .value();
+          }
+
+          if (!controlador.online) {
+            _.set(controlador, 'status.statusDevice', OFFLINE);
+          }
 
           $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
           $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
@@ -211,7 +226,7 @@ angular.module('influuntApp')
             return $scope.filtro.exibirAneis;
           })
           .map(function(anel) {
-            var iconeAnel = [FALHA, OFFLINE].indexOf(anel.status) >= 0 ? anel.status : anel.tipoControleVigente;
+            var iconeAnel = anel.status || anel.tipoControleVigente;
             var endereco = _.find(controlador.todosEnderecos, anel.endereco);
             var popupText = getPopupText(anel);
 
@@ -313,13 +328,13 @@ angular.module('influuntApp')
 
       getIconeAnel = function(status) {
         switch (status) {
-          case FALHA:
+          case 'COM_FALHA':
             return 'images/leaflet/influunt-icons/anel-em-falha.svg';
-          case MANUAL:
+          case 'MANUAL':
             return 'images/leaflet/influunt-icons/anel-controle-manual.svg';
-          case LOCAL:
+          case 'AMARELO_INTERMITENTE_POR_FALHA':
             return 'images/leaflet/influunt-icons/anel-controle-local.svg';
-          case OFFLINE:
+          case 'APAGADO_POR_FALHA':
             return 'images/leaflet/influunt-icons/anel-offline.svg';
           default:
             return 'images/leaflet/influunt-icons/anel-controle-central.svg';
@@ -327,7 +342,7 @@ angular.module('influuntApp')
       };
 
       getIconeControlador = function(status) {
-        switch (status) {
+        switch (status.statusDevice) {
           case FALHA:
             return 'images/leaflet/influunt-icons/controlador-em-falha.svg';
           case OPERANDO_COM_FALHAS:

@@ -69,7 +69,13 @@ angular.module('influuntApp')
           return getControlador(mensagem.idControlador).then(function(controlador) {
             controlador.statusControlador = mensagem.conteudo.status;
             controlador.status = mensagem.conteudo.status;
-            statusObj.status[mensagem.idControlador] = _.get(mensagem, 'conteudo.status');
+            statusObj.status[mensagem.idControlador] = {
+              _id: mensagem.idControlador,
+              statusAneis: _.get(mensagem, 'conteudo.statusAneis'),
+              statusDevice: _.get(mensagem, 'conteudo.status'),
+              status: _.get(mensagem, 'conteudo.status'),
+              timestamp: _.get(mensagem, 'carimboDeTempo'),
+            };
 
             if (isAlertaAtivado(mensagem.tipoMensagem)) {
               var msg = $filter('translate')(
@@ -156,14 +162,8 @@ angular.module('influuntApp')
               var status = isOnline ? ONLINE : OFFLINE;
 
               statusObj.onlines[mensagem.idControlador] = isOnline;
-              statusObj.status[mensagem.idControlador] = status;
               controlador.online = isOnline;
               controlador.status = status;
-
-              controlador.aneis.forEach(function(anel) {
-                anel.online = isOnline;
-                anel.status = isOnline ? ONLINE : OFFLINE;
-              });
 
               if (isAlertaAtivado(mensagem.tipoMensagem)) {
                 var msg = isOnline ?

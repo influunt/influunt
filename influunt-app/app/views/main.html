@@ -10,11 +10,18 @@
       <div class="row">
         <div class="col-lg-12 padding-top-20">
           <div class="col-lg-12 white-bg padding-bottom-20">
+
+            <div class="ibox-title">
+              <h5 tooltips tooltip-template="{{ 'main.statusConexaoHint' | translate }}" tooltip-side="right">
+                {{ 'main.resumo' | translate }}
+              </h5>
+            </div>
+
             <div class="row">
               <div class="col-lg-12 no-padding white-bg">
                 <div class="col-lg-3 col-sm-12">
                   <div class="row">
-                    <div style="width:200px;height:200px"
+                    <div style="width:200px;height:200px; margin-right: auto; margin-left: auto;"
                         donut-chart
                         donut-data="onlineOfflineChart"
                         donut-label-color='"#000000"'
@@ -22,25 +29,31 @@
                         donut-colors='["#1ab394","#ed5565"]'
                         donut-formatter='"number"'>
                     </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-12">
-                  <div class="row">
-                    <div style="width:200px;height:200px"
-                        donut-chart
-                        donut-data="dadosStatusChart"
-                        donut-label-color='"#000000"'
-                        donut-background-color='"#ffffff"'
-                        donut-colors='["#1ab394","#ed5565","#f8ac59", "#d1dade"]'
-                        donut-formatter='"number"'>
+                    <div class="text-center">
+                      <label>{{ 'main.statusConexao' | translate }}</label>
                     </div>
                   </div>
                 </div>
 
                 <div class="col-lg-3 col-sm-12">
                   <div class="row">
-                    <div style="width:200px;height:200px"
+                    <div style="width:200px;height:200px; margin-right: auto; margin-left: auto;"
+                        donut-chart
+                        donut-data="dadosStatusChart"
+                        donut-label-color='"#000000"'
+                        donut-background-color='"#ffffff"'
+                        donut-colors='["#1ab394","#ed5565","#f8ac59", "#d1dade", "#5e5e5e"]'
+                        donut-formatter='"number"'>
+                    </div>
+                    <div class="text-center">
+                      <label>{{ 'main.statusFisico' | translate }}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                  <div class="row">
+                    <div style="width:200px;height:200px; margin-right: auto; margin-left: auto;"
                         donut-chart
                         donut-data="statusLogicosChart"
                         donut-label-color='"#000000"'
@@ -48,18 +61,24 @@
                         donut-colors="['#d1dade', '#1ab394', '#1c84c6', '#f8ac59']"
                         donut-formatter='"number"'>
                     </div>
+                    <div class="text-center">
+                      <label>{{ 'main.statusLogico' | translate }}</label>
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-lg-3 col-sm-12">
                   <div class="row">
-                    <div style="width:200px;height:200px"
+                    <div style="width:200px;height:200px; margin-right: auto; margin-left: auto;"
                         donut-chart
                         donut-data="modosOperacoesChart"
                         donut-label-color='"#000000"'
                         donut-background-color='"#ffffff"'
                         donut-colors='["#1ab394","#23c6c8","#1c84c6","#f8ac59", "#d1dade"]'
                         donut-formatter='"number"'>
+                    </div>
+                    <div class="text-center">
+                      <label>{{ 'main.modo' | translate }}</label>
                     </div>
                   </div>
                 </div>
@@ -129,7 +148,7 @@
                   <thead>
                     <tr>
                       <th>{{ 'main.status' | translate }}</th>
-                      <th>{{ 'main.numeroControladores' | translate }}</th>
+                      <th>{{ 'main.numeroAneis' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -142,7 +161,7 @@
                           {{ 'main.operacaoNormal' | translate | uppercase }}
                         </span>
                       </td>
-                      <td>{{ dadosStatus.OPERACAO_NORMAL || 0 }}</td>
+                      <td>{{ statusFisicoAneis.NORMAL || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
@@ -152,7 +171,7 @@
                           {{ 'main.operandoComFalhas' | translate | uppercase }}
                         </span>
                       </td>
-                      <td>{{ dadosStatus.COM_FALHAS || 0 }}</td>
+                      <td>{{ statusFisicoAneis.COM_FALHAS || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
@@ -162,7 +181,7 @@
                           {{ 'main.amareloIntermitentePorfalha' | translate | uppercase }}
                         </span>
                       </td>
-                      <td>{{ dadosStatus.AMARELO_INTERMITENTE || 0 }}</td>
+                      <td>{{ statusFisicoAneis.AMARELO_INTERMITENTE_POR_FALHA || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
@@ -172,7 +191,17 @@
                           {{ 'main.apagadoPorFalha' | translate | uppercase }}
                         </span>
                       </td>
-                      <td>{{ dadosStatus.APAGADO || 0 }}</td>
+                      <td>{{ statusFisicoAneis.APAGADO_POR_FALHA || 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="label label-modo-manual"
+                              tooltips tooltip-template="{{ 'main.manualHint' | translate }}"
+                              tooltip-side="right">
+                          {{ 'main.manual' | translate | uppercase }}
+                        </span>
+                      </td>
+                      <td>{{ statusFisicoAneis.MANUAL || 0 }}</td>
                     </tr>
                   </tbody>
                 </table>
