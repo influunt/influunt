@@ -6,6 +6,7 @@ import br.org.mapdb.Serializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import engine.CausaERemocaoEvento;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
@@ -277,26 +278,27 @@ public class MapStorage implements Storage {
         this.falhas.put(falha.getTipoEvento().toString(), falha.getAnel());
         this.status.put("status", StatusDevice.COM_FALHAS.toString());
         if (falha.getAnel() > 0) {
-            this.statusAneis.put(falha.getAnel(), StatusDevice.COM_FALHAS.toString());
-        } else {
             if (falha.getTipoEvento().isEntraEmIntermitente()) {
-                atualizarStatusAneis(StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
+                this.statusAneis.put(falha.getAnel(), StatusAnel.AMARELO_INTERMITENTE_POR_FALHA.toString());
             } else {
-                atualizarStatusAneis(StatusAnel.COM_FALHA);
+                this.statusAneis.put(falha.getAnel(), StatusAnel.COM_FALHA.toString());
             }
+        } else {
+            atualizarStatusAneis(StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
         }
         db.commit();
     }
 
     @Override
-    public void removeFalha(EventoMotor falha) {
-        if (this.falhas.containsKey(falha.getTipoEvento().toString())) {
-            this.falhas.remove(falha.getTipoEvento().toString());
+    public void removeFalha(EventoMotor remocao) {
+        TipoEvento falha = CausaERemocaoEvento.getFalha(remocao.getTipoEvento());
+        if (this.falhas.containsKey(falha.toString())) {
+            this.falhas.remove(falha.toString());
             if (!emFalha()) {
                 this.status.put("status", StatusDevice.ATIVO.toString());
             }
-            if (!emFalha(falha.getAnel())) {
-                this.statusAneis.put(falha.getAnel(), StatusAnel.NORMAL.toString());
+            if (!emFalha(remocao.getAnel())) {
+                this.statusAneis.put(remocao.getAnel(), StatusAnel.NORMAL.toString());
             }
             db.commit();
         }
