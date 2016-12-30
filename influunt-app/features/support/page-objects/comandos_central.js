@@ -36,6 +36,10 @@ var ComandosCentral = function () {
     return world.getElementByXpath('//button[contains (@data-toggle, "modal")]').click();
   };
 
+  this.indexPage = function() {
+    return world.visit('/app/impor_config/');
+  };
+
   this.botaoStatus = function(status) {
     var desabilitado = '//button[contains (@disabled, "disabled")]';
     if (status === "habilitado") {
@@ -65,7 +69,7 @@ var ComandosCentral = function () {
   };
 
   this.getErrorMsgs = function(error) {
-    return world.waitFor('div[class*="sweet-alert"]').then(function(){
+    return world.waitFor('p[class*="error-msg"]').then(function(){
       return world.getElement('p[class*="error-msg"]').getText().then(function (text) {
         expect(text).to.be.equal(error);
       });

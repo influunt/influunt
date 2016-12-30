@@ -50,12 +50,6 @@ module.exports = function() {
     objetosComuns.clicarLinkComTexto('adicionar limites geográficos');
   });
 
-  this.Given(/^o sistema deverá redirecionar para o formulário de edição de áreas$/, function() {
-    return areasPage.textoFieldDescricaoArea().then(function(descricao) {
-      return expect(descricao).to.not.be.empty;
-    });
-  });
-
   this.Given(/^o usuário acessar o formulário de edição de áreas$/, function() {
     areasPage.indexPage();
     return objetosComuns.clicarLinkComTexto('Editar');

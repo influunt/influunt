@@ -114,7 +114,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E o quadro de horário deverá marcar "Segunda", na hora "7", com a cor "Branco"
     E o quadro de horário deverá marcar "Segunda", na hora "9", com a cor "Branco"
     E o quadro de horário deverá marcar "Sexta", na hora "11", com a cor "Branco"
-    Então o sistema deverá apresentar a aba com o valor "8"
+    Então o sistema deverá apresentar na aba "Eventos" com o valor "8"
 
   Cenário: Apagar eventos da tabela
     Quando que o usuário remover o ultimo evento
@@ -150,10 +150,10 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E o usuário confirmar
     Então o evento "1" deverá ser excluído
     E não deve mais possuir eventos inseridos
-    E o sistema deverá apresentar a aba com o valor "0"
+    E o sistema deverá apresentar na aba "Eventos" com o valor "0"
 
   Cenário: Lançar planos isolado e coordenado que estejam configurados
-    Quando o usuário selecionar o valor "DOMINGO" no campo "Dias" para o evento
+    Dado o usuário selecionar o valor "DOMINGO" no campo "Dias" para o evento
     E o usuário selecionar o valor "12" no campo "Hora" para o evento
     E o usuário selecionar o valor "15" no campo "Minuto" para o evento
     Quando o usuário selecionar o valor plano "1" no campo "Plano" para o evento
@@ -169,7 +169,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     E o quadro de horário deverá marcar "Domingo", na hora "11", com a cor "VerdeClara"
 
   Cenário: Lançar plano intermitente que esteja configurado
-    Quando o usuário selecionar o valor "TERCA" no campo "Dias" para o evento
+    Dado o usuário selecionar o valor "TERCA" no campo "Dias" para o evento
     E o usuário selecionar o valor "10" no campo "Hora" para o evento
     E o usuário selecionar o valor "2" no campo "Minuto" para o evento
     Quando o usuário selecionar o valor plano "3" no campo "Plano" para o evento

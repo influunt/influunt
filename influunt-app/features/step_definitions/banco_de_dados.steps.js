@@ -56,4 +56,8 @@ module.exports = function() {
   this.Given(/^que possua controladores com áreas diferentes cadastrados$/, function () {
     return banco.controladoresAreasDiferentes();
   });
+
+  this.Given(/^que o controlador possua subárea$/, function () {
+    return banco.setSubareaControlador();
+  });
 };
