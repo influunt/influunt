@@ -7,17 +7,19 @@ import checks.InfluuntValidator;
 import checks.SubareasCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import models.Controlador;
-import models.Subarea;
-import models.Usuario;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import json.ControladorCustomSerializer;
+import models.*;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
+import utils.DBUtils;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
+import utils.RangeUtils;
 
 import javax.validation.groups.Default;
 import java.util.*;
@@ -123,6 +125,102 @@ public class SubareasController extends Controller {
         } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
+    }
+
+    public CompletionStage<Result> buscarTabelaHoraria(String id) {
+        Subarea subarea = Subarea.find.byId(UUID.fromString(id));
+        if (subarea == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+
+        Controlador controlador = Controlador.find
+            .fetch("versoesTabelasHorarias")
+            .fetch("versoesTabelasHorarias.tabelaHoraria")
+            .fetch("versaoControlador")
+            .where().eq("subarea_id", id)
+            .ne("versaoControlador.statusVersao", StatusVersao.ARQUIVADO.toString())
+            .setMaxRows(1).findUnique();
+        if (controlador != null) {
+            JsonNode tabelaHorariaJson = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
+
+            tabelaHorariaJson.get("versoesTabelasHorarias").forEach(vth -> {
+                ((ObjectNode) vth).remove("id");
+            });
+            tabelaHorariaJson.get("tabelasHorarias").forEach(th -> {
+                ((ObjectNode) th).remove("id");
+            });
+            tabelaHorariaJson.get("eventos").forEach(e -> {
+                ((ObjectNode) e).remove("id");
+            });
+
+            return CompletableFuture.completedFuture(ok(Json.toJson(tabelaHorariaJson)));
+        }
+
+        return CompletableFuture.completedFuture(ok());
+    }
+
+    public CompletionStage<Result> salvarTabelaHoraria(String id) {
+        Subarea subarea = Subarea.find.byId(UUID.fromString(id));
+        if (subarea == null) {
+            return CompletableFuture.completedFuture(notFound());
+        }
+
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
+        }
+
+        List<Erro> erros = new ArrayList<>();
+
+        boolean saved = DBUtils.executeWithTransaction(() -> {
+            subarea.getControladores().forEach(c1 -> {
+                ControladorFisico controladorFisico = c1.getVersaoControlador().getControladorFisico();
+                Controlador controlador = controladorFisico.getControladorConfiguradoOuAtivoOuEditando();
+                if (controlador == null) {
+                    controlador = controladorFisico.getControladorConfiguradoOuSincronizado();
+                }
+                if (controlador != null) {
+                    TabelaHorario tabelaAntiga = null;
+                    VersaoTabelaHoraria versaoAntiga = c1.getVersaoTabelaHoraria();
+                    if (versaoAntiga != null) {
+                        tabelaAntiga = versaoAntiga.getTabelaHoraria();
+                        versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
+                        versaoAntiga.update();
+                    }
+
+                    JsonNode controladorJson = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
+                    Object controladorOuErros = Controlador.checkConfiguracaoTabelaHoraria(controladorJson, json, getUsuario());
+                    if (controladorOuErros instanceof Controlador) {
+                        Controlador c2 = (Controlador) controladorOuErros;
+                        VersaoTabelaHoraria novaVersao = c2.getVersaoTabelaHoraria();
+                        if (tabelaAntiga != null) {
+                            novaVersao.setTabelaHorariaOrigem(tabelaAntiga);
+                        }
+                        novaVersao.setStatusVersao(StatusVersao.CONFIGURADO);
+                        novaVersao.setIdJson(UUID.randomUUID().toString());
+                        novaVersao.getTabelaHoraria().setIdJson(UUID.randomUUID().toString());
+                        novaVersao.getTabelaHoraria().getEventos().forEach(e -> e.setIdJson(UUID.randomUUID().toString()));
+                        controlador.addVersaoTabelaHoraria(novaVersao);
+                        controlador.update();
+                    } else {
+                        Controlador finalControlador = controlador;
+                        ((List<Erro>) controladorOuErros).forEach(erro -> {
+                            erro.root = "Controlador (" + finalControlador.getNomeEndereco() + ")";
+                            erros.add(erro);
+                        });
+                    }
+                }
+            });
+
+            if (!erros.isEmpty()) {
+                throw new RuntimeException("Erro de validação: rollback transaction!");
+            }
+        });
+
+        if (!saved) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
+        }
+        return CompletableFuture.completedFuture(ok());
     }
 
     private void setSubareaForControladores(Subarea subarea, JsonNode json) {

@@ -96,3 +96,11 @@ Funcionalidade: tela de cadastro de modelos de controladores
     E o sistema deverá mostrar em linhas com valor "LIMITE TABELAS ENTRE-VERDES: 2" na tabela
     E o sistema deverá mostrar em linhas com valor "LIMITE Planos: 16" na tabela
 
+  Cenário: Validar a não exclusão de modelos que possuam associação
+    Dado que o sistema possui ao menos um controlador cadastrado
+    Quando o usuário acessar a tela de listagem de "modelos"
+    E o usuário clicar em "Excluir"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário confirmar
+    Então o sistema deverá mostrar "1" items na tabela
+    E o sistema exibe uma mensagem "Esse modelo não pode ser removido, pois existe(m) controlador(es) vinculado(s) ao mesmo."

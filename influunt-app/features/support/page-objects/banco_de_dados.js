@@ -51,5 +51,13 @@ var BancoDeDados = function () {
   this.removeControladores = function() {
     return world.execSqlScript('features/support/scripts/controladores/remove_controladores.sql');
   };
+
+  this.setSubareaControlador = function() {
+    return world.execSqlScript('features/support/scripts/controladores/set_subarea_controlador.sql');
+  };
+
+  this.insertArea = function() {
+    return world.execSqlScript('features/support/scripts/areas/create_area.sql');
+  };
 };
 module.exports = BancoDeDados;

@@ -68,10 +68,10 @@ var World = function () {
     return _this.waitForInverse('div.toast-warning', timeout);
   };
 
-  this.getToastMessage = function() {
+  this.getSucessToastMessage = function() {
     var _this = this;
     _this.sleep(300);
-    return _this.getElementByXpath('//div[contains(@class, "toast-message")]').getText();
+    return _this.getElementByXpath('//div[contains(@class, "toast-success")]').getText();
   };
 
   this.waitFor = function(cssLocator, timeout) {
@@ -207,9 +207,9 @@ var World = function () {
     }, Promise.resolve());
   };
 
-  this.countTableSize = function(numberElements) {
+  this.countTableSize = function(numberElements, xpathTable) {
     var numeroElementosEsperado = numberElements;
-    return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr[contains(@class, "ng-scope")]')).then(function(elements){
+    return driver.findElements(webdriver.By.xpath(xpathTable)).then(function(elements){
       var sizeElementsOnTabele = elements.length.toString();
       return new Promise(function(resolve, reject) {
         if (sizeElementsOnTabele === numeroElementosEsperado) {
@@ -358,6 +358,11 @@ var World = function () {
     return this.execJavascript(jQuerySelector + '.iCheck("check");');
   };
 
+  this.closeModal = function(modalId) {
+    var jQuerySelector = '$("#'+modalId+'")';
+    return this.execJavascript(jQuerySelector + '.modal("hide");');
+  };
+
   this.uncheckICheck = function(checkboxSelector) {
     return this.execJavascript('$('+checkboxSelector+').iCheck("uncheck");');
   };
@@ -425,7 +430,9 @@ var World = function () {
 
   this.getTextInSweetAlert = function() {
     var _this = this;
-    return _this.getElement('div[class*="sweet-alert"] p').getText();
+    return _this.waitFor('div[class*="sweet-alert"]').then(function(){
+      return _this.getElement('div[class*="sweet-alert"] p').getText();
+    });
   };
 
   this.dragAndDrop = function(element, location) {
@@ -447,6 +454,7 @@ var World = function () {
     }).then(function () {
       return _this.visit('/login');
     }).then(function () {
+      _this.sleep(300);
       return _this.setValue('input[name="usuario"]', user);
     }).then(function () {
       return _this.setValue('input[name="senha"]', password);

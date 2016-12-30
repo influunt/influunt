@@ -42,14 +42,6 @@ var FabricantesPage = function () {
     return world.execSqlScript('features/support/scripts/fabricantes/create_fabricante.sql');
   };
 
-  this.toastMessage = function() {
-    return world.waitFor('#toast-container div.toast-message').then(function() {
-      return world.sleep(500);
-    }).then(function() {
-      return world.getElement('#toast-container div.toast-message').getText();
-    });
-  };
-
   this.textoExisteNaTabela = function(text) {
     return world.getElementsByXpath('//td[contains(text(), "'+text+'")]');
   };

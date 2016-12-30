@@ -33,7 +33,12 @@ module.exports = function() {
     return comandoCentral.checkRadio(value);
   });
 
-  this.Given(/^o usuário fechar o modal clicando nele$/, function () {
-    return comandoCentral.clickForaModal();
+  this.Given(/^deve ser exibido "([^"]*)" aneis sincronizados na listagem$/, function(quantidade) {
+    return comandoCentral.getItensTabela(quantidade);
   });
+
+  this.Given(/^o usuário acessar a tela de listagem de comandos da central$/, function() {
+    return comandoCentral.indexPage();
+  });
+
 };

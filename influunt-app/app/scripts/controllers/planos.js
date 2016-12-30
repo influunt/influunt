@@ -571,10 +571,10 @@ angular.module('influuntApp')
       getOpcoesEstagiosDisponiveis = function() {
         var estagiosPlanos = $scope.currentEstagiosPlanos;
 
-        $scope.opcoesEstagiosDisponiveis = [
-          utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex),
-          utilEstagios.getProximoEstagio(estagiosPlanos, $scope.currentEstagioPlanoIndex)
-        ];
+        $scope.opcoesEstagiosDisponiveis = _.compact([
+          utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex, false),
+          utilEstagios.getProximoEstagio(estagiosPlanos, $scope.currentEstagioPlanoIndex, false)
+        ]);
 
         $scope.opcoesEstagiosDisponiveis = _
           .chain($scope.opcoesEstagiosDisponiveis)

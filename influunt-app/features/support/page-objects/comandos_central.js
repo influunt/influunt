@@ -36,8 +36,8 @@ var ComandosCentral = function () {
     return world.getElementByXpath('//button[contains (@data-toggle, "modal")]').click();
   };
 
-  this.clickForaModal = function() {
-    return world.getElementByXpath('//div[contains(@class, "modal")][contains(@id, "modal-transacoes-distribuidas")]').click();
+  this.indexPage = function() {
+    return world.visit('/app/impor_config/');
   };
 
   this.botaoStatus = function(status) {
@@ -55,6 +55,13 @@ var ComandosCentral = function () {
     });
   };
 
+  this.getItensTabela = function(quantity) {
+    var xpathTable = '//table[contains(@class, "table")]//tbody//tr[contains(@class, "ng-scope")]';
+    return world.sleep(600).then(function(){
+      return world.countTableSize(quantity, xpathTable);
+    });
+  };
+
   this.checkRadio = function(value) {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElementByXpath('//input[contains(@value, "'+value+'")]/parent::div').click();
@@ -62,8 +69,10 @@ var ComandosCentral = function () {
   };
 
   this.getErrorMsgs = function(error) {
-    return world.getElement('p[class*="error-msg"]').getText().then(function (text) {
-      expect(text).to.be.equal(error);
+    return world.waitFor('p[class*="error-msg"]').then(function(){
+      return world.getElement('p[class*="error-msg"]').getText().then(function (text) {
+        expect(text).to.be.equal(error);
+      });
     });
   };
 };

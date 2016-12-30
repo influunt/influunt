@@ -113,7 +113,7 @@ public class ControladorCustomSerializer {
         return root;
     }
 
-    public JsonNode getControladorBasicoJson(Controlador controlador) {
+    private JsonNode getControladorBasicoJson(Controlador controlador) {
         ObjectNode root = Json.newObject();
         putControladorDadosIndex(controlador, root);
         return root;
@@ -265,14 +265,7 @@ public class ControladorCustomSerializer {
                 }
             }
         }
-        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria() != null) {
-            tabelasHorariasMap.put(controlador.getVersaoTabelaHoraria().getTabelaHoraria().getIdJson(), controlador.getVersaoTabelaHoraria().getTabelaHoraria());
-        }
-        if (controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos() != null) {
-            controlador.getVersaoTabelaHoraria().getTabelaHoraria().getEventos().forEach(evento -> {
-                eventosMap.put(evento.getIdJson(), evento);
-            });
-        }
+
         putControladorVersoesTabelasHorarias(root);
         putControladorTabelasHorarias(root);
         putControladorEventos(root);

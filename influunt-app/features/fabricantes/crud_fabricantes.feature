@@ -65,4 +65,4 @@ Funcionalidade: tela de cadastro de fabricantes
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o fabricante
     Quando o usuário confirmar
     Então nenhum fabricante deve ser excluído
-    E o sistema deverá apresentar a mensagem "Este fabricante possui modelos utilizados em controladores"
+    E o sistema exibe uma mensagem "Este fabricante possui modelos utilizados em controladores"

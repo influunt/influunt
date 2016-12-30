@@ -53,11 +53,20 @@ Funcionalidade: tela de cadastro de cidades
     E clicar no botão de excluir uma cidade
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário responde não
-    Então nenhuma cidade deve ser excluída
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Exclusão de cidades com confirmação
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de excluir uma cidade
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário confirmar
-    Então a cidade deverá ser excluida
+    Então o sistema deverá mostrar "0" items na tabela
+
+  Cenário: Validar a não exclusão de cidades que possuam associação
+    Dado que o sistema possui ao menos um controlador cadastrado
+    Quando o usuário acessar a tela de listagem de "cidades"
+    E o usuário clicar em "Excluir"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário confirmar
+    Então o sistema deverá mostrar "1" items na tabela
+    E o sistema exibe uma mensagem "Essa cidade não pode ser removida, pois existe(m) área(s) vinculada(s) à mesma."

@@ -33,14 +33,5 @@ var RelatoriosPage = function () {
       return world.getElementByXpath(botaoGerar).click();
     });
   };
-
-  this.setarData = function(valor){
-    var xpath = '//input[contains(@type, "datetime")]';
-    return world.waitForOverlayDisappear().then(function (){
-      return world.waitToggle().then(function(){
-        return world.setValueByXpath(xpath, valor);
-      });
-    });
-  };
 };
 module.exports = RelatoriosPage;

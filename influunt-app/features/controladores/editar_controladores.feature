@@ -16,7 +16,6 @@ Funcionalidade: Editar controlador
     Então o sistema não deve apresentar erro
     E o sistema deverá redirecionar o usuário para a página de listagem de controladores
 
-
   Cenário: Não deve alterar a localizão do controlador
     Dado que o sistema possui ao menos um controlador cadastrado
     E que o usuário acesse a página de listagem de controladores

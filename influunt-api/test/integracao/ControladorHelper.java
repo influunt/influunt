@@ -784,7 +784,7 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
         controlador.save();
     }
 
-    private void criarEvento(TabelaHorario tabelaHoraria, int posicao, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {
+    public void criarEvento(TabelaHorario tabelaHoraria, int posicao, DiaDaSemana diaDaSemana, LocalTime horario, int posicaoPlano) {
         Evento evento = new Evento();
         evento.setPosicao(posicao);
         evento.setTipo(TipoEvento.NORMAL);
