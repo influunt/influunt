@@ -51,7 +51,7 @@ public class GerenciadorDeTrocasTest extends MotorTest {
 
 
     @Override
-    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         if (!listaEstagios.containsKey(timestamp)) {
             listaEstagios.put(timestamp, new HashMap<>());
         }
@@ -59,7 +59,7 @@ public class GerenciadorDeTrocasTest extends MotorTest {
     }
 
     @Override
-    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         if (!listaHistoricoEstagios.containsKey(timestamp)) {
             listaHistoricoEstagios.put(timestamp, new HashMap<>());
         }
@@ -67,7 +67,7 @@ public class GerenciadorDeTrocasTest extends MotorTest {
     }
 
     @Override
-    public void onCicloEnds(int anel, Long numeroCiclos) {
+    public void onCicloEnds(int anel, int numeroCiclos) {
 
     }
 

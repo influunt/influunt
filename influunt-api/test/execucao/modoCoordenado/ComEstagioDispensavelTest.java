@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class ComEstagioDispensavelTest extends GerenciadorDeTrocasTest {
 
-
     @Test
     public void comEstagioDispensavelETransicaoProibida() {
         inicioExecucao = new DateTime(2016, 11, 16, 22, 59, 30, 0);
@@ -30,22 +29,29 @@ public class ComEstagioDispensavelTest extends GerenciadorDeTrocasTest {
 
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(47)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(65)).get(1).getEstagio().getPosicao().intValue());
+
         assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(75)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(93)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(111)).get(1).getEstagio().getPosicao().intValue());
+
         assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(121)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(139)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(157)).get(1).getEstagio().getPosicao().intValue());
+
         assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(167)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(185)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(203)).get(1).getEstagio().getPosicao().intValue());
+
         assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(213)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(231)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(249)).get(1).getEstagio().getPosicao().intValue());
+
         assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(266)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(284)).get(1).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(304)).get(1).getEstagio().getPosicao().intValue());
+
         assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(324)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(3, listaEstagios.get(inicioExecucao.plusSeconds(382)).get(1).getEstagio().getPosicao().intValue());
 
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(31)).get(2).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(51)).get(2).getEstagio().getPosicao().intValue());
@@ -58,7 +64,9 @@ public class ComEstagioDispensavelTest extends GerenciadorDeTrocasTest {
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(259)).get(2).getEstagio().getPosicao().intValue());
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(276)).get(2).getEstagio().getPosicao().intValue());
         assertEquals(2, listaEstagios.get(inicioExecucao.plusSeconds(317)).get(2).getEstagio().getPosicao().intValue());
+
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(334)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(392)).get(2).getEstagio().getPosicao().intValue());
     }
 
 

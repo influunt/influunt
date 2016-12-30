@@ -93,7 +93,7 @@ public class MonitorDeFalhas {
         ausenciaDeteccao.put(detector, new Pair<Long, Long>(detector.getTempoAusenciaDeteccao() * 60000L, 0L));
     }
 
-    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
         if (cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel)) {
             final long duracao = intervalos.getEntreverde() != null ? intervalos.getEntreverde().getDuracao() : 0L;

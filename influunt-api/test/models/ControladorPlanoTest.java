@@ -593,23 +593,37 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequencia.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelEProximo")
+        ));
+
+        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano3Anel4);
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequencia.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelEProximo")
+        ));
+
+        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequencia.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelEProximo")
         ));
 
         estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano2Anel4);
         erros = getErros(controlador);
         assertThat(erros, empty());
 
-        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano3Anel4);
+        estagioPlano4Anel4.setDispensavel(true);
+        estagioPlano4Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano1Anel4);
+
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido")
+            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o anterior, pois esse estágio é o último da sequencia.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[1].estagioQueRecebeEstagioDispensavelEAnterior")
         ));
 
-        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
-        erros = getErros(controlador);
-        assertThat(erros, empty());
+        estagioPlano4Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano3Anel4);
 
         plano1Anel2.setModoOperacao(ModoOperacaoPlano.MANUAL);
         plano1Anel4.setModoOperacao(ModoOperacaoPlano.MANUAL);
@@ -620,8 +634,11 @@ public class ControladorPlanoTest extends ControladorTest {
             new Erro(CONTROLADOR, "Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.", "aneis[1].versoesPlanos[0].planos[0].numeroEstagiosEmModoManualOk")
         ));
 
+
         plano1Anel4.getEstagiosPlanos().remove(0);
         plano1Anel4.getEstagiosPlanos().remove(1);
+
+        estagioPlano4Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano2Anel4);
 
         erros = getErros(controlador);
         assertThat(erros, empty());
