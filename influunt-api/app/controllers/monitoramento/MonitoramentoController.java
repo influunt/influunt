@@ -43,7 +43,7 @@ public class MonitoramentoController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<ControladorFisico> todosControladores =ControladorFisico.getControladoresPorUsuario(usuario);
+        List<ControladorFisico> todosControladores = ControladorFisico.getControladoresPorUsuario(usuario);
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
@@ -128,16 +128,16 @@ public class MonitoramentoController extends Controller {
     }
 
     private HashMap<String, Integer> getQuantidadeDeAneisPorControlador(List<ControladorFisico> controladoresFisicos) {
-        HashMap<String, Integer> controladores = new HashMap<>();
+        HashMap<String, Integer> aneisPorControlador = new HashMap<>();
 
         controladoresFisicos.stream().forEach(controladorFisico -> {
-            controladores.put(
+            aneisPorControlador.put(
                 controladorFisico.getId().toString(),
                 controladorFisico.getVersaoAtualControlador().getAneisAtivos().size()
             );
         });
 
-        return controladores;
+        return aneisPorControlador;
     }
 
     private HashMap<String, String> getStatusControladoresLogicos(List<ControladorFisico> controladoresFisicos) {
