@@ -150,6 +150,8 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(244), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
         avancarSegundos(motor, 154);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(398), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+        avancarSegundos(motor, 229);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(627), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
         avancarSegundos(motor, 1000);
 
         assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(125)).get(1).getEstagio().getPosicao().intValue());
