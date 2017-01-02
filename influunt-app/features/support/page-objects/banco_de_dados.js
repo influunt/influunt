@@ -59,5 +59,9 @@ var BancoDeDados = function () {
   this.insertArea = function() {
     return world.execSqlScript('features/support/scripts/areas/create_area.sql');
   };
+
+  this.existeAoMenosUmaCidade = function() {
+    return world.execSqlScript('features/support/scripts/cidades/create_cidade.sql');
+  };
 };
 module.exports = BancoDeDados;

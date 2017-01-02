@@ -64,4 +64,8 @@ module.exports = function() {
   this.Given(/^que o controlador possua subárea$/, function () {
     return banco.setSubareaControlador();
   });
+
+  this.Given(/^que exista ao menos uma cidade cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
+    return banco.existeAoMenosUmaCidade();
+  });
 };

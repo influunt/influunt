@@ -74,7 +74,7 @@ public class PerfisController extends Controller {
             perfil.delete();
             return CompletableFuture.completedFuture(ok());
         } else {
-            Erro erro = new Erro("Perfil", "Esse perfil não pode ser removida, pois existe(m) usuário(s) vinculado(s) ao mesma.", "");
+            Erro erro = new Erro("Perfil", "Esse perfil não pode ser removido, pois existe(m) usuário(s) vinculado(s) ao mesmo.", "");
             return CompletableFuture.completedFuture(
                 status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
             );

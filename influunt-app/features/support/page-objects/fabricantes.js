@@ -88,18 +88,6 @@ var FabricantesPage = function () {
     return world.getElement('div[class*="sweet-alert"] p').getText();
   };
 
-  this.fabricanteDeveSerExcluido = function() {
-    return world.getElements('tbody tr[data-ng-repeat="fabricante in lista"]').then(function(elements) {
-      return elements.length === totalFabricantesIndex - 1;
-    });
-  };
-
-  this.nenhumFabricanteDeveSerExcluido = function() {
-    return world.getElements('tbody tr[data-ng-repeat="fabricante in lista"]').then(function(elements) {
-      return elements.length === totalFabricantesIndex;
-    });
-  };
-
   this.clicarBotaoNovoModelo = function() {
     return world.findLinkByText('adicionar modelo controlador').click();
   };

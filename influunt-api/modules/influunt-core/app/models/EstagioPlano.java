@@ -334,7 +334,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequencia.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequência.")
     public boolean isEstagioQueRecebeEstagioDispensavelEProximo() {
         if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && primeiroEstagioDaSequencia()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
@@ -343,7 +343,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o anterior, pois esse estágio é o último da sequencia.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o anterior, pois esse estágio é o último da sequência.")
     public boolean isEstagioQueRecebeEstagioDispensavelEAnterior() {
         if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && ultimoEstagioDaSequencia()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
