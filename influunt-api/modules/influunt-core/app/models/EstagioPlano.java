@@ -324,7 +324,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")
     public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
         if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() &&
-            !getPosicao().equals(1) && !ultimoEstagioDaSequencia()) {
+            !primeiroEstagioDaSequencia() && !ultimoEstagioDaSequencia()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
             return getEstagioQueRecebeEstagioDispensavel()
                 .getIdJson()
@@ -336,7 +336,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequencia.")
     public boolean isEstagioQueRecebeEstagioDispensavelEProximo() {
-        if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && getPosicao().equals(1)) {
+        if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && primeiroEstagioDaSequencia()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
             return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
         }
@@ -422,16 +422,6 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         if (index == listaEstagioPlanos.size() - 1) {
             return listaEstagioPlanos.get(0);
         }
-        return listaEstagioPlanos.get(index + 1);
-    }
-
-    public EstagioPlano getEstagioPlanoProximoNoMesmoCiclo(List<EstagioPlano> listaEstagioPlanos) {
-        Integer index = listaEstagioPlanos.indexOf(this);
-
-        if (index == -1 || index == listaEstagioPlanos.size() - 1) {
-            return null;
-        }
-
         return listaEstagioPlanos.get(index + 1);
     }
 
@@ -566,5 +556,9 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public boolean ultimoEstagioDaSequencia() {
         return getPlano().getEstagiosOrdenados().get(getPlano().getEstagiosOrdenados().size() - 1).equals(this);
+    }
+
+    public boolean primeiroEstagioDaSequencia() {
+        return getPosicao().equals(1);
     }
 }
