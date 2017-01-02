@@ -621,6 +621,19 @@ public class Plano extends Model implements Cloneable, Serializable {
         return estagioPlano;
     }
 
+    public long getMomentoEntradaEstagioPlano(EstagioPlano estagioPlano) {
+        long momentoEntrada = 0L;
+        final List<EstagioPlano> lista = getEstagiosOrdenados();
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (estagioPlano.equals(lista.get(i))) {
+                break;
+            }
+            momentoEntrada += (lista.get(i).getDuracaoEstagio() * 1000L);
+        }
+        return momentoEntrada;
+    }
+
     public boolean isImposto() {
         return imposto;
     }

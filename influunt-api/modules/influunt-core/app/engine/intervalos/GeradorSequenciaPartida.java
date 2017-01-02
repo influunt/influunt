@@ -32,4 +32,9 @@ public class GeradorSequenciaPartida extends GeradorDeIntervalos {
     public Long getTempoAbatimentoCoordenado() {
         return null;
     }
+
+    @Override
+    public Long getTempoAbatidoNoCiclo() {
+        return 0L;
+    }
 }

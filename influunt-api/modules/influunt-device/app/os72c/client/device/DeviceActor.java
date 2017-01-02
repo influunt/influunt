@@ -159,7 +159,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     @Override
-    public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
         device.sendEstagio(intervalos);
 
         if (estadoDevice.getPlanos().isEmpty()) {
@@ -170,11 +170,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     @Override
-    public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+    public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
     }
 
     @Override
-    public void onCicloEnds(int anel, Long numeroCiclos) {
+    public void onCicloEnds(int anel, int numeroCiclos) {
     }
 
     @Override

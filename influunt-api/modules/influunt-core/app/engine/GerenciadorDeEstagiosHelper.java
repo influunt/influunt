@@ -45,7 +45,9 @@ public class GerenciadorDeEstagiosHelper {
 
             if (intervalo.isEntreverde()) {
                 final Map.Entry<Range<Long>, IntervaloEstagio> rangeVerde = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
-                intervalos.remove(rangeVerde.getKey());
+                if (rangeVerde != null) {
+                    intervalos.remove(rangeVerde.getKey());
+                }
             }
 
             final long duracao = contadorIntervalo - range.getKey().lowerEndpoint();

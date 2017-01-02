@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          clearErrosOnChange, atualizaDiagramaEClearErrors;
+          atualizaDiagrama;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -311,14 +311,20 @@ angular.module('influuntApp')
           indexPlano = _.findIndex($scope.currentPlanos, {posicao: $scope.currentPlano.posicao});
           indexPlano = indexPlano >= 0 ? indexPlano : 0;
           deveAtivarPlano = $scope.currentPlano.configurado;
-          tempoCiclo = $scope.currentPlano.tempoCiclo;
+          if ($scope.currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO' || $scope.currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO') {
+            tempoCiclo = $scope.currentPlano.tempoCiclo;
+          } else {
+            tempoCiclo = $scope.objeto.cicloMin;
+          }
         }
-
 
         $scope.selecionaPlano($scope.currentPlanos[indexPlano], indexPlano, true);
         // Deverá somente ativar o plano de mesma posição em outros aneis se o plano atual também estiver ativo.
         if (!$scope.currentPlano.configurado && deveAtivarPlano) {
           $scope.currentPlano.configurado = true;
+        }
+        
+        if (!$scope.currentPlano.tempoCicloConfigurado && tempoCiclo) {
           $scope.currentPlano.tempoCiclo = tempoCiclo;
         }
       };
@@ -430,9 +436,8 @@ angular.module('influuntApp')
         }
       };
 
-      atualizaDiagramaEClearErrors = function() {
+      atualizaDiagrama = function() {
         diagramaDebouncer = $timeout(function() {
-          clearErrosOnChange();
           atualizaDiagramaIntervalos();
         }, 500);
       };
@@ -444,18 +449,11 @@ angular.module('influuntApp')
        * Caso o modo de operação do plano for "amarelo intermitente" ou "desligado", o diagrama deverá ser gerado
        * de forma estática (todo o diagrama deve assumir um dos modos acima).
        */
-      $scope.$watch('currentPlano', atualizaDiagramaEClearErrors, true);
+      $scope.$watch('currentPlano', atualizaDiagrama, true);
 
-      $scope.$watch('currentEstagioPlano', atualizaDiagramaEClearErrors, true);
+      $scope.$watch('currentEstagioPlano', atualizaDiagrama, true);
 
-      $scope.$watch('currentEstagiosPlanos', atualizaDiagramaEClearErrors, true);
-
-      clearErrosOnChange = function() {
-        var path = 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + $scope.currentPlanoIndex + '].ultrapassaTempoCiclo';
-        if (_.get($scope.errors, path)) {
-          _.set($scope.errors, path, undefined);
-        }
-      };
+      $scope.$watch('currentEstagiosPlanos', atualizaDiagrama, true);
 
       duplicarPlano = function(plano) {
         var novoPlano = _.cloneDeep(plano);
@@ -573,10 +571,10 @@ angular.module('influuntApp')
       getOpcoesEstagiosDisponiveis = function() {
         var estagiosPlanos = $scope.currentEstagiosPlanos;
 
-        $scope.opcoesEstagiosDisponiveis = [
-          utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex),
-          utilEstagios.getProximoEstagio(estagiosPlanos, $scope.currentEstagioPlanoIndex)
-        ];
+        $scope.opcoesEstagiosDisponiveis = _.compact([
+          utilEstagios.getEstagioAnterior(estagiosPlanos, $scope.currentEstagioPlanoIndex, false),
+          utilEstagios.getProximoEstagio(estagiosPlanos, $scope.currentEstagioPlanoIndex, false)
+        ]);
 
         $scope.opcoesEstagiosDisponiveis = _
           .chain($scope.opcoesEstagiosDisponiveis)
@@ -638,6 +636,7 @@ angular.module('influuntApp')
             estagio.estagioQueRecebeEstagioDispensavel = null;
           });
         } else if (plano.modoOperacao === 'INTERMITENTE' || plano.modoOperacao === 'APAGADO') {
+          plano.tempoCiclo = null;
           plano.estagiosPlanos.forEach(function(e) {
             var estagio = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
             estagio.tempoVerdeMinimo = null;
@@ -676,9 +675,7 @@ angular.module('influuntApp')
             estagioPlano.tempoVerdeIntermediario = $scope.objeto.verdeIntermediarioMin;
             estagioPlano.tempoExtensaoVerde = $scope.objeto.extensaoVerdeMin;
           });
-        } else if (plano.modoOperacao === 'INTERMITENTE' || plano.modoOperacao === 'APAGADO') {
-          plano.tempoCiclo = $scope.objeto.cicloMax;
-        } else {
+        } else if (plano.modoOperacao !== 'INTERMITENTE' && plano.modoOperacao !== 'APAGADO') {
           plano.tempoCiclo = plano.tempoCiclo || $scope.objeto.cicloMin;
           plano.estagiosPlanos.forEach(function(e) {
             var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: e.idJson});
@@ -731,6 +728,11 @@ angular.module('influuntApp')
           $scope.objeto, $scope.currentAnel, $scope.currentGruposSemaforicos,
           $scope.currentEstagiosPlanos, $scope.currentPlano, $scope.valoresMinimos
         );
+
+        //Tempo de ciclo já foi definido
+        if (Object.keys($scope.dadosDiagrama.erros).length === 0) {
+          $scope.currentPlano.tempoCicloConfigurado = true;
+        }
       };
 
       getIndexPlano = function(anel, plano){

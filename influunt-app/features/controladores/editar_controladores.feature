@@ -9,7 +9,7 @@ Funcionalidade: Editar controlador
     E em resumo clicar em "Editar"
     E o usuário realize um scroll up
     E o usuário navegar pelo breadcrumb clicando em "Programação"
-    Então o sistema deverá mostrar o status do controlador como "Em Edição"
+    Então o sistema deverá mostrar o status do controlador como "Em revisão"
     Quando o usuário clicar em "Configuração" do controlador "Avenida Nove de Julho com Av. Paulista"
     E o usuário clicar no botão "Cancelar Edição"
     E o usuário confirmar

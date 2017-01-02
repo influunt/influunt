@@ -92,24 +92,6 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^o sistema deverá apresentar a mensagem "([^"]*)"$/, function (mensagem) {
-    return fabricantesPage.toastMessage().then(function(text) {
-      expect(text).to.match(new RegExp(mensagem));
-    });
-  });
-
-  this.Given(/^o fabricante deverá ser excluido$/, function() {
-    return fabricantesPage.toastMessage().then(function(text) {
-      expect(text).to.match(/Removido com sucesso/);
-    });
-  });
-
-  this.Given(/^nenhum fabricante deve ser excluído$/, function() {
-    return fabricantesPage.nenhumFabricanteDeveSerExcluido().then(function(res) {
-      return expect(res).to.be.true;
-    });
-  });
-
   this.Given(/^preenche os campos do modelo controlador corretamente$/, function (callback) {
     fabricantesPage.fillFabricanteFormFull('Teste Cadastro Fabricante');
     callback(null, 'pending');

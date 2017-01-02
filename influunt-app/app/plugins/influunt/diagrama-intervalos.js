@@ -26,8 +26,8 @@ var influunt;
         var j = 0;
         var t = 0;
         var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao,
-            tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza,
-            tempoAmareloOuVermelhoIntermitente, tempoEntreVerde, posicao, grupoSemaforicoPlano;
+        tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, 
+        grupoSemaforicoPlano;
 
         // cria uma matriz de tamanho quantidadeGruposSemaforicos x tempoCiclo, inicializada com -1 em todos os campos.
         var diagrama = _.times(plano.quantidadeGruposSemaforicos, function() { return _.times(plano.tempoCiclo, _.constant(-1)); });

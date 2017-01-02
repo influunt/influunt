@@ -88,8 +88,16 @@ public class AreasController extends Controller {
         if (area == null) {
             return CompletableFuture.completedFuture(notFound());
         }
-        area.delete();
-        return CompletableFuture.completedFuture(ok());
+
+        if (area.getControladores().isEmpty() && area.getSubareas().isEmpty()) {
+            area.delete();
+            return CompletableFuture.completedFuture(ok());
+        } else {
+            Erro erro = new Erro("Area", "Essa área não pode ser removida, pois existe(m) controlador(es) ou subárea(s) vinculado(s) à mesma.", "");
+            return CompletableFuture.completedFuture(
+                status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
+            );
+        }
     }
 
     @Transactional

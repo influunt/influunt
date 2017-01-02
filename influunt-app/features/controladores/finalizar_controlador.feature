@@ -24,7 +24,7 @@ Funcionalidade: Finalizar um controlador
     E o usuário confirmar
     Então o sistema exibe um alerta com a mensagem "O controlador não pode ser finalizado sem o número do SMEE preenchido."
     E o usuário confirmar
-    E o sistema deverá mostrar o status do controlador como "Em Edição"
+    E o sistema deverá mostrar o status do controlador como "Em revisão"
     E o sistema "pode" mostrar o botão "Finalizar Configuração"
 
   Cenário: Adicionar um SMEE para controlador
@@ -53,7 +53,7 @@ Funcionalidade: Finalizar um controlador
     E o usuário adicionar imagem ao "Anel 2 como Estágio1"
     E o usuário clicar em "Salvar"
     E o usuário clicar em "Programação"
-    Então o sistema deverá mostrar o status do controlador como "Em Edição"
+    Então o sistema deverá mostrar o status do controlador como "Em revisão"
     E o sistema "não pode" mostrar o botão "Finalizar Configuração"
     E o sistema "não pode" mostrar o botão "Ver ou Editar Planos"
     E o sistema "não pode" mostrar o botão "Ver ou Editar Tabela Horária"

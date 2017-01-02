@@ -14,6 +14,7 @@ import security.Secured;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -68,8 +69,16 @@ public class PerfisController extends Controller {
         if (perfil == null) {
             return CompletableFuture.completedFuture(notFound());
         }
-        perfil.delete();
-        return CompletableFuture.completedFuture(ok());
+
+        if (perfil.getUsuarios().isEmpty()) {
+            perfil.delete();
+            return CompletableFuture.completedFuture(ok());
+        } else {
+            Erro erro = new Erro("Perfil", "Esse perfil não pode ser removido, pois existe(m) usuário(s) vinculado(s) ao mesmo.", "");
+            return CompletableFuture.completedFuture(
+                status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
+            );
+        }
     }
 
     @Transactional

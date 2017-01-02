@@ -43,7 +43,8 @@ public abstract class GeradorDeIntervalos {
     public static GeradorDeIntervalos getInstance(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                                                   ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                                                   EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
-                                                  int index, Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio) {
+                                                  int index, Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio,
+                                                  long tempoCicloDecorrido, int contadorDeCiclo, Long tempoAbatidoNoCiclo) {
         if (!plano.isModoOperacaoVerde() && (index == 0 || (!listaEstagioPlanos.isEmpty() && !listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()))) {
             return new GeradorIntermitente(intervalos, plano, modoAnterior,
                 listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
@@ -57,7 +58,8 @@ public abstract class GeradorDeIntervalos {
         } else {
             return new GeradorModosVerde(intervalos, plano, modoAnterior,
                 listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde,
-                tempoAbatimentoCoordenado, inicio, contadorTempoEstagio);
+                tempoAbatimentoCoordenado, inicio, contadorTempoEstagio, tempoCicloDecorrido,
+                contadorDeCiclo, tempoAbatidoNoCiclo);
         }
     }
 
@@ -68,6 +70,8 @@ public abstract class GeradorDeIntervalos {
     public abstract Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(final int index);
 
     public abstract Long getTempoAbatimentoCoordenado();
+
+    public abstract Long getTempoAbatidoNoCiclo();
 
     protected void geraIntervaloEstagio(EstagioPlano estagioPlano, long tempoEntreVerde, long tempoVerde) {
         geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, 0L, false);

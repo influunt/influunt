@@ -12,6 +12,7 @@ import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -75,8 +76,16 @@ public class ModelosControladoresController extends Controller {
         if (modeloControlador == null) {
             return CompletableFuture.completedFuture(notFound());
         }
-        modeloControlador.delete();
-        return CompletableFuture.completedFuture(ok());
+
+        if (modeloControlador.getControladores().isEmpty()) {
+            modeloControlador.delete();
+            return CompletableFuture.completedFuture(ok());
+        } else {
+            Erro erro = new Erro("ModeloControlador", "Esse modelo não pode ser removido, pois existe(m) controlador(es) vinculado(s) ao mesmo.", "");
+            return CompletableFuture.completedFuture(
+                status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
+            );
+        }
     }
 
 }

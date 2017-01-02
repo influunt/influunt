@@ -55,5 +55,13 @@ var BancoDeDados = function () {
   this.setSubareaControlador = function() {
     return world.execSqlScript('features/support/scripts/controladores/set_subarea_controlador.sql');
   };
+
+  this.insertArea = function() {
+    return world.execSqlScript('features/support/scripts/areas/create_area.sql');
+  };
+
+  this.existeAoMenosUmaCidade = function() {
+    return world.execSqlScript('features/support/scripts/cidades/create_cidade.sql');
+  };
 };
 module.exports = BancoDeDados;

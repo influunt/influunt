@@ -17,10 +17,11 @@ angular.module('influuntApp')
      * @param      {number}  index   The index
      * @return     {<type>}  The proximo estagio.
      */
-    var getProximoEstagio = function(lista, index) {
+    var getProximoEstagio = function(lista, index, isArrayCiclico) {
+      isArrayCiclico = _.isUndefined(isArrayCiclico) ? true : isArrayCiclico;
       if (index >= lista.length || index < 0) {return null;}
 
-      var posicao = (index + 1) % lista.length;
+      var posicao = isArrayCiclico ? ((index + 1) % lista.length) : (index + 1);
       return lista[posicao];
     };
 
@@ -32,9 +33,11 @@ angular.module('influuntApp')
      * @param      {number}  index   The index
      * @return     {<type>}  The estagio anterior.
      */
-    var getEstagioAnterior = function(lista, index) {
+    var getEstagioAnterior = function(lista, index, isArrayCiclico) {
+      isArrayCiclico = _.isUndefined(isArrayCiclico) ? true : isArrayCiclico;
       if (index >= lista.length || index < 0) {return null;}
-      var posicao = ((index -1) + lista.length) % lista.length;
+
+      var posicao = isArrayCiclico ? ((index -1) + lista.length) % lista.length : (index -1);
       return lista[posicao];
     };
 

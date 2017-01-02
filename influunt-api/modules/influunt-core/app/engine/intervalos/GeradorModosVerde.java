@@ -9,6 +9,7 @@ import models.ModoOperacaoPlano;
 import models.Plano;
 import org.apache.commons.math3.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,19 +22,29 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
 
-    private final long contadorTempoEstagio;
+    private long contadorTempoEstagio;
+
+    private final long tempoCicloDecorrido;
+
+    private final int contadorDeCiclo;
 
     private Long tempoAbatimentoCoordenado = 0L;
+
+    private Long tempoAbatidoNoCiclo;
 
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                              EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
-                             Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio) {
+                             Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio, long tempoCicloDecorrido,
+                             int contadorDeCiclo, Long tempoAbatidoNoCiclo) {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
         this.inicio = inicio;
         this.tabelaDeTemposEntreVerdeComAtraso = plano.tabelaEntreVerdeComAtraso();
         this.contadorTempoEstagio = contadorTempoEstagio;
+        this.tempoCicloDecorrido = tempoCicloDecorrido;
+        this.contadorDeCiclo = contadorDeCiclo;
+        this.tempoAbatidoNoCiclo = tempoAbatidoNoCiclo;
     }
 
     @Override
@@ -47,18 +58,29 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         final Estagio estagioAtual = estagioPlano.getEstagio();
         final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
 
+        if (!estagioAnterior.equals(estagioAtual)) {
+            contadorTempoEstagio = 0L;
+        }
+
         Long tempoEntreVerde;
         final Long tempoEntreVerdeComAtraso;
+        final int verde;
 
         if (inicio) {
             tempoEntreVerde = GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
             tempoEntreVerdeComAtraso = 0L;
+            verde = estagioPlano.getTempoVerdeEstagio();
         } else {
-            tempoEntreVerde = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
-            tempoEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso.get(new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+            tempoEntreVerde = tabelaDeTemposEntreVerde.get(
+                new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+
+            tempoEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso.get(
+                new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+
+            verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
+                tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo == 0);
         }
 
-        final int verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerde, listaEstagioPlanos, estagioPlanoAtual);
         long tempoVerde = verde * 1000L;
 
         final long diffEntreVerdes;
@@ -93,6 +115,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                     tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde);
                 }
 
+                tempoAbatidoNoCiclo += abatimento;
                 tempoAbatimentoCoordenado -= abatimento;
             } else if (tempoAbatimentoCoordenado < 0) {
                 tempoVerde -= tempoAbatimentoCoordenado;
@@ -158,5 +181,10 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
     @Override
     public Long getTempoAbatimentoCoordenado() {
         return tempoAbatimentoCoordenado;
+    }
+
+    @Override
+    public Long getTempoAbatidoNoCiclo() {
+        return tempoAbatidoNoCiclo;
     }
 }

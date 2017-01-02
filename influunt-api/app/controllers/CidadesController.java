@@ -17,10 +17,7 @@ import security.Secured;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -82,8 +79,16 @@ public class CidadesController extends Controller {
         if (cidade == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            cidade.delete();
-            return CompletableFuture.completedFuture(ok());
+
+            if (cidade.getAreas().isEmpty()) {
+                cidade.delete();
+                return CompletableFuture.completedFuture(ok());
+            } else {
+                Erro erro = new Erro("Cidade", "Essa cidade não pode ser removida, pois existe(m) área(s) vinculada(s) à mesma.", "");
+                return CompletableFuture.completedFuture(
+                    status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(erro)))
+                );
+            }
         }
     }
 

@@ -135,7 +135,7 @@ angular.module('influuntApp')
           $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
           $scope.errosControladores = _
             .chain($scope.statusObj.erros)
-            .reject(function(erro) { return erro.tipo.match(/^REMOCAO/) })
+            .reject(function(erro) { return erro.tipo.match(/^REMOCAO/); })
             .orderBy('data', 'desc')
             .value();
         });

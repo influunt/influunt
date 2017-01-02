@@ -49,17 +49,17 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
         return new GerenciadorDeEstagios(anel, inicioExecucao, plano, new GerenciadorDeEstagiosCallback() {
 
             @Override
-            public void onEstagioChange(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+            public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
                 listaEstagios.put(timestamp, intervalos);
             }
 
             @Override
-            public void onEstagioEnds(int anel, Long numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+            public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
                 listaHistoricoEstagios.put(timestamp, intervalos);
             }
 
             @Override
-            public void onCicloEnds(int anel, Long numeroCiclos) {
+            public void onCicloEnds(int anel, int numeroCiclos) {
 
             }
 

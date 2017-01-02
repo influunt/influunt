@@ -37,10 +37,10 @@ Funcionalidade: Realizar pesquisas em listagem
     E preencher o campo "ÁREA" com "2"
     E o usuário clicar no botão pesquisar
     Então o sistema deverá mostrar "1" controladores cadastrados
-    E o sistema deverá mostrar o status do controlador como "Em Edição"
+    E o sistema deverá mostrar o status do controlador como "Em revisão"
 
   Cenário: Na listagem de áreas filtrar pelo número da área
-    Dado o usuário acessar a tela de listagem de áreas
+    Dado o usuário acessar a tela de listagem de "areas"
     Quando o usuário clicar em pesquisar
     E selecionar igual para "ÁREA"
     E preencher o campo "ÁREA" com "2"

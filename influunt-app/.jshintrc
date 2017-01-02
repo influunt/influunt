@@ -36,6 +36,8 @@
 
     "UUID": true,
 
+    "Raven": true,
+
     // karma/jasmine globals
     "afterEach": true,
     "beforeEach": true,
