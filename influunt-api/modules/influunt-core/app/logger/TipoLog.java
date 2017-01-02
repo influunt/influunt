@@ -6,5 +6,5 @@ package logger;
 public enum TipoLog {
     COMUNICACAO,
     EXECUCAO,
-    INICIALIZACAO, FINALIZACAO,ERRO;
+    INICIALIZACAO, FINALIZACAO, ERRO;
 }

@@ -32,8 +32,9 @@ public class TransacaoInativarControladorActorHandler extends TransacaoActorHand
     @Override
     protected void executeCommit(Transacao transacao) {
         storage.setStatus(StatusDevice.INATIVO);
+
         transacao.etapaTransacao = EtapaTransacao.COMMITED;
-        Envelope envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
+        Envelope envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus(), storage.getStatusAneis());
         getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
     }
 

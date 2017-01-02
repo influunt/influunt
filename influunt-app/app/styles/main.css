@@ -158,6 +158,11 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
   text-transform: uppercase;
 }
 
+.label.label-modo-manual {
+  background-color: #5e5e5e;
+  color: #d1dade;
+}
+
 .wizard-step-title h2, h3 {
   font-size: 16px;
 }

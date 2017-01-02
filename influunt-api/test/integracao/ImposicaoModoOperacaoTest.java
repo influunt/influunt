@@ -6,7 +6,6 @@ import org.junit.Test;
 import utils.TransacaoHelper;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;

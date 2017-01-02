@@ -4,7 +4,6 @@ import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import models.ControladorFisico;
-import models.StatusDevice;
 import models.Usuario;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -45,9 +44,9 @@ public class StatusControladorFisicoController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, StatusDevice> map = StatusControladorFisico.ultimoStatusDosControladores(controladores);
+        HashMap<String, HashMap> map = StatusControladorFisico.ultimoStatusDosControladores(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
 

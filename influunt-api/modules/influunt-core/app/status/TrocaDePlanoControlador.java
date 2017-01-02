@@ -77,6 +77,22 @@ public class TrocaDePlanoControlador {
         return hash;
     }
 
+    public static Map<String, Map> ultimoModoOperacaoDosControladoresPorAneis(List<String> idsControladores) {
+        String ids = "[\"" + StringUtils.join(idsControladores, "\",\"") + "\"]";
+        Map<String, Map> hash = new HashMap<>();
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+            trocas()
+                .aggregate("{ $match: { idControlador: {$in: " + ids + "} } }")
+                .and("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idAnel', idControlador: {$max: '$idControlador'}, timestamp: {$max:'$timestamp'}, modoOperacao: {$first:'$conteudo.plano.modoOperacao'}}}")
+                .as(Map.class);
+        for (Map m : ultimoStatus) {
+            hash.put(m.get("_id").toString(), m);
+        }
+
+        return hash;
+    }
+
     public static HashMap<String, ModoOperacaoPlano> ultimoModoOperacaoDosControladores(List<String> ids) {
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         HashMap<String, ModoOperacaoPlano> hash = new HashMap<>();

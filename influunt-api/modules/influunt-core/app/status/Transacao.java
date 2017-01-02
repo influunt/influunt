@@ -74,12 +74,12 @@ public class Transacao {
             '}';
     }
 
-    public void setEtapaTransacao(EtapaTransacao etapaTransacao) {
-        this.etapaTransacao = etapaTransacao;
-    }
-
     public EtapaTransacao getEtapaTransacao() {
         return etapaTransacao;
+    }
+
+    public void setEtapaTransacao(EtapaTransacao etapaTransacao) {
+        this.etapaTransacao = etapaTransacao;
     }
 
     public TipoTransacao getTipoTransacao() {
