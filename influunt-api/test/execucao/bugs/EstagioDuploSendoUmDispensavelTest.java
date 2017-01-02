@@ -68,7 +68,6 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(170)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(199)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(209)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(230)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(240)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(269)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(310)).get(2).getEstagio().getPosicao().intValue());
@@ -98,8 +97,7 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
         assertEquals("Estágio E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(199)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(230)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(240)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(269)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(279)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(269)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(310)).get(2).getEstagio().getPosicao().intValue());
     }
 
@@ -128,7 +126,6 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(240)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(269)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(279)).get(2).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(300)).get(2).getEstagio().getPosicao().intValue());
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(310)).get(2).getEstagio().getPosicao().intValue());
     }
 

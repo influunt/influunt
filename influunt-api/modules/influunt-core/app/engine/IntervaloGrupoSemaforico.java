@@ -37,17 +37,17 @@ public class IntervaloGrupoSemaforico {
 
     private final Plano plano;
 
-    private final long duracaoEntreverdeEntreverdeSemAtraso;
+    private final long duracaoEntreverdeSemAtraso;
 
     private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
 
     public IntervaloGrupoSemaforico(IntervaloEstagio entreverde, IntervaloEstagio verde) {
         if (entreverde != null) {
             this.duracaoEntreverde = entreverde.getDuracao();
-            this.duracaoEntreverdeEntreverdeSemAtraso = Math.max(this.duracaoEntreverde - entreverde.getDiffEntreVerde(), 0L);
+            this.duracaoEntreverdeSemAtraso = Math.max(this.duracaoEntreverde - entreverde.getDiffEntreVerde(), 0L);
         } else {
             this.duracaoEntreverde = 0L;
-            this.duracaoEntreverdeEntreverdeSemAtraso = 0L;
+            this.duracaoEntreverdeSemAtraso = 0L;
         }
         this.duracaoVerde = verde.getDuracao();
         this.duracao = this.duracaoEntreverde + this.duracaoVerde;
@@ -296,8 +296,8 @@ public class IntervaloGrupoSemaforico {
                     estadoAmarelo = EstadoGrupoSemaforico.AMARELO;
                 }
 
-                if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeEntreverdeSemAtraso - tempoVermelhoIntegral)) {
-                    tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverdeEntreverdeSemAtraso - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
+                if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeSemAtraso - tempoVermelhoIntegral)) {
+                    tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverdeSemAtraso - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
                 }
                 tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde - tempoVermelhoIntegral);
 

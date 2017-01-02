@@ -9,6 +9,7 @@ import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 10/24/16.
@@ -34,37 +35,61 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
                 detector.getAnel().getPosicao()));
         }
 
-        plano.getEstagiosPlanos()
+        final boolean[] adicionarNoCicloAtual = {false};
+        final boolean[] adicionarNoProximoCiclo = {false};
+        final EstagioPlano[] estagioPlanoASerAdicionado = new EstagioPlano[1];
+
+        final List<EstagioPlano> listaEstagios = plano.getEstagiosOrdenados()
             .stream()
             .filter(EstagioPlano::isDispensavel)
-            .filter(estagioPlano1 -> estagioPlano1.getEstagio().equals(detector.getEstagio()))
-            .forEach(estagioPlano -> {
-                if (estagioPlano != null) {
-                    if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
-                        gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
+            .filter(estagioPlano -> estagioPlano.getEstagio().equals(detector.getEstagio()))
+            .collect(Collectors.toList());
+
+        for(int i=0; i < listaEstagios.size(); i++ ) {
+            EstagioPlano estagioPlano = listaEstagios.get(i);
+            if (estagioPlano != null) {
+                if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
+                    adicionarNoProximoCiclo[0] = true;
+                    estagioPlanoASerAdicionado[0] = estagioPlano;
+                    break;
+                }
+
+                int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
+                if (compare < 0) {
+                    if (!estagiosProximoCiclo.contains(estagioPlano) && !adicionarNoProximoCiclo[0]) {
+                        adicionarNoProximoCiclo[0] = true;
+                        estagioPlanoASerAdicionado[0] = estagioPlano;
                     }
+                } else if (compare > 0) {
+                    if (plano.isTempoFixoCoordenado() &&
+                        estagioPlano.estagioQueRecebeEstagioDispensavelEAnterior()) {
+                        compare = estagioPlano.getEstagioQueRecebeEstagioDispensavel().getPosicao().compareTo(estagioPlanoAtual.getPosicao());
 
-                    int compare = estagioPlano.getPosicao().compareTo(estagioPlanoAtual.getPosicao());
-                    if (compare < 0) {
-                        if (!estagiosProximoCiclo.contains(estagioPlano)) {
-                            gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
-                        }
-                    } else if (compare > 0) {
-                        if (plano.isTempoFixoCoordenado() &&
-                            estagioPlano.estagioQueRecebeEstagioDispensavelEAnterior()) {
-                            compare = estagioPlano.getEstagioQueRecebeEstagioDispensavel().getPosicao().compareTo(estagioPlanoAtual.getPosicao());
-
-                            if (compare < 0 || (compare == 0 && gerenciadorDeEstagios.isTempoDispensavelJaAdicionado())) {
-                                gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlano);
-                            } else {
-                                gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+                        if (compare < 0 || (compare == 0 && gerenciadorDeEstagios.isTempoDispensavelJaAdicionado())) {
+                            if (!adicionarNoProximoCiclo[0]) {
+                                adicionarNoProximoCiclo[0] = true;
+                                estagioPlanoASerAdicionado[0] = estagioPlano;
                             }
-
-                        } else if (!listaEstagioPlanos.contains(estagioPlano)) {
-                            gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlano);
+                        } else {
+                            adicionarNoCicloAtual[0] = true;
+                            estagioPlanoASerAdicionado[0] = estagioPlano;
+                            break;
                         }
+
+                    } else if (!listaEstagioPlanos.contains(estagioPlano)) {
+                        adicionarNoCicloAtual[0] = true;
+                        estagioPlanoASerAdicionado[0] = estagioPlano;
+                        break;
                     }
                 }
-            });
+            }
+        }
+
+        if (adicionarNoCicloAtual[0]) {
+            gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlanoASerAdicionado[0]);
+        } else if (adicionarNoProximoCiclo[0]){
+            gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlanoASerAdicionado[0]);
+        }
+
     }
 }
