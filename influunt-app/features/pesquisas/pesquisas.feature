@@ -40,7 +40,7 @@ Funcionalidade: Realizar pesquisas em listagem
     E o sistema deverá mostrar o status do controlador como "Em revisão"
 
   Cenário: Na listagem de áreas filtrar pelo número da área
-    Dado o usuário acessar a tela de listagem de áreas
+    Dado o usuário acessar a tela de listagem de "areas"
     Quando o usuário clicar em pesquisar
     E selecionar igual para "ÁREA"
     E preencher o campo "ÁREA" com "2"
