@@ -7,7 +7,6 @@ import models.Cidade;
 import models.Controlador;
 import models.StatusAnel;
 import models.StatusDevice;
-import org.apache.commons.math3.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;

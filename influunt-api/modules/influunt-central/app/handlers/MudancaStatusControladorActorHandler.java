@@ -8,7 +8,6 @@ import com.google.gson.internal.LinkedTreeMap;
 import models.ControladorFisico;
 import models.StatusAnel;
 import models.StatusDevice;
-import play.libs.Json;
 import protocol.DestinoApp;
 import protocol.Envelope;
 import protocol.TipoMensagem;

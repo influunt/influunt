@@ -2,7 +2,6 @@ package os72c.client.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import engine.EventoMotor;
-import engine.TipoEvento;
 import models.Controlador;
 import models.StatusAnel;
 import models.StatusDevice;
@@ -59,7 +58,7 @@ public interface Storage {
 
     void setTempData(String id, String key, String value);
 
-    String getTempData(String id,String key);
+    String getTempData(String id, String key);
 
     void clearTempData(String id);
 
@@ -77,9 +76,9 @@ public interface Storage {
 
     HashMap<Integer, StatusAnel> getStatusAneis();
 
+    void setStatusAneis(StatusAnel statusAnel);
+
     StatusAnel getStatusAnel(Integer anel);
 
     void setStatusAnel(Integer anel, StatusAnel statusAnel);
-
-    void setStatusAneis(StatusAnel statusAnel);
 }

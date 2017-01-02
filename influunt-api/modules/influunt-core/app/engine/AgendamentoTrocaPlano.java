@@ -150,12 +150,12 @@ public class AgendamentoTrocaPlano {
         this.saidaImposicao = saidaImposicao;
     }
 
-    public void setDataSaidaImposicao(DateTime dataSaidaImposicao) {
-        this.dataSaidaImposicao = dataSaidaImposicao;
-    }
-
     public DateTime getDataSaidaImposicao() {
         return dataSaidaImposicao;
+    }
+
+    public void setDataSaidaImposicao(DateTime dataSaidaImposicao) {
+        this.dataSaidaImposicao = dataSaidaImposicao;
     }
 
     public String getDescricaoEvento() {

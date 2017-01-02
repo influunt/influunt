@@ -4,7 +4,6 @@ import com.google.inject.Singleton;
 import models.Plano;
 import models.StatusAnel;
 import models.StatusDevice;
-import org.apache.commons.math3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;

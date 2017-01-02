@@ -100,7 +100,7 @@ public class AlarmesFalhasControlador {
             .and("{ $match: { idControlador: {$in: " + controladoresIds + "} } }");
         jongoQuery.and(" { $match: { timestamp: { $gt: " + ultimos30Dias + " } } } ");
         if (query != null) {
-            jongoQuery.and("{ $match: { 'conteudo.descricaoEvento': { $regex: '"+ query +"', $options: 'i' } } }");
+            jongoQuery.and("{ $match: { 'conteudo.descricaoEvento': { $regex: '" + query + "', $options: 'i' } } }");
         }
 
         jongoQuery

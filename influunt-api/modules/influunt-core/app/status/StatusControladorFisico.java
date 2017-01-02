@@ -3,13 +3,11 @@ package status;
 import models.StatusAnel;
 import models.StatusDevice;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.math3.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import play.api.Play;
-import play.libs.Json;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.ArrayList;

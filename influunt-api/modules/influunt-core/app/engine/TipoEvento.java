@@ -21,7 +21,6 @@ public enum TipoEvento {
     ALARME_SEMAFORO_APAGADO(TipoEventoControlador.ALARME, 6, "Semáforo apagado", "Semafóro apagado", null),
 
 
-
     //Falhas
     //Alteram a programacao vigente do controlador
     FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO(TipoEventoControlador.FALHA, 1, "Detector pedestre - Falta de acionamento", "Anel %s: Falha no DP%s - Falta de Acionamento", new TipoEventoParamsDescriptor("Detector Pedestre", TipoEventoParamsTipoDeDado.DETECTOR_PEDESTRE)),

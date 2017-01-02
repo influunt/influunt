@@ -50,30 +50,19 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
-    protected Server mqttBroker;
-
-    protected Central central;
-
-    protected List<String> onConnectFutureList = new ArrayList<>();
-
-    protected List<String> onDisconectFutureList = new ArrayList<>();
-
-    protected List<String> onSubscribeFutureList = new ArrayList<>();
-
-    protected List<byte[]> onPublishFutureList = new ArrayList<>();
-
-    protected Client client;
-
-    protected PlayJongo jongo;
-
-    protected Controlador controlador;
-
-    protected String idControlador;
-
-    protected DeviceConfig deviceConfig;
-
     @Rule
     public JUnitRetry retry = new JUnitRetry(2);
+    protected Server mqttBroker;
+    protected Central central;
+    protected List<String> onConnectFutureList = new ArrayList<>();
+    protected List<String> onDisconectFutureList = new ArrayList<>();
+    protected List<String> onSubscribeFutureList = new ArrayList<>();
+    protected List<byte[]> onPublishFutureList = new ArrayList<>();
+    protected Client client;
+    protected PlayJongo jongo;
+    protected Controlador controlador;
+    protected String idControlador;
+    protected DeviceConfig deviceConfig;
 
     @Before
     public void setup() throws IOException, InterruptedException {

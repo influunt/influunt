@@ -7,7 +7,6 @@ import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
 import models.Anel;
 import models.Controlador;
-import models.EstadoGrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;

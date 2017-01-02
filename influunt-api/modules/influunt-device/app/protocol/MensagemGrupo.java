@@ -7,10 +7,6 @@ import models.EstadoGrupoSemaforico;
 import java.util.Formatter;
 import java.util.Map;
 
-import static models.EstadoGrupoSemaforico.AMARELO;
-import static models.EstadoGrupoSemaforico.VERMELHO_INTERMITENTE;
-import static models.EstadoGrupoSemaforico.VERMELHO_LIMPEZA;
-
 /**
  * Created by rodrigosol on 11/3/16.
  */

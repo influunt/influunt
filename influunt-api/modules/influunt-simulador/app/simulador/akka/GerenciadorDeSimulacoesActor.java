@@ -15,12 +15,6 @@ import java.util.Map;
  */
 public class GerenciadorDeSimulacoesActor extends UntypedActor {
 
-    private final String mqttHost;
-    private final String mqttPort;
-    private final String mqttLogin;
-    private final String mqttPassword;
-    private Map<String, ActorRef> simulacoes = new HashMap<>();
-
     private static OneForOneStrategy strategy =
         new OneForOneStrategy(-1, Duration.Inf(),
             new Function<Throwable, SupervisorStrategy.Directive>() {
@@ -31,6 +25,11 @@ public class GerenciadorDeSimulacoesActor extends UntypedActor {
                     return SupervisorStrategy.resume();
                 }
             }, false);
+    private final String mqttHost;
+    private final String mqttPort;
+    private final String mqttLogin;
+    private final String mqttPassword;
+    private Map<String, ActorRef> simulacoes = new HashMap<>();
 
     public GerenciadorDeSimulacoesActor(String mqttHost, String mqttPort, String mqttLogin, String mqttPassword) {
         this.mqttHost = mqttHost;

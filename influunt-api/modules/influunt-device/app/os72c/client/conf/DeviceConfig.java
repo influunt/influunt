@@ -30,9 +30,12 @@ public interface DeviceConfig {
 
     public void setDeviceBridge(DeviceBridge deviceBridge);
 
-    public void setLogin(String login);
-    public void setSenha(String senha);
     public String getLogin();
+
+    public void setLogin(String login);
+
     public String getSenha();
+
+    public void setSenha(String senha);
 
 }

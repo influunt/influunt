@@ -223,13 +223,17 @@ public class MonitorDeFalhas {
     private boolean isEventoDuplicado(EventoMotor eventoMotor) {
         long ticks = this.ticks;
 
-        if(eventoMotor.getAnel() > 0) {
+        if (eventoMotor.getAnel() > 0) {
             if (historicoAnel.get(eventoMotor.getAnel()) == null) {
                 historicoAnel.put(eventoMotor.getAnel(), new HashMap<>());
             }
-            if (verificaHistoricoEventos(eventoMotor, ticks, historicoAnel.get(eventoMotor.getAnel()))) { return true; }
-        }else {
-            if (verificaHistoricoEventos(eventoMotor, ticks, historico)) { return true; }
+            if (verificaHistoricoEventos(eventoMotor, ticks, historicoAnel.get(eventoMotor.getAnel()))) {
+                return true;
+            }
+        } else {
+            if (verificaHistoricoEventos(eventoMotor, ticks, historico)) {
+                return true;
+            }
         }
         return false;
     }

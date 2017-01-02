@@ -249,7 +249,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void onEvento(EventoMotor eventoMotor) {
         if (TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
-            if((Boolean) eventoMotor.getParams()[0]) {
+            if ((Boolean) eventoMotor.getParams()[0]) {
                 getSelf().tell("RESTART", getSelf());
             } else {
                 sendAlarmeOuFalha(eventoMotor);

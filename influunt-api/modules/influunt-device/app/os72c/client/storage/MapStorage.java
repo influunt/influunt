@@ -18,7 +18,10 @@ import os72c.client.observer.EstadoDevice;
 import play.api.Play;
 import protocol.Envelope;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by leonardo on 9/13/16.
@@ -140,15 +143,6 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public void setStatusAneis(StatusAnel statusAnel) {
-        atualizarStatusAneis(statusAnel);
-
-        db.commit();
-
-        estadoDevice.setStatusAneis(statusAnel);
-    }
-
-    @Override
     public StatusAnel getStatusAnel(Integer anel) {
         return StatusAnel.valueOf(this.statusAneis.get(anel.toString()));
     }
@@ -161,6 +155,15 @@ public class MapStorage implements Storage {
                 StatusAnel.valueOf(entry.getValue()));
         });
         return status;
+    }
+
+    @Override
+    public void setStatusAneis(StatusAnel statusAnel) {
+        atualizarStatusAneis(statusAnel);
+
+        db.commit();
+
+        estadoDevice.setStatusAneis(statusAnel);
     }
 
     @Override

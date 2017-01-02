@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
-import org.apache.commons.math3.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -59,7 +58,7 @@ public class MonitoramentoController extends Controller {
         retorno.set("erros", errosToJson(erros));
         retorno.set("modosOperacoes", Json.toJson(modosOperacoes));
         retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
-        retorno.set("aneisPorControlador", Json.toJson(getQuantidadeDeAneisPorControlador(todosControladores )));
+        retorno.set("aneisPorControlador", Json.toJson(getQuantidadeDeAneisPorControlador(todosControladores)));
         retorno.set("statusControladoresLogicos", Json.toJson(getStatusControladoresLogicos(todosControladores)));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
