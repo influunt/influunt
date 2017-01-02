@@ -42,22 +42,32 @@ public class IntervaloGrupoSemaforico {
     private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
 
     public IntervaloGrupoSemaforico(IntervaloEstagio entreverde, IntervaloEstagio verde) {
+        IntervaloEstagio intervalo = null;
+
         if (entreverde != null) {
             this.duracaoEntreverde = entreverde.getDuracao();
             this.duracaoEntreverdeSemAtraso = Math.max(this.duracaoEntreverde - entreverde.getDiffEntreVerde(), 0L);
+            intervalo = entreverde;
         } else {
             this.duracaoEntreverde = 0L;
             this.duracaoEntreverdeSemAtraso = 0L;
         }
-        this.duracaoVerde = verde.getDuracao();
+
+        if (verde != null) {
+            this.duracaoVerde = verde.getDuracao();
+            intervalo = verde;
+        } else {
+            this.duracaoVerde = 0L;
+        }
+
         this.duracao = this.duracaoEntreverde + this.duracaoVerde;
         this.entreverde = entreverde;
         this.verde = verde;
-        this.estagioPlano = verde.getEstagioPlano();
+
+        this.estagioPlano = intervalo.getEstagioPlano();
+        this.estagioPlanoAnterior = intervalo.getEstagioPlanoAnterior();
+        ;
         this.estagio = this.estagioPlano.getEstagio();
-        this.estagioPlanoAnterior = verde.getEstagioPlanoAnterior();
-
-
 
         if (this.estagioPlanoAnterior != null) {
             this.estagioAnterior = this.estagioPlanoAnterior.getEstagio();
@@ -67,7 +77,7 @@ public class IntervaloGrupoSemaforico {
         this.plano = estagioPlano.getPlano();
         if (plano.isIntermitente() || plano.isApagada()) {
             loadEstadosFixos();
-        } else if (verde.isInicio()) {
+        } else if (intervalo.isInicio()) {
             loadEstadosComSequenciaDePartida();
         } else {
             loadEstados();
@@ -243,7 +253,9 @@ public class IntervaloGrupoSemaforico {
                 }
             }
 
-            intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.VERDE);
+            if (duracaoVerde > 0) {
+                intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.VERDE);
+            }
         } else {
             intervalos.put(Range.closedOpen(tempoInicial, duracaoEntreverde), EstadoGrupoSemaforico.DESLIGADO);
             intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.DESLIGADO);
@@ -375,16 +387,16 @@ public class IntervaloGrupoSemaforico {
 
         if (entreverde != null) {
             parseEventos(entreverde, eventos);
-
         }
 
-        parseEventos(verde, eventos);
+        if (verde != null) {
+            parseEventos(verde, eventos);
+        }
 
         return root;
     }
 
     private void parseEventos(IntervaloEstagio intervalo, ArrayNode eventos) {
-
         intervalo.getEventos().entrySet().stream().forEach(entry -> {
             entry.getValue().stream().forEach(eventoMotor -> {
                 switch (eventoMotor.getTipoEvento()) {

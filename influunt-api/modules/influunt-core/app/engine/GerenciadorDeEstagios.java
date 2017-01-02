@@ -425,6 +425,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 EventoMotor eventoMotor = new EventoMotor(getTimestamp(), TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
                 if (intervalo == null) {
                     this.agendamento = null;
+                    contadorTempoEstagio = 0L;
                     verificaETrocaIntervalo(intervalo);
                 }
 
@@ -698,7 +699,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (GerenciadorDeEstagios.this.intervalos.getEntry(intervaloFirst.getKey().upperEndpoint() + 1) != null) {
                 intervaloVerde = GerenciadorDeEstagios.this.intervalos.getEntry(intervaloFirst.getKey().upperEndpoint() + 1).getValue();
             }
-            if (intervaloVerde == null) {
+            if (intervaloVerde == null && !intervaloEntreverde.isEntreverde()) {
                 intervaloVerde = intervaloEntreverde;
                 intervaloEntreverde = null;
             }

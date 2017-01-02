@@ -22,7 +22,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
 
-    private final long contadorTempoEstagio;
+    private long contadorTempoEstagio;
 
     private final long tempoCicloDecorrido;
 
@@ -57,6 +57,10 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
         final Estagio estagioAtual = estagioPlano.getEstagio();
         final Estagio estagioAnterior = estagioPlanoAtual.getEstagio();
+
+        if (!estagioAnterior.equals(estagioAtual)) {
+            contadorTempoEstagio = 0L;
+        }
 
         Long tempoEntreVerde;
         final Long tempoEntreVerdeComAtraso;
