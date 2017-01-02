@@ -1,4 +1,5 @@
 DELETE FROM `transicoes_proibidas`;
+DELETE FROM `detectores`;
 DELETE FROM `estagios_grupos_semaforicos`;
 DELETE FROM `estagios`;
 DELETE FROM `tabela_entre_verdes`;

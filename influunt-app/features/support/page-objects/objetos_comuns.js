@@ -270,7 +270,7 @@ var ObjetosComuns = function () {
   this.checarBadgeStatusControlador = function(status) {
     var _this = this;
     switch(status) {
-      case 'Em Edição':
+      case 'Em revisão':
         return _this.getBadgeByClassStatus('badge-warning', status);
       case 'Configurado':
         return _this.getBadgeByClassStatus('badge-primary', status);

@@ -31,8 +31,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E que o usuário clique no botão de fechar a caixa de configuração
     Quando o usuário clicar em "Salvar"
     Então o sistema deverá redirecionar o usuário para a página de listagem de controladores
-    E o sistema deverá mostrar o status do controlador como "Em Edição"
-
+    E o sistema deverá mostrar o status do controlador como "Em revisão"
   Cenário: Finalizar o controlador com o estágio dispensável
     Dado o usuário clicar em "Finalizar" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     Então o sistema deverá mostar um modal para salvar o histórico

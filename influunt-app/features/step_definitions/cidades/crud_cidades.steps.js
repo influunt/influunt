@@ -8,10 +8,6 @@ module.exports = function() {
   var cidadesPage = new CidadesPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^que exista ao menos uma cidade cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
-    return cidadesPage.existeAoMenosUmaCidade();
-  });
-
   this.Given(/^o usuário acessar a tela de listagem de cidades$/, function() {
     return cidadesPage.indexPage();
   });
