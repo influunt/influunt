@@ -18,7 +18,6 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.Client;
 import os72c.client.exceptions.HardwareFailureException;
-import play.Logger;
 import protocol.*;
 
 import java.util.concurrent.Executors;
@@ -64,13 +63,13 @@ public class SerialDeviceNativo implements DeviceBridge, SerialPortEventListener
         parity = settings.getInt("parity");
         startDelay = settings.getInt("startdelay");
 
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("Iniciando a municacao serial"));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("PORTA    :%s", porta));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("BAUDRATE :%d", baudrate));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("DATABITS :%d", databits));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("STOPBITS :%d", stopbits));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("PARITY   :%d", parity));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("START DELAY :%s", startDelay));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Iniciando a municacao serial"));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PORTA    :%s", porta));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("BAUDRATE :%d", baudrate));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("DATABITS :%d", databits));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("STOPBITS :%d", stopbits));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("PARITY   :%d", parity));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("START DELAY :%s", startDelay));
     }
 
     public void start(DeviceBridgeCallback deviceBridgeCallback) {
@@ -80,21 +79,21 @@ public class SerialDeviceNativo implements DeviceBridge, SerialPortEventListener
         serialPort = new SerialPort(porta);
 
         try {
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,"Abrindo a porta de comunicação");
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Abrindo a porta de comunicação");
             serialPort.openPort();//Open serial port
 
             serialPort.setParams(baudrate, databits, stopbits, parity);
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,"Cumprindo delay");
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Cumprindo delay");
             Thread.sleep(startDelay);
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,"Limpando buffer");
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Limpando buffer");
             serialPort.readBytes();
             serialPort.purgePort(SerialPort.PURGE_RXCLEAR);
             serialPort.purgePort(SerialPort.PURGE_TXCLEAR);
             serialPort.readBytes();
             serialPort.addEventListener(this);
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,"Comunicação serial pronta para iniciar");
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Comunicação serial pronta para iniciar");
         } catch (SerialPortException spe) {
-            InfluuntLogger.log(NivelLog.NORMAL,TipoLog.ERRO,"Não foi possível iniciar a comunicação serial");
+            InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Não foi possível iniciar a comunicação serial");
             spe.printStackTrace();
             throw new HardwareFailureException(spe.getMessage());
         } catch (Exception e) {
@@ -115,10 +114,10 @@ public class SerialDeviceNativo implements DeviceBridge, SerialPortEventListener
     private void send(Mensagem mensagem) {
         try {
             byte[] bytes = mensagem.toByteArray();
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,String.format("Enviando %d bytes pela serial",bytes.length));
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Enviando %d bytes pela serial", bytes.length));
             serialPort.writeBytes(bytes);
         } catch (SerialPortException e) {
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.ERRO,e.getMessage());
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.ERRO, e.getMessage());
             e.printStackTrace();
         }
 
@@ -130,7 +129,7 @@ public class SerialDeviceNativo implements DeviceBridge, SerialPortEventListener
         MensagemEstagio mensagem = new MensagemEstagio(TipoDeMensagemBaixoNivel.ESTAGIO, getSequencia(),
             intervaloGrupoSemaforico.quantidadeGruposSemaforicos());
         mensagem.addIntervalos(intervaloGrupoSemaforico);
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,mensagem.print());
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.print());
         send(mensagem);
     }
 
@@ -154,9 +153,9 @@ public class SerialDeviceNativo implements DeviceBridge, SerialPortEventListener
                 byte[] msg = ArrayUtils.addAll(size, complement);
                 Mensagem mensagem = Mensagem.toMensagem(msg);
                 mensagemRecebida(mensagem);
-                InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.EXECUCAO,mensagem.getTipoMensagem().toString());
+                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, mensagem.getTipoMensagem().toString());
             } catch (Exception e) {
-                InfluuntLogger.log(NivelLog.NORMAL,TipoLog.ERRO,e.getMessage());
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, e.getMessage());
                 e.printStackTrace();
             }
         }

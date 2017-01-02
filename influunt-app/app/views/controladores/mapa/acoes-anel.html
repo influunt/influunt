@@ -16,7 +16,7 @@
         <ul>
           <li data-ng-if="currentControlador.status">
             <strong>{{ 'controladores.mapaControladores.status.statusControlador' | translate }}:</strong>
-            <span ng-bind-html="currentControlador.status | statusControlador"></span>
+            <span ng-bind-html="currentControlador.status.statusDevice | statusControlador"></span>
           </li>
           <li>
             <strong>{{ 'controladores.mapaControladores.status.online' | translate }}: </strong>

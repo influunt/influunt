@@ -1,12 +1,14 @@
 package os72c.client.storage;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import engine.TipoEvento;
+import engine.EventoMotor;
 import models.Controlador;
+import models.StatusAnel;
 import models.StatusDevice;
 import protocol.Envelope;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Created by leonardo on 9/13/16.
@@ -48,15 +50,15 @@ public interface Storage {
 
     void setHorarioEntradaTabelaHoraria(long horarioEntrada);
 
-    void addFalha(TipoEvento falha);
+    void addFalha(EventoMotor falha);
 
-    void removeFalha(TipoEvento falha);
+    void removeFalha(EventoMotor falha);
 
     boolean emFalha();
 
     void setTempData(String id, String key, String value);
 
-    String getTempData(String id,String key);
+    String getTempData(String id, String key);
 
     void clearTempData(String id);
 
@@ -71,4 +73,12 @@ public interface Storage {
     Collection getEnvelopes();
 
     void clearEnvelopes();
+
+    HashMap<Integer, StatusAnel> getStatusAneis();
+
+    void setStatusAneis(StatusAnel statusAnel);
+
+    StatusAnel getStatusAnel(Integer anel);
+
+    void setStatusAnel(Integer anel, StatusAnel statusAnel);
 }

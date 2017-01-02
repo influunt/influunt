@@ -22,7 +22,7 @@ public class DiskStorageConf implements StorageConf {
         Config configuration = ConfigFactory.load();
         File path = new File(configuration.getConfig("72c").getConfig("storage").getString("path"));
 
-        if(!path.exists()){
+        if (!path.exists()) {
             path.mkdirs();
         }
 
@@ -31,7 +31,6 @@ public class DiskStorageConf implements StorageConf {
         db = DBMaker.fileDB(file).transactionEnable().make();
 
     }
-
 
 
     @Override

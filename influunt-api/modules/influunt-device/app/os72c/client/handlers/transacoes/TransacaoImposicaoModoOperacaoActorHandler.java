@@ -12,7 +12,6 @@ import protocol.EtapaTransacao;
 import protocol.MensagemImposicaoModoOperacao;
 import status.Transacao;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

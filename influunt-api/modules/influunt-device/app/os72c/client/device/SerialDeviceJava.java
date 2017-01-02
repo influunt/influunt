@@ -43,13 +43,9 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     private final Integer stopbits;
 
     private final Integer parity;
-
-    private DeviceBridgeCallback callback;
-
-    private com.fazecast.jSerialComm.SerialPort serialPort;
-
     StringBuffer buffer = new StringBuffer();
-
+    private DeviceBridgeCallback callback;
+    private com.fazecast.jSerialComm.SerialPort serialPort;
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;

@@ -1,12 +1,9 @@
 package execucao.bugs;
 
-import engine.EventoMotor;
 import engine.Motor;
-import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
 import models.Controlador;
-import models.EstadoGrupoSemaforico;
 import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -15,7 +12,6 @@ import play.libs.Json;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 

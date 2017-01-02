@@ -79,6 +79,7 @@ module.exports = function(config) {
       'bower_components/raven-js/dist/raven.js',
       'bower_components/angular-raven/angular-raven.js',
       'bower_components/tooltipster/dist/js/tooltipster.bundle.js',
+      'bower_components/angular-morris/build/module/angular-morris/angular-morris.min.js',
 
       // inspinea scripts.
       'app/plugins/jquery-ui-1.12.0/jquery-ui.js',

@@ -335,7 +335,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         assertEquals("StatusDevice Controlador", controladorRetornado.getVersaoControlador().getStatusVersao(), StatusVersao.SINCRONIZADO);
         assertFields(controlador, controladorRetornado);
     }
-    
+
     @Test
     public void deveriaCancelarControladorClonadoEVoltarStatusControladorOrigemParaAtivo() {
         Controlador controlador = controladorTestUtils.getControladorTabelaHorario();

@@ -290,7 +290,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     }
 
     private int adicionaTempoEstagioDuplo(int tempo, boolean atuado) {
-        if(getEstagioPlanoAnterior() != null && getEstagioPlanoAnterior().getEstagio().equals(getEstagio())) {
+        if (getEstagioPlanoAnterior() != null && getEstagioPlanoAnterior().getEstagio().equals(getEstagio())) {
             if (atuado) {
                 tempo += getEstagioPlanoAnterior().getTempoVerdeMaximo();
             } else {
@@ -298,7 +298,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             }
         }
 
-        if(getEstagioPlanoProximo() != null && getEstagioPlanoProximo().getEstagio().equals(getEstagio())) {
+        if (getEstagioPlanoProximo() != null && getEstagioPlanoProximo().getEstagio().equals(getEstagio())) {
             if (atuado) {
                 tempo += getEstagioPlanoProximo().getTempoVerdeMaximo();
             } else {

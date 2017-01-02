@@ -42,13 +42,15 @@ public class MonitoramentoController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<ControladorFisico> todosControladores = ControladorFisico.getControladoresPorUsuario(usuario);
+        List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
+        List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
-        HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null, controladores);
-        HashMap<String, ModoOperacaoPlano> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladores(controladores);
-        HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladores);
+        HashMap<String, HashMap> status = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
+        HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null, controladoresIds);
+        Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
+        HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladoresIds);
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
@@ -56,6 +58,8 @@ public class MonitoramentoController extends Controller {
         retorno.set("erros", errosToJson(erros));
         retorno.set("modosOperacoes", Json.toJson(modosOperacoes));
         retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
+        retorno.set("aneisPorControlador", Json.toJson(getQuantidadeDeAneisPorControlador(todosControladores)));
+        retorno.set("statusControladoresLogicos", Json.toJson(getStatusControladoresLogicos(todosControladores)));
 
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
     }
@@ -67,9 +71,9 @@ public class MonitoramentoController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, StatusDevice> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
+        HashMap<String, HashMap> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
         HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
         List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null, controladores);
 
@@ -90,7 +94,7 @@ public class MonitoramentoController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
         HashMap<String, Object> onlines = StatusConexaoControlador.ultimoStatusDosControladoresOnlines(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(controladoresToJson(onlines))));
     }
@@ -102,7 +106,7 @@ public class MonitoramentoController extends Controller {
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
         }
 
-        List<String> controladores = ControladorFisico.getControladorPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
+        List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
         HashMap<String, Object> offlines = StatusConexaoControlador.ultimoStatusDosControladoresOfflines(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(controladoresToJson(offlines))));
@@ -120,6 +124,32 @@ public class MonitoramentoController extends Controller {
         retorno.put("percentualOnline", percentual).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco())
             .put("totalOnline", totalOnline).put("totalOffline", totalOffline).putPOJO("historico", status);
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
+    }
+
+    private HashMap<String, Integer> getQuantidadeDeAneisPorControlador(List<ControladorFisico> controladoresFisicos) {
+        HashMap<String, Integer> aneisPorControlador = new HashMap<>();
+
+        controladoresFisicos.stream().forEach(controladorFisico -> {
+            aneisPorControlador.put(
+                controladorFisico.getId().toString(),
+                controladorFisico.getVersaoAtualControlador().getAneisAtivos().size()
+            );
+        });
+
+        return aneisPorControlador;
+    }
+
+    private HashMap<String, String> getStatusControladoresLogicos(List<ControladorFisico> controladoresFisicos) {
+        HashMap<String, String> controladores = new HashMap<>();
+
+        controladoresFisicos.stream().forEach(controladorFisico -> {
+            controladores.put(
+                controladorFisico.getId().toString(),
+                controladorFisico.getVersaoAtualControlador().getStatusControladorReal().toString()
+            );
+        });
+
+        return controladores;
     }
 
     private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {

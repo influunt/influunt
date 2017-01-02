@@ -1,5 +1,6 @@
 package status;
 
+import models.StatusAnel;
 import models.StatusDevice;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -31,16 +32,21 @@ public class StatusControladorFisico {
 
     private StatusDevice statusDevice;
 
-    public StatusControladorFisico(String idControlador, long timestamp, StatusDevice statusDevice) {
+    private HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+
+    public StatusControladorFisico(String idControlador, long timestamp,
+                                   StatusDevice statusDevice, HashMap<Integer, StatusAnel> statusAneis) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.statusDevice = statusDevice;
+        this.statusAneis = statusAneis;
     }
 
     public StatusControladorFisico(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.statusDevice = StatusDevice.valueOf(map.get("statusDevice").toString());
+        this.statusAneis = (HashMap) map.get("statusAneis");
     }
 
     public static MongoCollection status() {
@@ -52,17 +58,17 @@ public class StatusControladorFisico {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, StatusDevice> ultimoStatusDosControladores(List<String> ids) {
+    public static HashMap<String, HashMap> ultimoStatusDosControladores(List<String> ids) {
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
-        HashMap<String, StatusDevice> hash = new HashMap<>();
+        HashMap<String, HashMap> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
             status()
                 .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
                 .and("{$sort:{timestamp:-1}}")
-                .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}}}")
+                .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}, 'statusAneis': {$first:'$statusAneis'}}}")
                 .as(Map.class);
         for (Map m : ultimoStatus) {
-            hash.put(m.get("_id").toString(), StatusDevice.valueOf(m.get("statusDevice").toString()));
+            hash.put(m.get("_id").toString(), (HashMap) m);
         }
 
         return hash;
@@ -96,8 +102,9 @@ public class StatusControladorFisico {
         status().drop();
     }
 
-    public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice) {
-        new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice).save();
+    public static void log(String idControlador, long carimboDeTempo,
+                           StatusDevice statusDevice, HashMap<Integer, StatusAnel> statusAneis) {
+        new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice, statusAneis).save();
     }
 
     public StatusDevice getStatusDevice() {
