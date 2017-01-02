@@ -105,6 +105,44 @@ public class ControladorFisico extends Model implements Serializable {
     @Column
     private String modelo;
 
+    public static List<ControladorFisico> getControladoresPorUsuario(Usuario usuario) {
+        List<ControladorFisico> controladoresFisicos = null;
+        if (usuario.isRoot() || usuario.podeAcessarTodasAreas()) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+        } else if (usuario.getArea() != null) {
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", usuario.getArea().getId()).findList();
+        }
+
+        return controladoresFisicos;
+    }
+
+    public static List<ControladorFisico> getControladoresSincronizadosPorUsuario(Usuario usuario) {
+        Area area = null;
+        if (!usuario.isRoot() && !usuario.podeAcessarTodasAreas()) {
+            area = usuario.getArea();
+
+            if (area == null) {
+                return Collections.emptyList();
+            }
+        }
+
+        return getControladoresSincronizadosPorArea(area);
+    }
+
+    public static List<ControladorFisico> getControladoresSincronizadosPorArea(Area area) {
+        ExpressionList<ControladorFisico> query = ControladorFisico
+            .find
+            .fetch("controladorSincronizado")
+            .fetch("controladorSincronizado.area")
+            .where()
+            .isNotNull("controladorSincronizado");
+
+        if (area != null) {
+            query.eq("controladorSincronizado.area", area);
+        }
+
+        return query.findList();
+    }
 
     public UUID getId() {
         return id;
@@ -214,11 +252,20 @@ public class ControladorFisico extends Model implements Serializable {
             .getVersoes()
             .stream()
             .filter(versaoControladorAux ->
-                StatusVersao.EM_CONFIGURACAO.equals(versaoControladorAux.getStatusVersao()) ||
-                    StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao()) ||
+                StatusVersao.CONFIGURADO.equals(versaoControladorAux.getStatusVersao()) ||
+                    StatusVersao.SINCRONIZADO.equals(versaoControladorAux.getStatusVersao()) ||
                     StatusVersao.EDITANDO.equals(versaoControladorAux.getStatusVersao())
             ).findFirst().orElse(null);
         return (versaoControlador != null) ? versaoControlador.getControlador() : null;
+    }
+
+    public Controlador getVersaoAtualControlador() {
+        VersaoControlador versaoControlador = this.getVersoes()
+            .stream()
+            .filter(versao -> !StatusVersao.ARQUIVADO.equals(versao.getStatusVersao()))
+            .findFirst().orElse(null);
+
+        return versaoControlador != null ? versaoControlador.getControlador() : null;
     }
 
     public boolean isEditando() {
@@ -258,34 +305,6 @@ public class ControladorFisico extends Model implements Serializable {
 
     public Controlador getControladorSincronizado() {
         return controladorSincronizado;
-    }
-
-    public static List<ControladorFisico> getControladorPorUsuario(Usuario usuario) {
-        Area area = null;
-        if (!usuario.isRoot() && !usuario.podeAcessarTodasAreas()) {
-            area = usuario.getArea();
-
-            if (area == null) {
-                return Collections.emptyList();
-            }
-        }
-
-        return getControladorPorArea(area);
-    }
-
-    public static List<ControladorFisico> getControladorPorArea(Area area) {
-        ExpressionList<ControladorFisico> query = ControladorFisico
-            .find
-            .fetch("controladorSincronizado")
-            .fetch("controladorSincronizado.area")
-            .where()
-            .isNotNull("controladorSincronizado");
-
-        if (area != null) {
-            query.eq("controladorSincronizado.area", area);
-        }
-
-        return query.findList();
     }
 
     public void setControladorSincronizado(Controlador controladorSincronizado) {

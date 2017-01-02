@@ -125,8 +125,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onFalha(DateTime timestamp, EventoMotor eventoMotor) {
-        storage.addFalha(eventoMotor.getTipoEvento());
-        sendMessage(MudancaStatusControlador.getMensagem(id, StatusDevice.COM_FALHAS));
+        storage.addFalha(eventoMotor);
+        sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
         sendAlarmeOuFalha(eventoMotor);
     }
 
@@ -134,10 +134,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     public void onRemocaoFalha(DateTime timestamp, EventoMotor eventoMotor) {
         TipoEvento falha = CausaERemocaoEvento.getFalha(eventoMotor.getTipoEvento());
         if (falha != null) {
-            storage.removeFalha(falha);
-            if (!storage.emFalha()) {
-                sendMessage(MudancaStatusControlador.getMensagem(id, StatusDevice.ATIVO));
-            }
+            storage.removeFalha(eventoMotor);
+            sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
         }
         sendRemocaoFalha(eventoMotor);
     }
@@ -145,11 +143,19 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void modoManualAtivo(DateTime timestamp) {
         device.modoManualAtivo();
+        controlador.getAneisAtivos().stream().filter(Anel::isAceitaModoManual).forEach(anel -> {
+            storage.setStatusAnel(anel.getPosicao(), StatusAnel.MANUAL);
+        });
+        sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
     }
 
     @Override
     public void modoManualDesativado(DateTime timestamp) {
         device.modoManualDesativado();
+        controlador.getAneisAtivos().stream().filter(Anel::isAceitaModoManual).forEach(anel -> {
+            storage.setStatusAnel(anel.getPosicao(), StatusAnel.NORMAL);
+        });
+        sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
     }
 
     @Override
@@ -243,7 +249,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public void onEvento(EventoMotor eventoMotor) {
         if (TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
-            if((Boolean) eventoMotor.getParams()[0]) {
+            if ((Boolean) eventoMotor.getParams()[0]) {
                 getSelf().tell("RESTART", getSelf());
             } else {
                 sendAlarmeOuFalha(eventoMotor);

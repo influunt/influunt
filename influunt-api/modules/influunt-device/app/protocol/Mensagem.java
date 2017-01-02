@@ -37,10 +37,10 @@ public abstract class Mensagem {
 
     public static Mensagem toMensagem(byte[] contents) throws Exception {
         try {
-            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO,"TO MENSAGEM: " + new String(Hex.encodeHex(contents)));
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TO MENSAGEM: " + new String(Hex.encodeHex(contents)));
             return TipoDeMensagemBaixoNivel.values()[contents[1]].getInstance(contents);
-        }catch (Exception e){
-            InfluuntLogger.log(NivelLog.NORMAL, TipoLog.EXECUCAO,"Erro ao recuperar mensagem: " + contents.length);
+        } catch (Exception e) {
+            InfluuntLogger.log(NivelLog.NORMAL, TipoLog.EXECUCAO, "Erro ao recuperar mensagem: " + contents.length);
             e.printStackTrace();
         }
         return null;

@@ -23,7 +23,6 @@ public class TestDeviceConfig implements DeviceConfig {
     private DeviceBridge bridge;
 
 
-
     @Override
     public String getHost() {
         return host;
@@ -85,23 +84,23 @@ public class TestDeviceConfig implements DeviceConfig {
     }
 
     @Override
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @Override
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    @Override
     public String getLogin() {
         return this.login;
     }
 
     @Override
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
     public String getSenha() {
         return this.senha;
+    }
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
 }

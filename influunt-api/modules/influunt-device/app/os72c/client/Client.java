@@ -4,7 +4,6 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.stream.Materializer;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -65,14 +64,14 @@ public class Client {
         config72c = configuration.getConfig("72c");
         setupLog();
 
-        InfluuntLogger.log(NivelLog.NORMAL,TipoLog.INICIALIZACAO,"Iniciando O 72C");
+        InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "Iniciando O 72C");
 
         this.system = ActorSystem.create("InfluuntSystem", configuration);
 
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("Subsistema Akka:%s", this.system.name()));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("Subsistema Akka:%s", this.system.name()));
 
         if (deviceConfig != null) {
-            InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
+            InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));
             host = deviceConfig.getHost();
             port = deviceConfig.getPort();
             login = deviceConfig.getLogin();
@@ -102,12 +101,12 @@ public class Client {
             }
         }
 
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("ID CONTROLADOR  :%s", id));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT HOST       :%s", host));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT PORT       :%s", port));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT LOGIN      :%s", login));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("MQTT PWD        :%s", senha));
-        InfluuntLogger.log(NivelLog.DETALHADO,TipoLog.INICIALIZACAO,String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("ID CONTROLADOR  :%s", id));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("MQTT HOST       :%s", host));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("MQTT PORT       :%s", port));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("MQTT LOGIN      :%s", login));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("MQTT PWD        :%s", senha));
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
         servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, login,
             senha, centralPublicKey, privateKey, storage, device, estadoDevice), id);
@@ -119,13 +118,13 @@ public class Client {
     }
 
     public static void main(String args[]) {
-        Application app = createApplication(new HashMap(),false);
+        Application app = createApplication(new HashMap(), false);
         Play.start(app.getWrappedApplication());
         Materializer mat = app.getWrappedApplication().materializer();
         new Client(null);
     }
 
-    public static Application createApplication(Map configuration,boolean recreate) {
+    public static Application createApplication(Map configuration, boolean recreate) {
         Class klass = recreate ? RecreateDiskStorageConf.class : DiskStorageConf.class;
         return new GuiceApplicationBuilder().configure(configuration)
             .overrides(bind(StorageConf.class).to(klass).in(Singleton.class))
@@ -137,7 +136,7 @@ public class Client {
         if (configLog != null) {
             InfluuntLogger.configureLog(configLog.getString("caminho"),
                 configLog.getString("arquivo"), configLog.getInt("tamanho"), configLog.getBoolean("compacto"),
-                configLog.getAnyRefList("tipoEvento"),NivelLog.valueOf(configLog.getString("nivel")));
+                configLog.getAnyRefList("tipoEvento"), NivelLog.valueOf(configLog.getString("nivel")));
         }
 
     }

@@ -3,7 +3,9 @@ package os72c.client.handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import models.Anel;
 import models.Controlador;
+import models.StatusAnel;
 import models.StatusDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -38,8 +40,12 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     if (controlador != null) {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
+                        controlador.getAneisAtivos().stream().filter(Anel::isAceitaModoManual).forEach(anel -> {
+                            storage.setStatusAnel(anel.getPosicao(), StatusAnel.NORMAL);
+                        });
+
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_OK, idControlador, DestinoCentral.pedidoConfiguracao());
-                        envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
+                        envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus(), storage.getStatusAneis());
                     } else {
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }

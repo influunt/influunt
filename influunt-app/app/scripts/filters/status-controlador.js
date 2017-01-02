@@ -14,6 +14,7 @@ angular.module('influuntApp')
       var text = $filter('translate')(input);
       var tags = {
         EM_CONFIGURACAO: '',
+        COM_FALHAS: 'badge-warning',
         EM_EDICAO: 'badge-warning',
         EDITANDO: 'badge-warning',
         CONFIGURADO: 'badge-primary',

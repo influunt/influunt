@@ -7,7 +7,6 @@ import logger.NivelLog;
 import logger.TipoLog;
 import os72c.client.storage.Storage;
 import protocol.Envelope;
-import protocol.TipoMensagem;
 
 import java.util.ArrayList;
 import java.util.List;

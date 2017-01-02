@@ -18,7 +18,8 @@ angular.module('influuntApp')
       $controller('BreadcrumbsCtrl', {$scope: $scope});
       Idle.watch();
 
-      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas;
+      var checkRoleForMenus, atualizaDadosDinamicos, registerWatchers, getControlador, logout, loadAlarmesEFalhas,
+          atualizaOnlineOffline, atualizaStatusLogicos, atualizaModoOperacao, atualizaStatusFisicos, isChartEmpty;
 
       $scope.pagination = {
         current: 1,
@@ -94,6 +95,10 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
+      isChartEmpty = function(chartData) {
+        return _.chain(chartData).map('value').sum().value() === 0;
+      };
+
       $scope.menuVisible = {};
       checkRoleForMenus = function() {
         return _.each($scope.menus, function(menu) {
@@ -122,12 +127,172 @@ angular.module('influuntApp')
 
       atualizaDadosDinamicos = function() {
         $timeout(function() {
-          $scope.dadosStatus = _.countBy(_.values($scope.statusObj.status), _.identity);
-          $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
-          $scope.modosOperacoes = _.countBy(_.values($scope.statusObj.modosOperacoes), _.identity);
+          atualizaOnlineOffline();
+          atualizaModoOperacao();
+          atualizaStatusFisicos();
+          atualizaStatusLogicos();
+
           $scope.planosImpostos = _.countBy(_.values($scope.statusObj.imposicaoPlanos), _.identity);
-          $scope.errosControladores = _.orderBy($scope.statusObj.erros, 'data', 'desc');
+          $scope.errosControladores = _
+            .chain($scope.statusObj.erros)
+            .reject(function(erro) { return erro.tipo.match(/^REMOCAO/) })
+            .orderBy('data', 'desc')
+            .value();
         });
+      };
+
+      atualizaModoOperacao = function() {
+        $scope.modosOperacoesPorAneis = _
+          .chain($scope.statusObj.modosOperacoes)
+          .values()
+          .reduce(function(result, obj) {
+            result[obj.modoOperacao] = result[obj.modoOperacao] || 0;
+            result[obj.modoOperacao]++;
+            return result;
+          }, {})
+          .value();
+
+        $scope.modosOperacoesChart = [
+          {
+            label: $filter('translate')('planos.modosOperacao.TEMPO_FIXO_COORDENADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'TEMPO_FIXO_COORDENADO') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.TEMPO_FIXO_ISOLADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'TEMPO_FIXO_ISOLADO') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.ATUADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'ATUADO') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.INTERMITENTE'),
+            value: _.get($scope.modosOperacoesPorAneis, 'INTERMITENTE') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.MANUAL'),
+            value: _.get($scope.modosOperacoesPorAneis, 'MANUAL') || 0
+          },
+          {
+            label: $filter('translate')('planos.modosOperacao.APAGADO'),
+            value: _.get($scope.modosOperacoesPorAneis, 'APAGADO') || 0
+          }
+        ];
+
+        $scope.isModosOperacoesChartEmpty = isChartEmpty($scope.modosOperacoesChart);
+      };
+
+      atualizaStatusFisicos = function() {
+        $scope.statusFisicoControladores = _
+          .chain($scope.statusObj.status)
+          .values()
+          .map('statusDevice')
+          .countBy(_.identity)
+          .value();
+
+        $scope.statusFisicoAneis = _.chain($scope.statusObj.status)
+          .values()
+          .map(function(obj) {
+            return _.values(obj.statusAneis);
+          })
+          .flatten()
+          .countBy(_.identity)
+          .value();
+
+        $scope.dadosStatusChart = [
+          {
+            label: $filter('translate')('main.operacaoNormal'),
+            value: $scope.statusFisicoAneis.NORMAL || 0
+          },
+          {
+            label: $filter('translate')('main.operandoComFalhas'),
+            value: $scope.statusFisicoAneis.COM_FALHAS || 0
+          },
+          {
+            label: $filter('translate')('main.amareloIntermitentePorfalha'),
+            value: $scope.statusFisicoAneis.AMARELO_INTERMITENTE_POR_FALHA || 0
+          },
+          {
+            label: $filter('translate')('main.apagadoPorFalha'),
+            value: $scope.statusFisicoAneis.APAGADO_POR_FALHA || 0
+          },
+          {
+            label: $filter('translate')('main.manual'),
+            value: $scope.statusFisicoAneis.MANUAL || 0
+          }
+        ];
+
+        $scope.isDadosStatusChartEmpty = isChartEmpty($scope.dadosStatusChart);
+      };
+
+      atualizaStatusLogicos = function() {
+        $scope.statusLogicoControladores = _.chain($scope.statusObj.statusControladoresLogicos).values().countBy(_.identity).value();
+        $scope.statusLogicoAneis = _
+          .chain($scope.statusObj.statusControladoresLogicos)
+          .map(function(value, key) {
+             return {
+               status: value,
+               quantidadeAneis: $scope.statusObj.aneisPorControlador[key]
+             };
+           })
+           .reduce(function(result, obj) {
+             result[obj.status] = result[obj.status] || 0;
+             result[obj.status] += obj.quantidadeAneis;
+             return result;
+           }, {})
+           .value();
+
+        $scope.statusLogicosChart = [
+          {
+            label: $filter('translate')('EM_CONFIGURACAO'),
+            value: $scope.statusLogicoControladores.EM_CONFIGURACAO
+          },
+          {
+            label: $filter('translate')('CONFIGURADO'),
+            value: $scope.statusLogicoControladores.CONFIGURADO
+          },
+          {
+            label: $filter('translate')('SINCRONIZADO'),
+            value: $scope.statusLogicoControladores.SINCRONIZADO
+          },
+          {
+            label: $filter('translate')('EDITANDO'),
+            value: $scope.statusLogicoControladores.EDITANDO
+          }
+        ];
+
+        $scope.isStatusLogicosChartEmpty = isChartEmpty($scope.statusLogicosChart);
+      };
+
+      atualizaOnlineOffline = function() {
+        $scope.dadosOnlines = _.countBy(_.values($scope.statusObj.onlines), _.identity);
+        $scope.aneisOnlines = _
+          .chain($scope.statusObj.onlines)
+          .map(function(value, key) {
+             return {
+               isOnline: value,
+               quantidadeAneis: $scope.statusObj.aneisPorControlador[key]
+             };
+           })
+           .reduce(function(result, obj) {
+             result[obj.isOnline] = result[obj.isOnline] || 0;
+             result[obj.isOnline] += obj.quantidadeAneis;
+             return result;
+           }, {})
+           .value();
+
+        $scope.onlineOfflineChart = [
+          {
+            label: $filter('translate')('main.online'),
+            value: $scope.dadosOnlines['true'] || 0
+          },
+          {
+            label: $filter('translate')('main.offline'),
+            value: $scope.dadosOnlines['false'] || 0
+          }
+        ];
+
+        $scope.isOnlineOfflineChartEmpty = isChartEmpty($scope.onlineOfflineChart);
       };
 
       getControlador = function(idControlador) {
@@ -204,5 +369,4 @@ angular.module('influuntApp')
       loadAlarmesEFalhas();
 
       $scope.$root.$on('$stateChangeSuccess', registerWatchers);
-
     }]);

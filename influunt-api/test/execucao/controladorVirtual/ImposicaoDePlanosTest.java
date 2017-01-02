@@ -5,7 +5,6 @@ import engine.EventoMotor;
 import engine.Motor;
 import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
-import models.EstadoGrupoSemaforico;
 import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -15,7 +14,7 @@ import protocol.TipoDeMensagemBaixoNivel;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**

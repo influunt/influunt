@@ -12,6 +12,9 @@
  */
 package utils;
 
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -20,9 +23,6 @@ import java.util.Base64;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 /**
  * This class implements functionality to generate and validate PBKDF2 hashes
@@ -33,17 +33,25 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class MosquittoPBKDF2 {
 
+    private static final int KEY_LENGTH = 24 * 8;
+    private static final int SALT_LENGTH = 12;
+    private static final int ITERATIONS = 901;
+
+    public static void main(String[] args) {
+        System.out.println(new MosquittoPBKDF2().createPassword("central2016central"));
+    }
+
     /**
      * This method compares a plain password and a PBKDF2 password (in
      * mosquitto-auth-plug format) to know whether the password match the PBKDF2
      * hash.
      *
-     * @author Manuel Domínguez Dorado - manuel.dominguez@enzinatec.com
      * @param plainPassword Tha plain password to be compared to the PBKDF2
-     * hash.
+     *                      hash.
      * @param hashedPasword The PBKDF2 password in mosquitto-auth-plug format
-     * (usualli it is stored in a MySQL database).
+     *                      (usualli it is stored in a MySQL database).
      * @return true, if password matches the PBKDF2 hash. false on the contrary.
+     * @author Manuel Domínguez Dorado - manuel.dominguez@enzinatec.com
      * @since 1.0
      */
     public boolean isValidPassword(String plainPassword, String hashedPasword) {
@@ -71,11 +79,11 @@ public class MosquittoPBKDF2 {
      * This method creates a new PBKDF2 password (in mosquitto-auth-plug format)
      * from a plain password.
      *
-     * @author Manuel Domínguez Dorado - manuel.dominguez@enzinatec.com
      * @param plainPassword The plain password used to generate the
-     * corresponding PBKDF2 password (in mosquitto-auth-plug) format.
+     *                      corresponding PBKDF2 password (in mosquitto-auth-plug) format.
      * @return The generated PBKDF2 password in mosquitto-auth-plug format
      * (usually, it will be stored in a MySQL database).
+     * @author Manuel Domínguez Dorado - manuel.dominguez@enzinatec.com
      * @since 1.0
      */
     public String createPassword(String plainPassword) {
@@ -101,13 +109,5 @@ public class MosquittoPBKDF2 {
             Logger.getLogger(MosquittoPBKDF2.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
-    }
-
-    private static final int KEY_LENGTH = 24 * 8;
-    private static final int SALT_LENGTH = 12;
-    private static final int ITERATIONS = 901;
-
-    public static void main(String[] args){
-        System.out.println(new MosquittoPBKDF2().createPassword("central2016central"));
     }
 }
