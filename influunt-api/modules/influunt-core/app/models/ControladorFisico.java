@@ -81,6 +81,20 @@ public class ControladorFisico extends Model implements Serializable {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    @Column
+    private String fabricanteHardware;
+
+    @Column
+    private String modeloHardware;
+
+    @Column
+    private String versaoFirmwareHardware;
+
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    private DateTime atualizacaoVersaoHardware;
+
 
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
@@ -341,5 +355,37 @@ public class ControladorFisico extends Model implements Serializable {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getFabricanteHardware() {
+        return fabricanteHardware;
+    }
+
+    public void setFabricanteHardware(String fabricanteHardware) {
+        this.fabricanteHardware = fabricanteHardware;
+    }
+
+    public String getModeloHardware() {
+        return modeloHardware;
+    }
+
+    public void setModeloHardware(String modeloHardware) {
+        this.modeloHardware = modeloHardware;
+    }
+
+    public String getVersaoFirmwareHardware() {
+        return versaoFirmwareHardware;
+    }
+
+    public void setVersaoFirmwareHardware(String versaoFirmwareHardware) {
+        this.versaoFirmwareHardware = versaoFirmwareHardware;
+    }
+
+    public DateTime getAtualizacaoVersaoHardware() {
+        return atualizacaoVersaoHardware;
+    }
+
+    public void setAtualizacaoVersaoHardware(DateTime atualizacaoVersaoHardware) {
+        this.atualizacaoVersaoHardware = atualizacaoVersaoHardware;
     }
 }

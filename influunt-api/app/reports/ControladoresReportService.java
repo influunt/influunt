@@ -335,7 +335,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
             if (tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
                 Controlador controlador = controladores.stream().filter((c -> c.getControladorFisicoId().equals(log.getIdControlador()))).findFirst().get();
                 String date = InfluuntDateTimeSerializer.parse(new DateTime(log.getTimestamp()));
-                itens.addObject().put("horario", date).put("clc", log.getIdControlador()).put("endereco", controlador.getEndereco().nomeEndereco())
+                itens.addObject().put("horario", date).put("clc", controlador.getCLC()).put("endereco", controlador.getEndereco().nomeEndereco())
                     .put("tipo", log.getTipoLogControlador().toString()).put("mensagem", log.getMensagem());
             }
         });

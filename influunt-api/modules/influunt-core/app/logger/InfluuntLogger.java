@@ -54,16 +54,6 @@ public class InfluuntLogger {
         }
     }
 
-    public static void log(NivelLog nivelLog, TipoLog tipo, TipoEvento tipoEvento) {
-        if (nivel.compareTo(nivelLog) >= 0) {
-            if (compact) {
-                loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString()));
-            } else {
-                loggerOficial.info(String.format("[%s] %s", tipo, tipoEvento.toString() + " - " + tipoEvento.getDescricao()));
-            }
-        }
-    }
-
     public static void log(NivelLog nivelLog, TipoLog tipoLog, Transacao transacao) {
         if (nivel.compareTo(nivelLog) >= 0) {
             log(nivelLog, tipoLog, String.format("[%s] %s", transacao.getTipoTransacao(), transacao.getEtapaTransacao().getMessage()));

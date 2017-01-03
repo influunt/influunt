@@ -11,4 +11,5 @@ public interface DeviceBridgeCallback {
     void onEvento(EventoMotor eventoMotor);
 
 
+    void onInfo(String fabricante, String modelo, String versao);
 }

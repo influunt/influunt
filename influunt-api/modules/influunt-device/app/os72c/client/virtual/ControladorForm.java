@@ -6,6 +6,7 @@ import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
 import engine.TipoEvento;
 import org.joda.time.DateTime;
+import os72c.client.Versao;
 import os72c.client.device.DeviceBridge;
 import os72c.client.device.DeviceBridgeCallback;
 import os72c.client.observer.DeviceObserver;
@@ -47,7 +48,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
 
     int colors[] = new int[16];
 
-    int times[][] = new int[16][5];
+    long times[][] = new long[16][5];
 
     int tempo = 0;
 
@@ -164,6 +165,8 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
     private JLabel anel3;
 
     private JLabel anel4;
+
+    private JLabel versao;
 
     private IntervaloGrupoSemaforico intervaloGrupoSemaforico;
 
@@ -337,6 +340,8 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
         btnTrocarEstagio.setVisible(false);
 
 
+        versao.setText(String.format("Versão: %s", Versao.versao));
+
         JFrame frame = new JFrame("ControladorForm");
         frame.setContentPane(this.form);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -384,7 +389,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
                 }
                 break;
             case 4:
-                switch ((times[line][0] & 0x7)) {
+                switch ((int) (times[line][0] & 0x7)) {
                     case 0:
                         ret = DESLIGADO;
                         break;
@@ -487,6 +492,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
         tempo += 100;
     }
 
+
     void onReceiveEstage(byte[] msg) {
         int groupsSize = (msg[4] & 0xff) & 0x1F;
         int index = 5;
@@ -494,10 +500,11 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
         for (int i = 0; i < groupsSize; i++) {
             int group = (msg[index + 1]);
             times[group - 1][0] = msg[index] & 0xF;
-            times[group - 1][1] = ((msg[index + 2] & 0xff) << 8) | (msg[index + 3] & 0xff);
-            times[group - 1][2] = ((msg[index + 4] & 0xff) << 8) | (msg[index + 5] & 0xff);
-            times[group - 1][3] = ((msg[index + 6] & 0xff) << 8) | (msg[index + 7] & 0xff);
-            times[group - 1][4] = ((msg[index + 8] & 0xff) << 8) | (msg[index + 9] & 0xff);
+            for(int j = 1; j < 5; j++) {
+                long primeiro = (long) msg[index + (j*2)] << 8;
+                long segundo = msg[index + (j*2) + 1];
+                times[group - 1][j] = primeiro + segundo;
+            }
             index += 10;
         }
 
@@ -512,7 +519,6 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
 
         conectado.setText(String.format("Conectado: %s", (estadoDevice.isConectado() ? "SIM" : "NÃO")));
         status.setText(String.format("Status: %s", estadoDevice.getStatus()));
-
         if (estadoDevice.getPlanos().containsKey(1)) {
             anel1.setText(String.format("Anel 1: Plano %d %s", estadoDevice.getPlanos().get(1).getPosicao(), estadoDevice.getPlanos().get(1).getDescricaoModoOperacao()));
             if (estadoDevice.getPlanos().containsKey(2)) {

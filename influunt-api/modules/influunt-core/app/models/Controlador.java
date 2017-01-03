@@ -984,6 +984,41 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
+    public String getFabricanteOs() {
+        return getVersaoControlador().getControladorFisico().getMarca();
+    }
+
+    @JsonIgnore
+    public String getModeloOs() {
+        return getVersaoControlador().getControladorFisico().getModelo();
+    }
+
+    @JsonIgnore
+    public String getVersaoOs() {
+        return getFirmware();
+    }
+
+    @JsonIgnore
+    public String getFabricanteHardware() {
+        return getVersaoControlador().getControladorFisico().getFabricanteHardware();
+    }
+
+    @JsonIgnore
+    public String getModeloHardware() {
+        return getVersaoControlador().getControladorFisico().getModeloHardware();
+    }
+
+    @JsonIgnore
+    public String getVersaoHardware() {
+        return getVersaoControlador().getControladorFisico().getVersaoFirmwareHardware();
+    }
+
+    @JsonIgnore
+    public DateTime getAtualizacaoVersao() {
+        return getVersaoControlador().getControladorFisico().getAtualizacaoVersaoHardware();
+    }
+
+    @JsonIgnore
     public String getCentralPublicKey() {
         return this.getVersaoControlador().getControladorFisico().getCentralPublicKey();
     }

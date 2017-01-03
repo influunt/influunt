@@ -8,10 +8,15 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-sm-12">
-
-            <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.conteudo.clc }}</p><br>
-            <p><strong>{{ 'imporConfig.statusControlador' | translate }}:</strong> {{ dadosControlador.conteudo.status | translate}}</p><br>
-            <p><strong>{{ 'imporConfig.relogio' | translate }}:</strong> {{ dadosControlador.conteudo.relogio | date: 'dd/MM/yyyy HH:mm:ss' }}</p><br>
+            <div class="row">
+              <div class="col-lg-4">
+                <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.conteudo.clc }}</p>
+                <p><strong>{{ 'imporConfig.statusControlador' | translate }}:
+                  </strong> {{ dadosControlador.conteudo.status | translate}}</p>
+                <p><strong>{{ 'imporConfig.relogio' | translate }}:
+                  </strong> {{ dadosControlador.conteudo.relogio | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+              </div>
+            </div>
 
             <h2 class='text-center'>{{ 'imporConfig.parametrosControlador' | translate }}</h2>
             <!-- PARAMETROS -->

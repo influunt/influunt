@@ -31,6 +31,8 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(64, PIN, NEO_GRB + NEO_KHZ800);
 int tempo = 0;
 
 String status;
+String welcome = "Raro Labs;Controlador Arduino;1.0.4";
+
 
 unsigned char const TM_RETORNO = 0x0;
 unsigned char const TM_INICIO  = 0x1;
@@ -47,6 +49,7 @@ unsigned char const TM_REMOCAO_PLUG = 0xB;
 unsigned char const TM_TROCA_ESTAGIO_MANUAL = 0xC;
 unsigned char const TM_MODO_MANUAL_ATIVADO = 0xD;
 unsigned char const TM_MODO_MANUAL_DESATIVADO = 0xE;
+unsigned char const TM_INFO = 0xF; 
 
 unsigned char const RET_OK = 0x0;
 unsigned char const RET_INVALID_CHECKSUM = 0x1;
@@ -90,7 +93,7 @@ typedef union status {
 int colors[16];
 
 
-int times[16][5] = {0}; //Flag in the first byte
+long int times[16][5] = {-1}; //Flag in the first byte
 
 int whereIsTime(int line) {
   if (times[line][1] >= 100) {
@@ -99,23 +102,29 @@ int whereIsTime(int line) {
     return 2;
   } else if (times[line][3] >= 100) {
     return 3;
+  } else if (times[line][4] >= 100) {
+    return 4;
   }
-
-  return 4;
+  return -1;
 }
 
 
 
-void dropTime(int line) {
-  times[line][whereIsTime(line)] -= 100;
+void dropTime(int line,int wit) {
+  times[line][wit] -= 100;
 }
 
 int getColorAndDecrement(int line) {
+  if (times[line][0] == -1) {
+    return DESLIGADO;
+  }
   int wit = whereIsTime(line);
   int ret = DESLIGADO;
   bitset status;
   status.intRepresentation = times[line][0];
   switch (wit) {
+    case -1:
+      return status.pedestrian ? DESLIGADO : AMARELO_INTERMITENTE;
     case 1: //Atraso de grupo ou vermelho
       ret = times[line][2] > 0 ? VERDE : VERMELHO;
       break;
@@ -153,9 +162,8 @@ int getColorAndDecrement(int line) {
       }
       break;
   }
-  dropTime(line);
-
-
+  dropTime(line,wit);
+ 
   return ret;
 }
 
@@ -175,18 +183,16 @@ void onReceiveEstage(unsigned char *msg, int msgSize) {
     status.intRepresentation = msg[index];
 
     times[group - 1][0] = status.intRepresentation;
-    times[group - 1][1] = (msg[index + 2] << 8) | msg[index + 3];
-    times[group - 1][2] = (msg[index + 4] << 8) | msg[index + 5];
-    times[group - 1][3] = (msg[index + 6] << 8) | msg[index + 7];
-    times[group - 1][4] = (msg[index + 8] << 8) | msg[index + 9];
+    for(int j = 1; j < 5; j++) {
+      long primeiro = (long) msg[index + (j*2)] << 8;
+      long segundo = msg[index + (j*2) + 1];
+      times[group - 1][j] = primeiro + segundo;
+    }
+    
     index += 10;
   }
 
 }
-
-/**************************************************************************************
-
- * ************************************************************************************/
 
 byte byteRead;
 
@@ -204,6 +210,13 @@ void setup() {
   strip.setBrightness(50);
   Serial.begin(9600);
   Serial.setTimeout(30000);
+
+  for(int i = 0; i < 16; i++) {
+    for(int j = 0; j < 5; j++) {
+      times[i][j] = -1;  
+    }
+  }
+  
   ApplicationMonitor.EnableWatchdog(Watchdog::CApplicationMonitor::Timeout_4s);
 }
 
@@ -252,8 +265,10 @@ byte checkMsgType(unsigned char *msg, byte msgSize) {
   }
   byte tm = msg[1];
   switch (tm) {
-    case TM_RETORNO:
     case TM_INICIO:
+      sendInfo();
+      return RET_OK;
+    case TM_RETORNO:
       return RET_OK;
     case TM_ESTAGIO:
       onReceiveEstage(msg, msgSize);
@@ -333,6 +348,21 @@ void lights() {
 
 TimedAction lightsAction = TimedAction(100, lights);
 
+void sendInfo() {
+  int size = welcome.length() + 6;
+  
+  byte msg[size];
+  msg[0] = 0x6;
+  msg[1] = TM_INFO;
+  msg[2] = 0x0;
+  msg[3] = 0x0;
+
+  char * pointer  = (char *)&msg[4];
+  welcome.toCharArray(pointer,welcome.length() + 1);
+  msg[size - 1] = calculateLRC(msg, size);
+  sendBytes(msg, size);
+
+}
 
 void sendDetector(bool pedestre, int codigo) {
   byte msg[6];
@@ -365,6 +395,8 @@ void sendManual(unsigned char const tipo) {
   msg[4] = calculateLRC(msg, 4);
   sendBytes(msg, 5);
 }
+
+
 
 void sendFalhaAnel(int anel, int codigo) {
   sendFalhaComParametro(TM_FALHA_ANEL, anel, codigo);

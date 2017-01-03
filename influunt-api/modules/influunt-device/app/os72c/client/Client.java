@@ -68,7 +68,7 @@ public class Client {
 
         this.system = ActorSystem.create("InfluuntSystem", configuration);
 
-        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("Subsistema Akka:%s", this.system.name()));
+        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.INICIALIZACAO, String.format("Subsistema Akka:%s", this.system.name()));
 
         if (deviceConfig != null) {
             InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("Configuração Baseada em Classe:%s", deviceConfig.getClass().getName()));

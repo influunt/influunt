@@ -175,4 +175,8 @@ angular.module('influuntApp')
           }
         }
       }, true);
+      
+      $scope.setCurrentAnel = function(anel) {
+        $scope.currentAnel = anel;
+      };
     }]);

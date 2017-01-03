@@ -12,6 +12,6 @@ pages:
   - 'Configuração do Controlador': 'protocolos/alto_nivel/configuracao.md'
   - 'Transações': 'protocolos/alto_nivel/transacoes.md'
   - 'Alertas e Falhas': 'protocolos/alto_nivel/alertas_e_falhas.md'
-  - 'Protovolo de Baixo Nível': 'protocolos/baixo_nivel/introducao.md'
+  - 'Protocolo de Baixo Nível': 'protocolos/baixo_nivel/introducao.md'
 - Log:
   - 'Especificação': 'log/especificacao.md'

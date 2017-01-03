@@ -12,6 +12,7 @@ import logger.TipoLog;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
+import os72c.client.Versao;
 import os72c.client.observer.EstadoDevice;
 import os72c.client.protocols.Mensagem;
 import os72c.client.protocols.MensagemVerificaConfiguracao;
@@ -159,10 +160,10 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         Envelope controladorOnline = ControladorOnline.getMensagem(id,
             DateTime.now().getMillis(),
-            storage.getFirmware(),
+            Versao.versao,
             storage.getStatus(),
-            storage.getMarca(),
-            storage.getModelo());
+            Versao.fabricante,
+            Versao.modelo);
         sendMessage(controladorOnline);
         sendToBroker(new MensagemVerificaConfiguracao());
 

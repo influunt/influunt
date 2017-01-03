@@ -275,6 +275,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         }
     }
 
+    @Override
+    public void onInfo(String fabricante, String modelo, String versao) {
+        Envelope envelope = Info.getMensagem(id, fabricante,modelo,versao);
+        sendMessage(envelope);
+    }
+
     private Anel buscarAnelPorDetector(Pair<Integer, TipoDetector> pair) {
         return controlador.findAnelByDetector(pair.getSecond(), pair.getFirst());
     }
