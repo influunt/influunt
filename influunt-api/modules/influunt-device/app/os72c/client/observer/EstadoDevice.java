@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static os72c.client.Versao.versao;
-
 /**
  * Created by rodrigosol on 12/16/16.
  */
