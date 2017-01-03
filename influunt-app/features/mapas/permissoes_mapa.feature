@@ -15,7 +15,7 @@ Funcionalidade: Verificar pelo perfil quais informações o usuário tem acesso 
     Então o sistema deve redirecionar para o mapa
     Quando o usuário clicar no menu filtros para "abrir"
     E o sistema deverá mostrar no mapa "2" controladores
-    E o sistema deverá mostrar no mapa "0" controladores offline
+    E o sistema deverá mostrar no mapa "2" controladores offline
     E o sistema deverá mostrar no mapa "3" aneis
     E o sistema deverá mostrar no mapa "0" aneis offline
     E o usuário não consiga selecionar o valor "2" para o campo "areas"

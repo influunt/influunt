@@ -120,7 +120,6 @@ angular.module('influuntApp')
       });
     };
 
-
     return {
       getAreas: getAreas,
       getControladores: getControladores,
