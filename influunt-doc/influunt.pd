@@ -9999,7 +9999,7 @@ Exemplo:
 
 
 
-## Protovolo de Baixo Nível
+## Protocolo de Baixo Nível
 
 ### Introdução
 O protocolo de baixo nível especifica um protocolo serial para controladores que utilizem o 72c. Esse protocolo constitui uma série de mensagens binárias que são enviadas do 72c para o hardware ou do hardware para o 72c. As mensagens são empacotadas de forma padrão na estrutura chamada Mensagem e são transmitidas em formato binário.

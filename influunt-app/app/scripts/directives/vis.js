@@ -78,28 +78,30 @@ angular.module('influuntApp')
 
               var initialState = 0;
               if (grupo.intervalos[0].status === 0) {
+                var duracao = parseInt(grupo.intervalos[0].duracao);
                 items.push({
                   start: 0,
-                  end: grupo.intervalos[0].duracao,
+                  end: duracao,
                   group: groupId,
-                  content: grupo.intervalos[0].duracao + 's',
+                  content: duracao + 's',
                   id: groupId + 'i' + index,
                   className: 'indicacao-' + modoOperacaoService.getCssClass(0),
                   type: 'range'
                 });
               } else {
                 grupo.intervalos.forEach(function(intervalo, index) {
+                  var duracao = parseInt(intervalo.duracao);
                   items.push({
                     start: initialState,
-                    end: initialState + intervalo.duracao,
+                    end: initialState + duracao,
                     group: groupId,
-                    content: intervalo.duracao + 's',
+                    content: duracao + 's',
                     id: groupId + 'i' + index,
                     className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status),
                     type: 'range'
                   });
 
-                  initialState += intervalo.duracao;
+                  initialState += duracao;
                 });
               }
             });
