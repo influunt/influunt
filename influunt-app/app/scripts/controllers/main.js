@@ -245,19 +245,19 @@ angular.module('influuntApp')
         $scope.statusLogicosChart = [
           {
             label: $filter('translate')('EM_CONFIGURACAO'),
-            value: $scope.statusLogicoControladores.EM_CONFIGURACAO
+            value: $scope.statusLogicoControladores.EM_CONFIGURACAO || 0
           },
           {
             label: $filter('translate')('CONFIGURADO'),
-            value: $scope.statusLogicoControladores.CONFIGURADO
+            value: $scope.statusLogicoControladores.CONFIGURADO || 0
           },
           {
             label: $filter('translate')('SINCRONIZADO'),
-            value: $scope.statusLogicoControladores.SINCRONIZADO
+            value: $scope.statusLogicoControladores.SINCRONIZADO || 0
           },
           {
             label: $filter('translate')('EDITANDO'),
-            value: $scope.statusLogicoControladores.EDITANDO
+            value: $scope.statusLogicoControladores.EDITANDO || 0
           }
         ];
 
