@@ -253,8 +253,8 @@
                               tooltip-side="right">
                         </span>
                       </td>
-                      <td>{{ statusLogicoControladores['EM_CONFIGURACAO'] }}</td>
-                      <td>{{ statusLogicoAneis['EM_CONFIGURACAO'] }}</td>
+                      <td>{{ statusLogicoControladores['EM_CONFIGURACAO'] || 0 }}</td>
+                      <td>{{ statusLogicoAneis['EM_CONFIGURACAO'] || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
@@ -262,8 +262,8 @@
                               tooltips tooltip-template="{{ 'main.configuradoHint' | translate }}"
                               tooltip-side="right"></span>
                       </td>
-                      <td>{{ statusLogicoControladores['CONFIGURADO'] }}</td>
-                      <td>{{ statusLogicoAneis['CONFIGURADO'] }}</td>
+                      <td>{{ statusLogicoControladores['CONFIGURADO'] || 0 }}</td>
+                      <td>{{ statusLogicoAneis['CONFIGURADO'] || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
@@ -271,8 +271,8 @@
                               tooltips tooltip-template="{{ 'main.sincronizadoHint' | translate }}"
                               tooltip-side="right"></span>
                       </td>
-                      <td>{{ statusLogicoControladores['SINCRONIZADO'] }}</td>
-                      <td>{{ statusLogicoAneis['SINCRONIZADO'] }}</td>
+                      <td>{{ statusLogicoControladores['SINCRONIZADO'] || 0 }}</td>
+                      <td>{{ statusLogicoAneis['SINCRONIZADO'] || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
@@ -280,8 +280,8 @@
                               tooltips tooltip-template="{{ 'main.editandoHint' | translate }}"
                               tooltip-side="right"></span>
                       </td>
-                      <td>{{ statusLogicoControladores['EDITANDO'] }}</td>
-                      <td>{{ statusLogicoAneis['EDITANDO'] }}</td>
+                      <td>{{ statusLogicoControladores['EDITANDO'] || 0 }}</td>
+                      <td>{{ statusLogicoAneis['EDITANDO'] || 0 }}</td>
                     </tr>
                   </tbody>
                 </table>
