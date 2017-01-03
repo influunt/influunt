@@ -22,7 +22,8 @@ public enum TipoDeMensagemBaixoNivel {
     REMOCAO_PLUG(MensagemRemocaoPlug.class),
     TROCA_ESTAGIO_MANUAL(MensagemTrocaEstagioManual.class),
     MODO_MANUAL_ATIVADO(MensagemModoManualAtivado.class),
-    MODO_MANUAL_DESATIVADO(MensagemModoManualDesativado.class);
+    MODO_MANUAL_DESATIVADO(MensagemModoManualDesativado.class),
+    INFO(MensagemInfo.class);
 
     private final Class clazz;
 

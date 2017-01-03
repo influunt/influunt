@@ -55,7 +55,7 @@
                   </div>
                 </td>
                 <td>
-                  <a class="btn btn-primary" data-toggle="modal" data-target="#modalLerDados"
+                  <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalLerDados"
                      data-ng-if="anel.online"
                      permission permission-only="'lerDadosControlador'"
                      data-ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
@@ -65,6 +65,11 @@
                      tooltips tooltip-template="<strong>{{ 'imporConfig.tooltip.lerDadosOffline' | translate }}</strong>">
                     {{ 'imporConfig.lerDados' | translate }}
                   </a>
+                  <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalInfoHardware"
+                     data-ng-click="setCurrentAnel(anel)"  
+                     permission permission-only="'lerDadosControlador'"
+                     data-ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.infoHardware' | translate }}</a>
+                  <ng-include src="'/views/impor_config/modal-dados-hardware.html'"></ng-include>
                   <ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
                 </td>
               </tr>

@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  */
 public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
-    private final DateTime inicioControlador;
 
     private final MotorCallback callback;
 
@@ -47,10 +46,17 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
         this.callback = callback;
         this.controlador = controlador;
-        this.inicioControlador = inicioControlador;
         this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
-        this.instante = inicioControlador;
+
+        int diff = 1000 - inicioControlador.getMillisOfSecond();
+        this.instante = inicioControlador.plus(diff);
+        try {
+            Thread.sleep(diff);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         this.monitor = new MonitorDeFalhas(this, controlador.getAneis().stream().map(Anel::getDetectores)
             .flatMap(Collection::stream)

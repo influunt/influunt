@@ -98,6 +98,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 }
                 serialPort.addDataListener(this);
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Comunicação serial pronta para iniciar");
+                sendMensagem(TipoDeMensagemBaixoNivel.INICIO);
 
                 Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
@@ -167,7 +168,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL, true));
                 InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, "Falha na comunicação serial. Não foi possivel enviar mensagem");
             }
-            System.out.println("Bytes enviados:" + r);
 
         } catch (Exception e) {
             InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, e.getMessage());
@@ -252,6 +252,9 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             case TROCA_ESTAGIO_MANUAL:
                 callback.onEvento(new EventoMotor(DateTime.now(), TipoEvento.TROCA_ESTAGIO_MANUAL));
                 break;
+            case INFO:
+                MensagemInfo info = (MensagemInfo) mensagem;
+                callback.onInfo(info.getFabricante(),info.getModelo(),info.getVersao());
         }
 
     }
