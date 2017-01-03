@@ -49,12 +49,17 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
 
-        int diff = 1000 - inicioControlador.getMillisOfSecond();
-        this.instante = inicioControlador.plus(diff);
-        try {
-            Thread.sleep(diff);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(inicioControlador.getMillisOfSecond() > 0) {
+            int diff = 1000 - inicioControlador.getMillisOfSecond();
+
+            this.instante = inicioControlador.plus(diff);
+            try {
+                Thread.sleep(diff);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else{
+            this.instante = inicioControlador;
         }
 
 
