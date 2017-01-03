@@ -68,12 +68,21 @@ var MongoInsert = function () {
     }
   ];
 
-  var statusControlador = [
+  var statusConexaoControlador = [
     {
       '_id' : ObjectId('57dafa79dd605a97ce6003e4'),
       'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
       'timestamp' : toDayNumberLong,
       'conectado' : true
+    }
+  ];
+
+  var statusControlador = [
+    {
+      '_id' : ObjectId('5848766e5ffe68561b89e0ca'),
+      'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
+      'timestamp' : toDayNumberLong,
+      'statusDevice' : 'ONLINE'
     }
   ];
 
@@ -105,9 +114,14 @@ var MongoInsert = function () {
     assert.equal(null, err);
     var tableTrocaPlanosControldaores = 'trocaPlanosControladores';
     var tableAlarmesFalhasControladores = 'alarmes_falhas_controladores';
-    var tableStatusControladores = 'status_conexao_controladores';
+    var tableStatusConexaoControladores = 'status_conexao_controladores';
+    var tableStatusControladores = 'status_controladores';
 
     clearDb(db, trocaPlanosControladores, tableTrocaPlanosControldaores, function() {
+      db.close();
+    });
+
+    clearDb(db, statusConexaoControlador, tableStatusConexaoControladores, function() {
       db.close();
     });
 
@@ -132,6 +146,10 @@ var MongoInsert = function () {
     });
 
     insertDocuments(db, alarmesFalhasControladores2, tableAlarmesFalhasControladores, () => {
+      db.close();
+    });
+
+    insertDocuments(db, statusConexaoControlador, tableStatusConexaoControladores, () => {
       db.close();
     });
 

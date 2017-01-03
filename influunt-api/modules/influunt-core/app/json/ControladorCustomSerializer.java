@@ -140,6 +140,7 @@ public class ControladorCustomSerializer {
             root.put("verdeMin", rangeUtils.TEMPO_VERDE.getMin().toString());
             root.put("verdeMax", rangeUtils.TEMPO_VERDE.getMax().toString());
             root.put("verdeMinimoMin", rangeUtils.TEMPO_VERDE_MINIMO.getMin().toString());
+            root.put("cicloMax", rangeUtils.TEMPO_CICLO.getMax().toString());
 
             List<Anel> aneis = controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
             putControladorAneis(aneis, root);
