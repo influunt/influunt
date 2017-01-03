@@ -90,5 +90,10 @@
     "name": "imporConfig",
     "label": "imporConfig.titulo",
     "route": "app.impor_config"
+  },
+  {
+    "name": "streamControlador",
+    "label": "streamControlador.titulo",
+    "route": "app.stream_controlador"
   }
 ]
