@@ -52,7 +52,8 @@ Funcionalidade: Finalizar um controlador
     E o usuário selecionar o anel 2
     E o usuário adicionar imagem ao "Anel 2 como Estágio1"
     E o usuário clicar em "Salvar"
-    E o usuário clicar em "Programação"
+    E que o usuário aguarde um tempo de "5000" milisegundos
+    E o usuário acessar a tela de listagem de "controladores"
     Então o sistema deverá mostrar o status do controlador como "Em revisão"
     E o sistema "não pode" mostrar o botão "Finalizar Configuração"
     E o sistema "não pode" mostrar o botão "Ver ou Editar Planos"
