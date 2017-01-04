@@ -80,6 +80,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         reconhecePlano(plano, true);
 
+        AgendamentoTrocaPlano agendamentoInicial = new AgendamentoTrocaPlano(null, plano, inicioControlador);
+        agendamentoInicial.setAnel(anel);
+        this.callback.onTrocaDePlanoEfetiva(agendamentoInicial);
     }
 
     public boolean isTempoDispensavelJaAdicionado() {
