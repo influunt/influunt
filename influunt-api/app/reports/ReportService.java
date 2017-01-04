@@ -54,7 +54,7 @@ public abstract class ReportService<T> {
             InputStream image = new FileInputStream(env.getFile(LOGO_REPORT_FILE));
             reportMetadata.put(LOGO_REPORT_PARAM_NAME, image);
         } catch (FileNotFoundException e) {
-            Logger.error("ERRO AO CARREGAR LOGO: ".concat(e.getMessage()), e);
+            Logger.error("CONFIGURACAO_ERRO AO CARREGAR LOGO: ".concat(e.getMessage()), e);
         }
 
         return reportMetadata;

@@ -15,7 +15,7 @@ A figura abaixo apresenta os objetos que fazem parte da configuração de um con
 
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|----- | ---------- | --------- |
-| id | Texto [UUID] (https://en.wikipedia.org/wiki/Universally_unique_identifier) |S| Identificador do Controlador |
+| id | Texto UUID |S| Identificador do Controlador |
 | numeroSMEE | Texto||N| Número SMEE do Controlador |
 | nomeEndereco | Texto|N| Descrição da localização do controlador |
 | dataCriacao | Data|N| Data de Criação do controlador |

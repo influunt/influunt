@@ -42,7 +42,7 @@ public class BaseJasperReport {
             pdfExporter.setExporterInput(inp);
             pdfExporter.exportReport();
         } catch (Exception e) {
-            Logger.error("ERRO AO GERAR O RELATORIO: " + e.getMessage(), e);
+            Logger.error("CONFIGURACAO_ERRO AO GERAR O RELATORIO: " + e.getMessage(), e);
         }
         return new ByteArrayInputStream(((ByteArrayOutputStream) os).toByteArray());
     }
