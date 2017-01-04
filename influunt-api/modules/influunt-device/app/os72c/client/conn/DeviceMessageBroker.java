@@ -49,7 +49,7 @@ public class DeviceMessageBroker extends UntypedActor {
     public DeviceMessageBroker(String idControlador, Storage storage, ActorRef actorTransacao) {
 
         routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(), 1, ConfiguracaoActorHandler.class, idControlador, storage));
-        routers.put(TipoMensagem.ERRO, createRoutees(getContext(), 1, ErroActorHandler.class));
+        routers.put(TipoMensagem.CONFIGURACAO_ERRO, createRoutees(getContext(), 1, ErroActorHandler.class));
         routers.put(TipoMensagem.LER_DADOS_CONTROLADOR, createRoutees(getContext(), 1, LerDadosControladorActorHandler.class, idControlador, storage));
         actorConfiguracao = getContext().actorOf(Props.create(ConfiguracaoActorHandler.class, idControlador, storage), "actorConfig");
         this.actorTransacao = actorTransacao;

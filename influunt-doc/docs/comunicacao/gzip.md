@@ -1,0 +1,2 @@
+# Compactação
+Todo envelope após criptografado deve ser compactado no formato GZIP. Assim, toda a comunicação recebida pela a central ou pelo controlador precisa ser descompactada antes de ser descriptografada. 

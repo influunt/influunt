@@ -11,7 +11,7 @@ Os seguintes campos são obrigatórios no envelope:
 
 | Campo| Tipo | Descrição |
 | ------------ | ------------- | ------------ |
-| tipoMensagem | Texto  | Código único que identifica o tipo de mensagem que está dentro do envelope. As mensagens que podem ser envelopadas estão definidas na seção [mensagens](comunicacao/mensagens.md) |
+| tipoMensagem | Texto  | Código único que identifica o tipo de mensagem que está dentro do envelope. As mensagens que podem ser envelopadas estão definidas na seção [mensagens](/comunicacao/mensagens.md) |
 | idControlador | UUID | Identificador do Controlador |
 | idMensagem | UUID  | Identificador único e global no formato _UUID_ que identifica unicamente essa mensagem. Deve ser gerado no momento da construção do envelope |
 | destino | Texto  | Tópico _MQTT_ em que a mensagem deve ser publicada. Para lista de tópicos veja a seção [MQTT](comunicacao/mqtt) |

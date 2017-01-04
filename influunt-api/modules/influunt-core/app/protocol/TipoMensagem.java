@@ -4,7 +4,7 @@ package protocol;
  * Created by rodrigosol on 9/6/16.
  */
 public enum TipoMensagem {
-    ERRO,
+    CONFIGURACAO_ERRO,
 
     //Mensagens enviadas para device (Central -> Device)
     CONFIGURACAO,

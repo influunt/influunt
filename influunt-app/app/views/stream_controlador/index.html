@@ -2,13 +2,14 @@
   <div class="ibox-title">
     <h5>Controlador Simulado Online: RaroLabs</h5>
   </div>
-
+  <div class="video-controlador-wrapper">
     <video id="controladorRaro" width="1024" height="524" class="video-js vjs-default-skin" controls >
       <source src="http://198.199.85.144:8081/rediseg/ba436331-94f9-4a62-9562-6e21ff0183c7/playlist.m3u8" type="application/x-mpegURL">
     </video>
-    <script>
-      var player = videojs('controladorRaro');
-      player.play();
-    </script>
   </div>
 </div>
+
+<script>
+  var player = videojs('controladorRaro');
+  player.play();
+</script>

@@ -31,7 +31,7 @@ public class Configuracao {
                 new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), rangeUtils).toString(),
                 envelope.getIdMensagem());
         } else {
-            return new Envelope(TipoMensagem.ERRO,
+            return new Envelope(TipoMensagem.CONFIGURACAO_ERRO,
                 envelope.getIdControlador(),
                 "controlador/".concat(envelope.getIdControlador()).concat("/configuracao"),
                 QoS.EXACTLY_ONCE,

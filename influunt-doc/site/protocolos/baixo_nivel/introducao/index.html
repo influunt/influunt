@@ -343,6 +343,7 @@
 </tr>
 </tbody>
 </table>
+<p>O hardware deve responder a mensagem de início com à mensagem de retorno OK e uma mensagem de INFO.</p>
 <h3 id="estagio">Estágio</h3>
 <p>O 72c informa a configuração dos grupos semafóricos de um determinado anel. Essa configuração deve ser seguida pelo hardware até que uma nova configuração seja enviada.</p>
 <table>
@@ -376,13 +377,92 @@
 </tr>
 <tr>
 <td>Configuração do Grupo Semafórico</td>
-<td>10 bytes por grupo semafórico</td>
+<td>14 bytes por grupo semafórico</td>
 <td>Configuração dos tempos de cada grupo semafórico</td>
 </tr>
 </tbody>
 </table>
 <h3 id="grupo-semaforico">Grupo semafórico</h3>
 <p>Descreve como um grupo semafórico deve se comportar nesse estágio:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reservado</td>
+<td>4 bits</td>
+<td>Reservado</td>
+</tr>
+<tr>
+<td>Flag pedestre/veicular</td>
+<td>1 bit</td>
+<td>Se diferente de 0, então esse é um grupo semafórico de pedestre</td>
+</tr>
+<tr>
+<td>Flag composição dos tempos</td>
+<td>3 bits</td>
+<td>Ver tabela de flag composição dos tempos</td>
+</tr>
+<tr>
+<td>Grupo</td>
+<td>8 bits</td>
+<td>Número do grupo semafórico</td>
+</tr>
+<tr>
+<td>Tempo De Atraso de Grupo ou Entreverde</td>
+<td>24 bits</td>
+<td>Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito de passagem.</td>
+</tr>
+<tr>
+<td>Tempo Amarelo</td>
+<td>24 bits</td>
+<td>Tempo de amarelo para veicular ou vermelho intermitente para pedestre</td>
+</tr>
+<tr>
+<td>Tempo Vermelho Limpeza</td>
+<td>24 bits</td>
+<td>Tempo de vermelho de limpeza</td>
+</tr>
+<tr>
+<td>Tempo do Estágio</td>
+<td>24 bits</td>
+<td>Verde para quem tem direito de passagem e vermelho para quem não tem.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="info">Info</h3>
+<p>Obtém do hardware qual é o fabricante, o modelo e a versão do firmware.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fabricante</td>
+<td>Livre</td>
+<td>String com o nome do fabricante, seguida pela caractere ";". Em formato ASCII convertida para HEX</td>
+</tr>
+<tr>
+<td>Modelo</td>
+<td>Livre</td>
+<td>String com o modelo do equipamento, seguida pela caractere ";". Em formato ASCII convertida para HEX</td>
+</tr>
+<tr>
+<td>Fabricante</td>
+<td>Livre</td>
+<td>String com o versão do firmware do equipamento. Em formato ASCII convertida para HEX</td>
+</tr>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
@@ -414,22 +494,22 @@
 </tr>
 <tr>
 <td>Tempo De Atraso de Grupo ou Entreverde</td>
-<td>16 bits</td>
+<td>24 bits</td>
 <td>Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.</td>
 </tr>
 <tr>
 <td>Tempo Amarelo</td>
-<td>16 bits</td>
+<td>24 bits</td>
 <td>Tempo de amarelo para veicular ou vermelho intermitente para pedestre</td>
 </tr>
 <tr>
 <td>Tempo Vermelho Limpeza</td>
-<td>16 bits</td>
+<td>24 bits</td>
 <td>Tempo de vermelho de limpeza</td>
 </tr>
 <tr>
 <td>Tempo do Estágio</td>
-<td>16 bits</td>
+<td>24 bits</td>
 <td>Verde para quem tem direito de passagem e vermelho para quem não tem.</td>
 </tr>
 </tbody>
