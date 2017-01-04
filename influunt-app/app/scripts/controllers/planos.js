@@ -323,8 +323,8 @@ angular.module('influuntApp')
         if (!$scope.currentPlano.configurado && deveAtivarPlano) {
           $scope.currentPlano.configurado = true;
         }
-        
-        if (!$scope.currentPlano.tempoCicloConfigurado && tempoCiclo) {
+
+        if (!$scope.currentPlano.tempoCicloConfigurado && tempoCiclo && !$scope.currentPlano.id) {
           $scope.currentPlano.tempoCiclo = tempoCiclo;
         }
       };
