@@ -32,8 +32,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (TipoMensagem.CONFIGURACAO.equals(envelope.getTipoMensagem())) {
-                if (envelope.getEmResposta() == null) {
-                } else {
+                if (envelope.getEmResposta() != null) {
                     Envelope envelopeSinal;
                     Envelope envelopeStatus = null;
                     Controlador controlador = Controlador.isValido(envelope.getConteudo());
