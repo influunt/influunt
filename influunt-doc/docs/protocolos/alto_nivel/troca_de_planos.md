@@ -6,7 +6,7 @@ A mensagem de troca de plano é enviada pelo controlador para a central sempre q
 
 A seguir estão detalhados todos os eventos possíveis:
 
-## Especificação 
+## Especificação
 | Campo| Tipo | Obrigatório| Descrição |
 | ------|-----------|----------- | ----------------------- |
 | momentoDaTroca   | Texto      |S| Data e hora no formarto "DD/MM/AAAA HH:MM:SS" do momento real da troca de plano    |
@@ -27,7 +27,7 @@ A seguir estão detalhados todos os eventos possíveis:
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|------------|----------- | ----------------------- |
 | posicao   | Número Inteiro      |S| Número do plano    |
-| modoOperacao   | Texto      |S| Modo de operacação do anél    |
+| modoOperacao   | Texto      |S| Modo de operacação do anel    |
 | descricao   | Texto      |S| Descrição do plano    |
 
 ## Exemplo
