@@ -26,7 +26,7 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe um alerta com a mensagem "([^"]*)"$/, function(msg) {
     return sharedSteps.textoSweetAlert().then(function(text) {
-      sharedSteps.aguardar(500);
+      sharedSteps.aguardar(900);
       expect(text).to.equal(msg);
     });
   });
