@@ -17,6 +17,7 @@ import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.concurrent.Executors;
@@ -81,6 +82,13 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 iniciado = true;
                 this.motor = new Motor(this.controlador, new DateTime(), this);
 
+                int aneis[] = new int[16];
+
+                this.controlador.getAneis().stream().map(Anel::getGruposSemaforicos)
+                    .flatMap(Collection::stream)
+                    .forEach(grupoSemaforico -> aneis[grupoSemaforico.getPosicao() -1] = grupoSemaforico.getAnel().getPosicao() );
+
+                device.sendAneis(aneis);
                 executor = Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
                         try {

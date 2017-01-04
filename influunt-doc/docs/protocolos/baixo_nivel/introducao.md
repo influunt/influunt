@@ -37,6 +37,8 @@ O 72c envia a mensagem de início ao hardware para informar que está pronto par
 | Anel G15 | 4 bits | Indica a qual anel pertence o grupo semafórico G15|
 | Anel G16 | 4 bits | Indica a qual anel pertence o grupo semafórico G16|
 
+O hardware deve responder a mensagem de início com a mensagem de retorno OK e uma mensagem de INFO.
+
 ###  Estágio
 O 72c informa a configuração dos grupos semafóricos de um determinado anel. Essa configuração deve ser seguida pelo hardware até que uma nova configuração seja enviada.
 
@@ -46,7 +48,7 @@ O 72c informa a configuração dos grupos semafóricos de um determinado anel. E
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Reservado para uso futuro|
 | Quantidade de Grupos Semafóricos| 5 bits | Quantidade de grupos semafóricos que fazem parte dessa configuração de estágio|
-| Configuração do Grupo Semafórico| 10 bytes por grupo semafórico | Configuração dos tempos de cada grupo semafórico | 
+| Configuração do Grupo Semafórico| 14 bytes por grupo semafórico | Configuração dos tempos de cada grupo semafórico | 
 
 ### Grupo semafórico
 
@@ -58,10 +60,34 @@ Descreve como um grupo semafórico deve se comportar nesse estágio:
 |Flag pedestre/veicular | 1 bit | Se verdadeiro, esse é um grupo semafórico de pedestre|
 |Flag composição dos tempos| 3 bits| Ver tabela de flag composição dos tempos  |
 |Grupo | 8 bits | Número do grupo semafórico|
-|Tempo De Atraso de Grupo ou Entreverde | 16 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.|
-|Tempo Amarelo| 16 bits| Tempo de amarelo para veicular ou vermelho intermitente para pedestre|
-|Tempo Vermelho Limpeza| 16 bits| Tempo de vermelho de limpeza|
-|Tempo do Estágio | 16 bits| Verde para quem tem direito de passagem e vermelho para quem não tem.|
+|Tempo De Atraso de Grupo ou Entreverde | 24 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.|
+|Tempo Amarelo| 24 bits| Tempo de amarelo para veicular ou vermelho intermitente para pedestre|
+|Tempo Vermelho Limpeza| 24 bits| Tempo de vermelho de limpeza|
+|Tempo do Estágio | 24 bits| Verde para quem tem direito de passagem e vermelho para quem não tem.|
+
+### Info
+
+Obtém do hardware qual é o fabricante, o modelo e a versão do firmware.
+
+| Campo| Tamanho| Descrição |
+| ------------ | ------------- | ------------ |
+|Fabricante | Livre | String com o nome do fabricante, seguida pela caractér ";". Em formato ASCII convertida para HEX|
+|Modelo | Livre | String com o modelo do equipamento, seguida pela caractér ";". Em formato ASCII convertida para HEX|
+|Fabricante | Livre | String com o versão do firmware do equipamento. Em formato ASCII convertida para HEX|
+
+
+| Campo| Tamanho| Descrição |
+| ------------ | ------------- | ------------ |
+|Reservado | 4 bits | Reservado|
+|Flag pedestre/veicular | 1 bit | Se verdadeiro, esse é um grupo semafórico de pedestre|
+|Flag composição dos tempos| 3 bits| Ver tabela de flag composição dos tempos  |
+|Grupo | 8 bits | Número do grupo semafórico|
+|Tempo De Atraso de Grupo ou Entreverde | 24 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.|
+|Tempo Amarelo| 24 bits| Tempo de amarelo para veicular ou vermelho intermitente para pedestre|
+|Tempo Vermelho Limpeza| 24 bits| Tempo de vermelho de limpeza|
+|Tempo do Estágio | 24 bits| Verde para quem tem direito de passagem e vermelho para quem não tem.|
+
+
 
 #### Flag de composição de tempo
 

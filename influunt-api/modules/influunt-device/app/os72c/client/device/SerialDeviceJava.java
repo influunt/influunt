@@ -56,6 +56,8 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     private boolean informarFalhaAbertura = true;
 
+    private int[] aneis;
+
     public SerialDeviceJava() {
         settings = Client.getConfig().getConfig("serial");
         porta = settings.getString("porta");
@@ -98,7 +100,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 }
                 serialPort.addDataListener(this);
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Comunicação serial pronta para iniciar");
-                sendMensagem(TipoDeMensagemBaixoNivel.INICIO);
 
                 Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
@@ -148,6 +149,11 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     @Override
     public void modoManualDesativado() {
         send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_DESATIVADO, sequencia));
+    }
+
+    @Override
+    public void sendAneis(int[] aneis) {
+        sendMensagem(TipoDeMensagemBaixoNivel.INICIO,aneis);
     }
 
     @Override
@@ -259,8 +265,8 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     }
 
-    public void sendMensagem(TipoDeMensagemBaixoNivel inicio) {
-        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia()));
+    public void sendMensagem(TipoDeMensagemBaixoNivel inicio,int aneis[]) {
+        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia(),aneis));
     }
 
     @Override
@@ -291,6 +297,10 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 buffer = new StringBuffer();
             }
         }
+    }
+
+    public int[] getAneis() {
+        return this.aneis;
     }
 }
 
