@@ -26,4 +26,9 @@ public class FakeDevice implements DeviceBridge {
     public void modoManualDesativado() {
 
     }
+
+    @Override
+    public void sendAneis(int[] aneis) {
+
+    }
 }

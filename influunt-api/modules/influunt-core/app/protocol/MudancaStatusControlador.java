@@ -11,6 +11,7 @@ import java.util.HashMap;
  */
 public class MudancaStatusControlador {
     public StatusDevice status;
+
     private HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
 
     private MudancaStatusControlador(StatusDevice status, HashMap<Integer, StatusAnel> statusAneis) {

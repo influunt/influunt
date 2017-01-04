@@ -45,7 +45,7 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
             .filter(estagioPlano -> estagioPlano.getEstagio().equals(detector.getEstagio()))
             .collect(Collectors.toList());
 
-        for(int i=0; i < listaEstagios.size(); i++ ) {
+        for (int i = 0; i < listaEstagios.size(); i++) {
             EstagioPlano estagioPlano = listaEstagios.get(i);
             if (estagioPlano != null) {
                 if (listaEstagioPlanos.stream().anyMatch(ep -> ep.getEstagio().isDemandaPrioritaria())) {
@@ -87,7 +87,7 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
 
         if (adicionarNoCicloAtual[0]) {
             gerenciadorDeEstagios.atualizaEstagiosCicloAtual(estagioPlanoASerAdicionado[0]);
-        } else if (adicionarNoProximoCiclo[0]){
+        } else if (adicionarNoProximoCiclo[0]) {
             gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlanoASerAdicionado[0]);
         }
 
