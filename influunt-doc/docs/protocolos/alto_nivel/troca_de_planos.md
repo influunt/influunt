@@ -27,7 +27,7 @@ A seguir estão detalhados todos os eventos possíveis:
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|------------|----------- | ----------------------- |
 | posicao   | Número Inteiro      |S| Número do plano    |
-| modoOperacao   | Texto      |S| Modo de operacação do anél    |
+| modoOperacao   | Texto      |S| Modo de operacação do anel    |
 | descricao   | Texto      |S| Descrição do plano    |
 
 ## Exemplo
