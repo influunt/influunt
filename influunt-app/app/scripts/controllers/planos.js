@@ -393,6 +393,7 @@ angular.module('influuntApp')
         erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
         erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoPresenteEmTodosOsAneis(listaErros, currentPlanoIndex));
+        erros.push(getErrosPlanoCoordenadoCicloDiferente(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
 
@@ -548,6 +549,14 @@ angular.module('influuntApp')
 
       getErrosPlanoPresenteEmTodosOsAneis = function(listaErros, currentPlanoIndex) {
         var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].planoPresenteEmTodosOsAneis');
+        if (erros) {
+          return erros;
+        }
+        return [];
+      };
+      
+      getErrosPlanoCoordenadoCicloDiferente= function(listaErros, currentPlanoIndex) {
+        var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloIgualOuMultiploDeTodoPlano');
         if (erros) {
           return erros;
         }
