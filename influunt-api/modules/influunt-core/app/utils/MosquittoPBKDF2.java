@@ -34,7 +34,9 @@ import java.util.logging.Logger;
 public class MosquittoPBKDF2 {
 
     private static final int KEY_LENGTH = 24 * 8;
+
     private static final int SALT_LENGTH = 12;
+
     private static final int ITERATIONS = 901;
 
     public static void main(String[] args) {

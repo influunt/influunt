@@ -9,7 +9,6 @@ import models.ModoOperacaoPlano;
 import models.Plano;
 import org.apache.commons.math3.util.Pair;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,11 +21,11 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private final HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
 
-    private long contadorTempoEstagio;
-
     private final long tempoCicloDecorrido;
 
     private final int contadorDeCiclo;
+
+    private long contadorTempoEstagio;
 
     private Long tempoAbatimentoCoordenado = 0L;
 
