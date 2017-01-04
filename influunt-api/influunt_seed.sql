@@ -1174,28 +1174,35 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 
 
 
+-- # liberar imposição
+Set @liberarImposicao = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@liberarImposicao, 'POST /api/v1/imposicoes/liberar', '[Imposição] - Liberar imposição em um controlador', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @liberarImposicao);
 
 -- # Impor configuração
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/plano', '[Imposição] - Impor plano e tabela horária', NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+Set @imporPlanos = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@imporPlanos, 'POST /api/v1/imposicoes/plano', '[Imposição] - Impor plano e tabela horária', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @imporPlanos);
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'imporPlanos', '[Comandos da Central] - Impor planos', 'O usuário com essa permissão pode realizar uma imposição de planos através dos Comandos da Central.', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @imporPlanos);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @liberarImposicao);
 
 
 
 -- # Impor modo de operação
-Set @PermissaoId = UUID();
-INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/imposicoes/modo_operacao', '[Imposição] - Impor modo de operação', NOW(), NOW());
-INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+Set @imporModoOperacao = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@imporModoOperacao, 'POST /api/v1/imposicoes/modo_operacao', '[Imposição] - Impor modo de operação', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @imporModoOperacao);
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'imporModoOperacao', '[Comandos da Central] - Impor Modo de Operação', 'O usuário com essa permissão pode realizar uma imposição de modo de operação através dos Comandos da Central.', NOW(), NOW());
-INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @imporModoOperacao);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @liberarImposicao);
+
 
 
 
