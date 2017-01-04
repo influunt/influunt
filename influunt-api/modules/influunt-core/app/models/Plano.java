@@ -14,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import utils.InfluuntUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -379,6 +380,40 @@ public class Plano extends Model implements Cloneable, Serializable {
     public boolean isModoOperacaoValido() {
         if (this.isAtuado()) {
             return !CollectionUtils.isEmpty(this.getEstagiosPlanos()) && this.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().isAssociadoAGrupoSemaforicoVeicular()).allMatch(estagioPlano -> estagioPlano.getEstagio().temDetectorVeicular());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.")
+    public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
+        if (isTempoFixoCoordenado()) {
+            Controlador controlador = getAnel().getControlador();
+            Subarea subarea = controlador.getSubarea();
+            if (subarea != null) {
+                Integer tempoCicloBase = null;
+                if (!subarea.getTempoCiclo().isEmpty()) {
+                    tempoCicloBase = subarea.getTempoCiclo().get(this.getPosicao().toString());
+                } else {
+                    Controlador controladorBase = subarea.getControladores()
+                        .stream().filter(c -> !c.equals(controlador))
+                        .findFirst().orElse(null);
+                    if (controladorBase != null) {
+                        Plano planoBase = controladorBase.getAneis()
+                            .stream().map(Anel::getPlanos)
+                            .flatMap(Collection::stream)
+                            .filter(p -> p.getPosicao().equals(this.getPosicao()))
+                            .findFirst().orElse(null);
+
+                        if (planoBase != null) {
+                            tempoCicloBase = planoBase.getTempoCiclo();
+                        }
+                    }
+                }
+                if (tempoCicloBase != null) {
+                    return InfluuntUtils.getInstance().multiplo(tempoCicloBase, this.getTempoCiclo());
+                }
+            }
         }
         return true;
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import org.joda.time.LocalTime;
+import play.libs.Json;
 import utils.RangeUtils;
 
 import java.text.DateFormat;
@@ -1521,6 +1522,9 @@ public class ControladorCustomDeserializer {
             }
             if (subareaNode.has("numero")) {
                 subarea.setNumero(subareaNode.get("numero").asInt());
+            }
+            if (subareaNode.has("tempoCiclo")) {
+                subarea.setTempoCiclo(Json.fromJson(subareaNode.get("tempoCiclo"), HashMap.class));
             }
             if (subareaNode.has("area") && subareaNode.get("area").get("idJson") != null) {
                 final String areaIdJson = subareaNode.get("area").get("idJson").asText();

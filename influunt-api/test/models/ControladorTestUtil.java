@@ -47,7 +47,12 @@ public class ControladorTestUtil {
 
         Controlador controlador = getControlador();
         controlador.setArea(this.area);
-        controlador.setSubarea(this.subarea);
+
+        if (this.subarea != null) {
+            controlador.setSubarea(this.subarea);
+            this.subarea.addControlador(controlador);
+        }
+
         controlador.setModelo(this.modeloControlador);
         controlador.setNumeroSMEE("1234");
         controlador.setNumeroSMEEConjugado1("C1");
@@ -536,6 +541,21 @@ public class ControladorTestUtil {
             estagioPlano.setPosicao(posicoes[i]);
             estagioPlano.setPlano(plano);
             estagioPlano.setEstagio(estagio);
+            plano.addEstagios(estagioPlano);
+            estagio.addEstagioPlano(estagioPlano);
+            i++;
+        }
+    }
+
+    protected void criarEstagioPlano(Anel anel, Plano plano, int posicoes[], int tempos[]) {
+        int i = 0;
+        plano.setEstagiosPlanos(null);
+        for (Estagio estagio : anel.ordenarEstagiosPorPosicao()) {
+            EstagioPlano estagioPlano = new EstagioPlano();
+            estagioPlano.setPosicao(posicoes[i]);
+            estagioPlano.setPlano(plano);
+            estagioPlano.setEstagio(estagio);
+            estagioPlano.setTempoVerde(tempos[i]);
             plano.addEstagios(estagioPlano);
             estagio.addEstagioPlano(estagioPlano);
             i++;

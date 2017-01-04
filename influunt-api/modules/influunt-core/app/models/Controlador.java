@@ -954,7 +954,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
         Controlador controlador = (Controlador) o;
 
-        return id != null ? id.equals(controlador.id) : controlador.id == null;
+        return id != null ? id.equals(controlador.id) : idJson != null ? idJson.equals(controlador.idJson) : controlador.id == null;
     }
 
     @Override
