@@ -16,7 +16,7 @@ A tabela abaixo apresentado o significado de cada estado:
 | ATIVO | O controlador está ativo e operando normalmente |
 | EM_MANUTENCAO | O controlador foi colocado em manutenção |
 | COM_FALHAS |O controlador detectou uma falha de menor gravidade, porém continua operando|
-| INATIVO |O controlador detectou uma falha de maior gravidade e interrompeu sua operação |
+| INOPERANTE |O controlador detectou uma falha de maior gravidade e interrompeu sua operação |
 
 ## Transições
 

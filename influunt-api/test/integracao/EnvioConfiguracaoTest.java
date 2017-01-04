@@ -73,7 +73,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
 
         map = new Gson().fromJson(GzipUtil.decompress(onPublishFutureList.get(4)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, controlador.getCentralPrivateKey()), Envelope.class);
-        assertEquals(TipoMensagem.CONFIGURACAO_ERRO, envelope.getTipoMensagem());
+        assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(idMensagem, envelope.getEmResposta());
     }
@@ -140,7 +140,7 @@ public class EnvioConfiguracaoTest extends BasicMQTTTest {
         Storage storage = app.injector().instanceOf(Storage.class);
         map = new Gson().fromJson(GzipUtil.decompress(onPublishFutureList.get(3)), Map.class);
         envelope = new Gson().fromJson(EncryptionUtil.decryptJson(map, storage.getPrivateKey()), Envelope.class);
-        assertEquals(TipoMensagem.CONFIGURACAO_ERRO, envelope.getTipoMensagem());
+        assertEquals(TipoMensagem.ERRO, envelope.getTipoMensagem());
         assertEquals(idControlador, envelope.getIdControlador());
         assertEquals(idMensagem, envelope.getEmResposta());
     }

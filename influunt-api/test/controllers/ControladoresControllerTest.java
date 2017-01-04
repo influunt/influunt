@@ -845,7 +845,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
                         }
                     }
                 } catch (IllegalAccessException | SecurityException e) {
-                    Logger.error("XXX CONFIGURACAO_ERRO NO CAMPO: " + field.getName().toString());
+                    Logger.error("XXX ERRO NO CAMPO: " + field.getName().toString());
                 }
             }
         }

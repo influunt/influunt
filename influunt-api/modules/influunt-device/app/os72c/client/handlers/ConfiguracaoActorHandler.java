@@ -47,7 +47,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_OK, idControlador, DestinoCentral.pedidoConfiguracao());
                         envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus(), storage.getStatusAneis());
                     } else {
-                        envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
 
