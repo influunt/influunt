@@ -2,6 +2,31 @@
 @editar_planos
 Funcionalidade: Editar planos onde o controlador já foi finalizado
 
+  Cenário: Planos da mesma area deve ser simétrico no mesmo controlador
+    Dado que o sistema possua controladores cadastrados e configurados
+    E o usuário acessar a tela de listagem de "controladores"
+    Quando o usuário clicar em "Planos" do controlador "Avenida Nove de Julho com Av. Paulista"
+    E o usuário clicar em "Editar"
+    Então o "PLANO 1" deverá estar ativado
+    E que o usuário clicar no plano 1
+    E que o usuário marque 120 segundos para o "TEMPO DE CICLO"
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 52 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 62 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário selecione o anel 2
+    E que o usuário marque 130 segundos para o "TEMPO DE CICLO"
+    E que o usuário clique no botão de configurar o estágio "E1"
+    E que o usuário marque 62 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    E que o usuário clique no botão de configurar o estágio "E2"
+    E que o usuário marque 62 segundos para o "Tempo de Verde"
+    E que o usuário clique no botão de fechar a caixa de configuração
+    Quando o usuário clicar em "Salvar"
+    Então o sistema deverá mostrar erro no plano 1
+
   Cenário: Estágio que recebe o tempo dispensável não pode ser o primeiro nem o último
     Dado que o sistema possua controladores cadastrados e configurados
     E o usuário acessar a tela de listagem de "controladores"
