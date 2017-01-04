@@ -400,7 +400,7 @@ public class Plano extends Model implements Cloneable, Serializable {
                     .filter(a -> !a.equals(getAnel()))
                     .map(Anel::getPlanos)
                     .flatMap(Collection::stream)
-                    .filter(p -> this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
+                    .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                     .findFirst().orElse(null);
 
                 if (planoBase != null && !InfluuntUtils.getInstance().multiplo(planoBase.getTempoCiclo(), this.getTempoCiclo())) {
