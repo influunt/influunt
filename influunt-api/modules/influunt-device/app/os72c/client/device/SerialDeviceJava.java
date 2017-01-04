@@ -43,9 +43,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     private final Integer stopbits;
 
     private final Integer parity;
+
     StringBuffer buffer = new StringBuffer();
+
     private DeviceBridgeCallback callback;
+
     private com.fazecast.jSerialComm.SerialPort serialPort;
+
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;
@@ -55,6 +59,8 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     private ArrayDeque<String> fila = new ArrayDeque<String>();
 
     private boolean informarFalhaAbertura = true;
+
+    private int[] aneis;
 
     public SerialDeviceJava() {
         settings = Client.getConfig().getConfig("serial");
@@ -98,7 +104,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 }
                 serialPort.addDataListener(this);
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, "Comunicação serial pronta para iniciar");
-                sendMensagem(TipoDeMensagemBaixoNivel.INICIO);
 
                 Executors.newScheduledThreadPool(1)
                     .scheduleAtFixedRate(() -> {
@@ -148,6 +153,11 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     @Override
     public void modoManualDesativado() {
         send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_DESATIVADO, sequencia));
+    }
+
+    @Override
+    public void sendAneis(int[] aneis) {
+        sendMensagem(TipoDeMensagemBaixoNivel.INICIO, aneis);
     }
 
     @Override
@@ -254,13 +264,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 break;
             case INFO:
                 MensagemInfo info = (MensagemInfo) mensagem;
-                callback.onInfo(info.getFabricante(),info.getModelo(),info.getVersao());
+                callback.onInfo(info.getFabricante(), info.getModelo(), info.getVersao());
         }
 
     }
 
-    public void sendMensagem(TipoDeMensagemBaixoNivel inicio) {
-        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia()));
+    public void sendMensagem(TipoDeMensagemBaixoNivel inicio, int aneis[]) {
+        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia(), aneis));
     }
 
     @Override
@@ -291,6 +301,10 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 buffer = new StringBuffer();
             }
         }
+    }
+
+    public int[] getAneis() {
+        return this.aneis;
     }
 }
 

@@ -18,6 +18,7 @@ public class TestDeviceConfig implements DeviceConfig {
     private String port = "1883";
 
     private String senha = "";
+
     private String login = "";
 
     private DeviceBridge bridge;

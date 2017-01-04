@@ -25,10 +25,15 @@ public class GerenciadorDeSimulacoesActor extends UntypedActor {
                     return SupervisorStrategy.resume();
                 }
             }, false);
+
     private final String mqttHost;
+
     private final String mqttPort;
+
     private final String mqttLogin;
+
     private final String mqttPassword;
+
     private Map<String, ActorRef> simulacoes = new HashMap<>();
 
     public GerenciadorDeSimulacoesActor(String mqttHost, String mqttPort, String mqttLogin, String mqttPassword) {

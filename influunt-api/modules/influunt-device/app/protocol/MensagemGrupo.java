@@ -47,15 +47,19 @@ public class MensagemGrupo {
         setFlags(contents[index]);
         grupo = contents[++index];
 
-        tempoAtrasoDeGrupo = (contents[++index] & 0xff) << 8;
+        tempoAtrasoDeGrupo = (contents[++index] & 0xff) << 16;
+        tempoAtrasoDeGrupo |= (contents[++index] & 0xff) << 8;
         tempoAtrasoDeGrupo |= (contents[++index] & 0xff);
 
+        tempoAmareloOuVermelhoIntermitente = (contents[++index] & 0xff) << 16;
         tempoAmareloOuVermelhoIntermitente = (contents[++index] & 0xff) << 8;
         tempoAmareloOuVermelhoIntermitente |= (contents[++index] & 0xff);
 
+        tempoVermelhoLimpeza = (contents[++index] & 0xff) << 16;
         tempoVermelhoLimpeza = (contents[++index] & 0xff) << 8;
         tempoVermelhoLimpeza |= (contents[++index] & 0xff);
 
+        tempoVerdeOuVermelho = (contents[++index] & 0xff) << 16;
         tempoVerdeOuVermelho = (contents[++index] & 0xff) << 8;
         tempoVerdeOuVermelho |= (contents[++index] & 0xff);
 
@@ -123,19 +127,23 @@ public class MensagemGrupo {
 
     public void fill(int i, byte[] resp) {
 
-        int index = (i * 10) + 1;
+        int index = (i * 14) + 1;
         resp[index] = getFlags();
         resp[++index] = (byte) grupo;
-        resp[++index] = (byte) (tempoAtrasoDeGrupo >> 8);
+        resp[++index] = (byte) (tempoAtrasoDeGrupo >> 16);
+        resp[++index] = (byte) (tempoAtrasoDeGrupo >> 8 & 0x00FF);
         resp[++index] = (byte) (tempoAtrasoDeGrupo & 0x00FF);
 
-        resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente >> 8);
+        resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente >> 16);
+        resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente >> 8 & 0x00FF);
         resp[++index] = (byte) (tempoAmareloOuVermelhoIntermitente & 0x00FF);
 
-        resp[++index] = (byte) (tempoVermelhoLimpeza >> 8);
+        resp[++index] = (byte) (tempoVermelhoLimpeza >> 16);
+        resp[++index] = (byte) (tempoVermelhoLimpeza >> 8 & 0x00FF);
         resp[++index] = (byte) (tempoVermelhoLimpeza & 0x00FF);
 
-        resp[++index] = (byte) (tempoVerdeOuVermelho >> 8);
+        resp[++index] = (byte) (tempoVerdeOuVermelho >> 16);
+        resp[++index] = (byte) (tempoVerdeOuVermelho >> 8 & 0x00FF);
         resp[++index] = (byte) (tempoVerdeOuVermelho & 0x00FF);
 
     }
