@@ -9,8 +9,8 @@ A seguir estão detalhados todos os eventos possíveis:
 ## Especificação 
 | Campo| Tipo | Obrigatório| Descrição |
 | ------|-----------|----------- | ----------------------- |
-| momentoDaTroca   | Texto      |S| Nome do Fabricante    |
-| momentoOriginal  | Texto      |S| Modelo do controlador |
+| momentoDaTroca   | Texto      |S| Data e hora no formarto "DD/MM/AAAA HH:MM:SS" do momento real da troca de plano    |
+| momentoOriginal  | Texto      |S| Data e hora no formarto "DD/MM/AAAA HH:MM:SS" do momento original da troca de plano |
 | anel             | Objeto [anel](#anel)|S| Objeto anel|
 | impostoPorFalha  | Booleano   |S| O plano foi imposto por falha|
 | imposicaoDePlano | Booleano   |S| O plano foi imposto |
