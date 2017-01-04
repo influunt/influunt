@@ -4,8 +4,9 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
 
   Cenário: Planos em modo coordenado da mesma subárea deverão ser simétricos
     Dado que o sistema possua controladores cadastrados e configurados
+    E que o controlador Avenida Nove de Julho com Av. Paulista possua subárea 3
     E o usuário acessar a tela de listagem de "controladores"
-    Quando o usuário clicar em "Planos" do controlador "Avenida Nove de Julho com Av. Paulista"
+    Quando o usuário clicar em "Planos" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
     E o usuário clicar em "Editar"
     Então o "PLANO 1" deverá estar ativado
     E que o usuário clicar no plano 1
@@ -17,6 +18,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E que o usuário clique no botão de fechar a caixa de configuração
     Quando o usuário clicar em "Salvar"
     Então o sistema deverá mostrar erro no plano 1
+    E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração."
 
   Cenário: Estágio que recebe o tempo dispensável não pode ser o primeiro nem o último
     Dado que o sistema possua controladores cadastrados e configurados
@@ -164,4 +166,7 @@ Funcionalidade: Editar planos onde o controlador já foi finalizado
     E o usuário realizar um scroll down
     Quando o usuário clicar em "Salvar"
     Então o sistema deverá apresentar erro no estágio "E1"
+    E o sistema deverá apresentar erro de "A soma dos tempos dos estágios (146s) é diferente do tempo de ciclo (200s)."
+    E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração."
+
 
