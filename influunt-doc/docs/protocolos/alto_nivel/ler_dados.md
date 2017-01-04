@@ -6,13 +6,13 @@ A mensagem de ler dados é usada para a central solicitar informações sobre os
 
 A seguir estão detalhados todos os eventos possíveis:
 
-## Especificação 
+## Especificação
 | Campo| Tipo | Obrigatório| Descrição |
 | -----|-------|----------- | ----------------------- |
 | clc         | Texto      |S| Código de Localização do Controlador|
 | relogio      | Número Longo | SIM|  Carimbo de tempo referente ao relógio do controlador no momento da leitura dos dados. Deve estar no formato milissegundo desde 1 de janeiro de 1970 UTC|
 | status      | Texto      |S| Status do controlador conforme [ciclo de vida](/protocolos/alto_nivel/ciclo_vida/)   |
-| cla| vetor de [dados de aneis](#dados-de-aneis)|S| Lista de dados de aneis|
+| cla| vetor de [dados de anéis](#dados-de-aneis)|S| Lista de dados de anéis|
 
 
 ### Dados de Anéis
