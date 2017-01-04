@@ -387,11 +387,28 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class,
         message = "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
-        if (isTempoFixoCoordenado()) {
+        boolean isMultiplo = true;
+        if (isTempoFixoCoordenado() && getPosicao() != null) {
             Controlador controlador = getAnel().getControlador();
             Subarea subarea = controlador.getSubarea();
+            Plano planoBase;
             if (subarea != null) {
                 Integer tempoCicloBase = null;
+
+                //Plano do mesmo controlador de outro anel
+                planoBase = controlador.getAneisAtivos().stream()
+                    .filter(a -> !a.equals(getAnel()))
+                    .map(Anel::getPlanos)
+                    .flatMap(Collection::stream)
+                    .filter(p -> this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
+                    .findFirst().orElse(null);
+
+                if (planoBase != null && !InfluuntUtils.getInstance().multiplo(planoBase.getTempoCiclo(), this.getTempoCiclo())) {
+                    return false;
+                }
+
+
+                //Plano de outro controlador da subarea
                 if (!subarea.getTempoCiclo().isEmpty()) {
                     tempoCicloBase = subarea.getTempoCiclo().get(this.getPosicao().toString());
                 } else {
@@ -399,10 +416,10 @@ public class Plano extends Model implements Cloneable, Serializable {
                         .stream().filter(c -> !c.equals(controlador))
                         .findFirst().orElse(null);
                     if (controladorBase != null) {
-                        Plano planoBase = controladorBase.getAneis()
+                        planoBase = controladorBase.getAneis()
                             .stream().map(Anel::getPlanos)
                             .flatMap(Collection::stream)
-                            .filter(p -> p.getPosicao().equals(this.getPosicao()))
+                            .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
                             .findFirst().orElse(null);
 
                         if (planoBase != null) {
@@ -410,12 +427,15 @@ public class Plano extends Model implements Cloneable, Serializable {
                         }
                     }
                 }
-                if (tempoCicloBase != null) {
-                    return InfluuntUtils.getInstance().multiplo(tempoCicloBase, this.getTempoCiclo());
+                if (tempoCicloBase != null && !InfluuntUtils.getInstance().multiplo(tempoCicloBase, this.getTempoCiclo())) {
+                    return false;
                 }
+
+
+
             }
         }
-        return true;
+        return isMultiplo;
     }
 
     public void addGruposSemaforicoPlano(GrupoSemaforicoPlano grupoPlano) {
