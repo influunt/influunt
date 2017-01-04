@@ -19,15 +19,15 @@ A seguir estão detalhados todos os eventos possíveis:
 
 | Campo| Tipo | Obrigatório| Descrição |
 | ------|------|----------- | ----------------------- |
-| cla         | Texto      |S| Código de Localização do Anél|
+| cla         | Texto      |S| Código de Localização do Anel|
 | modoOperacao| Texto      |S| indica qual o modo de operação|
 | posicaoPlano| Texto      |S| indica qual o número do plano em operação|
 | impostoPorFalha| Boolean |S| Indica se o plano executado nesse momento foi imposto por falha|
 | imposto      | Boolean   |S| Indica se o plano foi imposto|
 | estagioAtual| Número Inteiro |S| Indica o número do estágio em execução naquele momento|
-| tempoRestanteDoEstagio| Número Longo     |S| Tempo restante em MS para o término da execução do estágio atual |
-| tempoRestanteDoCiclo| Número Longo      |S| Tempo restante em MS para o término do ciclo atual|
-| momentoDoCiclo| Número Longo      |S| Tempo decorrido em MS desde o início do ciclo atual|
+| tempoRestanteDoEstagio| Número Longo     |S| Tempo restante em milissegundos para o término da execução do estágio atual |
+| tempoRestanteDoCiclo| Número Longo      |S| Tempo restante em milissegundos para o término do ciclo atual|
+| momentoDoCiclo| Número Longo      |S| Tempo decorrido em milissegundos desde o início do ciclo atual|
 
 ### Exemplo
 
