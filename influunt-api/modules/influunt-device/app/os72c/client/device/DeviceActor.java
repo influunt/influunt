@@ -86,7 +86,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
                 this.controlador.getAneis().stream().map(Anel::getGruposSemaforicos)
                     .flatMap(Collection::stream)
-                    .forEach(grupoSemaforico -> aneis[grupoSemaforico.getPosicao() -1] = grupoSemaforico.getAnel().getPosicao() );
+                    .forEach(grupoSemaforico -> aneis[grupoSemaforico.getPosicao() - 1] = grupoSemaforico.getAnel().getPosicao());
 
                 device.sendAneis(aneis);
                 executor = Executors.newScheduledThreadPool(1)
@@ -285,7 +285,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void onInfo(String fabricante, String modelo, String versao) {
-        Envelope envelope = Info.getMensagem(id, fabricante,modelo,versao);
+        Envelope envelope = Info.getMensagem(id, fabricante, modelo, versao);
         sendMessage(envelope);
     }
 

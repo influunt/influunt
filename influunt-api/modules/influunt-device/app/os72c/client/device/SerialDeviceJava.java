@@ -43,9 +43,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     private final Integer stopbits;
 
     private final Integer parity;
+
     StringBuffer buffer = new StringBuffer();
+
     private DeviceBridgeCallback callback;
+
     private com.fazecast.jSerialComm.SerialPort serialPort;
+
     private Mensagem lastReturn = null;
 
     private long ultima = 0l;
@@ -153,7 +157,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     @Override
     public void sendAneis(int[] aneis) {
-        sendMensagem(TipoDeMensagemBaixoNivel.INICIO,aneis);
+        sendMensagem(TipoDeMensagemBaixoNivel.INICIO, aneis);
     }
 
     @Override
@@ -260,13 +264,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                 break;
             case INFO:
                 MensagemInfo info = (MensagemInfo) mensagem;
-                callback.onInfo(info.getFabricante(),info.getModelo(),info.getVersao());
+                callback.onInfo(info.getFabricante(), info.getModelo(), info.getVersao());
         }
 
     }
 
-    public void sendMensagem(TipoDeMensagemBaixoNivel inicio,int aneis[]) {
-        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia(),aneis));
+    public void sendMensagem(TipoDeMensagemBaixoNivel inicio, int aneis[]) {
+        send(new MensagemInicio(TipoDeMensagemBaixoNivel.INICIO, getSequencia(), aneis));
     }
 
     @Override

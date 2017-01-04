@@ -52,16 +52,27 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
     @Rule
     public JUnitRetry retry = new JUnitRetry(2);
+
     protected Server mqttBroker;
+
     protected Central central;
+
     protected List<String> onConnectFutureList = new ArrayList<>();
+
     protected List<String> onDisconectFutureList = new ArrayList<>();
+
     protected List<String> onSubscribeFutureList = new ArrayList<>();
+
     protected List<byte[]> onPublishFutureList = new ArrayList<>();
+
     protected Client client;
+
     protected PlayJongo jongo;
+
     protected Controlador controlador;
+
     protected String idControlador;
+
     protected DeviceConfig deviceConfig;
 
     @Before

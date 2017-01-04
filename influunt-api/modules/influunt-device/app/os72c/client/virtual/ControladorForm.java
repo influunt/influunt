@@ -221,7 +221,6 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
         }
     }
 
-
     @Override
     public void start(DeviceBridgeCallback callback) {
         this.callback = callback;
@@ -503,7 +502,6 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
         }
         tempo += 100;
     }
-
 
     void onReceiveEstage(byte[] msg) {
         int groupsSize = (msg[4] & 0xff) & 0x1F;

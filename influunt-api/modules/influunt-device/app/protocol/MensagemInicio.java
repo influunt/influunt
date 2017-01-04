@@ -1,8 +1,6 @@
 package protocol;
 
 
-import static com.sun.tools.javac.jvm.ByteCodes.ret;
-
 /**
  * Created by rodrigosol on 11/3/16.
  */
@@ -21,7 +19,7 @@ public class MensagemInicio extends Mensagem {
     @Override
     protected byte[] getBytes() {
         byte[] ret = new byte[8];
-        for(int i =0 ; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             ret[i] = (byte) ((aneis[i * 2] << 4) + (aneis[i * 2 + 1]));
         }
 

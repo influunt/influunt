@@ -2,8 +2,6 @@ package protocol;
 
 import java.util.Arrays;
 
-import static java.util.Arrays.copyOfRange;
-
 /**
  * Created by rodrigosol on 11/3/16.
  */
@@ -11,7 +9,9 @@ public class MensagemInfo extends Mensagem {
 
 
     private String fabricante;
+
     private String modelo;
+
     private String versao;
 
 
@@ -25,7 +25,7 @@ public class MensagemInfo extends Mensagem {
 
     public MensagemInfo(byte[] contents) {
         super(contents);
-        String dados[] = new String(Arrays.copyOfRange(contents,4,contents.length -2)).split(";");
+        String dados[] = new String(Arrays.copyOfRange(contents, 4, contents.length - 2)).split(";");
         this.fabricante = dados[0];
         this.modelo = dados[1];
         this.versao = dados[2];
