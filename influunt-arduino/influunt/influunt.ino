@@ -183,17 +183,21 @@ void onReceiveEstage(unsigned char *msg, int msgSize) {
     status.intRepresentation = msg[index];
 
     times[group - 1][0] = status.intRepresentation;
+
+    index += 2;
+    
     for(int j = 1; j < 5; j++) {
-      long primeiro = (long) msg[index + (j*2)] << 8;
-      long segundo = msg[index + (j*2) + 1];
-      times[group - 1][j] = primeiro + segundo;
+      long primeiro = (long) msg[index++] << 16;
+      long segundo  = (long) msg[index++] << 8;
+      long terceiro = (long) msg[index++];      
+      times[group - 1][j] = primeiro + segundo + terceiro;
     }
     
-    index += 10;
   }
 
 }
 
+ 
 byte byteRead;
 
 void setup() {
@@ -207,7 +211,7 @@ void setup() {
   strip.begin();
   strip.show();
   //Define o brilho dos leds
-  strip.setBrightness(50);
+  strip.setBrightness(10);
   Serial.begin(9600);
   Serial.setTimeout(30000);
 

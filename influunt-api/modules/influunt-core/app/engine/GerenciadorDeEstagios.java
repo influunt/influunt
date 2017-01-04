@@ -65,10 +65,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private RangeMap<Long, EventoMotor> eventosAgendados = TreeRangeMap.create();
 
-    public boolean isTempoDispensavelJaAdicionado() {
-        return tempoDispensavelJaAdicionado;
-    }
-
     private boolean tempoDispensavelJaAdicionado = false;
 
     public GerenciadorDeEstagios(int anel,
@@ -84,6 +80,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         reconhecePlano(plano, true);
 
+        AgendamentoTrocaPlano agendamentoInicial = new AgendamentoTrocaPlano(null, plano, inicioControlador);
+        agendamentoInicial.setAnel(anel);
+        this.callback.onTrocaDePlanoEfetiva(agendamentoInicial);
+    }
+
+    public boolean isTempoDispensavelJaAdicionado() {
+        return tempoDispensavelJaAdicionado;
     }
 
     public void tick() {

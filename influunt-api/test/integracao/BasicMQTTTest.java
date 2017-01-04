@@ -52,16 +52,27 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
 
     @Rule
     public JUnitRetry retry = new JUnitRetry(2);
+
     protected Server mqttBroker;
+
     protected Central central;
+
     protected List<String> onConnectFutureList = new ArrayList<>();
+
     protected List<String> onDisconectFutureList = new ArrayList<>();
+
     protected List<String> onSubscribeFutureList = new ArrayList<>();
+
     protected List<byte[]> onPublishFutureList = new ArrayList<>();
+
     protected Client client;
+
     protected PlayJongo jongo;
+
     protected Controlador controlador;
+
     protected String idControlador;
+
     protected DeviceConfig deviceConfig;
 
     @Before
@@ -110,9 +121,9 @@ public class BasicMQTTTest extends WithInfluuntApplicationNoAuthentication {
             @Override
             public void onPublish(InterceptPublishMessage interceptPublishMessage) {
                 onPublishFutureList.add(interceptPublishMessage.getPayload().array());
-                //System.out.println("\nonPublishFutureList.size() : " + (onPublishFutureList.size() - 1));
-                //System.out.println("MSG : " + interceptPublishMessage.getTopicName());
-                //System.out.println("BYTE : " + (new String(interceptPublishMessage.getPayload().array())).substring(0, 10));
+                System.out.println("\nonPublishFutureList.size() : " + (onPublishFutureList.size() - 1));
+                System.out.println("MSG : " + interceptPublishMessage.getTopicName());
+                System.out.println("BYTE : " + (new String(interceptPublishMessage.getPayload().array())).substring(0, 10));
             }
 
             @Override
