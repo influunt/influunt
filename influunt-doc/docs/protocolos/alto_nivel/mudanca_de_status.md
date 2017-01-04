@@ -1,5 +1,5 @@
 # Mudança de Status
-O controlador deve enviar essa mensagem para central sempre que o controlador mudar de status.
+O controlador deve enviar essa mensagem para a central sempre que mudar de status.
 
 ![CONFIGURACAO_CONTROLADOR_CENTRAL](../../img/mudanca_status.png)
 
