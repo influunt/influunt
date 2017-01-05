@@ -110,7 +110,7 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> findOne(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));
-
+        
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {

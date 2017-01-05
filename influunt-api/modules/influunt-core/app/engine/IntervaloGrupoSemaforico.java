@@ -308,7 +308,7 @@ public class IntervaloGrupoSemaforico {
                     estadoAmarelo = EstadoGrupoSemaforico.AMARELO;
                 }
 
-                if ((tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeSemAtraso - tempoVermelhoIntegral)) {
+                if (tempoAtraso == 0 && (tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeSemAtraso - tempoVermelhoIntegral)) {
                     tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverdeSemAtraso - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
                 }
                 tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde - tempoVermelhoIntegral);
