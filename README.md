@@ -118,7 +118,7 @@ Depois de todas as dependências serem baixadas e instaladas, execute o comando 
             }
         }
 
-* **Configure o MySQL**: para configurar o mysql é necessário criar um banco de dados chamado `influuntdev`. Qualquer programa gerenciador de banco de dados pode ser usado para isso. Pel;a linha de comando, entre no _shell_ do MySQL e digite o seuginte comando:
+* **Configure o MySQL**: para configurar o mysql é necessário criar um banco de dados chamado `influuntdev`. Qualquer programa gerenciador de banco de dados pode ser usado para isso. Pela linha de comando, entre no _shell_ do MySQL e digite o seuginte comando:
 
         mysql> create database influuntdev;
 OBS: O ambiente de desenvolvimento espera que o MySQL tenha o usuário `root` sem senha.
@@ -162,7 +162,7 @@ Execute os seguintes comandos para rodar o projeto:
 
 * Abra o navegador Chrome e vá para o endereço `http://localhost:9000`. Irá aparecer na tela uma mensagem dizendo que a _database_ necessita de evolução. Clique no botão `Apply this script now!` para aplicar as evoluções. **Somente na primeira vez em que executar o projeto**
 
-* Aplique o arquivo com os dados iniciais do banco de dados. O arquivo chama `influunt_seed.sql` e fica no root do projeto. **Somente na primeira vez em que executar o projeto**
+* Aplique o arquivo com os dados iniciais do banco de dados. O arquivo chama-se `influunt_seed.sql` e fica no root do projeto. **Somente na primeira vez em que executar o projeto**
 
         mysql -u root influuntdev < influunt_seed.sql
 
@@ -231,7 +231,7 @@ Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
 
     * Na seção "Persistence" altere a propriedade `persistence`
 
-            persistence false
+            persistence true
 
   Inicie o mosquitto, passando o caminho para o arquivo de configuração:
   
