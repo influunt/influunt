@@ -237,6 +237,8 @@ Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
   
         mosquitto -c /etc/mosquitto/mosquitto.conf
 
+  **OBS:** Depois de instalado, é necessário alterar o arquivo de configuração dos controladores (no seu computador). Esse arquivo está em `influunt/influunt-app/app/resources/controlador.conf`. Basta alterar a chave `host` (endereço) para o endereço onde o Mosquitto está instalado.
+
 * Instale e configure o NginX:<br><br>Primeiramente, instale o NginX:
 
         yum install nginx
@@ -331,7 +333,7 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
           default.driver=com.mysql.jdbc.Driver
           default.url="jdbc:mysql://localhost/influunt"
           default.username=influunt
-          default.password="SENHA"        # <----------- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
+          default.password="SENHA"             # <--- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
 
           default.logSql=true
           default.jndiName=DefaultDS
@@ -342,23 +344,28 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
         play.mailer {
             host = smtp.gmail.com
             port = 587
-            user = USUARIO_DO_EMAIL       <--------- Substitua pelo seu usuário no gmail
-            password = "SENHA_DO_EMAIL"   <--------- Substitua pela senha do seu usuário no gmail
+            user = USUARIO_DO_EMAIL            # <--- Substitua pelo seu usuário no gmail
+            password = "SENHA_DO_EMAIL"        # <--- Substitua pela senha do seu usuário no gmail
             from = "naoresponda@rarolabs.com.br"
             tls = yes
             ssl = no
         }
         
-        influuntUrl = "http://stage.influunt.com.br"
+        influuntUrl = "ENDERECO SERVIDOR"      # <--- Substitua pelo endereço do servidor ex: http://influunt.com.br
 
         central {
             mqtt {
-                host = "SERVIDOR MQTT"  <----- Substitua esse valor pelo endereço onde o Mosquitto foi instalado. 
+                host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado. 
                 port = 1883
                 login = ""
                 senha = ""
             }
         }
+Após as alterações, adicione os seguintes valores ao arquivo:
+
+        application.mode=PROD
+        pidfile.path = "/app/influunt-api/shared/influunt.pid"    
+
 
 #### Deploy da aplicação
 
