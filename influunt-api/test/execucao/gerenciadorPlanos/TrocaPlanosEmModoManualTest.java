@@ -79,7 +79,7 @@ public class TrocaPlanosEmModoManualTest extends GerenciadorDeTrocasTest {
 
         assertEquals("Plano Atual", 16, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
 
-        assertTrue("Não tem troca de plano", listaTrocaPlanoEfetiva.isEmpty());
+        assertTrue("Ocorreu somente a troca de plano inicial", listaTrocaPlanoEfetiva.size() == 1);
     }
 
 

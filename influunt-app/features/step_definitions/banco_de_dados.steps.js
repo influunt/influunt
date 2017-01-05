@@ -65,6 +65,10 @@ module.exports = function() {
     return banco.setSubareaControlador();
   });
 
+  this.Given(/^que o controlador Avenida Nove de Julho com Av. Paulista possua subárea 3$/, function () {
+    return banco.updateSubareaControlador();
+  });
+
   this.Given(/^que exista ao menos uma cidade cadastrada no sistema$/, { timeout: 15 * 1000 }, function() {
     return banco.existeAoMenosUmaCidade();
   });

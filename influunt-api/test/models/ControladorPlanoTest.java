@@ -990,6 +990,98 @@ public class ControladorPlanoTest extends ControladorTest {
         assertEquals(0, erros.size());
     }
 
+    @Test
+    public void testCicloSimplesSimetricoOuAssimetrico() {
+        EstagioPlano estagioPlano;
+        Controlador controlador1 = getControladorPlanos();
+        Controlador controlador2 = getControladorPlanos();
+
+        Anel anel1 = controlador1.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        Anel anel2 = controlador2.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+
+        GrupoSemaforico g1 = anel1.findGrupoSemaforicoByPosicao(1);
+        g1.setTempoVerdeSeguranca(4);
+
+        Plano plano1 = new Plano();
+        plano1.setVersaoPlano(anel1.getVersaoPlanoAtivo());
+        anel1.getVersaoPlanoAtivo().setPlanos(Arrays.asList(plano1));
+
+        plano1.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+        plano1.setPosicao(1);
+        plano1.setDescricao("Principal");
+        plano1.setPosicaoTabelaEntreVerde(1);
+        plano1.setTempoCiclo(130);
+
+        criarGrupoSemaforicoPlano(anel1, plano1);
+
+        criarEstagioPlano(anel1, plano1, new int[]{1, 4, 3, 2}, new int[]{10, 12, 10, 10});
+
+        Plano plano2 = new Plano();
+        plano2.setVersaoPlano(anel2.getVersaoPlanoAtivo());
+        anel2.getVersaoPlanoAtivo().setPlanos(Arrays.asList(plano2));
+
+        plano2.setModoOperacao(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO);
+        plano2.setPosicao(1);
+        plano2.setDescricao("Principal");
+        plano2.setPosicaoTabelaEntreVerde(1);
+        plano2.setTempoCiclo(160);
+
+        criarGrupoSemaforicoPlano(anel2, plano2);
+
+        criarEstagioPlano(anel2, plano2, new int[]{1, 4, 3, 2}, new int[]{20, 12, 20, 20});
+
+        List<Erro> erros = getErros(controlador1);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+        ));
+
+        erros = getErros(controlador2);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+        ));
+
+        //Teste Json
+        Controlador controladorJson1 = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null)));
+        Controlador controladorJson2 = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador2, Cidade.find.all(), RangeUtils.getInstance(null)));
+
+        erros = getErros(controladorJson1);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+        ));
+
+        erros = getErros(controladorJson2);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+        ));
+
+        plano1.setTempoCiclo(124);
+        estagioPlano = plano1.getEstagiosOrdenados().get(2);
+        estagioPlano.setTempoVerde(4);
+
+        plano2.setTempoCiclo(248);
+        criarEstagioPlano(anel2, plano2, new int[]{1, 4, 3, 2}, new int[]{50, 20, 50, 40});
+
+        erros = getErros(controlador1);
+        assertTrue(erros.isEmpty());
+
+        erros = getErros(controlador2);
+        assertTrue(erros.isEmpty());
+
+        //Teste Json
+        controladorJson1 = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null)));
+        controladorJson2 = new ControladorCustomDeserializer().getControladorFromJson(new ControladorCustomSerializer().getControladorJson(controlador2, Cidade.find.all(), RangeUtils.getInstance(null)));
+
+        erros = getErros(controladorJson1);
+        assertTrue(erros.isEmpty());
+
+        erros = getErros(controladorJson2);
+        assertTrue(erros.isEmpty());
+    }
+
     @Override
     public List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);

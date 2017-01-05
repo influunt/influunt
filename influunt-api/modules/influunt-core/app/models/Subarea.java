@@ -14,15 +14,13 @@ import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.SubareaSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
+import utils.InfluuntUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entidade que representa um {@link Subarea} no sistema
@@ -72,6 +70,9 @@ public class Subarea extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @Transient
+    private HashMap<String, Integer> tempoCiclo = new HashMap<>();
 
     public Subarea() {
         super();
@@ -140,6 +141,32 @@ public class Subarea extends Model implements Cloneable, Serializable {
 
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public HashMap<String, Integer> tempoCicloDaRede(Controlador controlador) {
+        Controlador controladorBase = this.getControladores()
+            .stream().filter(c -> !c.equals(controlador))
+            .findFirst().orElse(null);
+
+        HashMap<String, Integer> tempos = new HashMap<>();
+        if (controladorBase != null) {
+            controladorBase.getAneis()
+                .stream().map(Anel::getPlanos)
+                .flatMap(Collection::stream)
+                .filter(Plano::isTempoFixoCoordenado)
+                .forEach(plano -> {
+                    tempos.put(plano.getPosicao().toString(), plano.getTempoCiclo());
+                });
+        }
+        return tempos;
+    }
+
+    public HashMap<String, Integer> getTempoCiclo() {
+        return tempoCiclo;
+    }
+
+    public void setTempoCiclo(HashMap<String, Integer> tempoCiclo) {
+        this.tempoCiclo = tempoCiclo;
     }
 
     public void addControlador(Controlador controlador) {

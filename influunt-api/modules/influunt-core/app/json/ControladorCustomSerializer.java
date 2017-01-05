@@ -79,7 +79,7 @@ public class ControladorCustomSerializer {
         ObjectNode root = Json.newObject();
         putControladorDadosBasicos(controlador, root);
         putControladorModelo(controlador.getModelo(), root);
-        putControladorSubarea(controlador.getSubarea(), root);
+        putControladorSubarea(controlador, controlador.getSubarea(), root);
         putControladorAneis(controlador.getAneis(), root);
         putControladorEstagios(root);
         putControladorGruposSemaforicos(root);
@@ -679,7 +679,7 @@ public class ControladorCustomSerializer {
         }
     }
 
-    private void putControladorSubarea(Subarea subarea, ObjectNode root) {
+    private void putControladorSubarea(Controlador controlador, Subarea subarea, ObjectNode root) {
         if (subarea == null) {
             return;
         }
@@ -707,6 +707,8 @@ public class ControladorCustomSerializer {
         if (subarea.getArea() != null) {
             subareaJson.putObject("area").put(ID_JSON, subarea.getArea().getIdJson());
         }
+
+        subareaJson.set("tempoCiclo", Json.toJson(subarea.tempoCicloDaRede(controlador)));
 
         root.set("subarea", subareaJson);
     }

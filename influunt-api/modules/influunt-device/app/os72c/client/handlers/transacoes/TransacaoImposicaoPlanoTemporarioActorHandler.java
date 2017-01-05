@@ -10,6 +10,7 @@ import play.libs.Json;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
 import protocol.MensagemImposicaoPlano;
+import protocol.MensagemImposicaoPlanoTemporario;
 import status.Transacao;
 
 import java.util.Iterator;
@@ -45,7 +46,7 @@ public class TransacaoImposicaoPlanoTemporarioActorHandler extends TransacaoImpo
     protected void executeCommit(Transacao transacao) {
         storage.setControlador(storage.getControladorStaging());
 
-        Envelope envelopeImposicaoPlano = MensagemImposicaoPlano.getMensagem(
+        Envelope envelopeImposicaoPlano = MensagemImposicaoPlanoTemporario.getMensagem(
             idControlador,
             Integer.parseInt(storage.getTempData(transacao.transacaoId, "posicaoPlano")),
             Json.fromJson(Json.parse(storage.getTempData(transacao.transacaoId, "numerosAneis")), List.class),

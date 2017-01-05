@@ -56,6 +56,10 @@ var BancoDeDados = function () {
     return world.execSqlScript('features/support/scripts/controladores/set_subarea_controlador.sql');
   };
 
+  this.updateSubareaControlador = function() {
+    return world.execSqlScript('features/support/scripts/controladores/update_subarea_controlador.sql');
+  };
+
   this.insertArea = function() {
     return world.execSqlScript('features/support/scripts/areas/create_area.sql');
   };

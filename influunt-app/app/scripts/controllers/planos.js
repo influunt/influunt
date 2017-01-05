@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          atualizaDiagrama;
+          getErrosPlanoCoordenadoCicloDiferente, atualizaDiagrama;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -323,8 +323,8 @@ angular.module('influuntApp')
         if (!$scope.currentPlano.configurado && deveAtivarPlano) {
           $scope.currentPlano.configurado = true;
         }
-        
-        if (!$scope.currentPlano.tempoCicloConfigurado && tempoCiclo) {
+
+        if (!$scope.currentPlano.tempoCicloConfigurado && tempoCiclo && !$scope.currentPlano.id) {
           $scope.currentPlano.tempoCiclo = tempoCiclo;
         }
       };
@@ -393,6 +393,7 @@ angular.module('influuntApp')
         erros.push(getErrosSequenciaInvalida(listaErros, currentPlanoIndex));
         erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoPresenteEmTodosOsAneis(listaErros, currentPlanoIndex));
+        erros.push(getErrosPlanoCoordenadoCicloDiferente(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
 
@@ -548,6 +549,14 @@ angular.module('influuntApp')
 
       getErrosPlanoPresenteEmTodosOsAneis = function(listaErros, currentPlanoIndex) {
         var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].planoPresenteEmTodosOsAneis');
+        if (erros) {
+          return erros;
+        }
+        return [];
+      };
+
+      getErrosPlanoCoordenadoCicloDiferente= function(listaErros, currentPlanoIndex) {
+        var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloIgualOuMultiploDeTodoPlano');
         if (erros) {
           return erros;
         }

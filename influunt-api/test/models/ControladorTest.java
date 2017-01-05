@@ -111,6 +111,10 @@ public abstract class ControladorTest extends WithInfluuntApplicationNoAuthentic
         controladorTestUtils.criarEstagioPlano(anel, plano, posicoes);
     }
 
+    protected void criarEstagioPlano(Anel anel, Plano plano, int posicoes[], int tempos[]) {
+        controladorTestUtils.criarEstagioPlano(anel, plano, posicoes, tempos);
+    }
+
     protected void criarGrupoSemaforico(Anel anel, TipoGrupoSemaforico tipo, Integer posicao) {
         controladorTestUtils.criarGrupoSemaforico(anel, tipo, posicao);
     }

@@ -6,7 +6,6 @@ import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.routing.Router;
 import os72c.client.handlers.ConfiguracaoActorHandler;
-import os72c.client.handlers.EchoActorHandler;
 import os72c.client.handlers.ErroActorHandler;
 import os72c.client.handlers.LerDadosControladorActorHandler;
 import os72c.client.protocols.Mensagem;
@@ -49,7 +48,6 @@ public class DeviceMessageBroker extends UntypedActor {
 
     public DeviceMessageBroker(String idControlador, Storage storage, ActorRef actorTransacao) {
 
-        routers.put(TipoMensagem.ECHO, createRoutees(getContext(), 5, EchoActorHandler.class));
         routers.put(TipoMensagem.CONFIGURACAO, createRoutees(getContext(), 1, ConfiguracaoActorHandler.class, idControlador, storage));
         routers.put(TipoMensagem.CONFIGURACAO_ERRO, createRoutees(getContext(), 1, ErroActorHandler.class));
         routers.put(TipoMensagem.LER_DADOS_CONTROLADOR, createRoutees(getContext(), 1, LerDadosControladorActorHandler.class, idControlador, storage));

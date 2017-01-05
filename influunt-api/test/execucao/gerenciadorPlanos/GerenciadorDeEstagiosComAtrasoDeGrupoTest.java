@@ -37,7 +37,7 @@ public class GerenciadorDeEstagiosComAtrasoDeGrupoTest extends GerenciadorDeTroc
         //Avancar
         avancarSegundos(motor, 100);
 
-        assertEquals("Plano Atual", 0, listaTrocaPlanoEfetiva.size());
+        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.size());
 
         int offsetEstagio = 0;
         int anel1 = 1;
@@ -125,7 +125,7 @@ public class GerenciadorDeEstagiosComAtrasoDeGrupoTest extends GerenciadorDeTroc
         //Avancar
         avancarSegundos(motor, 200);
 
-        assertEquals("Plano Atual", 0, listaTrocaPlanoEfetiva.size());
+        assertEquals("Plano Atual", 1, listaTrocaPlanoEfetiva.size());
 
         int offsetEstagio = 0;
         int anel1 = 1;
