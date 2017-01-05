@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Envelope - Influunt Documentação</title>
+        <title>Mensagens - Influunt Documentação</title>
       
       
       
@@ -91,7 +91,7 @@
             
           </span>
         
-        Envelope
+        Mensagens
       </div>
     </div>
     
@@ -165,33 +165,23 @@
       
         
   <li>
-    <a class="current" title="Envelope" href="./">
+    <a class="" title="Envelope" href="../envelope/">
       Envelope
     </a>
-    
-      
-        
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Envelope Padrão" href="#envelope-padrao">
-                Envelope Padrão
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
       
         
   <li>
-    <a class="" title="Mensagens" href="../mensagens/">
+    <a class="current" title="Mensagens" href="./">
       Mensagens
     </a>
+    
+      
+        
+      
+      
     
   </li>
 
@@ -354,76 +344,112 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="envelopagem-das-mensagens">Envelopagem das Mensagens</h1>
-<p>Todas as mensagens trafegadas na aplicação devem ser envelopadas conforme as definições desse documento.</p>
-<h2 id="envelope-padrao">Envelope Padrão</h2>
-<p>O envelope é um padrão <em>JSON</em> que contém informações básicas de rastreamento da mensagem, bem como seu próprio conteúdo. Uma mensagem sempre tem como origem ou destino um controlador específico. Dessa forma, o envelope deve conter sempre o <em>id</em> do controlador.</p>
-<p>Os seguintes campos são obrigatórios no envelope:</p>
-<h3 id="campos-obrigatorios">Campos Obrigatórios</h3>
+          <h1 id="mensagens">Mensagens</h1>
+<p>As seguintes mensagens podem ser trocadas entre a central e o controlador e vice-versa. Cada mensagem pode ter conteúdo diferente e devem ser trafegadas dentro de um envelope.</p>
 <table>
 <thead>
 <tr>
-<th>Campo</th>
-<th>Tipo</th>
+<th>Tipo Mensagem</th>
 <th>Descrição</th>
+<th>Origem</th>
+<th>Destino</th>
+<th>Momento do Envio</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>tipoMensagem</td>
-<td>Texto</td>
-<td>Código único que identifica o tipo de mensagem que está dentro do envelope. As mensagens que podem ser envelopadas estão definidas na seção <a href="../mensagens/">mensagens</a></td>
+<td><a href="../../protocolos/alto_nivel/conectividade/#CONTROLADOR_ONLINE">CONTROLADOR ONLINE</a></td>
+<td>Controlador informa à central que está online</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que o controlador se conectar à internet</td>
 </tr>
 <tr>
-<td>idControlador</td>
-<td>UUID</td>
-<td>Identificador do Controlador</td>
+<td><a href="../../protocolos/alto_nivel/conectividade/#CONTROLADOR_OFFLINE">CONTROLADOR OFFLINE</a></td>
+<td>Controlador informa à central que está offline</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que o controlador se desconectar da internet</td>
 </tr>
 <tr>
-<td>idMensagem</td>
-<td>UUID</td>
-<td>Identificador único e global no formato <em>UUID</em> que identifica unicamente essa mensagem. Deve ser gerado no momento da construção do envelope</td>
+<td><a href="../../protocolos/alto_nivel/ciclo_vida/">CONFIGURACAO INICIAL</a></td>
+<td>Controlador solicita à central sua configuração inicial</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que o controlador não estiver conectado à internet e não tiver uma configuração residente válida</td>
 </tr>
 <tr>
-<td>destino</td>
-<td>Texto</td>
-<td>Tópico <em>MQTT</em> em que a mensagem deve ser publicada. Para lista de tópicos veja a seção <a href="../comunicacao/mqtt">MQTT</a></td>
+<td><a href="../../protocolos/alto_nivel/ciclo_vida/">CONFIGURACAO</a></td>
+<td>Central envia a configuração incial para o controlador</td>
+<td>Central</td>
+<td>Controlador</td>
+<td>Sempre que um controlador enviar uma mensagem de CONFIGURACAO_INICIAL e a central tiver uma configuração válida para informar ao controlador</td>
 </tr>
 <tr>
-<td>qos</td>
-<td>Inteiro</td>
-<td>Qualidade do serviço no protocolo <em>MQTT</em> que deve ser empregado para esse envelope. Deve estar de acordo com os requisitos da <a href="../mensagens/">mensagem</a></td>
+<td><a href="../../protocolos/alto_nivel/ciclo_vida/">CONFIGURACAO OK</a></td>
+<td>O controlador informa que a configuração recebida da central é válida</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que a configuração inicial recebida da central for válida</td>
 </tr>
 <tr>
-<td>carimboDeTempo</td>
-<td>Número Longo</td>
-<td>Carimbo de tempo referente ao momento de criação do envelope. Deve estar no formato milissegundo desde 1 de janeiro de 1970 UTC</td>
+<td><a href="../../protocolos/alto_nivel/ciclo_vida/">CONFIGURACAO ERRO</a></td>
+<td>O controlador reporta que a configuração recebida da central não é válida</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Quando a configuração recebida não é válida</td>
 </tr>
 <tr>
-<td>conteudo</td>
-<td>Objeto <em>JSON</em> ou Texto Criptografado representando um Objeto <em>JSON</em></td>
-<td>Mensagem a ser entregue pelo envelope. Pode ser diretamente o objeto <em>JSON</em> ou, nos casos onde seja requerido, criptografado e convertido para <em>BASE64</em></td>
+<td><a href="../../protocolos/alto_nivel/alertas_e_falhas/">ALARME FALHA</a></td>
+<td>O controlador informa à central a ocorrência de um alarme ou falha</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que ocorrer um alarme ou falha no controlador que seja passível de ser reportada à central</td>
 </tr>
 <tr>
-<td>emResposta</td>
-<td>UUID</td>
-<td>Identificador único e global no formato <em>UUID</em> da mensagem original para quando essa for uma resposta</td>
+<td><a href="../../protocolos/alto_nivel/alertas_e_falhas/">REMOCAO FALHA</a></td>
+<td>O controlador informa à central que uma falha foi removida</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que uma falha for removida no controlador (dado que a falha foi inicialmente reportada para a central)</td>
+</tr>
+<tr>
+<td><a href="../../protocolos/alto_nivel/troca_de_planos/">TROCA_DE PLANO</a></td>
+<td>O controlador informa à central uma troca de planos</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que o controlador trocar de plano</td>
+</tr>
+<tr>
+<td><a href="../../protocolos/alto_nivel/transacoes/">TRANSACAO</a></td>
+<td>A central deseja realizar uma alteração no controlador</td>
+<td>Central</td>
+<td>Controlador</td>
+<td>Sempre que o operador desejar realizar uma alteração no controlador</td>
+</tr>
+<tr>
+<td><a href="../../protocolos/alto_nivel/mudanca_de_status/">MUDANCA STATUS CONTROLADOR</a></td>
+<td>O controlador avisa à central da mudança de status</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que o status dos controlador mudar</td>
+</tr>
+<tr>
+<td><a href="../../protocolos/alto_nivel/ler_dados/">LER DADOS CONTROLADOR</a></td>
+<td>A central solicita informações ao controlador</td>
+<td>Central</td>
+<td>Controlador</td>
+<td>Sempre que o operador solicitar informações residentes no controlador</td>
+</tr>
+<tr>
+<td><a href="../../protocolos/alto_nivel/info/">INFO</a></td>
+<td>O controlador informa à central sua versão de firmware</td>
+<td>Controlador</td>
+<td>Central</td>
+<td>Sempre que o controlador obtiver informações da versão do firmware</td>
 </tr>
 </tbody>
 </table>
-<p>A seguir é apresentado um exemplo de envelope:</p>
-<h3 id="exemplo-de-envelope">Exemplo de Envelope</h3>
-<pre><code class="JSON">  {
-    &quot;tipoMensagem&quot;: &quot;CONEXAO&quot;,
-    &quot;idControlador&quot;:&quot;56074e06-439b-409f-b37d-4e0dc884084f&quot;,
-    &quot;idMensagem&quot;: &quot;56074e06-439b-409f-b37d-4e0dc8840856&quot;
-    &quot;destino&quot;: &quot;/controladores/56074e06-439b-409f-b37d-4e0dc884084f/atualizarConfiguracoes&quot;,
-    &quot;qos&quot;: 1,
-    &quot;carimboDeTempo&quot;: &quot;1471272798600&quot;,
-    &quot;conteudo&quot; : {},
-    &quot;emResposta&quot;: &quot;56074e06-439b-409f-b37d-4e0dc884084d&quot;
-  }
-</code></pre>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -440,7 +466,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../introducao/" title="Introdução">
+        <a href="../envelope/" title="Envelope">
           <span class="direction">
             Previous
           </span>
@@ -450,7 +476,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Introdução
+                Envelope
               </div>
             </div>
           </div>
@@ -459,14 +485,14 @@
     </div>
     <div class="next">
       
-        <a href="../mensagens/" title="Mensagens">
+        <a href="../seguranca/" title="Segurança">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Mensagens
+                Segurança
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

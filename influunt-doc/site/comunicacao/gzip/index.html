@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Envelope - Influunt Documentação</title>
+        <title>Compactação de Dados - Influunt Documentação</title>
       
       
       
@@ -91,7 +91,7 @@
             
           </span>
         
-        Envelope
+        Compactação de Dados
       </div>
     </div>
     
@@ -165,24 +165,9 @@
       
         
   <li>
-    <a class="current" title="Envelope" href="./">
+    <a class="" title="Envelope" href="../envelope/">
       Envelope
     </a>
-    
-      
-        
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Envelope Padrão" href="#envelope-padrao">
-                Envelope Padrão
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
@@ -207,9 +192,14 @@
       
         
   <li>
-    <a class="" title="Compactação de Dados" href="../gzip/">
+    <a class="current" title="Compactação de Dados" href="./">
       Compactação de Dados
     </a>
+    
+      
+        
+      
+      
     
   </li>
 
@@ -354,76 +344,8 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="envelopagem-das-mensagens">Envelopagem das Mensagens</h1>
-<p>Todas as mensagens trafegadas na aplicação devem ser envelopadas conforme as definições desse documento.</p>
-<h2 id="envelope-padrao">Envelope Padrão</h2>
-<p>O envelope é um padrão <em>JSON</em> que contém informações básicas de rastreamento da mensagem, bem como seu próprio conteúdo. Uma mensagem sempre tem como origem ou destino um controlador específico. Dessa forma, o envelope deve conter sempre o <em>id</em> do controlador.</p>
-<p>Os seguintes campos são obrigatórios no envelope:</p>
-<h3 id="campos-obrigatorios">Campos Obrigatórios</h3>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Tipo</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>tipoMensagem</td>
-<td>Texto</td>
-<td>Código único que identifica o tipo de mensagem que está dentro do envelope. As mensagens que podem ser envelopadas estão definidas na seção <a href="../mensagens/">mensagens</a></td>
-</tr>
-<tr>
-<td>idControlador</td>
-<td>UUID</td>
-<td>Identificador do Controlador</td>
-</tr>
-<tr>
-<td>idMensagem</td>
-<td>UUID</td>
-<td>Identificador único e global no formato <em>UUID</em> que identifica unicamente essa mensagem. Deve ser gerado no momento da construção do envelope</td>
-</tr>
-<tr>
-<td>destino</td>
-<td>Texto</td>
-<td>Tópico <em>MQTT</em> em que a mensagem deve ser publicada. Para lista de tópicos veja a seção <a href="../comunicacao/mqtt">MQTT</a></td>
-</tr>
-<tr>
-<td>qos</td>
-<td>Inteiro</td>
-<td>Qualidade do serviço no protocolo <em>MQTT</em> que deve ser empregado para esse envelope. Deve estar de acordo com os requisitos da <a href="../mensagens/">mensagem</a></td>
-</tr>
-<tr>
-<td>carimboDeTempo</td>
-<td>Número Longo</td>
-<td>Carimbo de tempo referente ao momento de criação do envelope. Deve estar no formato milissegundo desde 1 de janeiro de 1970 UTC</td>
-</tr>
-<tr>
-<td>conteudo</td>
-<td>Objeto <em>JSON</em> ou Texto Criptografado representando um Objeto <em>JSON</em></td>
-<td>Mensagem a ser entregue pelo envelope. Pode ser diretamente o objeto <em>JSON</em> ou, nos casos onde seja requerido, criptografado e convertido para <em>BASE64</em></td>
-</tr>
-<tr>
-<td>emResposta</td>
-<td>UUID</td>
-<td>Identificador único e global no formato <em>UUID</em> da mensagem original para quando essa for uma resposta</td>
-</tr>
-</tbody>
-</table>
-<p>A seguir é apresentado um exemplo de envelope:</p>
-<h3 id="exemplo-de-envelope">Exemplo de Envelope</h3>
-<pre><code class="JSON">  {
-    &quot;tipoMensagem&quot;: &quot;CONEXAO&quot;,
-    &quot;idControlador&quot;:&quot;56074e06-439b-409f-b37d-4e0dc884084f&quot;,
-    &quot;idMensagem&quot;: &quot;56074e06-439b-409f-b37d-4e0dc8840856&quot;
-    &quot;destino&quot;: &quot;/controladores/56074e06-439b-409f-b37d-4e0dc884084f/atualizarConfiguracoes&quot;,
-    &quot;qos&quot;: 1,
-    &quot;carimboDeTempo&quot;: &quot;1471272798600&quot;,
-    &quot;conteudo&quot; : {},
-    &quot;emResposta&quot;: &quot;56074e06-439b-409f-b37d-4e0dc884084d&quot;
-  }
-</code></pre>
+          <h1 id="compactacao">Compactação</h1>
+<p>Todo envelope após criptografado deve ser compactado no formato GZIP. Assim, toda a comunicação recebida pela a central ou pelo controlador precisa ser descompactada antes de ser descriptografada. </p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -440,7 +362,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../introducao/" title="Introdução">
+        <a href="../seguranca/" title="Segurança">
           <span class="direction">
             Previous
           </span>
@@ -450,7 +372,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Introdução
+                Segurança
               </div>
             </div>
           </div>
@@ -459,14 +381,14 @@
     </div>
     <div class="next">
       
-        <a href="../mensagens/" title="Mensagens">
+        <a href="../../protocolos/alto_nivel/introducao/" title="Protocolo de Alto Nível">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Mensagens
+                Protocolo de Alto Nível
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
