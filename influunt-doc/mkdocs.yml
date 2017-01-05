@@ -1,6 +1,7 @@
 site_name: Influunt Documentação
-theme: readthedocs
+theme: 'material'
 pages:
+- Introdução: index.md
 - Comunicação:
   - 'Introdução': 'comunicacao/introducao.md'
   - 'Envelope': 'comunicacao/envelope.md'

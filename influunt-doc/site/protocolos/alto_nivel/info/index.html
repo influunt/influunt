@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Protocolo de Alto Nível - Influunt Documentação</title>
+        <title>Info - Influunt Documentação</title>
       
       
       
@@ -91,7 +91,7 @@
             
           </span>
         
-        Protocolo de Alto Nível
+        Info
       </div>
     </div>
     
@@ -210,36 +210,9 @@
       
         
   <li>
-    <a class="current" title="Protocolo de Alto Nível" href="./">
+    <a class="" title="Protocolo de Alto Nível" href="../introducao/">
       Protocolo de Alto Nível
     </a>
-    
-      
-        
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Publish/Subscribe" href="#publishsubscribe">
-                Publish/Subscribe
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Tópicos assinados pela central" href="#topicos-assinados-pela-central">
-                Tópicos assinados pela central
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Tópicos assinados pelo controlador" href="#topicos-assinados-pelo-controlador">
-                Tópicos assinados pelo controlador
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
@@ -318,9 +291,24 @@
       
         
   <li>
-    <a class="" title="Info" href="../info/">
+    <a class="current" title="Info" href="./">
       Info
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Especificação" href="#especificacao">
+                Especificação
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -366,43 +354,52 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="introducao">Introdução</h1>
-<p>O protocolo de alto nível especifica todas as mensagens que são trocadas entre o controlador e a central. O 72c implementa esse protocolo. Controladores que não utilizem o 72c devem realizar sua própria implementação do mesmo.</p>
-<p>Esse protocolo funciona via envio de envelopes para tópicos do <em>broker MQTT</em>. O envelope contém todas as informações sobre a mensagem trocada, bem como informações de origem, destino e qualidade do serviço. Os envelopes são enviados criptografados.</p>
-<h2 id="publishsubscribe">Publish/Subscribe</h2>
-<p>Um tópico é uma fila de mensagens onde seus assinantes são notificados a cada nova mensagem recebida. A central é assinante dos tópicos referentes a todos os seus controladores. Cada controlador é assinante de tópicos relacionados à sua informação.</p>
-<h2 id="topicos-assinados-pela-central">Tópicos assinados pela central</h2>
-<h3 id="controladoresconnonline">controladores/conn/online</h3>
-<p>Os controladores publicam mensagens nesse tópico para informar à central que estão online. Ver tópico <a href="../../../protocolos/alto_nivel/conectividade">conectividade</a>.
-<img alt="CONTROLADOR_ONLINE" src="../../../img/CONTROLADOR_ONLINE.png" /></p>
-<h3 id="controladoresconnoffline">controladores/conn/offline</h3>
-<p>Os controladores publicam mensagens nesse tópico para informar à central que estão offline. Ver tópico <a href="../../../protocolos/alto_nivel/conectividade">conectividade</a>.
-<img alt="CONTROLADOR_ONLINE" src="../../../img/CONTROLADOR_OFFLINE.png" /></p>
-<h3 id="centralconfiguracao">central/configuracao</h3>
-<p>Os controladores publicam nesse tópico para solicitar sua configuração inicial à central. Ver tópico <a href="../../../protocolos/alto_nivel/ciclo_vida/">ciclo de vida do controlador</a></p>
-<p><img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/CONFIGURACAO_CONTROLADOR_CENTRAL.png" /></p>
-<h3 id="centraltransacoesid-transacao">central/transacoes/#ID-TRANSACAO</h3>
-<p>Gerencia transações de envio de dados para o controlador. O #ID-TRANSACAO é substituído pelo id da transação que é gerado na central e informado ao controlador. Garante que o controlador fique em estado consistente. Ver tópico <a href="../../../protocolos/alto_nivel/transações/">transações</a></p>
-<p><img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/transacao.png" /></p>
-<h3 id="centralalarmes_falhas">central/alarmes_falhas/</h3>
-<p>Os controladores publicam alarmes e falhas nesse tópico para que a central tenha conhecimento. Ver tópico <a href="../../../protocolos/alto_nivel/alertas_e_falhas/">Alertas e Falhas</a>
-<img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/alarme_falha.png" /></p>
-<h3 id="centraltroca_plano">central/troca_plano/</h3>
-<p>Os controladores publicam nesse tópico para informar que houve uma troca de plano.
-<img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/troca_plano.png" /></p>
-<h3 id="centralmudanca_status_controlador">central/mudanca_status_controlador</h3>
-<p>Os controladores publicam nesse tópico para informar à central a mudança de status.
-<img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/mudanca_status.png" /></p>
-<h2 id="topicos-assinados-pelo-controlador">Tópicos assinados pelo controlador</h2>
-<h3 id="controladorid-controladortransacoes">controlador/#ID-CONTROLADOR/transacoes</h3>
-<p>A central publica nesse tópico transações a serem realizadas pelo controlador.</p>
-<p><img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/transacao.png" /></p>
-<h3 id="controladorid-controladorinfo">controlador/#ID-CONTROLADOR/info</h3>
-<p>A central publica nesse tópico pedidos de leitura de dados residentes no controlador.
-<img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/info.png" /></p>
-<h3 id="controladorid-controladorconfiguracao">controlador/#ID-CONTROLADOR/configuracao</h3>
-<p>A central publica nesse tópico a configuracao em resposta ao pedido de CONFIGURACAO_INICIAL.
-<img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/CONFIGURACAO_CONTROLADOR_CENTRAL.png" /></p>
+          <h1 id="info">Info</h1>
+<p>A mensagem de informação é usada para o controlador reportar sua versão para a central:</p>
+<p><img alt="CONFIGURACAO_CONTROLADOR_CENTRAL" src="../../../img/info.png" /></p>
+<p>A seguir estão detalhados todos os eventos possíveis:</p>
+<h2 id="especificacao">Especificação</h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fabricante</td>
+<td>Texto</td>
+<td>S</td>
+</tr>
+<tr>
+<td>modelo</td>
+<td>Texto</td>
+<td>S</td>
+</tr>
+<tr>
+<td>versao</td>
+<td>Texto</td>
+<td>S</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemplo">Exemplo</h3>
+<pre><code class="JSON">{
+  &quot;tipoMensagem&quot;: &quot;INFO&quot;,
+  &quot;idControlador&quot;: &quot;7abfa23d-5646-4b8c-87ae-e68addbabb36&quot;,
+  &quot;destino&quot;: &quot;central/info&quot;,
+  &quot;qos&quot;: 2,
+  &quot;carimboDeTempo&quot;: 1479929117853,
+  &quot;conteudo&quot;: {
+    &quot;fabricante&quot;: &quot;CET&quot;,
+    &quot;modelo&quot;: &quot;72c&quot;,
+    &quot;versao&quot;: &quot;1.0.4&quot;
+  }
+  &quot;emResposta&quot;: &quot;null&quot;
+}
+</code></pre>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -419,7 +416,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../../../comunicacao/gzip/" title="Compactação de Dados">
+        <a href="../ler_dados/" title="Ler Dados">
           <span class="direction">
             Previous
           </span>
@@ -429,7 +426,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Compactação de Dados
+                Ler Dados
               </div>
             </div>
           </div>
@@ -438,14 +435,14 @@
     </div>
     <div class="next">
       
-        <a href="../conectividade/" title="Conectividade">
+        <a href="../../baixo_nivel/introducao/" title="Protocolo de Baixo Nível">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Conectividade
+                Protocolo de Baixo Nível
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

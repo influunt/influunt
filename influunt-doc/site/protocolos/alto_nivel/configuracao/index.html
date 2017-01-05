@@ -1,246 +1,480 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  
-  
-  <title>Configuração do Controlador - Influunt Documentação</title>
-  
-
-  <link rel="shortcut icon" href="../../../img/favicon.ico">
-
-  
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" href="../../../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="../../../css/highlight.css">
-
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "Configuração do Controlador";
-    var mkdocs_page_input_path = "protocolos/alto_nivel/configuracao.md";
-    var mkdocs_page_url = "/protocolos/alto_nivel/configuracao/";
-  </script>
-  
-  <script src="../../../js/jquery-2.1.1.min.js"></script>
-  <script src="../../../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../../../js/highlight.pack.js"></script>
-  <script src="../../../js/theme.js"></script> 
-
-  
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-      <div class="wy-side-nav-search">
-        <a href="../../../comunicacao/introducao/" class="icon icon-home"> Influunt Documentação</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-  </form>
-</div>
+      
+        <title>Configuração do Controlador - Influunt Documentação</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Influunt Documentação">
+    <meta property="og:image" content="None/../../../">
+    <meta name="apple-mobile-web-app-title" content="Influunt Documentação">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../../assets/fonts/icon.eot?52m981');
+      	src: url('../../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="../../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Protocolos <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Configuração do Controlador
       </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        <ul class="current">
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Influunt Documentação
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
           
-            <li>
-    <ul class="subnav">
-    <li><span>Comunicação</span></li>
-
-        
             
-    <li class="toctree-l1 ">
-        <a class="" href="../../../comunicacao/introducao/">Introdução</a>
-        
-    </li>
+  <li>
+    <a class="" title="Introdução" href="../../..">
+      Introdução
+    </a>
+    
+  </li>
 
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../../../comunicacao/envelope/">Envelope</a>
-        
-    </li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../../../comunicacao/seguranca/">Segurança</a>
-        
-    </li>
-
-        
-    </ul>
-<li>
           
-            <li>
-    <ul class="subnav">
-    <li><span>Protocolos</span></li>
+            
+  <li>
+    <span class="section">Comunicação</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Introdução" href="../../../comunicacao/introducao/">
+      Introdução
+    </a>
+    
+  </li>
 
+      
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../introducao/">Protocolo de Alto Nível</a>
-        
-    </li>
+  <li>
+    <a class="" title="Envelope" href="../../../comunicacao/envelope/">
+      Envelope
+    </a>
+    
+  </li>
 
+      
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../conectividade/">Conectividade</a>
-        
-    </li>
+  <li>
+    <a class="" title="Mensagens" href="../../../comunicacao/mensagens/">
+      Mensagens
+    </a>
+    
+  </li>
 
+      
         
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../ciclo_vida/">Ciclo de Vida</a>
-        
-    </li>
+  <li>
+    <a class="" title="Segurança" href="../../../comunicacao/seguranca/">
+      Segurança
+    </a>
+    
+  </li>
 
+      
         
-            
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Configuração do Controlador</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#introducao">Introdução</a></li>
-                
-                    <li><a class="toctree-l4" href="#controlador">Controlador</a></li>
-                
-                    <li><a class="toctree-l4" href="#anel">Anel</a></li>
-                
-                    <li><a class="toctree-l4" href="#grupo-semaforico">Grupo Semafórico</a></li>
-                
-                    <li><a class="toctree-l4" href="#estagio">Estágio</a></li>
-                
-                    <li><a class="toctree-l4" href="#detector">Detector</a></li>
-                
-                    <li><a class="toctree-l4" href="#transicao">Transição</a></li>
-                
-                    <li><a class="toctree-l4" href="#transicao-com-ganho-de-passagem">Transição com ganho de passagem</a></li>
-                
-                    <li><a class="toctree-l4" href="#transicao-proibida">Transição Proibida</a></li>
-                
-                    <li><a class="toctree-l4" href="#tabela-entreverdes">Tabela Entreverdes</a></li>
-                
-                    <li><a class="toctree-l4" href="#tabela-entreverdes-transicao">Tabela Entreverdes Transição</a></li>
-                
-                    <li><a class="toctree-l4" href="#estagio-grupo-semaforico">Estágio Grupo Semáforico</a></li>
-                
-                    <li><a class="toctree-l4" href="#verde-conflitante">Verde Conflitante</a></li>
-                
-                    <li><a class="toctree-l4" href="#plano">Plano</a></li>
-                
-                    <li><a class="toctree-l4" href="#estagio-plano">Estágio Plano</a></li>
-                
-                    <li><a class="toctree-l4" href="#grupo-semaforico-plano">Grupo Semafórico Plano</a></li>
-                
-                    <li><a class="toctree-l4" href="#versao-plano">Versão Plano</a></li>
-                
-                    <li><a class="toctree-l4" href="#versao-tabela-horaria">Versão Tabela Horária</a></li>
-                
-                    <li><a class="toctree-l4" href="#tabela-horaria">Tabela Horária</a></li>
-                
-                    <li><a class="toctree-l4" href="#evento">Evento</a></li>
-                
-                    <li><a class="toctree-l4" href="#atraso-de-grupo">Atraso de Grupo</a></li>
-                
-                    <li><a class="toctree-l4" href="#exemplo-completo">Exemplo Completo</a></li>
-                
-            
-            </ul>
-        
-    </li>
+  <li>
+    <a class="" title="Compactação de Dados" href="../../../comunicacao/gzip/">
+      Compactação de Dados
+    </a>
+    
+  </li>
 
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../transacoes/">Transações</a>
-        
-    </li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../alertas_e_falhas/">Alertas e Falhas</a>
-        
-    </li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../../baixo_nivel/introducao/">Protocolo de Baixo Nível</a>
-        
-    </li>
-
-        
+      
     </ul>
-<li>
+  </li>
+
           
-            <li>
-    <ul class="subnav">
-    <li><span>Log</span></li>
-
-        
             
-    <li class="toctree-l1 ">
-        <a class="" href="../../../log/especificacao/">Especificação</a>
+  <li>
+    <span class="section">Protocolos</span>
+    <ul>
+      
         
-    </li>
+  <li>
+    <a class="" title="Protocolo de Alto Nível" href="../introducao/">
+      Protocolo de Alto Nível
+    </a>
+    
+  </li>
 
+      
         
-    </ul>
-<li>
+  <li>
+    <a class="" title="Conectividade" href="../conectividade/">
+      Conectividade
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Ciclo de Vida" href="../ciclo_vida/">
+      Ciclo de Vida
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Configuração do Controlador" href="./">
+      Configuração do Controlador
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Controlador" href="#controlador">
+                Controlador
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Anel" href="#anel">
+                Anel
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Grupo Semafórico" href="#grupo-semaforico">
+                Grupo Semafórico
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Estágio" href="#estagio">
+                Estágio
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Detector" href="#detector">
+                Detector
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Transição" href="#transicao">
+                Transição
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Transição com ganho de passagem" href="#transicao-com-ganho-de-passagem">
+                Transição com ganho de passagem
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Transição Proibida" href="#transicao-proibida">
+                Transição Proibida
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Tabela Entreverdes" href="#tabela-entreverdes">
+                Tabela Entreverdes
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Tabela Entreverdes Transição" href="#tabela-entreverdes-transicao">
+                Tabela Entreverdes Transição
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Estágio Grupo Semáforico" href="#estagio-grupo-semaforico">
+                Estágio Grupo Semáforico
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Verde Conflitante" href="#verde-conflitante">
+                Verde Conflitante
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Plano" href="#plano">
+                Plano
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Estágio Plano" href="#estagio-plano">
+                Estágio Plano
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Grupo Semafórico Plano" href="#grupo-semaforico-plano">
+                Grupo Semafórico Plano
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Versão Plano" href="#versao-plano">
+                Versão Plano
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Versão Tabela Horária" href="#versao-tabela-horaria">
+                Versão Tabela Horária
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Tabela Horária" href="#tabela-horaria">
+                Tabela Horária
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Evento" href="#evento">
+                Evento
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Atraso de Grupo" href="#atraso-de-grupo">
+                Atraso de Grupo
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Exemplo Completo" href="#exemplo-completo">
+                Exemplo Completo
+              </a>
+            </li>
           
         </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Transações" href="../transacoes/">
+      Transações
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Alertas e Falhas" href="../alertas_e_falhas/">
+      Alertas e Falhas
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Mudança de Status" href="../mudanca_de_status/">
+      Mudança de Status
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troca de Planos" href="../troca_de_planos/">
+      Troca de Planos
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Ler Dados" href="../ler_dados/">
+      Ler Dados
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Info" href="../info/">
+      Info
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Protocolo de Baixo Nível" href="../../baixo_nivel/introducao/">
+      Protocolo de Baixo Nível
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Log</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Especificação" href="../../../log/especificacao/">
+      Especificação
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
       </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../comunicacao/introducao/">Influunt Documentação</a>
-      </nav>
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../../comunicacao/introducao/">Docs</a> &raquo;</li>
-    
-      
-        
-          <li>Protocolos &raquo;</li>
-        
-      
-    
-    <li>Configuração do Controlador</li>
-    <li class="wy-breadcrumbs-aside">
-      
-    </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            <div class="section">
-              
-                <h1 id="introducao">Introdução</h1>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="introducao">Introdução</h1>
 <p>A estrutura do controlador é definida pelo objeto <a href="#controlador">CONTROLADOR</a> que inclui seus dados básicos e listas de objetos associados. Para evitar referências cruzadas e problemas de navegação no grafo de objetos, adotou-se uma estratura de <em>JSON</em> desnormatizada. Sendo assim, todos os objetos são escritos diretamente na raiz do controlador e não internamente de forma hierárquica. Em compensação os objetos internos trazem referências para os objetos externos.</p>
 <p>A figura abaixo apresenta os objetos que fazem parte da configuração de um controlador. As setas representam referências entre esses objetos.</p>
 <p><img alt="Controlador" src="../../../img/controlador.png" /></p>
@@ -259,7 +493,7 @@
 <tbody>
 <tr>
 <td>id</td>
-<td>Texto [UUID] (https://en.wikipedia.org/wiki/Universally_unique_identifier)</td>
+<td>Texto UUID</td>
 <td>S</td>
 <td>Identificador do Controlador</td>
 </tr>
@@ -4908,49 +5142,79 @@
   ]
 }
 </code></pre>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
               
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../ciclo_vida/" title="Ciclo de Vida">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Ciclo de Vida
+              </div>
             </div>
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../transacoes/" class="btn btn-neutral float-right" title="Transações">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../ciclo_vida/" class="btn btn-neutral" title="Ciclo de Vida"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        </a>
       
     </div>
-  
+    <div class="next">
+      
+        <a href="../transacoes/" title="Transações">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Transações
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
 
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-    
-  </div>
-
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-	  
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
         </div>
       </div>
-
-    </section>
-
-  </div>
-
-<div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../ciclo_vida/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../transacoes/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
-</div>
-
-</body>
+    </main>
+    <script>
+      var base_url = '../../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
 </html>
