@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by rodrigosol on 10/4/16.
  */
-public class SimuladorAkka extends Simulador {
+                    public class SimuladorAkka extends Simulador {
 
     private final SimuladorActor simuladorActor;
 
@@ -89,11 +89,16 @@ public class SimuladorAkka extends Simulador {
 
     @Override
     public void trocaEstagioManualLiberada(DateTime timestamp) {
-
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.trocaDeEstagioManualLiberada(timestamp);
+        }
     }
 
     @Override
     public void trocaEstagioManualBloqueada(DateTime timestamp) {
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.trocaDeEstagioManualBloqueada(timestamp);
+        }
 
     }
 

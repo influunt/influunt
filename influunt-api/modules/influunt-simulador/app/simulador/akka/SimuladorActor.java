@@ -18,6 +18,7 @@ import org.joda.time.DateTime;
 import play.libs.Json;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class SimuladorActor extends UntypedActor {
     private List<ArrayNode> alarmes = new ArrayList<>();
 
     private List<ArrayNode> modoManual = new ArrayList<>();
+    private List<ArrayNode> bloqueioTrocaEstagio = new ArrayList<>();
 
     private String jsonTrocas;
 
@@ -173,6 +175,7 @@ public class SimuladorActor extends UntypedActor {
             trocasDePlanos.clear();
             alarmes.clear();
             modoManual.clear();
+            bloqueioTrocaEstagio.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -199,6 +202,15 @@ public class SimuladorActor extends UntypedActor {
         ArrayNode manual = root.putArray("manual");
         modoManual.forEach(modo -> manual.add(modo));
 
+        ArrayNode bloqueios = root.putArray("bloqueios");
+
+        bloqueioTrocaEstagio.sort(new Comparator<ArrayNode>() {
+            @Override
+            public int compare(ArrayNode o1, ArrayNode o2) {
+                return Long.compare(o2.get(1).asLong(), o1.get(1).asLong());
+            }
+        });
+        bloqueioTrocaEstagio.forEach(bloqueioTrocaEstagio -> bloqueios.add(bloqueioTrocaEstagio));
         return root.toString();
     }
 
@@ -249,5 +261,20 @@ public class SimuladorActor extends UntypedActor {
 
     public DateTime getPagina() {
         return params.getInicioControlador().plusSeconds(pagina * SEGUNDOS_POR_PAGINA);
+    }
+
+    public void trocaDeEstagioManualLiberada(DateTime timestamp) {
+        ArrayNode bloqueio = Json.newArray();
+        bloqueio.add("LIBERAR");
+        bloqueio.add(timestamp.getMillis());
+        bloqueioTrocaEstagio.add(bloqueio);
+    }
+
+    public void trocaDeEstagioManualBloqueada(DateTime timestamp) {
+        ArrayNode bloqueio = Json.newArray();
+        bloqueio.add("BLOQUEAR");
+        bloqueio.add(timestamp.getMillis());
+        bloqueioTrocaEstagio.add(bloqueio);
+
     }
 }
