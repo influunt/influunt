@@ -168,12 +168,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     @Override
     public void trocaEstagioManualLiberada(DateTime timestamp) {
-
+        device.trocaEstagioManualLiberada();
     }
 
     @Override
     public void trocaEstagioManualBloqueada(DateTime timestamp) {
-
+        device.trocaEstagioManualBloqueada();
     }
 
     @Override
