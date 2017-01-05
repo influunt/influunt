@@ -1,8 +1,12 @@
 package simulador;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import engine.EventoMotor;
 import engine.Motor;
 import engine.MotorCallback;
+import json.ControladorCustomDeserializer;
+import json.ControladorCustomSerializer;
+import models.Cidade;
 import models.Controlador;
 import models.Plano;
 import models.TipoDetector;
@@ -12,6 +16,7 @@ import models.simulador.parametros.ParametroSimulacaoManual;
 import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import utils.RangeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +31,9 @@ import java.util.stream.Collectors;
 public abstract class Simulador implements MotorCallback {
     private final ParametroSimulacao parametros;
 
-    protected DateTime dataInicioControlador;
+    private final JsonNode controladorOriginal;
 
-    private Controlador controlador;
+    protected DateTime dataInicioControlador;
 
     private Map<DateTime, List<EventoMotor>> eventos = new HashMap<>();
 
@@ -39,13 +44,17 @@ public abstract class Simulador implements MotorCallback {
     private long tempoSimulacao = 0L;
 
     public Simulador(Controlador controlador, ParametroSimulacao parametros) {
-        this.controlador = controlador;
         this.dataInicioControlador = parametros.getInicioControlador();
         this.parametros = parametros;
-        setup(controlador, parametros);
+        this.controladorOriginal = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
+        setup(parametros);
     }
 
-    private void setup(Controlador controlador, ParametroSimulacao parametros) {
+    private void setup(ParametroSimulacao parametros) {
+        Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorOriginal);
+        if(motor != null){
+            motor.stop();
+        }
         motor = new Motor(controlador, parametros.getInicioControlador(), this);
         this.eventos.clear();
         this.parametros.getDetectores().stream().forEach(param -> addEvento(param.toEvento()));
@@ -59,13 +68,6 @@ public abstract class Simulador implements MotorCallback {
         this.ponteiro = parametros.getInicioControlador();
     }
 
-    public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
-    }
-
-    public void setDataInicioControlador(DateTime dataInicioControlador) {
-        this.dataInicioControlador = dataInicioControlador;
-    }
 
     public void addEvento(EventoMotor eventoMotor) {
         if (!this.eventos.containsKey(eventoMotor.getTimestamp())) {
@@ -74,15 +76,9 @@ public abstract class Simulador implements MotorCallback {
         this.eventos.get(eventoMotor.getTimestamp()).add(eventoMotor);
     }
 
-    public List<Plano> getPlano(int plano) {
-        return controlador.getAneis().stream()
-            .flatMap(anel -> anel.getPlanos().stream()).filter(plano1 -> plano1.getPosicao().equals(plano))
-            .collect(Collectors.toList());
-    }
-
     public void simular(DateTime fim) {
         DateTime inicioSimulacao = dataInicioControlador;
-        setup(controlador, parametros);
+        setup(parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
 
