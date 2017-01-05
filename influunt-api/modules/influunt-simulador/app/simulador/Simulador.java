@@ -80,15 +80,22 @@ public abstract class Simulador implements MotorCallback {
             .collect(Collectors.toList());
     }
 
-    public void simular(DateTime fim) throws Exception {
+    public void simular(DateTime fim) {
         DateTime inicioSimulacao = dataInicioControlador;
         setup(controlador, parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
-            processaEventos(inicioSimulacao);
-            motor.tick();
-            tempoSimulacao += 100;
-            inicioSimulacao = inicioSimulacao.plus(100);
+
+            try {
+                processaEventos(inicioSimulacao);
+                motor.tick();
+                tempoSimulacao += 100;
+                inicioSimulacao = inicioSimulacao.plus(100);
+            } catch (Exception e) {
+                System.out.println("******************MORREU**********************");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

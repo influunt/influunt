@@ -249,7 +249,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             tempoAdicional += (entreverdeOriginal / 1000);
             long novoTempo = tempoAdicional * 1000L;
 
-            if (tempoAbatimentoCoordenado > 0L) {
+            if (tempoAbatimentoCoordenado != null && tempoAbatimentoCoordenado > 0L) {
 
                 if (tempoAbatimentoCoordenado <= novoTempo) {
                     novoTempo = novoTempo - tempoAbatimentoCoordenado;
