@@ -109,10 +109,10 @@ public class SimuladorControllerTest extends SimuladorMQTTTest {
         assertTrue(json.has("tempoCicloAnel"));
         assertTrue(json.has("aneis"));
 
-        String idSimulacao = json.get("simulacaoId").asText();
-        SimuladorClientHelper sim = new SimuladorClientHelper(idSimulacao);
-        sim.buscarPagina(0);
-        await().until(() -> sim.getEstados().size() > 0);
+//        String idSimulacao = json.get("simulacaoId").asText();
+//        SimuladorClientHelper sim = new SimuladorClientHelper(idSimulacao);
+//        sim.buscarPagina(0);
+//        await().until(() -> sim.getEstados().size() > 0);
     }
 
     private List<Erro> parseErrors(ArrayNode errosJson) {
