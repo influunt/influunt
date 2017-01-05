@@ -171,7 +171,10 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public List<EstagioPlano> getEstagiosPlanosSemEstagioDispensavel() {
-        return estagiosPlanos.stream().filter(estagioPlano -> !estagioPlano.isDispensavel()).collect(Collectors.toList());
+        return estagiosPlanos
+            .stream()
+            .filter(estagioPlano -> !estagioPlano.isDispensavel())
+            .collect(Collectors.toList());
     }
 
     public List<GrupoSemaforicoPlano> getGruposSemaforicosPlanos() {
@@ -370,7 +373,9 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.")
     public boolean isSequenciaInvalidaSeExisteEstagioDispensavel() {
         if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(EstagioPlano::isDispensavel)) {
-            return this.sequenciaDeEstagioValida(this.ordenarEstagiosPorPosicaoSemEstagioDispensavel());
+            List<EstagioPlano> estagiosOrdenados = ordenarEstagiosPorPosicaoSemEstagioDispensavel()
+                .stream().filter(ep -> !ep.isDestroy()).collect(Collectors.toList());
+            return this.sequenciaDeEstagioValida(estagiosOrdenados);
         }
         return true;
     }
@@ -379,7 +384,10 @@ public class Plano extends Model implements Cloneable, Serializable {
         message = "Configure um detector veicular para cada estágio no modo atuado.")
     public boolean isModoOperacaoValido() {
         if (this.isAtuado()) {
-            return !CollectionUtils.isEmpty(this.getEstagiosPlanos()) && this.getEstagiosPlanos().stream().filter(estagioPlano -> estagioPlano.getEstagio().isAssociadoAGrupoSemaforicoVeicular()).allMatch(estagioPlano -> estagioPlano.getEstagio().temDetectorVeicular());
+            return !CollectionUtils.isEmpty(this.getEstagiosPlanos()) &&
+                this.getEstagiosPlanos().stream()
+                    .filter(estagioPlano -> estagioPlano.getEstagio().isAssociadoAGrupoSemaforicoVeicular() && !estagioPlano.isDestroy())
+                    .allMatch(estagioPlano -> estagioPlano.getEstagio().temDetectorVeicular());
         }
         return true;
     }
