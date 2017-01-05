@@ -123,7 +123,9 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado.")
     public boolean isRespeitaVerdesDeSeguranca() {
         if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
-            List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
+            List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados()
+                .stream().filter(ep -> !ep.isDestroy()).collect(Collectors.toList());
+
             return !this.getPlano().getEstagiosPlanos().stream()
                 .filter(estagioPlano -> !estagioPlano.isDestroy() && estagioPlano.getEstagio().getGruposSemaforicos()
                     .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
@@ -135,7 +137,9 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável")
     public boolean isRespeitaVerdesDeSegurancaSemDispensavel() {
         if (isRespeitaVerdesDeSeguranca() && isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
-            List<EstagioPlano> listaEstagioPlanosSemDipensavel = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+            List<EstagioPlano> listaEstagioPlanosSemDipensavel = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel()
+                .stream().filter(ep -> !ep.isDestroy()).collect(Collectors.toList());
+
             return !this.getPlano().getEstagiosPlanosSemEstagioDispensavel().stream()
                 .filter(estagioPlano -> !estagioPlano.isDestroy() && estagioPlano.getEstagio().getGruposSemaforicos()
                     .contains(this.getGrupoSemaforico()) && estagioPlano.getTempoVerdeEstagio() != null)
@@ -149,14 +153,16 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     public boolean isGrupoApagadoSeNaoAssociado() {
         if (getPlano().isModoOperacaoVerde() && !getPlano().isManual()) {
             GrupoSemaforico grupo = getGrupoSemaforico();
-            List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream().map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());
+            List<Estagio> estagios = grupo.getEstagiosGruposSemaforicos().stream()
+                .map(EstagioGrupoSemaforico::getEstagio).collect(Collectors.toList());
+
             boolean isDemandaPrioritaria = estagios.stream().anyMatch(Estagio::isDemandaPrioritaria);
             if (!isDemandaPrioritaria) {
                 List<EstagioPlano> eps = estagios
                     .stream()
                     .map(Estagio::getEstagiosPlanos)
                     .flatMap(Collection::stream)
-                    .filter(estagioPlano -> getPlano().equals(estagioPlano.getPlano()))
+                    .filter(estagioPlano -> !estagioPlano.isDestroy() && getPlano().equals(estagioPlano.getPlano()))
                     .collect(Collectors.toList());
                 if (eps.isEmpty() && isAtivado()) {
                     return false;
