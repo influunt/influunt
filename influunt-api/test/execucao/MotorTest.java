@@ -218,6 +218,16 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
+    public void trocaEstagioManualLiberada(DateTime timestamp) {
+
+    }
+
+    @Override
+    public void trocaEstagioManualBloqueada(DateTime timestamp) {
+
+    }
+
+    @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
     }
 

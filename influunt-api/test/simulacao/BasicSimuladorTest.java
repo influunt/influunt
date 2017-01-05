@@ -53,6 +53,16 @@ public class BasicSimuladorTest extends Simulador {
     }
 
     @Override
+    public void trocaEstagioManualLiberada(DateTime timestamp) {
+        
+    }
+
+    @Override
+    public void trocaEstagioManualBloqueada(DateTime timestamp) {
+
+    }
+
+    @Override
     public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
     }
