@@ -3,23 +3,47 @@ package simulacao;
 import checks.Erro;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.gson.Gson;
 import config.WithInfluuntApplicationNoAuthentication;
+import integracao.BasicMQTTTest;
 import integracao.ControladorHelper;
+import io.moquette.interception.InterceptHandler;
+import io.moquette.interception.messages.*;
+import io.moquette.server.Server;
+import io.moquette.server.config.IConfig;
+import io.moquette.server.config.MemoryConfig;
 import models.Controlador;
+import org.eclipse.paho.client.mqttv3.*;
+import org.fusesource.mqtt.client.QoS;
+import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import os72c.client.Versao;
+import os72c.client.protocols.MensagemVerificaConfiguracao;
+import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import protocol.ControladorOffline;
+import protocol.ControladorOnline;
+import protocol.Envelope;
+import scala.concurrent.duration.Duration;
+import utils.GzipUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
+import static java.util.Arrays.asList;
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 import static play.test.Helpers.route;
 
 
-public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentication {
+public class SimuladorControllerTest extends SimuladorMQTTTest {
+
 
     @Test
     public void testSimularWithoutData() {
@@ -80,7 +104,8 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
     }
 
     @Test
-    public void testSimular() {
+    public void testSimular() throws MqttException, InterruptedException {
+
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
 
@@ -105,7 +130,16 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         assertEquals(controlador.getId().toString(), json.get("controladorId").asText());
         assertTrue(json.has("tempoCicloAnel"));
         assertTrue(json.has("aneis"));
+
+        String idSimulacao = json.get("simulacaoId").asText();
+        SimuladorClientHelper sim = new SimuladorClientHelper(idSimulacao);
+        sim.buscarPagina(0);
+        await().until(() -> sim.getEstados().size() > 0);
+
     }
+
+
+
 
 
     private List<Erro> parseErrors(ArrayNode errosJson) {
@@ -115,5 +149,8 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         }
         return erros;
     }
+
+
+
 
 }
