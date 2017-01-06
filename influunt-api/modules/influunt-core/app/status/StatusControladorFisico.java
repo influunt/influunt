@@ -35,7 +35,7 @@ public class StatusControladorFisico {
     private HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
 
     public StatusControladorFisico(String idControlador, long timestamp,
-                                   StatusDevice statusDevice, HashMap<Integer, StatusAnel> statusAneis) {
+                                   StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.statusDevice = statusDevice;
@@ -91,7 +91,8 @@ public class StatusControladorFisico {
 
     public static Map<String, Map> getControladoresByStatusAnel(StatusAnel status) {
         StringBuilder matchQuery = new StringBuilder("{ $or: [");
-        int numeroMaximoDeAneis = 16; // depende do modelo do controlador
+        // número máximo de anéis depende do modelo do controlador
+        int numeroMaximoDeAneis = 16;
         for (int i = 1; i <= numeroMaximoDeAneis; i++) {
             matchQuery.append("{ 'statusAneis.").append(i).append("': '").append(status.toString()).append("' }");
             if (i < numeroMaximoDeAneis) {
@@ -128,8 +129,7 @@ public class StatusControladorFisico {
         status().drop();
     }
 
-    public static void log(String idControlador, long carimboDeTempo,
-                           StatusDevice statusDevice, HashMap<Integer, StatusAnel> statusAneis) {
+    public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
         new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice, statusAneis).save();
     }
 

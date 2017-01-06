@@ -58,7 +58,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
     @Test
     public void testControladoresByStatusAnel() throws InterruptedException {
-        HashMap<String, HashMap> cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.NORMAL);
+        Map<String, Map> cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.NORMAL);
         assertEquals(2, cbsa.size());
 
         cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.COM_FALHA);
@@ -68,10 +68,10 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         assertEquals(0, cbsa.size());
 
         jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
-        HashMap<Integer, StatusAnel> statusAneis1 = new HashMap<>();
+        Map<Integer, StatusAnel> statusAneis1 = new HashMap<>();
         statusAneis1.put(1, StatusAnel.NORMAL);
         statusAneis1.put(2, StatusAnel.COM_FALHA);
-        HashMap<Integer, StatusAnel> statusAneis2 = new HashMap<>();
+        Map<Integer, StatusAnel> statusAneis2 = new HashMap<>();
         statusAneis2.put(1, StatusAnel.MANUAL);
         statusAneis2.put(2, StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
 
@@ -105,7 +105,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         ArrayList<String> controladoresIds = new ArrayList<>();
         controladoresIds.add("1");
         controladoresIds.add("2");
-        HashMap<String, HashMap> usc = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
+        Map<String, Map> usc = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
         assertEquals(2, usc.size());
 
         assertEquals(StatusDevice.CONFIGURADO, StatusDevice.valueOf(usc.get("1").get("statusDevice").toString()));
@@ -120,7 +120,7 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
     @Test
     public void testHistoricoStatusControlador() throws InterruptedException {
         jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
-        HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+        Map<Integer, StatusAnel> statusAneis = new HashMap<>();
         statusAneis.put(1, StatusAnel.NORMAL);
         statusAneis.put(2, StatusAnel.COM_FALHA);
 
@@ -162,11 +162,11 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
     @Test
     public void testUltimoStatusDeTodosControladoresApi() {
-        HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+        Map<Integer, StatusAnel> statusAneis = new HashMap<>();
         statusAneis.put(1, StatusAnel.NORMAL);
         statusAneis.put(2, StatusAnel.COM_FALHA);
 
-        HashMap<Integer, StatusAnel> statusAneis1 = new HashMap<>();
+        Map<Integer, StatusAnel> statusAneis1 = new HashMap<>();
         statusAneis1.put(1, StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
         statusAneis1.put(2, StatusAnel.MANUAL);
 
