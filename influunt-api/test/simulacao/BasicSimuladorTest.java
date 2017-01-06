@@ -54,7 +54,7 @@ public class BasicSimuladorTest extends Simulador {
 
     @Override
     public void trocaEstagioManualLiberada(DateTime timestamp) {
-        
+
     }
 
     @Override

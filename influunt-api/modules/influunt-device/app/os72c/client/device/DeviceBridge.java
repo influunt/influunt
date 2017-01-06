@@ -15,4 +15,8 @@ public interface DeviceBridge {
     void modoManualDesativado();
 
     void sendAneis(int[] aneis);
+
+    void trocaEstagioManualLiberada();
+
+    void trocaEstagioManualBloqueada();
 }

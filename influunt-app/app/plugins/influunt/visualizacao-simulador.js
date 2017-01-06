@@ -47,6 +47,7 @@ var influunt;
         var specBotoes = null;
         var estagios = {};
         var modoManual = [];
+        var bloqueioTrocaEstagio = [];        
         var led;
         var situacaoLedManual = 'desligado';
 
@@ -129,10 +130,13 @@ var influunt;
         }
 
         function verificaLed(){
-          var result = _.some(modoManual,function(e){
-            return tempo >= e[0] / 10  && tempo < e[1] / 10;
-          }) ? 'ligado' : 'desligado';
-
+          
+          var result = _.find(bloqueioTrocaEstagio,function(e){
+            return tempo >= (e[0] / 10) - 1;
+          });
+          
+          result = result && result[1] == 'LIBERAR' ? 'ligado' : 'desligado';
+          console.log("result",result);
           situacaoLedManual = result;
 
           led.play(result);
@@ -854,6 +858,14 @@ var influunt;
           });
         }
 
+        function processaBloqueios(bloqueios){
+          bloqueioTrocaEstagio = [];
+          bloqueios.forEach(function(bloqueio){
+            var x = (bloqueio[1] - (inicioSimulacao.unix() * 1000)) / 100;
+            bloqueioTrocaEstagio.push([x,bloqueio[0]]);
+          });
+        }
+        
         function processaManual(manuais){
           manuais.forEach(function(manual){
             manual[2] = [1, 3];
@@ -931,6 +943,7 @@ var influunt;
                 processaPlanos(json.trocas);
                 processaAlarmes(json.alarmes);
                 processaManual(json.manual);
+                processaBloqueios(json.bloqueios);
               }catch(err){
                 console.log(err);
               }

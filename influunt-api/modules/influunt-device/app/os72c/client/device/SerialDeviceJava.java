@@ -152,7 +152,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     @Override
     public void modoManualDesativado() {
-        send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_DESATIVADO, sequencia));
+
     }
 
     @Override
@@ -161,8 +161,18 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     }
 
     @Override
-    public void modoManualAtivo() {
+    public void trocaEstagioManualLiberada() {
         send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_ATIVADO, sequencia));
+    }
+
+    @Override
+    public void trocaEstagioManualBloqueada() {
+        send(new MensagemModoManualAtivado(TipoDeMensagemBaixoNivel.MODO_MANUAL_DESATIVADO, sequencia));
+    }
+
+    @Override
+    public void modoManualAtivo() {
+
     }
 
     private void send(Mensagem mensagem) {
