@@ -31,4 +31,14 @@ public class FakeDevice implements DeviceBridge {
     public void sendAneis(int[] aneis) {
 
     }
+
+    @Override
+    public void trocaEstagioManualLiberada() {
+
+    }
+
+    @Override
+    public void trocaEstagioManualBloqueada() {
+
+    }
 }

@@ -18,6 +18,12 @@ import java.util.List;
 public class BasicSimuladorTest extends Simulador {
     public List<DateTime> listaModoManualAtivo = new ArrayList<>();
 
+    public List<DateTime> listaModoManualDesativado = new ArrayList<>();
+
+    public List<DateTime> listaTrocaManualLiberada = new ArrayList<>();
+
+    public List<DateTime> listaTrocaManualBloqueada = new ArrayList<>();
+
     public BasicSimuladorTest(Controlador controlador, ParametroSimulacao parametros) {
         super(controlador, parametros);
     }
@@ -49,17 +55,17 @@ public class BasicSimuladorTest extends Simulador {
 
     @Override
     public void modoManualDesativado(DateTime timestamp) {
-
+        listaModoManualDesativado.add(timestamp);
     }
 
     @Override
     public void trocaEstagioManualLiberada(DateTime timestamp) {
-
+        listaTrocaManualLiberada.add(timestamp);
     }
 
     @Override
     public void trocaEstagioManualBloqueada(DateTime timestamp) {
-
+        listaTrocaManualBloqueada.add(timestamp);
     }
 
     @Override

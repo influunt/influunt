@@ -46,10 +46,12 @@ var influunt;
         var botoes = {};
         var specBotoes = null;
         var estagios = {};
-        var modoManual = [];
-        var bloqueioTrocaEstagio = [];        
+        var ativacaoModoManual = [];
+        var desativacaoModoManual = [];
+        var bloqueioTrocaEstagio = [];
         var led;
         var situacaoLedManual = 'desligado';
+        var situacaoTrocaLedManual = 'desligado';
 
         var modoManualAtivado = false;
 
@@ -130,16 +132,36 @@ var influunt;
         }
 
         function verificaLed(){
+          var ativado = _
+            .chain(ativacaoModoManual)
+            .orderBy()
+            .filter(ativacaoModoManual, function(e) { return (e / 10) <= tempo; })
+            .last()
+            .value();
           
-          var result = _.find(bloqueioTrocaEstagio,function(e){
-            return tempo >= (e[0] / 10) - 1;
-          });
+          var desativado = _
+            .chain(ativacaoModoManual)
+            .orderBy()
+            .filter(ativacaoModoManual, function(e) { return (e / 10) <= tempo; })
+            .last()
+            .value();
           
-          result = result && result[1] == 'LIBERAR' ? 'ligado' : 'desligado';
-          console.log("result",result);
-          situacaoLedManual = result;
+          if (ativado && (!desativado || ativado > desativado)) {
+            situacaoLedManual = 'ligado';
+          } else {
+            situacaoLedManual = 'desligado';
+          }
 
-          led.play(result);
+          var result = _
+            .chain(bloqueioTrocaEstagio)
+            .orderBy()
+            .filter(function(e){ return (e[0] / 10) <= tempo; })
+            .last()
+            .value();
+
+          situacaoTrocaLedManual = result && result[1] === 'LIBERAR' ? 'ligado' : 'desligado';
+
+          led.play(situacaoTrocaLedManual);
         }
 
         function atualizaBotoesVisiveis() {
@@ -161,8 +183,8 @@ var influunt;
 
         function removeFuture(next){
           var removeAfter, i;
-          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560) + MARGEM_LATERAL) :
-                               ((parseInt(tempo / 256) * 2560) + MARGEM_LATERAL);
+          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560)) + MARGEM_LATERAL :
+                               ((parseInt(tempo / 256) * 2560)) + MARGEM_LATERAL;
 
           for(i = intervalosGroup.children.length - 1; i >= 0; i--) {
             if(intervalosGroup.children[i].x >= removeAfter){
@@ -178,14 +200,25 @@ var influunt;
             }
           }
 
-          var listaManuais = [];
-          for(i = modoManual.length - 1; i >=0; i--) {
-            if(modoManual[i][0] >= removeAfter) {
-              modoManual.splice(i, 1);
+          removeAfter = removeAfter - MARGEM_LATERAL;
+
+          for(i = ativacaoModoManual.length - 1; i >=0; i--) {
+            if(ativacaoModoManual[i] >= removeAfter) {
+              ativacaoModoManual.splice(i, 1);
             }
           }
 
-          modoManual = listaManuais;
+          for(i = desativacaoModoManual.length - 1; i >=0; i--) {
+            if(desativacaoModoManual[i] >= removeAfter) {
+              desativacaoModoManual.splice(i, 1);
+            }
+          }
+
+          for(i = bloqueioTrocaEstagio.length - 1; i >=0; i--) {
+            if(bloqueioTrocaEstagio[i][0] >= removeAfter) {
+              bloqueioTrocaEstagio.splice(i, 1);
+            }
+          }
         }
 
         function loadMore(inicio) {
@@ -300,6 +333,10 @@ var influunt;
           return situacaoLedManual === 'ligado';
         }
 
+        function showTrocaEstagioManual() {
+          return situacaoTrocaLedManual === 'ligado';
+        }
+
         function botaoPlay(){
           _.each(specBotoes, function(spec) {
             var botao = botoes[spec.nome];
@@ -343,10 +380,6 @@ var influunt;
             ativarModoManual: modoManualAtivado
           };
 
-          _.remove(modoManual, function(e) {
-            return tempo >= e[0] / 10  && tempo <= e[1] / 10;
-          });
-
           loadingGroup.visible = true;
           removeFuture();
 
@@ -369,8 +402,7 @@ var influunt;
           var json = {disparo: (disparo.unix() + 1) * 1000};
 
           loadingGroup.visible = true;
-          intervalosGroup.children.forEach(function(c){c.destroy();});
-          eventosGroup.children.forEach(function(c){c.destroy();});
+          removeFuture();
 
           var message = new Paho.MQTT.Message(JSON.stringify(json));
           message.destinationName = 'simulador/' + config.simulacaoId + '/trocar_estagio';
@@ -410,7 +442,7 @@ var influunt;
 
               {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: !showEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
               {nome: 'desativaOperacaoManual', action: desativaModoManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true},
-              {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true}
+              {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showTrocaEstagioManual, enableOnPause: true, enableOnPlay: true}
           ];
 
           // valores de incremento do arquivo de sprite para os botões.
@@ -859,7 +891,6 @@ var influunt;
         }
 
         function processaBloqueios(bloqueios){
-          bloqueioTrocaEstagio = [];
           bloqueios.forEach(function(bloqueio){
             var x = (bloqueio[1] - (inicioSimulacao.unix() * 1000)) / 100;
             bloqueioTrocaEstagio.push([x,bloqueio[0]]);
@@ -868,23 +899,20 @@ var influunt;
         
         function processaManual(manuais){
           manuais.forEach(function(manual){
-            manual[2] = [1, 3];
             var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;
-            if(modoManual.length === 0){
-              modoManual.push([x,undefined]);
-            }else if(manual[0] === 'ATIVAR'){
-              if(_.last(modoManual)[1] !== undefined){
-                modoManual.push([x,undefined]);
-              }
-            }else if(manual[0] === 'DESATIVAR'){
-              if(_.last(modoManual)[1] === undefined){
-                _.last(modoManual)[1] = x;
-              }
+
+            if (manual[0] === 'ATIVAR') {
+              ativacaoModoManual.push(x);
+            } else if(manual[0] === 'DESATIVAR'){
+              desativacaoModoManual.push(x);
             }
           });
-          modoManual.forEach(function(m){
-            desenhaEventoDoControlador(m[0],'#2E7D32',"EM","Entrada do modo manual");
-            desenhaEventoDoControlador(m[1],'#2E7D32',"SM","Saída do modo manual",m[1]);
+
+          ativacaoModoManual.forEach(function(m) {
+            desenhaEventoDoControlador(m,'#2E7D32',"EM","Entrada do modo manual");
+          });
+          desativacaoModoManual.forEach(function(m) {
+            desenhaEventoDoControlador(m,'#2E7D32',"SM","Saída do modo manual");
           });
         }
 

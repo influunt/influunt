@@ -67,6 +67,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean tempoDispensavelJaAdicionado = false;
 
+    private boolean verdeSegurancaCumprido = false;
+
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  Plano plano,
@@ -216,7 +218,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private boolean cumpriuTempoVerdeSeguranca(IntervaloEstagio intervalo) {
-        return !intervalo.isEntreverde() && intervalo.getDuracao() >= (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
+        if (intervalo.isEntreverde()) {
+            return false;
+        }
+        Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
+
+        return (contadorIntervalo - range.getKey().lowerEndpoint()) >= (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
     }
 
     private boolean verificaSeDeveAguardarEntradaEmModoManual(IntervaloEstagio ultimoIntervalo) {

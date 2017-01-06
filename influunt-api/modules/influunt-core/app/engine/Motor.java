@@ -10,9 +10,11 @@ import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**
@@ -38,6 +40,10 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     private boolean entrarEmModoManualAbrupt = false;
 
     private boolean emModoManual = false;
+
+    private boolean informadoBloqueado = false;
+
+    private boolean informadoLiberado = false;
 
     private Controlador controladorTemporario = null;
 
@@ -259,6 +265,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
                     gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
                 });
             callback.modoManualAtivo(instante);
+            callback.trocaEstagioManualBloqueada(instante);
+            informadoBloqueado = true;
             emModoManual = true;
         }
 
@@ -266,23 +274,27 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void bloqueaTrocaEstagioManual(int anel) {
-        if (!aneisProntosParaManual.values().contains(Boolean.FALSE)) {
-            callback.trocaEstagioManualBloqueada(instante);
-        }
-
         aneisProntosParaTrocaEstagioManual.put(anel, false);
+
+        if (aneisProntosParaTrocaEstagioManual.values().contains(Boolean.FALSE) && !informadoBloqueado) {
+            callback.trocaEstagioManualBloqueada(instante);
+            informadoBloqueado = true;
+            informadoLiberado = false;
+        }
     }
 
     public void liberaTrocaEstagioManual(int anel) {
         aneisProntosParaTrocaEstagioManual.put(anel, true);
 
-        if (!aneisProntosParaManual.values().contains(Boolean.FALSE)) {
+        if (aneisProntosParaTrocaEstagioManual.values().stream().allMatch(v -> v.equals(Boolean.TRUE)) && !informadoLiberado) {
             callback.trocaEstagioManualLiberada(instante);
+            informadoBloqueado = false;
+            informadoLiberado = true;
         }
     }
 
     public boolean podeTrocarEstagioManual() {
-        return !aneisProntosParaTrocaEstagioManual.values().contains(Boolean.FALSE);
+        return aneisProntosParaTrocaEstagioManual.values().stream().allMatch(v -> v.equals(Boolean.TRUE));
     }
 
     public boolean isEntrarEmModoManualAbrupt() {
