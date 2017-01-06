@@ -8,12 +8,14 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular',
-                                  'influuntBlockui', 'pahoProvider', 'eventosDinamicos',
-    function ($scope, $controller, $filter, Restangular,
-              influuntBlockui, pahoProvider, eventosDinamicos) {
+  .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui', 'pahoProvider',
+                                  'eventosDinamicos', '$location',
+    function ($scope, $controller, $filter, Restangular, influuntBlockui, pahoProvider,
+              eventosDinamicos, $location) {
 
       var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest;
+
+      var initializing = true;
 
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -37,6 +39,12 @@ angular.module('influuntApp')
             nome: 'nomeDoEndereco',
             label: 'controladores.nomeEndereco',
             tipo: 'texto'
+          },
+          {
+            nome: 'status',
+            label: 'status.aneis',
+            tipo: 'select',
+            options: { NORMAL: 'NORMAL', COM_FALHA: 'COM_FALHA', AMARELO_INTERMITENTE_POR_FALHA: 'AMARELO_INTERMITENTE_POR_FALHA', APAGADO_POR_FALHA: 'APAGADO_POR_FALHA', MANUAL: 'MANUAL' }
           }
         ]
       };
@@ -56,6 +64,16 @@ angular.module('influuntApp')
       $scope.statusTransacoes = {};
 
       $scope.index = function() {
+        if (initializing && $location.search().status) {
+          initializing = false;
+          var filtroStatus = {
+            nomeCampo: 'status',
+            tipoCampo: 'select',
+            valor: $location.search().status
+          };
+          _.set($scope.pesquisa, 'filtro.status', filtroStatus);
+        }
+
         var query = $scope.buildQuery($scope.pesquisa);
         return Restangular.all('controladores').customGET('imposicao', query)
           .then(function(res) {
@@ -128,6 +146,7 @@ angular.module('influuntApp')
       };
 
       updateImposicoesEmAneis = function(statusObj) {
+        $scope.statusAneis = statusObj.status;
         var statuses = statusObj.statusPlanos;
         return _.map(statuses, function(status) {
           return _
@@ -175,8 +194,12 @@ angular.module('influuntApp')
           }
         }
       }, true);
-      
+
       $scope.setCurrentAnel = function(anel) {
         $scope.currentAnel = anel;
+      };
+
+      $scope.statusAnel = function(anel) {
+        return $scope.statusAneis && $scope.statusAneis[anel.controladorFisicoId].statusAneis[anel.posicao];
       };
     }]);

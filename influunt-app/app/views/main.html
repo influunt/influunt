@@ -134,7 +134,7 @@
                     </tr>
                     <tr>
                       <td>
-                        <span <span class="label label-danger"
+                        <span class="label label-danger"
                             tooltips tooltip-template="{{ 'main.hintModoOffline' | translate }}"
                             tooltip-side="right">{{ 'main.offline' | translate }}
                         </span>
@@ -170,52 +170,56 @@
                   <tbody>
                     <tr>
                       <td>
-                        <span
-                            class="label label-primary"
-                            tooltips tooltip-template="{{ 'main.operacaoNormalHint' | translate }}"
-                            tooltip-side="right">
+                        <a class="label label-primary"
+                           ui-sref="app.impor_config({ status: 'NORMAL' })"
+                           tooltips tooltip-template="{{ 'main.operacaoNormalHint' | translate }}"
+                           tooltip-side="right">
                           {{ 'main.operacaoNormal' | translate | uppercase }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ statusFisicoAneis.NORMAL || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
-                        <span class="label label-danger"
-                            tooltips tooltip-template="{{ 'main.operandoComFalhasHint' | translate }}"
-                            tooltip-side="right">
+                        <a class="label label-danger"
+                           ui-sref="app.impor_config({ status: 'COM_FALHA' })"
+                           tooltips tooltip-template="{{ 'main.operandoComFalhasHint' | translate }}"
+                           tooltip-side="right">
                           {{ 'main.operandoComFalhas' | translate | uppercase }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ statusFisicoAneis.COM_FALHAS || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
-                        <span class="label label-warning"
-                            tooltips tooltip-template="{{ 'main.amareloIntermitentePorfalhaHint' | translate }}"
-                            tooltip-side="right">
+                        <a class="label label-warning"
+                           ui-sref="app.impor_config({ status: 'AMARELO_INTERMITENTE_POR_FALHA' })"
+                           tooltips tooltip-template="{{ 'main.amareloIntermitentePorfalhaHint' | translate }}"
+                           tooltip-side="right">
                           {{ 'main.amareloIntermitentePorfalha' | translate | uppercase }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ statusFisicoAneis.AMARELO_INTERMITENTE_POR_FALHA || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
-                        <span class="label"
-                              tooltips tooltip-template="{{ 'main.apagadoPorFalhaHint' | translate }}"
-                              tooltip-side="right">
+                        <a class="label"
+                           ui-sref="app.impor_config({ status: 'APAGADO_POR_FALHA' })"
+                           tooltips tooltip-template="{{ 'main.apagadoPorFalhaHint' | translate }}"
+                           tooltip-side="right">
                           {{ 'main.apagadoPorFalha' | translate | uppercase }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ statusFisicoAneis.APAGADO_POR_FALHA || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
-                        <span class="label label-modo-manual"
-                              tooltips tooltip-template="{{ 'main.manualHint' | translate }}"
-                              tooltip-side="right">
+                        <a class="label label-modo-manual"
+                           ui-sref="app.impor_config({ status: 'MANUAL' })"
+                           tooltips tooltip-template="{{ 'main.manualHint' | translate }}"
+                           tooltip-side="right">
                           {{ 'main.manual' | translate | uppercase }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ statusFisicoAneis.MANUAL || 0 }}</td>
                     </tr>

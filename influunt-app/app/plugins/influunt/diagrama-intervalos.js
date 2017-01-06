@@ -71,8 +71,8 @@ var influunt;
               dados = temposEntreverdes[grupo.posicao];
 
               if (grupoSemaforicoPlano.ativado !== false && !_.find(estagioAtual.gruposSemaforicos, {'id': grupo.id})){
-                if (dados.tempoEntreVerde < entreverde) {
-                  dados.tempoAtrasoGrupo = Math.max(dados.tempoAtrasoGrupo, (entreverde - dados.tempoEntreVerde));
+                if (dados.tempoEntreVerde < entreverde && dados.tempoAtrasoGrupo === 0) {
+                  dados.tempoAtrasoGrupo = entreverde - dados.tempoEntreVerde;
                 }
                 
                 if(dados.tempoAtrasoGrupo > 0){

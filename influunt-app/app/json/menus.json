@@ -1,5 +1,15 @@
 [
   {
+    "name": "controladores",
+    "label": "controladores.titulo",
+    "route": "app.controladores"
+  },
+  {
+    "name": "imporConfig",
+    "label": "imporConfig.titulo",
+    "route": "app.impor_config"
+  },
+  {
     "name": "cadastros",
     "label": "menu.cadastros",
     "children": [
@@ -51,11 +61,6 @@
     ]
   },
   {
-    "name": "controladores",
-    "label": "controladores.titulo",
-    "route": "app.controladores"
-  },
-  {
     "name": "relatorios",
     "label": "relatorios.titulo",
     "children": [
@@ -85,11 +90,6 @@
         "route": "app.relatorios_log_controladores"
       }
     ]
-  },
-  {
-    "name": "imporConfig",
-    "label": "imporConfig.titulo",
-    "route": "app.impor_config"
   },
   {
     "name": "streamControlador",

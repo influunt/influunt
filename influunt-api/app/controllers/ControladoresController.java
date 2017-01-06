@@ -19,6 +19,7 @@ import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
 import services.FalhasEAlertasService;
+import status.StatusControladorFisico;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 import utils.RangeUtils;
@@ -333,6 +334,13 @@ public class ControladoresController extends Controller {
 
         // somente controladores sincronizados
         params.put("controlador_sincronizado_id_ne", new String[]{null});
+
+        if (params.containsKey("status_eq")) {
+            StatusAnel status = StatusAnel.valueOf(params.remove("status_eq")[0]);
+            Map<String, Map> statusHash = StatusControladorFisico.getControladoresByStatusAnel(status);
+            String[] controladoresFisicosIds = new String[]{"[" + String.join(",", statusHash.keySet()) + "]"};
+            params.put("id_in", controladoresFisicosIds);
+        }
 
         // Dado que seja um usuário sob uma área.
         if (!u.isRoot() && !u.podeAcessarTodasAreas() && u.getArea() != null) {
