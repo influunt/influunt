@@ -13,11 +13,9 @@ import java.util.List;
 /**
  * Created by rodrigosol on 10/4/16.
  */
-                    public class SimuladorAkka extends Simulador {
+public class SimuladorAkka extends Simulador {
 
     private final SimuladorActor simuladorActor;
-
-    private DateTime ponteiro;
 
     public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros) {
         super(parametros.getControlador(), parametros);

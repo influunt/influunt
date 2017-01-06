@@ -204,13 +204,10 @@ public class SimuladorActor extends UntypedActor {
 
         ArrayNode bloqueios = root.putArray("bloqueios");
 
-        bloqueioTrocaEstagio.sort(new Comparator<ArrayNode>() {
-            @Override
-            public int compare(ArrayNode o1, ArrayNode o2) {
-                return Long.compare(o2.get(1).asLong(), o1.get(1).asLong());
-            }
-        });
-        bloqueioTrocaEstagio.forEach(bloqueioTrocaEstagio -> bloqueios.add(bloqueioTrocaEstagio));
+        bloqueioTrocaEstagio.stream()
+            .sorted((o1, o2) -> Long.compare(o2.get(1).asLong(), o1.get(1).asLong()))
+            .forEach(bloqueios::add);
+
         return root.toString();
     }
 

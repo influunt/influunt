@@ -103,9 +103,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         if (this.agendamento != null && intervalo != null &&
             (this.plano.isIntermitente() || this.plano.isApagada()) &&
             !intervalo.isEntreverde()) {
-            if (this.agendamento.getPlano().isManual() && !motor.ativaModoManual(getAnel())) {
-                //Não executa o agendamento
-            } else {
+
+            if (!this.agendamento.getPlano().isManual() || motor.ativaModoManual(getAnel())) {
                 Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
                 intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
                 executaAgendamentoTrocaDePlano();

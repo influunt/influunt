@@ -10,10 +10,7 @@ import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -47,9 +44,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Controlador controladorTemporario = null;
 
-    private HashMap<Integer, Boolean> aneisProntosParaManual = new HashMap<>();
+    private Map<Integer, Boolean> aneisProntosParaManual = new HashMap<>();
 
-    private HashMap<Integer, Boolean> aneisProntosParaTrocaEstagioManual = new HashMap<>();
+    private Map<Integer, Boolean> aneisProntosParaTrocaEstagioManual = new HashMap<>();
 
     public Motor(Controlador controlador, DateTime inicioControlador, MotorCallback callback) {
 

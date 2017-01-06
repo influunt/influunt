@@ -138,14 +138,14 @@ var influunt;
             .filter(ativacaoModoManual, function(e) { return (e / 10) <= tempo; })
             .last()
             .value();
-          
+
           var desativado = _
-            .chain(ativacaoModoManual)
+            .chain(desativacaoModoManual)
             .orderBy()
-            .filter(ativacaoModoManual, function(e) { return (e / 10) <= tempo; })
+            .filter(desativacaoModoManual, function(e) { return (e / 10) <= tempo; })
             .last()
             .value();
-          
+
           if (ativado && (!desativado || ativado > desativado)) {
             situacaoLedManual = 'ligado';
           } else {
@@ -183,8 +183,7 @@ var influunt;
 
         function removeFuture(next){
           var removeAfter, i;
-          removeAfter = next ? (((parseInt(tempo / 256)+1) * 2560)) + MARGEM_LATERAL :
-                               ((parseInt(tempo / 256) * 2560)) + MARGEM_LATERAL;
+          removeAfter = (parseInt(tempo / 256) + (next ? 1 : 0)) * 2560 + MARGEM_LATERAL;
 
           for(i = intervalosGroup.children.length - 1; i >= 0; i--) {
             if(intervalosGroup.children[i].x >= removeAfter){
@@ -896,7 +895,7 @@ var influunt;
             bloqueioTrocaEstagio.push([x,bloqueio[0]]);
           });
         }
-        
+
         function processaManual(manuais){
           manuais.forEach(function(manual){
             var x = (manual[1] - (inicioSimulacao.unix() * 1000)) / 100;

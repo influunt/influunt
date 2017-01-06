@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
+import play.Logger;
 import play.libs.Json;
 
 import java.util.ArrayList;
@@ -46,17 +47,17 @@ public class SimuladorClientHelper {
         mqttClient.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-                System.out.println("ConectionLost");
+                Logger.info("ConectionLost");
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                System.out.println("MessageArrived");
+                Logger.info("MessageArrived");
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-                System.out.println("deliveryComplete");
+                Logger.info("deliveryComplete");
             }
         });
         mqttClient.connect(opts);

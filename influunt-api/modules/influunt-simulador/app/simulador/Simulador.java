@@ -16,6 +16,7 @@ import models.simulador.parametros.ParametroSimulacaoManual;
 import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
+import play.Logger;
 import utils.RangeUtils;
 
 import java.util.ArrayList;
@@ -88,8 +89,8 @@ public abstract class Simulador implements MotorCallback {
                 tempoSimulacao += 100;
                 inicioSimulacao = inicioSimulacao.plus(100);
             } catch (Exception e) {
-                System.out.println("******************MORREU**********************");
-                System.out.println(e.getMessage());
+                Logger.info("******************MORREU**********************");
+                Logger.info(e.getMessage());
                 e.printStackTrace();
             }
         }
