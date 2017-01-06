@@ -508,7 +508,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
             if (estagioPlanoAnterior.isDispensavel() &&
                 !estagioPlanoAnterior.equals(estagioPlanoPassado) &&
-                this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())) {
+                this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel()) &&
+                !estagioPlanoAnterior.ultimoEstagioDaSequencia()) {
 
                 tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this) - tempoCicloDecorrido) / 1000)).intValue();
                 tempoVerdeDoEstagioDispensavel += tabelaEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),

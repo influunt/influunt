@@ -51,7 +51,8 @@ public abstract class GeradorDeIntervalos {
         } else if (!isModoAnteriorVerde(modoAnterior)) {
             if (modoAnterior.equals(ModoOperacaoPlano.INTERMITENTE)) {
                 return new GeradorVermelhoIntegral(intervalos, plano, modoAnterior,
-                    listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
+                    listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde,
+                    tempoAbatimentoCoordenado, tempoAbatidoNoCiclo);
             }
             return new GeradorSequenciaPartida(intervalos, plano, modoAnterior,
                 listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
@@ -87,5 +88,14 @@ public abstract class GeradorDeIntervalos {
             new IntervaloEstagio(tempoEntreVerde, true, estagioPlano, estagioPlanoAtual, diffEntreVerdes, inicio));
         this.intervalos.put(Range.closedOpen(tempoEntreVerde, tempoEntreVerde + tempoVerde),
             new IntervaloEstagio(tempoVerde, false, estagioPlano, estagioPlanoAtual, diffEntreVerdes, inicio));
+    }
+
+    protected boolean deveFazerAbatimento(EstagioPlano origem, EstagioPlano destino, Long tempoAbatimentoCoordenado, boolean inicio) {
+        return tempoAbatimentoCoordenado > 0L || inicio ||
+            (trocaDePlano(origem, destino) && !origem.getEstagio().equals(this.plano.getEstagioAnterior(destino)));
+    }
+
+    protected boolean trocaDePlano(EstagioPlano origem, EstagioPlano destino) {
+        return !origem.getPlano().equals(destino.getPlano());
     }
 }
