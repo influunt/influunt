@@ -185,6 +185,8 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
             gerenciadorDeEstagios.tick();
+            gerenciadorDeEstagios.tickTempo();
+            gerenciadorDeEstagios.tickMonitoramentos();
         }
     }
 

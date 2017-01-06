@@ -27,6 +27,10 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
         controlador.save();
         listaEstagios = new HashMap<>();
         listaHistoricoEstagios = new HashMap<>();
+
+        controlador.getAneisAtivos().forEach(anel -> {
+            anel.setAceitaModoManual(false);
+        });
     }
 
     protected void verificaHistoricoGruposSemaforicos(int offset, GrupoCheck grupoCheck) {

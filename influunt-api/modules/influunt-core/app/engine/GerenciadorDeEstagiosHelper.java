@@ -58,9 +58,24 @@ public class GerenciadorDeEstagiosHelper {
         }
     }
 
+    public static Long aumentarTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
+                                            IntervaloEstagio intervalo, long tempo) {
+        Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.asMapOfRanges().entrySet().stream()
+            .filter(entry -> entry.getValue().equals(intervalo)).findFirst().orElse(null);
+
+        aumentarTempoEstagio(intervalos, range, tempo);
+
+        return range.getKey().upperEndpoint();
+    }
+
     public static void aumentarTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
                                             long contadorIntervalo, long tempo) {
         Map.Entry<Range<Long>, IntervaloEstagio> range = intervalos.getEntry(contadorIntervalo - 100L);
+        aumentarTempoEstagio(intervalos, range, tempo);
+    }
+
+    private static void aumentarTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,
+                                             Map.Entry<Range<Long>, IntervaloEstagio> range, long tempo) {
         final IntervaloEstagio intervalo = range.getValue();
 
         if (intervalo.getDuracao() < tempo) {
@@ -72,6 +87,7 @@ public class GerenciadorDeEstagiosHelper {
                 intervalo);
         }
     }
+
 
     public static boolean isCumpreTempoVerdeSeguranca(List<EstagioPlano> lista) {
         final EstagioPlano atual = lista.get(1);

@@ -40,8 +40,8 @@ public class TrocaPlanosEmModoManualTest extends GerenciadorDeTrocasTest {
         assertEquals("Plano Atual", 1, listaTrocaPlano.get(inicioExecucao).getPosicaoPlano().intValue());
         assertEquals("Plano Atual", 6, listaTrocaPlano.get(inicioExecucao.plusSeconds(120)).getPosicaoPlano().intValue());
 
-        assertEquals("Plano Atual Anel 1 - Manual", 1, getPlanoTrocaEfetiva(1, 52).getPosicao().intValue());
-        assertEquals("Plano Atual Anel 1 - Manual", ModoOperacaoPlano.MANUAL, getPlanoTrocaEfetiva(1, 52).getModoOperacao());
+        assertEquals("Plano Atual Anel 1 - Manual", 1, getPlanoTrocaEfetiva(1, 53).getPosicao().intValue());
+        assertEquals("Plano Atual Anel 1 - Manual", ModoOperacaoPlano.MANUAL, getPlanoTrocaEfetiva(1, 53).getModoOperacao());
 
         assertEquals("Plano Atual Anel 3 - Manual", 1, getPlanoTrocaEfetiva(3, 53).getPosicao().intValue());
         assertEquals("Plano Atual Anel 3 - Manual", ModoOperacaoPlano.MANUAL, getPlanoTrocaEfetiva(3, 53).getModoOperacao());

@@ -3,6 +3,7 @@ package execucao;
 import engine.GerenciadorDeEstagios;
 import engine.Motor;
 import integracao.ControladorHelper;
+import models.Anel;
 import models.ModoOperacaoPlano;
 import models.Plano;
 import org.joda.time.DateTime;
@@ -91,6 +92,9 @@ public class LerDadosDoControladorTest extends MotorTest {
     @Test
     public void modoManualTest() throws IOException {
         inicioExecucao = new DateTime(2016, 12, 13, 22, 0, 0);
+        Anel anel = getAnel(3);
+        anel.setAceitaModoManual(false);
+
         Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 1);

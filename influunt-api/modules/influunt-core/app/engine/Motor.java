@@ -10,10 +10,9 @@ import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -42,12 +41,23 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Controlador controladorTemporario = null;
 
+    private HashMap<Integer, Boolean> aneisProntosParaManual = new HashMap<>();
+
+    private HashMap<Integer, Boolean> aneisProntosParaTrocaEstagioManual = new HashMap<>();
+
     public Motor(Controlador controlador, DateTime inicioControlador, MotorCallback callback) {
 
         this.callback = callback;
         this.controlador = controlador;
         this.gerenciadorDeTabelaHoraria = new GerenciadorDeTabelaHoraria();
         this.gerenciadorDeTabelaHoraria.addEventos(controlador.getTabelaHoraria().getEventos());
+
+        aneisProntosParaManual.clear();
+        controlador.getAneisAtivos().stream().filter(Anel::isAceitaModoManual)
+            .forEach(anel -> {
+                aneisProntosParaManual.put(anel.getPosicao(), false);
+                aneisProntosParaTrocaEstagioManual.put(anel.getPosicao(), false);
+            });
 
         if (inicioControlador.getMillisOfSecond() > 0) {
             int diff = 1000 - inicioControlador.getMillisOfSecond();
@@ -120,7 +130,10 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         }
 
         monitor.tick(instante, planos);
-        estagios.forEach(e -> e.tick());
+        estagios.forEach(GerenciadorDeEstagios::tick);
+        estagios.forEach(GerenciadorDeEstagios::tickTempo);
+        estagios.forEach(GerenciadorDeEstagios::tickMonitoramentos);
+
         instante = instante.plus(100);
         monitor.endTick();
     }
@@ -213,27 +226,63 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         return callback;
     }
 
-    public void desativaModoManual() {
-        if (estagios.stream().filter(gerenciador -> gerenciador.getPlano().isManual()).count() == 1) {
+    public void desativaModoManual(int anel, DateTime instante) {
+        if (!aneisProntosParaManual.values().contains(Boolean.FALSE)) {
+            aneisProntosParaManual.put(anel, false);
+
             callback.modoManualDesativado(instante);
             emModoManual = false;
+        } else {
+            aneisProntosParaManual.put(anel, false);
         }
+
         entrarEmModoManualAbrupt = false;
     }
 
-    public void ativaModoManual() {
+    public boolean ativaModoManual(int anel) {
         entrarEmModoManualAbrupt = true;
-        List<GerenciadorDeEstagios> estagiosComManual = estagios.stream()
-            .filter(gerenciador -> gerenciador.getPlano().getAnel().isAceitaModoManual())
+        aneisProntosParaManual.put(anel, true);
+
+        List<GerenciadorDeEstagios> aneisComManual = estagios.stream()
+            .filter(gerenciador -> gerenciador.getPlano().getAnel().isAceitaModoManual() && gerenciador.getAnel() != anel)
             .collect(Collectors.toList());
-        if (estagiosComManual.stream().allMatch(gerenciador -> gerenciador.getPlano().isManual())) {
+
+        aneisComManual.stream()
+            .forEach(gerenciador -> GerenciadorDeEventos.entrarEmModoManual(gerenciador));
+
+        if (aneisProntosParaManual.values().contains(Boolean.FALSE)) {
+            emModoManual = false;
+        } else {
+            aneisComManual.stream()
+                .forEach(gerenciador -> {
+                    gerenciador.executaAgendamentoTrocaDePlano();
+                    gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
+                });
             callback.modoManualAtivo(instante);
             emModoManual = true;
-        } else {
-            estagiosComManual.stream()
-                .filter(gerenciador -> !gerenciador.getPlano().isManual())
-                .forEach(gerenciador -> GerenciadorDeEventos.entrarEmModoManual(gerenciador));
         }
+
+        return emModoManual;
+    }
+
+    public void bloqueaTrocaEstagioManual(int anel) {
+        if (!aneisProntosParaManual.values().contains(Boolean.FALSE)) {
+            callback.trocaEstagioManualBloqueada(instante);
+        }
+
+        aneisProntosParaTrocaEstagioManual.put(anel, false);
+    }
+
+    public void liberaTrocaEstagioManual(int anel) {
+        aneisProntosParaTrocaEstagioManual.put(anel, true);
+
+        if (!aneisProntosParaManual.values().contains(Boolean.FALSE)) {
+            callback.trocaEstagioManualLiberada(instante);
+        }
+    }
+
+    public boolean podeTrocarEstagioManual() {
+        return !aneisProntosParaTrocaEstagioManual.values().contains(Boolean.FALSE);
     }
 
     public boolean isEntrarEmModoManualAbrupt() {
