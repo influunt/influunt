@@ -1011,7 +1011,7 @@ angular
 
         // IMPOR CONFIGURAÇÃO
         .state('app.impor_config', {
-          url: '/impor_config/',
+          url: '/impor_config?:status',
           templateUrl: 'views/impor_config/index.html',
           controller: 'ImporConfigCtrl',
           controllerAs: 'imporConfig',

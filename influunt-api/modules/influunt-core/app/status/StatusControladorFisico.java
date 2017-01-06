@@ -60,13 +60,14 @@ public class StatusControladorFisico {
 
     public static HashMap<String, HashMap> ultimoStatusDosControladores(List<String> ids) {
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
-        HashMap<String, HashMap> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
             status()
                 .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
                 .and("{$sort:{timestamp:-1}}")
                 .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}, 'statusAneis': {$first:'$statusAneis'}}}")
                 .as(Map.class);
+
+        HashMap<String, HashMap> hash = new HashMap<>();
         for (Map m : ultimoStatus) {
             hash.put(m.get("_id").toString(), (HashMap) m);
         }
@@ -86,6 +87,31 @@ public class StatusControladorFisico {
     public static List<StatusControladorFisico> historico(String idControlador, int pagina, int quantidade) {
         MongoCursor<Map> result = status().find("{ idControlador: # }", idControlador).sort("{timestamp:-1}").skip(pagina * quantidade).limit(quantidade).as(Map.class);
         return toList(result);
+    }
+
+    public static HashMap<String, HashMap> getControladoresByStatusAnel(StatusAnel status) {
+        StringBuilder matchQuery = new StringBuilder("{ $or: [");
+        int numeroMaximoDeAneis = 8; // depende do modelo do controlador
+        for (int i = 1; i <= numeroMaximoDeAneis; i++) {
+            matchQuery.append("{ 'statusAneis.").append(i).append("': '").append(status.toString()).append("' }");
+            if (i < 8) {
+                matchQuery.append(", ");
+            }
+        }
+        matchQuery.append("] }");
+
+        Aggregate.ResultsIterator<Map> ultimoStatus = status()
+            .aggregate("{ $sort: { timestamp: -1 } }")
+            .and("{ $group: { _id: '$idControlador', 'timestamp': { $first: '$timestamp' }, 'statusDevice': { $first: '$statusDevice' }, 'statusAneis': { $first: '$statusAneis' } } }")
+            .and("{ $match: " + matchQuery.toString() + " }")
+            .as(Map.class);
+
+        HashMap<String, HashMap> hash = new HashMap<>();
+        for (Map m : ultimoStatus) {
+            hash.put(m.get("_id").toString(), (HashMap) m);
+        }
+
+        return hash;
     }
 
 

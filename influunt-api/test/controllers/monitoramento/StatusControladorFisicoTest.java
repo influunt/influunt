@@ -38,7 +38,6 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
 
     @Before
     public void setUp() throws InterruptedException {
-
         jongo = provideApplication().injector().instanceOf(PlayJongo.class);
         StatusControladorFisico.jongo = jongo;
 
@@ -55,7 +54,50 @@ public class StatusControladorFisicoTest extends WithInfluuntApplicationNoAuthen
         StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.NOVO, statusAneis);
         Thread.sleep(10);
         StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.ATIVO, statusAneis);
+    }
 
+    @Test
+    public void testControladoresByStatusAnel() throws InterruptedException {
+        HashMap<String, HashMap> cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.NORMAL);
+        assertEquals(2, cbsa.size());
+
+        cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.COM_FALHA);
+        assertEquals(2, cbsa.size());
+
+        cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.APAGADO_POR_FALHA);
+        assertEquals(0, cbsa.size());
+
+        jongo.getCollection(StatusControladorFisico.COLLECTION).drop();
+        HashMap<Integer, StatusAnel> statusAneis1 = new HashMap<>();
+        statusAneis1.put(1, StatusAnel.NORMAL);
+        statusAneis1.put(2, StatusAnel.COM_FALHA);
+        HashMap<Integer, StatusAnel> statusAneis2 = new HashMap<>();
+        statusAneis2.put(1, StatusAnel.MANUAL);
+        statusAneis2.put(2, StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
+
+        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.NOVO, statusAneis1);
+        Thread.sleep(10);
+        StatusControladorFisico.log("1", System.currentTimeMillis(), StatusDevice.CONFIGURADO, statusAneis2);
+        Thread.sleep(10);
+        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.NOVO, statusAneis2);
+        Thread.sleep(10);
+        StatusControladorFisico.log("2", System.currentTimeMillis(), StatusDevice.ATIVO, statusAneis1);
+
+        cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.MANUAL);
+        assertEquals(1, cbsa.size());
+        assertEquals("1", cbsa.keySet().iterator().next());
+
+        cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.AMARELO_INTERMITENTE_POR_FALHA);
+        assertEquals(1, cbsa.size());
+        assertEquals("1", cbsa.keySet().iterator().next());
+
+        cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.COM_FALHA);
+        assertEquals(1, cbsa.size());
+        assertEquals("2", cbsa.keySet().iterator().next());
+
+        cbsa = StatusControladorFisico.getControladoresByStatusAnel(StatusAnel.NORMAL);
+        assertEquals(1, cbsa.size());
+        assertEquals("2", cbsa.keySet().iterator().next());
     }
 
     @Test
