@@ -833,7 +833,8 @@
     "ip": "IP"
   },
   "status": {
-    "titulo": "Status dos Controladores"
+    "titulo": "Status dos Controladores",
+    "aneis": "Status dos Anéis"
   },
   "sistema": {
     "mensagem_erro_502": "Erro ao comunicar com a API.",
@@ -994,6 +995,11 @@
   "STATUS_CONTROLADOR": "Status Controlador",
   "TRANSACAO": "Transação",
   "TROCA_PLANO": "Troca de Plano",
+  "NORMAL": "Normal",
+  "COM_FALHA": "Com Falha",
+  "AMARELO_INTERMITENTE_POR_FALHA": "Amarelo Intermitente Por Falha",
+  "APAGADO_POR_FALHA": "Apagado Por Falha",
+  "MANUAL": "Manual",
   "relatorios": {
     "auditorias": "Auditorias",
     "ciclo": "Ciclo",

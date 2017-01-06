@@ -32,10 +32,10 @@ public class StatusControladorFisico {
 
     private StatusDevice statusDevice;
 
-    private HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+    private Map<Integer, StatusAnel> statusAneis = new HashMap<>();
 
     public StatusControladorFisico(String idControlador, long timestamp,
-                                   StatusDevice statusDevice, HashMap<Integer, StatusAnel> statusAneis) {
+                                   StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.statusDevice = statusDevice;
@@ -58,17 +58,18 @@ public class StatusControladorFisico {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, HashMap> ultimoStatusDosControladores(List<String> ids) {
+    public static Map<String, Map> ultimoStatusDosControladores(List<String> ids) {
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
-        HashMap<String, HashMap> hash = new HashMap<>();
         Aggregate.ResultsIterator<Map> ultimoStatus =
             status()
                 .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
                 .and("{$sort:{timestamp:-1}}")
                 .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}, 'statusAneis': {$first:'$statusAneis'}}}")
                 .as(Map.class);
+
+        Map<String, Map> hash = new HashMap<>();
         for (Map m : ultimoStatus) {
-            hash.put(m.get("_id").toString(), (HashMap) m);
+            hash.put(m.get("_id").toString(), m);
         }
 
         return hash;
@@ -88,6 +89,32 @@ public class StatusControladorFisico {
         return toList(result);
     }
 
+    public static Map<String, Map> getControladoresByStatusAnel(StatusAnel status) {
+        StringBuilder matchQuery = new StringBuilder("{ $or: [");
+        // número máximo de anéis depende do modelo do controlador
+        int numeroMaximoDeAneis = 16;
+        for (int i = 1; i <= numeroMaximoDeAneis; i++) {
+            matchQuery.append("{ 'statusAneis.").append(i).append("': '").append(status.toString()).append("' }");
+            if (i < numeroMaximoDeAneis) {
+                matchQuery.append(", ");
+            }
+        }
+        matchQuery.append("] }");
+
+        Aggregate.ResultsIterator<Map> ultimoStatus = status()
+            .aggregate("{ $sort: { timestamp: -1 } }")
+            .and("{ $group: { _id: '$idControlador', 'timestamp': { $first: '$timestamp' }, 'statusDevice': { $first: '$statusDevice' }, 'statusAneis': { $first: '$statusAneis' } } }")
+            .and("{ $match: " + matchQuery.toString() + " }")
+            .as(Map.class);
+
+        Map<String, Map> hash = new HashMap<>();
+        for (Map m : ultimoStatus) {
+            hash.put(m.get("_id").toString(), m);
+        }
+
+        return hash;
+    }
+
 
     @NotNull
     private static List<StatusControladorFisico> toList(MongoCursor<Map> status) {
@@ -102,8 +129,7 @@ public class StatusControladorFisico {
         status().drop();
     }
 
-    public static void log(String idControlador, long carimboDeTempo,
-                           StatusDevice statusDevice, HashMap<Integer, StatusAnel> statusAneis) {
+    public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
         new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice, statusAneis).save();
     }
 

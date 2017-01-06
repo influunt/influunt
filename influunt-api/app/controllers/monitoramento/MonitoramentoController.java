@@ -46,8 +46,8 @@ public class MonitoramentoController extends Controller {
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, HashMap> status = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
-        HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
+        Map<String, Map> status = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
+        Map<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
         List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null, controladoresIds);
         Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladoresIds);
@@ -73,8 +73,8 @@ public class MonitoramentoController extends Controller {
 
         List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, HashMap> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
-        HashMap<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
+        Map<String, Map> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
+        Map<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
         List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null, controladores);
 
         List<HashMap> statusPlanosPorAnel = TrocaDePlanoControlador.ultimoStatusPlanoPorAnel(controladores);

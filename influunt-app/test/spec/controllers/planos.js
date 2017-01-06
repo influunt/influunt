@@ -78,7 +78,7 @@ describe('Controller: PlanosCtrl', function() {
     });
   });
 
-  describe('init - controlador mínimo', function() {
+  describe('init - controlador com vários anéis', function() {
     beforeEach(function() {
       beforeEachFn(ControladorComVariosAneis);
     });
@@ -1065,7 +1065,7 @@ describe('Controller: PlanosCtrl', function() {
         plano.configurado = true;
         scope.selecionaPlano(plano, 6);
         $timeout.flush();
-        
+
         plano.configurado = false;
 
         expect(plano.posicao).toBe(6);
@@ -1426,7 +1426,6 @@ describe('Controller: PlanosCtrl', function() {
 
       expect(scope.currentEstagiosPlanos[2].posicao).toBe(3);
     });
-    
   });
 
   describe('Troca de aneis', function() {
