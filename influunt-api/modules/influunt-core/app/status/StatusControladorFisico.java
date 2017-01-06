@@ -32,7 +32,7 @@ public class StatusControladorFisico {
 
     private StatusDevice statusDevice;
 
-    private HashMap<Integer, StatusAnel> statusAneis = new HashMap<>();
+    private Map<Integer, StatusAnel> statusAneis = new HashMap<>();
 
     public StatusControladorFisico(String idControlador, long timestamp,
                                    StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
