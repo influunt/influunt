@@ -337,7 +337,7 @@ public class ControladoresController extends Controller {
 
         if (params.containsKey("status_eq")) {
             StatusAnel status = StatusAnel.valueOf(params.remove("status_eq")[0]);
-            HashMap<String, HashMap> statusHash = StatusControladorFisico.getControladoresByStatusAnel(status);
+            Map<String, Map> statusHash = StatusControladorFisico.getControladoresByStatusAnel(status);
             String[] controladoresFisicosIds = new String[]{"[" + String.join(",", statusHash.keySet()) + "]"};
             params.put("id_in", controladoresFisicosIds);
         }

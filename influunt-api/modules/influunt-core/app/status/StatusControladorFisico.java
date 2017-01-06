@@ -58,7 +58,7 @@ public class StatusControladorFisico {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, HashMap> ultimoStatusDosControladores(List<String> ids) {
+    public static Map<String, Map> ultimoStatusDosControladores(List<String> ids) {
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         Aggregate.ResultsIterator<Map> ultimoStatus =
             status()
@@ -67,9 +67,9 @@ public class StatusControladorFisico {
                 .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}, 'statusAneis': {$first:'$statusAneis'}}}")
                 .as(Map.class);
 
-        HashMap<String, HashMap> hash = new HashMap<>();
+        Map<String, Map> hash = new HashMap<>();
         for (Map m : ultimoStatus) {
-            hash.put(m.get("_id").toString(), (HashMap) m);
+            hash.put(m.get("_id").toString(), m);
         }
 
         return hash;
@@ -89,7 +89,7 @@ public class StatusControladorFisico {
         return toList(result);
     }
 
-    public static HashMap<String, HashMap> getControladoresByStatusAnel(StatusAnel status) {
+    public static Map<String, Map> getControladoresByStatusAnel(StatusAnel status) {
         StringBuilder matchQuery = new StringBuilder("{ $or: [");
         int numeroMaximoDeAneis = 16; // depende do modelo do controlador
         for (int i = 1; i <= numeroMaximoDeAneis; i++) {
@@ -106,9 +106,9 @@ public class StatusControladorFisico {
             .and("{ $match: " + matchQuery.toString() + " }")
             .as(Map.class);
 
-        HashMap<String, HashMap> hash = new HashMap<>();
+        Map<String, Map> hash = new HashMap<>();
         for (Map m : ultimoStatus) {
-            hash.put(m.get("_id").toString(), (HashMap) m);
+            hash.put(m.get("_id").toString(), m);
         }
 
         return hash;
