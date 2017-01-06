@@ -91,10 +91,10 @@ public class StatusControladorFisico {
 
     public static HashMap<String, HashMap> getControladoresByStatusAnel(StatusAnel status) {
         StringBuilder matchQuery = new StringBuilder("{ $or: [");
-        int numeroMaximoDeAneis = 8; // depende do modelo do controlador
+        int numeroMaximoDeAneis = 16; // depende do modelo do controlador
         for (int i = 1; i <= numeroMaximoDeAneis; i++) {
             matchQuery.append("{ 'statusAneis.").append(i).append("': '").append(status.toString()).append("' }");
-            if (i < 8) {
+            if (i < numeroMaximoDeAneis) {
                 matchQuery.append(", ");
             }
         }
