@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static helpers.GerenciadorEstagiosHelper.TEMPO_VERMELHO_INTEGRAL;
+
 public class IntervaloGrupoSemaforico {
     private final IntervaloEstagio entreverde;
 
@@ -96,9 +98,9 @@ public class IntervaloGrupoSemaforico {
             !estagioPlanoAnterior.getPlano().isModoOperacaoVerde()) {
 
             if (estagioPlanoAnterior.getPlano().isIntermitente()) {
-                loadEstagioPosModoIntermitente(estagioPlano.getTempoVerdeEstagio() * 1000L);
+                loadEstagioPosModoIntermitente(verde.getDuracao());
             } else {
-                loadEstagioSequenciaDePartida(estagioPlano.getTempoVerdeEstagio() * 1000L);
+                loadEstagioSequenciaDePartida(verde.getDuracao());
             }
 
 
@@ -146,12 +148,14 @@ public class IntervaloGrupoSemaforico {
 
     private void loadEstagioPosModoIntermitente(Long tempoVerdeEstagio) {
         RangeMap<Long, EstadoGrupoSemaforico> intervaloVermelho = TreeRangeMap.create();
-        intervaloVermelho.put(Range.closedOpen(0L, 3000L), EstadoGrupoSemaforico.VERMELHO);
-        intervaloVermelho.put(Range.closedOpen(3000L, 3000L + tempoVerdeEstagio), EstadoGrupoSemaforico.VERMELHO);
+        intervaloVermelho.put(Range.closedOpen(0L, TEMPO_VERMELHO_INTEGRAL), EstadoGrupoSemaforico.VERMELHO);
+        intervaloVermelho.put(Range.closedOpen(TEMPO_VERMELHO_INTEGRAL, TEMPO_VERMELHO_INTEGRAL + tempoVerdeEstagio),
+            EstadoGrupoSemaforico.VERMELHO);
 
         RangeMap<Long, EstadoGrupoSemaforico> intervaloVerde = TreeRangeMap.create();
-        intervaloVerde.put(Range.closedOpen(0L, 3000L), EstadoGrupoSemaforico.VERMELHO);
-        intervaloVerde.put(Range.closedOpen(3000L, 3000L + tempoVerdeEstagio), EstadoGrupoSemaforico.VERDE);
+        intervaloVerde.put(Range.closedOpen(0L, TEMPO_VERMELHO_INTEGRAL), EstadoGrupoSemaforico.VERMELHO);
+        intervaloVerde.put(Range.closedOpen(TEMPO_VERMELHO_INTEGRAL, TEMPO_VERMELHO_INTEGRAL + tempoVerdeEstagio),
+            EstadoGrupoSemaforico.VERDE);
 
         plano.getGruposSemaforicosPlanos().stream()
             .forEach(grupoSemaforicoPlano -> {

@@ -4,7 +4,6 @@ import execucao.GerenciadorDeEstagiosTest;
 import integracao.ControladorHelper;
 import models.*;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

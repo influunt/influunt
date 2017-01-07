@@ -1,29 +1,14 @@
 package simulacao;
 
 import config.WithInfluuntApplicationNoAuthentication;
-import integracao.JUnitRetry;
-import io.moquette.interception.InterceptHandler;
-import io.moquette.interception.messages.*;
-import io.moquette.server.Server;
-import io.moquette.server.config.IConfig;
-import io.moquette.server.config.MemoryConfig;
 import json.ControladorCustomDeserializer;
 import models.Controlador;
 import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import play.libs.Json;
-import simulador.Simulador;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -48,7 +33,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void testSimulador(){
+    public void testSimulador() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 3, 5, 55, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);
@@ -75,7 +60,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void entradaSaidaTrocaEstagioManual(){
+    public void entradaSaidaTrocaEstagioManual() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);
@@ -107,7 +92,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void saidaManualAlterada(){
+    public void saidaManualAlterada() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);
@@ -151,7 +136,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void trocaEstagioComMudancaDePagina(){
+    public void trocaEstagioComMudancaDePagina() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);

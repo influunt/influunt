@@ -440,7 +440,6 @@ public class Plano extends Model implements Cloneable, Serializable {
                 }
 
 
-
             }
         }
         return isMultiplo;

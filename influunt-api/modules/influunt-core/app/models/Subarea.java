@@ -14,7 +14,6 @@ import json.serializers.InfluuntDateTimeSerializer;
 import json.serializers.SubareaSerializer;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
-import utils.InfluuntUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
