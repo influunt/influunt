@@ -185,6 +185,8 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
             gerenciadorDeEstagios.tick();
+            gerenciadorDeEstagios.tickTempo();
+            gerenciadorDeEstagios.tickMonitoramentos();
         }
     }
 
@@ -215,6 +217,16 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     @Override
     public void modoManualDesativado(DateTime timestamp) {
         desativacaoModoManual.put(timestamp, true);
+    }
+
+    @Override
+    public void trocaEstagioManualLiberada(DateTime timestamp) {
+
+    }
+
+    @Override
+    public void trocaEstagioManualBloqueada(DateTime timestamp) {
+
     }
 
     @Override

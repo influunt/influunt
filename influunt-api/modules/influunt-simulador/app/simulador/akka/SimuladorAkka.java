@@ -17,8 +17,6 @@ public class SimuladorAkka extends Simulador {
 
     private final SimuladorActor simuladorActor;
 
-    private DateTime ponteiro;
-
     public SimuladorAkka(SimuladorActor simuladorActor, ParametroSimulacao parametros) {
         super(parametros.getControlador(), parametros);
         this.simuladorActor = simuladorActor;
@@ -85,6 +83,21 @@ public class SimuladorAkka extends Simulador {
         if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
             simuladorActor.desativaModoManual(timestamp);
         }
+    }
+
+    @Override
+    public void trocaEstagioManualLiberada(DateTime timestamp) {
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.trocaDeEstagioManualLiberada(timestamp);
+        }
+    }
+
+    @Override
+    public void trocaEstagioManualBloqueada(DateTime timestamp) {
+        if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
+            simuladorActor.trocaDeEstagioManualBloqueada(timestamp);
+        }
+
     }
 
 }

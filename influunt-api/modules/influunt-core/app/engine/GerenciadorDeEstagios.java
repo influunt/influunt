@@ -67,6 +67,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean tempoDispensavelJaAdicionado = false;
 
+    private boolean verdeSegurancaCumprido = false;
+
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  Plano plano,
@@ -92,13 +94,22 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public void tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
+        if (this.plano.isManual() && intervalo != null && cumpriuTempoVerdeSeguranca(intervalo)) {
+            motor.liberaTrocaEstagioManual(getAnel());
+        } else if (this.plano.isManual()) {
+            motor.bloqueaTrocaEstagioManual(getAnel());
+        }
+
         if (this.agendamento != null && intervalo != null &&
             (this.plano.isIntermitente() || this.plano.isApagada()) &&
             !intervalo.isEntreverde()) {
-            Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
-            intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
-            executaAgendamentoTrocaDePlano();
-            intervalo = this.intervalos.get(contadorIntervalo);
+
+            if (!this.agendamento.getPlano().isManual() || motor.ativaModoManual(getAnel())) {
+                Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
+                intervalo.setDuracao(contadorIntervalo - range.getKey().lowerEndpoint());
+                executaAgendamentoTrocaDePlano();
+                intervalo = this.intervalos.get(contadorIntervalo);
+            }
         } else if (this.agendamento != null && this.agendamento.isPlanoCoordenado() &&
             !this.agendamento.isTempoDeEntradaCalculado()) {
             tempoAbatimentoCoordenado = verificarETrocaCoordenado();
@@ -109,12 +120,16 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
 
         verificaETrocaEstagio(intervalo);
+    }
 
+    public void tickTempo() {
         contadorIntervalo += 100L;
         contadorTempoEstagio += 100L;
         contadorTempoCiclo += 100L;
         tempoDecorrido += 100L;
+    }
 
+    public void tickMonitoramentos() {
         if (monitoraTempoMaximoDePermanenciaDoEstagio()) {
             contadorTempoEstagio = 0L;
         }
@@ -142,7 +157,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
         if (intervalo == null) {
-            if (verificaTempoVerdeSeguranca() || verificaTempoEstagioDispensavel()) {
+            IntervaloEstagio ultimoIntervalo = this.intervalos.get(this.contadorIntervalo - 100L);
+            if (verificaTempoVerdeSeguranca(ultimoIntervalo) || verificaTempoEstagioDispensavel(ultimoIntervalo)) {
                 intervalo = this.intervalos.get(contadorIntervalo);
                 return intervalo;
             }
@@ -151,6 +167,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
             contadorIntervalo = 0L;
             contadorEstagio++;
             if (this.agendamento != null && temQueExecutarOAgendamento()) {
+                if (this.agendamento.getPlano().isManual()) {
+                    if (verificaSeDeveAguardarEntradaEmModoManual(ultimoIntervalo)) {
+                        intervalo = this.intervalos.get(contadorIntervalo);
+                        return intervalo;
+                    }
+                }
+
                 reiniciaContadorEstagio();
                 fecharCiclo();
                 executaAgendamentoTrocaDePlano();
@@ -163,6 +186,13 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 verificaEAjustaIntermitenteCasoDemandaPrioritaria();
 
                 if (this.agendamento != null && !this.plano.isManual()) {
+                    if (this.agendamento.getPlano().isManual()) {
+                        if (verificaSeDeveAguardarEntradaEmModoManual(ultimoIntervalo)) {
+                            intervalo = this.intervalos.get(contadorIntervalo);
+                            return intervalo;
+                        }
+                    }
+
                     geraIntervalos(0);
                     executaAgendamentoTrocaDePlano();
                 } else {
@@ -186,11 +216,30 @@ public class GerenciadorDeEstagios implements EventoCallback {
         callback.onCicloEnds(this.anel, contadorDeCiclos);
     }
 
-    private boolean verificaTempoVerdeSeguranca() {
-        IntervaloEstagio intervalo = this.intervalos.get(this.contadorIntervalo - 100L);
-        if (this.agendamento != null && intervalo != null &&
+    private boolean cumpriuTempoVerdeSeguranca(IntervaloEstagio intervalo) {
+        if (intervalo.isEntreverde()) {
+            return false;
+        }
+        Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
+
+        return (contadorIntervalo - range.getKey().lowerEndpoint()) >= (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
+    }
+
+    private boolean verificaSeDeveAguardarEntradaEmModoManual(IntervaloEstagio ultimoIntervalo) {
+        if (motor.ativaModoManual(getAnel())) {
+            return false;
+        }
+
+        contadorIntervalo = GerenciadorDeEstagiosHelper.aumentarTempoEstagio(intervalos,
+            ultimoIntervalo, ultimoIntervalo.getDuracao() + 1000L);
+
+        return true;
+    }
+
+    private boolean verificaTempoVerdeSeguranca(IntervaloEstagio ultimoIntervalo) {
+        if (this.agendamento != null && ultimoIntervalo != null &&
             !this.agendamento.isImpostoPorFalha() &&
-            intervalo.getDuracao() < (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L)) {
+            ultimoIntervalo.getDuracao() < (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L)) {
             Plano plano = this.agendamento.getPlano();
             List<EstagioPlano> estagios = plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
             List<EstagioPlano> lista = new ArrayList<>();
@@ -209,7 +258,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return false;
     }
 
-    private boolean verificaTempoEstagioDispensavel() {
+    private boolean verificaTempoEstagioDispensavel(IntervaloEstagio ultimoIntervalo) {
         EstagioPlano proximoEstagio = estagioPlanoAtual.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
         if (plano.isTempoFixoCoordenado() &&
             proximoEstagio != null &&
@@ -249,7 +298,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             tempoAdicional += (entreverdeOriginal / 1000);
             long novoTempo = tempoAdicional * 1000L;
 
-            if (tempoAbatimentoCoordenado > 0L) {
+            if (tempoAbatimentoCoordenado != null && tempoAbatimentoCoordenado > 0L) {
 
                 if (tempoAbatimentoCoordenado <= novoTempo) {
                     novoTempo = novoTempo - tempoAbatimentoCoordenado;
@@ -263,14 +312,12 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             }
 
-            IntervaloEstagio intervalo = this.intervalos.get(this.contadorIntervalo - 100L);
-
             tempoDispensavelJaAdicionado = true;
-            if (intervalo != null && novoTempo > 0L) {
+            if (ultimoIntervalo != null && novoTempo > 0L) {
 
                 GerenciadorDeEstagiosHelper.aumentarTempoEstagio(this.intervalos,
                     this.contadorIntervalo,
-                    novoTempo + intervalo.getDuracao());
+                    novoTempo + ultimoIntervalo.getDuracao());
 
                 return true;
             }
@@ -307,7 +354,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
     }
 
-    private void verificaETrocaEstagio(IntervaloEstagio intervalo) {
+    public void verificaETrocaEstagio(IntervaloEstagio intervalo) {
         EstagioPlano estagioPlano = intervalo.getEstagioPlano();
         if (!estagioPlano.equals(estagioPlanoAtual) || planoComEstagioUnico() || trocaPlanoAbrupt(estagioPlano, estagioPlanoAtual)) {
             if (intervaloGrupoSemaforicoAtual != null) {
@@ -364,7 +411,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return this.plano.isModoOperacaoVerde() && this.listaEstagioPlanos.size() == 1 && contadorIntervalo == 0L;
     }
 
-    private void executaAgendamentoTrocaDePlano() {
+    public void executaAgendamentoTrocaDePlano() {
         if (!naoPodeExecutarOAgendamento()) {
             agendamento.setMomentoDaTroca(tempoDecorrido);
             callback.onTrocaDePlanoEfetiva(agendamento);
@@ -392,15 +439,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 modoAnterior = this.plano.getModoOperacao();
 
                 if (this.plano.isManual() && !plano.isManual()) {
-                    motor.desativaModoManual();
+                    motor.desativaModoManual(getAnel(), inicioExecucao.plus(tempoDecorrido));
                 }
             }
 
             this.plano = plano;
-
-            if (plano.isManual()) {
-                motor.ativaModoManual();
-            }
 
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
@@ -684,6 +727,11 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public DateTime getTimestamp() {
         return inicioExecucao.plus(tempoDecorrido);
     }
+
+    public IntervaloEstagio getIntervalo() {
+        return this.intervalos.get(contadorIntervalo);
+    }
+
 
     private class GetIntervaloGrupoSemaforico {
         private IntervaloEstagio intervaloEntreverde;
