@@ -4,6 +4,7 @@ import execucao.GerenciadorDeEstagiosTest;
 import integracao.ControladorHelper;
 import models.*;
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,6 +18,7 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     @Test
     public void repeticaoDeEstagio() {
         Anel anel = getAnel(1);
+        anel.setAceitaModoManual(true);
         Plano plano = getPlano(anel, 7);
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
@@ -43,6 +45,8 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     public void limitePermanenciaEstagio() {
         Anel anel = getAnel(1);
         Plano plano = getPlano(anel, 7);
+        anel.setAceitaModoManual(true);
+
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
 
         avancar(gerenciadorDeEstagios, 10);
@@ -65,6 +69,8 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     @Test
     public void comPlanoExclusivo() {
         Anel anel = getAnel(1);
+        anel.setAceitaModoManual(true);
+
         geraPlanoExclusivo(anel);
         Plano plano = getPlano(anel, 7);
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, new DateTime(2016, 10, 10, 2, 0, 0));
@@ -143,6 +149,8 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
     @Test
     public void saidaDoModoManual() {
         Anel anel = getAnel(1);
+        anel.setAceitaModoManual(true);
+
         Plano plano = getPlano(anel, 7);
         gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, inicioExecucao);
 
@@ -168,7 +176,7 @@ public class GerenciadorDeEstagiosModoManualTest extends GerenciadorDeEstagiosTe
         Anel anel = getAnel(2);
         anel.setAceitaModoManual(true);
         Plano plano = getPlano(anel, 11);
-        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(1, plano, inicioExecucao);
+        gerenciadorDeEstagios = getGerenciadorDeEstagiosComMotor(2, plano, inicioExecucao);
 
         avancar(gerenciadorDeEstagios, 10);
         acionarModoManual(gerenciadorDeEstagios);

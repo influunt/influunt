@@ -20,4 +20,8 @@ public interface MotorCallback extends GerenciadorDeEstagiosCallback {
     void modoManualAtivo(DateTime timestamp);
 
     void modoManualDesativado(DateTime timestamp);
+
+    void trocaEstagioManualLiberada(DateTime timestamp);
+
+    void trocaEstagioManualBloqueada(DateTime timestamp);
 }

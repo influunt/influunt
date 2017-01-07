@@ -71,6 +71,10 @@ public class GerenciadorDeTrocasTest extends MotorTest {
 
     }
 
+    protected Plano getPlanoTrocaEfetiva(int anel, int tempo, int tempo2) {
+        return listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(tempo).plus(tempo2)).get(anel).getSecond();
+    }
+
     protected Plano getPlanoTrocaEfetiva(int anel, int tempo) {
         return listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(tempo)).get(anel).getSecond();
     }

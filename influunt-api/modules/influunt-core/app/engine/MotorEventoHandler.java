@@ -49,7 +49,7 @@ public class MotorEventoHandler {
                 break;
 
             case TROCA_ESTAGIO_MANUAL:
-                handleControlador(eventoMotor);
+                handleTrocaEstagioManual(eventoMotor);
                 break;
 
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
@@ -114,6 +114,14 @@ public class MotorEventoHandler {
         Integer anel = (Integer) eventoMotor.getParams()[0];
         eventoMotor.setParams(new Object[]{anel, getMotor().getPlanoAtual(anel)});
         motor.getEstagios().get(anel - 1).onEvento(eventoMotor);
+    }
+
+    private void handleTrocaEstagioManual(EventoMotor eventoMotor) {
+        if (motor.podeTrocarEstagioManual()) {
+            motor.getEstagios().forEach(gerenciadorDeEstagios -> {
+                gerenciadorDeEstagios.onEvento(eventoMotor);
+            });
+        }
     }
 
     private void handleControlador(EventoMotor eventoMotor) {

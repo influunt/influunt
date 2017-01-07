@@ -3,9 +3,9 @@ package simulacao;
 import checks.Erro;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import config.WithInfluuntApplicationNoAuthentication;
 import integracao.ControladorHelper;
 import models.Controlador;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
@@ -15,11 +15,13 @@ import play.test.Helpers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 import static play.test.Helpers.route;
 
 
-public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentication {
+public class SimuladorControllerTest extends SimuladorMQTTTest {
+
 
     @Test
     public void testSimularWithoutData() {
@@ -80,13 +82,14 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
     }
 
     @Test
-    public void testSimular() {
+    public void testSimular() throws MqttException, InterruptedException {
+
         Controlador controlador = new ControladorHelper().setPlanos(new ControladorHelper().getControlador());
         controlador.save();
 
         String payload = "{" +
-            "\"disparoDetectores\":[{\"detector\":{\"id\":\"e88e4ee0-190b-4b53-8f80-7b4f71bd64b0\",\"tipo\":\"VEICULAR\",\"posicao\":1,\"monitorado\":true,\"nome\":\"Anel 1 - DV1\", \"anel\": {\"id\":\"e88e4ee0-190b-4b53-8f80-7b4f71bd64b1\",\"posicao\":1}},\"disparo\":\"2016-02-01T02:10:00.000Z\"}]," +
-            "\"imposicaoPlanos\":[{\"plano\":{\"id\":\"245995cd-97e4-494f-b7d8-7d2c18053071\",\"posicao\":1,\"descricao\":\"PLANO 1\",\"modoOperacao\":\"TEMPO_FIXO_ISOLADO\",\"nome\":\"Plano 1\"},\"anel\":{\"posicao\":1},\"disparo\":\"2016-02-01T02:20:00.000Z\",\"duracao\":2}]," +
+            "\"disparoDetectores\":[{\"detector\":{\"tipo\":\"VEICULAR\",\"posicao\":1,\"monitorado\":true,\"nome\":\"Anel 1 - DV1\", \"anel\": {\"posicao\":1}},\"disparo\":\"2016-02-01T02:10:00.000Z\"}]," +
+            "\"imposicaoPlanos\":[{\"plano\":{\"posicao\":1,\"descricao\":\"PLANO 1\",\"modoOperacao\":\"TEMPO_FIXO_ISOLADO\",\"nome\":\"Plano 1\"},\"anel\":{\"posicao\":1},\"disparo\":\"2016-02-01T02:20:00.000Z\",\"duracao\":2}]," +
             "\"imposicaoModos\":[{\"modo\":\"TEMPO_FIXO_ISOLADO\",\"anel\":{\"posicao\":1},\"disparo\":\"2016-02-01T02:20:00.000Z\",\"duracao\":2}]," +
             "\"idControlador\":\"" + controlador.getId().toString() + "\"," +
             "\"velocidade\":\"0.5\"," +
@@ -107,7 +110,6 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         assertTrue(json.has("aneis"));
     }
 
-
     private List<Erro> parseErrors(ArrayNode errosJson) {
         List<Erro> erros = new ArrayList<>();
         for (JsonNode erroJson : errosJson) {
@@ -115,5 +117,4 @@ public class SimuladorControllerTest extends WithInfluuntApplicationNoAuthentica
         }
         return erros;
     }
-
 }

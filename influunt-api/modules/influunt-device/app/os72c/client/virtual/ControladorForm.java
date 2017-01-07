@@ -234,20 +234,29 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
 
     @Override
     public void modoManualAtivo() {
+
+    }
+
+    @Override
+    public void modoManualDesativado() {
+    }
+
+    @Override
+    public void sendAneis(int[] aneis) {
+
+    }
+
+    @Override
+    public void trocaEstagioManualLiberada() {
         btnTrocarEstagio.setEnabled(true);
         btnTrocarEstagio.setVisible(true);
 
     }
 
     @Override
-    public void modoManualDesativado() {
+    public void trocaEstagioManualBloqueada() {
         btnTrocarEstagio.setEnabled(false);
         btnTrocarEstagio.setVisible(false);
-    }
-
-    @Override
-    public void sendAneis(int[] aneis) {
-
     }
 
     private void start() {
