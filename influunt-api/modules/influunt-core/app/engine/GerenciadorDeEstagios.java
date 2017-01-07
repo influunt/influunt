@@ -114,6 +114,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
             !this.agendamento.isTempoDeEntradaCalculado()) {
             tempoAbatimentoCoordenado = verificarETrocaCoordenado();
             this.agendamento.setTempoDeEntradaCalculado(true);
+
+            intervalo = this.intervalos.get(contadorIntervalo);
             intervalo = verificaETrocaIntervalo(intervalo);
         } else {
             intervalo = verificaETrocaIntervalo(intervalo);
@@ -261,8 +263,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private boolean verificaTempoEstagioDispensavel(IntervaloEstagio ultimoIntervalo) {
         EstagioPlano proximoEstagio = estagioPlanoAtual.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
         if (plano.isTempoFixoCoordenado() &&
+            (this.agendamento == null || !this.agendamento.getPlano().isTempoFixoCoordenado() || !this.agendamento.isTempoDeEntradaCalculado()) &&
             proximoEstagio != null &&
             proximoEstagio.isDispensavel() &&
+            !proximoEstagio.primeiroEstagioDaSequencia() &&
             !tempoDispensavelJaAdicionado &&
             estagioPlanoAtual.equals(proximoEstagio.getEstagioQueRecebeEstagioDispensavel()) &&
             !listaEstagioPlanos.contains(proximoEstagio)) {

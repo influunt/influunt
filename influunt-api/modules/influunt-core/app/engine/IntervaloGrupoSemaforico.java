@@ -98,9 +98,9 @@ public class IntervaloGrupoSemaforico {
             !estagioPlanoAnterior.getPlano().isModoOperacaoVerde()) {
 
             if (estagioPlanoAnterior.getPlano().isIntermitente()) {
-                loadEstagioPosModoIntermitente(estagioPlano.getTempoVerdeEstagio() * 1000L);
+                loadEstagioPosModoIntermitente(verde.getDuracao());
             } else {
-                loadEstagioSequenciaDePartida(estagioPlano.getTempoVerdeEstagio() * 1000L);
+                loadEstagioSequenciaDePartida(verde.getDuracao());
             }
 
 
@@ -149,12 +149,12 @@ public class IntervaloGrupoSemaforico {
     private void loadEstagioPosModoIntermitente(Long tempoVerdeEstagio) {
         RangeMap<Long, EstadoGrupoSemaforico> intervaloVermelho = TreeRangeMap.create();
         intervaloVermelho.put(Range.closedOpen(0L, TEMPO_VERMELHO_INTEGRAL), EstadoGrupoSemaforico.VERMELHO);
-        intervaloVermelho.put(Range.closedOpen(TEMPO_VERMELHO_INTEGRAL, TEMPO_VERMELHO_INTEGRAL + duracaoVerde),
+        intervaloVermelho.put(Range.closedOpen(TEMPO_VERMELHO_INTEGRAL, TEMPO_VERMELHO_INTEGRAL + tempoVerdeEstagio),
             EstadoGrupoSemaforico.VERMELHO);
 
         RangeMap<Long, EstadoGrupoSemaforico> intervaloVerde = TreeRangeMap.create();
         intervaloVerde.put(Range.closedOpen(0L, TEMPO_VERMELHO_INTEGRAL), EstadoGrupoSemaforico.VERMELHO);
-        intervaloVerde.put(Range.closedOpen(TEMPO_VERMELHO_INTEGRAL, TEMPO_VERMELHO_INTEGRAL + duracaoVerde),
+        intervaloVerde.put(Range.closedOpen(TEMPO_VERMELHO_INTEGRAL, TEMPO_VERMELHO_INTEGRAL + tempoVerdeEstagio),
             EstadoGrupoSemaforico.VERDE);
 
         plano.getGruposSemaforicosPlanos().stream()

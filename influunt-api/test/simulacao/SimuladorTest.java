@@ -48,7 +48,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void testSimulador(){
+    public void testSimulador() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 3, 5, 55, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);
@@ -75,7 +75,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void entradaSaidaTrocaEstagioManual(){
+    public void entradaSaidaTrocaEstagioManual() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);
@@ -107,7 +107,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void saidaManualAlterada(){
+    public void saidaManualAlterada() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);
@@ -151,7 +151,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void trocaEstagioComMudancaDePagina(){
+    public void trocaEstagioComMudancaDePagina() throws Exception {
         DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
         ParametroSimulacao parametros = new ParametroSimulacao();
         parametros.setControlador(controlador);

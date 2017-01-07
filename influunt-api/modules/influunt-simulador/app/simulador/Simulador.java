@@ -8,7 +8,6 @@ import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Cidade;
 import models.Controlador;
-import models.Plano;
 import models.TipoDetector;
 import models.simulador.parametros.ParametroSimulacao;
 import models.simulador.parametros.ParametroSimulacaoDetector;
@@ -16,14 +15,12 @@ import models.simulador.parametros.ParametroSimulacaoManual;
 import models.simulador.parametros.ParametroSimulacaoTrocaDeEstagioManual;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
-import play.Logger;
 import utils.RangeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 /**
@@ -53,7 +50,7 @@ public abstract class Simulador implements MotorCallback {
 
     private void setup(ParametroSimulacao parametros) {
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorOriginal);
-        if(motor != null){
+        if (motor != null) {
             motor.stop();
         }
         motor = new Motor(controlador, parametros.getInicioControlador(), this);
@@ -77,22 +74,15 @@ public abstract class Simulador implements MotorCallback {
         this.eventos.get(eventoMotor.getTimestamp()).add(eventoMotor);
     }
 
-    public void simular(DateTime fim) {
+    public void simular(DateTime fim) throws Exception {
         DateTime inicioSimulacao = dataInicioControlador;
         setup(parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
-
-            try {
-                processaEventos(inicioSimulacao);
-                motor.tick();
-                tempoSimulacao += 100;
-                inicioSimulacao = inicioSimulacao.plus(100);
-            } catch (Exception e) {
-                Logger.info("******************MORREU**********************");
-                Logger.info(e.getMessage());
-                e.printStackTrace();
-            }
+            processaEventos(inicioSimulacao);
+            motor.tick();
+            tempoSimulacao += 100;
+            inicioSimulacao = inicioSimulacao.plus(100);
         }
     }
 
