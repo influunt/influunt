@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static helpers.GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
-import static helpers.GerenciadorEstagiosHelper.TEMPO_VERMELHO_INTEGRAL;
 
 /**
  * Created by leonardo on 10/28/16.
@@ -59,6 +58,7 @@ public class GeradorSequenciaPartida extends GeradorDeIntervalos {
         geraIntervaloEstagio(estagioPlano, TEMPO_SEQUENCIA_DE_PARTIDA, tempoVerde);
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(0, this.intervalos);
     }
+
     @Override
     public Long getTempoAbatimentoCoordenado() {
         return tempoAbatimentoCoordenado;

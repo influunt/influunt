@@ -4,7 +4,6 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 import engine.IntervaloEstagio;
-import models.Estagio;
 import models.EstagioPlano;
 import models.ModoOperacaoPlano;
 import models.Plano;
@@ -12,8 +11,6 @@ import org.apache.commons.math3.util.Pair;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static helpers.GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
 
 /**
  * Created by rodrigosol on 10/24/16.

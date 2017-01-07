@@ -15,7 +15,6 @@ import play.test.Helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 import static play.test.Helpers.route;
 

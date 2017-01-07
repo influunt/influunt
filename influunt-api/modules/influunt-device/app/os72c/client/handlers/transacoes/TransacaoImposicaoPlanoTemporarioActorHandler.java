@@ -9,7 +9,6 @@ import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
-import protocol.MensagemImposicaoPlano;
 import protocol.MensagemImposicaoPlanoTemporario;
 import status.Transacao;
 

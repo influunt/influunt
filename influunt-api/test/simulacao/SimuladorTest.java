@@ -1,29 +1,14 @@
 package simulacao;
 
 import config.WithInfluuntApplicationNoAuthentication;
-import integracao.JUnitRetry;
-import io.moquette.interception.InterceptHandler;
-import io.moquette.interception.messages.*;
-import io.moquette.server.Server;
-import io.moquette.server.config.IConfig;
-import io.moquette.server.config.MemoryConfig;
 import json.ControladorCustomDeserializer;
 import models.Controlador;
 import models.simulador.parametros.ParametroSimulacao;
 import org.joda.time.DateTime;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import play.libs.Json;
-import simulador.Simulador;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
