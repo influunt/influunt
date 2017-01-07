@@ -117,6 +117,7 @@ Funcionalidade: Fluxo de cadastro de manutenção de Tabelas Horárias
     Então o sistema deverá apresentar na aba "Eventos" com o valor "8"
 
   Cenário: Apagar eventos da tabela
+    Dado o usuário realize um scroll up
     Quando que o usuário remover o ultimo evento
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     E o usuário confirmar

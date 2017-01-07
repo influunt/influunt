@@ -50,9 +50,9 @@ Funcionalidade: Realizar filtros no mapa
     Então o sistema deverá mostrar no mapa "1" controladores offline
     E o sistema deverá mostrar no mapa "1" aneis
 
-  Cenário: Quero filtar no mapa pelo o número do controlador 1.003.0002
+  Cenário: Quero filtar no mapa pelo o número do controlador 3.003.0002
     Dado usuário estiver na tela de mapa
-    E o usuário selecionar o valor "1.003.0002" para o campo "controladores"
+    E o usuário selecionar o valor "3.003.0002" para o campo "controladores"
     Então o sistema deverá mostrar no mapa "1" controladores
     E o sistema deverá mostrar no mapa "2" aneis
 
@@ -67,7 +67,7 @@ Funcionalidade: Realizar filtros no mapa
     Quando o usuário remover o "1.000.0001" selecionado do campo "controladores"
     Então o sistema deverá mostrar no mapa "2" controladores
     E o sistema deverá mostrar no mapa "2" aneis
-    Quando o usuário remover o "1.003.0002" selecionado do campo "controladores"
+    Quando o usuário remover o "3.003.0002" selecionado do campo "controladores"
     Então o sistema deverá mostrar no mapa "1" controladores
     E o sistema deverá mostrar no mapa "2" aneis
     Quando o usuário remover o "1.000.0003" selecionado do campo "controladores"

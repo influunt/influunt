@@ -82,7 +82,8 @@ var MongoInsert = function () {
       '_id' : ObjectId('5848766e5ffe68561b89e0ca'),
       'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
       'timestamp' : toDayNumberLong,
-      'statusDevice' : 'ONLINE'
+      'statusDevice' : 'ONLINE',
+      'statusAneis' : 'REVISADO'
     }
   ];
 

@@ -28,7 +28,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário preencher o campo "Nome" com "Corredor da Paulista"
     E o usuário preencher o campo "Descrição" com "Agrupamento 1"
     E o usuário selecionar o valor "Corredor" no campo "Tipo"
-    E o usuário selecionar o valor "Av. Paulista, nº 1000. ref.: AREA 1" para o campo "controladores"
+    E o usuário selecionar o valor "Avenida Nove de Julho com Av. Paulista" para o campo "controladores"
     E o usuário em evento selecionar o valor "DOMINGO" no campo "Dias"
     E o usuário em evento selecionar o valor "12" no campo "Hora"
     E o usuário em evento selecionar o valor "10" no campo "Minuto"
@@ -40,7 +40,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     Então o sistema deve mostrar erro no campo controladores avulsos com a mensagem "este agrupamento deve ter pelo menos 1 anel."
 
   Cenário: Salvar um agrupamento
-    Dado o usuário agrupar o controlador "1.003.0002"
+    Dado o usuário agrupar o controlador "1.000.0003"
     Quando clicar no botão de salvar
     E sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
