@@ -206,7 +206,7 @@ angular.module('influuntApp')
           },
           {
             label: $filter('translate')('main.operandoComFalhas'),
-            value: $scope.statusFisicoAneis.COM_FALHAS || 0
+            value: $scope.statusFisicoAneis.COM_FALHA || 0
           },
           {
             label: $filter('translate')('main.amareloIntermitentePorfalha'),
