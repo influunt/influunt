@@ -1013,6 +1013,7 @@ angular
         .state('app.impor_config', {
           url: '/impor_config?:status',
           templateUrl: 'views/impor_config/index.html',
+          reloadOnSearch: false,
           controller: 'ImporConfigCtrl',
           controllerAs: 'imporConfig',
           data: {

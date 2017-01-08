@@ -15,8 +15,6 @@ angular.module('influuntApp')
 
       var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest;
 
-      var initializing = true;
-
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
       $scope.dadosControlador = {erros: ''};
@@ -64,14 +62,9 @@ angular.module('influuntApp')
       $scope.statusTransacoes = {};
 
       $scope.index = function() {
-        if (initializing && $location.search().status) {
-          initializing = false;
-          var filtroStatus = {
-            nomeCampo: 'status',
-            tipoCampo: 'select',
-            valor: $location.search().status
-          };
-          _.set($scope.pesquisa, 'filtro.status', filtroStatus);
+        if ($location.search().status) {
+          _.set($scope.pesquisa, 'filtro.status.valor', $location.search().status);
+          $location.search('status', null);
         }
 
         var query = $scope.buildQuery($scope.pesquisa);
@@ -201,5 +194,13 @@ angular.module('influuntApp')
 
       $scope.statusAnel = function(anel) {
         return $scope.statusAneis && $scope.statusAneis[anel.controladorFisicoId].statusAneis[anel.posicao];
+      };
+
+      $scope.filtroStatus = function() {
+        return _.get($scope.pesquisa, 'filtro.status.valor');
+      };
+
+      $scope.deveFiltrarPorStatus = function(anel) {
+        return !$scope.filtroStatus() || $scope.statusAnel(anel) === $scope.filtroStatus();
       };
     }]);
