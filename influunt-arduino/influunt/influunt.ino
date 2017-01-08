@@ -102,7 +102,7 @@ int whereIsTime(int line) {
     return 2;
   } else if (times[line][3] >= 100) {
     return 3;
-  } else if (times[line][4] >= 100) {
+  } else if (times[line][4] >= 0) {
     return 4;
   }
   return -1;

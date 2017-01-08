@@ -159,10 +159,16 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
         if (intervalo == null) {
+            Long duracaoAtual = null;
             IntervaloEstagio ultimoIntervalo = this.intervalos.get(this.contadorIntervalo - 100L);
-            if (verificaTempoVerdeSeguranca(ultimoIntervalo) || verificaTempoEstagioDispensavel(ultimoIntervalo)) {
-                intervalo = this.intervalos.get(contadorIntervalo);
-                return intervalo;
+            if (ultimoIntervalo != null) {
+                duracaoAtual = ultimoIntervalo.getDuracao();
+                if (verificaTempoVerdeSeguranca(ultimoIntervalo) || verificaTempoEstagioDispensavel(ultimoIntervalo)) {
+                    intervalo = this.intervalos.get(contadorIntervalo);
+                    informaAlteracaoEstagio(duracaoAtual, intervalo.getDuracao());
+
+                    return intervalo;
+                }
             }
 
             tempoDispensavelJaAdicionado = false;
@@ -172,6 +178,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 if (this.agendamento.getPlano().isManual()) {
                     if (verificaSeDeveAguardarEntradaEmModoManual(ultimoIntervalo)) {
                         intervalo = this.intervalos.get(contadorIntervalo);
+                        informaAlteracaoEstagio(duracaoAtual, intervalo.getDuracao());
+
                         return intervalo;
                     }
                 }
@@ -191,6 +199,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
                     if (this.agendamento.getPlano().isManual()) {
                         if (verificaSeDeveAguardarEntradaEmModoManual(ultimoIntervalo)) {
                             intervalo = this.intervalos.get(contadorIntervalo);
+                            informaAlteracaoEstagio(duracaoAtual, intervalo.getDuracao());
+
                             return intervalo;
                         }
                     }
@@ -209,6 +219,15 @@ public class GerenciadorDeEstagios implements EventoCallback {
             intervalo = this.intervalos.get(contadorIntervalo);
         }
         return intervalo;
+    }
+
+    private void informaAlteracaoEstagio(Long duracao, Long novaDuracao) {
+        if (duracao != null && novaDuracao != null) {
+            IntervaloEstagio intervaloVerde = new IntervaloEstagio((novaDuracao - duracao), false, estagioPlanoAtual, estagioPlanoAnterior);
+            IntervaloGrupoSemaforico intervaloGrupoSemaforico = new IntervaloGrupoSemaforico(null, intervaloVerde, true);
+            callback.onEstagioModify(this.anel, contadorDeCiclos, tempoDecorrido, inicioExecucao.plus(tempoDecorrido),
+                intervaloGrupoSemaforico);
+        }
     }
 
     private void fecharCiclo() {

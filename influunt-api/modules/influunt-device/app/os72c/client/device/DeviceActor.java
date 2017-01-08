@@ -188,6 +188,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     @Override
+    public void onEstagioModify(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+        device.sendEstagio(intervalos);
+    }
+
+    @Override
     public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
     }
 
