@@ -238,6 +238,11 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
+    public void onEstagioModify(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
+
+    }
+
+    @Override
     public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
     }
 
