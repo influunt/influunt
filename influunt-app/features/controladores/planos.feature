@@ -127,6 +127,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-verde" em "13s" segundos
     Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho-intermitente" em "3s" segundos
     Então o sistema deve mostrar o diagrama "Isolado" no grupo "G3" com "indicacao-vermelho" em "11s" segundos
+    E o usuário realize um scroll up
     E que o usuário selecione o anel 2
     E que o usuário clicar no plano 1
     E que o usuário marque 45 segundos para o "TEMPO DE CICLO"

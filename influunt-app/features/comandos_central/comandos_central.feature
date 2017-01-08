@@ -4,9 +4,8 @@ Funcionalidade: Realizar comandos em controladores
 
   Cenário: Exibir aneis de um controladro sincronizado
     Dado que o sistema possua controladores cadastrados e configurados
-    Quando o usuário acessar a tela de listagem de comandos da central
-    Então o sistema dever possuir o anel "1.003.0002.1" sincronizado
-    E o sistema dever possuir o anel "1.003.0002.2" sincronizado
+    Quando o usuário acessar a tela de listagem de "impor_config"
+    #Então o sistema dever possuir o anel "3.003.0002.1" sincronizado
 
   Cenário: Realizar pesquisa dos aneis por localização
     Dado o usuário clicar em pesquisar
@@ -19,7 +18,7 @@ Funcionalidade: Realizar comandos em controladores
     Então deve ser exibido "2" aneis sincronizados na listagem
 
   Cenário: Verificar validações em Impor planos
-    Dado o usuário selecionar o anel "1.003.0002.1" para configuração
+    Dado o usuário selecionar o anel "3.003.0002.1" para configuração
     E o usuário clicar no botão ações
     E o usuário no campo "Transação" selecionar o valor de "imposicao-plano"
     Então o botão deverá estar "desabilitado"

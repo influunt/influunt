@@ -30,7 +30,9 @@ var PerfisPage = function () {
   };
 
   this.naoPossuiMenu = function(menu) {
-    return world.getElementByXpath('//a[contains(@href, "#'+menu+'")][contains(@class, "ng-hide")]');
+    return world.waitForByXpath('//a[contains(@href, "#'+menu+'")]').then(function(){
+      return world.getElementByXpath('//a[contains(@href, "#'+menu+'")][contains(@class, "ng-hide")]');
+    });
   };
 
   this.checkPerfilNaTabela = function(permissao) {
@@ -50,7 +52,9 @@ var PerfisPage = function () {
   };
 
   this.botaoDeveEstarEscondido = function(botao) {
-    return world.getElementByXpath('//a[contains(text(), "'+botao+'")][contains(@class, "ng-hide")]');
+    return world.waitForByXpath('//a[contains(text(), "'+botao+'")]').then(function(){
+      return world.getElementByXpath('//a[contains(text(), "'+botao+'")][contains(@class, "ng-hide")]');
+    });
   };
 
   this.setArea2 = function() {
