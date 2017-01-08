@@ -20,6 +20,7 @@ describe('Controller: ImporConfigCtrl', function() {
       $httpBackend.expectGET('/controladores/imposicao?page=0&per_page=30&sort_type=asc&status_eq=NORMAL').respond({ data: [] });
       $httpBackend.expectGET('/monitoramento/status_aneis').respond({});
       $state.go('app.impor_config', { status: 'NORMAL' });
+      _.set(scope, 'pesquisa.filtro.status.tipoCampo', 'select');
       scope.$apply();
       scope.index();
       $httpBackend.flush();

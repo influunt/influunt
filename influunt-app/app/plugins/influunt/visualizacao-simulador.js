@@ -135,14 +135,14 @@ var influunt;
           var ativado = _
             .chain(ativacaoModoManual)
             .orderBy()
-            .filter(ativacaoModoManual, function(e) { return (e / 10) <= tempo; })
+            .filter(function(e) { return (e / 10) <= tempo; })
             .last()
             .value();
 
           var desativado = _
             .chain(desativacaoModoManual)
             .orderBy()
-            .filter(desativacaoModoManual, function(e) { return (e / 10) <= tempo; })
+            .filter(function(e) { return (e / 10) <= tempo; })
             .last()
             .value();
 
@@ -152,12 +152,9 @@ var influunt;
             situacaoLedManual = 'desligado';
           }
 
+
           var result = _
-            .chain(bloqueioTrocaEstagio)
-            .orderBy()
-            .filter(function(e){ return (e[0] / 10) <= tempo; })
-            .last()
-            .value();
+          .find(bloqueioTrocaEstagio,function(e){ return (e[0] / 10) <= tempo; });
 
           situacaoTrocaLedManual = result && result[1] === 'LIBERAR' ? 'ligado' : 'desligado';
 
