@@ -6,6 +6,9 @@ import com.intellij.uiDesigner.core.Spacer;
 import engine.EventoMotor;
 import engine.IntervaloGrupoSemaforico;
 import engine.TipoEvento;
+import logger.InfluuntLogger;
+import logger.NivelLog;
+import logger.TipoLog;
 import org.joda.time.DateTime;
 import os72c.client.Versao;
 import os72c.client.device.DeviceBridge;
@@ -26,6 +29,7 @@ import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 
 /**
@@ -52,9 +56,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
 
     long times[][] = new long[16][5];
 
-    int tempo = 0;
-
-    int clock = 0;
+    long tempo = 0;
 
     private ActionListener anelActionListener;
 
@@ -376,15 +378,15 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
             return 2;
         } else if (times[line][3] >= 100) {
             return 3;
-        } else if (times[line][4] >= 100) {
+        } else if (times[line][4] >= 0) {
             return 4;
         } else {
             return -1;
         }
     }
 
-    private void dropTime(int line) {
-        times[line][whereIsTime(line)] -= 100;
+    private void dropTime(int line, int wit) {
+        times[line][wit] -= 100;
     }
 
     int getColorAndDecrement(int line) {
@@ -435,7 +437,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
                 }
                 break;
         }
-        dropTime(line);
+        dropTime(line, wit);
 
 
         return ret;
@@ -529,9 +531,9 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
             index += 2;
 
             for (int j = 1; j < 5; j++) {
-                long primeiro = (long) (msg[index++] & 0xFF) << 16;
-                long segundo = (long) (msg[index++] & 0xFF) << 8;
-                long terceiro = (long) (msg[index++] & 0xFF);
+                long primeiro = ((long) (msg[index++] & 0xFF))  << 16;
+                long segundo = ((long) (msg[index++] & 0xFF)) << 8;
+                long terceiro = ((long) (msg[index++] & 0xFF));
                 times[group - 1][j] = primeiro + segundo + terceiro;
             }
         }

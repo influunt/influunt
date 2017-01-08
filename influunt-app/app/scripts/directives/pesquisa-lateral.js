@@ -50,7 +50,7 @@ angular.module('influuntApp')
           });
         };
 
-        scope.ngModel = {};
+        scope.ngModel = scope.ngModel || {};
         $('.spin-icon').on('click', function() {
           toggleOpen();
         });
