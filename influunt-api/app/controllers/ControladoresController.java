@@ -401,7 +401,7 @@ public class ControladoresController extends Controller {
                         (nomeEnderecoEq == null || anel.getEndereco().nomeEndereco().toLowerCase().equals(nomeEnderecoEq.toLowerCase()))) {
                         ObjectNode controlador = JsonNodeFactory.instance.objectNode();
                         controlador.put("id", anel.getControlador().getControladorFisicoId());
-                        itens.addObject()
+                        ObjectNode anelNode = itens.addObject()
                             .put("id", anel.getId().toString())
                             .put("CLA", anel.getCLA())
                             .put("posicao", anel.getPosicao())
@@ -413,11 +413,15 @@ public class ControladoresController extends Controller {
                             .put("fabricanteHardware", anel.getControlador().getFabricanteHardware())
                             .put("modeloHardware", anel.getControlador().getModeloHardware())
                             .put("versaoHardware", anel.getControlador().getVersaoHardware())
-                            .put("atualizacaoVersao", anel.getControlador().getAtualizacaoVersao().toString())
                             .put("controladorFisicoId", anel.getControlador().getControladorFisicoId())
                             .put("controladorId", anel.getControlador().getId().toString())
                             .put("status", anel.getControlador().getStatusControladorReal().toString())
                             .put("online", anel.getControlador().isOnline());
+                        if (anel.getControlador().getAtualizacaoVersao() != null) {
+                            anelNode.put("atualizacaoVersao", anel.getControlador().getAtualizacaoVersao().toString());
+                        } else {
+                            anelNode.put("atualizacaoVersao", "");
+                        }
                     }
                 }
             });
