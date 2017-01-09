@@ -565,11 +565,20 @@ angular.module('influuntApp')
       };
 
       getErrosPlanoCicloDuplo = function(listaErros, currentPlanoIndex) {
-        var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloDuploMaiorOuIgualAoCiclo');
-        if (erros) {
-          return erros;
+        var erros = [];
+        var errosCicloDuplo;
+        errosCicloDuplo = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloDuploMaiorOuIgualAoCiclo');
+
+        if (errosCicloDuplo) {
+          erros.push(errosCicloDuplo[0]);
         }
-        return [];
+
+        errosCicloDuplo = _.get(listaErros, 'planos['+ currentPlanoIndex +'].cicloDuploValido');
+
+        if (errosCicloDuplo) {
+          erros.push(errosCicloDuplo[0]);
+        }
+       return _.flatten(erros);
       };
 
       getErrosSequenciaInvalida = function(listaErros, currentPlanoIndex) {
