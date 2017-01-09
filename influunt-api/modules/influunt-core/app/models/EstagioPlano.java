@@ -525,12 +525,11 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
                                                                 EstagioPlano estagioPlanoPassado,
                                                                 int ciclo) {
         final int index = listaEstagioPlanos.indexOf(this) + 1;
-        boolean primeiroCiclo = ciclo == 0;
         if (index < listaEstagioPlanos.size() && listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()) {
             return getTempoVerdeSeguranca();
         }
         int tempoVerdeDoEstagioDispensavel = 0;
-        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado() && !primeiroCiclo) {
+        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado() && ciclo != 0) {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
             if (estagioPlanoAnterior.isDispensavel() &&
                 !estagioPlanoAnterior.equals(estagioPlanoPassado) &&

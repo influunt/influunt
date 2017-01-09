@@ -479,10 +479,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class,
         message = "O ciclo duplo pode ser configurado somente no modo coordenado.")
     public boolean isCicloDuploValido() {
-        if (this.isCicloDuplo()) {
-            return getModoOperacao() != null && isTempoFixoCoordenado();
-        }
-        return true;
+        return !isCicloDuplo() || isTempoFixoCoordenado();
     }
 
 
