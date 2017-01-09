@@ -52,11 +52,11 @@ public abstract class GeradorDeIntervalos {
             if (modoAnterior.equals(ModoOperacaoPlano.INTERMITENTE)) {
                 return new GeradorVermelhoIntegral(intervalos, plano, modoAnterior,
                     listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde,
-                    tempoAbatimentoCoordenado, tempoAbatidoNoCiclo);
+                    tempoAbatimentoCoordenado, tempoAbatidoNoCiclo, contadorDeCiclo);
             }
             return new GeradorSequenciaPartida(intervalos, plano, modoAnterior,
                 listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde,
-                tempoAbatimentoCoordenado, tempoAbatidoNoCiclo);
+                tempoAbatimentoCoordenado, tempoAbatidoNoCiclo, contadorDeCiclo);
         } else {
             return new GeradorModosVerde(intervalos, plano, modoAnterior,
                 listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde,

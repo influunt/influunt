@@ -1046,6 +1046,10 @@ public class ControladorCustomSerializer {
         if (plano.getTempoCiclo() != null) {
             planoJson.put("tempoCiclo", plano.getTempoCiclo());
         }
+        planoJson.put("cicloDuplo", plano.isCicloDuplo());
+        if (plano.getTempoCicloDuplo() != null) {
+            planoJson.put("tempoCicloDuplo", plano.getTempoCicloDuplo());
+        }
         if (plano.getDefasagem() != null) {
             planoJson.put("defasagem", plano.getDefasagem());
         }
@@ -1100,6 +1104,11 @@ public class ControladorCustomSerializer {
         }
         if (plano.getModoOperacao() != null) {
             planoJson.put("modoOperacao", plano.getModoOperacao().toString());
+        }
+
+        planoJson.put("cicloDuplo", plano.isCicloDuplo());
+        if (plano.getTempoCicloDuplo() != null) {
+            planoJson.put("tempoCicloDuplo", plano.getTempoCicloDuplo());
         }
         if (plano.getDataCriacao() != null) {
             planoJson.put(DATA_CRIACAO, InfluuntDateTimeSerializer.parse(plano.getDataCriacao()));

@@ -32,7 +32,7 @@ public class TrocaEstagioManualHandle extends GerenciadorDeEventos {
 
         if (plano.isManual() && gerenciadorDeEstagios.getMotor().isEmModoManual() &&
             anel.isAceitaModoManual() && !estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
-            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo, contadorDeCiclos);
         }
     }
 }

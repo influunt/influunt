@@ -540,11 +540,14 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         isDestroy = destroy;
     }
 
-    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
+    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior, int contadorDeCiclos) {
         int tempoDecorrido = 0;
         if (estagioPlanoAnterior != null) {
             if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
-                tempoDecorrido += estagioPlanoAnterior.getTempoVerdeEstagio();
+                if (estagioPlanoAnterior.ultimoEstagioDaSequencia()) {
+                    contadorDeCiclos--;
+                }
+                tempoDecorrido += estagioPlanoAnterior.getTempoVerdeEstagio(contadorDeCiclos);
                 tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
             } else {
                 Transicao transicao = findTransicaoComGanhoDePassagemByOrigemDestino(estagioPlanoAnterior.getEstagio(), estagioPlano.getEstagio());
@@ -558,12 +561,16 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano,
                                                   EstagioPlano estagioPlanoAnterior,
-                                                  EstagioPlano estagioPlanoProximo) {
-        int verdeSegurancaFaltante = getTempoVerdeSegurancaFaltante(estagioPlano, estagioPlanoAnterior);
+                                                  EstagioPlano estagioPlanoProximo,
+                                                  int contadorDeCiclos) {
+        int verdeSegurancaFaltante = getTempoVerdeSegurancaFaltante(estagioPlano, estagioPlanoAnterior, contadorDeCiclos);
         int tempoQueVaiDecorrido = 0;
         if (estagioPlanoProximo != null) {
             if (estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(this)) {
-                tempoQueVaiDecorrido += estagioPlanoProximo.getTempoVerdeEstagio();
+                if (estagioPlanoProximo.primeiroEstagioDaSequencia()) {
+                    contadorDeCiclos++;
+                }
+                tempoQueVaiDecorrido += estagioPlanoProximo.getTempoVerdeEstagio(contadorDeCiclos);
                 tempoQueVaiDecorrido += estagioPlanoProximo.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlanoProximo.getEstagio(), estagioPlano.getEstagio());
             } else {
                 Transicao transicao = findTransicaoByOrigemDestino(estagioPlano.getEstagio(), estagioPlanoProximo.getEstagio());

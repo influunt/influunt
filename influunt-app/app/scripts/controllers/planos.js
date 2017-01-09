@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          getErrosPlanoCoordenadoCicloDiferente, atualizaDiagrama;
+          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -394,6 +394,7 @@ angular.module('influuntApp')
         erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoPresenteEmTodosOsAneis(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoCoordenadoCicloDiferente(listaErros, currentPlanoIndex));
+        erros.push(getErrosPlanoCicloDuplo(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
 
@@ -555,8 +556,16 @@ angular.module('influuntApp')
         return [];
       };
 
-      getErrosPlanoCoordenadoCicloDiferente= function(listaErros, currentPlanoIndex) {
+      getErrosPlanoCoordenadoCicloDiferente = function(listaErros, currentPlanoIndex) {
         var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloIgualOuMultiploDeTodoPlano');
+        if (erros) {
+          return erros;
+        }
+        return [];
+      };
+
+      getErrosPlanoCicloDuplo = function(listaErros, currentPlanoIndex) {
+        var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloDuploMaiorOuIgualAoCiclo');
         if (erros) {
           return erros;
         }

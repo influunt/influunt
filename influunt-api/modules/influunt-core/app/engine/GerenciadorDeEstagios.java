@@ -154,7 +154,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private Long verificarETrocaCoordenado() {
-        return GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
+        return GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos,
+            contadorIntervalo, estagioPlanoAtual, contadorDeCiclos);
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -269,7 +270,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (!estagios.isEmpty()) {
                 lista.add(estagios.get(0));
             }
-            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpreTempoVerdeSeguranca(lista)) {
+            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpreTempoVerdeSeguranca(lista, contadorDeCiclos)) {
                 GerenciadorDeEstagiosHelper.aumentarTempoEstagio(this.intervalos,
                     this.contadorIntervalo,
                     estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
@@ -290,7 +291,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagioPlanoAtual.equals(proximoEstagio.getEstagioQueRecebeEstagioDispensavel()) &&
             !listaEstagioPlanos.contains(proximoEstagio)) {
 
-            int tempoAdicional = proximoEstagio.getTempoVerde();
+            int tempoAdicional = proximoEstagio.getTempoVerde(contadorDeCiclos);
 
             EstagioPlano proximoDoProximo = proximoEstagio.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
             EstagioPlano anteriorEstagio = estagioPlanoAtual.getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
@@ -782,5 +783,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
             return this;
         }
+    }
+
+    public int getContadorDeCiclos() {
+        return contadorDeCiclos;
     }
 }

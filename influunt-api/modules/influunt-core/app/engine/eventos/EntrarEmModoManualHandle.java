@@ -25,6 +25,6 @@ public class EntrarEmModoManualHandle extends GerenciadorDeEventos {
 
     @Override
     protected void processar(EventoMotor eventoMotor) {
-        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo, contadorDeCiclos);
     }
 }
