@@ -70,15 +70,23 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
                                 adicionarNoProximoCiclo[0] = true;
                                 estagioPlanoASerAdicionado[0] = estagioPlano;
                             }
-                        } else {
+                        } else if (!listaEstagioPlanos.contains(estagioPlano)) {
                             adicionarNoCicloAtual[0] = true;
                             estagioPlanoASerAdicionado[0] = estagioPlano;
+                            break;
+                        } else {
+                            adicionarNoCicloAtual[0] = false;
+                            adicionarNoProximoCiclo[0] = false;
                             break;
                         }
 
                     } else if (!listaEstagioPlanos.contains(estagioPlano)) {
                         adicionarNoCicloAtual[0] = true;
                         estagioPlanoASerAdicionado[0] = estagioPlano;
+                        break;
+                    } else {
+                        adicionarNoCicloAtual[0] = false;
+                        adicionarNoProximoCiclo[0] = false;
                         break;
                     }
                 } else {
