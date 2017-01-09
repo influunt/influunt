@@ -21,7 +21,8 @@ angular.module('influuntApp')
           objeto: '=',
           podeInicializar: '=',
           podeVisualizarPlanos: '<',
-          errors: '='
+          errors: '=',
+          currentVersaoTabelaHoraria: '='
         },
         link: function postLink(scope) {
 

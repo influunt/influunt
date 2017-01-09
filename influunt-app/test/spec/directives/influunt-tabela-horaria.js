@@ -17,7 +17,7 @@ describe('Directive: InfluuntTabelaHoraria', function () {
     scope.podeInicializar = podeInicializar;
     scope.podeVisualizarPlanos = podeVisualizarPlanos;
     scope.objeto = obj;
-    element = angular.element('<influunt-tabela-horaria read-only="somenteVisualizacao" objeto="objeto" errors="errors" pode-inicializar="podeInicializar" pode-visualizar-planos="false"></influunt-tabela-horaria>');
+    element = angular.element('<influunt-tabela-horaria read-only="somenteVisualizacao" objeto="objeto" errors="errors" pode-inicializar="podeInicializar" pode-visualizar-planos="false" current-versao-tabela-horaria="currentVersaoTabelaHoraria"></influunt-tabela-horaria>');
     element = $compile(element)(scope);
   };
 
