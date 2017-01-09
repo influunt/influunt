@@ -10,32 +10,33 @@
 angular.module('influuntApp')
   .controller('RelatoriosPlanosCtrl', ['$controller', '$scope', '$state', 'Restangular', 'influuntBlockui',
     function ($controller, $scope, $state, Restangular, influuntBlockui) {
-        // Herda todo o comportamento do crud basico.
-        $controller('CrudCtrl', {$scope: $scope});
-        $scope.inicializaNovoCrud('relatorios', 'planos');
-        $scope.relatorio = {tipoRelatorio: ''};
-        $scope.arrayEstagios = [];
 
-        $scope.pesquisa = {
-          tipoRelatorio: '',
-          campos: [
-            {
-              nome: 'filtrarPor',
-              label: 'relatorios.filtarPor',
-              tipo: 'select',
-              options: ['Subarea', 'Agrupamento']
-            },
-            {
-              nome: 'subareaAgrupamento',
-              label: 'relatorios.subareaAgrupamento',
-              tipo: 'texto'
-            }
-          ]
-        };
+      // Herda todo o comportamento do crud basico.
+      $controller('CrudCtrl', {$scope: $scope});
+      $scope.inicializaNovoCrud('relatorios', 'planos');
+      $scope.relatorio = {tipoRelatorio: ''};
+      $scope.arrayEstagios = [];
 
-        $scope.afterIndex = function() {
-          $scope.arrayEstagios = _.chain($scope.lista).map(function(plano){ return plano.estagios.length; }).max().times().value();
-        };
+      $scope.pesquisa = {
+        tipoRelatorio: '',
+        campos: [
+          {
+            nome: 'filtrarPor',
+            label: 'relatorios.filtarPor',
+            tipo: 'select',
+            options: ['Subarea', 'Agrupamento']
+          },
+          {
+            nome: 'subareaAgrupamento',
+            label: 'relatorios.subareaAgrupamento',
+            tipo: 'texto'
+          }
+        ]
+      };
+
+      $scope.afterIndex = function() {
+        $scope.arrayEstagios = _.chain($scope.lista).map(function(plano){ return plano.estagios.length; }).max().times().value();
+      };
 
       /**
       * Relatorio de Planos
