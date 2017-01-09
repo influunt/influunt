@@ -78,9 +78,9 @@ var ObjetosComuns = function () {
     });
   };
 
-  this.botaoConfirmSweetAlert = function() {
+  this.botaoSweetAlert = function(action) {
     return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
-      return world.clickButton('div[class^="sweet-alert"] button.confirm');
+      return world.clickButton('div[class^="sweet-alert"] button.'+action+'');
     });
   };
 

@@ -38,7 +38,11 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário confirmar$/, function() {
-    return sharedSteps.botaoConfirmSweetAlert();
+    return sharedSteps.botaoSweetAlert('confirm');
+  });
+
+  this.Given(/^o usuário cancelar$/, function() {
+    return sharedSteps.botaoSweetAlert('cancel');
   });
 
   this.Given(/^o usuário realize um scroll up$/, function() {
@@ -223,6 +227,10 @@ module.exports = function() {
 
   this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
     return sharedSteps.setarData(valor);
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário$/, function() {
+    return sharedSteps.isForm();
   });
 
   this.Given(/^o sistema deverá redirecionar para o formulário$/, function() {
