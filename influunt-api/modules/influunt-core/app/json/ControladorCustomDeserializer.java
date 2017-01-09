@@ -1103,6 +1103,12 @@ public class ControladorCustomDeserializer {
         if (node.has("modoOperacao")) {
             plano.setModoOperacao(ModoOperacaoPlano.valueOf(node.get("modoOperacao").asText()));
         }
+        if (node.has("cicloDuplo")) {
+            plano.setCicloDuplo(node.get("cicloDuplo").asBoolean());
+        }
+        if (node.has("tempoCicloDuplo")) {
+            plano.setTempoCicloDuplo(node.get("tempoCicloDuplo").asInt());
+        }
 
         if (node.has("versaoPlano") && node.get("versaoPlano").has("idJson")) {
             final String versaoPlanoId = node.get("versaoPlano").get("idJson").asText();

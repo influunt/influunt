@@ -17,6 +17,7 @@ import static helpers.GerenciadorEstagiosHelper.TEMPO_VERMELHO_INTEGRAL;
  * Created by rodrigosol on 10/24/16.
  */
 public class GeradorVermelhoIntegral extends GeradorDeIntervalos {
+    private final int contadorDeCiclos;
     private Long tempoAbatidoNoCiclo = 0L;
     private Long tempoAbatimentoCoordenado = 0L;
 
@@ -24,16 +25,18 @@ public class GeradorVermelhoIntegral extends GeradorDeIntervalos {
                                    ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                                    EstagioPlano estagioPlanoAtual,
                                    HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
-                                   Long tempoAbatimentoCoordenado, Long tempoAbatidoNoCiclo) {
+                                   Long tempoAbatimentoCoordenado, Long tempoAbatidoNoCiclo,
+                                   int contadorDeCiclos) {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
         this.tempoAbatidoNoCiclo = tempoAbatidoNoCiclo;
+        this.contadorDeCiclos = contadorDeCiclos;
     }
 
     @Override
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
         EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
-        Long tempoVerde = estagioPlano.getTempoVerdeEstagio() * 1000L;
+        Long tempoVerde = estagioPlano.getTempoVerdeEstagio(contadorDeCiclos) * 1000L;
         if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado()) {
             if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano, tempoAbatimentoCoordenado, false)) {
                 //Compensação de diferença entre entreverdes

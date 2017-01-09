@@ -68,7 +68,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         if (inicio) {
             tempoEntreVerde = GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
             tempoEntreVerdeComAtraso = 0L;
-            verde = estagioPlano.getTempoVerdeEstagio();
+            verde = estagioPlano.getTempoVerdeEstagio(contadorDeCiclo);
         } else {
             tempoEntreVerde = tabelaDeTemposEntreVerde.get(
                 new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
@@ -77,13 +77,13 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                 new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
 
             verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
-                tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo == 0);
+                tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo);
         }
 
         long tempoVerde = verde * 1000L;
 
         estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
-            tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo == 0);
+            tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo);
 
         final long diffEntreVerdes;
         if (tempoEntreVerdeComAtraso > tempoEntreVerde) {
@@ -106,7 +106,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                 if (inicio) {
                     verdeSeguranca = estagioPlano.getTempoVerdeSeguranca() * 1000L;
                 } else {
-                    verdeSeguranca = estagioPlano.getTempoVerdeSegurancaFaltante(estagioPlanoAtual);
+                    verdeSeguranca = estagioPlano.getTempoVerdeSegurancaFaltante(estagioPlanoAtual, contadorDeCiclo);
                 }
 
                 final long abatimento = Math.min(tempoVerde - verdeSeguranca, tempoAbatimentoCoordenado);

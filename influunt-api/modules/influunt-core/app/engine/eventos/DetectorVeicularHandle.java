@@ -60,7 +60,7 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
     }
 
     private void reduzirTempoEstagioAtual(EstagioPlano estagioPlanoAnterior) {
-        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+        reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo, contadorDeCiclos);
     }
 
     private void adicionaEstagioDemandaPrioritaria(Estagio estagio) {

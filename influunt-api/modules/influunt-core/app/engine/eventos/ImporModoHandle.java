@@ -42,7 +42,7 @@ public class ImporModoHandle extends GerenciadorDeEventos {
         }
 
         if (plano != null) {
-            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo, contadorDeCiclos);
 
             Long horarioEntrada = (Long) eventoMotor.getParams()[3];
             Integer duracao = (Integer) eventoMotor.getParams()[2];
