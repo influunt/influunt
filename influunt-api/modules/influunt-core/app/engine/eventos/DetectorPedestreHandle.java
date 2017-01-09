@@ -81,6 +81,9 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
                         estagioPlanoASerAdicionado[0] = estagioPlano;
                         break;
                     }
+                } else {
+                    adicionarNoProximoCiclo[0] = false;
+                    break;
                 }
             }
         }

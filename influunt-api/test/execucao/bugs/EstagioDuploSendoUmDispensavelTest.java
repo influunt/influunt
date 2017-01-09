@@ -57,6 +57,13 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
 
         avancarSegundos(motor, 192);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(192), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+
+        //Acionamentos durante o entreverde e o verde devem ser ignorados
+        avancarSegundos(motor, 8);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(200), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+        avancarSegundos(motor, 8);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(208), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+
         avancarSegundos(motor, 500);
 
         //Sincronizados
@@ -92,6 +99,13 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
 
         avancarSegundos(motor, 200);
         motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(200), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+
+        //Acionamentos durante o entreverde e o verde devem ser ignorados
+        avancarSegundos(motor, 32);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(232), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+        avancarSegundos(motor, 7);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(239), TipoEvento.ACIONAMENTO_DETECTOR_PEDESTRE, detector, 2));
+
         avancarSegundos(motor, 500);
 
         assertEquals("Estágio E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(170)).get(2).getEstagio().getPosicao().intValue());
