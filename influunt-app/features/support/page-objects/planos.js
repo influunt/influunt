@@ -13,8 +13,10 @@ var PlanosPage = function () {
   this.selecionarModoOperacao = function(modoOperacao) {
     var modos = ['Atuado', 'Coordenado', 'Isolado', 'Intermitente', 'Apagado'];
     var index = modos.indexOf(modoOperacao) + 1;
-    return world.getElement('[name="modoOperacao"] option:nth-child('+index+')').click().then(function() {
+    return world.waitFor('[name="modoOperacao"]').then(function(){
+      return world.getElement('[name="modoOperacao"] option:nth-child('+index+')').click().then(function() {
       return world.sleep(500);
+      });
     });
   };
 
@@ -204,6 +206,10 @@ var PlanosPage = function () {
 
   this.deveConterEstagioQueRecebeDispensavel = function(estagio) {
     return world.waitForByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(@selected, "selected")][contains(text(), "'+estagio+'")]');
+  };
+
+  this.selecionarCicloDuplo = function() {
+    return world.getElementByXpath('//input[contains(@name, "cicloDuplo")]//following-sibling::ins').click();
   };
 
   this.valorDoKnob = function(valor) {
