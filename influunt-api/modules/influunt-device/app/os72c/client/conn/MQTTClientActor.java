@@ -175,7 +175,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             cancellable.cancel();
         }else {
             cancellable = getContext().system().scheduler().schedule(Duration.Zero(),
-                Duration.create(10, TimeUnit.MINUTES), getSelf(), "SEND_ONLINE",
+                Duration.create(2, TimeUnit.MINUTES), getSelf(), "SEND_ONLINE",
                 getContext().system().dispatcher(), null);
         }
 
