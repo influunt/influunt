@@ -11,8 +11,7 @@ public interface Authenticator {
      *
      * @param login
      * @param password
-     * @return retorna o usuário caso as crendenciais sejam verdadeiras ou NULL
-     * caso contrário
+     * @return retorna o usuário caso as crendenciais sejam verdadeiras ou NULL caso contrário
      */
     public Subject getSubjectByCredentials(String login, String password);
 
