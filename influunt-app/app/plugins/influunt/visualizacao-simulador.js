@@ -158,6 +158,9 @@ var influunt;
             .last()
             .value();
 
+          console.log('ativado: ', ativado)
+          console.log('desativado: ', desativado)
+
           if (ativado && (!desativado || ativado > desativado)) {
             situacaoLedManual = 'ligado';
           } else {
@@ -165,8 +168,9 @@ var influunt;
           }
 
 
-          var result = _
-          .find(bloqueioTrocaEstagio,function(e){ return (e[0] / 10) <= tempo; });
+          var result = _.find(bloqueioTrocaEstagio, function(e) {
+            return (e[0] / 10) <= tempo;
+          });
 
           situacaoTrocaLedManual = result && result[1] === 'LIBERAR' ? 'ligado' : 'desligado';
 
@@ -343,6 +347,10 @@ var influunt;
           return situacaoLedManual === 'ligado';
         }
 
+        function hideEstagioManual() {
+          return !showEstagioManual();
+        }
+
         function showTrocaEstagioManual() {
           return situacaoTrocaLedManual === 'ligado';
         }
@@ -450,7 +458,7 @@ var influunt;
               {nome: 'DP3', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
               {nome: 'DP4', action: botaoDetector, incremento: 39, enableOnPause: true, enableOnPlay: true},
 
-              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: !showEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
+              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: hideEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
               {nome: 'desativaOperacaoManual', action: desativaModoManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true},
               {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showTrocaEstagioManual, enableOnPause: true, enableOnPlay: true}
           ];
@@ -985,6 +993,8 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
+
+              console.log('json MQTT:', json)
 
               try{
                 processaEstagios(json.aneis);
