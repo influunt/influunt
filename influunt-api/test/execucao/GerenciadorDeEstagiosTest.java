@@ -68,7 +68,7 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
             }
 
             @Override
-            public void onCicloEnds(int anel, int numeroCiclos) {
+            public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
 
             }
 

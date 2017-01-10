@@ -13,7 +13,7 @@ public interface GerenciadorDeEstagiosCallback {
 
     public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos);
 
-    public void onCicloEnds(int anel, int numeroCiclos);
+    public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido);
 
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano);
 

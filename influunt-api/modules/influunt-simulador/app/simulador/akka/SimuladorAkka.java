@@ -43,8 +43,8 @@ public class SimuladorAkka extends Simulador {
     }
 
     @Override
-    public void onCicloEnds(int anel, int numeroCiclos) {
-
+    public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
+        simuladorActor.storeFimDeCiclo(anel, tempoDecorrido);
     }
 
     @Override

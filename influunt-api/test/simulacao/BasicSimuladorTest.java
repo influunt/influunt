@@ -84,7 +84,7 @@ public class BasicSimuladorTest extends Simulador {
     }
 
     @Override
-    public void onCicloEnds(int anel, int numeroCiclos) {
+    public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
 
     }
 
