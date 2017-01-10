@@ -13,7 +13,6 @@ import protocol.TipoMensagem;
 import status.StatusConexaoControlador;
 import utils.AtoresCentral;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
