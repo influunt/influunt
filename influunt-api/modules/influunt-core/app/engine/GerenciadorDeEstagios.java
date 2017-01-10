@@ -67,7 +67,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean tempoDispensavelJaAdicionado = false;
 
-    private boolean verdeSegurancaCumprido = false;
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -790,5 +789,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
             return this;
         }
+    }
+
+    public boolean isEmFalha() {
+        return getPlano().isImpostoPorFalha();
     }
 }
