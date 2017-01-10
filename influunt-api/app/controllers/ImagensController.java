@@ -81,7 +81,7 @@ public class ImagensController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         }
         File appRootPath = provider.get().path();
-        File path = path = imagem.getPath(appRootPath);
+        File path = imagem.getPath(appRootPath);
         return CompletableFuture.completedFuture(ok(path).as(imagem.getContentType()));
     }
 

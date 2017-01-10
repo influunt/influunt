@@ -115,7 +115,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(inicioControlador.plusSeconds(160), simulador.listaTrocaManualBloqueada.get(0));
         assertEquals(inicioControlador.plusSeconds(187), simulador.listaTrocaManualLiberada.get(0));
         assertEquals(inicioControlador.plusSeconds(194), simulador.listaTrocaManualBloqueada.get(1));
-        assertEquals(inicioControlador.plusSeconds(215), simulador.listaTrocaManualLiberada.get(1));
+        assertEquals(inicioControlador.plusSeconds(212), simulador.listaTrocaManualLiberada.get(1));
         assertEquals(inicioControlador.plusSeconds(220), simulador.listaTrocaManualBloqueada.get(2));
         assertEquals(inicioControlador.plusSeconds(220), simulador.listaModoManualDesativado.get(0));
 
@@ -128,7 +128,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(inicioControlador.plusSeconds(160), simulador.listaTrocaManualBloqueada.get(0));
         assertEquals(inicioControlador.plusSeconds(187), simulador.listaTrocaManualLiberada.get(0));
         assertEquals(inicioControlador.plusSeconds(194), simulador.listaTrocaManualBloqueada.get(1));
-        assertEquals(inicioControlador.plusSeconds(215), simulador.listaTrocaManualLiberada.get(1));
+        assertEquals(inicioControlador.plusSeconds(212), simulador.listaTrocaManualLiberada.get(1));
         assertEquals(inicioControlador.plusSeconds(216), simulador.listaTrocaManualBloqueada.get(2));
         assertEquals(inicioControlador.plusSeconds(243), simulador.listaTrocaManualLiberada.get(2));
         assertEquals(inicioControlador.plusSeconds(349), simulador.listaTrocaManualBloqueada.get(3));
@@ -164,7 +164,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(inicioControlador.plusSeconds(160), simulador.listaTrocaManualBloqueada.get(0));
         assertEquals(inicioControlador.plusSeconds(187), simulador.listaTrocaManualLiberada.get(0));
         assertEquals(inicioControlador.plusSeconds(190), simulador.listaTrocaManualBloqueada.get(1));
-        assertEquals(inicioControlador.plusSeconds(211), simulador.listaTrocaManualLiberada.get(1));
+        assertEquals(inicioControlador.plusSeconds(208), simulador.listaTrocaManualLiberada.get(1));
         assertEquals(inicioControlador.plusSeconds(213), simulador.listaTrocaManualBloqueada.get(2));
         assertEquals(inicioControlador.plusSeconds(346), simulador.listaModoManualDesativado.get(0));
 
@@ -175,7 +175,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(inicioControlador.plusSeconds(160), simulador.listaTrocaManualBloqueada.get(0));
         assertEquals(inicioControlador.plusSeconds(187), simulador.listaTrocaManualLiberada.get(0));
         assertEquals(inicioControlador.plusSeconds(190), simulador.listaTrocaManualBloqueada.get(1));
-        assertEquals(inicioControlador.plusSeconds(211), simulador.listaTrocaManualLiberada.get(1));
+        assertEquals(inicioControlador.plusSeconds(208), simulador.listaTrocaManualLiberada.get(1));
         assertEquals(inicioControlador.plusSeconds(213), simulador.listaTrocaManualBloqueada.get(2));
         assertEquals(inicioControlador.plusSeconds(346), simulador.listaModoManualDesativado.get(0));
     }
