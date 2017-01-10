@@ -1014,6 +1014,9 @@ var influunt;
         game.stop = function() {
           mqttClient.disconnect();
           game.state.destroy();
+          game.world.removeAll();
+          game.cache.destroy();
+          game.destroy();
         };
 
         return game;

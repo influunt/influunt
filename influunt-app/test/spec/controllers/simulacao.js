@@ -132,6 +132,6 @@ describe('Controller: SimulacaoCtrl', function () {
     spyOn(scope.simulacao, 'stop');
     scope.pararSimulacao();
     httpBackend.flush();
-    expect(scope.simulacao.stop).toHaveBeenCalled();
+    expect(scope.simulacao).toBe(null);
   });
 });
