@@ -27,7 +27,8 @@ public class AtivaModoManualHandle extends GerenciadorDeEventos {
             }
 
             //TODO: Não entra no manual, se caso não tiver sido configurado o plano exclusivo e o plano vigente for Intermitente ou Apagado
-            if (plano != null) {
+            //TODO: Não entra no manual, se tiver em falha
+            if (plano != null && !gerenciadorDeEstagios.isEmFalha()) {
                 gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp()));
             }
         }
