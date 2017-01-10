@@ -79,10 +79,15 @@ public abstract class Simulador implements MotorCallback {
         setup(parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
-            processaEventos(inicioSimulacao);
-            motor.tick();
-            tempoSimulacao += 100;
-            inicioSimulacao = inicioSimulacao.plus(100);
+            try {
+                processaEventos(inicioSimulacao);
+                motor.tick();
+                tempoSimulacao += 100;
+                inicioSimulacao = inicioSimulacao.plus(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
         }
     }
 
