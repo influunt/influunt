@@ -395,6 +395,8 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
   abrirModalSimulacao = function() {
     $('#modal-simulacao').modal();
+    $('#modal-simulacao').off('hidden.bs.modal');
+    $('#modal-simulacao').on('hidden.bs.modal', $scope.pararSimulacao);
   };
 
   resetParametros = function() {
@@ -432,9 +434,15 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
   };
 
   $scope.pararSimulacao = function() {
-    $scope.simulacao.stop();
-    $('#canvas').html('');
-    pararSimulacaoNaApi();
+    if ($scope.simulacao) {
+      $scope.simulacao.stopMqttClient();
+      $scope.simulacao.state.destroy();
+      $scope.simulacao.world.removeAll();
+      $scope.simulacao.cache.destroy();
+      $scope.simulacao.destroy();
+      $scope.simulacao = null;
+      pararSimulacaoNaApi();
+    }
   };
 
   pararSimulacaoNaApi = function() {
