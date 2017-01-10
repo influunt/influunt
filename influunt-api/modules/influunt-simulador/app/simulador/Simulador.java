@@ -74,15 +74,19 @@ public abstract class Simulador implements MotorCallback {
         this.eventos.get(eventoMotor.getTimestamp()).add(eventoMotor);
     }
 
-    public void simular(DateTime fim) throws Exception {
+    public void simular(DateTime fim) {
         DateTime inicioSimulacao = dataInicioControlador;
         setup(parametros);
 
         while (inicioSimulacao.getMillis() / 100 < fim.getMillis() / 100) {
-            processaEventos(inicioSimulacao);
-            motor.tick();
-            tempoSimulacao += 100;
-            inicioSimulacao = inicioSimulacao.plus(100);
+            try {
+                processaEventos(inicioSimulacao);
+                motor.tick();
+                tempoSimulacao += 100;
+                inicioSimulacao = inicioSimulacao.plus(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

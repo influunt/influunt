@@ -249,6 +249,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public boolean ativaModoManual(int anel) {
         entrarEmModoManualAbrupt = true;
+
+        verificaAneisEmFalha();
+
         aneisProntosParaManual.put(anel, true);
 
         List<GerenciadorDeEstagios> aneisComManual = estagios.stream()
@@ -263,8 +266,10 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         } else {
             aneisComManual.stream()
                 .forEach(gerenciador -> {
-                    gerenciador.executaAgendamentoTrocaDePlano();
-                    gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
+                    if (!gerenciador.isEmFalha()) {
+                        gerenciador.executaAgendamentoTrocaDePlano();
+                        gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
+                    }
                 });
             callback.modoManualAtivo(instante);
             callback.trocaEstagioManualBloqueada(instante);
@@ -273,6 +278,12 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         }
 
         return emModoManual;
+    }
+
+    private void verificaAneisEmFalha() {
+        estagios.stream().filter(GerenciadorDeEstagios::isEmFalha).forEach(estagio -> {
+            aneisProntosParaManual.put(estagio.getAnel(), true);
+        });
     }
 
     public void bloqueaTrocaEstagioManual(int anel) {
