@@ -39,7 +39,6 @@ public class EstagioDuploSendoUmDispensavelTest extends GerenciadorDeTrocasTest 
         return new ControladorCustomDeserializer().getControladorFromJson(Json.parse(controladorJson.toString()));
     }
 
-
     @Test
     public void falhaAcionamentoNoPrimiroCiclo() throws IOException {
         inicioExecucao = new DateTime(2017, 1, 9, 8, 0, 0);
