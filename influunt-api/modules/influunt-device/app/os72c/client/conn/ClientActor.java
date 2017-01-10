@@ -32,7 +32,10 @@ public class ClientActor extends UntypedActor {
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
+                    if ("Conexao morreu".equals(t.getMessage()) ||
+                        ("Client is not connected").startsWith(t.getMessage()) ||
+                        (t.getCause() != null && t.getCause().getClass() != null &&  t.getCause().getClass().equals(java.net.UnknownHostException.class)) ||
+                        (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException)) {
                         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else if (t instanceof RuntimeException && "RESTART".equals(t.getMessage())) {

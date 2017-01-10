@@ -171,9 +171,13 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
 
         //Reenvia a mensagem de on-line a cada 10 minutos
-        cancellable = getContext().system().scheduler().schedule(Duration.Zero(),
-            Duration.create(10, TimeUnit.MINUTES), getSelf(), "SEND_ONLINE",
-            getContext().system().dispatcher(), null);
+        if(cancellable != null){
+            cancellable.cancel();
+        }else {
+            cancellable = getContext().system().scheduler().schedule(Duration.Zero(),
+                Duration.create(10, TimeUnit.MINUTES), getSelf(), "SEND_ONLINE",
+                getContext().system().dispatcher(), null);
+        }
 
         sendToBroker(new MensagemVerificaConfiguracao());
 
