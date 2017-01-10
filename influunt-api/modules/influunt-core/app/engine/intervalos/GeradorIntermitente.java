@@ -27,16 +27,16 @@ public class GeradorIntermitente extends GeradorDeIntervalos {
 
     @Override
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
-        Map.Entry<Range<Long>, IntervaloEstagio> entreverde = null;
+        IntervaloEstagio intervalo = null;
 
         if (this.intervalos != null) {
-            entreverde = this.intervalos.getEntry(0L);
+            intervalo = this.intervalos.get(0L);
         }
 
         this.intervalos = TreeRangeMap.create();
-        if (isModoAnteriorVerde(modoAnterior) && entreverde != null &&
-            entreverde.getValue().isEntreverde() && !this.plano.isImpostoPorFalha()) {
-            final IntervaloEstagio intervalo = entreverde.getValue();
+        if (isModoAnteriorVerde(modoAnterior) &&
+            intervalo != null &&
+            !this.plano.isImpostoPorFalha()) {
             final Estagio estagio;
             if (intervalo.getEstagioPlanoAnterior().getEstagio().getId() != null &&
                 !plano.isImposto() &&
