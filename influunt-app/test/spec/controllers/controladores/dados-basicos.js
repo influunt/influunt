@@ -22,6 +22,15 @@ describe('Controller: ControladoresDadosBasicosCtrl', function () {
   it('Deve criar o texto em "nomeEndereco" associando os nomes do "endereco 1" "com" "endereco 2"', function() {
     scope.objeto.todosEnderecos[0].localizacao = 'endereco 1';
     scope.objeto.todosEnderecos[0].localizacao2 = 'endereco 2';
+    scope.enderecoControladorIndex = 0;
+    scope.$apply();
+    expect(scope.objeto.nomeEndereco).toBe('endereco 1 com endereco 2');
+  });
+
+  it('Deve criar o texto em "nomeEndereco" mesmo quando o endereço não está na posição 0', function() {
+    scope.objeto.todosEnderecos[1].localizacao = 'endereco 1';
+    scope.objeto.todosEnderecos[1].localizacao2 = 'endereco 2';
+    scope.enderecoControladorIndex = 1;
     scope.$apply();
     expect(scope.objeto.nomeEndereco).toBe('endereco 1 com endereco 2');
   });
