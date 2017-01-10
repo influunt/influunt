@@ -62,6 +62,9 @@ public class PlanosReportService extends ReportService<Plano> {
             paramsAux.put("versaoPlano.anel.controlador.area.id", areaId);
         }
 
+        String[] statusArquivado = {"ARQUIVADO"};
+        paramsAux.put("versaoPlano.statusVersao_ne", statusArquivado);
+
         String[] modoOperacao = {Integer.toString(ModoOperacaoPlano.MANUAL.ordinal())};
         paramsAux.put("modo_operacao_ne", modoOperacao);
 
@@ -74,7 +77,8 @@ public class PlanosReportService extends ReportService<Plano> {
             ArrayNode estagios = JsonNodeFactory.instance.arrayNode();
             Anel anel = plano.getAnel();
             plano.getEstagiosOrdenados().forEach(estagio -> {
-                estagios.addObject().put("estagio", estagio.getEstagio().toString())
+                estagios.addObject()
+                    .put("estagio", estagio.getEstagio().toString())
                     .put("inicio", estagio.getInicio().toString())
                     .put("verde", estagio.getTempoVerdeEstagio().toString())
                     .put("total", estagio.getDuracaoEstagio().toString());
