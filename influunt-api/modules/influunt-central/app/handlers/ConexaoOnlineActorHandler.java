@@ -13,6 +13,7 @@ import protocol.TipoMensagem;
 import status.StatusConexaoControlador;
 import utils.AtoresCentral;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,11 +23,18 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
+
+
     @Override
     public void onReceive(Object message) {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_ONLINE)) {
+                StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(envelope.getIdControlador());
+                if(status!= null && status.isConectado()){
+                    return;
+                }
+
                 log.info("O controlador: {} esta online", envelope.getIdControlador());
 
                 envelope.setDestino(DestinoApp.controladorOnline());
