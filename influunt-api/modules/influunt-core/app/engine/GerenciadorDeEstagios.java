@@ -365,9 +365,16 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private boolean podeAgendar(AgendamentoTrocaPlano agendamento) {
-        return ((this.plano.isManual() && agendamento.isSaidaDoModoManual()) ||
+        boolean result = ((this.plano.isManual() && agendamento.isSaidaDoModoManual()) ||
             (this.plano.isImposto() && agendamento.isSaidaImposicao()) ||
             (!this.plano.isManual() && !this.plano.isImposto()));
+
+        if (result && this.agendamento != null) {
+            result = (!this.agendamento.getPlano().isManual() && !this.agendamento.getPlano().isImposto() ||
+                agendamento.getPlano().isManual());
+        }
+
+        return result;
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
