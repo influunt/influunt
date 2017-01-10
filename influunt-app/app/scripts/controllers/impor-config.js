@@ -150,20 +150,7 @@ angular.module('influuntApp')
                 .set('saida', status.saida)
                 .value();
             });
-          })
-        // console.log('statusObj:', statusObj)
-        // debugger
-        // $scope.statusAneis = statusObj.status;
-        // var statuses = statusObj.statusPlanos;
-        // return _.map(statuses, function(status) {
-        //   return _
-        //     .chain($scope.lista)
-        //     .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
-        //     .set('hasPlanoImposto', status.hasPlanoImposto)
-        //     .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
-        //     .set('saida', status.saida)
-        //     .value();
-        // });
+          });
       };
 
       $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {

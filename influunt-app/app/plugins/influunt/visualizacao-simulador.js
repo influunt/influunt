@@ -158,19 +158,17 @@ var influunt;
             .last()
             .value();
 
-          console.log('ativado: ', ativado)
-          console.log('desativado: ', desativado)
-
           if (ativado && (!desativado || ativado > desativado)) {
             situacaoLedManual = 'ligado';
           } else {
             situacaoLedManual = 'desligado';
           }
 
-
-          var result = _.find(bloqueioTrocaEstagio, function(e) {
-            return (e[0] / 10) <= tempo;
-          });
+          var result = _.chain(bloqueioTrocaEstagio)
+            .orderBy(function(e) { return e[0]; })
+            .filter(function(e) { return e[0] / 10 <= tempo })
+            .last()
+            .value();
 
           situacaoTrocaLedManual = result && result[1] === 'LIBERAR' ? 'ligado' : 'desligado';
 
@@ -993,8 +991,6 @@ var influunt;
           client.onMessageArrived = function(message) {
             if(message.destinationName.endsWith('/estado')){
               var json = JSON.parse(message.payloadString);
-
-              console.log('json MQTT:', json)
 
               try{
                 processaEstagios(json.aneis);
