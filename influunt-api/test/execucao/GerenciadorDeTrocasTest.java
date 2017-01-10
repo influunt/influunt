@@ -66,10 +66,6 @@ public class GerenciadorDeTrocasTest extends MotorTest {
         listaHistoricoEstagios.get(timestamp).put(anel, intervalos);
     }
 
-    @Override
-    public void onCicloEnds(int anel, int numeroCiclos) {
-
-    }
 
     protected Plano getPlanoTrocaEfetiva(int anel, int tempo, int tempo2) {
         return listaTrocaPlanoEfetiva.get(inicioExecucao.plusSeconds(tempo).plus(tempo2)).get(anel).getSecond();

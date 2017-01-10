@@ -617,7 +617,7 @@ public class ControladoresController extends Controller {
         }
 
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, validationGroups);
-        if (erros.size() > 0) {
+        if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         } else {
             if (checkIfExists) {
