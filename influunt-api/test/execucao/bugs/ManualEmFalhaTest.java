@@ -43,6 +43,7 @@ public class ManualEmFalhaTest extends GerenciadorDeTrocasTest {
         avancarSegundos(motor, 100);
 
         assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(110)));
+        assertEquals(inicioExecucao.plusSeconds(128), listaTrocaManualLiberada.get(0));
 
         assertTrue(motor.getEstagios().get(0).getPlano().isImpostoPorFalha());
         assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, motor.getEstagios().get(1).getPlano().getModoOperacao());

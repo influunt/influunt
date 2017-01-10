@@ -235,6 +235,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void desativaModoManual(int anel, DateTime instante) {
+        verificaAneisEmFalha(aneisProntosParaManual, false);
         if (!aneisProntosParaManual.values().contains(Boolean.FALSE)) {
             aneisProntosParaManual.put(anel, false);
 
@@ -248,9 +249,9 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public boolean ativaModoManual(int anel) {
-        entrarEmModoManualAbrupt = true;
+        verificaAneisEmFalha(aneisProntosParaManual, true);
 
-        verificaAneisEmFalha();
+        entrarEmModoManualAbrupt = true;
 
         aneisProntosParaManual.put(anel, true);
 
@@ -280,13 +281,14 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
         return emModoManual;
     }
 
-    private void verificaAneisEmFalha() {
+    private void verificaAneisEmFalha(Map<Integer, Boolean> lista, boolean value) {
         estagios.stream().filter(GerenciadorDeEstagios::isEmFalha).forEach(estagio -> {
-            aneisProntosParaManual.put(estagio.getAnel(), true);
+            lista.put(estagio.getAnel(), value);
         });
     }
 
     public void bloqueaTrocaEstagioManual(int anel) {
+        verificaAneisEmFalha(aneisProntosParaTrocaEstagioManual, false);
         aneisProntosParaTrocaEstagioManual.put(anel, false);
 
         if (aneisProntosParaTrocaEstagioManual.values().contains(Boolean.FALSE) && !informadoBloqueado) {
@@ -297,6 +299,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public void liberaTrocaEstagioManual(int anel) {
+        verificaAneisEmFalha(aneisProntosParaTrocaEstagioManual, true);
         aneisProntosParaTrocaEstagioManual.put(anel, true);
 
         if (aneisProntosParaTrocaEstagioManual.values().stream().allMatch(v -> v.equals(Boolean.TRUE)) && !informadoLiberado) {
