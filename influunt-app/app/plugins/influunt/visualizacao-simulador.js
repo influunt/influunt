@@ -23,6 +23,8 @@ var influunt;
         var limite = 256;
         var planos = [];
         var modos = [];
+        var temposDeCiclo = [];
+        var fimDeCiclos = [];        
         var cursors;
         var intervalosGroup;
         var textoIntervalosGroup;
@@ -131,6 +133,16 @@ var influunt;
           data.setText(dataText);
         }
 
+        function desenhaTempoDeCiclo(tempo) {
+          
+          temposDeCiclo.forEach(function(e,i){
+            var marca = _.chain(fimDeCiclos[i])
+                         .filter(function(fim){return fim <= tempo;})
+                         .last().value();
+            e.setText(((tempo - marca)+1) + 's');
+          });
+        }
+
         function verificaLed(){
           var ativado = _
             .chain(ativacaoModoManual)
@@ -235,6 +247,7 @@ var influunt;
             tempo += (velocidade);
             relogio.setText((tempo + 1) + 's');
             desenhaPlanoAtual(getPlanoAtual(tempo));
+            desenhaTempoDeCiclo(tempo);
             verificaLed();
             game.camera.x+=(10 * velocidade);
             atualizaEstadosGruposSemaforicos();
@@ -248,6 +261,7 @@ var influunt;
           tempo = Math.max(0,tempo - velocidade);
           relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
+          desenhaTempoDeCiclo(tempo);
           verificaLed();
           game.camera.x -= (velocidade * 10);
           atualizaEstadosGruposSemaforicos();
@@ -749,6 +763,7 @@ var influunt;
 
           bmd.ctx.fillRect(0,0,30,h);
           bmd.ctx.fillRect(0,0,116,ALTURA_GRUPO);
+          
           bmd.ctx.fillRect(116,0,1000,2);
           bmd.ctx.fillRect(966,0,34,h);
           if(ultimo){
@@ -774,9 +789,18 @@ var influunt;
           modo.fixedToCamera = true;
           modo.anchor.setTo(0.5, 0.5);
           modos.push(modo);
+          
+
+          var tempoCiclo = game.add.text(75,spriteY + 16, '0s', style);
+          tempoCiclo.fixedToCamera = true;
+          tempoCiclo.anchor.setTo(0.5, 0.5);
+          temposDeCiclo.push(tempoCiclo);
+          
         }
 
         function criaAnel(anel,index,indexAnel){
+          
+          fimDeCiclos[anel.numero - 1] = [0];
           var offset = (anel.numero - 1) * ALTURA_GRUPO;
           var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index,offset);
           aneis[anel.numero] = {};
@@ -968,6 +992,7 @@ var influunt;
                 processaAlarmes(json.alarmes);
                 processaManual(json.manual);
                 processaBloqueios(json.bloqueios);
+                fimDeCiclos = json.fimDeCiclo;
               }catch(err){
                 console.log(err);
               }

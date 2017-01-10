@@ -20,6 +20,7 @@ import play.libs.Json;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static play.libs.Json.newObject;
 
@@ -46,12 +47,15 @@ public class SimuladorActor extends UntypedActor {
 
     private List<ArrayNode> modoManual = new ArrayList<>();
     private List<ArrayNode> bloqueioTrocaEstagio = new ArrayList<>();
+    private Map<Integer,List<Long>> fimDeCiclos = new HashMap<>();
 
     private String jsonTrocas;
 
     private StringBuffer bufferTrocaDePlanos = null;
 
     private int pagina;
+
+
 
 
     public SimuladorActor(String host, String port, String login, String senha, ParametroSimulacao params) {
@@ -175,6 +179,7 @@ public class SimuladorActor extends UntypedActor {
             alarmes.clear();
             modoManual.clear();
             bloqueioTrocaEstagio.clear();
+            fimDeCiclos.clear();
             bufferTrocaDePlanos = null;
         } catch (MqttException e) {
             e.printStackTrace();
@@ -206,6 +211,13 @@ public class SimuladorActor extends UntypedActor {
         bloqueioTrocaEstagio.stream()
             .sorted((o1, o2) -> Long.compare(o2.get(1).asLong(), o1.get(1).asLong()))
             .forEach(bloqueios::add);
+
+        ArrayNode fimDeCicloAnel = root.putArray("fimDeCiclo");
+        fimDeCiclos.keySet().stream().sorted().forEach(key ->{
+            ArrayNode inner = fimDeCicloAnel.addArray();
+            inner.add(0l);
+            fimDeCiclos.get(key).stream().sorted().forEach(fim -> inner.add(fim / 1000L));
+        });
 
         return root.toString();
     }
@@ -272,5 +284,12 @@ public class SimuladorActor extends UntypedActor {
         bloqueio.add(timestamp.getMillis());
         bloqueioTrocaEstagio.add(bloqueio);
 
+    }
+
+    public void storeFimDeCiclo(int anel, Long tempoDecorrido) {
+        if(!fimDeCiclos.containsKey(anel)){
+            fimDeCiclos.put(anel,new ArrayList<>());
+        }
+        fimDeCiclos.get(anel).add(tempoDecorrido);
     }
 }

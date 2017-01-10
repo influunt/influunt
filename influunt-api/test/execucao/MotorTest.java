@@ -247,7 +247,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
-    public void onCicloEnds(int anel, int numeroCiclos) {
+    public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
 
     }
 

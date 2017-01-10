@@ -234,7 +234,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorDeCiclos++;
         contadorTempoCiclo = 0L;
         tempoAbatidoNoCiclo = 0L;
-        callback.onCicloEnds(this.anel, contadorDeCiclos);
+        callback.onCicloEnds(this.anel, contadorDeCiclos,tempoDecorrido);
     }
 
     private boolean cumpriuTempoVerdeSeguranca(IntervaloEstagio intervalo) {
