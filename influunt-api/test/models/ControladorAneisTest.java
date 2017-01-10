@@ -42,7 +42,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         List<Erro> erros = getErros(controlador);
 
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "Ao menos um anel deve estar ativo", "")
         ));
 
@@ -51,7 +51,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
@@ -61,7 +61,7 @@ public class ControladorAneisTest extends ControladorTest {
 
         erros = getErros(controlador);
 
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "Anel deve ter endereço", "aneis[0].enderecosOk")
         ));
         Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
@@ -69,7 +69,7 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.setEndereco(paulista);
 
         erros = getErros(controlador);
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "não pode ficar em branco, caso não seja preenchido a altura numérica.", "aneis[0].endereco.localizacao2")
         ));
         paulista.setAlturaNumerica(15);
@@ -82,7 +82,7 @@ public class ControladorAneisTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(1, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "Um anel ativo deve ter ao menos dois estágios e no máximo o limite do modelo do controlador", "aneis[0]")
         ));
 
@@ -91,7 +91,7 @@ public class ControladorAneisTest extends ControladorTest {
         anel1.setEstagios(estagios);
 
         erros = getErros(controlador);
-        assertThat(erros, org.hamcrest.Matchers.empty());
+        assertThat(erros, Matchers.empty());
     }
 
 

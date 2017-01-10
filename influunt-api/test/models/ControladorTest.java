@@ -123,18 +123,18 @@ public abstract class ControladorTest extends WithInfluuntApplicationNoAuthentic
         controladorTestUtils.criarDetector(anel, tipo, posicao, monitorado);
     }
 
-    public abstract void testVazio();
+    protected abstract void testVazio();
 
-    public abstract void testNoValidationErro();
+    protected abstract void testNoValidationErro();
 
-    public abstract void testORM();
+    protected abstract void testORM();
 
-    public abstract void testJSON();
+    protected abstract void testJSON();
 
-    public abstract void testControllerValidacao();
+    protected abstract void testControllerValidacao();
 
-    public abstract void testController();
+    protected abstract void testController();
 
-    public abstract List<Erro> getErros(Controlador controlador);
+    protected abstract List<Erro> getErros(Controlador controlador);
 
 }
