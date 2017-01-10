@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     protected HashMap<DateTime, Boolean> ativacaoModoManual = new HashMap<>();
 
     protected HashMap<DateTime, Boolean> desativacaoModoManual = new HashMap<>();
+
+    public List<DateTime> listaTrocaManualLiberada = new ArrayList<>();
+
+    public List<DateTime> listaTrocaManualBloqueada = new ArrayList<>();
 
     //Métodos auxiliares de modo manual
     protected void acionarModoManual(Motor motor) {
@@ -221,12 +226,12 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     @Override
     public void trocaEstagioManualLiberada(DateTime timestamp) {
-
+        listaTrocaManualLiberada.add(timestamp);
     }
 
     @Override
     public void trocaEstagioManualBloqueada(DateTime timestamp) {
-
+        listaTrocaManualBloqueada.add(timestamp);
     }
 
     @Override

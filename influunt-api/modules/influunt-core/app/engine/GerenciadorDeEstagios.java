@@ -243,7 +243,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
         Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
 
-        return (contadorIntervalo - range.getKey().lowerEndpoint()) >= (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
+        return (contadorIntervalo - range.getKey().lowerEndpoint()) >=
+            (estagioPlanoAtual.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L);
     }
 
     private boolean verificaSeDeveAguardarEntradaEmModoManual(IntervaloEstagio ultimoIntervalo) {

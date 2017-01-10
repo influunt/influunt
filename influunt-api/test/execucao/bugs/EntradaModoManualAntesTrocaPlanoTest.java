@@ -52,7 +52,23 @@ public class EntradaModoManualAntesTrocaPlanoTest extends GerenciadorDeTrocasTes
             assertEquals(ModoOperacaoPlano.TEMPO_FIXO_COORDENADO, gerenciadorDeEstagios.getPlano().getModoOperacao());
             assertEquals(3, gerenciadorDeEstagios.getPlano().getPosicao().intValue());
         });
+    }
 
+    @Test
+    public void validaVerdeSegurancaModoManual() throws IOException {
+        inicioExecucao = new DateTime(2017, 1, 10, 17, 58, 0);
+        controlador = getControlador();
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 63);
+        acionarModoManual(motor);
+        avancarSegundos(motor, 89);
+        trocarEstagioModoManual(motor);
+        avancarSegundos(motor, 300);
+
+        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(130)));
+        assertEquals(inicioExecucao.plusSeconds(151), listaTrocaManualLiberada.get(0));
+        assertEquals(inicioExecucao.plusSeconds(163), listaTrocaManualLiberada.get(1));
     }
 
 }
