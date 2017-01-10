@@ -164,9 +164,11 @@ var influunt;
             situacaoLedManual = 'desligado';
           }
 
-
-          var result = _
-          .find(bloqueioTrocaEstagio,function(e){ return (e[0] / 10) <= tempo; });
+          var result = _.chain(bloqueioTrocaEstagio)
+            .orderBy(function(e) { return e[0]; })
+            .filter(function(e) { return e[0] / 10 <= tempo })
+            .last()
+            .value();
 
           situacaoTrocaLedManual = result && result[1] === 'LIBERAR' ? 'ligado' : 'desligado';
 
@@ -343,6 +345,10 @@ var influunt;
           return situacaoLedManual === 'ligado';
         }
 
+        function hideEstagioManual() {
+          return !showEstagioManual();
+        }
+
         function showTrocaEstagioManual() {
           return situacaoTrocaLedManual === 'ligado';
         }
@@ -450,7 +456,7 @@ var influunt;
               {nome: 'DP3', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
               {nome: 'DP4', action: botaoDetector, incremento: 39, enableOnPause: true, enableOnPlay: true},
 
-              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: !showEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
+              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: hideEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
               {nome: 'desativaOperacaoManual', action: desativaModoManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true},
               {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showTrocaEstagioManual, enableOnPause: true, enableOnPlay: true}
           ];
