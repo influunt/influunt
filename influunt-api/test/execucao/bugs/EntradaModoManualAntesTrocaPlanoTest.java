@@ -71,4 +71,24 @@ public class EntradaModoManualAntesTrocaPlanoTest extends GerenciadorDeTrocasTes
         assertEquals(inicioExecucao.plusSeconds(163), listaTrocaManualLiberada.get(1));
     }
 
+    @Test
+    public void erroTrocaEstagioManual() throws IOException {
+        inicioExecucao = new DateTime(2017, 1, 10, 17, 58, 0);
+        controlador = getControlador();
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 25);
+        acionarModoManual(motor);
+        avancarSegundos(motor, 54);
+        trocarEstagioModoManual(motor);
+        avancarSegundos(motor, 300);
+
+        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(105)));
+
+        assertEquals("E4", 4, listaEstagios.get(inicioExecucao.plusSeconds(105)).get(1).getEstagio().getPosicao().intValue());
+
+        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(260)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(270)).get(2).getEstagio().getPosicao().intValue());
+    }
+
 }
