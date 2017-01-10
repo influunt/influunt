@@ -1011,8 +1011,12 @@ var influunt;
 
         game = new Phaser.Game(1000, 700, Phaser.AUTO, 'canvas', { preload: preload, create: create, render: render });
 
-        game.stopMqttClient = function() {
+        game.stop = function() {
           mqttClient.disconnect();
+          game.state.destroy();
+          game.world.removeAll();
+          game.cache.destroy();
+          game.destroy();
         };
 
         return game;

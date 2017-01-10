@@ -435,11 +435,7 @@ function ($scope, $controller, Restangular, influuntBlockui, HorariosService, in
 
   $scope.pararSimulacao = function() {
     if ($scope.simulacao) {
-      $scope.simulacao.stopMqttClient();
-      $scope.simulacao.state.destroy();
-      $scope.simulacao.world.removeAll();
-      $scope.simulacao.cache.destroy();
-      $scope.simulacao.destroy();
+      $scope.simulacao.stop();
       $scope.simulacao = null;
       pararSimulacaoNaApi();
     }
