@@ -215,7 +215,7 @@ public class SimuladorActor extends UntypedActor {
         ArrayNode fimDeCicloAnel = root.putArray("fimDeCiclo");
         fimDeCiclos.keySet().stream().sorted().forEach(key ->{
             ArrayNode inner = fimDeCicloAnel.addArray();
-            inner.add(0l);
+            inner.add(0L);
             fimDeCiclos.get(key).stream().sorted().forEach(fim -> inner.add(fim / 1000L));
         });
 
