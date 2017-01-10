@@ -47,6 +47,9 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
     }
 
     @Override
+    /**
+     * Gera intervalos. Chupa codacy :-)
+     */
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
         EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
 
@@ -85,14 +88,6 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
             tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo);
 
-        final long diffEntreVerdes;
-        if (tempoEntreVerdeComAtraso > tempoEntreVerde) {
-            diffEntreVerdes = tempoEntreVerdeComAtraso - tempoEntreVerde;
-            tempoEntreVerde += diffEntreVerdes;
-            tempoVerde -= diffEntreVerdes;
-        } else {
-            diffEntreVerdes = 0L;
-        }
 
         if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado()) {
             if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano, tempoAbatimentoCoordenado, inicio)) {
@@ -133,6 +128,15 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             if (!plano.isManual()) {
                 tempoVerde = ajustaTempoVerdeComTempoMaximoPermanencia(estagioAnterior, estagioAtual, tempoVerde, false);
             }
+        }
+
+        final long diffEntreVerdes;
+        if (tempoEntreVerdeComAtraso > tempoEntreVerde) {
+            diffEntreVerdes = tempoEntreVerdeComAtraso - tempoEntreVerde;
+            tempoEntreVerde += diffEntreVerdes;
+            tempoVerde -= diffEntreVerdes;
+        } else {
+            diffEntreVerdes = 0L;
         }
 
         if (estagioPlano.getPlano().isManual()) {

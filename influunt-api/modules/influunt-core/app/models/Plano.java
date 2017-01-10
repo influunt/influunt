@@ -675,7 +675,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     private HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde(boolean comAtrasoGrupo) {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
         if (this.isModoOperacaoVerde()) {
-            preencheTabelaEntreVerde(tabela, getEstagiosPlanos(), comAtrasoGrupo);
+            preencheTabelaEntreVerde(tabela, comAtrasoGrupo);
             this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
                 preencheTabelaEntreVerde(tabela, e, comAtrasoGrupo);
             });
@@ -688,20 +688,19 @@ public class Plano extends Model implements Cloneable, Serializable {
         return tabela;
     }
 
-    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, List<EstagioPlano> lista, boolean comAtrasoGrupo) {
+    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, boolean comAtrasoGrupo) {
+        List<Estagio> lista = this.getAnel().getEstagios();
         lista.stream().forEach(origem -> {
-            final Estagio anterior = origem.getEstagio();
             lista.stream().forEach(destino -> {
-                final Estagio atual = destino.getEstagio();
-                if (!anterior.temTransicaoProibidaParaEstagio(atual)) {
+                if (!origem.temTransicaoProibidaParaEstagio(destino)) {
                     final long tempo;
-                    if (anterior.equals(atual)) {
+                    if (origem.equals(destino)) {
                         //Estagio duplo
                         tempo = 0L;
                     } else {
-                        tempo = this.getTempoEntreVerdeEntreEstagios(atual, anterior, comAtrasoGrupo) * 1000L;
+                        tempo = this.getTempoEntreVerdeEntreEstagios(destino, origem, comAtrasoGrupo) * 1000L;
                     }
-                    tabela.put(new Pair<Integer, Integer>(anterior.getPosicao(), atual.getPosicao()), tempo);
+                    tabela.put(new Pair<Integer, Integer>(origem.getPosicao(), destino.getPosicao()), tempo);
                 }
             });
         });
