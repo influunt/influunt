@@ -25,7 +25,6 @@ public class GerenteProgramacaoTest {
     public void sobreposicaoPorTipo() {
 
         DateTime dt = new DateTime();
-        DateTime agora = dt.plus(0);
 
         Evento normal = new Evento();
         normal.setTipo(TipoEvento.NORMAL);

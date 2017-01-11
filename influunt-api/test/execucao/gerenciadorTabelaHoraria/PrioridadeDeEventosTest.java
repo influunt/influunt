@@ -83,7 +83,6 @@ public class PrioridadeDeEventosTest {
         Calendar calendarTodosDiasPm = CustomCalendar.getCalendar();
         calendarTodosDiasPm.set(2016, 8, 25, 16, 0, 0);
 
-        GerenciadorDeTabelaHoraria ge = new GerenciadorDeTabelaHoraria();
 
         Evento segunda = new Evento();
         segunda.setTipo(TipoEvento.NORMAL);

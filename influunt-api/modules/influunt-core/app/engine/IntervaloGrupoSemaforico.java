@@ -415,12 +415,9 @@ public class IntervaloGrupoSemaforico {
         root.put("estagio", estagioPlano.getEstagio().getPosicao());
         ObjectNode grupos = root.putObject("grupos");
 
-        List<String> gruposBuffer = new ArrayList<String>();
 
         estados.keySet().stream().forEach(key -> {
             ArrayNode grupo = grupos.putArray(key.toString());
-
-            StringBuffer sbGrupo = new StringBuffer("\"" + key + "\":[");
 
             estados.get(key).asMapOfRanges().entrySet().stream().forEach(entry -> {
                 ArrayNode fields = grupo.addArray();

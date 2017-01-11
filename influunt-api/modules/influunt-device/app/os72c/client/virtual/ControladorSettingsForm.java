@@ -121,7 +121,7 @@ public class ControladorSettingsForm {
 
             Application app = Client.createApplication(new HashMap(), cleanBD.isSelected());
             Play.start(app.getWrappedApplication());
-            Materializer mat = app.getWrappedApplication().materializer();
+            app.getWrappedApplication().materializer();
 
 
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();

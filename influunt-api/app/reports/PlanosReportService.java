@@ -108,7 +108,7 @@ public class PlanosReportService extends ReportService<Plano> {
      **/
     public InputStream generatePlanosCSVReport(Map<String, String[]> params, Area area) {
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder buffer = new StringBuilder(82);
 
         buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
 

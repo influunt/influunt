@@ -103,7 +103,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
             request = new Http.RequestBuilder().method(GET)
                 .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
             result = route(request);
-            JsonNode json = Json.parse(Helpers.contentAsString(result));
+            JsonNode json = Json.parse(contentAsString(result));
             List<Auditoria> auditorias = Json.fromJson(json.get(DATA), List.class);
             assertEquals(OK, result.status());
             assertEquals(2, auditorias.size());
@@ -113,7 +113,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
             request = new Http.RequestBuilder().method(GET)
                 .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&change.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
             result = route(request);
-            json = Json.parse(Helpers.contentAsString(result));
+            json = Json.parse(contentAsString(result));
             auditorias = Json.fromJson(json.get(DATA), List.class);
             assertEquals(OK, result.status());
             assertEquals(0, auditorias.size());
@@ -122,7 +122,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
             request = new Http.RequestBuilder().method(GET)
                 .uri(routes.AuditoriaController.findAll().url().concat("?usuario.login=admin&change.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
             result = route(request);
-            json = Json.parse(Helpers.contentAsString(result));
+            json = Json.parse(contentAsString(result));
             auditorias = Json.fromJson(json.get(DATA), List.class);
             assertEquals(OK, result.status());
             assertEquals(2, auditorias.size());
@@ -132,7 +132,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
             request = new Http.RequestBuilder().method(GET)
                 .uri(routes.AuditoriaController.findAll().url().concat("?change.table=areas")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
             result = route(request);
-            json = Json.parse(Helpers.contentAsString(result));
+            json = Json.parse(contentAsString(result));
             auditorias = Json.fromJson(json.get(DATA), List.class);
             assertEquals(OK, result.status());
             assertEquals(2, auditorias.size());
@@ -141,7 +141,7 @@ public class AuditoriaTest extends WithInfluuntApplicationAuthenticated {
             request = new Http.RequestBuilder().method(GET)
                 .uri(routes.AuditoriaController.findAll().url().concat("?change.table=controladores")).header(SecurityController.AUTH_TOKEN, tokenComAcesso.get());
             result = route(request);
-            json = Json.parse(Helpers.contentAsString(result));
+            json = Json.parse(contentAsString(result));
             auditorias = Json.fromJson(json.get(DATA), List.class);
             assertEquals(OK, result.status());
             assertEquals(0, auditorias.size());

@@ -4,6 +4,9 @@ package os72c.client;
  * Created by rodrigosol on 1/3/17.
  */
 public class Versao {
+
+    private Versao(){}
+
     public static final String fabricante = "Raro Labs";
 
     public static final String modelo = "72c";

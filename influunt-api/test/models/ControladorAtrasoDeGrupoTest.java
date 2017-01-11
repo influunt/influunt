@@ -51,7 +51,7 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
 
         List<Erro> erros = getErros(controlador);
         assertEquals(36, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[0].atrasoDeGrupoPresent"),
             new Erro(CONTROLADOR, "O tempo de atraso de grupo deve estar entre {min} e {max}.", "aneis[0].gruposSemaforicos[0].transicoes[0].tempoAtrasoDeGrupoDentroDaFaixa"),
             new Erro(CONTROLADOR, "Essa transição deve ter um atraso de grupo.", "aneis[0].gruposSemaforicos[0].transicoes[1].atrasoDeGrupoPresent"),
@@ -192,8 +192,6 @@ public class ControladorAtrasoDeGrupoTest extends ControladorTest {
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));
         Controlador controladorJson = new ControladorCustomDeserializer().getControladorFromJson(json);
 
-        List<Erro> erros = getErros(controlador);
-        List<Erro> errosJson = getErros(controladorJson);
 
         assertEquals(OK, postResult.status());
 

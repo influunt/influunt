@@ -215,7 +215,6 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
         // 2 -> Mensagem da APP
         assertTrue(onPublishFutureList.size() >= 9 + 4);
 
-        Map<String, String> ids = Json.fromJson(Json.parse(Helpers.contentAsString(result)), Map.class);
     }
 
     @Test

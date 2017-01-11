@@ -120,7 +120,7 @@ public class Client {
     public static void main(String args[]) {
         Application app = createApplication(new HashMap(), false);
         Play.start(app.getWrappedApplication());
-        Materializer mat = app.getWrappedApplication().materializer();
+        app.getWrappedApplication().materializer();
         new Client(null);
     }
 

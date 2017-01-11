@@ -32,7 +32,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
     @Inject
     private BaseJasperReport baseJasperReport;
 
-    private String ENDERECO = "endereco";
+    private final String  ENDERECO = "endereco";
 
     @Override
     public InputStream generateReport(Map<String, String[]> params, List<Controlador> lista, ReportType reportType) {
@@ -142,7 +142,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
      * @return {@link InputStream} do csv
      */
     public InputStream generateControladoresStatusCSVReport(Map<String, String[]> params, Area area) {
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder buffer = new StringBuilder(100);
 
         buffer.append("Relatório de Controladores por Status").append(NEW_LINE_SEPARATOR);
 

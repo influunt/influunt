@@ -17,7 +17,7 @@ public class DeviceClientTest extends BasicMQTTTest {
     public void execucao() throws InterruptedException {
         controlador = new ControladorHelper().setPlanos(controlador);
         this.deviceConfig.setDeviceBridge(new ControladorForm());
-        Client client = new Client(this.deviceConfig);
+        new Client(this.deviceConfig);
         Thread.sleep(600000000L);
     }
 }

@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by lesiopinheiro on 06/12/16.
  */
-public class LerDadosControlador {
+public final class LerDadosControlador {
 
     private LerDadosControlador() {
     }

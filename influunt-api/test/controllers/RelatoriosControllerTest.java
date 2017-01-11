@@ -25,7 +25,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
 
     private Controlador controlador;
 
-    private String GET = "GET";
+    private final String GET = "GET";
 
     @Before
     public void setUp() {
