@@ -103,30 +103,51 @@ angular.module('influuntApp')
       };
 
       $scope.confirmacaoCopiarPlano = function() {
-        _.each($scope.planosDestino, function(p) {
-          if (p.idJson !== $scope.planoCopiado.idJson) {
+        _.each($scope.planosDestino, function(planoDestino) {
+          if (planoDestino.idJson !== $scope.planoCopiado.idJson) {
+
             var plano = _.find($scope.objeto.planos, {idJson: $scope.planoCopiado.idJson});
             var novoPlano = duplicarPlano(plano);
-            novoPlano.id = p.id;
+            novoPlano.id = planoDestino.id;
 
-            var index = _.findIndex($scope.objeto.planos, {idJson: p.idJson});
+            if (planoDestino.configurado){
+
+              planoDestino.estagiosPlanos.forEach(function(ep) {
+                var ep = _.find($scope.objeto.estagiosPlanos, { idJson: ep.idJson });
+                ep.destroy = true;
+                _.set(ep, 'plano.idJson', novoPlano.idJson);
+
+                novoPlano.estagiosPlanos.push({ idJson: ep.idJson });
+              });
+
+              planoDestino.gruposSemaforicosPlanos.forEach(function(gp){
+                var gp = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: gp.idJson});
+                gp.destroy = true;
+                _.set(gp, 'plano.idJson', novoPlano.idJson);
+                novoPlano.gruposSemaforicosPlanos.push({ idJson: gp.idJson });
+              });
+            }
+
+            var index = _.findIndex($scope.objeto.planos, {idJson: planoDestino.idJson});
             $scope.objeto.planos.splice(index, 1);
 
-            index = _.findIndex($scope.currentAnel.planos, {idJson: p.idJson});
-
-            novoPlano.descricao = 'PLANO ' + (p.posicao);
-            novoPlano.posicao = p.posicao;
+            novoPlano.descricao = 'PLANO ' + (planoDestino.posicao);
+            novoPlano.posicao = planoDestino.posicao;
 
             $scope.objeto.planos.push(novoPlano);
+
+            index = _.findIndex($scope.currentAnel.planos, {idJson: planoDestino.idJson});
             $scope.currentAnel.planos.splice(index, 1, {idJson: novoPlano.idJson});
 
             var versaoPlano = _.find($scope.objeto.versoesPlanos, { idJson: $scope.currentAnel.versaoPlano.idJson });
-            index = _.findIndex(versaoPlano.planos, { idJson: p.idJson });
+            index = _.findIndex(versaoPlano.planos, { idJson: planoDestino.idJson });
             versaoPlano.planos.splice(index, 1, {idJson: novoPlano.idJson});
+
           }
         });
 
         $scope.currentPlanos = planoService.atualizaPlanos($scope.objeto, $scope.currentAnel);
+
       };
 
       $scope.resetarPlano = function(plano, index) {
@@ -681,6 +702,7 @@ angular.module('influuntApp')
             estagio.tempoVerdeMaximo = null;
             estagio.tempoVerdeIntermediario = null;
             estagio.tempoExtensaoVerde = null;
+
             if (plano.modoOperacao === 'TEMPO_FIXO_ISOLADO') {
               estagio.estagioQueRecebeEstagioDispensavel = null;
             }

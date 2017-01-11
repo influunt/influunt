@@ -78,7 +78,7 @@ module.exports = function() {
   });
 
   this.Given(/^a quantidade de estagios na lista deverá ser (\d+)$/, function (numeroEstagios) {
-    return planosPage.estagioExcluido(numeroEstagios);
+    return planosPage.numeroEstagiosIncluidos(numeroEstagios);
   });
 
   this.Given(/^o usuário decide adicionar o estágio removido "([^"]*)"$/, function (estagio) {

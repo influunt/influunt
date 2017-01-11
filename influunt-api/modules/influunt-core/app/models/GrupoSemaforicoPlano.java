@@ -47,6 +47,9 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     @Column
     private boolean ativado = true;
 
+    @Transient
+    private boolean isDestroy;
+
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
@@ -62,6 +65,14 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
     public GrupoSemaforicoPlano() {
         super();
         this.idJson = UUID.randomUUID().toString();
+    }
+
+    public boolean isDestroy() {
+        return isDestroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        isDestroy = destroy;
     }
 
     public String getIdJson() {
