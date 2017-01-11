@@ -93,7 +93,6 @@ public class ServerActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Terminated) {
-            final Terminated t = (Terminated) message;
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
         } else if ("RESTART".equals(message)) {
             startMQTT();

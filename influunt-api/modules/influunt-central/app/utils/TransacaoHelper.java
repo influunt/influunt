@@ -102,7 +102,7 @@ public class TransacaoHelper {
         List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
         controladores.stream().forEach(controlador -> {
             String controladorId = controlador.getControladorFisicoId();
-            List<Integer> numerosAneis = aneis.stream().filter(anel -> java.util.Objects.equals(controlador.getId(), anel.getControlador().getId())).map(Anel::getPosicao).collect(Collectors.toList());
+            List<Integer> numerosAneis = aneis.stream().filter(anel -> Objects.equals(controlador.getId(), anel.getControlador().getId())).map(Anel::getPosicao).collect(Collectors.toList());
             String payload = new MensagemImposicaoPlanoTemporario(controladorId, posicaoPlano, numerosAneis, horarioEntrada, duracao).toJson().toString();
             transacoes.add(new Transacao(controladorId, payload, TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO));
         });

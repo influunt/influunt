@@ -51,7 +51,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
 
         List<Erro> erros = getErros(controlador);
         assertEquals(16, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[2].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
@@ -81,7 +81,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(13, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
@@ -106,7 +106,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(13, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),
             new Erro(CONTROLADOR, "não pode ficar em branco", "aneis[0].gruposSemaforicos[0].transicoes[1].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitente"),
@@ -130,7 +130,7 @@ public class ControladorTabelaEntreVerdesTest extends ControladorTest {
         erros = getErros(controlador);
 
         assertEquals(14, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "Esse grupo semafórico deve ter no máximo o número de tabelas entreverdes definido na configuração do controlador.", "aneis[0].gruposSemaforicos[0].numeroCorretoTabelasEntreVerdes"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoIntermitenteOk"),
             new Erro(CONTROLADOR, "deve estar entre {min} e {max}", "aneis[0].gruposSemaforicos[0].transicoes[0].tabelaEntreVerdesTransicoes[0].tempoVermelhoLimpezaFieldPedestre"),

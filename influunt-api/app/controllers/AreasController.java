@@ -37,7 +37,7 @@ public class AreasController extends Controller {
         } else {
 
             Area area = Json.fromJson(json, Area.class);
-            List<Erro> erros = new InfluuntValidator<Area>().validate(area, javax.validation.groups.Default.class, AreasCheck.class);
+            List<Erro> erros = new InfluuntValidator<Area>().validate(area, Default.class, AreasCheck.class);
 
             if (erros.isEmpty()) {
                 area.save();

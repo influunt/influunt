@@ -9,7 +9,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Range.closed;
@@ -58,13 +61,12 @@ public class GerenciadorDeTabelaHoraria {
 
             Map.Entry<Range<Integer>, Evento> eventoAtualMap = rangeMap.getEntry(inicio);
             Range<Integer> eventoAtualRange = eventoAtualMap.getKey();
-            Evento eventoAtual = eventoAtualMap.getValue();
 
             Range<Integer> range;
             if (eventoAtualRange.upperEndpoint().equals(ULTIMO_MS_DA_SEMANA)) {
-                range = Range.closed(inicio, eventoAtualRange.upperEndpoint());
+                range = closed(inicio, eventoAtualRange.upperEndpoint());
             } else {
-                range = Range.closedOpen(inicio, eventoAtualRange.upperEndpoint());
+                range = closedOpen(inicio, eventoAtualRange.upperEndpoint());
             }
 
             rangeMap.put(range, evento);
@@ -74,8 +76,6 @@ public class GerenciadorDeTabelaHoraria {
     }
 
     private void atualizaRanges(Evento evento, Range<Integer> range) {
-        List<Map.Entry<Range<Integer>, Evento>> novosRanges = new ArrayList<>();
-
 
         List<Map.Entry<Range<Integer>, Evento>> praFrente = rangeMap.asMapOfRanges().entrySet().stream().filter(rangeEventoEntry -> {
             return rangeEventoEntry.getKey().lowerEndpoint() >= range.upperEndpoint();
@@ -99,7 +99,7 @@ public class GerenciadorDeTabelaHoraria {
 
         if (adicionar > 0) {
             rangeMap.remove(range);
-            Range<Integer> newRange = Range.closedOpen(range.lowerEndpoint(), adicionar);
+            Range<Integer> newRange = closedOpen(range.lowerEndpoint(), adicionar);
             rangeMap.put(newRange, evento);
         }
 
@@ -121,7 +121,7 @@ public class GerenciadorDeTabelaHoraria {
                 }
             }
             if (adicionar > 0) {
-                Range<Integer> newRange = Range.closedOpen(PRIMEIRO_MS_DA_SEMANA, adicionar);
+                Range<Integer> newRange = closedOpen(PRIMEIRO_MS_DA_SEMANA, adicionar);
                 rangeMap.put(newRange, evento);
             }
         }

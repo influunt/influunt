@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by lesiopinheiro on 06/12/16.
  */
-public class LerDadosControlador {
+public final class LerDadosControlador {
 
     private LerDadosControlador() {
     }
@@ -38,7 +38,7 @@ public class LerDadosControlador {
         controladorJson.put("relogio", DateTime.now().getMillis());
         controladorJson.put("status", statusDevice.toString());
 
-        if(motor != null) {
+        if (motor != null) {
             Controlador controlador = motor.getControlador();
             controladorJson.put("clc", controlador.getCLC());
 

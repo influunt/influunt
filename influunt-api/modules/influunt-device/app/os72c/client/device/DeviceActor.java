@@ -54,7 +54,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Long tempoDecorrido = 0L;
 
-    private boolean pronto = false;
+    private boolean pronto;
 
 
     public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice) {

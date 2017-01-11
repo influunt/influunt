@@ -60,7 +60,7 @@ public class AuditoriaReportService extends ReportService<Auditoria> {
      * @return {@link InputStream} do csv
      */
     private InputStream generateCSVReport() {
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder buffer = new StringBuilder(100);
 
         buffer.append("Relatório de Auditoria").append(NEW_LINE_SEPARATOR);
 

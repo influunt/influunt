@@ -166,8 +166,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     @Override
-    public void onCicloEnds(int anel, int numeroCiclos,Long tempoDecorrido) {
-        callback.onCicloEnds(anel, numeroCiclos,tempoDecorrido);
+    public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
+        callback.onCicloEnds(anel, numeroCiclos, tempoDecorrido);
         monitor.onClicloEnds(anel);
     }
 

@@ -5,8 +5,6 @@ import security.DBAuthenticator;
 import security.InfluuntContextManager;
 import utils.InfluuntEmailService;
 
-import java.text.SimpleDateFormat;
-
 /**
  * This class is a Guice module that tells Guice how to bind several different
  * types. This Guice module is created when the Play application starts.

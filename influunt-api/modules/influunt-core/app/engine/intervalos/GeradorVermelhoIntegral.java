@@ -18,7 +18,9 @@ import static helpers.GerenciadorEstagiosHelper.TEMPO_VERMELHO_INTEGRAL;
  */
 public class GeradorVermelhoIntegral extends GeradorDeIntervalos {
     private final int contadorDeCiclos;
+
     private Long tempoAbatidoNoCiclo = 0L;
+
     private Long tempoAbatimentoCoordenado = 0L;
 
     public GeradorVermelhoIntegral(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,

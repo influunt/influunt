@@ -11,7 +11,6 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import play.libs.Json;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +41,7 @@ public class IntervaloGrupoSemaforico {
     private final long duracaoEntreverdeSemAtraso;
 
     private HashMap<Integer, RangeMap<Long, EstadoGrupoSemaforico>> estados;
+
     public IntervaloGrupoSemaforico(IntervaloEstagio entreverde, IntervaloEstagio verde) {
         this(entreverde, verde, false);
     }
@@ -415,12 +415,9 @@ public class IntervaloGrupoSemaforico {
         root.put("estagio", estagioPlano.getEstagio().getPosicao());
         ObjectNode grupos = root.putObject("grupos");
 
-        List<String> gruposBuffer = new ArrayList<String>();
 
         estados.keySet().stream().forEach(key -> {
             ArrayNode grupo = grupos.putArray(key.toString());
-
-            StringBuffer sbGrupo = new StringBuffer("\"" + key + "\":[");
 
             estados.get(key).asMapOfRanges().entrySet().stream().forEach(entry -> {
                 ArrayNode fields = grupo.addArray();
