@@ -273,6 +273,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteEstagiosGruposSemaforicos(this);
         deleteTransicoesProibidas(this);
         deleteTabelasEntreVerdes(this);
+        deleteEstagiosGruposSemaforicosPlanos(this);
         deleteEventos(this);
         deleteEstagiosPlanos(this);
         this.criarPossiveisTransicoes();
@@ -337,6 +338,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
                     });
                 });
             });
+        }
+    }
+
+    private void deleteEstagiosGruposSemaforicosPlanos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getPlanos().forEach(plano -> {
+                    if (plano != null) {
+                        plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                            if (grupoSemaforicoPlano.isDestroy()) {
+                                grupoSemaforicoPlano.delete();
+                            }
+                        });
+                    }
+                });
+            });
+
         }
     }
 

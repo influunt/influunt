@@ -276,6 +276,7 @@ describe('Controller: PlanosCtrl', function() {
           var planoEmVersao = _.find(scope.objeto.versoesPlanos[0].planos, {
             idJson: dest.idJson
           });
+
           expect(planoEmVersao).not.toBeDefined();
         });
 
