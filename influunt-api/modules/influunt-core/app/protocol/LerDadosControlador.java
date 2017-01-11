@@ -11,6 +11,7 @@ import models.Plano;
 import models.StatusDevice;
 import org.fusesource.mqtt.client.QoS;
 import org.joda.time.DateTime;
+import utils.IPUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -58,6 +59,9 @@ public class LerDadosControlador {
         });
         controladorJson.putPOJO("planos", itens);
         controladorJson.putPOJO("dados", dados);
+
+        ArrayNode ips = controladorJson.putArray("ips");
+        IPUtils.listIps().stream().forEach(ip -> ips.add(ip));
 
         return new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, envelope.getIdControlador(), DestinoCentral.leituraDadosControlador(), QoS.AT_MOST_ONCE, controladorJson.toString(), envelope.getIdMensagem());
     }

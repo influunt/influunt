@@ -913,6 +913,7 @@
     "tabelaHoraria": "Tabela Horária",
     "tempoRestanteDoEstagio": "Tempo Restante do Estágio",
     "tempoRestanteDoCiclo": "Tempo Restante do Ciclo",
+    "ips": "Endereços IPs",
     "aletarcaoStatus": {
       "sucesso": "Alteração executada com sucesso",
       "erro": "Não foi possível alterar o status do controlador"
