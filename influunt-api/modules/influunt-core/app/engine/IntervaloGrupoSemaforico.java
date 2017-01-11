@@ -269,8 +269,11 @@ public class IntervaloGrupoSemaforico {
         long tempoEntreverde = duracaoEntreverde;
         long tempoVerde = duracaoVerde;
 
-        if (grupoSemaforicoPlano.isAtivado()) {
-            if (grupoDesativadoNoPlanoAnterior(grupoSemaforico)) {
+        if (!grupoSemaforicoPlano.isAtivado() && !trocaPlano()) {
+            intervalos.put(Range.closedOpen(tempoInicial, duracaoEntreverde), EstadoGrupoSemaforico.DESLIGADO);
+            intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.DESLIGADO);
+        } else {
+            if (grupoDesativadoNoPlanoAnterior(grupoSemaforico) && grupoSemaforicoPlano.isAtivado()) {
                 tempoEntreverde = Math.max(TEMPO_INTERMITENTE + TEMPO_VERMELHO_INTEGRAL, duracaoEntreverde);
                 if (grupoSemaforico.isVeicular()) {
                     intervalos.put(Range.closedOpen(0L, TEMPO_INTERMITENTE), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
@@ -286,7 +289,7 @@ public class IntervaloGrupoSemaforico {
 
                 intervalos.put(Range.closedOpen(TEMPO_INTERMITENTE, tempoEntreverde), EstadoGrupoSemaforico.VERMELHO);
 
-            } else {
+            } else if(grupoSemaforicoPlano.isAtivado() || trocaPlano()) {
                 final Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
                 if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                     intervalos.put(Range.closedOpen(tempoInicial, duracaoEntreverde), EstadoGrupoSemaforico.VERDE);
@@ -295,11 +298,12 @@ public class IntervaloGrupoSemaforico {
 
                     Transicao transicao = grupoSemaforico.findTransicaoComGanhoDePassagemByOrigemDestino(estagioAnterior, estagioAtual);
 
+                    long tempoAtraso = transicao.getTempoAtrasoGrupo() * 1000L;
                     if (entreverde != null && entreverde.getDiffEntreVerde() > 0L && duracaoEntreverde > 0L) {
                         int atraso = (((Long) duracaoEntreverde).intValue() / 1000) -
                             plano.getTempoEntreVerdeQueConflitaComGrupoSemaforico(estagioAtual, estagioAnterior, grupoSemaforico);
                         if (atraso > 0) {
-                            transicao.getAtrasoDeGrupo().setAtrasoDeGrupo(atraso);
+                            tempoAtraso = atraso * 1000L;
                         } else if (atraso == 0) {
                             Transicao proximaTransicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAtual,
                                 estagioPlano.getEstagioPlanoProximo(plano.getEstagiosOrdenados()).getEstagio());
@@ -310,7 +314,6 @@ public class IntervaloGrupoSemaforico {
                         }
                     }
 
-                    final long tempoAtraso = transicao.getTempoAtrasoGrupo() * 1000L;
 
                     if (duracaoEntreverde > tempoAtraso) {
                         intervalos.put(Range.closedOpen(tempoInicial, duracaoEntreverde - tempoAtraso), EstadoGrupoSemaforico.VERMELHO);
@@ -322,11 +325,11 @@ public class IntervaloGrupoSemaforico {
             }
 
             if (duracaoVerde > 0) {
-                intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), EstadoGrupoSemaforico.VERDE);
+                EstadoGrupoSemaforico estado = grupoSemaforicoPlano.isAtivado() ? EstadoGrupoSemaforico.VERDE :
+                    EstadoGrupoSemaforico.DESLIGADO;
+
+                intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), estado);
             }
-        } else {
-            intervalos.put(Range.closedOpen(tempoInicial, duracaoEntreverde), EstadoGrupoSemaforico.DESLIGADO);
-            intervalos.put(Range.closedOpen(duracaoEntreverde, duracaoEntreverde + duracaoVerde), EstadoGrupoSemaforico.DESLIGADO);
         }
 
         return intervalos;
@@ -344,7 +347,11 @@ public class IntervaloGrupoSemaforico {
         final EstadoGrupoSemaforico estadoFinal;
         long tempoEntreverde = duracaoEntreverde;
         long tempoVerde = duracaoVerde;
-        if (grupoSemaforicoPlano.isAtivado()) {
+        if (!grupoSemaforicoPlano.isAtivado() && !trocaPlano()) {
+            intervalos.put(Range.closedOpen(0L, duracaoEntreverde), EstadoGrupoSemaforico.DESLIGADO);
+            estadoFinal = EstadoGrupoSemaforico.DESLIGADO;
+
+        } else {
             final GrupoSemaforico grupoSemaforico = grupoSemaforicoPlano.getGrupoSemaforico();
 
             final long tempoVermelhoIntegral;
@@ -354,8 +361,7 @@ public class IntervaloGrupoSemaforico {
                 tempoVermelhoIntegral = 0L;
             }
 
-            if (grupoDesativadoNoPlanoAnterior(grupoSemaforico)) {
-
+            if (grupoDesativadoNoPlanoAnterior(grupoSemaforico) && grupoSemaforicoPlano.isAtivado()) {
                 tempoEntreverde = Math.max(TEMPO_INTERMITENTE + TEMPO_VERMELHO_INTEGRAL, duracaoEntreverde);
                 if (grupoSemaforico.isVeicular()) {
                     intervalos.put(Range.closedOpen(0L, TEMPO_INTERMITENTE), EstadoGrupoSemaforico.AMARELO_INTERMITENTE);
@@ -370,7 +376,7 @@ public class IntervaloGrupoSemaforico {
                 }
 
                 intervalos.put(Range.closedOpen(TEMPO_INTERMITENTE, tempoEntreverde), EstadoGrupoSemaforico.VERMELHO);
-            } else {
+            } else if(grupoSemaforicoPlano.isAtivado() || trocaPlano()) {
 
                 if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                     final Transicao transicao;
@@ -396,13 +402,19 @@ public class IntervaloGrupoSemaforico {
                         estadoAmarelo = EstadoGrupoSemaforico.AMARELO;
                     }
 
-                    if (tempoAtraso == 0 && (tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeSemAtraso - tempoVermelhoIntegral)) {
-                        tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverdeSemAtraso - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
-                    }
-                    tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde - tempoVermelhoIntegral);
+                    if (grupoSemaforicoPlano.isAtivado()) {
+                        if (tempoAtraso == 0 && (tempoAmarelo + vermelhoLimpeza) < (duracaoEntreverdeSemAtraso - tempoVermelhoIntegral)) {
+                            tempoAtraso = Math.max(tempoAtraso, ((duracaoEntreverdeSemAtraso - tempoVermelhoIntegral) - (tempoAmarelo + vermelhoLimpeza)));
+                        }
 
-                    intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
-                    intervalos.put(Range.closedOpen(tempoAtraso, tempoAmarelo), estadoAmarelo);
+                        tempoAmarelo = Math.min(tempoAmarelo + tempoAtraso, duracaoEntreverde - tempoVermelhoIntegral);
+
+                        intervalos.put(Range.closedOpen(0L, tempoAtraso), EstadoGrupoSemaforico.VERDE);
+                        intervalos.put(Range.closedOpen(tempoAtraso, tempoAmarelo), estadoAmarelo);
+                    } else {
+                        intervalos.put(Range.closedOpen(0L, tempoAmarelo), estadoAmarelo);
+                    }
+
 
 
                     if ((duracaoEntreverde - tempoVermelhoIntegral) > (tempoAmarelo + vermelhoLimpeza)) {
@@ -428,20 +440,29 @@ public class IntervaloGrupoSemaforico {
             } else {
                 estadoFinal = EstadoGrupoSemaforico.VERMELHO;
             }
-        } else {
-            intervalos.put(Range.closedOpen(0L, duracaoEntreverde), EstadoGrupoSemaforico.DESLIGADO);
-            estadoFinal = EstadoGrupoSemaforico.DESLIGADO;
         }
 
-        intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), estadoFinal);
+        if (!grupoSemaforicoPlano.isAtivado() && trocaPlano()) {
+            intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + TEMPO_VERMELHO_INTEGRAL),
+                EstadoGrupoSemaforico.VERMELHO);
+
+            intervalos.put(Range.closedOpen(tempoEntreverde + TEMPO_VERMELHO_INTEGRAL , tempoEntreverde + tempoVerde),
+                EstadoGrupoSemaforico.DESLIGADO);
+        } else {
+            intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), estadoFinal);
+        }
 
 
         return intervalos;
     }
 
+    private boolean trocaPlano() {
+        return !estagioPlanoAnterior.getPlano().equals(plano);
+    }
+
     private boolean grupoDesativadoNoPlanoAnterior(GrupoSemaforico grupoSemaforico) {
         return estagioPlanoAnterior != null && estagioPlanoAnterior.getPlano() != null &&
-            !estagioPlanoAnterior.getPlano().equals(plano) &&
+            trocaPlano() &&
             !plano.isIntermitente() &&
             estagioPlanoAnterior.getPlano().getGruposSemaforicosPlanos()
                 .stream().anyMatch(gp -> !gp.isAtivado() && gp.getGrupoSemaforico().equals(grupoSemaforico));
