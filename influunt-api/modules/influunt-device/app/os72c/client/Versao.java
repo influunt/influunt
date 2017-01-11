@@ -8,5 +8,5 @@ public class Versao {
 
     public static final String modelo = "72c";
 
-    public static final String versao = "1.0.4";
+    public static final String versao = "1.0.5";
 }
