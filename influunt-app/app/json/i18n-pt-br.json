@@ -499,6 +499,7 @@
   "planos": {
     "titulo": "Planos",
     "estagioDispensavel": "Estágio dispensável",
+    "cicloDuplo": "Ciclo Duplo",
     "estagioQueRecebeTempoDeEstagioDispensavel": "Estágio que recebe tempo do estágio dispensável",
     "planoNaoConfigurado": {
       "tituloAlert": "Atenção",

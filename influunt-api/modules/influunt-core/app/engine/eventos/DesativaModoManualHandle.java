@@ -30,7 +30,7 @@ public class DesativaModoManualHandle extends GerenciadorDeEventos {
     protected void processar(EventoMotor eventoMotor) {
         Anel anel = gerenciadorDeEstagios.getPlano().getAnel();
         if (anel.isAceitaModoManual() && this.plano.isManual()) {
-            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo);
+            reduzirTempoEstagio(estagioPlanoAnterior, this.intervalos, contadorIntervalo, contadorDeCiclos);
             Plano plano = (Plano) eventoMotor.getParams()[0];
             AgendamentoTrocaPlano agendamentoTrocaPlano = new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp());
             agendamentoTrocaPlano.setSaidaDoModoManual(true);

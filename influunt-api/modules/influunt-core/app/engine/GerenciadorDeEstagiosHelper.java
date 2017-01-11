@@ -14,7 +14,8 @@ public class GerenciadorDeEstagiosHelper {
     public static long reduzirTempoEstagio(EstagioPlano estagioPlanoAnterior,
                                            RangeMap<Long, IntervaloEstagio> intervalos,
                                            long contadorIntervalo,
-                                           EstagioPlano estagioPlanoAtual) {
+                                           EstagioPlano estagioPlanoAtual,
+                                           int contadorDeCiclos) {
         long upperEndpoint = contadorIntervalo;
         if (intervalos.get(contadorIntervalo) != null) {
             final long contador;
@@ -27,7 +28,7 @@ public class GerenciadorDeEstagiosHelper {
             } else {
                 contador = contadorIntervalo - range.getKey().lowerEndpoint();
             }
-            long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior), contador);
+            long duracao = Math.max(estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior, contadorDeCiclos), contador);
             intervalo.setDuracao(duracao);
             intervalos.remove(range.getKey());
             upperEndpoint = range.getKey().lowerEndpoint() + duracao;
@@ -89,13 +90,13 @@ public class GerenciadorDeEstagiosHelper {
     }
 
 
-    public static boolean isCumpreTempoVerdeSeguranca(List<EstagioPlano> lista) {
+    public static boolean isCumpreTempoVerdeSeguranca(List<EstagioPlano> lista, int contadorDeCiclos) {
         final EstagioPlano atual = lista.get(1);
         final long tempoFaltante;
         if (lista.size() > 2) {
-            tempoFaltante = atual.getTempoVerdeSegurancaFaltante(lista.get(0), lista.get(2));
+            tempoFaltante = atual.getTempoVerdeSegurancaFaltante(lista.get(0), lista.get(2), contadorDeCiclos);
         } else {
-            tempoFaltante = atual.getTempoVerdeSegurancaFaltante(lista.get(0));
+            tempoFaltante = atual.getTempoVerdeSegurancaFaltante(lista.get(0), contadorDeCiclos);
         }
         return tempoFaltante == 0;
     }

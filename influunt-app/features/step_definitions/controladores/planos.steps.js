@@ -195,4 +195,8 @@ module.exports = function() {
   this.Given(/^o usuário no diagrama selecionar o grupo "([^"]*)"$/, function (grupo) {
     return planosPage.selectGrupoInDiagrama(grupo);
   });
+
+  this.Given(/^o usuário ativar o ciclo duplo$/, function () {
+    return planosPage.selecionarCicloDuplo();
+  });
 };

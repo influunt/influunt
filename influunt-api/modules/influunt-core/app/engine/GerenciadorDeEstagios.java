@@ -153,7 +153,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private Long verificarETrocaCoordenado() {
-        return GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
+        return GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos,
+            contadorIntervalo, estagioPlanoAtual, contadorDeCiclos);
     }
 
     private IntervaloEstagio verificaETrocaIntervalo(IntervaloEstagio intervalo) {
@@ -243,7 +244,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
 
         return (contadorIntervalo - range.getKey().lowerEndpoint()) >=
-            (estagioPlanoAtual.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L);
+            (estagioPlanoAtual.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, contadorDeCiclos) * 1000L);
     }
 
     private boolean verificaSeDeveAguardarEntradaEmModoManual(IntervaloEstagio ultimoIntervalo) {
@@ -269,7 +270,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (!estagios.isEmpty()) {
                 lista.add(estagios.get(0));
             }
-            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpreTempoVerdeSeguranca(lista)) {
+            if (!plano.isTempoFixoCoordenado() && !GerenciadorDeEstagiosHelper.isCumpreTempoVerdeSeguranca(lista, contadorDeCiclos)) {
                 GerenciadorDeEstagiosHelper.aumentarTempoEstagio(this.intervalos,
                     this.contadorIntervalo,
                     estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
@@ -290,7 +291,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagioPlanoAtual.equals(proximoEstagio.getEstagioQueRecebeEstagioDispensavel()) &&
             !listaEstagioPlanos.contains(proximoEstagio)) {
 
-            int tempoAdicional = proximoEstagio.getTempoVerde();
+            int tempoAdicional = proximoEstagio.getTempoVerde(contadorDeCiclos);
 
             EstagioPlano proximoDoProximo = proximoEstagio.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
             EstagioPlano anteriorEstagio = estagioPlanoAtual.getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
@@ -478,6 +479,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
 
+            contadorDeCiclos = 0;
+
             if (this.plano.isTempoFixoIsolado() || this.plano.isAtuado()) {
                 atualizaListaEstagiosNovoPlano(listaOriginalEstagioPlanos);
             } else if (this.plano.isTempoFixoCoordenado()) {
@@ -490,7 +493,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             reiniciaContadorEstagio();
             contadorIntervalo = 0L;
-            contadorDeCiclos = 0;
             contadorTempoCiclo = 0L;
 
             if (inicio && listaEstagioPlanos.size() > 0) {
@@ -544,6 +546,20 @@ public class GerenciadorDeEstagios implements EventoCallback {
                     novaLista.add(estagioPlano);
                 }
             });
+
+            //Verifica o ciclo duplo caso a entrada seja maior que o tempo do primeiro ciclo
+            if (novaLista.isEmpty() && plano.isCicloDuplo()) {
+                contadorDeCiclos++;
+                estagiosOrdenados.stream().forEach(estagioPlano -> {
+                    final long duracaoEstagio = estagioPlano.getDuracaoEstagio(contadorDeCiclos) * 1000L;
+                    //Faz abatimento até enquanto a lista estiver vazia
+                    if (tempoRestante[0] >= duracaoEstagio && novaLista.isEmpty()) {
+                        tempoRestante[0] -= duracaoEstagio;
+                    } else {
+                        novaLista.add(estagioPlano);
+                    }
+                });
+            }
         }
 
         if (tempoAbatimentoCoordenado != null) {
@@ -789,6 +805,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
             return this;
         }
+    }
+
+    public int getContadorDeCiclos() {
+        return contadorDeCiclos;
+    }
+
+    public Long getTempoAbatimentoCoordenado() {
+        return tempoAbatimentoCoordenado;
     }
 
     public boolean isEmFalha() {
