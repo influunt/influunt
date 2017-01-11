@@ -117,22 +117,22 @@ public class GrupoSemaforicoDesligadoTest extends GerenciadorDeTrocasTest {
         Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 1000);
-//
-//        int offsetEstagio = 120;
-//        int anel = 1;
-//
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 5, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 5, 8000, 40000, EstadoGrupoSemaforico.VERMELHO));
-//
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 8000, 40000, EstadoGrupoSemaforico.VERMELHO));
-//
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-//        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 8000, 40000, EstadoGrupoSemaforico.VERDE));
 
+        int offsetEstagio = 130;
+        int anel = 1;
+
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 5, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 5, 6000, 9000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 5, 9000, 52000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 6000, 9000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 6, 9000, 52000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 0, 3000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 6000, 9000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(offsetEstagio, new GrupoCheck(anel, 7, 9000, 52000, EstadoGrupoSemaforico.DESLIGADO));
     }
 }
 

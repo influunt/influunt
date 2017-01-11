@@ -259,6 +259,10 @@ public class IntervaloGrupoSemaforico {
         return loadGrupoSemaforico(grupoSemaforico, false);
     }
 
+    private RangeMap<Long, EstadoGrupoSemaforico> loadGrupoSemaforico(GrupoSemaforicoPlano grupoSemaforicoPlano) {
+        return loadGrupoSemaforico(grupoSemaforicoPlano, false);
+    }
+
     //Ganho direito de passagem
     private RangeMap<Long, EstadoGrupoSemaforico> loadGrupoSemaforico(GrupoSemaforico grupoSemaforico,
                                                                       boolean modoIntermitenteOuApagado) {
@@ -289,7 +293,7 @@ public class IntervaloGrupoSemaforico {
 
                 intervalos.put(Range.closedOpen(TEMPO_INTERMITENTE, tempoEntreverde), EstadoGrupoSemaforico.VERMELHO);
 
-            } else if(grupoSemaforicoPlano.isAtivado() || trocaPlano()) {
+            } else if (grupoSemaforicoPlano.isAtivado() || trocaPlano()) {
                 final Estagio estagioAnterior = estagioPlanoAnterior.getEstagio();
                 if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                     intervalos.put(Range.closedOpen(tempoInicial, duracaoEntreverde), EstadoGrupoSemaforico.VERDE);
@@ -325,18 +329,25 @@ public class IntervaloGrupoSemaforico {
             }
 
             if (duracaoVerde > 0) {
-                EstadoGrupoSemaforico estado = grupoSemaforicoPlano.isAtivado() ? EstadoGrupoSemaforico.VERDE :
-                    EstadoGrupoSemaforico.DESLIGADO;
 
-                intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), estado);
+                if (!grupoSemaforicoPlano.isAtivado() && trocaPlano()) {
+                    intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + TEMPO_VERMELHO_INTEGRAL),
+                        EstadoGrupoSemaforico.VERMELHO);
+
+                    intervalos.put(Range.closedOpen(tempoEntreverde + TEMPO_VERMELHO_INTEGRAL, tempoEntreverde + tempoVerde),
+                        EstadoGrupoSemaforico.DESLIGADO);
+                } else {
+                    EstadoGrupoSemaforico estado = grupoSemaforicoPlano.isAtivado() ? EstadoGrupoSemaforico.VERDE :
+                        EstadoGrupoSemaforico.DESLIGADO;
+
+                    intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), estado);
+                }
+
+
             }
         }
 
         return intervalos;
-    }
-
-    private RangeMap<Long, EstadoGrupoSemaforico> loadGrupoSemaforico(GrupoSemaforicoPlano grupoSemaforicoPlano) {
-        return loadGrupoSemaforico(grupoSemaforicoPlano, false);
     }
 
     //Perdendo o direito de passagem
@@ -376,7 +387,7 @@ public class IntervaloGrupoSemaforico {
                 }
 
                 intervalos.put(Range.closedOpen(TEMPO_INTERMITENTE, tempoEntreverde), EstadoGrupoSemaforico.VERMELHO);
-            } else if(grupoSemaforicoPlano.isAtivado() || trocaPlano()) {
+            } else if (grupoSemaforicoPlano.isAtivado() || trocaPlano()) {
 
                 if (estagioAnterior.getGruposSemaforicos().contains(grupoSemaforico)) {
                     final Transicao transicao;
@@ -416,7 +427,6 @@ public class IntervaloGrupoSemaforico {
                     }
 
 
-
                     if ((duracaoEntreverde - tempoVermelhoIntegral) > (tempoAmarelo + vermelhoLimpeza)) {
                         intervalos.put(Range.closedOpen(tempoAmarelo, tempoAmarelo + vermelhoLimpeza), EstadoGrupoSemaforico.VERMELHO_LIMPEZA);
                         intervalos.put(Range.closedOpen(tempoAmarelo + vermelhoLimpeza, duracaoEntreverde - tempoVermelhoIntegral), EstadoGrupoSemaforico.VERMELHO);
@@ -446,7 +456,7 @@ public class IntervaloGrupoSemaforico {
             intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + TEMPO_VERMELHO_INTEGRAL),
                 EstadoGrupoSemaforico.VERMELHO);
 
-            intervalos.put(Range.closedOpen(tempoEntreverde + TEMPO_VERMELHO_INTEGRAL , tempoEntreverde + tempoVerde),
+            intervalos.put(Range.closedOpen(tempoEntreverde + TEMPO_VERMELHO_INTEGRAL, tempoEntreverde + tempoVerde),
                 EstadoGrupoSemaforico.DESLIGADO);
         } else {
             intervalos.put(Range.closedOpen(tempoEntreverde, tempoEntreverde + tempoVerde), estadoFinal);
