@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 //TODO: Verificar se pode ser excluida essa clase
 public class ControladoresReportService extends ReportService<Controlador> {
 
+    private final String ENDERECO = "endereco";
+
     @Inject
     private BaseJasperReport baseJasperReport;
-
-    private final String  ENDERECO = "endereco";
 
     @Override
     public InputStream generateReport(Map<String, String[]> params, List<Controlador> lista, ReportType reportType) {

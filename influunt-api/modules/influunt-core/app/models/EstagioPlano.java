@@ -434,6 +434,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         }
         return listaEstagioPlanos.get(index + 1);
     }
+
     public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos,
                                                   GrupoSemaforico grupoSemaforico) {
         return getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, grupoSemaforico, 0);

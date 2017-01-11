@@ -14,7 +14,8 @@ import java.util.List;
  * Created by rodrigosol on 1/11/17.
  */
 public class IPUtils {
-    private IPUtils(){}
+    private IPUtils() {
+    }
 
     public static List<String> listIps() {
         List<String> ips = new ArrayList<>();

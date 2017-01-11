@@ -5,11 +5,12 @@ package os72c.client;
  */
 public class Versao {
 
-    private Versao(){}
-
     public static final String fabricante = "Raro Labs";
 
     public static final String modelo = "72c";
 
     public static final String versao = "1.0.5";
+
+    private Versao() {
+    }
 }

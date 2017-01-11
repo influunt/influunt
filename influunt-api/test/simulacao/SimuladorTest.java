@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
 
     public int SEGUNDOS_POR_PAGINA = 256;
+
     private Controlador controlador;
 
     @Before

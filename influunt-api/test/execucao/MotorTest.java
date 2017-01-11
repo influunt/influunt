@@ -23,6 +23,10 @@ import static org.junit.Assert.assertNotNull;
  */
 public class MotorTest extends WithInfluuntApplicationNoAuthentication implements MotorCallback {
 
+    public List<DateTime> listaTrocaManualLiberada = new ArrayList<>();
+
+    public List<DateTime> listaTrocaManualBloqueada = new ArrayList<>();
+
     protected Controlador controlador;
 
     protected DateTime inicioExecucao = new DateTime(2016, 10, 10, 0, 0, 0);
@@ -32,10 +36,6 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     protected HashMap<DateTime, Boolean> ativacaoModoManual = new HashMap<>();
 
     protected HashMap<DateTime, Boolean> desativacaoModoManual = new HashMap<>();
-
-    public List<DateTime> listaTrocaManualLiberada = new ArrayList<>();
-
-    public List<DateTime> listaTrocaManualBloqueada = new ArrayList<>();
 
     //Métodos auxiliares de modo manual
     protected void acionarModoManual(Motor motor) {

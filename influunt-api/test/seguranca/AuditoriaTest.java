@@ -13,7 +13,6 @@ import play.Configuration;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.test.Helpers;
 import security.Auditoria;
 import uk.co.panaxiom.playjongo.PlayJongo;
 

@@ -18,7 +18,9 @@ import static helpers.GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
  */
 public class GeradorSequenciaPartida extends GeradorDeIntervalos {
     private final int contadorDeCiclos;
+
     private Long tempoAbatidoNoCiclo = 0L;
+
     private Long tempoAbatimentoCoordenado = 0L;
 
     public GeradorSequenciaPartida(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,

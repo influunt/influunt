@@ -1,6 +1,5 @@
 package execucao.gerenciadorTabelaHoraria;
 
-import engine.GerenciadorDeTabelaHoraria;
 import models.DiaDaSemana;
 import models.Evento;
 import models.TipoEvento;

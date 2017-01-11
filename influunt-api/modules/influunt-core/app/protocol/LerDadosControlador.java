@@ -38,7 +38,7 @@ public final class LerDadosControlador {
         controladorJson.put("relogio", DateTime.now().getMillis());
         controladorJson.put("status", statusDevice.toString());
 
-        if(motor != null) {
+        if (motor != null) {
             Controlador controlador = motor.getControlador();
             controladorJson.put("clc", controlador.getCLC());
 
