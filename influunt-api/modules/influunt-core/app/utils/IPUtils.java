@@ -28,7 +28,7 @@ public class IPUtils {
                 }
             }
         } catch (UnknownHostException e) {
-            System.out.println(" (error retrieving server host name)");
+
         }
 
 
