@@ -1,10 +1,12 @@
 package execucao.modoCoordenado;
 
+import engine.GerenciadorDeEstagios;
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
 import models.Anel;
 import models.EstadoGrupoSemaforico;
+import models.Evento;
 import models.Plano;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -134,6 +136,73 @@ public class CicloDuploTest extends GerenciadorDeTrocasTest {
         assertEquals("TAV - E2", 19, plano.getEstagiosOrdenados().get(1).getTempoVerde(ciclo).intValue());
 
         assertEquals("Momento entrada E2", 45000, plano.getMomentoEntradaEstagioPlano(plano.getEstagiosOrdenados().get(1), ciclo));
+    }
+
+    @Test
+    public void calculoMomentoEntradaDoCicloDuploAssimetrico() {
+        inicioExecucao = new DateTime(2017, 1, 9, 1, 4, 0);
+        Anel anel = controlador.findAnelByPosicao(2);
+        Plano plano = anel.findPlanoByPosicao(3);
+
+        assertEquals("TC", 50, plano.getTempoCiclo().intValue());
+        assertEquals("TCD", 70, plano.getTempoCicloDuplo().intValue());
+
+        Evento evento = controlador.getTabelaHoraria().findEventoByPosicao(5);
+
+        Long entrada1 = evento.getMomentoEntrada(1, inicioExecucao);
+        Long entrada2 = evento.getMomentoEntrada(2, inicioExecucao);
+        Long entrada3 = evento.getMomentoEntrada(3, inicioExecucao);
+
+        assertEquals(entrada1, entrada2);
+        assertEquals(entrada2, entrada3);
+
+        inicioExecucao = new DateTime(2017, 1, 9, 1, 4, 7);
+
+        entrada1 = evento.getMomentoEntrada(1, inicioExecucao);
+        entrada2 = evento.getMomentoEntrada(2, inicioExecucao);
+        entrada3 = evento.getMomentoEntrada(3, inicioExecucao);
+
+        assertEquals(entrada1, entrada2);
+        assertEquals(entrada2, entrada3);
+
+        inicioExecucao = new DateTime(2017, 1, 30, 6, 9, 7);
+
+        entrada1 = evento.getMomentoEntrada(1, inicioExecucao);
+        entrada2 = evento.getMomentoEntrada(2, inicioExecucao);
+        entrada3 = evento.getMomentoEntrada(3, inicioExecucao);
+
+        assertEquals(entrada1, entrada2);
+        assertEquals(entrada2, entrada3);
+    }
+
+    @Test
+    public void calculoEstagioPlanoDeveEntrarCicloDuploAssimetrico() {
+        inicioExecucao = new DateTime(2017, 1, 9, 19, 4, 55);
+
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        motor.tick();
+
+        GerenciadorDeEstagios anel1 = motor.getEstagios().get(0);
+        GerenciadorDeEstagios anel2 = motor.getEstagios().get(1);
+        GerenciadorDeEstagios anel3 = motor.getEstagios().get(2);
+
+        assertEquals(2, anel1.getListaEstagioPlanos().size());
+        assertEquals("E2", 2, anel1.getListaEstagioPlanos().get(0).getEstagio().getPosicao().intValue());
+        assertEquals("E3", 3, anel1.getListaEstagioPlanos().get(1).getEstagio().getPosicao().intValue());
+        assertEquals(39, anel1.getTempoRestanteDoEstagio());
+        assertEquals("Ciclo", 0, anel1.getContadorDeCiclos());
+
+        assertEquals(2, anel2.getListaEstagioPlanos().size());
+        assertEquals("E1", 1, anel2.getListaEstagioPlanos().get(0).getEstagio().getPosicao().intValue());
+        assertEquals("E2", 2, anel2.getListaEstagioPlanos().get(1).getEstagio().getPosicao().intValue());
+        assertEquals(39, anel2.getTempoRestanteDoEstagio());
+        assertEquals("Ciclo", 1, anel2.getContadorDeCiclos());
+
+        assertEquals(1, anel3.getListaEstagioPlanos().size());
+        assertEquals("E3", 3, anel3.getListaEstagioPlanos().get(0).getEstagio().getPosicao().intValue());
+        assertEquals(22, anel3.getTempoRestanteDoEstagio());
+        assertEquals("Ciclo", 0, anel3.getContadorDeCiclos());
     }
 
     @Test
@@ -466,6 +535,66 @@ public class CicloDuploTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(offset, new GrupoCheck(anel, 9, 0, 4000, EstadoGrupoSemaforico.AMARELO));
         verificaGruposSemaforicos(offset, new GrupoCheck(anel, 9, 4000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaGruposSemaforicos(offset, new GrupoCheck(anel, 9, 6000, 25000, EstadoGrupoSemaforico.VERMELHO));
+    }
+
+
+    @Test
+    public void coordenacaoCicloDuploAssimetrico() {
+        inicioExecucao = new DateTime(2017, 1, 9, 19, 4, 55, 0);
+        instante = inicioExecucao;
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        avancarSegundos(motor, 1500);
+
+        //Tempos coordenados
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(65)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(185)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(305)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(425)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(545)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(665)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(785)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(905)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1025)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1145)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1265)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1385)).get(1).getEstagio().getPosicao().intValue());
+
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(65)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(185)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(305)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(425)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(545)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(665)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(785)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(905)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1025)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1145)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1265)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1385)).get(2).getEstagio().getPosicao().intValue());
+
+        //Dedasado 17
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(82)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 15
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(200)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 13
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(318)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 11
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(436)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 9
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(554)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 7
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(672)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 5
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(790)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 3
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(908)).get(3).getEstagio().getPosicao().intValue());
+        //Dedasado 1
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1026)).get(3).getEstagio().getPosicao().intValue());
+        //Coordenado
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1145)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1265)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals(1, listaEstagios.get(inicioExecucao.plusSeconds(1385)).get(3).getEstagio().getPosicao().intValue());
     }
 
 

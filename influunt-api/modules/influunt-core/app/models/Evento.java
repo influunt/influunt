@@ -398,7 +398,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     public Long getMomentoEntrada(Integer posicaoAnel, DateTime momentoOriginal) {
         Plano plano = getPlano(posicaoAnel);
         if (ModoOperacaoPlano.TEMPO_FIXO_COORDENADO.equals(plano.getModoOperacao())) {
-            final long tempoCiclo = plano.getTempoCiclo() * 1000L;
+            final long tempoCiclo = plano.getTempoCicloTotal() * 1000L;
             final long tempoDefasagem = plano.getDefasagem() * 1000L;
             final long tempoDecorrido = momentoOriginal.getMillis();
             final long momentoEntrada = (tempoDecorrido % tempoCiclo) - tempoDefasagem;
