@@ -21,10 +21,10 @@ public class DBAuthenticator implements Authenticator {
     @Override
     public Subject getSubjectByCredentials(final String login, final String password) {
         Usuario usuario = Usuario.find.where().ieq("login", login).findUnique();
-        if(usuario != null && HashHelper.checkPassword(password, usuario.getSenha())){
+        if (usuario != null && HashHelper.checkPassword(password, usuario.getSenha())) {
             return usuario;
         }
-        return  null;
+        return null;
     }
 
     @Override

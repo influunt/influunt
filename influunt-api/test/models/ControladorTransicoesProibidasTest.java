@@ -275,7 +275,7 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(2, erros.size());
 
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
+        assertThat(erros, Matchers.hasItems(
             new Erro(CONTROLADOR, "O estágio de origem deve ser diferente do alternativo se o estágio de destino for demanda prioritária.", "aneis[0].estagios[0].origemDeTransicoesProibidas[0].origemDiferenteDeAlternativoSeDestinoEhDemandaPrioritaria"),
             new Erro(CONTROLADOR, "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.", "aneis[0].gruposSemaforicos[1].naoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio")
         ));
@@ -432,7 +432,6 @@ public class ControladorTransicoesProibidasTest extends ControladorTest {
         Result postResult = route(postRequest);
         assertEquals(OK, postResult.status());
 
-        JsonNode json = Json.parse(Helpers.contentAsString(postResult));
 
         e1e2e4 = TransicaoProibida.find.where().eq("origem_id", estagio1AnelCom4Estagios.getId()).eq("destino_id", estagio2AnelCom4Estagios.getId()).eq("alternativo_id", estagio4AnelCom4Estagios.getId()).findUnique();
         assertNull("TP não deve existir", e1e2e4);

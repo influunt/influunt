@@ -32,11 +32,11 @@ public class ClientActor extends UntypedActor {
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    if(
+                    if (
                         (t.getMessage() != null && "Conexao morreu".equals(t.getMessage())) ||
-                        (t.getMessage() != null && "Client is not connected".startsWith(t.getMessage())) ||
-                        (t.getCause() != null && t.getCause().getClass() != null &&  t.getCause().getClass().equals(java.net.UnknownHostException.class)) ||
-                        (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException)) {
+                            (t.getMessage() != null && "Client is not connected".startsWith(t.getMessage())) ||
+                            (t.getCause() != null && t.getCause().getClass() != null && t.getCause().getClass().equals(java.net.UnknownHostException.class)) ||
+                            (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException)) {
                         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else if (t instanceof RuntimeException && "RESTART".equals(t.getMessage())) {
@@ -135,7 +135,6 @@ public class ClientActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Terminated) {
-            final Terminated t = (Terminated) message;
             getContext().system().scheduler().scheduleOnce(Duration.create(30, TimeUnit.SECONDS), getSelf(), "RESTART", getContext().system().dispatcher(), getSelf());
             estadoDevice.setConectado(false);
         } else if ("RESTART".equals(message)) {

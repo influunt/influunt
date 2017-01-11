@@ -48,7 +48,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     private DeviceBridgeCallback callback;
 
-    private com.fazecast.jSerialComm.SerialPort serialPort;
+    private SerialPort serialPort;
 
     private Mensagem lastReturn = null;
 
@@ -84,7 +84,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         this.callback = deviceBridgeCallback;
 
 
-        serialPort = com.fazecast.jSerialComm.SerialPort.getCommPort(porta);
+        serialPort = SerialPort.getCommPort(porta);
         serialPort.setBaudRate(baudrate);
         serialPort.setNumDataBits(databits);
         serialPort.setNumStopBits(stopbits);
@@ -290,13 +290,13 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
 
     @Override
     public void serialEvent(SerialPortEvent event) {
-        if (event.getEventType() != com.fazecast.jSerialComm.SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+        if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
             return;
         }
 
         while (serialPort.bytesAvailable() > 0) {
             byte[] newData = new byte[serialPort.bytesAvailable()];
-            int numRead = serialPort.readBytes(newData, newData.length);
+            serialPort.readBytes(newData, newData.length);
 
             buffer.append(new String(newData, StandardCharsets.US_ASCII));
 

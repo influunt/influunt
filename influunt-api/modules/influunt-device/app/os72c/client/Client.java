@@ -3,7 +3,6 @@ package os72c.client;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.stream.Materializer;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -120,7 +119,7 @@ public class Client {
     public static void main(String args[]) {
         Application app = createApplication(new HashMap(), false);
         Play.start(app.getWrappedApplication());
-        Materializer mat = app.getWrappedApplication().materializer();
+        app.getWrappedApplication().materializer();
         new Client(null);
     }
 

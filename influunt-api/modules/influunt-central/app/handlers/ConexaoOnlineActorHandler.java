@@ -23,14 +23,13 @@ public class ConexaoOnlineActorHandler extends UntypedActor {
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 
-
     @Override
     public void onReceive(Object message) {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.CONTROLADOR_ONLINE)) {
                 StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(envelope.getIdControlador());
-                if(status!= null && status.isConectado()){
+                if (status != null && status.isConectado()) {
                     return;
                 }
 

@@ -234,7 +234,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorDeCiclos++;
         contadorTempoCiclo = 0L;
         tempoAbatidoNoCiclo = 0L;
-        callback.onCicloEnds(this.anel, contadorDeCiclos,tempoDecorrido);
+        callback.onCicloEnds(this.anel, contadorDeCiclos, tempoDecorrido);
     }
 
     private boolean cumpriuTempoVerdeSeguranca(IntervaloEstagio intervalo) {
@@ -778,6 +778,17 @@ public class GerenciadorDeEstagios implements EventoCallback {
         return this.intervalos.get(contadorIntervalo);
     }
 
+    public int getContadorDeCiclos() {
+        return contadorDeCiclos;
+    }
+
+    public Long getTempoAbatimentoCoordenado() {
+        return tempoAbatimentoCoordenado;
+    }
+
+    public boolean isEmFalha() {
+        return getPlano().isImpostoPorFalha();
+    }
 
     private class GetIntervaloGrupoSemaforico {
         private IntervaloEstagio intervaloEntreverde;
@@ -805,17 +816,5 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
             return this;
         }
-    }
-
-    public int getContadorDeCiclos() {
-        return contadorDeCiclos;
-    }
-
-    public Long getTempoAbatimentoCoordenado() {
-        return tempoAbatimentoCoordenado;
-    }
-
-    public boolean isEmFalha() {
-        return getPlano().isImpostoPorFalha();
     }
 }

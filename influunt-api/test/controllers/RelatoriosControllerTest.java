@@ -23,9 +23,9 @@ import static play.test.Helpers.route;
 
 public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentication {
 
-    private Controlador controlador;
+    private final static String GET = "GET";
 
-    private String GET = "GET";
+    private Controlador controlador;
 
     @Before
     public void setUp() {

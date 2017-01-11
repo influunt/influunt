@@ -54,7 +54,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
 
     private Long tempoDecorrido = 0L;
 
-    private boolean pronto = false;
+    private boolean pronto;
 
 
     public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice) {
@@ -258,9 +258,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private void enviaDadosAtualDoControlador(Envelope envelope) {
-        if (motor != null) {
-            sendMessage(LerDadosControlador.retornoLeituraDados(envelope, motor, storage.getStatus()));
-        }
+        sendMessage(LerDadosControlador.retornoLeituraDados(envelope, motor, storage.getStatus()));
     }
 
     @Override
@@ -275,6 +273,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             if ((Boolean) eventoMotor.getParams()[0]) {
                 getSelf().tell("RESTART", getSelf());
             } else {
+                eventoMotor.setParams(new Object[]{});
                 sendAlarmeOuFalha(eventoMotor);
             }
         } else if (TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {

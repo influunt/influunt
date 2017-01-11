@@ -46,16 +46,16 @@ public class SimuladorActor extends UntypedActor {
     private List<ArrayNode> alarmes = new ArrayList<>();
 
     private List<ArrayNode> modoManual = new ArrayList<>();
+
     private List<ArrayNode> bloqueioTrocaEstagio = new ArrayList<>();
-    private Map<Integer,List<Long>> fimDeCiclos = new HashMap<>();
+
+    private Map<Integer, List<Long>> fimDeCiclos = new HashMap<>();
 
     private String jsonTrocas;
 
     private StringBuffer bufferTrocaDePlanos = null;
 
     private int pagina;
-
-
 
 
     public SimuladorActor(String host, String port, String login, String senha, ParametroSimulacao params) {
@@ -213,7 +213,7 @@ public class SimuladorActor extends UntypedActor {
             .forEach(bloqueios::add);
 
         ArrayNode fimDeCicloAnel = root.putArray("fimDeCiclo");
-        fimDeCiclos.keySet().stream().sorted().forEach(key ->{
+        fimDeCiclos.keySet().stream().sorted().forEach(key -> {
             ArrayNode inner = fimDeCicloAnel.addArray();
             inner.add(0L);
             fimDeCiclos.get(key).stream().sorted().forEach(fim -> inner.add(fim / 1000L));
@@ -287,8 +287,8 @@ public class SimuladorActor extends UntypedActor {
     }
 
     public void storeFimDeCiclo(int anel, Long tempoDecorrido) {
-        if(!fimDeCiclos.containsKey(anel)){
-            fimDeCiclos.put(anel,new ArrayList<>());
+        if (!fimDeCiclos.containsKey(anel)) {
+            fimDeCiclos.put(anel, new ArrayList<>());
         }
         fimDeCiclos.get(anel).add(tempoDecorrido);
     }

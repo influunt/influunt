@@ -105,7 +105,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             controlador = getSender();
             connect();
             getSender().tell("CONNECTED", getSelf());
-        }else if("SEND_ONLINE".equals(message)){
+        } else if ("SEND_ONLINE".equals(message)) {
             Envelope controladorOnline = ControladorOnline.getMensagem(id,
                 DateTime.now().getMillis(),
                 Versao.versao,
@@ -171,9 +171,9 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
 
         //Reenvia a mensagem de on-line a cada 10 minutos
-        if(cancellable != null){
+        if (cancellable != null) {
             cancellable.cancel();
-        }else {
+        } else {
             cancellable = getContext().system().scheduler().schedule(Duration.Zero(),
                 Duration.create(2, TimeUnit.MINUTES), getSelf(), "SEND_ONLINE",
                 getContext().system().dispatcher(), null);
