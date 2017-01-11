@@ -54,6 +54,13 @@ public class Plano extends Model implements Cloneable, Serializable {
     private Integer tempoCiclo;
 
     @Column
+    @NotNull(message = "não pode ficar em branco.")
+    private boolean cicloDuplo = false;
+
+    @Column
+    private Integer tempoCicloDuplo;
+
+    @Column
     private Integer defasagem = 0;
 
     @JsonIgnore
@@ -142,6 +149,14 @@ public class Plano extends Model implements Cloneable, Serializable {
         return tempoCiclo;
     }
 
+    public Integer getTempoCicloTotal() {
+        Integer tempo = tempoCiclo;
+        if (isCicloDuplo()) {
+            tempo += tempoCicloDuplo;
+        }
+        return tempo;
+    }
+
     public Integer getDefasagem() {
         return defasagem;
     }
@@ -223,6 +238,22 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setImpostoPorFalha(boolean impostoPorFalha) {
         this.impostoPorFalha = impostoPorFalha;
+    }
+
+    public boolean isCicloDuplo() {
+        return cicloDuplo;
+    }
+
+    public void setCicloDuplo(boolean cicloDuplo) {
+        this.cicloDuplo = cicloDuplo;
+    }
+
+    public Integer getTempoCicloDuplo() {
+        return tempoCicloDuplo;
+    }
+
+    public void setTempoCicloDuplo(Integer tempoCicloDuplo) {
+        this.tempoCicloDuplo = tempoCicloDuplo;
     }
 
     @JsonIgnore
@@ -411,7 +442,7 @@ public class Plano extends Model implements Cloneable, Serializable {
                     .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                     .findFirst().orElse(null);
 
-                if (planoBase != null && !InfluuntUtils.getInstance().multiplo(planoBase.getTempoCiclo(), this.getTempoCiclo())) {
+                if (planoBase != null && !InfluuntUtils.getInstance().multiplo(planoBase.getTempoCicloTotal(), this.getTempoCicloTotal())) {
                     return false;
                 }
 
@@ -431,11 +462,11 @@ public class Plano extends Model implements Cloneable, Serializable {
                             .findFirst().orElse(null);
 
                         if (planoBase != null) {
-                            tempoCicloBase = planoBase.getTempoCiclo();
+                            tempoCicloBase = planoBase.getTempoCicloTotal();
                         }
                     }
                 }
-                if (tempoCicloBase != null && !InfluuntUtils.getInstance().multiplo(tempoCicloBase, this.getTempoCiclo())) {
+                if (tempoCicloBase != null && !InfluuntUtils.getInstance().multiplo(tempoCicloBase, this.getTempoCicloTotal())) {
                     return false;
                 }
 
@@ -443,6 +474,24 @@ public class Plano extends Model implements Cloneable, Serializable {
             }
         }
         return isMultiplo;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "O ciclo duplo pode ser configurado somente no modo coordenado.")
+    public boolean isCicloDuploValido() {
+        return !isCicloDuplo() || isTempoFixoCoordenado();
+    }
+
+
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "O Tempo do ciclo duplo deve ser maior ou igual ao tempo de ciclo.")
+    public boolean isTempoCicloDuploMaiorOuIgualAoCiclo() {
+        if (this.isCicloDuplo()) {
+            return getTempoCicloDuplo() != null &&
+                getTempoCicloDuplo() >= getTempoCiclo() &&
+                getAnel().getControlador().getRangeUtils().TEMPO_CICLO.contains(getTempoCicloDuplo());
+        }
+        return true;
     }
 
     public void addGruposSemaforicoPlano(GrupoSemaforicoPlano grupoPlano) {
@@ -473,10 +522,18 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano) {
-        return getTempoEstagio(estagioPlano, getEstagiosOrdenados());
+        return getTempoEstagio(estagioPlano, 0);
+    }
+
+    public Integer getTempoEstagio(EstagioPlano estagioPlano, int ciclo) {
+        return getTempoEstagio(estagioPlano, getEstagiosOrdenados(), ciclo);
     }
 
     public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos) {
+        return getTempoEstagio(estagioPlano, listaEstagiosPlanos, 0);
+    }
+
+    public Integer getTempoEstagio(EstagioPlano estagioPlano, List<EstagioPlano> listaEstagiosPlanos, int ciclo) {
         Estagio estagio = estagioPlano.getEstagio();
         Estagio estagioAnterior = getEstagioAnterior(estagioPlano, listaEstagiosPlanos);
 
@@ -486,8 +543,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             return tempoEntreVerdes + estagioPlano.getTempoVerdeMaximo();
         }
 
-
-        return tempoEntreVerdes + estagioPlano.getTempoVerde();
+        return tempoEntreVerdes + estagioPlano.getTempoVerde(ciclo);
     }
 
     public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior) {
@@ -682,7 +738,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         return estagioPlano;
     }
 
-    public long getMomentoEntradaEstagioPlano(EstagioPlano estagioPlano) {
+    public long getMomentoEntradaEstagioPlano(EstagioPlano estagioPlano, int ciclo) {
         long momentoEntrada = 0L;
         final List<EstagioPlano> lista = getEstagiosOrdenados();
 
@@ -690,7 +746,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             if (estagioPlano.equals(lista.get(i))) {
                 break;
             }
-            momentoEntrada += (lista.get(i).getDuracaoEstagio() * 1000L);
+            momentoEntrada += (lista.get(i).getDuracaoEstagio(ciclo) * 1000L);
         }
         return momentoEntrada;
     }
@@ -732,5 +788,10 @@ public class Plano extends Model implements Cloneable, Serializable {
             buffer.append(" Por falha");
         }
         return buffer.toString();
+    }
+
+
+    public Integer getSomatorioTempoVerde() {
+        return getEstagiosOrdenados().stream().mapToInt(EstagioPlano::getTempoVerde).sum();
     }
 }

@@ -25,11 +25,14 @@ public abstract class GerenciadorDeEventos {
 
     protected final GerenciadorDeEstagios gerenciadorDeEstagios;
 
+    protected final int contadorDeCiclos;
+
     public GerenciadorDeEventos(GerenciadorDeEstagios gerenciadorDeEstagios) {
         this.gerenciadorDeEstagios = gerenciadorDeEstagios;
         this.plano = gerenciadorDeEstagios.getPlano();
         this.estagioPlanoAtual = gerenciadorDeEstagios.getEstagioPlanoAtual();
         this.listaEstagioPlanos = gerenciadorDeEstagios.getListaEstagioPlanos();
+        this.contadorDeCiclos = gerenciadorDeEstagios.getContadorDeCiclos();
     }
 
     public static void onEvento(GerenciadorDeEstagios gerenciadorDeEstagios, EventoMotor eventoMotor) {
@@ -93,8 +96,10 @@ public abstract class GerenciadorDeEventos {
 
     protected void reduzirTempoEstagio(EstagioPlano estagioPlanoAnterior,
                                        RangeMap<Long, IntervaloEstagio> intervalos,
-                                       long contadorIntervalo) {
-        GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, estagioPlanoAtual);
+                                       long contadorIntervalo,
+                                       int contadorDeCiclos) {
+        GerenciadorDeEstagiosHelper.reduzirTempoEstagio(estagioPlanoAnterior, intervalos,
+            contadorIntervalo, estagioPlanoAtual, contadorDeCiclos);
     }
 
     protected void terminaTempoEstagio(RangeMap<Long, IntervaloEstagio> intervalos,

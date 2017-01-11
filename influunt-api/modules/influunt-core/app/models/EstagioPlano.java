@@ -137,6 +137,13 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return tempoVerde;
     }
 
+    public Integer getTempoVerde(int ciclo) {
+        if (plano.isCicloDuplo() && ciclo % 2 != 0) {
+            return getTempoVerdeCicloDuplo();
+        }
+        return getTempoVerde();
+    }
+
     public Integer getTempoVerdeMinimo() {
         return tempoVerdeMinimo;
     }
@@ -297,7 +304,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             if (atuado) {
                 tempo += getEstagioPlanoAnterior().getTempoVerdeMaximo();
             } else {
-                tempo += getEstagioPlanoAnterior().getTempoVerde();
+                tempo += getEstagioPlanoAnterior().getTempoVerdeCicloDuplo();
             }
         }
 
@@ -305,7 +312,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             if (atuado) {
                 tempo += getEstagioPlanoProximo().getTempoVerdeMaximo();
             } else {
-                tempo += getEstagioPlanoProximo().getTempoVerde();
+                tempo += getEstagioPlanoProximo().getTempoVerdeCicloDuplo();
             }
         }
         return tempo;
@@ -427,12 +434,18 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         }
         return listaEstagioPlanos.get(index + 1);
     }
+    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos,
+                                                  GrupoSemaforico grupoSemaforico) {
+        return getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, grupoSemaforico, 0);
+    }
 
-    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos, GrupoSemaforico grupoSemaforico) {
+    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos,
+                                                  GrupoSemaforico grupoSemaforico,
+                                                  int ciclo) {
         Integer tempoVerde = 0;
         EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(listaEstagioPlanos);
         while (!this.equals(estagioPlanoAnterior) && estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
-            tempoVerde += estagioPlanoAnterior.getTempoVerdeEstagio();
+            tempoVerde += estagioPlanoAnterior.getTempoVerdeEstagio(ciclo);
             estagioPlanoAnterior = estagioPlanoAnterior.getEstagioPlanoAnterior(listaEstagioPlanos);
         }
         EstagioPlano estagioPlanoProximo = this.getEstagioPlanoProximo(listaEstagioPlanos);
@@ -443,16 +456,20 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             }
         } else {
             while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
-                tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
+                tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio(ciclo);
                 estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
             }
         }
 
-        tempoVerde += this.getTempoVerdeEstagio();
+        tempoVerde += this.getTempoVerdeEstagio(ciclo);
         return tempoVerde;
     }
 
     public Integer getTempoVerdeEstagio() {
+        return getTempoVerdeEstagio(0);
+    }
+
+    public Integer getTempoVerdeEstagio(int ciclo) {
         if (getPlano().isAtuado() && getTempoVerdeMinimo() != null) {
             if (getEstagio().getDetector().isComFalha()) {
                 return getTempoVerdeIntermediario();
@@ -461,6 +478,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         } else if (getPlano().isManual() && !getEstagio().isDemandaPrioritaria()) {
             return 255;
         }
+
+        if (getPlano().isTempoFixoCoordenado() && getPlano().isCicloDuplo()) {
+            return getTempoVerde(ciclo);
+        }
         return getTempoVerde();
     }
 
@@ -468,28 +489,32 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return getPlano().getTempoEstagio(this);
     }
 
-    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior) {
-        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L;
+    public Integer getDuracaoEstagio(int ciclo) {
+        return getPlano().getTempoEstagio(this, ciclo);
     }
 
-    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo) {
-        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, estagioPlanoProximo) * 1000L;
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, int contadorDeCiclos) {
+        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, contadorDeCiclos) * 1000L;
     }
 
-    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano) {
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo, int contadorDeCiclos) {
+        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, estagioPlanoProximo, contadorDeCiclos) * 1000L;
+    }
+
+    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano, int contadorDeCiclos) {
         return this.getEstagio()
             .getGruposSemaforicos()
             .stream()
-            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano, contadorDeCiclos))
             .max()
             .orElse(0);
     }
 
-    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo) {
+    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo, int contadorDeCiclos) {
         return this.getEstagio()
             .getGruposSemaforicos()
             .stream()
-            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioPlanoAnterior, estagioPlanoProximo))
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioPlanoAnterior, estagioPlanoProximo, contadorDeCiclos))
             .max()
             .orElse(0);
     }
@@ -498,20 +523,20 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
                                                                 long tempoCicloDecorrido,
                                                                 List<EstagioPlano> listaEstagioPlanos,
                                                                 EstagioPlano estagioPlanoPassado,
-                                                                boolean primeiroCiclo) {
+                                                                int ciclo) {
         final int index = listaEstagioPlanos.indexOf(this) + 1;
         if (index < listaEstagioPlanos.size() && listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()) {
             return getTempoVerdeSeguranca();
         }
         int tempoVerdeDoEstagioDispensavel = 0;
-        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado() && !primeiroCiclo) {
+        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado() && ciclo != 0) {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
             if (estagioPlanoAnterior.isDispensavel() &&
                 !estagioPlanoAnterior.equals(estagioPlanoPassado) &&
                 this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel()) &&
                 !estagioPlanoAnterior.ultimoEstagioDaSequencia()) {
 
-                tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this) - tempoCicloDecorrido) / 1000)).intValue();
+                tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this, ciclo) - tempoCicloDecorrido) / 1000)).intValue();
                 tempoVerdeDoEstagioDispensavel += tabelaEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
                     this.getEstagio().getPosicao())) / 1000;
 
@@ -519,10 +544,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
                     this.getEstagio().getPosicao())) / 1000;
 
             } else if (isDispensavel()) {
-                tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this) - tempoCicloDecorrido) / 1000)).intValue();
+                tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this, ciclo) - tempoCicloDecorrido) / 1000)).intValue();
             }
         }
-        return getTempoVerdeEstagio() + tempoVerdeDoEstagioDispensavel;
+        return getTempoVerdeEstagio(ciclo) + tempoVerdeDoEstagioDispensavel;
     }
 
     public boolean isDestroy() {
@@ -564,5 +589,28 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public boolean primeiroEstagioDaSequencia() {
         return getPosicao().equals(1);
+    }
+
+    public Integer getTempoAdicionalCicloDuplo() {
+        Plano plano = getPlano();
+        if (!plano.isCicloDuplo()) {
+            return 0;
+        }
+        final Integer tempoAdicional;
+        final Integer diffTempoCiclos = plano.getTempoCicloDuplo() - plano.getTempoCiclo();
+        if (primeiroEstagioDaSequencia()) {
+            tempoAdicional = diffTempoCiclos - plano.getEstagiosOrdenados()
+                .stream()
+                .filter(ep -> !ep.getPosicao().equals(1))
+                .mapToInt(EstagioPlano::getTempoAdicionalCicloDuplo)
+                .sum();
+        } else {
+            tempoAdicional = (int) ((getTempoVerde() / (float) plano.getSomatorioTempoVerde()) * (diffTempoCiclos));
+        }
+        return tempoAdicional;
+    }
+
+    public Integer getTempoVerdeCicloDuplo() {
+        return getTempoVerde() + getTempoAdicionalCicloDuplo();
     }
 }

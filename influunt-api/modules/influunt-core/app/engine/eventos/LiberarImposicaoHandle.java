@@ -26,7 +26,7 @@ public class LiberarImposicaoHandle extends GerenciadorDeEventos {
     protected void processar(EventoMotor eventoMotor) {
         if (this.plano.isImposto()) {
             Plano plano = (Plano) eventoMotor.getParams()[1];
-            reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo);
+            reduzirTempoEstagio(estagioPlanoAnterior, intervalos, contadorIntervalo, contadorDeCiclos);
             this.plano.setImposto(false);
             AgendamentoTrocaPlano agendamentoTrocaPlano = new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp());
             agendamentoTrocaPlano.setSaidaImposicao(true);

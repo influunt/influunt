@@ -154,7 +154,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
                 .flatMap(Collection::stream)
                 .filter(Plano::isTempoFixoCoordenado)
                 .forEach(plano -> {
-                    tempos.put(plano.getPosicao().toString(), plano.getTempoCiclo());
+                    tempos.put(plano.getPosicao().toString(), plano.getTempoCicloTotal());
                 });
         }
         return tempos;

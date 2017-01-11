@@ -235,7 +235,7 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         for (Anel anel : getAneis()) {
             for (Plano plano : anel.getPlanos()) {
                 if (plano.getPosicao().equals(getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado())) {
-                    if (!InfluuntUtils.getInstance().multiplo(tempoCiclo, plano.getTempoCiclo())) {
+                    if (!InfluuntUtils.getInstance().multiplo(tempoCiclo, plano.getTempoCicloTotal())) {
                         isMultiplo = false;
                         break;
                     }
@@ -257,7 +257,7 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
             .orElse(null);
 
         if (p != null) {
-            return p.getTempoCiclo();
+            return p.getTempoCicloTotal();
         }
         return 1;
     }
