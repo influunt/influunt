@@ -47,6 +47,9 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
     }
 
     @Override
+    /**
+     * Gera intervalos. Chupa codacy :-)
+     */
     public Pair<Integer, RangeMap<Long, IntervaloEstagio>> gerar(int index) {
         EstagioPlano estagioPlano = listaEstagioPlanos.get(index);
 

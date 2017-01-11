@@ -67,7 +67,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean tempoDispensavelJaAdicionado = false;
 
-    private boolean verdeSegurancaCumprido = false;
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -235,7 +234,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         contadorDeCiclos++;
         contadorTempoCiclo = 0L;
         tempoAbatidoNoCiclo = 0L;
-        callback.onCicloEnds(this.anel, contadorDeCiclos);
+        callback.onCicloEnds(this.anel, contadorDeCiclos,tempoDecorrido);
     }
 
     private boolean cumpriuTempoVerdeSeguranca(IntervaloEstagio intervalo) {
@@ -244,7 +243,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
         Map.Entry<Range<Long>, IntervaloEstagio> range = this.intervalos.getEntry(contadorIntervalo);
 
-        return (contadorIntervalo - range.getKey().lowerEndpoint()) >= (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L);
+        return (contadorIntervalo - range.getKey().lowerEndpoint()) >=
+            (estagioPlanoAtual.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, contadorDeCiclos) * 1000L);
     }
 
     private boolean verificaSeDeveAguardarEntradaEmModoManual(IntervaloEstagio ultimoIntervalo) {
@@ -366,9 +366,16 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private boolean podeAgendar(AgendamentoTrocaPlano agendamento) {
-        return ((this.plano.isManual() && agendamento.isSaidaDoModoManual()) ||
+        boolean result = ((this.plano.isManual() && agendamento.isSaidaDoModoManual()) ||
             (this.plano.isImposto() && agendamento.isSaidaImposicao()) ||
             (!this.plano.isManual() && !this.plano.isImposto()));
+
+        if (result && this.agendamento != null) {
+            result = (!this.agendamento.getPlano().isManual() && !this.agendamento.getPlano().isImposto() ||
+                agendamento.getPlano().isManual());
+        }
+
+        return result;
     }
 
     private void verificaEAjustaIntermitenteCasoDemandaPrioritaria() {
@@ -787,5 +794,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     public int getContadorDeCiclos() {
         return contadorDeCiclos;
+    }
+
+    public boolean isEmFalha() {
+        return getPlano().isImpostoPorFalha();
     }
 }

@@ -71,10 +71,8 @@ angular.module('influuntApp')
         return Restangular.all('controladores').customGET('imposicao', query)
           .then(function(res) {
             setData(res);
-            return Restangular.one('monitoramento', 'status_aneis').get();
-          })
-          .then(updateImposicoesEmAneis)
-          .finally(influuntBlockui.unblock);
+            updateImposicoesEmAneis();
+          });
       };
 
       $scope.selecionaAnel = function(anelId) {
@@ -139,17 +137,20 @@ angular.module('influuntApp')
       };
 
       updateImposicoesEmAneis = function(statusObj) {
-        $scope.statusAneis = statusObj.status;
-        var statuses = statusObj.statusPlanos;
-        return _.map(statuses, function(status) {
-          return _
-            .chain($scope.lista)
-            .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
-            .set('hasPlanoImposto', status.hasPlanoImposto)
-            .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
-            .set('saida', status.saida)
-            .value();
-        });
+        return Restangular.one('monitoramento', 'status_aneis').get()
+          .then(function(statusObj) {
+            _.set($scope, 'statusObj.status', statusObj.status);
+            var statuses = statusObj.statusPlanos;
+            return _.map(statuses, function(status) {
+              return _
+                .chain($scope.lista)
+                .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
+                .set('hasPlanoImposto', status.hasPlanoImposto)
+                .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
+                .set('saida', status.saida)
+                .value();
+            });
+          });
       };
 
       $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
@@ -193,7 +194,7 @@ angular.module('influuntApp')
       };
 
       $scope.statusAnel = function(anel) {
-        return $scope.statusAneis && $scope.statusAneis[anel.controladorFisicoId].statusAneis[anel.posicao];
+        return _.get($scope, 'statusObj.status["'+anel.controladorFisicoId+'"].statusAneis['+anel.posicao+']');
       };
 
       $scope.filtroStatus = function() {

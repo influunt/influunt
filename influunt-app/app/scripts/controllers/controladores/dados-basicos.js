@@ -17,7 +17,7 @@ angular.module('influuntApp')
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs, confirmaEnderecoSMEE,
-          alertaSmeeNaoEncontrado;
+          alertaSmeeNaoEncontrado, setEnderecoControladorIndex;
       $scope.PermissionStrategies = PermissionStrategies;
 
       $scope.inicializaWizardDadosBasicos = function() {
@@ -25,7 +25,17 @@ angular.module('influuntApp')
           inicializaObjetoCroqui();
           setarAreaControlador();
           updateBreadcrumbs();
-        }).finally(influuntBlockui.unblock);
+          setEnderecoControladorIndex();
+        });
+      };
+
+      setEnderecoControladorIndex = function() {
+        var enderecoIdJson = _.get($scope.objeto, 'endereco.idJson');
+        if (enderecoIdJson) {
+          $scope.enderecoControladorIndex = _.findIndex($scope.objeto.todosEnderecos, { idJson: enderecoIdJson });
+        } else {
+          $scope.enderecoControladorIndex = 0;
+        }
       };
 
       $scope.consultaNumeroSMEE = function(field) {
@@ -81,7 +91,8 @@ angular.module('influuntApp')
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {
         if (!_.isArray(todosEnderecos)) { return false; }
-        $scope.objeto.nomeEndereco = $filter('nomeEndereco')(todosEnderecos[0]);
+        var endereco = $scope.objeto.todosEnderecos[$scope.enderecoControladorIndex];
+        $scope.objeto.nomeEndereco = $filter('nomeEndereco')(endereco);
       }, true);
 
       $scope.$watchGroup(['objeto.area.idJson', 'helpers.cidade.areas'], function (){

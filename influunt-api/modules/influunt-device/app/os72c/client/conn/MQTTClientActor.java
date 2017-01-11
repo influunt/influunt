@@ -58,6 +58,8 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private Storage storage;
 
+    private Cancellable cancellable;
+
 
     public MQTTClientActor(final String id, final String host, final String port, final String login,
                            final String senha, Storage storage, Router router, EstadoDevice estadoDevice) {
@@ -103,6 +105,15 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
             controlador = getSender();
             connect();
             getSender().tell("CONNECTED", getSelf());
+        }else if("SEND_ONLINE".equals(message)){
+            Envelope controladorOnline = ControladorOnline.getMensagem(id,
+                DateTime.now().getMillis(),
+                Versao.versao,
+                storage.getStatus(),
+                Versao.fabricante,
+                Versao.modelo);
+            sendMessage(controladorOnline);
+
         } else if ("Tick".equals(message)) {
             if (!client.isConnected()) {
                 throw new Exception("Conexao morreu");
@@ -158,13 +169,16 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         client.subscribe("controlador/" + id + "/+", QoS.EXACTLY_ONCE.ordinal(), this);
 
-        Envelope controladorOnline = ControladorOnline.getMensagem(id,
-            DateTime.now().getMillis(),
-            Versao.versao,
-            storage.getStatus(),
-            Versao.fabricante,
-            Versao.modelo);
-        sendMessage(controladorOnline);
+
+        //Reenvia a mensagem de on-line a cada 10 minutos
+        if(cancellable != null){
+            cancellable.cancel();
+        }else {
+            cancellable = getContext().system().scheduler().schedule(Duration.Zero(),
+                Duration.create(2, TimeUnit.MINUTES), getSelf(), "SEND_ONLINE",
+                getContext().system().dispatcher(), null);
+        }
+
         sendToBroker(new MensagemVerificaConfiguracao());
 
         getContext().actorSelection(AtoresDevice.deadLetterPath(id)).tell("VERIFICAR_DEADLETTER", getSelf());

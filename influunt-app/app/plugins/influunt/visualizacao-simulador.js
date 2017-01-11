@@ -23,6 +23,8 @@ var influunt;
         var limite = 256;
         var planos = [];
         var modos = [];
+        var temposDeCiclo = [];
+        var fimDeCiclos = [];        
         var cursors;
         var intervalosGroup;
         var textoIntervalosGroup;
@@ -131,6 +133,16 @@ var influunt;
           data.setText(dataText);
         }
 
+        function desenhaTempoDeCiclo(tempo) {
+          
+          temposDeCiclo.forEach(function(e,i){
+            var marca = _.chain(fimDeCiclos[i])
+                         .filter(function(fim){return fim <= tempo;})
+                         .last().value();
+            e.setText(((tempo - marca)+1) + 's');
+          });
+        }
+
         function verificaLed(){
           var ativado = _
             .chain(ativacaoModoManual)
@@ -152,9 +164,11 @@ var influunt;
             situacaoLedManual = 'desligado';
           }
 
-
-          var result = _
-          .find(bloqueioTrocaEstagio,function(e){ return (e[0] / 10) <= tempo; });
+          var result = _.chain(bloqueioTrocaEstagio)
+            .orderBy(function(e) { return e[0]; })
+            .filter(function(e) { return e[0] / 10 <= tempo })
+            .last()
+            .value();
 
           situacaoTrocaLedManual = result && result[1] === 'LIBERAR' ? 'ligado' : 'desligado';
 
@@ -231,25 +245,38 @@ var influunt;
         }
 
         function moveToLeft() {
-          if(tempo + 1 < limite){
-            tempo += (velocidade);
-            relogio.setText((tempo + 1) + 's');
-            desenhaPlanoAtual(getPlanoAtual(tempo));
-            verificaLed();
-            game.camera.x+=(10 * velocidade);
-            atualizaEstadosGruposSemaforicos();
-            atualizaBotoesVisiveis();
-          } else {
-            botaoForward();
+          
+          if((tempo + 1) % 256 === 0){
+            loadingGroup.visible = true;
+            limite += 256;
+            debugger;
+            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
+            loadMore();
           }
+          tempo += 1;
+          relogio.setText((tempo + 1) + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
+          desenhaTempoDeCiclo(tempo);
+          verificaLed();
+          game.camera.x += 10;
+          atualizaEstadosGruposSemaforicos();
+          atualizaBotoesVisiveis();
         }
 
         function moveToRight() {
-          tempo = Math.max(0,tempo - velocidade);
+          
+          if((tempo - 1) % 256 === 0){
+            limite -= Math.min(0,256);
+          }
+          
+          tempo = Math.max(0,tempo -  1);
           relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
+          desenhaTempoDeCiclo(tempo);
           verificaLed();
-          game.camera.x -= (velocidade * 10);
+          if(game.camera.x > 0){
+            game.camera.x -= 10;
+          }
           atualizaEstadosGruposSemaforicos();
           atualizaBotoesVisiveis();
         }
@@ -283,12 +310,6 @@ var influunt;
         }
 
         function botaoForward(){
-          if(((tempo + 1) % 256) === 0){
-            loadingGroup.visible = true;
-            limite = (parseInt(tempo / 256) + 2) * 256;
-            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
-            loadMore();
-          }
           moveToLeft();
         }
 
@@ -329,6 +350,10 @@ var influunt;
           return situacaoLedManual === 'ligado';
         }
 
+        function hideEstagioManual() {
+          return !showEstagioManual();
+        }
+
         function showTrocaEstagioManual() {
           return situacaoTrocaLedManual === 'ligado';
         }
@@ -345,7 +370,7 @@ var influunt;
             }
           });
 
-          repeater = game.time.events.repeat(1000, 1000, moveToLeft, this);
+          repeater = game.time.events.repeat(1000 / velocidade, 1000, moveToLeft, this);
         }
 
         function botaoDetector(detector){
@@ -436,7 +461,7 @@ var influunt;
               {nome: 'DP3', action: botaoDetector, enableOnPause: true, enableOnPlay: true},
               {nome: 'DP4', action: botaoDetector, incremento: 39, enableOnPause: true, enableOnPlay: true},
 
-              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: !showEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
+              {nome: 'ativaOperacaoManual', action: ativaModoManual, visivel: hideEstagioManual, incremento: -1, enableOnPause: true, enableOnPlay: true},
               {nome: 'desativaOperacaoManual', action: desativaModoManual, visivel: showEstagioManual, enableOnPause: true, enableOnPlay: true},
               {nome: 'trocaEstagioManual', action: trocarEstagioManual, visivel: showTrocaEstagioManual, enableOnPause: true, enableOnPlay: true}
           ];
@@ -749,6 +774,7 @@ var influunt;
 
           bmd.ctx.fillRect(0,0,30,h);
           bmd.ctx.fillRect(0,0,116,ALTURA_GRUPO);
+          
           bmd.ctx.fillRect(116,0,1000,2);
           bmd.ctx.fillRect(966,0,34,h);
           if(ultimo){
@@ -774,9 +800,18 @@ var influunt;
           modo.fixedToCamera = true;
           modo.anchor.setTo(0.5, 0.5);
           modos.push(modo);
+          
+
+          var tempoCiclo = game.add.text(75,spriteY + 16, '0s', style);
+          tempoCiclo.fixedToCamera = true;
+          tempoCiclo.anchor.setTo(0.5, 0.5);
+          temposDeCiclo.push(tempoCiclo);
+          
         }
 
         function criaAnel(anel,index,indexAnel){
+          
+          fimDeCiclos[anel.numero - 1] = [0];
           var offset = (anel.numero - 1) * ALTURA_GRUPO;
           var indexAtual = inicializaGrupos(anel.tiposGruposSemaforicos,index,offset);
           aneis[anel.numero] = {};
@@ -968,6 +1003,7 @@ var influunt;
                 processaAlarmes(json.alarmes);
                 processaManual(json.manual);
                 processaBloqueios(json.bloqueios);
+                fimDeCiclos = json.fimDeCiclo;
               }catch(err){
                 console.log(err);
               }
@@ -1014,6 +1050,9 @@ var influunt;
         game.stop = function() {
           mqttClient.disconnect();
           game.state.destroy();
+          game.world.removeAll();
+          game.cache.destroy();
+          game.destroy();
         };
 
         return game;

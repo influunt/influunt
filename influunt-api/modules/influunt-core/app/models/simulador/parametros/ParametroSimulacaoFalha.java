@@ -38,7 +38,7 @@ public class ParametroSimulacaoFalha {
 
     public EventoMotor toEvento() {
         if (grupoSemaforico != null) {
-            return new EventoMotor(getDisparo(), getFalha(), grupoSemaforico, anel.getPosicao());
+            return new EventoMotor(getDisparo(), getFalha(), grupoSemaforico.getPosicao(), anel.getPosicao());
         } else if (detector != null) {
             return new EventoMotor(getDisparo(), getFalha(), detector, anel.getPosicao());
         } else if (anel != null) {

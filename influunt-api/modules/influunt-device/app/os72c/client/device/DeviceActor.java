@@ -197,7 +197,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     @Override
-    public void onCicloEnds(int anel, int numeroCiclos) {
+    public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
     }
 
     @Override
