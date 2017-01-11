@@ -14,6 +14,8 @@ public class GerenciadorEstagiosHelper {
 
     public static final long TEMPO_VERMELHO_INTEGRAL = 3000L;
 
+    public static final long TEMPO_INTERMITENTE = 5000L;
+
     public static EstagioPlano getEstagioPlanoAlternativoDaTransicaoProibida(Estagio origem, Estagio destino, List<EstagioPlano> listaEstagioPlanos) {
         final Estagio estagioAtual = origem.getTransicaoProibidaPara(destino).getAlternativo();
         return listaEstagioPlanos.stream().filter(ep -> ep.getEstagio().equals(estagioAtual)).findFirst().orElse(null);
