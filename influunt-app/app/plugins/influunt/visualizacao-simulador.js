@@ -245,27 +245,38 @@ var influunt;
         }
 
         function moveToLeft() {
-          if(tempo + 1 < limite){
-            tempo += (velocidade);
-            relogio.setText((tempo + 1) + 's');
-            desenhaPlanoAtual(getPlanoAtual(tempo));
-            desenhaTempoDeCiclo(tempo);
-            verificaLed();
-            game.camera.x+=(10 * velocidade);
-            atualizaEstadosGruposSemaforicos();
-            atualizaBotoesVisiveis();
-          } else {
-            botaoForward();
+          
+          if((tempo + 1) % 256 === 0){
+            loadingGroup.visible = true;
+            limite += 256;
+            debugger;
+            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
+            loadMore();
           }
-        }
-
-        function moveToRight() {
-          tempo = Math.max(0,tempo - velocidade);
+          tempo += 1;
           relogio.setText((tempo + 1) + 's');
           desenhaPlanoAtual(getPlanoAtual(tempo));
           desenhaTempoDeCiclo(tempo);
           verificaLed();
-          game.camera.x -= (velocidade * 10);
+          game.camera.x += 10;
+          atualizaEstadosGruposSemaforicos();
+          atualizaBotoesVisiveis();
+        }
+
+        function moveToRight() {
+          
+          if((tempo - 1) % 256 === 0){
+            limite -= Math.min(0,256);
+          }
+          
+          tempo = Math.max(0,tempo -  1);
+          relogio.setText((tempo + 1) + 's');
+          desenhaPlanoAtual(getPlanoAtual(tempo));
+          desenhaTempoDeCiclo(tempo);
+          verificaLed();
+          if(game.camera.x > 0){
+            game.camera.x -= 10;
+          }
           atualizaEstadosGruposSemaforicos();
           atualizaBotoesVisiveis();
         }
@@ -299,12 +310,6 @@ var influunt;
         }
 
         function botaoForward(){
-          if(((tempo + 1) % 256) === 0){
-            loadingGroup.visible = true;
-            limite = (parseInt(tempo / 256) + 2) * 256;
-            game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
-            loadMore();
-          }
           moveToLeft();
         }
 
@@ -365,7 +370,7 @@ var influunt;
             }
           });
 
-          repeater = game.time.events.repeat(1000, 1000, moveToLeft, this);
+          repeater = game.time.events.repeat(1000 / velocidade, 1000, moveToLeft, this);
         }
 
         function botaoDetector(detector){
