@@ -166,7 +166,7 @@ var influunt;
 
           var result = _.chain(bloqueioTrocaEstagio)
             .orderBy(function(e) { return e[0]; })
-            .filter(function(e) { return e[0] / 10 <= tempo })
+            .filter(function(e) { return e[0] / 10 <= tempo; })
             .last()
             .value();
 
@@ -249,7 +249,6 @@ var influunt;
           if((tempo + 1) % 256 === 0){
             loadingGroup.visible = true;
             limite += 256;
-            debugger;
             game.world.setBounds(0, 0, 1000 + (limite * 10), 800);
             loadMore();
           }

@@ -886,6 +886,7 @@
     "versaoHardware": "Versão do Firmware do Hardware",
     "dataAtualizacao": "Dados de versão coletados em",
     "continuar": "Continuar",
+    "abortar": "Abortar",
     "dadosControlador": "Dados do Controlador Físico",
     "dataEvento": "Data do Evento",
     "cla": "CLA",
