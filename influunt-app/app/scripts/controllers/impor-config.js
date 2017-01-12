@@ -13,7 +13,7 @@ angular.module('influuntApp')
     function ($scope, $controller, $filter, Restangular, influuntBlockui, pahoProvider,
               eventosDinamicos, $location) {
 
-      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest;
+      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest, setFiltro;
 
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -67,7 +67,7 @@ angular.module('influuntApp')
       $scope.isAnelChecked = {};
       $scope.statusTransacoes = {};
 
-      var setFiltro = function(nome, valor) {
+      setFiltro = function(nome) {
         _.set($scope.pesquisa, 'filtro.'+nome+'.valor', $location.search()[nome]);
         _.set($scope.pesquisa, 'filtro.'+nome+'.tipoCampo', 'select');
         $location.search(nome, null);
@@ -81,7 +81,7 @@ angular.module('influuntApp')
         if ($location.search().online) {
           setFiltro('online');
         }
-        // debugger
+
         $scope.filtroStatus = $scope.getFiltroStatus();
         var query = $scope.buildQuery($scope.pesquisa);
         return Restangular.all('controladores').customGET('imposicao', query)
@@ -152,14 +152,13 @@ angular.module('influuntApp')
         $scope.pagination.totalItems = $scope.lista.length;
       };
 
-      updateImposicoesEmAneis = function(statusObj) {
+      updateImposicoesEmAneis = function() {
         return Restangular.one('monitoramento', 'status_aneis').get()
           .then(function(statusObj) {
             _.set($scope, 'statusObj.status', statusObj.status);
             var statuses = statusObj.statusPlanos;
             return _.map(statuses, function(status) {
-              return _
-                .chain($scope.lista)
+              return _.chain($scope.lista)
                 .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
                 .set('hasPlanoImposto', status.hasPlanoImposto)
                 .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
@@ -177,7 +176,7 @@ angular.module('influuntApp')
       });
 
       $scope.$watch('statusObj.statusPlanos', function(statuses) {
-        return _.isArray(statuses) && updateImposicoesEmAneis({statusPlanos: statuses});
+        return _.isArray(statuses) && updateImposicoesEmAneis();
       }, true);
 
       $scope.$watch('statusObj.onlines', function(onlines) {
