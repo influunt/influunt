@@ -35,8 +35,6 @@ angular.module('influuntApp')
 
           // não exibe o blockui para requests feitas somente para as requests dinamicas.
           if (request.headers['x-prevent-block-ui']) {
-            console.log('request block ui prevented!')
-            // delete request.headers['x-prevent-block-ui'];
             return request;
           }
 
@@ -54,8 +52,6 @@ angular.module('influuntApp')
         response: function(response) {
           if (!response.headers('x-prevent-block-ui')) {
             decrementAndUnblock();
-          } else {
-            console.log('response block ui prevented!')
           }
           return response;
         },

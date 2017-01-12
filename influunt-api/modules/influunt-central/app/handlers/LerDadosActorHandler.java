@@ -27,6 +27,7 @@ public class LerDadosActorHandler extends UntypedActor {
         private String controladorId;
         private Cancellable timeoutId;
         private int timeoutInSeconds = 60;
+
         LerDadosTimeout(Envelope mensagem) {
             this.controladorId = mensagem.getIdControlador();
             this.timeoutId = getContext().system().scheduler().scheduleOnce(Duration.create(timeoutInSeconds, TimeUnit.SECONDS), getSelf(), mensagem.getIdMensagem(), getContext().system().dispatcher(), getSelf());
@@ -51,11 +52,9 @@ public class LerDadosActorHandler extends UntypedActor {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.LER_DADOS_CONTROLADOR) && envelope.getEmResposta() == null) {
                 Envelope envelopeLerDados = LerDadosControlador.getMensagem(envelope);
-                System.out.println("ida   idMensagem: " + envelopeLerDados.getIdMensagem());
                 getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelopeLerDados, getSelf());
                 setTimeout(envelopeLerDados);
             } else {
-                System.out.println("volta idMensagem: " + envelope.getEmResposta());
                 clearTimeout(envelope.getEmResposta());
                 envelope.setDestino(DestinoApp.dadosControlador(envelope.getIdControlador()));
                 envelope.setCriptografado(false);

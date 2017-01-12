@@ -56,7 +56,6 @@ angular.module('influuntApp')
 
         // watchers.
         dadosControladorWatcher = function(payload) {
-          console.log('dadosControlador: ', payload)
           var mensagem = JSON.parse(payload);
           if (mensagem.conteudo === 'TIMEOUT') {
             statusObj.dadosControlador = { status: 'timeout' };

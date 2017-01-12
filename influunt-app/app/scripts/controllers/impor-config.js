@@ -184,12 +184,9 @@ angular.module('influuntApp')
       };
 
       $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
-        console.log('watch dadosControlador:', dadosControlador)
         if (_.isObject(dadosControlador)) {
           if (dadosControlador.status === 'timeout') {
-            console.log('TIMEOUT!')
             handleLerDadosTimeout();
-            // mostrarPopup();
           } else {
             lerDadosErrosControlador(dadosControlador.id);
             $scope.dadosControlador = $scope.dadosControlador || {};
