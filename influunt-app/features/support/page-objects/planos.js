@@ -2,8 +2,6 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
-var expect = require('chai').expect;
-
 
 var PlanosPage = function () {
 
