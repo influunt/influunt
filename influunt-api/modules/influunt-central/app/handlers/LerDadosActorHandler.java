@@ -27,25 +27,6 @@ public class LerDadosActorHandler extends UntypedActor {
 
     private static Map<String, LerDadosTimeout> timeout = new HashMap<>();
 
-    private class LerDadosTimeout {
-        private String controladorId;
-        private Cancellable timeoutId;
-        private int timeoutInSeconds = 60;
-
-        public LerDadosTimeout(Envelope mensagem) {
-            this.controladorId = mensagem.getIdControlador();
-            this.timeoutId = getContext().system().scheduler().scheduleOnce(Duration.create(timeoutInSeconds, TimeUnit.SECONDS), getSelf(), mensagem.getIdMensagem(), getContext().system().dispatcher(), getSelf());
-        }
-
-        public String getControladorId() {
-            return controladorId;
-        }
-
-        public void cancel() {
-            timeoutId.cancel();
-        }
-    }
-
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
@@ -93,6 +74,25 @@ public class LerDadosActorHandler extends UntypedActor {
             log.info("CENTRAL ENVIANDO TIMEOUT DE LER DADOS CONTROLADOR...");
             getContext().actorSelection(AtoresCentral.mqttActorPath()).tell(envelope, getSelf());
             clearTimeout(mensagemId);
+        }
+    }
+
+    private class LerDadosTimeout {
+        private String controladorId;
+        private Cancellable timeoutId;
+        private int timeoutInSeconds = 60;
+
+        public LerDadosTimeout(Envelope mensagem) {
+            this.controladorId = mensagem.getIdControlador();
+            this.timeoutId = getContext().system().scheduler().scheduleOnce(Duration.create(timeoutInSeconds, TimeUnit.SECONDS), getSelf(), mensagem.getIdMensagem(), getContext().system().dispatcher(), getSelf());
+        }
+
+        public String getControladorId() {
+            return controladorId;
+        }
+
+        public void cancel() {
+            timeoutId.cancel();
         }
     }
 }
