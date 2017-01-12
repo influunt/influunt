@@ -23,28 +23,28 @@ import java.util.regex.Pattern;
  */
 public class LerDadosActorHandler extends UntypedActor {
 
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+    private static Map<String, LerDadosTimeout> timeout = new HashMap<>();
+
     private class LerDadosTimeout {
         private String controladorId;
         private Cancellable timeoutId;
         private int timeoutInSeconds = 60;
 
-        LerDadosTimeout(Envelope mensagem) {
+        public LerDadosTimeout(Envelope mensagem) {
             this.controladorId = mensagem.getIdControlador();
             this.timeoutId = getContext().system().scheduler().scheduleOnce(Duration.create(timeoutInSeconds, TimeUnit.SECONDS), getSelf(), mensagem.getIdMensagem(), getContext().system().dispatcher(), getSelf());
         }
 
-        String getControladorId() {
+        public String getControladorId() {
             return controladorId;
         }
 
-        void cancel() {
+        public void cancel() {
             timeoutId.cancel();
         }
     }
-
-    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-
-    private static Map<String, LerDadosTimeout> timeout = new HashMap<>();
 
     @Override
     public void onReceive(Object message) throws Exception {

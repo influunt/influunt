@@ -127,7 +127,7 @@ angular.module('influuntApp')
           .then(function(listaErros) {
             $scope.dadosControlador.erros = listaErros;
           });
-      }
+      };
 
       handleLerDadosTimeout = function() {
         influuntBlockui.unblock(true);
