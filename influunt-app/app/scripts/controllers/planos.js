@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama;
+          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama, gerarEstagiosCopiadosQueRecebemEstagioDispensavel;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -492,10 +492,27 @@ angular.module('influuntApp')
           $scope.objeto.gruposSemaforicosPlanos.push(novoGrupoSemaforicoPlano);
         });
 
+        var estagiosQueRecebemGerados = gerarEstagiosCopiadosQueRecebemEstagioDispensavel(novoPlano);
+
         novoPlano.estagiosPlanos.forEach(function (ep){
           var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: ep.idJson});
+          var estagioDispensavelIndex = _.findIndex(estagiosQueRecebemGerados, function(o)
+                                                    { return o.estagioQueRecebe === estagioPlano.posicao; });
+
           var novoEstagioPlano = _.cloneDeep(estagioPlano);
           ep.idJson = UUID.generate();
+
+          // descarta o idJson gerado e utilizado o criado pleo medtodo estagiosQueRecebemGerados
+          if (estagioDispensavelIndex > -1) {
+            ep.idJson = estagiosQueRecebemGerados[estagioDispensavelIndex].idJsonNovo
+          }
+
+          if (estagioPlano.dispensavel) {
+            novoEstagioPlano.estagioQueRecebeEstagioDispensavel.idJson =
+            _.find(estagiosQueRecebemGerados,
+              {idJsonAntigo: estagioPlano.estagioQueRecebeEstagioDispensavel.idJson}).idJsonNovo;
+          }
+
           novoEstagioPlano.idJson = ep.idJson;
           novoEstagioPlano.plano.idJson = novoPlano.idJson;
           delete novoEstagioPlano.id;
@@ -503,6 +520,27 @@ angular.module('influuntApp')
         });
 
         return novoPlano;
+      };
+
+      gerarEstagiosCopiadosQueRecebemEstagioDispensavel = function(novoPlano){
+        var estagiosQueRecebemEstagiosDispensavel = [];
+
+        novoPlano.estagiosPlanos.forEach(function (ep){
+          var idJsonToChange = {};
+          var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: ep.idJson});
+
+          if (estagioPlano.dispensavel) {
+            var estagioQueRecebe =  _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.estagioQueRecebeEstagioDispensavel.idJson});
+            idJsonToChange["idJsonAntigo"] = estagioQueRecebe.idJson;
+            idJsonToChange["idJsonNovo"] = UUID.generate();
+            idJsonToChange["estagioQueRecebe"] = estagioQueRecebe.posicao;
+            idJsonToChange["estagioQuePerde"] = estagioPlano.posicao;
+            estagiosQueRecebemEstagiosDispensavel.push(idJsonToChange);
+          }
+
+        });
+
+        return estagiosQueRecebemEstagiosDispensavel;
       };
 
       getErrosGruposSemaforicosPlanos = function(listaErros, currentPlanoIndex){

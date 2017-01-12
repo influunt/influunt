@@ -241,6 +241,13 @@ describe('Controller: PlanosCtrl', function() {
         plano = _.find(scope.objeto.planos, {
           posicao: 1
         });
+
+        var firstEstagio = _.find(scope.objeto.estagiosPlanos, {idJson: _.head(plano.estagiosPlanos).idJson}) ;
+        var lastEstagio = _.last(plano.estagiosPlanos).idJson;
+
+        firstEstagio.dispensavel = true;
+        firstEstagio.estagioQueRecebeEstagioDispensavel = {"idJson": lastEstagio};
+
         plano.tempoCiclo = tempoCicloTeste;
         versaoPlanoOriginal = _.cloneDeep(scope.objeto.versoesPlanos[0]);
 
@@ -316,6 +323,11 @@ describe('Controller: PlanosCtrl', function() {
             idJson: copy.idJson
           })).toBeDefined();
         });
+      });
+
+      it('Deve copiar os estágios dispensávies', function() {
+        var estagioDispensavelACopiar = _.filter(scope.objeto.estagiosPlanos, {dispensavel: true});
+        expect(estagioDispensavelACopiar.length).toBe(4);
       });
 
       it('Se o plano origem for adicionado aos planos destino, ele não deverá ser alterado', function() {
