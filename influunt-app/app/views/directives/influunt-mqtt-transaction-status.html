@@ -3,9 +3,8 @@
     data-ng-bind-html="statusTransaction === 'COMPLETED' | trueOrFalseIcon"></span>
 
 <!-- pending requests -->
-<span class="grey-scaled"
-    data-ng-if="statusTransaction === 'ABORT' || statusTransaction === 'COMMIT'"
+<span data-ng-if="statusTransaction === 'ABORT' || statusTransaction === 'COMMIT'"
     data-ng-bind-html="statusTransaction === 'COMMIT' | trueOrFalseIcon"></span>
 
 <!-- in progress requests -->
-<influunt-loading data-ng-if="statusTransaction !== 'ABORTED' && statusTransaction !== 'COMPLETED'"></influunt-loading>
+<influunt-loading data-ng-if="statusTransaction !== 'ABORT' && statusTransaction !== 'ABORTED' && statusTransaction !== 'COMPLETED'"></influunt-loading>
