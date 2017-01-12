@@ -9,11 +9,12 @@
  */
 angular.module('influuntApp')
   .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui', 'pahoProvider',
-                                  'eventosDinamicos', '$location',
+                                  'eventosDinamicos', '$location', 'influuntAlert',
     function ($scope, $controller, $filter, Restangular, influuntBlockui, pahoProvider,
-              eventosDinamicos, $location) {
+              eventosDinamicos, $location, influuntAlert) {
 
-      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest, setFiltro;
+      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest, lerDadosErrosControlador,
+      handleLerDadosTimeout, setFiltro;
 
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -113,13 +114,27 @@ angular.module('influuntApp')
         return resolvePendingRequest(_.first(transacoesPendentes), 'CANCEL');
       };
 
-      $scope.lerDados = function(controladorId) {
+      $scope.lerDados = function(anel) {
+        influuntBlockui.block();
+        var controladorId = anel.controlador.id;
+        $scope.dadosControlador = { id: controladorId };
+        var headers = { 'x-prevent-block-ui': '!' };
+        return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados', null, headers);
+      };
+
+      lerDadosErrosControlador = function(controladorId) {
         return Restangular.one('monitoramento/').customGET('erros_controladores/' + controladorId + '/historico_falha/0/60', null)
           .then(function(listaErros) {
             $scope.dadosControlador.erros = listaErros;
-            return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados');
-          })
-          .finally(influuntBlockui.unblock);
+          });
+      }
+
+      handleLerDadosTimeout = function() {
+        influuntBlockui.unblock(true);
+        $('#modalLerDados').modal('toggle');
+        var title = $filter('translate')('imporConfig.timeoutPopup.title'),
+            text = $filter('translate')('imporConfig.timeoutPopup.text');
+        influuntAlert.alert(title, text);
       };
 
       $scope.limpaTransacoesAnteriores = function() {
@@ -169,9 +184,17 @@ angular.module('influuntApp')
       };
 
       $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
+        console.log('watch dadosControlador:', dadosControlador)
         if (_.isObject(dadosControlador)) {
-          $scope.dadosControlador = $scope.dadosControlador || {};
-          $scope.dadosControlador.conteudo = dadosControlador;
+          if (dadosControlador.status === 'timeout') {
+            console.log('TIMEOUT!')
+            handleLerDadosTimeout();
+            // mostrarPopup();
+          } else {
+            lerDadosErrosControlador(dadosControlador.id);
+            $scope.dadosControlador = $scope.dadosControlador || {};
+            $scope.dadosControlador.conteudo = dadosControlador;
+          }
         }
       });
 

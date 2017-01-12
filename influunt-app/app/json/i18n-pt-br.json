@@ -980,6 +980,10 @@
     },
     "tooltip": {
       "lerDadosOffline": "O controlador está offline"
+    },
+    "timeoutPopup": {
+      "title": "Timeout!",
+      "text": "Não foi possível ler os dados do controlador. Tente novamente mais tarde."
     }
   },
   "ATIVO": "Ativo",

@@ -489,6 +489,7 @@ public class ControladoresController extends Controller {
     @Transactional
     @Dynamic("Influunt")
     public CompletionStage<Result> lerDados() {
+        setBlockUiHeader();
         JsonNode json = request().body().asJson();
         if (json == null) {
             return CompletableFuture.completedFuture(badRequest("Expecting Json data"));
@@ -497,8 +498,8 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            String envelopeId = transacaoHelper.lerDados(controlador);
-            return CompletableFuture.completedFuture(ok(Json.toJson(envelopeId)));
+            String controladorFisicoId = transacaoHelper.lerDados(controlador);
+            return CompletableFuture.completedFuture(ok(Json.toJson(controladorFisicoId)));
         }
     }
 
@@ -543,6 +544,12 @@ public class ControladoresController extends Controller {
 
     private Usuario getUsuario() {
         return (Usuario) ctx().args.get("user");
+    }
+
+    private void setBlockUiHeader() {
+        if (request().getHeader("x-prevent-block-ui") != null) {
+            response().setHeader("x-prevent-block-ui", "!");
+        }
     }
 
 }

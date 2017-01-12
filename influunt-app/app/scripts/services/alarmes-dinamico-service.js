@@ -23,7 +23,9 @@ angular.module('influuntApp')
         var getControlador, isAlertaAtivado, exibirAlerta, statusControladoresWatcher, alarmesEFalhasWatcher,
             trocaPlanoWatcher, handleAlarmesEFalhas, handleRecuperacaoFalhas, onlineOfflineWatcher, statusTransacaoWatcher,
             dadosControladorWatcher, addFalha, removeFalha, setStatus, trocaPlanos;
+
         var statusObj, $$fnOnEventTriggered, controladores;
+
         var $$fnonClickToast = function(){};
 
         var registerWatchers = function() {
@@ -54,11 +56,15 @@ angular.module('influuntApp')
 
         // watchers.
         dadosControladorWatcher = function(payload) {
+          console.log('dadosControlador: ', payload)
           var mensagem = JSON.parse(payload);
-          mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
-          statusObj.dadosControlador = {};
-
-          statusObj.dadosControlador = mensagem.conteudo;
+          if (mensagem.conteudo === 'TIMEOUT') {
+            statusObj.dadosControlador = { status: 'timeout' };
+          } else {
+            mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
+            statusObj.dadosControlador = mensagem.conteudo;
+            statusObj.dadosControlador.status = 'ok';
+          }
         };
 
         statusControladoresWatcher = function(payload) {

@@ -13,6 +13,8 @@
         </div>
         <div class="ibox-content">
 
+        <!-- <pre>{{ statusObj | json }}</pre> -->
+
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
@@ -59,7 +61,7 @@
                   <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalLerDados"
                      data-ng-if="anel.online"
                      permission permission-only="'lerDadosControlador'"
-                     data-ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.lerDados' | translate }}</a>
+                     data-ng-click="lerDados(anel)">{{ 'imporConfig.lerDados' | translate }}</a>
                   <a class="btn btn btn-xs btn-primary" disabled
                      data-ng-if="!anel.online"
                      permission permission-only="'lerDadosControlador'"
@@ -70,8 +72,6 @@
                      data-ng-click="setCurrentAnel(anel)"
                      permission permission-only="'lerDadosControlador'"
                      data-ng-click="lerDados(anel.controlador.id)">{{ 'imporConfig.infoHardware' | translate }}</a>
-                  <ng-include src="'/views/impor_config/modal-dados-hardware.html'"></ng-include>
-                  <ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
                 </td>
               </tr>
             </tbody>
@@ -96,4 +96,7 @@
     </div>
   </div>
 </div>
+
 <ng-include src="'views/impor_config/modal-transacoes.html'"></ng-include>
+<ng-include src="'/views/impor_config/modal-dados-hardware.html'"></ng-include>
+<ng-include src="'/views/impor_config/modal-dados-controlador.html'"></ng-include>
