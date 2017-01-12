@@ -25,7 +25,7 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama;
+          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama, estagiosCopiadosQueRecebemEstagioDispensavel;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -492,10 +492,27 @@ angular.module('influuntApp')
           $scope.objeto.gruposSemaforicosPlanos.push(novoGrupoSemaforicoPlano);
         });
 
+        var saveEstagiosQueRecebem = estagiosCopiadosQueRecebemEstagioDispensavel(novoPlano);
+
         novoPlano.estagiosPlanos.forEach(function (ep){
           var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: ep.idJson});
+          var hasEstagioDispensavelIndex = _.findIndex(saveEstagiosQueRecebem, function(o)
+                                              { return o.idJsonAntigo === estagioPlano.idJson; });
+
           var novoEstagioPlano = _.cloneDeep(estagioPlano);
           ep.idJson = UUID.generate();
+
+          if (hasEstagioDispensavelIndex > -1) {
+            saveEstagiosQueRecebem[hasEstagioDispensavelIndex]["idJsonNovo"] = ep.idJson;
+          }
+
+          if (estagioPlano.dispensavel) {
+            novoEstagioPlano.estagioQueRecebeEstagioDispensavel.idJson =
+            _.find(saveEstagiosQueRecebem, {idJsonAntigo: estagioPlano.estagioQueRecebeEstagioDispensavel.idJson}).idJsonNovo;
+
+          }
+
+          debugger
           novoEstagioPlano.idJson = ep.idJson;
           novoEstagioPlano.plano.idJson = novoPlano.idJson;
           delete novoEstagioPlano.id;
@@ -503,6 +520,25 @@ angular.module('influuntApp')
         });
 
         return novoPlano;
+      };
+
+      estagiosCopiadosQueRecebemEstagioDispensavel = function(novoPlano){
+        var estagiosQueRecebemEstagiosDispensavel = [];
+        var idJsonToChange = {};
+
+        novoPlano.estagiosPlanos.forEach(function (ep){
+          var estagioPlano = _.find($scope.objeto.estagiosPlanos, {idJson: ep.idJson});
+
+          if (estagioPlano.dispensavel) {
+            var estagioQueRecebe =  _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.estagioQueRecebeEstagioDispensavel.idJson});
+            idJsonToChange["idJsonAntigo"] = estagioQueRecebe.idJson;
+            idJsonToChange["estagioQuePerde"] = estagioPlano.posicao;
+            estagiosQueRecebemEstagiosDispensavel.push(idJsonToChange);
+          }
+
+        });
+
+        return estagiosQueRecebemEstagiosDispensavel;
       };
 
       getErrosGruposSemaforicosPlanos = function(listaErros, currentPlanoIndex){
