@@ -62,8 +62,8 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     }
 
     @Test
-    public void testUltimoStatusDosControlador() {
-        HashMap<String, Boolean> usc = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
+    public void testUltimoStatusDosControladores() {
+        Map<String, Boolean> usc = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
         assertEquals(2, usc.size());
 
         assertFalse(usc.get("1"));
@@ -220,5 +220,27 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(horasOffline, json.get("totalOffline").asInt());
     }
 
+    @Test
+    public void testUltimoStatusPorSituacao() throws InterruptedException {
+        StatusConexaoControlador.log("3", System.currentTimeMillis(), true);
+        Thread.sleep(10);
+        StatusConexaoControlador.log("3", System.currentTimeMillis(), false);
+        Thread.sleep(10);
+        StatusConexaoControlador.log("4", System.currentTimeMillis(), false);
+        Thread.sleep(10);
+        StatusConexaoControlador.log("4", System.currentTimeMillis(), true);
 
+        assertStatus(true, Arrays.asList("2", "4"), Arrays.asList("1", "3"));
+        assertStatus(false, Arrays.asList("1", "3"), Arrays.asList("2", "4"));
+    }
+
+    private void assertStatus(boolean online, List<String> idsIn, List<String> idsOut) {
+        List<StatusConexaoControlador> statuses = StatusConexaoControlador.ultimoStatusPorSituacao(online);
+        assertEquals(idsIn.size(), statuses.size());
+        statuses.stream().forEach(status -> {
+            assertEquals(online, status.isConectado());
+            assertTrue(idsIn.contains(status.getIdControlador()));
+            assertFalse(idsOut.contains(status.getIdControlador()));
+        });
+    }
 }

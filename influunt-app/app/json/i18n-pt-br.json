@@ -835,7 +835,7 @@
   },
   "status": {
     "titulo": "Status dos Controladores",
-    "aneis": "Status dos Anéis"
+    "aneis": "Status"
   },
   "sistema": {
     "mensagem_erro_502": "Erro ao comunicar com a API.",
@@ -902,6 +902,7 @@
     "modoOperacaoTitulo": "Modo de operação",
     "momentoCiclo": "Momento do Ciclo",
     "online": "Online",
+    "offline": "Offline",
     "parametrosControlador": "Logs do Controlador",
     "pendingWarning": "Alguns itens desta transação não poderão ser concluídos. Continuar o processo para os demais?",
     "planoForcado": "Plano Forçado",

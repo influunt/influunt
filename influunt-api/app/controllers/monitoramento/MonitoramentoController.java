@@ -95,7 +95,7 @@ public class MonitoramentoController extends Controller {
         }
 
         List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
-        HashMap<String, Object> onlines = StatusConexaoControlador.ultimoStatusDosControladoresOnlines(controladores);
+        Map<String, Object> onlines = StatusConexaoControlador.ultimoStatusDosControladoresOnlines(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(controladoresToJson(onlines))));
     }
 
@@ -108,7 +108,7 @@ public class MonitoramentoController extends Controller {
 
         List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
-        HashMap<String, Object> offlines = StatusConexaoControlador.ultimoStatusDosControladoresOfflines(controladores);
+        Map<String, Object> offlines = StatusConexaoControlador.ultimoStatusDosControladoresOfflines(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(controladoresToJson(offlines))));
     }
 
@@ -196,7 +196,7 @@ public class MonitoramentoController extends Controller {
     }
 
     @NotNull
-    private ObjectNode controladoresToJson(HashMap<String, Object> controladoresStatus) {
+    private ObjectNode controladoresToJson(Map<String, Object> controladoresStatus) {
         List<ControladorFisico> controladores = ControladorFisico.find.fetch("controladorSincronizado.area", "descricao").fetch("controladorSincronizado.subarea", "numero").where().in("id", controladoresStatus.keySet()).findList();
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
         controladores.forEach(controlador -> {

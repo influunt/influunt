@@ -43,6 +43,12 @@ angular.module('influuntApp')
             label: 'status.aneis',
             tipo: 'select',
             options: { NORMAL: 'NORMAL', COM_FALHA: 'COM_FALHA', AMARELO_INTERMITENTE_POR_FALHA: 'AMARELO_INTERMITENTE_POR_FALHA', APAGADO_POR_FALHA: 'APAGADO_POR_FALHA', MANUAL: 'MANUAL' }
+          },
+          {
+            nome: 'online',
+            label: 'imporConfig.online',
+            tipo: 'select',
+            options: { 'imporConfig.online': true, 'imporConfig.offline': false }
           }
         ]
       };
@@ -61,12 +67,22 @@ angular.module('influuntApp')
       $scope.isAnelChecked = {};
       $scope.statusTransacoes = {};
 
+      var setFiltro = function(nome, valor) {
+        _.set($scope.pesquisa, 'filtro.'+nome+'.valor', $location.search()[nome]);
+        _.set($scope.pesquisa, 'filtro.'+nome+'.tipoCampo', 'select');
+        $location.search(nome, null);
+      };
+
       $scope.index = function() {
         if ($location.search().status) {
-          _.set($scope.pesquisa, 'filtro.status.valor', $location.search().status);
-          $location.search('status', null);
+          setFiltro('status');
         }
 
+        if ($location.search().online) {
+          setFiltro('online');
+        }
+        // debugger
+        $scope.filtroStatus = $scope.getFiltroStatus();
         var query = $scope.buildQuery($scope.pesquisa);
         return Restangular.all('controladores').customGET('imposicao', query)
           .then(function(res) {
@@ -197,11 +213,11 @@ angular.module('influuntApp')
         return _.get($scope, 'statusObj.status["'+anel.controladorFisicoId+'"].statusAneis['+anel.posicao+']');
       };
 
-      $scope.filtroStatus = function() {
+      $scope.getFiltroStatus = function() {
         return _.get($scope.pesquisa, 'filtro.status.valor');
       };
 
       $scope.deveFiltrarPorStatus = function(anel) {
-        return !$scope.filtroStatus() || $scope.statusAnel(anel) === $scope.filtroStatus();
+        return !$scope.filtroStatus || $scope.statusAnel(anel) === $scope.filtroStatus;
       };
     }]);

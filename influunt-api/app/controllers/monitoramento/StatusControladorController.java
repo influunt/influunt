@@ -15,6 +15,7 @@ import status.StatusConexaoControlador;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class StatusControladorController extends Controller {
         }
 
         List<String> controladores = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario).stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
-        HashMap<String, Boolean> map = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
+        Map<String, Boolean> map = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
         return CompletableFuture.completedFuture(ok(Json.toJson(map)));
     }
 
