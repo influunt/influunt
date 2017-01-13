@@ -504,7 +504,7 @@ angular.module('influuntApp')
 
           // descarta o idJson gerado e utilizado o criado pleo medtodo estagiosQueRecebemGerados
           if (estagioDispensavelIndex > -1) {
-            ep.idJson = estagiosQueRecebemGerados[estagioDispensavelIndex].idJsonNovo
+            ep.idJson = estagiosQueRecebemGerados[estagioDispensavelIndex].idJsonNovo;
           }
 
           if (estagioPlano.dispensavel) {
@@ -531,10 +531,10 @@ angular.module('influuntApp')
 
           if (estagioPlano.dispensavel) {
             var estagioQueRecebe =  _.find($scope.objeto.estagiosPlanos, {idJson: estagioPlano.estagioQueRecebeEstagioDispensavel.idJson});
-            idJsonToChange["idJsonAntigo"] = estagioQueRecebe.idJson;
-            idJsonToChange["idJsonNovo"] = UUID.generate();
-            idJsonToChange["estagioQueRecebe"] = estagioQueRecebe.posicao;
-            idJsonToChange["estagioQuePerde"] = estagioPlano.posicao;
+            idJsonToChange.idJsonAntigo = estagioQueRecebe.idJson;
+            idJsonToChange.idJsonNovo = UUID.generate();
+            idJsonToChange.estagioQueRecebe = estagioQueRecebe.posicao;
+            idJsonToChange.estagioQuePerde = estagioPlano.posicao;
             estagiosQueRecebemEstagiosDispensavel.push(idJsonToChange);
           }
 

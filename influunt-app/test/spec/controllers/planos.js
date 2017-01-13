@@ -246,7 +246,7 @@ describe('Controller: PlanosCtrl', function() {
         var lastEstagio = _.last(plano.estagiosPlanos).idJson;
 
         firstEstagio.dispensavel = true;
-        firstEstagio.estagioQueRecebeEstagioDispensavel = {"idJson": lastEstagio};
+        firstEstagio.estagioQueRecebeEstagioDispensavel = {'idJson': lastEstagio};
 
         plano.tempoCiclo = tempoCicloTeste;
         versaoPlanoOriginal = _.cloneDeep(scope.objeto.versoesPlanos[0]);
