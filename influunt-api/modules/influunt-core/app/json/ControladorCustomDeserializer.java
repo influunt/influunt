@@ -1141,6 +1141,9 @@ public class ControladorCustomDeserializer {
         if (node.has("ativado")) {
             grupoSemaforicoPlano.setAtivado(node.get("ativado").asBoolean());
         }
+        if (node.has("destroy")) {
+            grupoSemaforicoPlano.setDestroy(node.get("destroy").asBoolean());
+        }
         if (node.has("plano")) {
             final String planoId = node.get("plano").get("idJson").asText();
             Consumer<Map<String, Map>> c = (caches) -> {

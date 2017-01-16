@@ -55,9 +55,6 @@ angular.module('influuntApp')
                 influuntAlert.alert($filter('translate')('geral.atencao'), error.message);
               });
             }
-          })
-          .finally(function() {
-            influuntBlockui.unblock();
           });
       };
 

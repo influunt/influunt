@@ -9,11 +9,12 @@
  */
 angular.module('influuntApp')
   .controller('ImporConfigCtrl', ['$scope', '$controller', '$filter', 'Restangular', 'influuntBlockui', 'pahoProvider',
-                                  'eventosDinamicos', '$location',
+                                  'eventosDinamicos', '$location', 'influuntAlert',
     function ($scope, $controller, $filter, Restangular, influuntBlockui, pahoProvider,
-              eventosDinamicos, $location) {
+              eventosDinamicos, $location, influuntAlert) {
 
-      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest;
+      var setData, updateImposicoesEmAneis, filtraObjetosAneis, resolvePendingRequest, lerDadosErrosControlador,
+      handleLerDadosTimeout, setFiltro;
 
       $controller('CrudCtrl', {$scope: $scope});
       $scope.inicializaNovoCrud('controladores');
@@ -43,6 +44,12 @@ angular.module('influuntApp')
             label: 'status.aneis',
             tipo: 'select',
             options: { NORMAL: 'NORMAL', COM_FALHA: 'COM_FALHA', AMARELO_INTERMITENTE_POR_FALHA: 'AMARELO_INTERMITENTE_POR_FALHA', APAGADO_POR_FALHA: 'APAGADO_POR_FALHA', MANUAL: 'MANUAL' }
+          },
+          {
+            nome: 'online',
+            label: 'imporConfig.online',
+            tipo: 'select',
+            options: { 'imporConfig.online': true, 'imporConfig.offline': false }
           }
         ]
       };
@@ -61,12 +68,22 @@ angular.module('influuntApp')
       $scope.isAnelChecked = {};
       $scope.statusTransacoes = {};
 
+      setFiltro = function(nome) {
+        _.set($scope.pesquisa, 'filtro.'+nome+'.valor', $location.search()[nome]);
+        _.set($scope.pesquisa, 'filtro.'+nome+'.tipoCampo', 'select');
+        $location.search(nome, null);
+      };
+
       $scope.index = function() {
         if ($location.search().status) {
-          _.set($scope.pesquisa, 'filtro.status.valor', $location.search().status);
-          $location.search('status', null);
+          setFiltro('status');
         }
 
+        if ($location.search().online) {
+          setFiltro('online');
+        }
+
+        $scope.filtroStatus = $scope.getFiltroStatus();
         var query = $scope.buildQuery($scope.pesquisa);
         return Restangular.all('controladores').customGET('imposicao', query)
           .then(function(res) {
@@ -97,13 +114,27 @@ angular.module('influuntApp')
         return resolvePendingRequest(_.first(transacoesPendentes), 'CANCEL');
       };
 
-      $scope.lerDados = function(controladorId) {
+      $scope.lerDados = function(anel) {
+        influuntBlockui.block();
+        var controladorId = anel.controlador.id;
+        $scope.dadosControlador = { id: controladorId };
+        var headers = { 'x-prevent-block-ui': '!' };
+        return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados', null, headers);
+      };
+
+      lerDadosErrosControlador = function(controladorId) {
         return Restangular.one('monitoramento/').customGET('erros_controladores/' + controladorId + '/historico_falha/0/60', null)
           .then(function(listaErros) {
             $scope.dadosControlador.erros = listaErros;
-            return Restangular.one('controladores').customPOST({id: controladorId}, 'ler_dados');
-          })
-          .finally(influuntBlockui.unblock);
+          });
+      };
+
+      handleLerDadosTimeout = function() {
+        influuntBlockui.unblock(true);
+        $('#modalLerDados').modal('toggle');
+        var title = $filter('translate')('imporConfig.timeoutPopup.title'),
+            text = $filter('translate')('imporConfig.timeoutPopup.text');
+        influuntAlert.alert(title, text);
       };
 
       $scope.limpaTransacoesAnteriores = function() {
@@ -113,7 +144,8 @@ angular.module('influuntApp')
       resolvePendingRequest = function(transacaoId, acao) {
         return pahoProvider.connect().then(function() {
           var topic = eventosDinamicos.RESOLVE_PENDING_REQUEST.replace(':transacaoId', transacaoId);
-          return pahoProvider.publish(topic, { transacaoId: transacaoId,  acao: acao });
+          pahoProvider.publish(topic, { transacaoId: transacaoId,  acao: acao });
+          $scope.transacoesPendentes = [];
         });
       };
 
@@ -136,14 +168,13 @@ angular.module('influuntApp')
         $scope.pagination.totalItems = $scope.lista.length;
       };
 
-      updateImposicoesEmAneis = function(statusObj) {
+      updateImposicoesEmAneis = function() {
         return Restangular.one('monitoramento', 'status_aneis').get()
           .then(function(statusObj) {
             _.set($scope, 'statusObj.status', statusObj.status);
             var statuses = statusObj.statusPlanos;
             return _.map(statuses, function(status) {
-              return _
-                .chain($scope.lista)
+              return _.chain($scope.lista)
                 .find({controladorFisicoId: status.idControlador, posicao: parseInt(status.anelPosicao)})
                 .set('hasPlanoImposto', status.hasPlanoImposto)
                 .set('modoOperacao', _.chain(status.modoOperacao).lowerCase().upperFirst().value())
@@ -155,13 +186,18 @@ angular.module('influuntApp')
 
       $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
         if (_.isObject(dadosControlador)) {
-          $scope.dadosControlador = $scope.dadosControlador || {};
-          $scope.dadosControlador.conteudo = dadosControlador;
+          if (dadosControlador.statusLerDados === 'timeout') {
+            handleLerDadosTimeout();
+          } else {
+            lerDadosErrosControlador(dadosControlador.id);
+            $scope.dadosControlador = $scope.dadosControlador || {};
+            $scope.dadosControlador.conteudo = dadosControlador;
+          }
         }
       });
 
       $scope.$watch('statusObj.statusPlanos', function(statuses) {
-        return _.isArray(statuses) && updateImposicoesEmAneis({statusPlanos: statuses});
+        return _.isArray(statuses) && updateImposicoesEmAneis();
       }, true);
 
       $scope.$watch('statusObj.onlines', function(onlines) {
@@ -197,11 +233,11 @@ angular.module('influuntApp')
         return _.get($scope, 'statusObj.status["'+anel.controladorFisicoId+'"].statusAneis['+anel.posicao+']');
       };
 
-      $scope.filtroStatus = function() {
+      $scope.getFiltroStatus = function() {
         return _.get($scope.pesquisa, 'filtro.status.valor');
       };
 
       $scope.deveFiltrarPorStatus = function(anel) {
-        return !$scope.filtroStatus() || $scope.statusAnel(anel) === $scope.filtroStatus();
+        return !$scope.filtroStatus || $scope.statusAnel(anel) === $scope.filtroStatus;
       };
     }]);

@@ -334,7 +334,8 @@ public class Plano extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = PlanosCheck.class,
         message = "Todos os grupos semafóricos devem possuir configurações de ativado/desativado.")
     public boolean isQuantidadeGrupoSemaforicoIgualQuantidadeAnel() {
-        return !(this.getGruposSemaforicosPlanos().isEmpty() || this.getAnel().getGruposSemaforicos().size() != this.getGruposSemaforicosPlanos().size());
+        List<GrupoSemaforicoPlano> grupoSemaforicoPlanos = this.getGruposSemaforicosPlanos().stream().filter(gp -> !gp.isDestroy()).collect(Collectors.toList());
+        return !(grupoSemaforicoPlanos.isEmpty() || this.getAnel().getGruposSemaforicos().size() != grupoSemaforicoPlanos.size());
     }
 
     @AssertTrue(groups = PlanosCheck.class,

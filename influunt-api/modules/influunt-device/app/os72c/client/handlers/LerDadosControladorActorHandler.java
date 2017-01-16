@@ -30,7 +30,6 @@ public class LerDadosControladorActorHandler extends UntypedActor {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
             if (envelope.getTipoMensagem().equals(TipoMensagem.LER_DADOS_CONTROLADOR)) {
-
                 getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelope, getSelf());
             }
         }

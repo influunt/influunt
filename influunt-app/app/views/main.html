@@ -124,20 +124,22 @@
                   <tbody>
                     <tr>
                       <td>
-                        <span class="label label-primary"
+                        <a class="label label-primary"
+                            ui-sref="app.impor_config({ online: true })"
                             tooltips tooltip-template="{{ 'main.hintModoOnline' | translate }}"
                             tooltip-side="right">{{ 'main.online' | translate }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ dadosOnlines['true'] || 0 }}</td>
                       <td>{{ aneisOnlines['true'] || 0 }}</td>
                     </tr>
                     <tr>
                       <td>
-                        <span class="label label-danger"
+                        <a class="label label-danger"
+                            ui-sref="app.impor_config({ online: false })"
                             tooltips tooltip-template="{{ 'main.hintModoOffline' | translate }}"
                             tooltip-side="right">{{ 'main.offline' | translate }}
-                        </span>
+                        </a>
                       </td>
                       <td>{{ dadosOnlines['false'] || 0 }}</td>
                       <td>{{ aneisOnlines['false'] || 0 }}</td>

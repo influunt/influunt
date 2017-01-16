@@ -45,6 +45,7 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, transacao);
+
                 switch (transacao.etapaTransacao) {
                     case PREPARE_TO_COMMIT:
                         executePrepareToCommit(transacao);

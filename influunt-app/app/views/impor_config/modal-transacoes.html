@@ -73,7 +73,8 @@
                         {{ anel.CLA }} - {{ anel.endereco }}
                         <influunt-mqtt-transaction-status
                           ng-if="!!statusObj.transacoes[anel.controladorFisicoId]"
-                          data-status-transaction="statusObj.transacoes[anel.controladorFisicoId].statusTransacao">
+                          data-etapa-transacao="statusObj.transacoes[anel.controladorFisicoId].etapaTransacao"
+                          data-status-pacote="statusObj.transacoes[anel.controladorFisicoId].statusPacote">
                         </influunt-mqtt-transaction-status>
                       </li>
                     </ul>
