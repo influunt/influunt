@@ -13,7 +13,19 @@ angular.module('influuntApp')
         templateUrl: 'views/directives/influunt-mqtt-transaction-status.html',
         restrict: 'E',
         scope: {
-          statusTransaction: '='
+          statusPacote: '<',
+          etapaTransacao: '<'
+        },
+        link: function(scope) {
+
+          scope.pacoteFinalizou = function() {
+            return scope.statusPacote === 'ABORTED' || scope.statusPacote === 'DONE';
+          };
+
+          scope.pendingComErro = function() {
+            return scope.statusPacote === 'PENDING' && scope.etapaTransacao === 'ABORT';
+          };
+
         }
       };
     }]);

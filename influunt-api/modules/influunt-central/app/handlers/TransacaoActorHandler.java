@@ -5,6 +5,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.joda.time.DateTime;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
@@ -35,21 +36,22 @@ public class TransacaoActorHandler extends UntypedActor {
                 JsonNode transacaoJson = Json.parse(envelope.getConteudo().toString());
                 Transacao transacao = Transacao.fromJson(transacaoJson);
                 log.info("CENTRAL - TX Recebida: {}", transacao);
+
                 switch (transacao.etapaTransacao) {
                     case PREPARE_OK:
-                        transacao.updateStatus(EtapaTransacao.COMMIT);
+                        transacao.updateEtapaTransacao(EtapaTransacao.COMMIT);
                         break;
 
                     case PREPARE_FAIL:
-                        transacao.updateStatus(EtapaTransacao.ABORT);
+                        transacao.updateEtapaTransacao(EtapaTransacao.ABORT);
                         break;
 
                     case COMMITED:
-                        transacao.updateStatus(EtapaTransacao.COMPLETED);
+                        transacao.updateEtapaTransacao(EtapaTransacao.COMPLETED);
                         break;
 
                     case ABORTED:
-                        transacao.updateStatus(EtapaTransacao.ABORTED);
+                        transacao.updateEtapaTransacao(EtapaTransacao.ABORTED);
                         break;
 
                     default:

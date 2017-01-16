@@ -58,11 +58,11 @@ angular.module('influuntApp')
         dadosControladorWatcher = function(payload) {
           var mensagem = JSON.parse(payload);
           if (mensagem.conteudo === 'TIMEOUT') {
-            statusObj.dadosControlador = { status: 'timeout' };
+            statusObj.dadosControlador = { statusLerDados: 'timeout' };
           } else {
             mensagem.conteudo = _.isString(mensagem.conteudo) ? JSON.parse(mensagem.conteudo) : mensagem.conteudo;
             statusObj.dadosControlador = mensagem.conteudo;
-            statusObj.dadosControlador.status = 'ok';
+            statusObj.dadosControlador.statusLerDados = 'ok';
           }
         };
 
@@ -150,7 +150,7 @@ angular.module('influuntApp')
               id: mensagem.conteudo.id,
               isPending: isPending,
               statusPacote: mensagem.conteudo.statusPacoteTransacao,
-              statusTransacao: transacao.etapaTransacao,
+              etapaTransacao: transacao.etapaTransacao,
               tipoTransacao: mensagem.conteudo.tipoTransacao
             };
           });

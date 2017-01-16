@@ -11,7 +11,7 @@ import play.libs.Json;
 import protocol.TipoTransacao;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +55,7 @@ public class PacoteTransacao {
 
     public PacoteTransacao(TipoTransacao tipoTransacao, Long tempoMaximo, Transacao transacao) {
         this(tipoTransacao, tempoMaximo);
-        this.transacoes = Arrays.asList(transacao);
+        this.transacoes = Collections.singletonList(transacao);
     }
 
     public static MongoCollection transacoes() {
@@ -141,6 +141,4 @@ public class PacoteTransacao {
     public void setTransacoes(List<Transacao> transacoes) {
         this.transacoes = transacoes;
     }
-
-
 }

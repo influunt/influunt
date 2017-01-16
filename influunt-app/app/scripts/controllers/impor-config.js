@@ -144,7 +144,8 @@ angular.module('influuntApp')
       resolvePendingRequest = function(transacaoId, acao) {
         return pahoProvider.connect().then(function() {
           var topic = eventosDinamicos.RESOLVE_PENDING_REQUEST.replace(':transacaoId', transacaoId);
-          return pahoProvider.publish(topic, { transacaoId: transacaoId,  acao: acao });
+          pahoProvider.publish(topic, { transacaoId: transacaoId,  acao: acao });
+          $scope.transacoesPendentes = [];
         });
       };
 
@@ -185,7 +186,7 @@ angular.module('influuntApp')
 
       $scope.$watch('statusObj.dadosControlador', function(dadosControlador) {
         if (_.isObject(dadosControlador)) {
-          if (dadosControlador.status === 'timeout') {
+          if (dadosControlador.statusLerDados === 'timeout') {
             handleLerDadosTimeout();
           } else {
             lerDadosErrosControlador(dadosControlador.id);
