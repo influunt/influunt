@@ -209,7 +209,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private void sendMessage(Envelope envelope) {
-        context.actorFor(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
+        context.actorSelection(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
 
 

@@ -1,11 +1,10 @@
 <!-- done requets. -->
-<span data-ng-if="statusTransaction === 'ABORTED' || statusTransaction === 'COMPLETED'"
-    data-ng-bind-html="statusTransaction === 'COMPLETED' | trueOrFalseIcon"></span>
+<span data-ng-if="pacoteFinalizou()"
+    data-ng-bind-html="etapaTransacao === 'COMPLETED' | trueOrFalseIcon"></span>
 
 <!-- pending requests -->
-<span class="grey-scaled"
-    data-ng-if="statusTransaction === 'ABORT' || statusTransaction === 'COMMIT'"
-    data-ng-bind-html="statusTransaction === 'COMMIT' | trueOrFalseIcon"></span>
+<span class="grey-scaled" data-ng-if="pendingComErro()"
+    data-ng-bind-html="false | trueOrFalseIcon"></span>
 
 <!-- in progress requests -->
-<influunt-loading data-ng-if="statusTransaction !== 'ABORTED' && statusTransaction !== 'COMPLETED'"></influunt-loading>
+<influunt-loading data-ng-if="!pacoteFinalizou()"></influunt-loading>

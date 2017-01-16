@@ -39,9 +39,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     if (controlador != null) {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
-                        controlador.getAneisAtivos().stream().filter(Anel::isAceitaModoManual).forEach(anel -> {
-                            storage.setStatusAnel(anel.getPosicao(), StatusAnel.NORMAL);
-                        });
+                        controlador.getAneisAtivos().stream().forEach(anel -> storage.setStatusAnel(anel.getPosicao(), StatusAnel.NORMAL));
 
                         envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_OK, idControlador, DestinoCentral.pedidoConfiguracao());
                         envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus(), storage.getStatusAneis());

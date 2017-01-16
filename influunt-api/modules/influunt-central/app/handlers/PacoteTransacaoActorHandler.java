@@ -46,7 +46,6 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
     }
 
     private void start() {
-
         globalTimeout = getContext().system().scheduler().scheduleOnce(Duration.create(pacoteTransacao.getTempoMaximo(), TimeUnit.MILLISECONDS),
             new Runnable() {
                 @Override
@@ -76,14 +75,16 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
                 .stream()
                 .filter(t -> t.getTransacaoId().equals(transacao.getTransacaoId()))
                 .findFirst()
-                .get();
+                .orElse(null);
 
             if (tr != null) {
-                tr.updateStatus(transacao.getEtapaTransacao());
+                tr.updateEtapaTransacao(transacao.getEtapaTransacao());
             }
 
             individualTimeout.get(transacao.getTransacaoId()).cancel();
-            analisaStatus();
+            if (deveAnalisarStatus(transacao)) {
+                analisaStatus();
+            }
         } else if (message instanceof String && "GLOBAL_TIMEOUT".equals(message)) {
             finalizaPorTimeoutGlobal();
         } else if (message instanceof Pair<?, ?>) {
@@ -99,8 +100,19 @@ public class PacoteTransacaoActorHandler extends UntypedActor {
         }
     }
 
+    private boolean deveAnalisarStatus(Transacao transacao) {
+        boolean naoFinalizouIndividual = transacao.getEtapaTransacao() != EtapaTransacao.ABORTED && transacao.getEtapaTransacao() != EtapaTransacao.COMPLETED;
+        boolean todasFinalizaram = getEtapaTransacao() == EtapaTransacao.ABORTED || getEtapaTransacao() == EtapaTransacao.COMPLETED;
+        return naoFinalizouIndividual || todasFinalizaram;
+    }
+
     private void registraTimeoutIndividual(String transacaoId) {
-        transacoes.get(transacaoId).etapaTransacao = EtapaTransacao.ABORT;
+        if (transacoes.get(transacaoId).etapaTransacao == EtapaTransacao.ABORT) {
+            transacoes.get(transacaoId).etapaTransacao = EtapaTransacao.ABORTED;
+        } else {
+            transacoes.get(transacaoId).etapaTransacao = EtapaTransacao.ABORT;
+        }
+
         analisaStatus();
     }
 

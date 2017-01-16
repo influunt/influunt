@@ -13,8 +13,6 @@ import java.util.UUID;
  * Created by lesiopinheiro on 9/2/16.
  */
 public class Transacao {
-
-
     public EtapaTransacao etapaTransacao;
 
     public TipoTransacao tipoTransacao;
@@ -43,18 +41,18 @@ public class Transacao {
         return Json.fromJson(transacaoJson, Transacao.class);
     }
 
-    public void updateStatus(EtapaTransacao etapaTransacao) {
+    public void updateEtapaTransacao(EtapaTransacao etapaTransacao) {
         this.etapaTransacao = etapaTransacao;
         this.timestamp = DateTime.now().getMillis();
     }
 
     public JsonNode toJson() {
-        ObjectNode root = Json.newObject();
-        root.put("transacaoId", transacaoId);
-        root.put("etapaTransacao", etapaTransacao.toString());
-        root.put("tipoTransacao", tipoTransacao.toString());
-        root.put("timestamp", timestamp);
-        root.put("idControlador", idControlador);
+        ObjectNode root = Json.newObject()
+            .put("transacaoId", transacaoId)
+            .put("etapaTransacao", etapaTransacao.toString())
+            .put("tipoTransacao", tipoTransacao.toString())
+            .put("timestamp", timestamp)
+            .put("idControlador", idControlador);
 
         if (payload != null) {
             root.put("payload", payload);
