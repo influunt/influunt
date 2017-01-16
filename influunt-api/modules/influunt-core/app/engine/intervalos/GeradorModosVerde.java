@@ -37,12 +37,10 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                              EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
                              Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio, long tempoCicloDecorrido,
-                             int contadorDeCiclo, Long tempoAbatidoNoCiclo,
-                             HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso) {
+                             int contadorDeCiclo, Long tempoAbatidoNoCiclo) {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
         this.inicio = inicio;
-//        this.tabelaDeTemposEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso;
         this.tabelaDeTemposEntreVerdeComAtraso = plano.tabelaEntreVerdeComAtraso();
         this.contadorTempoEstagio = contadorTempoEstagio;
         this.tempoCicloDecorrido = tempoCicloDecorrido;
@@ -109,9 +107,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
             //Adiciona tempo de energizacao do Grupo Semaforico no tempo de entreverde
             if (energizacaoGrupo(estagioPlanoAtual, estagioPlano) && tempoEntreVerde < TEMPO_SEQUENCIA_DE_PARTIDA) {
-                long diff = TEMPO_SEQUENCIA_DE_PARTIDA - tempoEntreVerde;
-                tempoEntreVerde += diff;
-//                tempoEntreVerdeComAtraso += diff;
+                tempoEntreVerde += TEMPO_SEQUENCIA_DE_PARTIDA - tempoEntreVerde;;
             }
 
             verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
