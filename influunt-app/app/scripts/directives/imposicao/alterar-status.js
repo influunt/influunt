@@ -48,10 +48,10 @@ angular.module('influuntApp')
                   var isPacoteTabelaHoraria = transacao && TIPOS_TRANSACOES.indexOf(transacao.tipoTransacao) >= 0;
 
                   if (isPacoteTabelaHoraria && transacao.statusPacote === 'DONE') {
-                    toast.success($filter('translate')('imporConfig.aletarcaoStatus.sucesso'));
+                    toast.success($filter('translate')('imporConfig.alteracaoStatus.sucesso'));
                   } else if (isPacoteTabelaHoraria && transacao.statusPacote === 'ABORTED') {
                     // @todo: Adicionar mensagem de erro do mqtt?
-                    toast.error($filter('translate')('imporConfig.aletarcaoStatus.erro'));
+                    toast.error($filter('translate')('imporConfig.alteracaoStatus.erro'));
                   }
                 }
               });
