@@ -5,7 +5,6 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.joda.time.DateTime;
 import play.libs.Json;
 import protocol.Envelope;
 import protocol.EtapaTransacao;
