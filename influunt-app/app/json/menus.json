@@ -92,8 +92,8 @@
     ]
   },
   {
-    "name": "streamControlador",
-    "label": "streamControlador.titulo",
-    "route": "app.stream_controlador"
+    "name": "mapa",
+    "label": "controladores.mapa",
+    "route": "app.mapa_controladores"
   }
 ]
