@@ -48,6 +48,10 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Map<Integer, Boolean> aneisProntosParaTrocaEstagioManual = new HashMap<>();
 
+    public DateTime getInstante() {
+        return instante;
+    }
+
     public Motor(Controlador controlador, DateTime inicioControlador, MotorCallback callback) {
 
         this.callback = callback;
@@ -168,7 +172,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     @Override
     public void onCicloEnds(int anel, int numeroCiclos, Long tempoDecorrido) {
         callback.onCicloEnds(anel, numeroCiclos, tempoDecorrido);
-        monitor.onClicloEnds(anel);
+        monitor.onClicloEnds(anel, numeroCiclos);
     }
 
     @Override

@@ -1,13 +1,18 @@
 package simulacao;
 
 import config.WithInfluuntApplicationNoAuthentication;
+import engine.TipoEvento;
 import json.ControladorCustomDeserializer;
 import models.Controlador;
 import models.simulador.parametros.ParametroSimulacao;
+import models.simulador.parametros.ParametroSimulacaoFalha;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -179,6 +184,34 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(inicioControlador.plusSeconds(208), simulador.listaTrocaManualLiberada.get(1));
         assertEquals(inicioControlador.plusSeconds(213), simulador.listaTrocaManualBloqueada.get(2));
         assertEquals(inicioControlador.plusSeconds(346), simulador.listaModoManualDesativado.get(0));
+    }
+
+    @Test
+    public void erroDuploVerdeConflitante() throws Exception {
+        DateTime inicioControlador = new DateTime(2017, 1, 6, 0, 0, 0);
+        ParametroSimulacao parametros = new ParametroSimulacao();
+        parametros.setControlador(controlador);
+        parametros.setInicioControlador(inicioControlador);
+
+        List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
+
+        ParametroSimulacaoFalha falha = new ParametroSimulacaoFalha();
+        falha.setFalha(TipoEvento.FALHA_VERDES_CONFLITANTES);
+        falha.setDisparo(inicioControlador.plusSeconds(10));
+
+        falhas.add(falha);
+
+        ParametroSimulacaoFalha falha2 = new ParametroSimulacaoFalha();
+        falha2.setFalha(TipoEvento.FALHA_VERDES_CONFLITANTES);
+        falha2.setDisparo(inicioControlador.plusSeconds(10));
+
+        falhas.add(falha2);
+
+        parametros.setFalhas(falhas);
+
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
+
+        simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
     }
 
     private void clearListas(BasicSimuladorTest simulador) {

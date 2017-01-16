@@ -424,6 +424,7 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(52).plus(100)).get(1).getEstagio().getPosicao());
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(62).plus(100)).get(1).getEstagio().getPosicao().intValue());
         assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(109).plus(200)).get(1).getEstagio().getPosicao());
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(109).plus(200)).get(1).getEstagio().getPosicao());
     }
 
     @Test
