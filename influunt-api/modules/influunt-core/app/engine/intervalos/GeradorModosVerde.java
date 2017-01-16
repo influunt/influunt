@@ -3,14 +3,16 @@ package engine.intervalos;
 import com.google.common.collect.RangeMap;
 import engine.IntervaloEstagio;
 import helpers.GerenciadorEstagiosHelper;
-import models.Estagio;
-import models.EstagioPlano;
-import models.ModoOperacaoPlano;
-import models.Plano;
+import models.*;
 import org.apache.commons.math3.util.Pair;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import static helpers.GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
+import static helpers.GerenciadorEstagiosHelper.TEMPO_VERMELHO_INTEGRAL;
 
 /**
  * Created by rodrigosol on 10/24/16.
@@ -35,10 +37,12 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                              EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
                              Long tempoAbatimentoCoordenado, boolean inicio, long contadorTempoEstagio, long tempoCicloDecorrido,
-                             int contadorDeCiclo, Long tempoAbatidoNoCiclo) {
+                             int contadorDeCiclo, Long tempoAbatidoNoCiclo,
+                             HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso) {
         super(intervalos, plano, modoAnterior, listaEstagioPlanos, estagioPlanoAtual, tabelaDeTemposEntreVerde);
         this.tempoAbatimentoCoordenado = tempoAbatimentoCoordenado;
         this.inicio = inicio;
+//        this.tabelaDeTemposEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso;
         this.tabelaDeTemposEntreVerdeComAtraso = plano.tabelaEntreVerdeComAtraso();
         this.contadorTempoEstagio = contadorTempoEstagio;
         this.tempoCicloDecorrido = tempoCicloDecorrido;
@@ -65,11 +69,11 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
         }
 
         Long tempoEntreVerde;
-        final Long tempoEntreVerdeComAtraso;
+        Long tempoEntreVerdeComAtraso;
         final int verde;
 
         if (inicio) {
-            tempoEntreVerde = GerenciadorEstagiosHelper.TEMPO_SEQUENCIA_DE_PARTIDA;
+            tempoEntreVerde = TEMPO_SEQUENCIA_DE_PARTIDA;
             tempoEntreVerdeComAtraso = 0L;
             verde = estagioPlano.getTempoVerdeEstagio(contadorDeCiclo);
         } else {
@@ -78,6 +82,37 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
             tempoEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso.get(
                 new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
+
+            if(desenergizacaoGrupo(estagioPlanoAtual, estagioPlano)) {
+                ArrayList<Long> totalTempoEntreverdes = new ArrayList<Long>();
+                ArrayList<Long> totalTempoEntreverdesComAtraso = new ArrayList<Long>();
+                totalTempoEntreverdes.add(tempoEntreVerde);
+                totalTempoEntreverdesComAtraso.add(tempoEntreVerdeComAtraso);
+
+                plano.getGruposSemaforicosPlanos()
+                    .stream()
+                    .filter(gp -> !gp.isAtivado() &&
+                        estagioAnterior.getGruposSemaforicos().contains(gp.getGrupoSemaforico()) &&
+                        estagioPlanoAtual.getPlano().getGruposSemaforicosPlanos()
+                            .stream()
+                            .anyMatch(gp2 -> gp2.isAtivado() && gp2.getGrupoSemaforico().equals(gp.getGrupoSemaforico())))
+                    .forEach(gp -> {
+                        totalTempoEntreverdes
+                            .add(plano.getTempoEntreVerdeGrupoSemaforico(null, estagioAnterior, gp.getGrupoSemaforico(), false) * 1000L);
+
+                        totalTempoEntreverdesComAtraso
+                            .add(plano.getTempoEntreVerdeGrupoSemaforico(null, estagioAnterior, gp.getGrupoSemaforico(), true) * 1000L);
+                });
+                tempoEntreVerde = Collections.max(totalTempoEntreverdes);
+                tempoEntreVerdeComAtraso = Collections.max(totalTempoEntreverdesComAtraso);
+            }
+
+            //Adiciona tempo de energizacao do Grupo Semaforico no tempo de entreverde
+            if (energizacaoGrupo(estagioPlanoAtual, estagioPlano) && tempoEntreVerde < TEMPO_SEQUENCIA_DE_PARTIDA) {
+                long diff = TEMPO_SEQUENCIA_DE_PARTIDA - tempoEntreVerde;
+                tempoEntreVerde += diff;
+//                tempoEntreVerdeComAtraso += diff;
+            }
 
             verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
                 tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo);
@@ -90,9 +125,10 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
 
         if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado()) {
-            if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano, tempoAbatimentoCoordenado, inicio)) {
+            if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano, tempoAbatimentoCoordenado, inicio) ||
+                energizacaoGrupo(estagioPlanoAtual, estagioPlano)) {
                 //Compensação de diferença entre entreverdes
-                final Long tempoEntreVerdeDoPlano = tabelaDeTemposEntreVerde.get(
+                final Long tempoEntreVerdeDoPlano = this.plano.tabelaEntreVerde().get(
                     new Pair<Integer, Integer>(this.plano.getEstagioAnterior(estagioPlano).getPosicao(), estagioAtual.getPosicao()));
 
                 tempoAbatimentoCoordenado += (tempoEntreVerde - tempoEntreVerdeDoPlano);
@@ -143,9 +179,46 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             estagioPlano.setTempoVerde(verde);
         }
 
+        //Adiciona tempo de desenergizacao do Grupo Semaforico no tempo de verde
+        if (desenergizacaoGrupo(estagioPlanoAtual, estagioPlano) && tempoVerde < TEMPO_VERMELHO_INTEGRAL) {
+            if (plano.isTempoFixoCoordenado()) {
+                tempoAbatimentoCoordenado += (tempoVerde - TEMPO_VERMELHO_INTEGRAL);
+            }
+
+            tempoVerde = TEMPO_VERMELHO_INTEGRAL;
+        }
+
         geraIntervaloEstagio(estagioPlano, tempoEntreVerde, tempoVerde, diffEntreVerdes, inicio);
 
         return new Pair<Integer, RangeMap<Long, IntervaloEstagio>>(listaEstagioPlanos.indexOf(estagioPlano) - index, this.intervalos);
+    }
+
+    private boolean energizacaoGrupo(EstagioPlano origem, EstagioPlano destino) {
+        if (origem.getPlano().equals(destino.getPlano())) {
+            return false;
+        }
+
+        return origem.getPlano()
+            .getGruposSemaforicosPlanos()
+            .stream()
+            .anyMatch(gp -> !gp.isAtivado() && destino.getPlano()
+                .getGruposSemaforicosPlanos()
+                .stream()
+                .anyMatch(gp2 -> gp2.isAtivado() && gp2.getGrupoSemaforico().equals(gp.getGrupoSemaforico())));
+    }
+
+    private boolean desenergizacaoGrupo(EstagioPlano origem, EstagioPlano destino) {
+        if (origem.getPlano().equals(destino.getPlano())) {
+            return false;
+        }
+
+        return origem.getPlano()
+            .getGruposSemaforicosPlanos()
+            .stream()
+            .anyMatch(gp -> gp.isAtivado() && destino.getPlano()
+                .getGruposSemaforicosPlanos()
+                .stream()
+                .anyMatch(gp2 -> !gp2.isAtivado() && gp2.getGrupoSemaforico().equals(gp.getGrupoSemaforico())));
     }
 
     private long ajustaTempoVerdeComTempoMaximoPermanencia(Estagio estagioAnterior, Estagio estagioAtual, long tempoVerde) {

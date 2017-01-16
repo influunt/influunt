@@ -29,6 +29,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde;
 
+    private HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerdeComAtraso;
+
     private List<EstagioPlano> listaOriginalEstagioPlanos;
 
     private Plano plano;
@@ -66,7 +68,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private RangeMap<Long, EventoMotor> eventosAgendados = TreeRangeMap.create();
 
     private boolean tempoDispensavelJaAdicionado = false;
-
 
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
@@ -472,12 +473,19 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 if (this.plano.isManual() && !plano.isManual()) {
                     motor.desativaModoManual(getAnel(), inicioExecucao.plus(tempoDecorrido));
                 }
+
+                this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
+                this.tabelaDeTemposEntreVerdeComAtraso = this.plano.tabelaEntreVerdeComAtraso();
+            } else {
+                this.tabelaDeTemposEntreVerde = plano.tabelaEntreVerde();
+                this.tabelaDeTemposEntreVerdeComAtraso = plano.tabelaEntreVerdeComAtraso();
             }
 
             this.plano = plano;
 
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+
 
             contadorDeCiclos = 0;
 
@@ -500,6 +508,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             }
 
             geraIntervalos(0, inicio);
+
+            this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
+            this.tabelaDeTemposEntreVerdeComAtraso = this.plano.tabelaEntreVerdeComAtraso();
 
             if (!inicio && this.agendamento != null) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
@@ -580,7 +591,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
             this.modoAnterior, this.listaEstagioPlanos,
             this.estagioPlanoAtual, this.tabelaDeTemposEntreVerde,
             index, tempoAbatimentoCoordenado, inicio, contadorTempoEstagio,
-            contadorTempoCiclo, contadorDeCiclos, tempoAbatidoNoCiclo);
+            contadorTempoCiclo, contadorDeCiclos, tempoAbatidoNoCiclo,
+            this.tabelaDeTemposEntreVerdeComAtraso);
 
         Pair<Integer, RangeMap<Long, IntervaloEstagio>> resultado = gerador.gerar(index);
 

@@ -608,8 +608,6 @@ public class GerenciadorDeEstagiosGeralTest extends GerenciadorDeEstagiosTest {
 
         avancar(gerenciadorDeEstagios, 105);
 
-        plano.imprimirTabelaEntreVerde();
-
         assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).getEstagio().getPosicao().intValue());
         verificaGruposSemaforicos(0, new GrupoCheck(1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
         verificaGruposSemaforicos(0, new GrupoCheck(1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));

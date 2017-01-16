@@ -307,7 +307,6 @@ public class GerenteProgramacaoTest {
         eventoList.add(criaEvento(TipoEvento.NORMAL, DiaDaSemana.SEGUNDA_A_SABADO, instante.getTime(), 6));
 
         g.addEventos(eventoList);
-        g.imprimeTabelaHoraria();
 
         dt = new DateTime(2016, 9, 18, 0, 0, 0);
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
@@ -585,9 +584,6 @@ public class GerenteProgramacaoTest {
         instante = dt.toCalendar(Locale.forLanguageTag("pt-BR"));
         assertEquals(Integer.valueOf(10), g.eventoAtual(dt).getPosicaoPlano());
 
-
-        g.imprimeTabelaHoraria();
-
     }
 
     @NotNull
@@ -610,7 +606,6 @@ public class GerenteProgramacaoTest {
         TabelaHorario th = getTabelaHoraria();
         List<Evento> eventoList = th.getEventos();
         g.addEventos(eventoList);
-        g.imprimeTabelaHoraria();
 
         assertEquals(8, g.getQuantidadeIntervalos());
         pergunta(1, instante);
@@ -662,7 +657,6 @@ public class GerenteProgramacaoTest {
         eventos.add(sabadoDomingo);
 
         g.addEventos(eventos);
-        g.imprimeTabelaHoraria();
         assertEquals(3, g.getQuantidadeIntervalos());
         assertEquals(Integer.valueOf(1), g.eventoAtual(instante).getPosicaoPlano());
         instante = instante.plusDays(5);
