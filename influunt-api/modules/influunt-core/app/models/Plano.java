@@ -552,7 +552,9 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior, boolean comAtrasoGrupo) {
-        return getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior, estagioAnterior.getEstagiosGruposSemaforicos(), comAtrasoGrupo);
+        return getTempoEntreVerdeEntreEstagios(estagioAtual, estagioAnterior,
+            estagioAnterior.getEstagiosGruposSemaforicos(),
+            comAtrasoGrupo);
     }
 
     public Integer getTempoEntreVerdeEntreEstagios(Estagio estagioAtual, Estagio estagioAnterior,
@@ -564,7 +566,7 @@ public class Plano extends Model implements Cloneable, Serializable {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagiosGruposSemaforicos) {
                 GrupoSemaforicoPlano grupoSemaforicoPlano = getGrupoSemaforicoPlano(estagioGrupoSemaforico.getGrupoSemaforico());
                 if (grupoSemaforicoPlano.isAtivado() && (estagioAtual == null || !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico()))) {
-                    totalTempoEntreverdes.add(getTempoEntreVerdeGrupoSemaforico(estagioAtual, estagioAnterior, estagioGrupoSemaforico, comAtrasoGrupo));
+                    totalTempoEntreverdes.add(getTempoEntreVerdeGrupoSemaforico(estagioAtual, estagioAnterior, estagioGrupoSemaforico.getGrupoSemaforico(), comAtrasoGrupo));
                 } else {
                     totalTempoEntreverdes.add(0);
                 }
@@ -589,10 +591,9 @@ public class Plano extends Model implements Cloneable, Serializable {
             .filter(gsp -> gsp.getGrupoSemaforico().equals(grupoSemaforico)).findFirst().orElse(null);
     }
 
-    private Integer getTempoEntreVerdeGrupoSemaforico(Estagio estagio, Estagio estagioAnterior,
-                                                      EstagioGrupoSemaforico estagioGrupoSemaforico,
+    public Integer getTempoEntreVerdeGrupoSemaforico(Estagio estagio, Estagio estagioAnterior,
+                                                      GrupoSemaforico grupoSemaforico,
                                                       boolean comAtrasoGrupo) {
-        final GrupoSemaforico grupoSemaforico = estagioGrupoSemaforico.getGrupoSemaforico();
         final TabelaEntreVerdes tabelaEntreVerdes = grupoSemaforico.getTabelasEntreVerdes().stream()
             .filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
         final Transicao transicao;
@@ -675,21 +676,27 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     private HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde(boolean comAtrasoGrupo) {
         HashMap<Pair<Integer, Integer>, Long> tabela = new HashMap<>();
-        if (this.isModoOperacaoVerde()) {
-            preencheTabelaEntreVerde(tabela, comAtrasoGrupo);
-            this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
-                preencheTabelaEntreVerde(tabela, e, comAtrasoGrupo);
-            });
-        } else {
-            this.getAnel().getEstagios().stream().forEach(e -> {
-                tabela.put(new Pair<Integer, Integer>(e.getPosicao(), null),
-                    this.getTempoEntreVerdeEntreEstagios(null, e) * 1000L);
-            });
-        }
+
+        preencheTabelaEntreVerde(tabela, comAtrasoGrupo);
+
+        this.getAnel().getEstagios().stream().filter(Estagio::isDemandaPrioritaria).forEach(e -> {
+            preencheTabelaEntreVerde(tabela, e, comAtrasoGrupo);
+        });
+
+        this.getAnel().getEstagios().stream().forEach(e -> {
+            tabela.put(new Pair<Integer, Integer>(e.getPosicao(), null),
+                this.getTempoEntreVerdeEntreEstagios(null, e) * 1000L);
+
+            tabela.put(new Pair<Integer, Integer>(null, e.getPosicao()),
+                3000L);
+        });
+
         return tabela;
     }
 
-    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela, boolean comAtrasoGrupo) {
+    private void preencheTabelaEntreVerde(HashMap<Pair<Integer, Integer>, Long> tabela,
+                                          boolean comAtrasoGrupo) {
+
         List<Estagio> lista = this.getAnel().getEstagios();
         lista.stream().forEach(origem -> {
             lista.stream().forEach(destino -> {

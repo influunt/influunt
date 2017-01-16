@@ -67,7 +67,6 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean tempoDispensavelJaAdicionado = false;
 
-
     public GerenciadorDeEstagios(int anel,
                                  DateTime inicioControlador,
                                  Plano plano,
@@ -472,12 +471,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 if (this.plano.isManual() && !plano.isManual()) {
                     motor.desativaModoManual(getAnel(), inicioExecucao.plus(tempoDecorrido));
                 }
+
             }
 
             this.plano = plano;
 
             this.tabelaDeTemposEntreVerde = this.plano.tabelaEntreVerde();
             this.listaOriginalEstagioPlanos = this.plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+
 
             contadorDeCiclos = 0;
 
