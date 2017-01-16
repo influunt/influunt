@@ -1,7 +1,6 @@
 'use strict';
 
 var worldObj = require('../world');
-
 var world = new worldObj.World();
 
 var PlanosPage = function () {
@@ -106,7 +105,7 @@ var PlanosPage = function () {
     });
   };
 
-  this.estagioExcluido = function(numeroEstagios) {
+  this.numeroEstagiosIncluidos = function(numeroEstagios) {
     return world.getElements('div.sortable-list').then(function(elements) {
       return elements.length === numeroEstagios;
     });
