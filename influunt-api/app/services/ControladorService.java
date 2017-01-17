@@ -20,7 +20,6 @@ public class ControladorService {
     @Inject
     private Provider<Application> provider;
 
-    @NotNull
     public Controlador criarCloneControlador(Controlador controlador, Usuario usuario) {
         Ebean.beginTransaction();
 

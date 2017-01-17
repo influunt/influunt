@@ -294,7 +294,7 @@ public class ControladoresController extends Controller {
         Usuario u = getUsuario();
         Map<String, String[]> params = new HashMap<>();
         params.putAll(ctx().request().queryString());
-        String[] status = {"[CONFIGURADO,SINCRONIZADO]"};
+        String[] status = {"[CONFIGURADO,SINCRONIZADO,EDITANDO]"};
         params.put("versaoControlador.statusVersao_in", status);
 
         if (u.isRoot()) {

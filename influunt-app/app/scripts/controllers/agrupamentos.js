@@ -373,32 +373,45 @@ angular.module('influuntApp')
       };
 
       $scope.salvar = function(formValido) {
-        var title = $filter('translate')('agrupamentos.eventosPopup.title'),
-            text = $filter('translate')('agrupamentos.eventosPopup.text');
-
-        return influuntAlert.ask(title, text)
-          .then(function(criarEventos) {
-            $scope.criarEventos = criarEventos;
-            $scope.save(formValido);
-          });
+        if ($scope.objeto.id) {
+          var title = $filter('translate')('agrupamentos.eventosPopup.title'),
+              text = $filter('translate')('agrupamentos.eventosPopup.text');
+          return influuntAlert.ask(title, text)
+            .then(function(criarEventos) {
+              $scope.criarEventos = criarEventos;
+              $scope.save(formValido);
+            });
+        } else {
+          return $scope.save(formValido);
+        }
       };
 
       $scope.create = function() {
         return Restangular
           .service('agrupamentos')
-          .post($scope.objeto, { criarEventos: $scope.criarEventos })
-          .finally(influuntBlockui.unblock);
+          .post($scope.objeto);
       };
 
       $scope.update = function() {
-        return $scope
-          .objeto
-          .save({ criarEventos: $scope.criarEventos })
-          .finally(influuntBlockui.unblock);
+        return $scope.objeto.save({ criarEventos: $scope.criarEventos });
       };
 
       $scope.isEditando = function() {
         return !!_.get($scope.objeto, 'id');
+      };
+
+      $scope.confirmDelete = function(id) {
+        var title = 'Confirma?',
+            text = 'Ao apagar esse registro todos os planos com numeração {numPlano} serão apagados de todos os anéis que fazem parte desse agrupamento.';
+        return influuntAlert.confirm(title, text).then(function(confirmado) {
+          if (confirmado) {
+            console.log('confirmou!')
+            // debugger
+            return $scope.delete(id);
+          } else {
+            console.log('não confirmou...');
+          }
+        });
       };
 
     }]);

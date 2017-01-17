@@ -15,13 +15,16 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.*;
 import static play.test.Helpers.route;
 
 public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthentication {
 
+    private Controlador controlador;
+
     private Controlador getControlador() {
-        Area area = getArea(1);
+        Area area = getArea();
         area.save();
 
         Subarea subarea = new Subarea();
@@ -39,10 +42,11 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
 
-        return new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorTabelaHorario();
+        controlador = new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorTabelaHorario();
+        return controlador;
     }
 
-    private Area getArea(int descricao) {
+    private Area getArea() {
         Cidade cidade = new Cidade();
         cidade.setNome("São Paulo");
         cidade.save();
@@ -63,9 +67,8 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamento.setTipo(TipoAgrupamento.ROTA);
         agrupamento.setNumero("1");
         agrupamento.setDescricao("Agrupamento de Teste");
-        agrupamento.setDiaDaSemana(DiaDaSemana.DOMINGO);
-        agrupamento.setHorario(LocalTime.MIDNIGHT);
-        // Plano 2 não está configurado em todos os anéis
+
+        // Plano 1 está configurado em todos os anéis
         agrupamento.setPosicaoPlano(1);
         agrupamento.setAneis(controlador.getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList()));
         return agrupamento;
@@ -77,72 +80,37 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         controlador.save();
 
         Agrupamento agrupamento = getAgrupamento();
-        // Plano 2 não está configurado em todos os anéis
-        agrupamento.setPosicaoPlano(2);
-
-        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
-        Result result = route(request);
-        assertEquals(422, result.status());
-        assertEquals(0, Agrupamento.find.findRowCount());
-
-        // Plano 1 está configurado em todos os anéis
         agrupamento.setPosicaoPlano(1);
-        List<Anel> aneis = agrupamento.getAneis();
-        agrupamento.setAneis(new ArrayList<Anel>());
-
-        request = new Http.RequestBuilder().method("POST")
-            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
-        result = route(request);
-        assertEquals(422, result.status());
-        assertEquals(0, Agrupamento.find.findRowCount());
+        agrupamento.setAneis(new ArrayList<>());
 
         Controlador controlador2 = getControlador();
-        Area area2 = getArea(2);
+        Area area2 = getArea();
         area2.save();
         controlador2.setArea(area2);
         controlador2.save();
         controlador.getAneis().stream().filter(Anel::isAtivo).forEach(agrupamento::addAnel);
         controlador2.getAneis().stream().filter(Anel::isAtivo).forEach(agrupamento::addAnel);
-        request = new Http.RequestBuilder().method("POST")
-            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
-        result = route(request);
-        assertEquals(422, result.status());
-        assertEquals(0, Agrupamento.find.findRowCount());
-
-
-        agrupamento.setAneis(aneis);
-
-        request = new Http.RequestBuilder().method("POST")
-            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
-        result = route(request);
-        assertEquals(200, result.status());
-        assertEquals(1, Agrupamento.find.findRowCount());
-
-        JsonNode json = Json.parse(Helpers.contentAsString(result));
-        Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
-        assertEquals(agrupamento.getTipo(), agrupamentoRetornado.getTipo());
-        assertEquals(agrupamento.getNome(), agrupamentoRetornado.getNome());
-        assertEquals(agrupamento.getNumero(), agrupamentoRetornado.getNumero());
-        assertEquals(agrupamento.getDescricao(), agrupamentoRetornado.getDescricao());
-        assertEquals(agrupamento.getDiaDaSemana(), agrupamentoRetornado.getDiaDaSemana());
-        assertEquals(agrupamento.getHorario(), agrupamentoRetornado.getHorario());
-        assertEquals(agrupamento.getPosicaoPlano(), agrupamentoRetornado.getPosicaoPlano());
-    }
-
-    @Test
-    public void testCriarNovoAgrupamentoComEventos() {
-        Controlador controlador = getControlador();
-        controlador.save();
-        Agrupamento agrupamento = getAgrupamento();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
+        assertEquals(422, result.status());
+
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        assertEquals(json.get(0).get("root").asText(), "Agrupamento");
+        assertEquals(json.get(0).get("message").asText(), "Todos os aneis deste agrupamento devem pertencer à mesma área");
+        assertEquals(json.get(0).get("path").asText(), "todosOsAneisDaMesmaArea");
+
+        controlador2.setArea(controlador.getArea());
+        controlador2.update();
+
+        request = new Http.RequestBuilder().method("POST")
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+        result = route(request);
         assertEquals(200, result.status());
         assertEquals(1, Agrupamento.find.findRowCount());
 
-        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        json = Json.parse(Helpers.contentAsString(result));
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
         assertEquals(agrupamento.getTipo(), agrupamentoRetornado.getTipo());
         assertEquals(agrupamento.getNome(), agrupamentoRetornado.getNome());
@@ -151,15 +119,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         assertEquals(agrupamento.getDiaDaSemana(), agrupamentoRetornado.getDiaDaSemana());
         assertEquals(agrupamento.getHorario(), agrupamentoRetornado.getHorario());
         assertEquals(agrupamento.getPosicaoPlano(), agrupamentoRetornado.getPosicaoPlano());
-
-        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
-        assertEquals(agrupamento.getAneis().size(), eventos.size());
-        eventos.forEach(evento -> {
-            assertEquals(agrupamento.getDiaDaSemana(), evento.getDiaDaSemana());
-            assertEquals(agrupamento.getHorario(), evento.getHorario());
-            assertEquals(agrupamento.getPosicaoPlano(), evento.getPosicaoPlano());
-            assertEquals(TipoEvento.NORMAL, evento.getTipo());
-        });
     }
 
     @Test
@@ -188,6 +147,8 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
         agrupamento.setTipo(TipoAgrupamento.CORREDOR);
         agrupamento.setNome("Teste 2");
+        agrupamento.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        agrupamento.setHorario(LocalTime.MIDNIGHT);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("PUT")
             .uri(routes.AgrupamentosController.update(agrupamentoId.toString()).url())
@@ -211,18 +172,18 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         Agrupamento agrupamento = getAgrupamento();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(routes.AgrupamentosController.create().url() + "?criarEventos=true").bodyJson(Json.toJson(agrupamento));
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
         Result result = route(request);
         assertEquals(200, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
 
-        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
-        assertEquals(agrupamentoRetornado.getAneis().size(), eventos.size());
-        eventos.forEach(evento -> {
-            assertEquals(DiaDaSemana.DOMINGO, evento.getDiaDaSemana());
-            assertEquals(LocalTime.MIDNIGHT, evento.getHorario());
-        });
+//        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
+//        assertEquals(agrupamentoRetornado.getAneis().size(), eventos.size());
+//        eventos.forEach(evento -> {
+//            assertEquals(DiaDaSemana.DOMINGO, evento.getDiaDaSemana());
+//            assertEquals(LocalTime.MIDNIGHT, evento.getHorario());
+//        });
 
 
         agrupamentoRetornado.setDiaDaSemana(DiaDaSemana.SEXTA);
@@ -239,8 +200,8 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         List<Evento> novosEventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
         assertEquals(agrupamentoRetornado.getAneis().size(), novosEventos.size());
         novosEventos.forEach(evento -> {
-            assertNotEquals(eventos.get(0).getId(), evento.getId());
-            assertNotEquals(eventos.get(1).getId(), evento.getId());
+//            assertNotEquals(eventos.get(0).getId(), evento.getId());
+//            assertNotEquals(eventos.get(1).getId(), evento.getId());
             assertEquals(DiaDaSemana.SEXTA, evento.getDiaDaSemana());
             assertEquals(LocalTime.parse("13:00:00"), evento.getHorario());
         });
@@ -258,6 +219,24 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
         assertEquals(200, result.status());
         assertNull(Agrupamento.find.byId(agrupamento.getId()));
+    }
+
+    @Test
+    public void testApagarAgrupamentoComPlanos() {
+        Agrupamento agrupamento = getAgrupamento();
+        agrupamento.getAneis().remove(0);
+        agrupamento.save();
+        assertNotNull(agrupamento.getId());
+
+        int totalPlanos = Plano.find.findRowCount();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("DELETE")
+            .uri(routes.AgrupamentosController.delete(agrupamento.getId().toString()).url());
+        Result result = route(request);
+
+        assertEquals(200, result.status());
+        assertNull(Agrupamento.find.byId(agrupamento.getId()));
+        assertEquals(totalPlanos - 2, Plano.find.findRowCount());
     }
 
     @Test

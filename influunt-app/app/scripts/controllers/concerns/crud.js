@@ -206,20 +206,24 @@ angular.module('influuntApp')
 
     $scope.confirmDelete = function(id) {
       influuntAlert.delete().then(function(confirmado) {
-        return confirmado && Restangular.one(resourceName, id).remove()
-          .then(function() {
-            toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
-            return $scope.index();
-          })
-          .catch(function(err) {
-            if (err.status === 422) {
-              _.map(handleValidations.handle(err.data).general, function(error) { toast.warn(error); });
-            } else {
-              toast.error($filter('translate')('geral.mensagens.default_erro'));
-            }
-          })
-          .finally(influuntBlockui.unblock);
+        return confirmado && $scope.delete(id);
       });
+    };
+
+    $scope.delete = function(id) {
+      console.log('crud.js: delete()')
+      return Restangular.one(resourceName, id).remove()
+        .then(function() {
+          toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+          return $scope.index();
+        })
+        .catch(function(err) {
+          if (err.status === 422) {
+            _.map(handleValidations.handle(err.data).general, function(error) { toast.warn(error); });
+          } else {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+          }
+        });
     };
 
     // callbacks

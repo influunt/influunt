@@ -466,6 +466,10 @@ public class Plano extends Model implements Cloneable, Serializable {
         List<Agrupamento> agrupamentosPlano = getAgrupamentos();
         boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
 
+        if (getPosicao() == 16 && getAnel().getPosicao() == 1) {
+            System.out.println("opa");
+        }
+
         if (!planoFazParteDeAgrupamento) {
             System.out.println("\n validando plano subárea: " + getPosicao());
             if (isTempoFixoCoordenado() && getPosicao() != null) {
@@ -478,6 +482,11 @@ public class Plano extends Model implements Cloneable, Serializable {
                     boolean anelFazParteDeAgrupamento = !agrupamentosAnel.isEmpty();
                     List<UUID> aneisIdsAgrupamento = agrupamentosAnel.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
 
+                    List<Agrupamento> agrupamentosControlador = Agrupamento.find.where()
+                        .eq("posicaoPlano", getPosicao())
+                        .eq("aneis.controlador.id", getAnel().getControlador().getId()).findList();
+                    List<UUID> aneisIdsAgrupamentoControlador = agrupamentosControlador.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
+
                     Plano planoBase;
                     if (anelFazParteDeAgrupamento) {
                         // existe agrupamento com esse anel, não considerar os planos que
@@ -488,9 +497,10 @@ public class Plano extends Model implements Cloneable, Serializable {
                             .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                             .findFirst().orElse(null);
                     } else {
-                        // Plano do mesmo controlador de outro anel
+                        // Plano do mesmo controlador de outro anel que não faz parte de
+                        // nenhum agrupamento com plano do mesmo número
                         planoBase = controlador.getAneisAtivos().stream()
-                            .filter(a -> !a.equals(getAnel()))
+                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamentoControlador.contains(a.getId()))
                             .flatMap(anel -> anel.getPlanos().stream())
                             .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                             .findFirst().orElse(null);
@@ -518,6 +528,7 @@ public class Plano extends Model implements Cloneable, Serializable {
                                     .findFirst().orElse(null);
                             } else {
                                 planoBase = controladorBase.getAneisAtivos().stream()
+                                    .filter(a -> !aneisIdsAgrupamentoControlador.contains(a.getId()))
                                     .flatMap(a -> a.getPlanos().stream())
                                     .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
                                     .findFirst().orElse(null);
