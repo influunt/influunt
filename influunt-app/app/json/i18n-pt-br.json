@@ -206,6 +206,7 @@
     "longitude": "Longitude",
     "localizacao2": "Logradouro 2",
     "alturaNumerica": "Altura Numérica",
+    "validacaoAlturaNumerica": "não pode ser negativo.",
     "referencia": "Referência",
     "maxAneis": "Número de anéis",
     "maxDetectorPedestre": "Número de detector pedestre",

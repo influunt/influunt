@@ -18,6 +18,12 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o sistema deverá indicar erro no campo "modelo"
     E o sistema irá continuar no passo "Dados Básicos"
 
+  Cenário: Campo altura númerica não pode aceitar números negativos
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    Quando o usuário preencher o campo "Altura Numérica" com "-123"
+    Então o sistema deverá indicar erro no campo "alturaNumerica" com a mensagem "não pode ser negativo."
+    E o sistema irá continuar no passo "Dados Básicos"
+
   Cenário: Salvar dados básicos do controlador
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"

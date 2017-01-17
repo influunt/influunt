@@ -7,7 +7,7 @@ var CrudPage = function () {
 
   var campos = {
     'Área':                            '[name="area"]',
-    'Altura Numérica':                 '[name="objeto.todosEnderecos[0].alturaNumerica"]',
+    'Altura Numérica':                 '[name="alturaNumerica"]',
     'Cidade':                          'select[name="cidade"]',
     'Configuração Controlador':        'select[name="configuracao"]',
     'Configuração':                    'select[name="configuracao"]',
