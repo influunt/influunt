@@ -586,31 +586,11 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavel")
+            new Erro(CONTROLADOR, "O estágio dispensável não pode ser o primeiro estágio da sequência.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].primeiroEstagioNaoDispensavel")
         ));
 
-        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano1Anel4);
-        erros = getErros(controlador);
-        assertEquals(1, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequência.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelEProximo")
-        ));
 
-        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano3Anel4);
-        erros = getErros(controlador);
-        assertEquals(1, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequência.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelEProximo")
-        ));
-
-        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano4Anel4);
-        erros = getErros(controlador);
-        assertEquals(1, erros.size());
-        assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequência.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].estagioQueRecebeEstagioDispensavelEProximo")
-        ));
-
-        estagioPlano1Anel4.setEstagioQueRecebeEstagioDispensavel(estagioPlano2Anel4);
+        estagioPlano1Anel4.setDispensavel(false);
         erros = getErros(controlador);
         assertThat(erros, empty());
 

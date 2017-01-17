@@ -739,16 +739,17 @@ public class ControladorHelper extends WithInfluuntApplicationNoAuthentication {
 
         //Plano com estágio 3 dispensavel no inicio
         plano = criarPlano(anel, 12, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 62);
-        criarEstagiosPlanos(anel, plano, new int[]{3, 2, 1}, new int[]{10, 15, 10});
+        criarEstagiosPlanos(anel, plano, new int[]{1, 3, 2}, new int[]{12, 5, 18});
         estagioPlano = plano.getEstagiosPlanos().stream().filter(e -> e.getEstagio().getPosicao().equals(3)).findFirst().get();
         estagioPlano.setDispensavel(true);
 
         plano = criarPlano(anel, 13, ModoOperacaoPlano.TEMPO_FIXO_ISOLADO, 40);
-        criarEstagioPlano(anel, plano, 1, 1, 15, true);
+        criarEstagioPlano(anel, plano, 1, 1, 15, false);
         criarEstagioPlano(anel, plano, 2, 2, 10, false);
         GrupoSemaforicoPlano grupoSemaforicoPlano = plano.getGruposSemaforicosPlanos()
             .stream().filter(e -> e.getGrupoSemaforico().getPosicao().equals(8)).findFirst().get();
         grupoSemaforicoPlano.setAtivado(false);
+
         criarPlano(anel, 16, ModoOperacaoPlano.INTERMITENTE, null);
 
         anel = getAnel(3);

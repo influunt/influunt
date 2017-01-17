@@ -320,7 +320,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.")
     public boolean isEstagioQueRecebeEstagioDispensavel() {
-        if (getPlano().isTempoFixoCoordenado() && isDispensavel() && !isDestroy()) {
+        if (getPlano().isTempoFixoCoordenado() && isDispensavel() && !isDestroy() && !primeiroEstagioDaSequencia()) {
             return getEstagioQueRecebeEstagioDispensavel() != null &&
                 !getEstagioQueRecebeEstagioDispensavel().isDestroy();
         }
@@ -344,20 +344,19 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o próximo, pois esse estágio é o primeiro da sequência.")
-    public boolean isEstagioQueRecebeEstagioDispensavelEProximo() {
-        if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && primeiroEstagioDaSequencia()) {
-            List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
-            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
-        }
-        return true;
-    }
-
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o anterior, pois esse estágio é o último da sequência.")
     public boolean isEstagioQueRecebeEstagioDispensavelEAnterior() {
         if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && ultimoEstagioDaSequencia()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
             return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio dispensável não pode ser o primeiro estágio da sequência.")
+    public boolean isPrimeiroEstagioNaoDispensavel() {
+        if (isDispensavel() && !isDestroy()) {
+            return !primeiroEstagioDaSequencia();
         }
         return true;
     }
