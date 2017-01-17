@@ -264,6 +264,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         simulador.listaTrocaManualBloqueada.clear();
         simulador.listaModoManualDesativado.clear();
         simulador.estagios.clear();
+        simulador.estagiosEnds.clear();
     }
 
 }

@@ -522,6 +522,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         final EstagioPlano estagioPlanoMomentoEntrada = this.plano.getEstagioPlanoNoMomento(momentoEntrada);
 
+        estagiosProximoCiclo.clear();
+
         if (estagioPlanoAtual != null &&
             estagioPlanoAtual.getEstagio() != null &&
             estagioPlanoAtual.getEstagio().temTransicaoProibidaParaEstagio(estagioPlanoMomentoEntrada.getEstagio())) {
@@ -532,6 +534,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagiosOrdenados.stream().forEach(estagioPlano -> {
                 if (estagioPlano.getPosicao() < estagioPlanoAlternativo.getPosicao()) {
                     tempoRestante[0] -= estagioPlano.getDuracaoEstagio() * 1000L;
+                    if (estagioPlano.isDispensavel()) {
+                        estagiosProximoCiclo.add(estagioPlano);
+                    }
                 } else {
                     novaLista.add(estagioPlano);
                 }
@@ -543,6 +548,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 //Faz abatimento até enquanto a lista estiver vazia
                 if (tempoRestante[0] >= duracaoEstagio && novaLista.isEmpty()) {
                     tempoRestante[0] -= duracaoEstagio;
+                    if (estagioPlano.isDispensavel()) {
+                        estagiosProximoCiclo.add(estagioPlano);
+                    }
                 } else {
                     novaLista.add(estagioPlano);
                 }
@@ -608,7 +616,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
         List<EstagioPlano> novaLista = new ArrayList<>();
         final Boolean[] adicionado = {false};
         listaEstagioPlanos.forEach(item -> {
-            if (item.getPosicao() != null && item.getPosicao() >= estagioPlano.getPosicao() && !adicionado[0]) {
+            if (item.getPosicao() != null &&
+                item.getPosicao() >= estagioPlano.getPosicao() &&
+                !adicionado[0]) {
                 novaLista.add(estagioPlano);
                 adicionado[0] = true;
             }
@@ -629,7 +639,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             .forEach(estagioPlano -> estagiosProximoCiclo.add(estagioPlano));
 
         estagiosProximoCiclo.forEach(estagioPlano -> {
-            atualizaEstagiosCicloAtual(estagioPlano);
+            if (listaEstagioPlanos.stream().noneMatch(ep -> ep.getEstagio().equals(estagioPlano.getEstagio()))) {
+                atualizaEstagiosCicloAtual(estagioPlano);
+            }
         });
 
         estagiosProximoCiclo.clear();
