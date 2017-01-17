@@ -6,10 +6,12 @@ import engine.IntervaloGrupoSemaforico;
 import models.Controlador;
 import models.Evento;
 import models.simulador.parametros.ParametroSimulacao;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import simulador.Simulador;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,6 +25,10 @@ public class BasicSimuladorTest extends Simulador {
     public List<DateTime> listaTrocaManualLiberada = new ArrayList<>();
 
     public List<DateTime> listaTrocaManualBloqueada = new ArrayList<>();
+
+    public HashMap<Integer, List<Pair<Long, IntervaloGrupoSemaforico>>> estagios = new HashMap();
+
+    public HashMap<Integer, List<Pair<Long, IntervaloGrupoSemaforico>>> estagiosEnds = new HashMap();
 
     public BasicSimuladorTest(Controlador controlador, ParametroSimulacao parametros) {
         super(controlador, parametros);
@@ -70,7 +76,10 @@ public class BasicSimuladorTest extends Simulador {
 
     @Override
     public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-
+        if (!estagios.containsKey(anel)) {
+            estagios.put(anel, new ArrayList<>());
+        }
+        estagios.get(anel).add(new Pair<Long, IntervaloGrupoSemaforico>(tempoDecorrido, intervalos));
     }
 
     @Override
@@ -80,7 +89,10 @@ public class BasicSimuladorTest extends Simulador {
 
     @Override
     public void onEstagioEnds(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
-
+        if (!estagiosEnds.containsKey(anel)) {
+            estagiosEnds.put(anel, new ArrayList<>());
+        }
+        estagiosEnds.get(anel).add(new Pair<Long, IntervaloGrupoSemaforico>(tempoDecorrido, intervalos));
     }
 
     @Override

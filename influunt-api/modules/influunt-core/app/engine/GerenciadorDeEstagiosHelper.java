@@ -47,6 +47,8 @@ public class GerenciadorDeEstagiosHelper {
             if (intervalo.isEntreverde()) {
                 final Map.Entry<Range<Long>, IntervaloEstagio> rangeVerde = intervalos.getEntry(range.getKey().upperEndpoint() + 1);
                 if (rangeVerde != null) {
+                    IntervaloEstagio intervaloVerde = rangeVerde.getValue();
+                    intervaloVerde.setDuracao(0);
                     intervalos.remove(rangeVerde.getKey());
                 }
             }

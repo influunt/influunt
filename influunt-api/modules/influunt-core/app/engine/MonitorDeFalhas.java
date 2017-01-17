@@ -28,7 +28,7 @@ public class MonitorDeFalhas {
 
     private Map<Integer, TreeSet<Integer>> conflitos = new HashMap<>();
 
-    private Map<Integer, Integer> cicloDoVerdeConflitante = new HashMap<>();
+    private Map<Integer, Boolean> cicloDoVerdeConflitante = new HashMap<>();
 
     private Map<Integer, Long> retiraVerdeConflitantes = new HashMap<>();
 
@@ -95,7 +95,7 @@ public class MonitorDeFalhas {
 
     public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
 
-        if (cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel)) {
+        if (cicloDoVerdeConflitante.containsKey(anel) && !retiraVerdeConflitantes.containsKey(anel) && !aneisComFalhaIrrecuperavel[anel]) {
             final long duracao = intervalos.getEntreverde() != null ? intervalos.getEntreverde().getDuracao() : 0L;
             retiraVerdeConflitantes.put(anel, ticks + duracao + 10000L);
         }
@@ -112,7 +112,7 @@ public class MonitorDeFalhas {
     public void monitoraRepeticaoVerdesConflitantes(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[0];
         if (!cicloDoVerdeConflitante.containsKey(anel)) {
-            cicloDoVerdeConflitante.put(anel, 3);
+            cicloDoVerdeConflitante.put(anel, false);
         } else {
             aneisComFalhaIrrecuperavel[eventoMotor.getAnel()] = true;
         }
@@ -169,16 +169,12 @@ public class MonitorDeFalhas {
         conflitos.get(a).add(b);
     }
 
-    public void onClicloEnds(int anel) {
-        if (cicloDoVerdeConflitante.containsKey(anel)) {
-            Integer ciclo = cicloDoVerdeConflitante.get(anel);
-            if (--ciclo > 0) {
-                cicloDoVerdeConflitante.put(anel, ciclo);
-            } else {
+    public void onClicloEnds(int anel, int numeroCiclos) {
+        if (cicloDoVerdeConflitante.containsKey(anel) && cicloDoVerdeConflitante.get(anel)) {
+            if (numeroCiclos > 1) {
                 cicloDoVerdeConflitante.remove(anel);
                 retiraVerdeConflitantes.remove(anel);
             }
-
         }
     }
 
@@ -207,6 +203,8 @@ public class MonitorDeFalhas {
                 break;
             case REMOCAO_FALHA:
                 if (!isControladorComFalhaIrrecuperavel(eventoMotor.getAnel())) {
+                    cicloDoVerdeConflitante.put(eventoMotor.getAnel(), true);
+
                     if (tipoEvento.isEntraEmIntermitente()) {
                         aneisComFalha[eventoMotor.getAnel()] = false;
                     }
