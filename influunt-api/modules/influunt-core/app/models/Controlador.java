@@ -267,7 +267,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        this.deleteAnelSeNecessario();
+        deleteAnelSeNecessario();
         deleteGruposSemaforicos(this);
         deleteVerdesConflitantes(this);
         deleteEstagiosGruposSemaforicos(this);
@@ -276,7 +276,20 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteEstagiosGruposSemaforicosPlanos(this);
         deleteEventos(this);
         deleteEstagiosPlanos(this);
-        this.criarPossiveisTransicoes();
+        deleteAgrupamentos(this);
+        criarPossiveisTransicoes();
+    }
+
+    public void deleteAnelSeNecessario() {
+        ListIterator<Anel> it = getAneis().listIterator();
+        while (it.hasNext()) {
+            Anel anel = it.next();
+            if (anel.isDestroy()) {
+                anel.setControlador(null);
+                it.remove();
+                it.add(new Anel(this, anel.getPosicao()));
+            }
+        }
     }
 
     private void deleteEventos(Controlador controlador) {
@@ -397,6 +410,28 @@ public class Controlador extends Model implements Cloneable, Serializable {
                     });
                 });
             });
+        }
+    }
+
+    private void deleteAgrupamentos(Controlador controlador) {
+        VersaoControlador versao = controlador.getVersaoControlador();
+        if (versao != null) {
+            Controlador controladorOrigem = versao.getControladorOrigem();
+            if (controladorOrigem != null) {
+                if (controladorOrigem.getAneisAtivos().size() != getAneisAtivos().size()) {
+                    // mudança no controlador foi muito grande, agrupamentos
+                    // não fazem mais sentido do jeito que são. Todos os agrupamentos
+                    // associados com a versão antiga do controlador serão apagados.
+                    getAneis().forEach(anel -> {
+                        List<Agrupamento> agrupamentos = Agrupamento.find.where().eq("aneis.id", anel.getId()).findList();
+                        if (agrupamentos != null && !agrupamentos.isEmpty()) {
+                            for (Agrupamento agrupamento : agrupamentos) {
+                                agrupamento.delete();
+                            }
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -720,18 +755,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return getStatusVersao();
     }
 
-    public void deleteAnelSeNecessario() {
-        ListIterator<Anel> it = getAneis().listIterator();
-        while (it.hasNext()) {
-            Anel anel = it.next();
-            if (anel.isDestroy()) {
-                anel.setControlador(null);
-                it.remove();
-                it.add(new Anel(this, anel.getPosicao()));
-            }
-        }
-    }
-
     public void addVersaoTabelaHoraria(VersaoTabelaHoraria versaoTabelaHoraria) {
         if (getVersoesTabelasHorarias() == null) {
             setVersoesTabelasHorarias(new ArrayList<VersaoTabelaHoraria>());
@@ -757,10 +780,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 }
             });
 
-            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
-            if (controladorOrigem != null) {
-                this.reassociarAgrupamentos(controladorOrigem);
-            }
+//            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
+//            if (controladorOrigem != null) {
+//                this.reassociarAgrupamentos(controladorOrigem);
+//            }
 
             setBloqueado(false);
             setPlanosBloqueado(false);
@@ -787,55 +810,52 @@ public class Controlador extends Model implements Cloneable, Serializable {
             });
 
 
-            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
-            if (controladorOrigem != null) {
-                this.reassociarAgrupamentos(controladorOrigem);
-            }
+//            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
+//            if (controladorOrigem != null) {
+//                this.reassociarAgrupamentos(controladorOrigem);
+//            }
             this.update();
         });
     }
 
-
-    private void reassociarAgrupamentos(Controlador controladorOrigem) {
-        long totalAneisOrigem = controladorOrigem.getAneis().stream().filter(Anel::isAtivo).count();
-        long totalAneisAtual = this.getAneis().stream().filter(Anel::isAtivo).count();
-
-        if (totalAneisAtual == totalAneisOrigem) {
-            controladorOrigem.getAneis().stream().filter(Anel::isAtivo).forEach(anelOrigem -> {
-                if (anelOrigem.getAgrupamentos() != null) {
-
-                    anelOrigem.getAgrupamentos().forEach(agrupamento -> {
-                        Anel anelAtual = this.getAneis()
-                            .stream()
-                            .filter(anel -> anel.getPosicao().equals(anelOrigem.getPosicao()))
-                            .findFirst()
-                            .orElse(null);
-                        if (anelAtual != null) {
-                            ListIterator<Anel> it = agrupamento.getAneis().listIterator();
-                            while (it.hasNext()) {
-                                Anel anel = it.next();
-                                if (anel.getId().equals(anelOrigem.getId())) {
-                                    it.remove(); // remove anel antigo do agrupamento
-                                    it.add(anelAtual); // adiciona nova versão do anel no agrupamento
-                                }
-                            }
-                            agrupamento.update();
-                        }
-                    });
-
-                }
-            });
-        } else {
-            // mudança no controlador foi muito grande, agrupamentos
-            // não fazem mais sentido do jeito que são. Todos os agrupamentos
-            // associados com a versão antiga do controlador serão apagados.
-            controladorOrigem.getAneis().forEach(anel -> {
-                if (anel.getAgrupamentos() != null) {
-                    anel.getAgrupamentos().forEach(Agrupamento::delete);
-                }
-            });
-        }
-    }
+//    private void reassociarAgrupamentos(Controlador controladorOrigem) {
+//        long totalAneisOrigem = controladorOrigem.getAneis().stream().filter(Anel::isAtivo).count();
+//        long totalAneisAtual = this.getAneis().stream().filter(Anel::isAtivo).count();
+//
+//        if (totalAneisAtual == totalAneisOrigem) {
+//            controladorOrigem.getAneisAtivos().forEach(anelOrigem -> {
+//                if (anelOrigem.getAgrupamentos() != null) {
+//
+//                    anelOrigem.getAgrupamentos().forEach(agrupamento -> {
+//                        Anel anelAtual = this.getAneis().stream()
+//                            .filter(anel -> anel.getPosicao().equals(anelOrigem.getPosicao()))
+//                            .findFirst().orElse(null);
+//                        if (anelAtual != null) {
+//                            ListIterator<Anel> it = agrupamento.getAneis().listIterator();
+//                            while (it.hasNext()) {
+//                                Anel anel = it.next();
+//                                if (anel.getId().equals(anelOrigem.getId())) {
+//                                    it.remove(); // remove anel antigo do agrupamento
+//                                    it.add(anelAtual); // adiciona nova versão do anel no agrupamento
+//                                }
+//                            }
+//                            agrupamento.update();
+//                        }
+//                    });
+//
+//                }
+//            });
+//        } else {
+//            // mudança no controlador foi muito grande, agrupamentos
+//            // não fazem mais sentido do jeito que são. Todos os agrupamentos
+//            // associados com a versão antiga do controlador serão apagados.
+//            controladorOrigem.getAneis().forEach(anel -> {
+//                if (anel.getAgrupamentos() != null) {
+//                    anel.getAgrupamentos().forEach(Agrupamento::delete);
+//                }
+//            });
+//        }
+//    }
 
     public boolean isConfigurado() {
         if (getEndereco() != null) {

@@ -10,6 +10,8 @@ import play.Application;
 import play.Logger;
 import utils.DBUtils;
 
+import java.util.List;
+
 /**
  * Serviço do {@link Controlador}
  * <p>
@@ -65,26 +67,36 @@ public class ControladorService {
             if (controladorOrigem != null) {
                 controladorOrigem.setStatusVersao(StatusVersao.CONFIGURADO);
                 controladorOrigem.update();
-            }
 
-            controlador.getAneis().forEach(anel -> {
-                VersaoPlano versaoAtual = anel.getVersaoPlanoEmEdicao();
-                if (versaoAtual != null && StatusVersao.EDITANDO.equals(versaoAtual.getStatusVersao())) {
-                    VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
-                    if (versaoAnterior != null) {
-                        versaoAnterior.setStatusVersao(StatusVersao.CONFIGURADO);
-                        versaoAnterior.update();
-                        versaoAtual.delete();
+                controlador.getAneis().forEach(anel -> {
+                    VersaoPlano versaoAtual = anel.getVersaoPlanoEmEdicao();
+                    if (versaoAtual != null && StatusVersao.EDITANDO.equals(versaoAtual.getStatusVersao())) {
+                        VersaoPlano versaoAnterior = versaoAtual.getVersaoAnterior();
+                        if (versaoAnterior != null) {
+                            versaoAnterior.setStatusVersao(StatusVersao.CONFIGURADO);
+                            versaoAnterior.update();
+                            versaoAtual.delete();
+                        }
                     }
+
+                    List<Agrupamento> agrupamentos = Agrupamento.find.where().eq("aneis.id", anel.getId()).findList();
+                    Anel anelOrigem = controladorOrigem.getAneis().stream()
+                        .filter(a -> a.getIdJson().equals(anel.getIdJson()))
+                        .findFirst().orElse(null);
+                    agrupamentos.forEach(agrupamento -> {
+                        agrupamento.getAneis().remove(anel);
+                        agrupamento.addAnel(anelOrigem);
+                        agrupamento.update();
+                    });
+                });
+
+                if (controlador.getVersaoTabelaHoraria() != null) {
+                    TabelaHorario tabelaAtual = controlador.getVersaoTabelaHoraria().getTabelaHoraria();
+                    tabelaAtual.voltarVersaoAnterior();
                 }
-            });
 
-            if (controlador.getVersaoTabelaHoraria() != null) {
-                TabelaHorario tabelaAtual = controlador.getVersaoTabelaHoraria().getTabelaHoraria();
-                tabelaAtual.voltarVersaoAnterior();
+                controlador.delete();
             }
-
-            controlador.delete();
         });
     }
 

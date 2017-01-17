@@ -466,10 +466,6 @@ public class Plano extends Model implements Cloneable, Serializable {
         List<Agrupamento> agrupamentosPlano = getAgrupamentos();
         boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
 
-        if (getPosicao() == 16 && getAnel().getPosicao() == 1) {
-            System.out.println("opa");
-        }
-
         if (!planoFazParteDeAgrupamento) {
             System.out.println("\n validando plano subárea: " + getPosicao());
             if (isTempoFixoCoordenado() && getPosicao() != null) {

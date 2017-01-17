@@ -517,8 +517,8 @@ public class ControladoresController extends Controller {
 
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
 
-        boolean checkIfExists = controlador.getId() != null;
-        if (checkIfExists && Controlador.find.byId(controlador.getId()) == null) {
+        boolean controladorJaExiste = controlador.getId() != null;
+        if (controladorJaExiste && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         }
 
@@ -526,7 +526,7 @@ public class ControladoresController extends Controller {
         if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         } else {
-            if (checkIfExists) {
+            if (controladorJaExiste) {
                 controlador.update();
             } else {
                 // Criar a primeira versão e o controlador físico
