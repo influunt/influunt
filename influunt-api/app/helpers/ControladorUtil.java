@@ -11,10 +11,7 @@ import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by lesiopinheiro on 8/3/16.
@@ -89,7 +86,7 @@ public class ControladorUtil {
 
             // Rodando novamente para montar a tabela de verdes conflitantes
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-                ArrayList<VerdesConflitantes> verdesOrigem = new ArrayList<>();
+                List<VerdesConflitantes> verdesOrigem = new ArrayList<>();
 
                 grupoSemaforico.getVerdesConflitantesOrigem().forEach(verdesConflitantes -> {
                     VerdesConflitantes verdesAux = copyPrimitiveFields(verdesConflitantes);

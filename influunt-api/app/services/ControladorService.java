@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import helpers.ControladorUtil;
 import models.*;
-import org.jetbrains.annotations.NotNull;
 import play.Application;
 import play.Logger;
 import utils.DBUtils;
@@ -49,8 +48,6 @@ public class ControladorService {
         } catch (Exception e) {
             Ebean.rollbackTransaction();
             Logger.error(e.getMessage(), e);
-            System.out.println("\nErro ao clonar:");
-            e.printStackTrace();
 
         } finally {
             Ebean.endTransaction();

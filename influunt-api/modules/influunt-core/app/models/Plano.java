@@ -438,12 +438,8 @@ public class Plano extends Model implements Cloneable, Serializable {
     public boolean isTempoCicloIgualOuMultiploDeTodoPlanoNoAgrupamento() {
         List<Agrupamento> agrupamentosPlano = getAgrupamentos();
         boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
-        if (getPosicao() != null && getPosicao() == 16) {
-            System.out.print("\n validando plano agrupamento");
-        }
 
         if (planoFazParteDeAgrupamento) {
-            System.out.println(": " + getPosicao());
             // plano faz parte de agrupamento, validar somente com
             // os planos do agrupamento.
             return agrupamentosPlano.stream().allMatch(agrupamento -> {
@@ -467,7 +463,6 @@ public class Plano extends Model implements Cloneable, Serializable {
         boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
 
         if (!planoFazParteDeAgrupamento) {
-            System.out.println("\n validando plano subárea: " + getPosicao());
             if (isTempoFixoCoordenado() && getPosicao() != null) {
                 Controlador controlador = getAnel().getControlador();
                 Subarea subarea = controlador.getSubarea();
@@ -660,8 +655,8 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoEntreVerdeGrupoSemaforico(Estagio estagio, Estagio estagioAnterior,
-                                                      GrupoSemaforico grupoSemaforico,
-                                                      boolean comAtrasoGrupo) {
+                                                     GrupoSemaforico grupoSemaforico,
+                                                     boolean comAtrasoGrupo) {
         final TabelaEntreVerdes tabelaEntreVerdes = grupoSemaforico.getTabelasEntreVerdes().stream()
             .filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
         final Transicao transicao;

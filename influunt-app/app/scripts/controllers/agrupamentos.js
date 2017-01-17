@@ -401,17 +401,12 @@ angular.module('influuntApp')
       };
 
       $scope.confirmDelete = function(id) {
-        var title = 'Confirma?',
-            text = 'Ao apagar esse registro todos os planos com numeração {numPlano} serão apagados de todos os anéis que fazem parte desse agrupamento.';
-        return influuntAlert.confirm(title, text).then(function(confirmado) {
-          if (confirmado) {
-            console.log('confirmou!')
-            // debugger
-            return $scope.delete(id);
-          } else {
-            console.log('não confirmou...');
-          }
-        });
+        var title = $filter('translate')('agrupamentos.deletePopup.title'),
+            text = $filter('translate')('agrupamentos.deletePopup.text', { numPlano: $scope.objeto.posicao });
+        return influuntAlert.confirm(title, text)
+          .then(function(confirmado) {
+            return confirmado && $scope.delete(id);
+          });
       };
 
     }]);

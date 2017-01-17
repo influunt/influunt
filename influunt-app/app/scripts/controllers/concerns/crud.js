@@ -211,7 +211,6 @@ angular.module('influuntApp')
     };
 
     $scope.delete = function(id) {
-      console.log('crud.js: delete()')
       return Restangular.one(resourceName, id).remove()
         .then(function() {
           toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.*;
 import static play.test.Helpers.route;
 
@@ -178,14 +177,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
 
-//        List<Evento> eventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
-//        assertEquals(agrupamentoRetornado.getAneis().size(), eventos.size());
-//        eventos.forEach(evento -> {
-//            assertEquals(DiaDaSemana.DOMINGO, evento.getDiaDaSemana());
-//            assertEquals(LocalTime.MIDNIGHT, evento.getHorario());
-//        });
-
-
         agrupamentoRetornado.setDiaDaSemana(DiaDaSemana.SEXTA);
         agrupamentoRetornado.setHorario(LocalTime.parse("13:00:00"));
 
@@ -200,8 +191,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         List<Evento> novosEventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
         assertEquals(agrupamentoRetornado.getAneis().size(), novosEventos.size());
         novosEventos.forEach(evento -> {
-//            assertNotEquals(eventos.get(0).getId(), evento.getId());
-//            assertNotEquals(eventos.get(1).getId(), evento.getId());
             assertEquals(DiaDaSemana.SEXTA, evento.getDiaDaSemana());
             assertEquals(LocalTime.parse("13:00:00"), evento.getHorario());
         });
