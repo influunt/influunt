@@ -25,7 +25,8 @@ angular.module('influuntApp')
           getErrosUltrapassaTempoCiclo, getErrosSequenciaInvalida, getIndexPlano, handleErroEditarPlano,
           setLocalizacaoNoCurrentAnel, limpaDadosPlano, atualizaDiagramaIntervalos, atualizaTempoEstagiosPlanosETempoCiclo,
           getErrosNumeroEstagiosPlanoManual, adicionaGrupoSemaforicoNaMensagemDeErro, getErrosPlanoPresenteEmTodosOsAneis,
-          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama, gerarEstagiosCopiadosQueRecebemEstagioDispensavel;
+          getErrosPlanoCoordenadoCicloDiferente, getErrosPlanoCicloDuplo, atualizaDiagrama,
+          gerarEstagiosCopiadosQueRecebemEstagioDispensavel, getErrosPlanoEmAgrupamentoCicloDiferente;
 
       var diagramaDebouncer = null, tempoEstagiosPlanos = [], tempoCiclo = [];
 
@@ -415,6 +416,7 @@ angular.module('influuntApp')
         erros.push(getErrosNumeroEstagiosPlanoManual(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoPresenteEmTodosOsAneis(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoCoordenadoCicloDiferente(listaErros, currentPlanoIndex));
+        erros.push(getErrosPlanoEmAgrupamentoCicloDiferente(listaErros, currentPlanoIndex));
         erros.push(getErrosPlanoCicloDuplo(listaErros, currentPlanoIndex));
         return _.flatten(erros);
       };
@@ -617,6 +619,14 @@ angular.module('influuntApp')
 
       getErrosPlanoCoordenadoCicloDiferente = function(listaErros, currentPlanoIndex) {
         var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloIgualOuMultiploDeTodoPlano');
+        if (erros) {
+          return erros;
+        }
+        return [];
+      };
+
+      getErrosPlanoEmAgrupamentoCicloDiferente = function(listaErros, currentPlanoIndex) {
+        var erros = _.get(listaErros, 'planos['+ currentPlanoIndex +'].tempoCicloIgualOuMultiploDeTodoPlanoNoAgrupamento');
         if (erros) {
           return erros;
         }

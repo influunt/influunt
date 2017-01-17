@@ -71,7 +71,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
     private DateTime dataAtualizacao;
 
     @Transient
-    private HashMap<String, Integer> tempoCiclo = new HashMap<>();
+    private Map<String, Integer> tempoCiclo = new HashMap<>();
 
     public Subarea() {
         super();
@@ -142,12 +142,12 @@ public class Subarea extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public HashMap<String, Integer> tempoCicloDaRede(Controlador controlador) {
+    public Map<String, Integer> tempoCicloDaRede(Controlador controlador) {
         Controlador controladorBase = this.getControladores()
             .stream().filter(c -> !c.equals(controlador))
             .findFirst().orElse(null);
 
-        HashMap<String, Integer> tempos = new HashMap<>();
+        Map<String, Integer> tempos = new HashMap<>();
         if (controladorBase != null) {
             controladorBase.getAneis()
                 .stream().map(Anel::getPlanos)
@@ -160,7 +160,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
         return tempos;
     }
 
-    public HashMap<String, Integer> getTempoCiclo() {
+    public Map<String, Integer> getTempoCiclo() {
         return tempoCiclo;
     }
 
@@ -170,7 +170,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
 
     public void addControlador(Controlador controlador) {
         if (this.getControladores() == null) {
-            this.setControladores(new ArrayList<Controlador>());
+            this.setControladores(new ArrayList<>());
         }
         this.getControladores().add(controlador);
     }

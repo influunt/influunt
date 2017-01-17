@@ -48,6 +48,8 @@ public class ControladorService {
         } catch (Exception e) {
             Ebean.rollbackTransaction();
             Logger.error(e.getMessage(), e);
+            System.out.println("\nErro ao clonar:");
+            e.printStackTrace();
 
         } finally {
             Ebean.endTransaction();

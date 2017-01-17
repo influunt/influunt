@@ -150,6 +150,9 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, usuario);
+        if (controladorEdicao == null) {
+            return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "erro ao clonar controlador", "")))));
+        }
         return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao, Cidade.find.all(), RangeUtils.getInstance(null))));
     }
 

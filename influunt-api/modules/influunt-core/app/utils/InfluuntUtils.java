@@ -15,13 +15,7 @@ public class InfluuntUtils {
 
     private static final String DEFAULT_DATE_REGEX = "(\\d{2})/(\\d{2})/(\\d{4})[ ](\\d{2})[:](\\d{2})[:](\\d{2})";
 
-    private static final InfluuntUtils instance = new InfluuntUtils();
-
-    protected InfluuntUtils() {
-    }
-
-    public static InfluuntUtils getInstance() {
-        return instance;
+    private InfluuntUtils() {
     }
 
     /**
@@ -56,7 +50,7 @@ public class InfluuntUtils {
         return dtfOut.print(date);
     }
 
-    public boolean multiplo(Integer x, Integer y) {
+    public static boolean isMultiplo(Integer x, Integer y) {
         if (x == null || y == null || x == 0 || y == 0) {
             return false;
         }

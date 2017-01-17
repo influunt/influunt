@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.AgrupamentoDeserializer;
@@ -72,11 +73,9 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     @Column
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "não pode ficar em branco")
     private DiaDaSemana diaDaSemana;
 
     @Column
-    @NotNull(message = "não pode ficar em branco")
     private LocalTime horario;
 
     @OneToMany(cascade = CascadeType.REMOVE)
@@ -218,24 +217,21 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     @AssertTrue(message = "O plano associado ao agrupamento deve estar configurado em todos os anéis")
     public boolean isPlanoConfiguradoEmTodosOsAneis() {
-        if (getPosicaoPlano() != null) {
-            return getAneis()
-                .stream()
-                .filter(Anel::isAtivo)
-                .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
-        }
-        return true;
+        return getId() == null || getAneis().stream().filter(Anel::isAtivo).allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> plano.getPosicao().equals(getPosicaoPlano())));
     }
 
     // Testa se o plano X (1, 2, etc.) em todos os anéis são múltiplos entre si.
     @AssertTrue(message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos planos.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
+        if (getId() == null) {
+            return true;
+        }
         boolean isMultiplo = true;
         int tempoCiclo = this.getTempoCiclo();
         for (Anel anel : getAneis()) {
             for (Plano plano : anel.getPlanos()) {
-                if (plano.getPosicao().equals(getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado())) {
-                    if (!InfluuntUtils.getInstance().multiplo(tempoCiclo, plano.getTempoCicloTotal())) {
+                if (plano.getPosicao().equals(getPosicaoPlano()) && plano.isTempoFixoCoordenado()) {
+                    if (!InfluuntUtils.isMultiplo(tempoCiclo, plano.getTempoCicloTotal())) {
                         isMultiplo = false;
                         break;
                     }
@@ -293,5 +289,15 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     public void setEventos(List<Evento> eventos) {
         this.eventos = eventos;
+    }
+
+    @AssertTrue(message = "não pode ficar em branco")
+    public boolean isDiaDaSemana() {
+        return getId() == null || getDiaDaSemana() != null;
+    }
+
+    @AssertTrue(message = "não pode ficar em branco")
+    public boolean isHorario() {
+        return getId() == null || getHorario() != null;
     }
 }

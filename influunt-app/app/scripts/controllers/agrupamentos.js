@@ -397,4 +397,8 @@ angular.module('influuntApp')
           .finally(influuntBlockui.unblock);
       };
 
+      $scope.isEditando = function() {
+        return !!_.get($scope.objeto, 'id');
+      };
+
     }]);
