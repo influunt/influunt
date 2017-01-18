@@ -108,7 +108,7 @@ public class Client {
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("DEVICE BRIDGE   :%s", device.getClass().getName()));
 
         servidor = system.actorOf(Props.create(ClientActor.class, id, host, port, login,
-            senha, centralPublicKey, privateKey, storage, device, estadoDevice), id);
+            senha, centralPublicKey, privateKey, storage, device, estadoDevice,system), id);
 
     }
 

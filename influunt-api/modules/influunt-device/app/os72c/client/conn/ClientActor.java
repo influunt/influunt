@@ -8,6 +8,7 @@ import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
+import com.google.inject.Inject;
 import logger.InfluuntLogger;
 import logger.NivelLog;
 import logger.TipoLog;
@@ -80,7 +81,7 @@ public class ClientActor extends UntypedActor {
 
     public ClientActor(final String id, final String host, final String port, final String login,
                        final String senha, final String centralPublicKey, final String controladorPrivateKey,
-                       Storage storage, DeviceBridge deviceBridge, EstadoDevice estadoDevice) {
+                       Storage storage, DeviceBridge deviceBridge, EstadoDevice estadoDevice,ActorSystem system) {
         this.id = id;
         this.host = host;
         this.port = port;
@@ -100,7 +101,7 @@ public class ClientActor extends UntypedActor {
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, String.format("CHAVE PRIVADA   :%s...%s", storage.getPrivateKey().substring(0, 5), storage.getPrivateKey().substring(storage.getPrivateKey().length() - 5, storage.getPrivateKey().length())));
 
 
-        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id, estadoDevice), "motor");
+        this.device = getContext().actorOf(Props.create(DeviceActor.class, storage, deviceBridge, id, estadoDevice,system), "motor");
         this.deadLetters = getContext().actorOf(Props.create(DeadLettersActor.class, storage), "DeadLettersActor");
         getContext().system().eventStream().subscribe(this.deadLetters, DeadLetter.class);
     }
