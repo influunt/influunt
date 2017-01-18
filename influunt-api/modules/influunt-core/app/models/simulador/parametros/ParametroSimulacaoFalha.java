@@ -72,6 +72,10 @@ public class ParametroSimulacaoFalha {
         this.anel = anel;
     }
 
+    public void setDetector(Pair<Integer, TipoDetector> detector) {
+        this.detector = detector;
+    }
+
     public void setParametro(String id) {
         switch (TipoEvento.getFalha(falha.getCodigo())) {
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:

@@ -20,5 +20,7 @@ public class FalhaDetectorHandle extends GerenciadorDeEventos {
 
         Detector detector = gerenciadorDeEstagios.getDetector(key.getFirst(), key.getSecond());
         detector.setComFalha(true);
+
+        new DetectorPedestreHandle(gerenciadorDeEstagios).adicionaEstagio(detector);
     }
 }

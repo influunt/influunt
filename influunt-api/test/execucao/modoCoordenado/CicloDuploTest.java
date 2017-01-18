@@ -4,10 +4,7 @@ import engine.GerenciadorDeEstagios;
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
-import models.Anel;
-import models.EstadoGrupoSemaforico;
-import models.Evento;
-import models.Plano;
+import models.*;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -209,6 +206,14 @@ public class CicloDuploTest extends GerenciadorDeTrocasTest {
     public void comCicloDuploProporcionalmenteIgual() {
         inicioExecucao = new DateTime(2017, 1, 9, 1, 0, 0, 0);
         instante = inicioExecucao;
+
+        Detector detector = controlador.findDetectorByPosicaoETipo(TipoDetector.PEDESTRE, 1);
+        detector.setMonitorado(false);
+        detector = controlador.findDetectorByPosicaoETipo(TipoDetector.VEICULAR, 1);
+        detector.setMonitorado(false);
+        detector = controlador.findDetectorByPosicaoETipo(TipoDetector.PEDESTRE, 3);
+        detector.setMonitorado(false);
+
         Motor motor = new Motor(controlador, inicioExecucao, this);
 
         avancarSegundos(motor, 500);
