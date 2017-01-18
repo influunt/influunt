@@ -1486,7 +1486,7 @@
 
         it('Deve indincar erro de conflito no plano', function() {
           expect(resposta.erros.length).toBe(1);
-          expect(resposta.erros[0]).toBe('Existem conflitos de verdes que não podem ser resolvidos automaticamente.');
+          expect(resposta.erros[0]).toBe('Os atrasos programados geraram conflitos em cadeia.');
         });
 
         it('Não deve possuir grupos semafóricos nem estágios', function() {
