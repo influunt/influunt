@@ -264,7 +264,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde mínimo deve ser maior que o verde de segurança e menor que o verde máximo.")
     public boolean isTempoVerdeMinimoFieldMenorMaximo() {
         if (!isDestroy()) {
             RangeUtils rangeUtils = getPlano().getAnel().getControlador().getRangeUtils();
