@@ -400,9 +400,11 @@ public class ControladorCustomSerializer {
             usuarioNode.put(NOME, controlador.getVersaoControlador().getUsuario().getNome());
         }
         root.put("statusControladorReal", controlador.getStatusControladorReal().toString());
-        Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
+        Anel anel = controlador.getAneisAtivos().stream().findFirst().orElse(null);
         if (anel != null) {
             root.put("planoConfigurado", anel.getVersaoPlano() != null);
+        } else {
+            root.put("planoConfigurado", false);
         }
         root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
         root.put("controladorConfigurado", controlador.isConfigurado());
@@ -491,14 +493,15 @@ public class ControladorCustomSerializer {
         root.put("planosBloqueado", controlador.isPlanosBloqueado());
 
         if (controlador.getStatusVersao() != StatusVersao.EM_CONFIGURACAO) {
-            Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
+            Anel anel = controlador.getAneisAtivos().stream().findFirst().orElse(null);
             if (anel != null) {
                 root.put("planoConfigurado", anel.getVersaoPlano() != null);
+            } else {
+                root.put("planoConfigurado", false);
             }
             root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
             root.put("controladorConfigurado", controlador.isConfigurado());
         }
-
         root.put("exclusivoParaTeste", controlador.isExclusivoParaTeste());
 
         RangeUtils rangeUtils = controlador.getRangeUtils();
