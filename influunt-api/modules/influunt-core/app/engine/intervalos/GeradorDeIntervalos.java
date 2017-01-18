@@ -93,7 +93,7 @@ public abstract class GeradorDeIntervalos {
 
     protected boolean deveFazerAbatimento(EstagioPlano origem, EstagioPlano destino, Long tempoAbatimentoCoordenado, boolean inicio) {
         return tempoAbatimentoCoordenado > 0L || inicio ||
-            (trocaDePlano(origem, destino) && !origem.getEstagio().equals(this.plano.getEstagioAnterior(destino)));
+            (trocaDePlano(origem, destino) && !origem.getEstagio().equals(destino.getPlano().getEstagioAnterior(destino)));
     }
 
     protected boolean trocaDePlano(EstagioPlano origem, EstagioPlano destino) {

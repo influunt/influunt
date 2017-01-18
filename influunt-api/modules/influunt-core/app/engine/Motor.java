@@ -264,7 +264,11 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             .collect(Collectors.toList());
 
         aneisComManual.stream()
-            .forEach(gerenciador -> GerenciadorDeEventos.entrarEmModoManual(gerenciador));
+            .forEach(gerenciador -> {
+                if (!aneisProntosParaManual.get(gerenciador.getAnel())) {
+                    GerenciadorDeEventos.entrarEmModoManual(gerenciador);
+                }
+            });
 
         if (aneisProntosParaManual.values().contains(Boolean.FALSE)) {
             emModoManual = false;
@@ -272,6 +276,8 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             aneisComManual.stream()
                 .forEach(gerenciador -> {
                     if (!gerenciador.isEmFalha()) {
+                        GerenciadorDeEventos.entrarEmModoManual(gerenciador);
+
                         gerenciador.executaAgendamentoTrocaDePlano();
                         gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
                     }
