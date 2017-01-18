@@ -260,7 +260,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private boolean verificaTempoVerdeSeguranca(IntervaloEstagio ultimoIntervalo) {
         if (this.agendamento != null && ultimoIntervalo != null &&
             !this.agendamento.isImpostoPorFalha() &&
-            ultimoIntervalo.getDuracao() < (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L)) {
+            ultimoIntervalo.getDuracao() < estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior, contadorDeCiclos)) {
             Plano plano = this.agendamento.getPlano();
             List<EstagioPlano> estagios = plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
             List<EstagioPlano> lista = new ArrayList<>();
