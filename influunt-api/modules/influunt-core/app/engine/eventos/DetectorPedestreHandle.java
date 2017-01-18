@@ -35,6 +35,10 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
                 detector.getAnel().getPosicao()));
         }
 
+        adicionaEstagio(detector);
+    }
+
+    protected void adicionaEstagio(Detector detector) {
         final boolean[] adicionarNoCicloAtual = {false};
         final boolean[] adicionarNoProximoCiclo = {false};
         final EstagioPlano[] estagioPlanoASerAdicionado = new EstagioPlano[1];
@@ -101,6 +105,5 @@ public class DetectorPedestreHandle extends GerenciadorDeEventos {
         } else if (adicionarNoProximoCiclo[0]) {
             gerenciadorDeEstagios.getEstagiosProximoCiclo().add(estagioPlanoASerAdicionado[0]);
         }
-
     }
 }

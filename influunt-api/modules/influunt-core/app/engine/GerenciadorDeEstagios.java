@@ -260,7 +260,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     private boolean verificaTempoVerdeSeguranca(IntervaloEstagio ultimoIntervalo) {
         if (this.agendamento != null && ultimoIntervalo != null &&
             !this.agendamento.isImpostoPorFalha() &&
-            ultimoIntervalo.getDuracao() < (estagioPlanoAtual.getTempoVerdeSeguranca() * 1000L)) {
+            ultimoIntervalo.getDuracao() < estagioPlanoAtual.getTempoVerdeSegurancaFaltante(estagioPlanoAnterior, contadorDeCiclos)) {
             Plano plano = this.agendamento.getPlano();
             List<EstagioPlano> estagios = plano.ordenarEstagiosPorPosicaoSemEstagioDispensavel();
             List<EstagioPlano> lista = new ArrayList<>();
@@ -287,52 +287,66 @@ public class GerenciadorDeEstagios implements EventoCallback {
             proximoEstagio.isDispensavel() &&
             !proximoEstagio.primeiroEstagioDaSequencia() &&
             !tempoDispensavelJaAdicionado &&
-            estagioPlanoAtual.equals(proximoEstagio.getEstagioQueRecebeEstagioDispensavel()) &&
-            !listaEstagioPlanos.contains(proximoEstagio)) {
+            estagioPlanoAtual.equals(proximoEstagio.getEstagioQueRecebeEstagioDispensavel())) {
 
-            int tempoAdicional = proximoEstagio.getTempoVerde(contadorDeCiclos);
-
-            EstagioPlano proximoDoProximo = proximoEstagio.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
             EstagioPlano anteriorEstagio = estagioPlanoAtual.getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
 
-            Long entreverdeOriginal = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAtual.getEstagio().getPosicao(),
-                proximoEstagio.getEstagio().getPosicao()));
+            long novoTempo = 0L;
 
-            //Verifica a diferenca de entreverde do proximo estágio, caso não exista mais estágios dispensaveis
-            if (proximoEstagio.ultimoEstagioDispensavel() && !proximoEstagio.ultimoEstagioDaSequencia()) {
-                entreverdeOriginal += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(proximoEstagio.getEstagio().getPosicao(),
-                    proximoDoProximo.getEstagio().getPosicao()));
+            if (!listaEstagioPlanos.contains(proximoEstagio)) {
+                int tempoAdicional = proximoEstagio.getTempoVerde(contadorDeCiclos);
 
-                entreverdeOriginal -= tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAtual.getEstagio().getPosicao(),
-                    proximoDoProximo.getEstagio().getPosicao()));
-            }
+                EstagioPlano proximoDoProximo = proximoEstagio.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
 
+                Long entreverdeOriginal = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAtual.getEstagio().getPosicao(),
+                    proximoEstagio.getEstagio().getPosicao()));
 
-            //Verifica diferenca entreverde do inicio do estagio atual
-            if (!anteriorEstagio.equals(estagioPlanoAnterior)) {
-                entreverdeOriginal += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anteriorEstagio.getEstagio().getPosicao(),
-                    estagioPlanoAtual.getEstagio().getPosicao()));
+                //Verifica a diferenca de entreverde do proximo estágio, caso não exista mais estágios dispensaveis
+                if (proximoEstagio.ultimoEstagioDispensavel() && !proximoEstagio.ultimoEstagioDaSequencia()) {
+                    entreverdeOriginal += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(proximoEstagio.getEstagio().getPosicao(),
+                        proximoDoProximo.getEstagio().getPosicao()));
 
-                entreverdeOriginal -= tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
-                    estagioPlanoAtual.getEstagio().getPosicao()));
-            }
-
-
-            tempoAdicional += (entreverdeOriginal / 1000);
-            long novoTempo = tempoAdicional * 1000L;
-
-            if (tempoAbatimentoCoordenado != null && tempoAbatimentoCoordenado > 0L) {
-
-                if (tempoAbatimentoCoordenado <= novoTempo) {
-                    novoTempo = novoTempo - tempoAbatimentoCoordenado;
-                    tempoAbatidoNoCiclo += tempoAbatimentoCoordenado;
-                    tempoAbatimentoCoordenado = 0L;
-                } else {
-                    tempoAbatimentoCoordenado = tempoAbatimentoCoordenado - novoTempo;
-                    tempoAbatidoNoCiclo += novoTempo;
-                    novoTempo = 0L;
+                    entreverdeOriginal -= tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAtual.getEstagio().getPosicao(),
+                        proximoDoProximo.getEstagio().getPosicao()));
                 }
 
+
+                //Verifica diferenca entreverde do inicio do estagio atual
+                if (!anteriorEstagio.equals(estagioPlanoAnterior)) {
+                    entreverdeOriginal += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anteriorEstagio.getEstagio().getPosicao(),
+                        estagioPlanoAtual.getEstagio().getPosicao()));
+
+                    entreverdeOriginal -= tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
+                        estagioPlanoAtual.getEstagio().getPosicao()));
+                }
+
+
+                tempoAdicional += (entreverdeOriginal / 1000);
+                novoTempo = tempoAdicional * 1000L;
+
+                if (tempoAbatimentoCoordenado != null && tempoAbatimentoCoordenado > 0L) {
+
+                    if (tempoAbatimentoCoordenado <= novoTempo) {
+                        novoTempo = novoTempo - tempoAbatimentoCoordenado;
+                        tempoAbatidoNoCiclo += tempoAbatimentoCoordenado;
+                        tempoAbatimentoCoordenado = 0L;
+                    } else {
+                        tempoAbatimentoCoordenado = tempoAbatimentoCoordenado - novoTempo;
+                        tempoAbatidoNoCiclo += novoTempo;
+                        novoTempo = 0L;
+                    }
+
+                }
+
+            } else if (estagioPlanoAnterior != null &&
+                !anteriorEstagio.equals(estagioPlanoAnterior) &&
+                anteriorEstagio.getPlano().equals(estagioPlanoAnterior.getPlano())) {
+
+                novoTempo += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anteriorEstagio.getEstagio().getPosicao(),
+                    estagioPlanoAtual.getEstagio().getPosicao()));
+
+                novoTempo -= tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
+                    estagioPlanoAtual.getEstagio().getPosicao()));
             }
 
             tempoDispensavelJaAdicionado = true;
@@ -438,7 +452,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
     }
 
     private boolean planoComEstagioUnico() {
-        return this.plano.isModoOperacaoVerde() && this.listaEstagioPlanos.size() == 1 && contadorIntervalo == 0L;
+        return this.plano.isModoOperacaoVerde() && contadorIntervalo == 0L;
     }
 
     public void executaAgendamentoTrocaDePlano() {
@@ -522,6 +536,8 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
         final EstagioPlano estagioPlanoMomentoEntrada = this.plano.getEstagioPlanoNoMomento(momentoEntrada);
 
+        estagiosProximoCiclo.clear();
+
         if (estagioPlanoAtual != null &&
             estagioPlanoAtual.getEstagio() != null &&
             estagioPlanoAtual.getEstagio().temTransicaoProibidaParaEstagio(estagioPlanoMomentoEntrada.getEstagio())) {
@@ -532,6 +548,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             estagiosOrdenados.stream().forEach(estagioPlano -> {
                 if (estagioPlano.getPosicao() < estagioPlanoAlternativo.getPosicao()) {
                     tempoRestante[0] -= estagioPlano.getDuracaoEstagio() * 1000L;
+                    if (estagioPlano.isDispensavel()) {
+                        estagiosProximoCiclo.add(estagioPlano);
+                    }
                 } else {
                     novaLista.add(estagioPlano);
                 }
@@ -543,6 +562,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 //Faz abatimento até enquanto a lista estiver vazia
                 if (tempoRestante[0] >= duracaoEstagio && novaLista.isEmpty()) {
                     tempoRestante[0] -= duracaoEstagio;
+                    if (estagioPlano.isDispensavel()) {
+                        estagiosProximoCiclo.add(estagioPlano);
+                    }
                 } else {
                     novaLista.add(estagioPlano);
                 }
@@ -608,7 +630,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
         List<EstagioPlano> novaLista = new ArrayList<>();
         final Boolean[] adicionado = {false};
         listaEstagioPlanos.forEach(item -> {
-            if (item.getPosicao() != null && item.getPosicao() >= estagioPlano.getPosicao() && !adicionado[0]) {
+            if (item.getPosicao() != null &&
+                item.getPosicao() >= estagioPlano.getPosicao() &&
+                !adicionado[0]) {
                 novaLista.add(estagioPlano);
                 adicionado[0] = true;
             }
@@ -629,7 +653,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
             .forEach(estagioPlano -> estagiosProximoCiclo.add(estagioPlano));
 
         estagiosProximoCiclo.forEach(estagioPlano -> {
-            atualizaEstagiosCicloAtual(estagioPlano);
+            if (listaEstagioPlanos.stream().noneMatch(ep -> ep.getEstagio().equals(estagioPlano.getEstagio()))) {
+                atualizaEstagiosCicloAtual(estagioPlano);
+            }
         });
 
         estagiosProximoCiclo.clear();

@@ -119,6 +119,7 @@ public class MensagemGrupo {
                     break;
                 case VERMELHO_LIMPEZA:
                     tempoVermelhoLimpeza += (int) (entry.getKey().upperEndpoint() - entry.getKey().lowerEndpoint());
+                    flagUltimoTempo = FlagUltimoTempo.VERMELHO;
                     break;
             }
             first = false;
