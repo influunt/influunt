@@ -490,13 +490,15 @@ public class ControladorCustomSerializer {
         root.put("bloqueado", controlador.isBloqueado());
         root.put("planosBloqueado", controlador.isPlanosBloqueado());
 
-        Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
-        if (anel != null) {
-            root.put("planoConfigurado", anel.getVersaoPlano() != null);
+        if (controlador.getStatusVersao() != StatusVersao.EM_CONFIGURACAO) {
+            Anel anel = controlador.getAneis().stream().filter(Anel::isAtivo).findFirst().orElse(null);
+            if (anel != null) {
+                root.put("planoConfigurado", anel.getVersaoPlano() != null);
+            }
+            root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
+            root.put("controladorConfigurado", controlador.isConfigurado());
         }
-        root.put("tabelaHorariaConfigurado", controlador.getVersaoTabelaHoraria() != null);
-        root.put("controladorConfigurado", controlador.isConfigurado());
-        
+
         root.put("exclusivoParaTeste", controlador.isExclusivoParaTeste());
 
         RangeUtils rangeUtils = controlador.getRangeUtils();

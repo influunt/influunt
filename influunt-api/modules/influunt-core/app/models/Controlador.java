@@ -814,7 +814,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
 
         if (getAneis() != null) {
-            getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
+            getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+                if (anel.getEndereco() != null) {
+                    anel.getEndereco().getAlturaNumerica();
+                }
+            });
         }
 
         if (getVersoesTabelasHorarias() != null) {
