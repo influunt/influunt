@@ -11,10 +11,7 @@ import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by lesiopinheiro on 8/3/16.
@@ -54,11 +51,10 @@ public class ControladorUtil {
         /*
          * ANEIS
          */
-        ArrayList<Anel> aneisClonados = new ArrayList<Anel>();
+        ArrayList<Anel> aneisClonados = new ArrayList<>();
         controlador.getAneis().forEach(anel -> {
             Anel anelClonado = copyPrimitiveFields(anel);
             anelClonado.setControlador(controladorClone);
-
             anelClonado.setCroqui(getImagem(anel.getCroqui()));
 
             if (anel.getEndereco() != null && anel.getEndereco().getIdJson() != null) {
@@ -67,7 +63,7 @@ public class ControladorUtil {
                 anelClonado.setEndereco(enderecoAux);
             }
 
-            HashMap<UUID, Estagio> estagios = new HashMap<UUID, Estagio>();
+            Map<UUID, Estagio> estagios = new HashMap<>();
             anel.getEstagios().forEach(estagio -> {
                 Estagio estagioAux = copyPrimitiveFields(estagio);
                 estagioAux.setAnel(anelClonado);
@@ -80,7 +76,7 @@ public class ControladorUtil {
             /*
             * GRUPOS SEMAFORICOS
             */
-            HashMap<UUID, GrupoSemaforico> gruposSemaforicos = new HashMap<UUID, GrupoSemaforico>();
+            Map<UUID, GrupoSemaforico> gruposSemaforicos = new HashMap<>();
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
                 GrupoSemaforico grupoAux = copyPrimitiveFields(grupoSemaforico);
                 grupoAux.setAnel(anelClonado);
@@ -90,7 +86,7 @@ public class ControladorUtil {
 
             // Rodando novamente para montar a tabela de verdes conflitantes
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
-                ArrayList<VerdesConflitantes> verdesOrigem = new ArrayList<VerdesConflitantes>();
+                List<VerdesConflitantes> verdesOrigem = new ArrayList<>();
 
                 grupoSemaforico.getVerdesConflitantesOrigem().forEach(verdesConflitantes -> {
                     VerdesConflitantes verdesAux = copyPrimitiveFields(verdesConflitantes);
@@ -114,9 +110,9 @@ public class ControladorUtil {
         Ebean.save(controladorClone);
 
         // ASSOCIACAO ESTAGIO x GRUPO SEMAFORICO
-        HashMap<String, Anel> aneisClone = new HashMap<String, Anel>();
-        HashMap<String, Estagio> estagiosClone = new HashMap<String, Estagio>();
-        HashMap<String, GrupoSemaforico> gruposClone = new HashMap<String, GrupoSemaforico>();
+        Map<String, Anel> aneisClone = new HashMap<>();
+        Map<String, Estagio> estagiosClone = new HashMap<>();
+        Map<String, GrupoSemaforico> gruposClone = new HashMap<>();
 
         controladorClone.getAneis().forEach(anel -> {
             aneisClone.put(anel.getIdJson(), anel);
@@ -129,6 +125,18 @@ public class ControladorUtil {
         });
 
         controlador.getAneis().forEach(anel -> {
+
+            Anel anelClonado = aneisClone.get(anel.getIdJson());
+
+            // AGRUPAMENTOS
+            if (anel.getAgrupamentos() != null) {
+                anelClonado.setAgrupamentos(anel.getAgrupamentos());
+                anel.getAgrupamentos().forEach(agrupamento -> {
+                    agrupamento.getAneis().remove(anel);
+                    agrupamento.addAnel(anelClonado);
+                    agrupamento.update();
+                });
+            }
 
             // Rodando novamente para montar a estagio grupo semaforico
             anel.getEstagios().forEach(estagio -> {
@@ -212,7 +220,6 @@ public class ControladorUtil {
                 versaoAntiga.setStatusVersao(StatusVersao.ARQUIVADO);
                 versaoAntiga.update();
 
-                Anel anelClonado = aneisClone.get(anel.getIdJson());
                 VersaoPlano novaVersao = new VersaoPlano(anelClonado, usuario);
                 novaVersao.setAnel(anelClonado);
                 novaVersao.setVersaoAnterior(versaoAntiga);

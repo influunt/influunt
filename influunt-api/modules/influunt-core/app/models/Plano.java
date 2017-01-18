@@ -381,7 +381,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         this.defasagem = defasagem;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).")
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).")
     public boolean isUltrapassaTempoCiclo() {
         boolean estagiosValidos = !this.getEstagiosPlanos().isEmpty() && isPosicaoUnicaEstagio() && isSequenciaValida();
         boolean isoladoOuCoordenado = isTempoFixoIsolado() || isTempoFixoCoordenado();
@@ -402,7 +403,8 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.")
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "A sequência de estágios não é válida, pois existe uma transição proibida devido à não execução do estágio dispensável.")
     public boolean isSequenciaInvalidaSeExisteEstagioDispensavel() {
         if (!this.getEstagiosPlanos().isEmpty() && getEstagiosPlanos().stream().anyMatch(EstagioPlano::isDispensavel)) {
             List<EstagioPlano> estagiosOrdenados = ordenarEstagiosPorPosicaoSemEstagioDispensavel()
@@ -424,57 +426,118 @@ public class Plano extends Model implements Cloneable, Serializable {
         return true;
     }
 
+    private List<Agrupamento> getAgrupamentos() {
+        return Agrupamento.find.where()
+            .eq("posicaoPlano", getPosicao())
+            .in("aneis.id", getAnel().getId().toString()).findList();
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = PlanosCheck.class,
+        message = "O Tempo de ciclo deve ser simétrico ou assimétrico nos agrupamentos associados aos planos dessa numeração.")
+    public boolean isTempoCicloIgualOuMultiploDeTodoPlanoNoAgrupamento() {
+        List<Agrupamento> agrupamentosPlano = getAgrupamentos();
+        boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
+
+        if (planoFazParteDeAgrupamento) {
+            // plano faz parte de agrupamento, validar somente com
+            // os planos do agrupamento.
+            return agrupamentosPlano.stream().allMatch(agrupamento -> {
+
+                List<Plano> planosNoAgrupamento = Plano.find.where()
+                    .in("versaoPlano.anel.id", agrupamento.getAneis().stream().map(a -> a.getId().toString()).collect(Collectors.toList()))
+                    .eq("posicao", agrupamento.getPosicaoPlano())
+                    .ne("id", getId()).findList();
+
+                return planosNoAgrupamento.stream().allMatch(outroPlano -> InfluuntUtils.isMultiplo(getTempoCicloTotal(), outroPlano.getTempoCicloTotal()));
+            });
+        }
+        return true;
+    }
+
+    @JsonIgnore
     @AssertTrue(groups = PlanosCheck.class,
         message = "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
-        boolean isMultiplo = true;
-        if (isTempoFixoCoordenado() && getPosicao() != null) {
-            Controlador controlador = getAnel().getControlador();
-            Subarea subarea = controlador.getSubarea();
-            Plano planoBase;
-            if (subarea != null) {
-                Integer tempoCicloBase = null;
+        List<Agrupamento> agrupamentosPlano = getAgrupamentos();
+        boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
 
-                //Plano do mesmo controlador de outro anel
-                planoBase = controlador.getAneisAtivos().stream()
-                    .filter(a -> !a.equals(getAnel()))
-                    .map(Anel::getPlanos)
-                    .flatMap(Collection::stream)
-                    .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
-                    .findFirst().orElse(null);
+        if (!planoFazParteDeAgrupamento) {
+            if (isTempoFixoCoordenado() && getPosicao() != null) {
+                Controlador controlador = getAnel().getControlador();
+                Subarea subarea = controlador.getSubarea();
+                if (subarea != null) {
+                    Integer tempoCicloBase = null;
 
-                if (planoBase != null && !InfluuntUtils.getInstance().multiplo(planoBase.getTempoCicloTotal(), this.getTempoCicloTotal())) {
-                    return false;
-                }
+                    List<Agrupamento> agrupamentosAnel = Agrupamento.find.where().in("aneis.id", getAnel().getId().toString()).findList();
+                    boolean anelFazParteDeAgrupamento = !agrupamentosAnel.isEmpty();
+                    List<UUID> aneisIdsAgrupamento = agrupamentosAnel.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
 
+                    List<Agrupamento> agrupamentosControlador = Agrupamento.find.where()
+                        .eq("posicaoPlano", getPosicao())
+                        .eq("aneis.controlador.id", getAnel().getControlador().getId()).findList();
+                    List<UUID> aneisIdsAgrupamentoControlador = agrupamentosControlador.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
 
-                //Plano de outro controlador da subarea
-                if (!subarea.getTempoCiclo().isEmpty()) {
-                    tempoCicloBase = subarea.getTempoCiclo().get(this.getPosicao().toString());
-                } else {
-                    Controlador controladorBase = subarea.getControladores()
-                        .stream().filter(c -> !c.equals(controlador))
-                        .findFirst().orElse(null);
-                    if (controladorBase != null) {
-                        planoBase = controladorBase.getAneis()
-                            .stream().map(Anel::getPlanos)
-                            .flatMap(Collection::stream)
-                            .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
+                    Plano planoBase;
+                    if (anelFazParteDeAgrupamento) {
+                        // existe agrupamento com esse anel, não considerar os planos que
+                        // fazem parte do agrupamento.
+                        planoBase = controlador.getAneisAtivos().stream()
+                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamento.contains(getAnel().getId()))
+                            .flatMap(anel -> anel.getPlanos().stream())
+                            .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                             .findFirst().orElse(null);
+                    } else {
+                        // Plano do mesmo controlador de outro anel que não faz parte de
+                        // nenhum agrupamento com plano do mesmo número
+                        planoBase = controlador.getAneisAtivos().stream()
+                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamentoControlador.contains(a.getId()))
+                            .flatMap(anel -> anel.getPlanos().stream())
+                            .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
+                            .findFirst().orElse(null);
+                    }
 
-                        if (planoBase != null) {
-                            tempoCicloBase = planoBase.getTempoCicloTotal();
+
+                    if (planoBase != null && !InfluuntUtils.isMultiplo(planoBase.getTempoCicloTotal(), this.getTempoCicloTotal())) {
+                        return false;
+                    }
+
+                    // Plano de outro controlador da subarea
+                    if (!subarea.getTempoCiclo().isEmpty()) {
+                        tempoCicloBase = subarea.getTempoCiclo().get(this.getPosicao().toString());
+                    } else {
+                        Controlador controladorBase = Controlador.find.where()
+                            .ne("versaoControlador.statusVersao", "ARQUIVADO")
+                            .ne("id", controlador.getId())
+                            .eq("subarea", subarea).setMaxRows(1).findUnique();
+                        if (controladorBase != null) {
+                            if (anelFazParteDeAgrupamento) {
+                                planoBase = controladorBase.getAneisAtivos().stream()
+                                    .filter(a -> !aneisIdsAgrupamento.contains(a.getId()))
+                                    .flatMap(a -> a.getPlanos().stream())
+                                    .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
+                                    .findFirst().orElse(null);
+                            } else {
+                                planoBase = controladorBase.getAneisAtivos().stream()
+                                    .filter(a -> !aneisIdsAgrupamentoControlador.contains(a.getId()))
+                                    .flatMap(a -> a.getPlanos().stream())
+                                    .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
+                                    .findFirst().orElse(null);
+
+                            }
+
+                            if (planoBase != null) {
+                                tempoCicloBase = planoBase.getTempoCicloTotal();
+                            }
                         }
                     }
+                    if (tempoCicloBase != null && !InfluuntUtils.isMultiplo(tempoCicloBase, this.getTempoCicloTotal())) {
+                        return false;
+                    }
                 }
-                if (tempoCicloBase != null && !InfluuntUtils.getInstance().multiplo(tempoCicloBase, this.getTempoCicloTotal())) {
-                    return false;
-                }
-
-
             }
         }
-        return isMultiplo;
+        return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class,
@@ -592,8 +655,8 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     public Integer getTempoEntreVerdeGrupoSemaforico(Estagio estagio, Estagio estagioAnterior,
-                                                      GrupoSemaforico grupoSemaforico,
-                                                      boolean comAtrasoGrupo) {
+                                                     GrupoSemaforico grupoSemaforico,
+                                                     boolean comAtrasoGrupo) {
         final TabelaEntreVerdes tabelaEntreVerdes = grupoSemaforico.getTabelasEntreVerdes().stream()
             .filter(tev -> tev.getPosicao().equals(getPosicaoTabelaEntreVerde())).findFirst().orElse(null);
         final Transicao transicao;

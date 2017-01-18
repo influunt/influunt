@@ -1010,6 +1010,9 @@ public class ControladorPlanoTest extends ControladorTest {
 
         criarEstagioPlano(anel2, plano2, new int[]{1, 4, 3, 2}, new int[]{20, 12, 20, 20});
 
+        controlador1.update();
+        controlador2.update();
+
         List<Erro> erros = getErros(controlador1);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
@@ -1044,6 +1047,9 @@ public class ControladorPlanoTest extends ControladorTest {
 
         plano2.setTempoCiclo(248);
         criarEstagioPlano(anel2, plano2, new int[]{1, 4, 3, 2}, new int[]{50, 20, 50, 40});
+
+        controlador1.update();
+        controlador2.update();
 
         erros = getErros(controlador1);
         assertTrue(erros.isEmpty());

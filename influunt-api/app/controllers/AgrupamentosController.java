@@ -7,6 +7,7 @@ import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Agrupamento;
 import models.Anel;
+import models.Plano;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -74,6 +75,15 @@ public class AgrupamentosController extends Controller {
         if (agrupamento == null) {
             return CompletableFuture.completedFuture(notFound());
         }
+        agrupamento.getAneis().forEach(a -> a.getControlador().getAneis().forEach(anel -> {
+            Plano plano = Plano.find.where()
+                .ne("versaoPlano.statusVersao", "ARQUIVADO")
+                .eq("versaoPlano.anel", anel)
+                .eq("posicao", agrupamento.getPosicaoPlano()).findUnique();
+            if (plano != null) {
+                plano.delete();
+            }
+        }));
         agrupamento.delete();
         return CompletableFuture.completedFuture(ok());
     }
@@ -116,5 +126,4 @@ public class AgrupamentosController extends Controller {
         }
         return false;
     }
-
 }
