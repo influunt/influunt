@@ -224,7 +224,7 @@ var influunt;
         });
 
         if (houveConflito) {
-          return {erros: ['Existem conflitos de verdes que não podem ser resolvidos automaticamente.']};
+          return {erros: ['Os atrasos programados geraram conflitos em cadeia.']};
         }
 
         return this.gerarDiagramaIntervalo(diagrama, estagios, plano.tempoCiclo);
