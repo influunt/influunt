@@ -1,0 +1,13 @@
+select.width-19 {
+  max-width: 19%;
+}
+
+.agrupamento-horario-error {
+  width: 300%;
+}
+
+form[name="formAgrupamentos"] {
+  p.help-block.error-msg {
+    text-align: left;
+  }
+}
