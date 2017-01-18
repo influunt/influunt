@@ -68,16 +68,16 @@
         <table class="table table-hover text-center">
           <thead>
           <tr>
-            <th>{{ 'tabelaHorarios.dias' | translate }}</th>
-            <th>{{ 'tabelaHorarios.horas' | translate }}</th>
-            <th>{{ 'tabelaHorarios.minutos' | translate }}</th>
-            <th>{{ 'tabelaHorarios.segundos' | translate }}</th>
+            <th data-ng-if="isEditando()">{{ 'tabelaHorarios.dias' | translate }}</th>
+            <th data-ng-if="isEditando()">{{ 'tabelaHorarios.horas' | translate }}</th>
+            <th data-ng-if="isEditando()">{{ 'tabelaHorarios.minutos' | translate }}</th>
+            <th data-ng-if="isEditando()">{{ 'tabelaHorarios.segundos' | translate }}</th>
             <th colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
           </tr>
           </thead>
           <tbody>
             <tr>
-              <td width="51%">
+              <td data-ng-if="isEditando()" width="51%">
                 <div data-ng-class="{ 'has-error': errors.diaDaSemana }">
                   <select name="agrupamentoPlanoDiaSemana" class="form-control" data-ng-model="objeto.diaDaSemana">
                     <option data-ng-repeat="dia in dias" value="{{dia.value}}">{{dia.label}}</option>
@@ -85,26 +85,26 @@
                   <p class="help-block error-msg" data-ng-repeat="error in errors.diaDaSemana">{{ error }}</p>
                 </div>
               </td>
-              <td width="10%">
+              <td data-ng-if="isEditando()" width="10%">
                 <div data-ng-class="{ 'has-error': errors.diaDaSemana }">
                   <select name="planoHora" data-ng-model="objeto.hora" class="form-control" data-ng-change="atualizaHorario()">
                     <option data-ng-repeat="hora in horarios track by $index" value="{{$index}}">{{hora}}</option>
                   </select>
-                  <p class="help-block error-msg" data-ng-repeat="error in errors.horario">{{ error }}</p>
+                  <p class="help-block error-msg agrupamento-horario-error" data-ng-repeat="error in errors.horario">{{ error }}</p>
                 </div>
               </td>
-              <td width="10%">
+              <td data-ng-if="isEditando()" width="10%" data-ng-class="{ 'has-error': errors.diaDaSemana }">
                 <select name="planoMinuto" data-ng-model="objeto.minuto" class="form-control" data-ng-change="atualizaHorario()">
                   <option data-ng-repeat="minuto in minutos track by $index" value="{{$index}}">{{minuto}}</option>
                 </select>
               </td>
-              <td width="10%">
+              <td data-ng-if="isEditando()" width="10%" data-ng-class="{ 'has-error': errors.diaDaSemana }">
                 <select name="planoSegundo" data-ng-model="objeto.segundo" class="form-control" data-ng-change="atualizaHorario()">
                   <option data-ng-repeat="segundo in segundos track by $index" value="{{$index}}">{{segundo}}</option>
                 </select>
               </td>
               <td width="19%">
-                <select name="posicaoPlano" data-ng-model="objeto.posicaoPlano" class="form-control" data-ng-class="{ 'has-error': errors.planoConfiguradoEmTodosOsAneis }">
+                <select name="posicaoPlano" data-ng-model="objeto.posicaoPlano" class="form-control" data-ng-class="{ 'has-error': errors.planoConfiguradoEmTodosOsAneis, 'width-19': !isEditando() }">
                   <option data-ng-repeat="plano in planos track by $index" value="{{$index+1}}">Plano {{$index + 1}}</option>
                 </select>
               </td>

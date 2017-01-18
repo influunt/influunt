@@ -827,6 +827,10 @@
     "eventosPopup": {
       "title": "Atualizar Tabela Horária?",
       "text": "Deseja atualizar a tabela horária dos controladores associados a este agrupamento?"
+    },
+    "deletePopup": {
+      "title": "Confirma?",
+      "text": "Ao apagar esse registro todos os planos com numeração {numPlano} serão apagados de todos os anéis que fazem parte desse agrupamento."
     }
   },
   "sessoes": {
