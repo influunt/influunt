@@ -8,7 +8,6 @@ import akka.routing.ActorRefRoutee;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
-import com.google.inject.Inject;
 import logger.InfluuntLogger;
 import logger.NivelLog;
 import logger.TipoLog;

@@ -4,7 +4,6 @@ import akka.actor.ActorSystem;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Inject;
 import engine.*;
 import engine.TipoEvento;
 import logger.InfluuntLogger;

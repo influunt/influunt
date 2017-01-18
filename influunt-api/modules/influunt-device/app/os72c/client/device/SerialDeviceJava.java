@@ -1,6 +1,6 @@
 package os72c.client.device;
 
-import akka.actor.Cancellable;
+
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
@@ -17,7 +17,6 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import os72c.client.Client;
-import os72c.client.exceptions.HardwareFailureException;
 import protocol.*;
 
 import java.nio.charset.StandardCharsets;
@@ -26,6 +25,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import static com.sun.tools.corba.se.idl.constExpr.Expression.zero;
 
 /**
  * Created by rodrigosol on 11/4/16.
@@ -214,12 +215,14 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Porta Serial Configurada: %s",serialPort.getSystemPortName()));
         boolean notRecovered = true;
         int recoreryCount = 1;
+        final byte[] zero = new byte[]{0};
+        
         while(notRecovered){
             InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Tentativa de recuperação: %d",recoreryCount));
             serialPort.closePort();
             if(serialPort.openPort()){
                 InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "A porta foi aberta com sucesso");
-                if(serialPort.writeBytes(new byte[]{0},1) == 1){
+                if(serialPort.writeBytes(zero,1) == 1){
                     InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "Foi possivel enviar dados pela serial");
                     notRecovered = false;
                 }else{
