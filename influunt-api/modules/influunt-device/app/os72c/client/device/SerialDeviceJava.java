@@ -26,8 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static com.sun.tools.corba.se.idl.constExpr.Expression.zero;
-
 /**
  * Created by rodrigosol on 11/4/16.
  */
@@ -216,7 +214,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         boolean notRecovered = true;
         int recoreryCount = 1;
         final byte[] zero = new byte[]{0};
-        
+
         while(notRecovered){
             InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Tentativa de recuperação: %d",recoreryCount));
             serialPort.closePort();
