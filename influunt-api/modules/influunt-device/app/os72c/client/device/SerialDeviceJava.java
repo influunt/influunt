@@ -210,13 +210,15 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         for(SerialPort sp :ports){
             InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("PORTA:%s - Aberta %s",sp.getSystemPortName(),String.valueOf(sp.isOpen())));
         }
+
         InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Porta Serial Configurada: %s",serialPort.getSystemPortName()));
+
         boolean notRecovered = true;
-        int recoreryCount = 1;
+        int recoveryCount = 1;
         final byte[] zero = new byte[]{0};
 
         while(notRecovered){
-            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Tentativa de recuperação: %d",recoreryCount));
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Tentativa de recuperação: %d",recoveryCount));
             serialPort.closePort();
             if(serialPort.openPort()){
                 InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "A porta foi aberta com sucesso");
@@ -237,7 +239,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
                     e.printStackTrace();
                 }
             }
-            recoreryCount++;
+            recoveryCount++;
         }
         emFalha = false;
         callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL));

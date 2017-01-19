@@ -87,7 +87,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 startMotor();
             } else {
                 InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "Não existe configuração para iniciar o motor");
-                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "O controlador será iniciado quando um configuração for recebida");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "O controlador será iniciado quando uma configuração for recebida");
             }
         }
     }
