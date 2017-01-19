@@ -44,4 +44,17 @@ public class EnderecoTest extends WithInfluuntApplicationNoAuthentication {
         assertTrue(endereco.isLocalizacao2());
 
     }
+
+    @Test
+    public void validateAlturaNumericaPositiva() {
+        Endereco endereco = getEndereco();
+
+        endereco.setAlturaNumerica(-1231);
+        endereco.save();
+        assertFalse(endereco.isAlturaNumericaNegativa());
+
+        endereco.setAlturaNumerica(1231);
+        endereco.save();
+        assertTrue(endereco.isAlturaNumericaNegativa());
+    }
 }
