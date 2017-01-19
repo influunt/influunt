@@ -29,6 +29,7 @@ public class ServerActor extends UntypedActor {
                         logger.info("MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else {
+                        t.printStackTrace();
                         logger.error("Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();
                     }

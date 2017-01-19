@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<div class="text-center" data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO' || currentPlano.modoOperacao === 'ATUADO'">
+<div class="text-center" data-ng-if="((currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO' || currentPlano.modoOperacao === 'TEMPO_FIXO_ISOLADO' || currentPlano.modoOperacao === 'ATUADO') && (currentEstagioPlanoIndex != 0 || currentEstagioPlano.dispensavel))">
   <div class="col-lg-3 col-sm-3">
     <div class="form-group">
       <label>{{ 'planos.estagioDispensavel' | translate | uppercase }}</label>
