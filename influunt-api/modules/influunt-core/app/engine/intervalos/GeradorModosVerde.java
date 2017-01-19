@@ -116,11 +116,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
         long tempoVerde = verde * 1000L;
 
-        estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,
-            tempoCicloDecorrido + tempoAbatidoNoCiclo, listaEstagioPlanos, estagioPlanoAtual, contadorDeCiclo);
-
-
-        if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado()) {
+        if (tempoAbatimentoCoordenado != null && plano.isTempoFixoCoordenado() && !estagioPlano.getEstagio().isDemandaPrioritaria()) {
             if (deveFazerAbatimento(estagioPlanoAtual, estagioPlano, tempoAbatimentoCoordenado, inicio) ||
                 energizacaoGrupo(estagioPlanoAtual, estagioPlano)) {
                 //Compensação de diferença entre entreverdes
