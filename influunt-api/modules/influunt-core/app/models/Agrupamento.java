@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa um {@link Agrupamento} no sistema
@@ -261,25 +262,48 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         List<Evento> eventos = Evento.find.where().eq("agrupamento_id", getId().toString()).findList();
         eventos.forEach(Evento::delete);
 
-        for (Anel anel : getAneis()) {
-            TabelaHorario tabela = anel.getControlador().getTabelaHoraria();
+        List<TabelaHorario> tabelas = getControladores().stream().map(Controlador::getTabelaHoraria).collect(Collectors.toList());
+        tabelas.forEach(tabela -> {
             if (tabela != null) {
-                Evento evento = new Evento();
-                evento.setTabelaHorario(tabela);
-                evento.setTipo(TipoEvento.NORMAL);
-                evento.setPosicaoPlano(getPosicaoPlano());
-                evento.setDiaDaSemana(getDiaDaSemana());
-                evento.setHorario(getHorario());
-                evento.setAgrupamento(this);
-                List<Evento> eventoPosicao = Evento.find.select("posicao").where().eq("tabela_horario_id", tabela.getId()).orderBy("posicao desc").setMaxRows(1).findList();
-                if (!eventoPosicao.isEmpty()) {
-                    evento.setPosicao(eventoPosicao.get(0).getPosicao() + 1);
+                Evento eventoConflito = Evento.find.where()
+                    .eq("tabelaHorario.id", tabela.getId())
+                    .eq("diaDaSemana", getDiaDaSemana().name())
+                    .eq("horario", getHorario())
+                    .eq("tipo", TipoEvento.NORMAL).findUnique();
+                if (eventoConflito != null) {
+                    eventoConflito.setPosicaoPlano(getPosicaoPlano());
+                    eventoConflito.setAgrupamento(this);
+                    eventoConflito.update();
                 } else {
-                    evento.setPosicao(1);
+                    Evento evento = new Evento();
+                    evento.setTabelaHorario(tabela);
+                    evento.setTipo(TipoEvento.NORMAL);
+                    evento.setPosicaoPlano(getPosicaoPlano());
+                    evento.setDiaDaSemana(getDiaDaSemana());
+                    evento.setHorario(getHorario());
+                    evento.setAgrupamento(this);
+                    List<Evento> eventoPosicao = Evento.find.select("posicao").where().eq("tabela_horario_id", tabela.getId()).orderBy("posicao desc").setMaxRows(1).findList();
+                    if (!eventoPosicao.isEmpty()) {
+                        evento.setPosicao(eventoPosicao.get(0).getPosicao() + 1);
+                    } else {
+                        evento.setPosicao(1);
+                    }
+                    evento.save();
                 }
-                evento.save();
             }
-        }
+        });
+    }
+
+    public boolean existeEventoMesmoHorario() {
+        return getAneis().stream()
+            .map(Anel::getControlador)
+            .distinct()
+            .flatMap(c -> c.getTabelaHoraria().getEventos().stream())
+            .filter(Evento::isEventoNormal)
+            .anyMatch(evento ->
+                evento.getDiaDaSemana().equals(getDiaDaSemana()) &&
+                    evento.getHorario().equals(getHorario()) &&
+                    !evento.getPosicaoPlano().equals(getPosicaoPlano()));
     }
 
     public List<Evento> getEventos() {
@@ -298,5 +322,9 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     @AssertTrue(message = "não pode ficar em branco")
     public boolean isHorario() {
         return getId() == null || getHorario() != null;
+    }
+
+    public List<Controlador> getControladores() {
+        return getAneis().stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
     }
 }

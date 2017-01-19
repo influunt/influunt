@@ -88,6 +88,9 @@ SET @acessarPainelDeFacilidades = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@acessarPainelDeFacilidades, 'acessarPainelDeFacilidades', '[Comandos da Central] - Acessar os Comandos da Central', 'O usuário com essa permissão pode acessar a tela com os comandos da central.. Se o usuário não tiver essa permissão o menu "Comandos da Central" é escondido.', NOW(), NOW());
 
+Set @SimularId = UUID();
+INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
+  (@SimularId, 'simularControlador', '[Simulação] - Simular Funcionamento de Controlador', 'O usuário com essa permissão pode realizar a simulação de um controlador.', NOW(), NOW());
 
 -- # CRUD Cidades
 
@@ -1145,10 +1148,6 @@ INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdm
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);
 
 -- # Permissao Simulação
-Set @SimularId = UUID();
-INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
-  (@SimularId, 'simularControlador', '[Simulação] - Simular Funcionamento de Controlador', 'O usuário com essa permissão pode realizar a simulação de um controlador.', NOW(), NOW());
-
 Set @PermissaoId = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/$id<[^/]+>/simulacao', '[Controladores] - Listar controladores para simulação', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);

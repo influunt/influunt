@@ -831,6 +831,10 @@
     "deletePopup": {
       "title": "Confirma?",
       "text": "Ao apagar esse registro todos os planos com numeração {numPlano} serão apagados de todos os anéis que fazem parte desse agrupamento."
+    },
+    "conflitoPopup": {
+      "title": "Conflito de Eventos",
+      "text": "Existem eventos cadastrados no mesmo horário, porém com numeração diferente. Deseja substituir os eventos já cadastrados pelos eventos do agrupamento?"
     }
   },
   "sessoes": {
