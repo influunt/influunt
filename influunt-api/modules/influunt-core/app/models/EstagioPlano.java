@@ -479,7 +479,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
             return 255;
         }
 
-        if (getPlano().isTempoFixoCoordenado() && getPlano().isCicloDuplo()) {
+        if (getPlano().isTempoFixoCoordenado() && getPlano().isCicloDuplo() && !getEstagio().isDemandaPrioritaria()) {
             return getTempoVerde(ciclo);
         }
         return getTempoVerde();
@@ -542,9 +542,6 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
                 tempoVerdeDoEstagioDispensavel -= tabelaEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoPassado.getEstagio().getPosicao(),
                     this.getEstagio().getPosicao())) / 1000;
-
-            } else if (isDispensavel()) {
-                tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this, ciclo) - tempoCicloDecorrido) / 1000)).intValue();
             }
         }
         return getTempoVerdeEstagio(ciclo) + tempoVerdeDoEstagioDispensavel;
@@ -588,7 +585,7 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     }
 
     public boolean primeiroEstagioDaSequencia() {
-        return getPosicao().equals(1);
+        return getPosicao() != null && getPosicao().equals(1);
     }
 
     public Integer getTempoAdicionalCicloDuplo() {
