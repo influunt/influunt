@@ -3,8 +3,6 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import json.ControladorCustomDeserializer;
@@ -19,14 +17,11 @@ import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
 import services.FalhasEAlertasService;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
 import utils.*;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
 
 import static models.VersaoControlador.usuarioPodeEditarControlador;
 
@@ -512,7 +507,7 @@ public class ControladoresController extends Controller {
         }
 
         if (getUsuario() == null) {
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Arrays.asList(new Erro("criar", "usuário não econtrado", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("criar", "usuário não econtrado", "")))));
         }
 
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
@@ -527,6 +522,7 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         } else {
             if (controladorJaExiste) {
+                controlador.setAtualizando(true);
                 controlador.update();
             } else {
                 // Criar a primeira versão e o controlador físico

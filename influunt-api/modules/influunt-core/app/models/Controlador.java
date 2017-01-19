@@ -151,6 +151,10 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     private RangeUtils rangeUtils;
 
+    @JsonIgnore
+    @Transient
+    boolean atualizando = false;
+
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
@@ -276,7 +280,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         deleteEstagiosGruposSemaforicosPlanos(this);
         deleteEventos(this);
         deleteEstagiosPlanos(this);
-        deleteAgrupamentos(this);
+        if (isAtualizando()) {
+            // agrupamentos só podem ser apagados numa atualização
+            // de controlador. Cadastro de planos também passa por aqui
+            deleteAgrupamentos(this);
+        }
         criarPossiveisTransicoes();
     }
 
@@ -1066,5 +1074,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
             return status.isConectado();
         }
         return false;
+    }
+
+    public boolean isAtualizando() {
+        return atualizando;
+    }
+
+    public void setAtualizando(boolean atualizando) {
+        this.atualizando = atualizando;
     }
 }

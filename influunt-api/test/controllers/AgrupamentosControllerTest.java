@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import config.WithInfluuntApplicationNoAuthentication;
+import integracao.ControladorHelper;
 import models.*;
 import org.joda.time.LocalTime;
 import org.junit.Test;
@@ -41,8 +42,12 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         modeloControlador.setDescricao("Modelo 1");
         modeloControlador.save();
 
-        controlador = new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorTabelaHorario();
-        return controlador;
+        return new ControladorTestUtil(area, subarea, fabricante, modeloControlador).getControladorTabelaHorario();
+    }
+
+    private void setControlador() {
+        controlador = getControlador();
+        controlador.save();
     }
 
     private Area getArea() {
@@ -58,9 +63,6 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
     }
 
     private Agrupamento getAgrupamento() {
-        Controlador controlador = getControlador();
-        controlador.save();
-
         Agrupamento agrupamento = new Agrupamento();
         agrupamento.setNome("Teste");
         agrupamento.setTipo(TipoAgrupamento.ROTA);
@@ -75,8 +77,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testCriarNovoAgrupamento() {
-        Controlador controlador = getControlador();
-        controlador.save();
+        setControlador();
 
         Agrupamento agrupamento = getAgrupamento();
         agrupamento.setPosicaoPlano(1);
@@ -133,6 +134,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testAtualizarAgrupamentoExistente() {
+        setControlador();
         Agrupamento agrupamento = getAgrupamento();
         agrupamento.save();
 
@@ -168,6 +170,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testAtualizarAgrupamentoComEventos() {
+        setControlador();
         Agrupamento agrupamento = getAgrupamento();
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
@@ -189,7 +192,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
         agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
 
         List<Evento> novosEventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
-        assertEquals(agrupamentoRetornado.getAneis().size(), novosEventos.size());
+        assertEquals(agrupamentoRetornado.getControladores().size(), novosEventos.size());
         novosEventos.forEach(evento -> {
             assertEquals(DiaDaSemana.SEXTA, evento.getDiaDaSemana());
             assertEquals(LocalTime.parse("13:00:00"), evento.getHorario());
@@ -197,7 +200,50 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
     }
 
     @Test
+    public void testAtualizarAgrupamentoComEventosComConflito() {
+        ControladorHelper helper = new ControladorHelper();
+        controlador = helper.getControlador();
+        helper.setPlanosComTabelaHorariaMicro(controlador);
+
+        Agrupamento agrupamento = getAgrupamento();
+
+        Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
+            .uri(routes.AgrupamentosController.create().url()).bodyJson(Json.toJson(agrupamento));
+        Result result = route(request);
+        assertEquals(200, result.status());
+        JsonNode json = Json.parse(Helpers.contentAsString(result));
+        Agrupamento agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
+
+        agrupamentoRetornado.setDiaDaSemana(DiaDaSemana.DOMINGO);
+        agrupamentoRetornado.setHorario(LocalTime.parse("17:00:00"));
+        agrupamentoRetornado.setPosicaoPlano(2);
+
+        request = new Http.RequestBuilder().method("PUT")
+            .uri(routes.AgrupamentosController.update(agrupamentoRetornado.getId().toString()).url() + "?criarEventos=true")
+            .bodyJson(Json.toJson(agrupamentoRetornado));
+        result = route(request);
+        assertEquals(409, result.status());
+
+        request = new Http.RequestBuilder().method("PUT")
+            .uri(routes.AgrupamentosController.update(agrupamentoRetornado.getId().toString()).url() + "?criarEventos=true&substituirEventos=true")
+            .bodyJson(Json.toJson(agrupamentoRetornado));
+        result = route(request);
+        assertEquals(200, result.status());
+
+        json = Json.parse(Helpers.contentAsString(result));
+        agrupamentoRetornado = Json.fromJson(json, Agrupamento.class);
+
+        List<Evento> novosEventos = Evento.find.where().eq("agrupamento_id", agrupamentoRetornado.getId()).findList();
+        assertEquals(agrupamentoRetornado.getControladores().size(), novosEventos.size());
+        novosEventos.forEach(evento -> {
+            assertEquals(DiaDaSemana.DOMINGO, evento.getDiaDaSemana());
+            assertEquals(LocalTime.parse("17:00:00"), evento.getHorario());
+        });
+    }
+
+    @Test
     public void testApagarAgrupamentoExistente() {
+        setControlador();
         Agrupamento agrupamento = getAgrupamento();
         agrupamento.save();
         assertNotNull(agrupamento.getId());
@@ -212,6 +258,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testApagarAgrupamentoComPlanos() {
+        setControlador();
         Agrupamento agrupamento = getAgrupamento();
         agrupamento.getAneis().remove(0);
         agrupamento.save();
@@ -238,6 +285,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testListarAgrupamentos() {
+        setControlador();
         Agrupamento agrupamento = getAgrupamento();
         agrupamento.setTipo(TipoAgrupamento.CORREDOR);
         agrupamento.save();
@@ -258,6 +306,7 @@ public class AgrupamentosControllerTest extends WithInfluuntApplicationNoAuthent
 
     @Test
     public void testBuscarDadosAgrupamento() {
+        setControlador();
         Agrupamento agrupamento = getAgrupamento();
         agrupamento.save();
         UUID agrupamentoId = agrupamento.getId();

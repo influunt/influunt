@@ -379,7 +379,18 @@ angular.module('influuntApp')
           return influuntAlert.ask(title, text)
             .then(function(criarEventos) {
               $scope.criarEventos = criarEventos;
-              $scope.save(formValido);
+              $scope.save(formValido)
+                .catch(function(err) {
+                  if (err.status === 409) {
+                    title = $filter('translate')('agrupamentos.conflitoPopup.title');
+                    text = $filter('translate')('agrupamentos.conflitoPopup.text');
+                    influuntAlert.ask(title, text)
+                      .then(function(resp) {
+                        $scope.substituirEventos = resp;
+                        $scope.save(formValido);
+                      });
+                  }
+                });
             });
         } else {
           return $scope.save(formValido);
@@ -393,7 +404,12 @@ angular.module('influuntApp')
       };
 
       $scope.update = function() {
-        return $scope.objeto.save({ criarEventos: $scope.criarEventos });
+        var queryString = { criarEventos: $scope.criarEventos };
+        if (!_.isUndefined($scope.substituirEventos)) {
+          queryString.substituirEventos = $scope.substituirEventos;
+          $scope.substituirEventos = undefined;
+        }
+        return $scope.objeto.save(queryString);
       };
 
       $scope.isEditando = function() {

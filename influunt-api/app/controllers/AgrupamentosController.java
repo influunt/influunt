@@ -108,10 +108,15 @@ public class AgrupamentosController extends Controller {
         List<Erro> erros = new InfluuntValidator<Agrupamento>().validate(agrupamento);
 
         if (erros.isEmpty()) {
-            agrupamento.update();
-            agrupamento.refresh();
-            if (deveCriarEventos()) {
-                agrupamento.criarEventos();
+            boolean existeconflito = deveCriarEventos() && agrupamento.existeEventoMesmoHorario();
+            if (existeconflito && !existeResolucaoConflito()) {
+                return CompletableFuture.completedFuture(status(CONFLICT, "EVENTO JA EXISTE"));
+            } else {
+                agrupamento.update();
+                agrupamento.refresh();
+                if (deveCriarEventos() || (existeconflito && deveSubstituirEventos())) {
+                    agrupamento.criarEventos();
+                }
             }
             return CompletableFuture.completedFuture(ok(Json.toJson(agrupamento)));
         } else {
@@ -125,5 +130,17 @@ public class AgrupamentosController extends Controller {
             return Boolean.valueOf(queryString[0]);
         }
         return false;
+    }
+
+    private boolean deveSubstituirEventos() {
+        String[] queryString = request().queryString().get("substituirEventos");
+        if (queryString != null && queryString.length > 0) {
+            return Boolean.valueOf(queryString[0]);
+        }
+        return false;
+    }
+
+    private boolean existeResolucaoConflito() {
+        return request().queryString().containsKey("substituirEventos");
     }
 }
