@@ -119,16 +119,16 @@ angular.module('influuntApp')
 
             if (planoDestino.configurado){
 
-              planoDestino.estagiosPlanos.forEach(function(ep) {
-                var ep = _.find($scope.objeto.estagiosPlanos, { idJson: ep.idJson });
+              planoDestino.estagiosPlanos.forEach(function(estagioPlano) {
+                var ep = _.find($scope.objeto.estagiosPlanos, { idJson: estagioPlano.idJson });
                 ep.destroy = true;
                 _.set(ep, 'plano.idJson', novoPlano.idJson);
 
                 novoPlano.estagiosPlanos.push({ idJson: ep.idJson });
               });
 
-              planoDestino.gruposSemaforicosPlanos.forEach(function(gp){
-                var gp = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: gp.idJson});
+              planoDestino.gruposSemaforicosPlanos.forEach(function(grupoPlano){
+                var gp = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoPlano.idJson});
                 gp.destroy = true;
                 _.set(gp, 'plano.idJson', novoPlano.idJson);
                 novoPlano.gruposSemaforicosPlanos.push({ idJson: gp.idJson });
