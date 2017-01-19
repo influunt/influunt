@@ -197,7 +197,7 @@ public class Endereco extends Model implements Serializable {
         if (this.getAlturaNumerica() != null ) {
             return !(this.getAlturaNumerica() < 0);
         } else {
-            return false;
+            return true;
         }
     }
 
