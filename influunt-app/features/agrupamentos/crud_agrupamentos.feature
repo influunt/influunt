@@ -66,7 +66,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário confirmar
     Então o sistema deverá mostrar "2" items na tabela
 
-  Cenário: Validar tempo simétrico ou assimétrico
+  Cenário: Validar tempo simétrico
     Dado o usuário acesse a listagem de "agrupamentos"
     E o usuário acessar o formulário de edição de agrupamentos
     Quando o usuário selecionar o valor "AREA SUL PAULISTA" para o campo "subareas"
@@ -75,7 +75,7 @@ Funcionalidade: tela de cadastro de agrupamentos
     E clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
-    E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos planos."
+    E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ao tempo de ciclo dos planos."
 
   Cenário: Exclusão de agrupamentos sem confirmação do usuário
     Quando o usuário acesse a listagem de "agrupamentos"

@@ -426,7 +426,7 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controlador);
         assertEquals(5, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"),
+            new Erro(CONTROLADOR, "O tempo de verde mínimo deve ser maior que o verde de segurança e menor que o verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"),
             new Erro(CONTROLADOR, "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.", "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"),
             new Erro(CONTROLADOR, "A sequência de estágios não é válida.", "aneis[0].versoesPlanos[0].planos[0].posicaoUnicaEstagio"),
             new Erro(CONTROLADOR, "O tempo de estagio ultrapassa o tempo máximo de permanência.", "aneis[1].versoesPlanos[0].planos[0].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"),
@@ -1007,13 +1007,13 @@ public class ControladorPlanoTest extends ControladorTest {
         List<Erro> erros = getErros(controlador1);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
         ));
 
         erros = getErros(controlador2);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
         ));
 
         //Teste Json
@@ -1023,13 +1023,13 @@ public class ControladorPlanoTest extends ControladorTest {
         erros = getErros(controladorJson1);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
         ));
 
         erros = getErros(controladorJson2);
         assertEquals(1, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
+            new Erro(CONTROLADOR, "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração.", "aneis[0].versoesPlanos[0].planos[0].tempoCicloIgualOuMultiploDeTodoPlano")
         ));
 
         plano1.setTempoCiclo(124);
