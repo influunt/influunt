@@ -64,9 +64,9 @@ describe('Directive: InfluuntTabelaHoraria', function () {
           {idJson: 'ev5', tabelaHoraria: {idJson: 'th1'}, posicao: 1, horario: '00:00:00', tipo: 'ESPECIAL_NAO_RECORRENTE'}
         ]
       };
-      var error = [{'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[2].planosConfigurados'},
-                   {'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[1].planosConfigurados'},
-                   {'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[4].planosConfigurados'}];
+      var error = [{'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versaoTabelaHoraria.tabelaHoraria.eventos[2].planosConfigurados'},
+                   {'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versaoTabelaHoraria.tabelaHoraria.eventos[1].planosConfigurados'},
+                   {'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versaoTabelaHoraria.tabelaHoraria.eventos[4].planosConfigurados'}];
       scope.errors = handleValidations.buildValidationMessages(error, objeto);
       scope.$apply();
     }));
@@ -96,7 +96,7 @@ describe('Directive: InfluuntTabelaHoraria', function () {
       expect(isolateScope.tabTemErro(1)).toBeTruthy();
       expect(isolateScope.tabTemErro(2)).toBeTruthy();
 
-      var error = [{'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versoesTabelasHorarias[0].tabelaHoraria.eventos[2].planosConfigurados'}];
+      var error = [{'root':'Controlador','message':'O plano selecionado não está configurado em todos os anéis.','path':'versaoTabelaHoraria.tabelaHoraria.eventos[2].planosConfigurados'}];
       scope.errors = handleValidations.buildValidationMessages(error, scope.objeto);
       scope.$apply();
 
