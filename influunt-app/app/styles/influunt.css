@@ -1164,8 +1164,12 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li {
+  font-weight: 600;
   line-height: 40px;
   height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
 }
 
 .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li label {
