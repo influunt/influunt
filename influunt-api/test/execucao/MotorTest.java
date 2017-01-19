@@ -9,6 +9,7 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     protected DateTime inicioExecucao = new DateTime(2016, 10, 10, 0, 0, 0);
 
-    protected DateTime instante = new DateTime(2016, 10, 10, 0, 0, 0);
+    protected DateTime instante;
 
     protected HashMap<DateTime, Boolean> ativacaoModoManual = new HashMap<>();
 
@@ -158,6 +159,10 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     protected void avancarMilis(Motor motor, long i) {
+        if (instante == null) {
+            instante = new DateTime(inicioExecucao);
+        }
+
         long quantidade = i;
         instante = instante.plus(quantidade * 100L);
         while (quantidade-- > 0) {
@@ -186,6 +191,10 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     protected void avancar(GerenciadorDeEstagios gerenciadorDeEstagios, int i) {
+        if (instante == null) {
+            instante = new DateTime(inicioExecucao);
+        }
+
         long quantidade = i * 10L;
         instante = instante.plus(quantidade * 100L);
         while ((quantidade--) > 0) {
