@@ -131,7 +131,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde está menor que o tempo de segurança configurado.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde deve ser maior que o tempo de segurança configurado.")
     public boolean isRespeitaVerdesDeSeguranca() {
         if (isAtivado() && this.getPlano().isModoOperacaoVerde() && this.getGrupoSemaforico().getTempoVerdeSeguranca() != null) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados()
