@@ -1,5 +1,6 @@
 package os72c.client.device;
 
+import akka.actor.ActorSystem;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,6 +21,7 @@ import protocol.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +37,8 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private final Storage storage;
 
     private final EstadoDevice estadoDevice;
+
+    private final ActorSystem system;
 
     private Controlador controlador;
 
@@ -57,11 +61,12 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private boolean pronto;
 
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice) {
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice,ActorSystem system) {
         this.storage = mapStorage;
         this.device = device;
         this.id = id;
         this.estadoDevice = estadoDevice;
+        this.system = system;
         start();
     }
 
@@ -79,37 +84,41 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             this.controlador = storage.getControlador();
             if (controlador != null) {
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "Configuração encontrada");
-                iniciado = true;
-                this.motor = new Motor(this.controlador, new DateTime(), this);
-
-                int aneis[] = new int[16];
-
-                this.controlador.getAneis().stream().map(Anel::getGruposSemaforicos)
-                    .flatMap(Collection::stream)
-                    .forEach(grupoSemaforico -> aneis[grupoSemaforico.getPosicao() - 1] = grupoSemaforico.getAnel().getPosicao());
-
-                device.sendAneis(aneis);
-                executor = Executors.newScheduledThreadPool(1)
-                    .scheduleAtFixedRate(() -> {
-                        try {
-
-                            if (tempoDecorrido % 1000 == 0) {
-                                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TICK: " + tempoDecorrido);
-                            }
-                            tempoDecorrido += 100;
-                            motor.tick();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }, 0, 100, TimeUnit.MILLISECONDS);
-
-                InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "O controlador foi colocado em execução");
-
+                startMotor();
             } else {
                 InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "Não existe configuração para iniciar o motor");
-                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "O controlador será iniciado quando um configuração for recebida");
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.INICIALIZACAO, "O controlador será iniciado quando uma configuração for recebida");
             }
         }
+    }
+
+    private void startMotor() {
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "Iniciando motor");
+        iniciado = true;
+        this.motor = new Motor(this.controlador, new DateTime(), this);
+
+        int aneis[] = new int[16];
+
+        this.controlador.getAneis().stream().map(Anel::getGruposSemaforicos)
+            .flatMap(Collection::stream)
+            .forEach(grupoSemaforico -> aneis[grupoSemaforico.getPosicao() - 1] = grupoSemaforico.getAnel().getPosicao());
+
+        device.sendAneis(aneis);
+        executor = Executors.newScheduledThreadPool(1)
+            .scheduleAtFixedRate(() -> {
+                try {
+
+                    if (tempoDecorrido % 1000 == 0) {
+                        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "TICK: " + tempoDecorrido);
+                    }
+                    tempoDecorrido += 100;
+                    motor.tick();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, 0, 100, TimeUnit.MILLISECONDS);
+
+        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.INICIALIZACAO, "O controlador foi colocado em execução");
     }
 
     private void sendAlarmeOuFalha(EventoMotor eventoMotor) {
@@ -209,7 +218,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     private void sendMessage(Envelope envelope) {
-        context.actorSelection(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
+        system.actorSelection(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
 
 
@@ -268,14 +277,27 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     }
 
     @Override
+    public CompletableFuture restart() {
+        tempoDecorrido = 0L;
+        if(motor!=null) {
+            motor.stop();
+        }
+        if(executor != null) {
+            executor.cancel(true);
+        }
+
+        pronto = false;
+        iniciado = false;
+
+        device.start(DeviceActor.this);
+        return null;
+    }
+
+    @Override
     public void onEvento(EventoMotor eventoMotor) {
         if (TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
-            if ((Boolean) eventoMotor.getParams()[0]) {
-                getSelf().tell("RESTART", getSelf());
-            } else {
-                eventoMotor.setParams(new Object[]{});
-                sendAlarmeOuFalha(eventoMotor);
-            }
+            eventoMotor.setParams(new Object[]{});
+            sendAlarmeOuFalha(eventoMotor);
         } else if (TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
             sendRemocaoFalha(eventoMotor);
         } else {

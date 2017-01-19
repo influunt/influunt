@@ -220,7 +220,7 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     }
 
     // Testa se o plano X (1, 2, etc.) em todos os anéis são múltiplos entre si.
-    @AssertTrue(message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos planos.")
+    @AssertTrue(message = "O Tempo de ciclo deve ser simétrico ao tempo de ciclo dos planos.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
         if (getId() == null) {
             return true;

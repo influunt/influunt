@@ -103,6 +103,12 @@ angular.module('influuntApp')
         $scope.planosDestino = [];
       };
 
+      $scope.setCicloDuplo = function() {
+        if ($scope.currentPlano.cicloDuplo && $scope.currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO') {
+          $scope.currentPlano.tempoCicloDuplo = $scope.currentPlano.tempoCiclo;
+        }
+      };
+
       $scope.confirmacaoCopiarPlano = function() {
         _.each($scope.planosDestino, function(planoDestino) {
           if (planoDestino.idJson !== $scope.planoCopiado.idJson) {
@@ -504,7 +510,7 @@ angular.module('influuntApp')
           var novoEstagioPlano = _.cloneDeep(estagioPlano);
           ep.idJson = UUID.generate();
 
-          // descarta o idJson gerado e utilizado o criado pleo medtodo estagiosQueRecebemGerados
+          // descarta o idJson gerado anteriormente e utiliza o criado pelo metodo estagiosQueRecebemGerados
           if (estagioDispensavelIndex > -1) {
             ep.idJson = estagiosQueRecebemGerados[estagioDispensavelIndex].idJsonNovo;
           }
