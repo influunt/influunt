@@ -2966,3 +2966,11 @@ p.velocidade-error {
   position: static;
   margin-top: 10px;
 }
+
+.btn-exclamation {
+  background-color: #ed5565;
+  color: #FFFFFF;
+  position: relative;
+  top: -13px;
+  left: -11px;
+}
