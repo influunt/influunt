@@ -66,6 +66,7 @@
                   <td>{{ controlador.dataAtualizacao }}</td>
                   <td>
                     <hgroup>
+                      <div>
                       <a class="btn btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.configuracao' | translate }}"
@@ -74,6 +75,14 @@
                          permission permission-only="'verControlador'">
                         <i class="fa fa-eye"></i> {{ 'controladores.geral.configuracao' | translate }}
                       </a>
+                      <span class="badge badge-danger"
+                            data-ng-if="!controlador.controladorConfigurado"
+                            inf-tooltip>
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+                      </div>
+                      
+                      <div>
                       <a class="btn btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}"
@@ -82,6 +91,14 @@
                          permission permission-only="'verPlanos'">
                         <i class="fa fa-file-text"></i> {{ 'controladores.geral.planos' | translate }}
                       </a>
+                      <span class="badge badge-danger"
+                            data-ng-if="!controlador.planoConfigurado"
+                            inf-tooltip>
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+                      </div>
+                      
+                      <div>
                       <a class="btn btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
@@ -91,6 +108,13 @@
                          permission permission-only="'verTabelaHoraria'">
                         <i class="fa fa-calendar"></i> {{ 'controladores.geral.tabelaHorario' | translate }}
                       </a>
+                      <span class="badge badge-danger"
+                            data-ng-if="!controlador.tabelaHorariaConfigurado"
+                            inf-tooltip>
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+                      </div>
+                      
                       <a class="btn btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'controladores.geral.finalizar' | translate }} {{ 'controladores.geral.configuracao' | translate }}"

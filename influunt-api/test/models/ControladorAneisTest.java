@@ -75,7 +75,7 @@ public class ControladorAneisTest extends ControladorTest {
         paulista.setAlturaNumerica(15);
 
         estagios.clear();
-        IntStream.rangeClosed(1, 17).forEach(i -> estagios.add(new Estagio(i)));
+        IntStream.rangeClosed(1, 17).forEach(i -> estagios.add(new Estagio(i, anel1)));
         anel1.setEstagios(estagios);
 
 
@@ -87,7 +87,7 @@ public class ControladorAneisTest extends ControladorTest {
         ));
 
         estagios.clear();
-        IntStream.rangeClosed(1, 16).forEach(i -> estagios.add(new Estagio(i)));
+        IntStream.rangeClosed(1, 16).forEach(i -> estagios.add(new Estagio(i, anel1)));
         anel1.setEstagios(estagios);
 
         erros = getErros(controlador);

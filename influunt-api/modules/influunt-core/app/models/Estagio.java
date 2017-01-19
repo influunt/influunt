@@ -127,6 +127,11 @@ public class Estagio extends Model implements Serializable, Cloneable {
         this.posicao = posicao;
     }
 
+    public Estagio(int posicao, Anel anel) {
+        this(posicao);
+        setAnel(anel);
+    }
+
     public boolean delete(File rootPath) {
         return DBUtils.executeWithTransaction(() -> {
             this.setDestroy(true);

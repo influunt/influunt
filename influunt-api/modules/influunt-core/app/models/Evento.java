@@ -207,7 +207,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @AssertTrue(groups = TabelaHorariosCheck.class,
         message = "não pode ficar em branco")
     public boolean isDiaDaSemana() {
-        if (this.isEventoNormal()) {
+        if (this.isEventoNormal() && !isDestroy()) {
             return this.getDiaDaSemana() != null;
         }
         return true;
@@ -220,7 +220,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @AssertTrue(groups = TabelaHorariosCheck.class,
         message = "não pode ficar em branco")
     public boolean isData() {
-        if (this.isEventoEspecialRecorrente() || this.isEventoEspecialNaoRecorrente()) {
+        if (!isDestroy() && (this.isEventoEspecialRecorrente() || this.isEventoEspecialNaoRecorrente())) {
             return this.getData() != null;
         }
         return true;
@@ -229,7 +229,7 @@ public class Evento extends Model implements Cloneable, Serializable, Comparable
     @AssertTrue(groups = TabelaHorariosCheck.class,
         message = "O plano selecionado não está configurado em todos os anéis.")
     public boolean isPlanosConfigurados() {
-        if (getPosicaoPlano() != null) {
+        if (getPosicaoPlano() != null && !isDestroy()) {
             return getTabelaHorario().getControlador()
                 .getAneis()
                 .stream()

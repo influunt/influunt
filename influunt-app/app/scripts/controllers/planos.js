@@ -833,7 +833,7 @@ angular.module('influuntApp')
         );
 
         //Tempo de ciclo já foi definido
-        if (Object.keys($scope.dadosDiagrama.erros).length === 0) {
+        if ($scope.dadosDiagrama && Object.keys($scope.dadosDiagrama.erros).length === 0) {
           $scope.currentPlano.tempoCicloConfigurado = true;
         }
       };
