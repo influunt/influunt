@@ -401,8 +401,9 @@ angular.module('influuntApp')
       };
 
       $scope.confirmDelete = function(id) {
+        var posicaoPlano = _.find($scope.lista, {id: id}).posicaoPlano;
         var title = $filter('translate')('agrupamentos.deletePopup.title'),
-            text = $filter('translate')('agrupamentos.deletePopup.text', { numPlano: $scope.objeto.posicao });
+            text = $filter('translate')('agrupamentos.deletePopup.text', { numPlano: posicaoPlano });
         return influuntAlert.confirm(title, text)
           .then(function(confirmado) {
             return confirmado && $scope.delete(id);
