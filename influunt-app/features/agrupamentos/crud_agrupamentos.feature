@@ -13,15 +13,13 @@ Funcionalidade: tela de cadastro de agrupamentos
     Então o sistema deverá redirecionar para o formulário de cadastro de novos agrupamentos
 
   Cenário: Não posso cadastrar um agrupamento em branco
-    Quando o usuário acesse a listagem de "agrupamentos"
+    Dado o usuário acesse a listagem de "agrupamentos"
     E clicar no botão de Novo Agrupamento
-    E clicar no botão de salvar
-    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
-    E o usuário confirmar
-    Então o sistema deverá indicar erro no campo "nome"
-    Então o sistema deverá indicar erro no campo "tipo"
-    Então o sistema deverá indicar erro no campo "agrupamentoPlanoDiaSemana"
-    Então o sistema deverá indicar erro no campo "planoHora"
+    Quando clicar no botão de salvar
+    Então o sistema deverá indicar erro no campo "nome" com a mensagem "não pode ficar em branco"
+    E o sistema deverá indicar erro no campo "tipo" com a mensagem "não pode ficar em branco"
+    E o sistema deve mostrar erro no campo controladores avulsos com a mensagem "este agrupamento deve ter pelo menos 1 anel."
+    E o sistema deverá apresentar erro de "Todos os aneis deste agrupamento devem pertencer à mesma área"
 
   Cenário: Não posso salvar sem associar a pelo menos uma anel
     Dado o usuário acessar a tela de cadastro de novos agrupamentos
@@ -29,21 +27,13 @@ Funcionalidade: tela de cadastro de agrupamentos
     E o usuário preencher o campo "Descrição" com "Agrupamento 1"
     E o usuário selecionar o valor "Corredor" no campo "Tipo"
     E o usuário selecionar o valor "Avenida Nove de Julho com Av. Paulista" para o campo "controladores"
-    E o usuário em evento selecionar o valor "DOMINGO" no campo "Dias"
-    E o usuário em evento selecionar o valor "12" no campo "Hora"
-    E o usuário em evento selecionar o valor "10" no campo "Minuto"
-    E o usuário em evento selecionar o valor "1" no campo "Segundo"
     E o usuário em evento selecionar o valor plano "1" no campo "Plano"
     Quando clicar no botão de salvar
-    Então sistema deverá mostar um alerta se deseja atualizar tabela horária
-    Quando o usuário confirmar
     Então o sistema deve mostrar erro no campo controladores avulsos com a mensagem "este agrupamento deve ter pelo menos 1 anel."
 
   Cenário: Salvar um agrupamento
     Dado o usuário agrupar o controlador "1.000.0003"
     Quando clicar no botão de salvar
-    E sistema deverá mostar um alerta se deseja atualizar tabela horária
-    E o usuário confirmar
     Então o sistema deverá mostrar "2" items na tabela
 
   Cenário: Acesso à tela de detalhes de um agrupamento
@@ -61,7 +51,11 @@ Funcionalidade: tela de cadastro de agrupamentos
     Quando o usuário acessar o formulário de edição de agrupamentos
     E o usuário preencher o campo "Nome" com "Rota da Cidade"
     E o usuário selecionar o valor "Rota" no campo "Tipo"
-    E clicar no botão de salvar
+    E o usuário em evento selecionar o valor "DOMINGO" no campo "Dias"
+    E o usuário em evento selecionar o valor "12" no campo "Hora"
+    E o usuário em evento selecionar o valor "10" no campo "Minuto"
+    E o usuário em evento selecionar o valor "1" no campo "Segundo"
+    Quando clicar no botão de salvar
     Então sistema deverá mostar um alerta se deseja atualizar tabela horária
     E o usuário confirmar
     Então o sistema deverá mostrar "2" items na tabela
