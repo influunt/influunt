@@ -103,6 +103,12 @@ angular.module('influuntApp')
         $scope.planosDestino = [];
       };
 
+      $scope.setCicloDuplo = function() {
+        if ($scope.currentPlano.cicloDuplo && $scope.currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO') {
+          $scope.currentPlano.tempoCicloDuplo = $scope.currentPlano.tempoCiclo;
+        }
+      };
+
       $scope.confirmacaoCopiarPlano = function() {
         _.each($scope.planosDestino, function(planoDestino) {
           if (planoDestino.idJson !== $scope.planoCopiado.idJson) {
@@ -113,16 +119,16 @@ angular.module('influuntApp')
 
             if (planoDestino.configurado){
 
-              planoDestino.estagiosPlanos.forEach(function(ep) {
-                var ep = _.find($scope.objeto.estagiosPlanos, { idJson: ep.idJson });
+              planoDestino.estagiosPlanos.forEach(function(estagioPlano) {
+                var ep = _.find($scope.objeto.estagiosPlanos, { idJson: estagioPlano.idJson });
                 ep.destroy = true;
                 _.set(ep, 'plano.idJson', novoPlano.idJson);
 
                 novoPlano.estagiosPlanos.push({ idJson: ep.idJson });
               });
 
-              planoDestino.gruposSemaforicosPlanos.forEach(function(gp){
-                var gp = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: gp.idJson});
+              planoDestino.gruposSemaforicosPlanos.forEach(function(grupoPlano){
+                var gp = _.find($scope.objeto.gruposSemaforicosPlanos, {idJson: grupoPlano.idJson});
                 gp.destroy = true;
                 _.set(gp, 'plano.idJson', novoPlano.idJson);
                 novoPlano.gruposSemaforicosPlanos.push({ idJson: gp.idJson });
@@ -504,7 +510,7 @@ angular.module('influuntApp')
           var novoEstagioPlano = _.cloneDeep(estagioPlano);
           ep.idJson = UUID.generate();
 
-          // descarta o idJson gerado e utilizado o criado pleo medtodo estagiosQueRecebemGerados
+          // descarta o idJson gerado anteriormente e utiliza o criado pelo metodo estagiosQueRecebemGerados
           if (estagioDispensavelIndex > -1) {
             ep.idJson = estagiosQueRecebemGerados[estagioDispensavelIndex].idJsonNovo;
           }

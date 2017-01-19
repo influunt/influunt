@@ -92,7 +92,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
     public void tick() {
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
 
-        if (this.plano.isManual() && intervalo != null && cumpriuTempoVerdeSeguranca(intervalo)) {
+        if (this.plano.isManual() && intervalo != null &&
+            cumpriuTempoVerdeSeguranca(intervalo) &&
+            !estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
+
             motor.liberaTrocaEstagioManual(getAnel());
         } else if (this.plano.isManual()) {
             motor.bloqueaTrocaEstagioManual(getAnel());
@@ -187,6 +190,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 fecharCiclo();
                 executaAgendamentoTrocaDePlano();
             } else if (this.plano.isModoOperacaoVerde() && estagioPlanoAtual.getEstagio().isDemandaPrioritaria()) {
+                if (this.plano.isManual()) {
+                    motor.reiniciaModoManual(getAnel());
+                }
+
                 reconhecePlano(this.plano);
             } else if (contadorEstagio == listaEstagioPlanos.size()) {
                 reiniciaContadorEstagio();
@@ -281,7 +288,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
     private boolean verificaTempoEstagioDispensavel(IntervaloEstagio ultimoIntervalo) {
         EstagioPlano proximoEstagio = estagioPlanoAtual.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
+        EstagioPlano proximoEstagioLista = estagioPlanoAtual.getEstagioPlanoProximo(listaEstagioPlanos);
         if (plano.isTempoFixoCoordenado() &&
+            !estagioPlanoAtual.getEstagio().isDemandaPrioritaria() &&
+            (proximoEstagioLista == null || !proximoEstagioLista.getEstagio().isDemandaPrioritaria()) &&
             (this.agendamento == null || !this.agendamento.getPlano().isTempoFixoCoordenado() || !this.agendamento.isTempoDeEntradaCalculado()) &&
             proximoEstagio != null &&
             proximoEstagio.isDispensavel() &&
@@ -473,7 +483,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         }
     }
 
-    private void reconhecePlano(Plano plano) {
+    public void reconhecePlano(Plano plano) {
         reconhecePlano(plano, false);
     }
 
@@ -518,7 +528,14 @@ public class GerenciadorDeEstagios implements EventoCallback {
 
             if (!inicio && this.agendamento != null) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
-                EventoMotor eventoMotor = new EventoMotor(getTimestamp(), TipoEvento.TROCA_DE_PLANO_NO_ANEL, agendamento.getPlano().getPosicao(), agendamento.getAnel(), agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
+
+                if(agendamento.getMomentoDaTroca() == null) {
+                    agendamento.setMomentoDaTroca(tempoDecorrido);
+                }
+
+                EventoMotor eventoMotor = new EventoMotor(getTimestamp(), TipoEvento.TROCA_DE_PLANO_NO_ANEL,
+                    agendamento.getPlano().getPosicao(), agendamento.getAnel(),
+                    agendamento.getMomentoOriginal(), agendamento.getMomentoDaTroca());
                 if (intervalo == null) {
                     this.agendamento = null;
                     contadorTempoEstagio = 0L;

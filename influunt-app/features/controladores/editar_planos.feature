@@ -138,7 +138,7 @@ Cenário: Planos em modo coordenado da mesma subárea deverão ser simétricos
   E que o usuário clique no botão de fechar a caixa de configuração
   Quando o usuário clicar em "Salvar"
   Então o sistema deverá mostrar erro no plano 1
-  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração."
+  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração."
 
 Cenário: Validar ao inserir um estágio dispensável sem o estágio que recebe o tempo do estágio dispensável
   Dado que o sistema possua controladores cadastrados e configurados
@@ -241,6 +241,6 @@ Cenário: Não pode salva um estágio com o tempo maior que de permanência
   Quando o usuário clicar em "Salvar"
   Então o sistema deverá apresentar erro no estágio "E1"
   E o sistema deverá apresentar erro de "A soma dos tempos dos estágios (146s) é diferente do tempo de ciclo (200s)."
-  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração."
+  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração."
 
 

@@ -457,7 +457,7 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = PlanosCheck.class,
-        message = "O Tempo de ciclo deve ser simétrico ou assimétrico nessa subárea para todos os planos de mesma numeração.")
+        message = "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
         List<Agrupamento> agrupamentosPlano = getAgrupamentos();
         boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
@@ -806,6 +806,18 @@ public class Plano extends Model implements Cloneable, Serializable {
                 break;
             }
         }
+
+        if (estagioPlano == null && isCicloDuplo()) {
+            fimEstagio = getTempoCiclo() * 1000L;
+            for (int i = 0; i < lista.size(); i++) {
+                fimEstagio += (lista.get(i).getDuracaoEstagio(1) * 1000L);
+                if (momentoEntrada <= fimEstagio) {
+                    estagioPlano = lista.get(i);
+                    break;
+                }
+            }
+        }
+
         return estagioPlano;
     }
 
