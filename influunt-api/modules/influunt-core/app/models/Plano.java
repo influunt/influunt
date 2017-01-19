@@ -806,6 +806,18 @@ public class Plano extends Model implements Cloneable, Serializable {
                 break;
             }
         }
+
+        if (estagioPlano == null && isCicloDuplo()) {
+            fimEstagio = getTempoCiclo() * 1000L;
+            for (int i = 0; i < lista.size(); i++) {
+                fimEstagio += (lista.get(i).getDuracaoEstagio(1) * 1000L);
+                if (momentoEntrada <= fimEstagio) {
+                    estagioPlano = lista.get(i);
+                    break;
+                }
+            }
+        }
+
         return estagioPlano;
     }
 
