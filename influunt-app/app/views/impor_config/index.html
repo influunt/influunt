@@ -16,13 +16,23 @@
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
-                <th class='fit-to-content'></th>
+                <th class='fit-to-content'>
+                  <div class="ichecks-checkbox">
+                    <label class="i-checks">
+                      <input type="checkbox"
+                        ichecks
+                        ng-model="checkedAll"
+                        data-if-checked="selecionaTodosAneis()"
+                        data-if-unchecked="deselecionaTodosAneis()">
+                    </label>
+                  </div>
+                </th>
                 <th>{{ 'imporConfig.online' | translate }}</th>
                 <th>{{ 'imporConfig.status' | translate }}</th>
                 <th>{{ 'imporConfig.cla' | translate }}</th>
-                <th>{{ 'imporConfig.local' | translate }}</th>
+                <th width='30%'>{{ 'imporConfig.local' | translate }}</th>
                 <th>{{ 'imporConfig.info' | translate }}</th>
-                <th>{{ 'geral.crud.opcoes' | translate }}</th>
+                <th width='17%'>{{ 'geral.crud.opcoes' | translate }}</th>
               </tr>
             </thead>
             <tbody>
