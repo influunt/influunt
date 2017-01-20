@@ -96,7 +96,7 @@ Funcionalidade: Fluxo de cadastro de planos
     Dado que o usuário esteja na página de planos
     E que o usuário marque 45 segundos para o "TEMPO DE CICLO"
     E o usuário clicar em "Salvar"
-    E o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
+    E o sistema deverá apresentar erro de "G2 - O tempo de verde deve ser maior que o tempo de segurança configurado."
     E o sistema deverá mostrar erro no plano 1
     E o sistema deverá mostrar erro no plano 16
     Então o usuário queira limpar o plano 16
@@ -163,9 +163,10 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário responde ok
     E que o usuário clique no botão de fechar a caixa de configuração
     E o usuário clicar em "Salvar"
-    Então o sistema deverá apresentar erro de "G1 - O tempo de verde está menor que o tempo de segurança configurado."
-    Então o sistema deverá apresentar erro de "G2 - O tempo de verde está menor que o tempo de segurança configurado."
+    Então o sistema deverá apresentar erro de "G1 - O tempo de verde deve ser maior que o tempo de segurança configurado."
+    Então o sistema deverá apresentar erro de "G2 - O tempo de verde deve ser maior que o tempo de segurança configurado."
     Então o sistema deverá apresentar erro de "A soma dos tempos dos estágios (31s) é diferente do tempo de ciclo (50s)."
+    Então o sistema deverá apresentar erro de "Este plano deve ser configurado em todos os aneis."
 
   Cenário: Em modo Cordenado o sitema deve apresentar erro para defasagem maior que tempo de ciclo
     Dado que o usuário esteja na página de planos
@@ -180,7 +181,7 @@ Funcionalidade: Fluxo de cadastro de planos
     E o usuário realizar um scroll down
     E que o usuário marque 0 segundos para o "Defasagem"
     E o usuário clicar em "Salvar"
-    Então o valor da defasagem deverá ser "0"
+    Então o valor "DEFASAGEM" deverá ser "0"
 
   Cenário: Configurar um plano em modo coordenado
     Dado que o usuário esteja na página de planos

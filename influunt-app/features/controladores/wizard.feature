@@ -21,6 +21,7 @@ Funcionalidade: Fluxo de cadastro de controladores
   Cenário: Campo altura númerica não pode aceitar números negativos
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     Quando o usuário preencher o campo "Altura Numérica" com "-123"
+    E clicar no botão para ir pro próximo passo
     Então o sistema deverá indicar erro no campo "alturaNumerica" com a mensagem "não pode ser negativo."
     E o sistema irá continuar no passo "Dados Básicos"
 
@@ -31,6 +32,7 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o valor "1" no campo "Área"
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
+    E o usuário limpar o campo "alturaNumerica"
     E o usuário preencher o campo "Altura Numérica" com "123"
     E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
     E o usuário selecionar o valor "Mínima" no campo "Modelo"
