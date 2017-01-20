@@ -115,7 +115,10 @@ public class ImposicaoHelper {
                 }
             }
         }
+
         if (controladoresFisicos == null) {
+            params.remove("subareaAgrupamento");
+            params.remove("filtrarPor_eq");
             controladoresFisicos = (List<ControladorFisico>) new InfluuntQueryBuilder(ControladorFisico.class, params).fetch(Arrays.asList("controladorSincronizado.aneis")).query().getResult();
         }
         return controladoresFisicos;

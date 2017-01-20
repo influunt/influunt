@@ -101,6 +101,24 @@ angular.module('influuntApp')
         _.pull($scope.aneisSelecionados, anelId);
         filtraObjetosAneis();
       };
+      
+      $scope.selecionaTodosAneis = function() {
+        _.each($scope.lista, function(anel) {
+          if (anel.online) {
+            $scope.aneisSelecionados.push(anel.id);
+            $scope.isAnelChecked[anel.id] = true;
+          }
+        });
+        filtraObjetosAneis();
+      };
+
+      $scope.deselecionaTodosAneis = function() {
+        _.each($scope.lista, function(anel) {
+          _.pull($scope.aneisSelecionados, anel.id);
+          $scope.isAnelChecked[anel.id] = false;
+        });
+        filtraObjetosAneis();
+      };
 
       $scope.isAnelCheckedFilter = function(anel) {
         return $scope.isAnelChecked && anel && $scope.isAnelChecked[anel.id];
@@ -153,7 +171,6 @@ angular.module('influuntApp')
         $scope.aneisSelecionadosObj = _.filter($scope.lista, function(anel) {
           return $scope.aneisSelecionados.indexOf(anel.id) >= 0;
         });
-
         return $scope.aneisSelecionadosObj;
       };
 

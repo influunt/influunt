@@ -2,6 +2,7 @@ package models;
 
 import checks.Erro;
 import checks.InfluuntValidator;
+import checks.PlanosCentralCheck;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -1188,6 +1189,7 @@ public class ControladorPlanoTest extends ControladorTest {
 
     @Override
     public List<Erro> getErros(Controlador controlador) {
-        return new InfluuntValidator<Controlador>().validate(controlador, Default.class, PlanosCheck.class);
+        return new InfluuntValidator<Controlador>().validate(controlador, Default.class,
+            PlanosCheck.class, PlanosCentralCheck.class);
     }
 }

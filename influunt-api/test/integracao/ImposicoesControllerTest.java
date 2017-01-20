@@ -1,9 +1,6 @@
 package integracao;
 
-import checks.Erro;
-import checks.InfluuntValidator;
-import checks.PlanosCheck;
-import checks.TabelaHorariosCheck;
+import checks.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.routes;
@@ -318,7 +315,8 @@ public class ImposicoesControllerTest extends BasicMQTTTest {
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-            Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            Default.class, PlanosCheck.class, PlanosCentralCheck.class,
+            TabelaHorariosCheck.class);
     }
 
 }

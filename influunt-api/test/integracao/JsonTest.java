@@ -59,6 +59,7 @@ public class JsonTest extends WithInfluuntApplicationNoAuthentication {
             Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
-            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, PlanosCentralCheck.class,
+            TabelaHorariosCheck.class);
     }
 }

@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
 import checks.InfluuntValidator;
+import checks.PlanosCentralCheck;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import json.ControladorCustomDeserializer;
@@ -37,7 +38,8 @@ public class PlanosController extends Controller {
         }
 
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(json, getUsuario());
-        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, PlanosCheck.class);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador,
+            javax.validation.groups.Default.class, PlanosCheck.class, PlanosCentralCheck.class);
         if (!erros.isEmpty()) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }

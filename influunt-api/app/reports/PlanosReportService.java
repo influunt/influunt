@@ -42,17 +42,17 @@ public class PlanosReportService extends ReportService<Plano> {
         if (params.containsKey("filtrarPor_eq")) {
             if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
-                    paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
+                    paramsAux.put("versaoPlano.anel.controlador.subarea.nome", params.get("subareaAgrupamento"));
                 }
             } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
                 if (params.containsKey("subareaAgrupamento")) {
-                    paramsAux.put("aneis.agrupamentos.nome", params.get("subareaAgrupamento"));
+                    paramsAux.put("versaoPlano.anel.agrupamentos.nome", params.get("subareaAgrupamento"));
                 }
             }
-
-            paramsAux.remove("subareaAgrupamento");
-            paramsAux.remove("filtrarPor_eq");
         }
+
+        paramsAux.remove("subareaAgrupamento");
+        paramsAux.remove("filtrarPor_eq");
 
         paramsAux.put("sort", sort);
         paramsAux.put("sort_type", sortType);
