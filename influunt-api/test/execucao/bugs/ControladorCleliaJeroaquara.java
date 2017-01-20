@@ -30,7 +30,7 @@ public class ControladorCleliaJeroaquara extends GerenciadorDeTrocasTest {
 
     @Test
     public void erroRange() throws IOException {
-        inicioExecucao = new DateTime(2017, 1, 20, 17, 10, 0);
+        inicioExecucao = new DateTime(2017, 1, 20, 18, 16, 59);
 
         assertTrue(controlador.isCompleto());
 
@@ -38,28 +38,31 @@ public class ControladorCleliaJeroaquara extends GerenciadorDeTrocasTest {
 
         avancarSegundos(motor, 500);
 
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(33)).get(1).getEstagio().getPosicao().intValue());
-//        verificaGruposSemaforicos(33, new GrupoCheck(1, 2, 0, 8000, EstadoGrupoSemaforico.VERMELHO));
-//        verificaGruposSemaforicos(33, new GrupoCheck(1, 2, 8000, 11000, EstadoGrupoSemaforico.VERMELHO));
-//        verificaGruposSemaforicos(33, new GrupoCheck(1, 2, 11000, 25000, EstadoGrupoSemaforico.DESLIGADO));
-//
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(30)).get(3).getEstagio().getPosicao().intValue());
-//        verificaGruposSemaforicos(30, new GrupoCheck(3, 6, 0, 8000, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
-//        verificaGruposSemaforicos(30, new GrupoCheck(3, 6, 8000, 10000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
-//        verificaGruposSemaforicos(30, new GrupoCheck(3, 6, 10000, 13000, EstadoGrupoSemaforico.VERMELHO));
-//        verificaGruposSemaforicos(30, new GrupoCheck(3, 6, 13000, 28000, EstadoGrupoSemaforico.DESLIGADO));
-//
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(80)).get(1).getEstagio().getPosicao().intValue());
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(80)).get(3).getEstagio().getPosicao().intValue());
-//
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(130)).get(1).getEstagio().getPosicao().intValue());
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(130)).get(3).getEstagio().getPosicao().intValue());
-//
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(180)).get(1).getEstagio().getPosicao().intValue());
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(180)).get(3).getEstagio().getPosicao().intValue());
-//
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(230)).get(1).getEstagio().getPosicao().intValue());
-//        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(230)).get(3).getEstagio().getPosicao().intValue());
+        assertEquals("E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(38)).get(1).getEstagio().getPosicao().intValue());
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 1, 3000, 5000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 1, 5000, 10000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 2, 0, 5000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 2, 5000, 10000, EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 3, 0, 10000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 4, 0, 10000, EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 5, 0, 5000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 5, 5000, 10000, EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 6, 0, 10000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 7, 0, 5000, EstadoGrupoSemaforico.VERDE));
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 7, 5000, 8000, EstadoGrupoSemaforico.AMARELO));
+        verificaGruposSemaforicos(38, new GrupoCheck(1, 7, 8000, 10000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+
+        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(121)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(181)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(241)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(301)).get(1).getEstagio().getPosicao().intValue());
     }
 
 }

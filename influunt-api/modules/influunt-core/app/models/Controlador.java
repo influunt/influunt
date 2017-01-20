@@ -853,6 +853,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorAssociacaoDetectoresCheck.class).size() == 0;
     }
 
+    public boolean isPlanoCentralConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            PlanosCheck.class, PlanosCentralCheck.class).size() == 0;
+    }
+
     public boolean isPlanoConfigurado() {
         return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
             PlanosCheck.class).size() == 0;

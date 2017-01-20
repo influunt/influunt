@@ -143,6 +143,11 @@ public class ControladorCustomSerializer {
         putControladorDadosIndex(controlador, root);
 
         putInformacoesControlador(controlador, root);
+
+        if (root.get("planoConfigurado").asBoolean()) {
+            root.put("planoConfigurado", controlador.isPlanoCentralConfigurado());
+        }
+
         return root;
     }
 

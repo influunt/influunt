@@ -176,7 +176,10 @@ public class MapStorage implements Storage {
 
     @Override
     public void setControlador(Controlador controlador) {
-        this.controlador.put("atual", new ControladorCustomSerializer().getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()), controlador.getRangeUtils()).toString());
+        this.controlador.put("atual", new ControladorCustomSerializer().
+            getControladorJson(controlador, Collections.singletonList(controlador.getArea().getCidade()),
+                controlador.getRangeUtils()).toString());
+
         db.commit();
     }
 
