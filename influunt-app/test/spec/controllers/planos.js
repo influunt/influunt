@@ -980,13 +980,13 @@ describe('Controller: PlanosCtrl', function() {
         scope.selecionaAnelPlanos(0);
         scope.errors = {
           'aneis': [{
-            'versoesPlanos': [{
+            'versaoPlano': {
               'planos': [{
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
               }, null, {
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
               }]
-            }],
+            },
             'all': [{
               'planos': [{
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
@@ -1012,13 +1012,13 @@ describe('Controller: PlanosCtrl', function() {
         scope.selecionaAnelPlanos(0);
         scope.errors = {
           'aneis': [{
-            'versoesPlanos': [{
+            'versaoPlano': {
               'planos': [null, {
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
               }, null, {
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
               }]
-            }],
+            },
             'all': [{
               'planos': [{
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
@@ -1039,13 +1039,13 @@ describe('Controller: PlanosCtrl', function() {
         scope.selecionaAnelPlanos(0);
         scope.errors = {
           'aneis': [{
-            'versoesPlanos': [{
+            'versaoPlano': {
               'planos': [null, {
                 'numeroEstagiosEmModoManualOk': ['Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.']
               }, null, {
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
               }]
-            }],
+            },
             'all': [{
               'planos': [{
                 'ultrapassaTempoCiclo': ['A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).']
@@ -1055,7 +1055,7 @@ describe('Controller: PlanosCtrl', function() {
             }]
           }]
         };
-        var erros = scope.getErrosPlanos(_.get(scope.errors, 'aneis[0].versoesPlanos[0]'));
+        var erros = scope.getErrosPlanos(_.get(scope.errors, 'aneis[0].versaoPlano'));
         expect(erros.length).toBe(1);
         expect(erros[0]).toBe('Este plano deve ter a mesma quantidade de estágios que os outros planos em modo manual exclusivo.');
       });
@@ -1290,43 +1290,51 @@ describe('Controller: PlanosCtrl', function() {
       var errors = [{
         "root": "Controlador",
         "message": "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.",
-        "path": "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"
+        "path": "aneis[0].versaoPlano.planos[0].estagiosPlanos[0].tempoVerdeIntermediarioFieldEntreMinimoMaximo"
       }, {
         "root": "Controlador",
         "message": "O estágio precisa estar associado a um detector para ser dispensável.",
-        "path": "aneis[0].versoesPlanos[0].planos[0].estagiosPlanos[2].podeSerEstagioDispensavel"
+        "path": "aneis[0].versaoPlano.planos[0].estagiosPlanos[2].podeSerEstagioDispensavel"
       }, {
         "root": "Controlador",
         "message": "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.",
-        "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[1].estagioQueRecebeEstagioDispensavel"
+        "path": "aneis[0].versaoPlano.planos[1].estagiosPlanos[1].estagioQueRecebeEstagioDispensavel"
       }, {
         "root": "Controlador",
         "message": "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.",
-        "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[1].tempoVerdeMinimoFieldMenorMaximo"
+        "path": "aneis[0].versaoPlano.planos[1].estagiosPlanos[1].tempoVerdeMinimoFieldMenorMaximo"
       }, {
         "root": "Controlador",
         "message": "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.",
-        "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[1].tempoVerdeIntermediarioFieldEntreMinimoMaximo"
+        "path": "aneis[0].versaoPlano.planos[1].estagiosPlanos[1].tempoVerdeIntermediarioFieldEntreMinimoMaximo"
       }, {
         "root": "Controlador",
         "message": "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.",
-        "path": "aneis[0].versoesPlanos[0].planos[1].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"
+        "path": "aneis[0].versaoPlano.planos[1].estagiosPlanos[0].tempoVerdeMinimoFieldMenorMaximo"
       }, {
         "root": "Controlador",
         "message": "Defasagem deve estar entre {min} e o tempo de ciclo",
-        "path": "aneis[0].versoesPlanos[0].planos[1].defasagem"
+        "path": "aneis[0].versaoPlano.planos[1].defasagem"
       }, {
         "root": "Controlador",
         "message": "O tempo de verde está menor que o tempo de segurança configurado.",
-        "path": "aneis[0].versoesPlanos[0].planos[3].gruposSemaforicosPlanos[4].respeitaVerdesDeSeguranca"
+        "path": "aneis[0].versaoPlano.planos[3].gruposSemaforicosPlanos[4].respeitaVerdesDeSeguranca"
       }, {
         "root": "Controlador",
         "message": "O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável.",
-        "path": "aneis[0].versoesPlanos[0].planos[3].gruposSemaforicosPlanos[3].respeitaVerdesDeSegurancaSemDispensavel"
+        "path": "aneis[0].versaoPlano.planos[3].gruposSemaforicosPlanos[3].respeitaVerdesDeSegurancaSemDispensavel"
       }, {
         "root": "Controlador",
         "message": "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).",
-        "path": "aneis[0].versoesPlanos[0].planos[3].ultrapassaTempoCiclo"
+        "path": "aneis[0].versaoPlano.planos[3].ultrapassaTempoCiclo"
+      }, {
+        "root": "Controlador",
+        "message": "Tempo de ciclo deve estar entre {min} e {max}",
+        "path": "aneis[0].versaoPlano.planos[4].tempoCiclo"
+      }, {
+        "root": "Controlador",
+        "message": "Tempo de verde deve estar entre {min} e {max}",
+        "path": "aneis[0].versaoPlano.planos[4].estagiosPlanos[0].tempoVerde"
       }];
 
       scope.submitForm();
@@ -1355,6 +1363,25 @@ describe('Controller: PlanosCtrl', function() {
       expect(scope.erroDefasagem()).toBeTruthy();
       expect(scope.erroDefasagem()[0]).toBe("Defasagem deve estar entre 0 e o tempo de ciclo");
     });
+    
+    it('Deve existir um erro de tempo de ciclo no plano 4 e não existir no plano 1', function() {
+      expect(scope.erroTempoCiclo()).toBeFalsy();
+      scope.selecionaPlano(scope.currentPlanos[4], 4);
+      $timeout.flush();
+      expect(scope.erroTempoCiclo()).toBeTruthy();
+      expect(scope.erroTempoCiclo()[0]).toBe("Tempo de ciclo deve estar entre 30 e 255");
+    });
+    
+    it('Deve existir um erro de tempo de verde do estagio plano no plano 4 e não existir no plano 1', function() {
+      scope.currentEstagioPlanoIndex = 0;
+      scope.selecionaPlano(scope.currentPlanos[1], 1);
+      $timeout.flush();
+      expect(scope.getErrosTempo('Verde')).toBeFalsy();
+      scope.selecionaPlano(scope.currentPlanos[4], 4);
+      $timeout.flush();
+      expect(scope.getErrosTempo('Verde')).toBeTruthy();
+      expect(scope.getErrosTempo('Verde')[0]).toBe("Tempo de verde deve estar entre 1 e 255");
+    });
 
     it('Deve existir erros em estagios planos', function() {
       scope.selecionaPlano(scope.currentPlanos[0], 0);
@@ -1373,7 +1400,7 @@ describe('Controller: PlanosCtrl', function() {
     it('Deve existir erros no plano', function() {
       scope.selecionaPlano(scope.currentPlanos[3], 3);
       $timeout.flush();
-      var erros = scope.errors.aneis[0].versoesPlanos[0];
+      var erros = scope.errors.aneis[0].versaoPlano;
       expect(scope.getErrosPlanos(erros).length).toBe(3);
       expect(scope.getErrosPlanos(erros)[0]).toBe('G2 - O tempo de verde está menor que o tempo de segurança configurado devido à não execução do estágio dispensável.');
       expect(scope.getErrosPlanos(erros)[1]).toBe('G4 - O tempo de verde está menor que o tempo de segurança configurado.');
@@ -1392,19 +1419,19 @@ describe('Controller: PlanosCtrl', function() {
       var errors = [{
         "root": "Controlador",
         "message": "Este plano deve ser configurado em todos os aneis.",
-        "path": "aneis[0].versoesPlanos[0].planos[5].planoPresenteEmTodosOsAneis"
+        "path": "aneis[0].versaoPlano.planos[5].planoPresenteEmTodosOsAneis"
       }, {
         "root": "Controlador",
         "message": "Este plano deve ser configurado em todos os aneis.",
-        "path": "aneis[1].versoesPlanos[0].planos[5].planoPresenteEmTodosOsAneis"
+        "path": "aneis[1].versaoPlano.planos[5].planoPresenteEmTodosOsAneis"
       }, {
         "root": "Controlador",
         "message": "A soma dos tempos dos estágios ({temposEstagios}s) é diferente do tempo de ciclo ({tempoCiclo}s).",
-        "path": "aneis[1].versoesPlanos[0].planos[5].ultrapassaTempoCiclo"
+        "path": "aneis[1].versaoPlano.planos[5].ultrapassaTempoCiclo"
       }, {
         "root": "Controlador",
         "message": "O tempo de estagio ultrapassa o tempo máximo de permanência.",
-        "path": "aneis[0].versoesPlanos[0].planos[5].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"
+        "path": "aneis[0].versaoPlano.planos[5].estagiosPlanos[0].ultrapassaTempoMaximoPermanencia"
       }];
 
       scope.submitForm();

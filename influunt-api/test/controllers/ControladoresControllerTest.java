@@ -363,6 +363,7 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         // Agrupamento deve ser apagado se for adicionado
         // um novo anel (em comparação com a versão anterior)
         anel.setAtivo(true);
+        controladorClonado.setAtualizando(true);
         controladorClonado.update();
         assertEquals(0, Agrupamento.find.findRowCount());
 
@@ -376,6 +377,14 @@ public class ControladoresControllerTest extends AbstractInfluuntControladorTest
         });
 
         assertEquals(1, Agrupamento.find.findRowCount());
+
+        // não deve apagar agrupamentos se atualizando for false
+        controladorClonado.setAtualizando(false);
+        controladorClonado.update();
+        assertEquals(1, Agrupamento.find.findRowCount());
+
+        // só apaga agrupamentos se atualizando for true
+        controladorClonado.setAtualizando(true);
         controladorClonado.update();
         assertEquals(0, Agrupamento.find.findRowCount());
     }
