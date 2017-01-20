@@ -176,6 +176,8 @@ angular.module('influuntApp')
         .catch(function(err) {
           if (err.status === 422) {
             $scope.errors = handleValidations.handle(err.data);
+          } else if (err.status === 409) {
+            throw err;
           } else {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));

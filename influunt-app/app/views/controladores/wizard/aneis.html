@@ -1,6 +1,6 @@
 <fieldset data-ng-init="inicializaAneis()">
   <div class="m-t-md">
-    <div class="col-lg-12 col-sm-12 bg-border no-padding" data-ng-form name="dadosBasicos">
+    <div class="col-lg-12 col-sm-12 bg-border no-padding">
       <div class="ibox float-e-margins">
 
         <div class="col-lg-12 col-sm-12 padding-top-20 tabs-container">
@@ -73,7 +73,7 @@
                     </div>
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.numeroSMEE' | translate }}</label>
-                      <input type="text" name="numeroSMEE" placeholder="" class="form-control" ng-value="dadosBasicos.numeroSMEE" data-ng-model="currentAnel.numeroSMEE">
+                      <input type="text" name="numeroSMEE" placeholder="" class="form-control" ng-value="aneis.numeroSMEE" data-ng-model="currentAnel.numeroSMEE">
                     </div>
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.CLA' | translate }}</label>
@@ -100,19 +100,18 @@
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.localizacao">{{ error }}</p>
                     </div>
 
-
                   <div class="col-lg-12 col-sm-12 no-padding"
-                       data-ng-class="{ 'has-error': !dadosBasicos.alturaNumerica.$valid }">
+                       data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.alturaNumericaNegativa }">
                     <div class="form-group">
                       <label class="control-label">{{ 'controladores.alturaNumerica' | translate }}:</label>
+
                       <input type="number"
-                             name="alturaNumerica"
-                             min="0"
+                             name="endereco.alturaNumerica"
                              class="form-control"
-                             data-ng-model="objeto.todosEnderecos[enderecoControladorIndex].alturaNumerica">
+                             data-ng-model="currentEndereco.alturaNumerica">
                       <p class="help-block error-msg"
-                         data-ng-if="!dadosBasicos.alturaNumerica.$valid">
-                         {{ 'controladores.validacaoAlturaNumerica' | translate }}
+                        data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.alturaNumericaNegativa">
+                        {{ error }}
                       </p>
                     </div>
                   </div>

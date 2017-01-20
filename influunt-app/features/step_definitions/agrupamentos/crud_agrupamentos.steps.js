@@ -62,7 +62,7 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento$/, function() {
     return agrupamentosPage.textoConfirmacaoApagarRegistro().then(function(text) {
-      expect(text).to.equal('Quer mesmo apagar este registro?');
+      expect(text).to.equal('Ao apagar esse registro todos os planos com numeração 1 serão apagados de todos os anéis que fazem parte desse agrupamento.');
     });
   });
 
