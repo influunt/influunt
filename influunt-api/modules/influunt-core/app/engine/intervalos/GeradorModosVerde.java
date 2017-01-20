@@ -33,6 +33,8 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
     private Long tempoAbatidoNoCiclo;
 
+    private boolean deveAbatimento = false;
+
     public GeradorModosVerde(RangeMap<Long, IntervaloEstagio> intervalos, Plano plano,
                              ModoOperacaoPlano modoAnterior, List<EstagioPlano> listaEstagioPlanos,
                              EstagioPlano estagioPlanoAtual, HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde,
@@ -134,6 +136,8 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
                 final long abatimento = Math.min(tempoVerde - verdeSeguranca, tempoAbatimentoCoordenado);
 
+                deveAbatimento = abatimento > 0L;
+
                 tempoVerde -= abatimento;
 
                 if (trocaDePlano(estagioPlanoAtual, estagioPlano) && estagioAnterior.equals(estagioAtual)) {
@@ -158,11 +162,18 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             }
         }
 
-        final long diffEntreVerdes;
+        long diffEntreVerdes;
         if (tempoEntreVerdeComAtraso > tempoEntreVerde) {
             diffEntreVerdes = tempoEntreVerdeComAtraso - tempoEntreVerde;
             tempoEntreVerde += diffEntreVerdes;
-            tempoVerde -= diffEntreVerdes;
+            if (tempoVerde > 0 && diffEntreVerdes > tempoVerde) {
+                if (deveAbatimento) {
+                    tempoAbatimentoCoordenado += diffEntreVerdes - tempoVerde;
+                }
+                tempoVerde = 0;
+            } else {
+                tempoVerde -= diffEntreVerdes;
+            }
         } else {
             diffEntreVerdes = 0L;
         }

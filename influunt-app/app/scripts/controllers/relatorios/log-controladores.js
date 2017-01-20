@@ -31,7 +31,7 @@ angular.module('influuntApp')
           },
           {
             nome: 'tipoLog',
-            label: 'relatorios.filtarPor',
+            label: 'relatorios.tipoEvento',
             tipo: 'select',
             options: TIPO_LOG
           }

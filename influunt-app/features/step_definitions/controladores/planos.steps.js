@@ -32,6 +32,10 @@ module.exports = function() {
     return planosPage.isTempoDeCicloHidden();
   });
 
+  this.Given(/^o usuário não deve ter a opção de marcar estágio dispensável$/, function () {
+    return planosPage.isEstagioDispensavelHidden();
+  });
+
   this.Given(/^o usuário deve ter a opção de marcar o tempo de ciclo do estágio$/, function () {
     return planosPage.isTempoDeCicloVisible();
   });
@@ -188,8 +192,8 @@ module.exports = function() {
     return planosPage.deveConterEstagioQueRecebeDispensavel(estagio);
   });
 
-  this.Given(/^o valor da defasagem deverá ser "([^"]*)"$/, function (valor) {
-    return planosPage.valorDoKnob(valor);
+  this.Given(/^o valor "([^"]*)" deverá ser "([^"]*)"$/, function (Knob,valor) {
+    return planosPage.valorDoKnob(valor, Knob);
   });
 
   this.Given(/^o usuário no diagrama selecionar o grupo "([^"]*)"$/, function (grupo) {

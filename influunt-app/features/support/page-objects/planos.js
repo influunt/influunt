@@ -31,6 +31,10 @@ var PlanosPage = function () {
     return world.waitForInverse('influunt-knob[title="TEMPO DE CICLO"]');
   };
 
+  this.isEstagioDispensavelHidden = function() {
+    return world.waitForInverse('input[name="dispensavel"]').then(true);
+  };
+
   this.isTempoDeCicloVisible = function() {
     return world.waitFor('influunt-knob[title="TEMPO DE CICLO"]');
   };
@@ -196,7 +200,9 @@ var PlanosPage = function () {
   };
 
   this.checkEstagioDispensavel = function() {
-    return world.getElementByXpath('//input[contains(@name, "dispensavel")]/..').click();
+    return world.waitForByXpath('//input[contains(@name, "dispensavel")]').then(function() {
+      return world.getElementByXpath('//input[contains(@name, "dispensavel")]/..').click();
+    });
   };
 
   this.selecionaEstagioQueRecebeDispensavel = function(estagio) {
@@ -211,8 +217,8 @@ var PlanosPage = function () {
     return world.getElementByXpath('//input[contains(@name, "cicloDuplo")]//following-sibling::ins').click();
   };
 
-  this.valorDoKnob = function(valor) {
-    return world.waitForByXpath('//influunt-knob[contains(@title, "DEFASAGEM")]//p[contains(@class, "knob-value")][contains(text(), "'+valor+'")]');
+  this.valorDoKnob = function(valor, Knob) {
+    return world.waitForByXpath('//influunt-knob[contains(@title, "'+Knob+'")]//p[contains(@class, "knob-value")][contains(text(), "'+valor+'")]');
   };
 };
 

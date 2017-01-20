@@ -559,10 +559,6 @@ angular.module('influuntApp')
         return _.get($scope.objeto, 'bloqueado');
       };
 
-      $scope.podeAtivar = function(controlador) {
-        return controlador.statusControlador === 'CONFIGURADO' && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
-      };
-
       $scope.podeFinalizar = function(controlador) {
         var statusControladorOk = controlador.statusControladorReal === 'EM_CONFIGURACAO' || controlador.statusControladorReal === 'EDITANDO';
         return statusControladorOk &&

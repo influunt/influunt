@@ -256,7 +256,7 @@ angular.module('influuntApp')
           dadosDiagrama = {
             erros: _.chain(transicoesProibidas).map('mensagem').uniq().value()
           };
-        } else if (['INTERMITENTE', 'APAGADO', 'ATUADO', 'MANUAL'].indexOf(plano.modoOperacao) < 0) {
+        } else if (plano && ['INTERMITENTE', 'APAGADO', 'ATUADO', 'MANUAL'].indexOf(plano.modoOperacao) < 0) {
           var fakenPlano = getPlanoParaDiagrama(plano, anel, currentGruposSemaforicos, controlador);
           var diagramaBuilder = new influunt.components.DiagramaIntervalos(fakenPlano, valoresMinimos);
           var result = diagramaBuilder.calcula();
@@ -304,7 +304,7 @@ angular.module('influuntApp')
           });
 
           dadosDiagrama = result;
-        } else {
+        } else if(plano) {
           dadosDiagrama = setDiagramaEstatico(controlador, plano, anel);
         }
 

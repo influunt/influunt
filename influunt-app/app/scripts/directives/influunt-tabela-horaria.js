@@ -165,18 +165,18 @@ angular.module('influuntApp')
             scope.tabErrors = {};
             scope.currentErrosEventos = {};
             if (scope.errors && Object.keys(scope.errors).length > 0 &&
-                scope.errors.versoesTabelasHorarias &&
-                Object.keys(scope.errors.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex]).length > 0 &&
-                scope.errors.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos &&
-                Object.keys(scope.errors.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos).length > 0){
+                scope.errors.versaoTabelaHoraria &&
+                Object.keys(scope.errors.versaoTabelaHoraria).length > 0 &&
+                scope.errors.versaoTabelaHoraria.tabelaHoraria.eventos &&
+                Object.keys(scope.errors.versaoTabelaHoraria.tabelaHoraria.eventos).length > 0){
 
               _.each(scope.currentEventos, function(evento, index) {
                 scope.currentErrosEventos[index] = getErrosEvento(evento, index);
               });
 
-              var versaoTabelaHoraria = _.reject(scope.errors.versoesTabelasHorarias, _.isUndefined);
+              var versaoTabelaHoraria = _.reject(scope.errors.versaoTabelaHoraria, _.isUndefined);
               if (!_.isEmpty(versaoTabelaHoraria)) {
-                var tabelaHoraria = versaoTabelaHoraria[0].tabelaHoraria;
+                var tabelaHoraria = versaoTabelaHoraria[0];
                 tabelaHoraria.eventos.forEach(function(v, k) {
                   var evento = _.find(scope.objeto.eventos, {idJson: scope.currentTabelaHoraria.eventos[k].idJson});
                   scope.tabErrors[evento.tipo] = scope.tabErrors[evento.tipo] || !!v;
@@ -220,7 +220,7 @@ angular.module('influuntApp')
 
           getErrosEvento = function(evento) {
             var indexEvento = _.findIndex(scope.currentTabelaHoraria.eventos, {idJson: evento.idJson});
-            return scope.errors.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.eventos[indexEvento];
+            return scope.errors.versaoTabelaHoraria.tabelaHoraria.eventos[indexEvento];
           };
 
           scope.tabTemErro = function(indice) {
@@ -228,9 +228,9 @@ angular.module('influuntApp')
           };
 
           scope.getErrosTabelaHoraria = function() {
-            if (scope.errors && Object.keys(scope.errors).length > 0 && Object.keys(scope.errors.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex]).length > 0) {
+            if (scope.errors && Object.keys(scope.errors).length > 0 && Object.keys(scope.errors.versaoTabelaHoraria).length > 0) {
               return _
-              .chain(scope.errors.versoesTabelasHorarias[scope.currentVersaoTabelaHorariaIndex].tabelaHoraria.aoMenosUmEvento)
+              .chain(scope.errors.versaoTabelaHoraria.tabelaHoraria.aoMenosUmEvento)
               .map()
               .flatten()
               .value();

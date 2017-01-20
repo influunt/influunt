@@ -86,11 +86,19 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @Transient
+    private VersaoPlano versaoPlanoEmConfiguracao;
+
+    @JsonIgnore
+    @Transient
     private VersaoPlano versaoPlanoConfigurado;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
-    @Valid
     private List<VersaoPlano> versoesPlanos;
+
+    @JsonIgnore
+    @Transient
+    @Valid
+    private VersaoPlano versaoPlano;
 
     @ManyToMany(mappedBy = "aneis")
     @JoinTable(name = "agrupamentos_aneis", joinColumns = {@JoinColumn(name = "anel_id")}, inverseJoinColumns = {@JoinColumn(name = "agrupamento_id")})
@@ -263,6 +271,17 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     @Transient
+    public VersaoPlano getVersaoPlanoEmConfiguracao() {
+        if (versaoPlanoEmConfiguracao == null) {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
+                this.versaoPlanoEmConfiguracao = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isEmConfiguracao()).findFirst().orElse(null);
+            }
+        }
+        return versaoPlanoEmConfiguracao;
+    }
+
+    @Transient
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
@@ -292,15 +311,24 @@ public class Anel extends Model implements Cloneable, Serializable {
         return getVersaoPlanoConfigurado();
     }
 
+    @Transient
+    public VersaoPlano getVersaoPlano() {
+        if (getVersaoPlanoEmConfiguracao() != null) {
+            versaoPlano = getVersaoPlanoEmConfiguracao();
+        } else if (getVersaoPlanoEmEdicao() != null) {
+            versaoPlano = getVersaoPlanoEmEdicao();
+        } else if (getVersaoPlanoConfigurado() != null) {
+            versaoPlano = getVersaoPlanoConfigurado();
+        } else if (getVersaoPlanoAtivo() != null) {
+            versaoPlano = getVersaoPlanoAtivo();
+        }
+        return versaoPlano;
+    }
 
     @Transient
     public List<Plano> getPlanos() {
-        if (getVersaoPlanoEmEdicao() != null) {
-            return getVersaoPlanoEmEdicao().getPlanos();
-        } else if (getVersaoPlanoConfigurado() != null) {
-            return getVersaoPlanoConfigurado().getPlanos();
-        } else if (getVersaoPlanoAtivo() != null) {
-            return getVersaoPlanoAtivo().getPlanos();
+        if (getVersaoPlano() != null) {
+            return getVersaoPlano().getPlanos();
         }
         return Collections.emptyList();
     }
@@ -482,18 +510,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         }
 
         getVersoesPlanos().add(versaoPlano);
-    }
-
-    @Transient
-    public VersaoPlano getVersaoPlano() {
-        if (getVersaoPlanoEmEdicao() != null) {
-            return getVersaoPlanoEmEdicao();
-        } else if (getVersaoPlanoConfigurado() != null) {
-            return getVersaoPlanoConfigurado();
-        } else if (getVersaoPlanoAtivo() != null) {
-            return getVersaoPlanoAtivo();
-        }
-        return null;
+        getVersaoPlano();
     }
 
     public List<Agrupamento> getAgrupamentos() {

@@ -1164,8 +1164,12 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li {
+  font-weight: 600;
   line-height: 40px;
   height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
 }
 
 .wrapper-content .basic-wizard .content .body .association.table-entry-green nav li label {
@@ -2961,4 +2965,12 @@ p.velocidade-error {
   min-height: 70px;
   position: static;
   margin-top: 10px;
+}
+
+.btn-exclamation {
+  background-color: #ed5565;
+  color: #FFFFFF;
+  position: relative;
+  top: -13px;
+  left: -11px;
 }

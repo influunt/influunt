@@ -38,6 +38,6 @@ Funcionalidade: Realizar o relatório da tabela horária
     E o usuário no campo data preencher com valor "08/11/2016"
     E o usuário selecionar no campo "controlador" selecionar o label "3.003.0002 - Av. Paulista, nº 1000. ref.: AREA 1"
     Quando o usuário clicar em Gerar
-    Então o sistema deverá mostrar na coluna "Horário" com valor "01:00:00.000"
+    Então o sistema deverá mostrar na coluna "Horário" com valor "00:00:00.000"
     E o sistema deverá mostrar na coluna "Plano" com valor "PLANO 4"
     E o sistema deverá mostrar na coluna "Modo de Operação" com valor "INTERMITENTE"

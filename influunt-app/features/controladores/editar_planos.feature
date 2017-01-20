@@ -10,9 +10,7 @@ Cenário: Estágio que recebe o tempo dispensável não pode ser o primeiro nem 
   Então o "PLANO 1" deverá estar ativado
   E que o usuário clicar no plano 1
   E que o usuário clique no botão de configurar o estágio "E1"
-  E e o usuário clicar em estágio dispensável
-  E o usuário não consiga selecionar o valor "E3" para o campo "tipoEstagio"
-  E o usuário selecionar o estágio que recebe o estágio dispensável "E2"
+  Então o usuário não deve ter a opção de marcar estágio dispensável
   E que o usuário clique no botão de fechar a caixa de configuração
   E que o usuário clique no botão de configurar o estágio "E2"
   E e o usuário clicar em estágio dispensável
@@ -61,10 +59,9 @@ Cenário: Estágio que recebe o tempo dispensável ao apaga-lo o sistema deverá
   E que o usuário marque 30 segundos para o "Tempo de Verde"
   E que o usuário clique no botão de fechar a caixa de configuração
   E o usuário clicar em "Salvar"
-  Então o sistema deverá apresentar erro no estágio "E1"
   Então o sistema deverá apresentar erro no estágio "E3"
 
-Cenário: Ao adicionar um plano com ciclo duplo o tempo deve ser maior ou igual ao tempo de ciclo
+Cenário: Ao adicionar um plano um ciclo duplo ele deverá ser igual ao tempo de ciclo
   Dado que o sistema possua controladores cadastrados e configurados
   E o usuário acessar a tela de listagem de "controladores"
   Quando o usuário clicar em "Planos" do controlador "Avenida Nove de Julho com Av. Paulista"
@@ -72,16 +69,12 @@ Cenário: Ao adicionar um plano com ciclo duplo o tempo deve ser maior ou igual 
   Então o "PLANO 1" deverá estar ativado
   E que o usuário clicar no plano 3
   E que o usuário selecione o modo de operação "Coordenado"
+  Quando que o usuário marque 60 segundos para o "TEMPO DE CICLO"
   E o usuário ativar o ciclo duplo
-  E que o usuário marque 60 segundos para o "TEMPO DE CICLO"
-  E que o usuário marque 40 segundos para o "TEMPO DE CICLO DUPLO"
-  Quando o usuário clicar em "Salvar"
-  Então o sistema deverá mostrar erro no plano 3
-  E o sistema deverá apresentar erro de "O Tempo do ciclo duplo deve ser maior ou igual ao tempo de ciclo."
+  Então o valor "TEMPO DE CICLO DUPLO" deverá ser "60"
 
 Cenário: Salvar um plano coordenado utiliznado o ciclo duplo
-  Dado que o usuário marque 61 segundos para o "TEMPO DE CICLO DUPLO"
-  E que o usuário clique no botão de configurar o estágio "E1"
+  Dado que o usuário clique no botão de configurar o estágio "E1"
   E que o usuário marque 44 segundos para o "Tempo de Verde"
   E que o usuário clique no botão de fechar a caixa de configuração
   E que o usuário selecione o anel 2
@@ -138,7 +131,7 @@ Cenário: Planos em modo coordenado da mesma subárea deverão ser simétricos
   E que o usuário clique no botão de fechar a caixa de configuração
   Quando o usuário clicar em "Salvar"
   Então o sistema deverá mostrar erro no plano 1
-  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração."
+  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico nos agrupamentos associados aos planos dessa numeração."
 
 Cenário: Validar ao inserir um estágio dispensável sem o estágio que recebe o tempo do estágio dispensável
   Dado que o sistema possua controladores cadastrados e configurados
@@ -149,11 +142,11 @@ Cenário: Validar ao inserir um estágio dispensável sem o estágio que recebe 
   E o usuário clicar em "Editar"
   Então o "PLANO 1" deverá estar ativado
   E que o usuário clicar no plano 1
-  E que o usuário clique no botão de configurar o estágio "E1"
+  E que o usuário clique no botão de configurar o estágio "E2"
   E e o usuário clicar em estágio dispensável
   E que o usuário clique no botão de fechar a caixa de configuração
   E o usuário clicar em "Salvar"
-  Então o sistema deverá apresentar erro no estágio "E1"
+  Então o sistema deverá apresentar erro no estágio "E2"
 
 Cenário: Validar verde de segurança mínimo para estágio dispensável
   Dado que o usuário clique no botão de configurar o estágio "E1"
@@ -163,8 +156,11 @@ Cenário: Validar verde de segurança mínimo para estágio dispensável
   E que o usuário clique no botão de fechar a caixa de configuração
 
 Cenário: Salva o estágio dispensável
-  Dado que o usuário clique no botão de configurar o estágio "E1"
-  E o usuário selecionar o estágio que recebe o estágio dispensável "E2"
+  Dado que o usuário clique no botão de configurar o estágio "E2"
+  E o usuário selecionar o estágio que recebe o estágio dispensável "E1"
+  E que o usuário marque 12 segundos para o "Tempo de Verde"
+  E que o usuário clique no botão de fechar a caixa de configuração
+  E que o usuário clique no botão de configurar o estágio "E1"
   E que o usuário marque 12 segundos para o "Tempo de Verde"
   E que o usuário clique no botão de fechar a caixa de configuração
   Quando o usuário clicar em "Salvar"
@@ -172,7 +168,30 @@ Cenário: Salva o estágio dispensável
   E o sistema deverá mostrar o status do controlador como "Em revisão"
 
 Cenário: Finalizar o controlador com o estágio dispensável
-  Dado o usuário clicar em "Finalizar" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
+  Dado o usuário clicar em "Tabela Horária" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
+  E o usuário clicar em "Editar"
+  E que o usuário remover o ultimo evento
+  E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+  E o usuário confirmar
+  Então o evento "6" deverá ser excluído
+  E que o usuário remover o ultimo evento
+  E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+  E o usuário confirmar
+  Então o evento "5" deverá ser excluído
+  E que o usuário remover o ultimo evento
+  E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+  E o usuário confirmar
+  Então o evento "4" deverá ser excluído
+  E que o usuário remover o ultimo evento
+  E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+  E o usuário confirmar
+  Então o evento "3" deverá ser excluído
+  E que o usuário remover o ultimo evento
+  E o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+  E o usuário confirmar
+  Então o evento "2" deverá ser excluído
+  E o usuário clicar em "Salvar"
+  Quando o usuário clicar em "Finalizar" do controlador "Av. Paulista, nº 1000. ref.: AREA 1"
   Então o sistema deverá mostar um modal para salvar o histórico
   Dado o usuário preencha o alert com "Crontrolador principal"
   E o usuário confirmar
@@ -184,8 +203,8 @@ Cenário: Checar se o estágio que recebe estágio dispensável foi salvo corret
   E o usuário clicar em "Editar"
   Quando o "PLANO 1" deverá estar ativado
   E que o usuário clicar no plano 1
-  E que o usuário clique no botão de configurar o estágio "E1"
-  Então o estágio "E2" deve estar selecionado para estágio dispensável
+  E que o usuário clique no botão de configurar o estágio "E2"
+  Então o estágio "E1" deve estar selecionado para estágio dispensável
   E que o usuário clique no botão de fechar a caixa de configuração
 
 Cenário: Validar plano manual exclusivo deve possuir dois quantidade de estágios iguais
@@ -241,6 +260,6 @@ Cenário: Não pode salva um estágio com o tempo maior que de permanência
   Quando o usuário clicar em "Salvar"
   Então o sistema deverá apresentar erro no estágio "E1"
   E o sistema deverá apresentar erro de "A soma dos tempos dos estágios (146s) é diferente do tempo de ciclo (200s)."
-  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração."
+  E o sistema deverá apresentar erro de "O Tempo de ciclo deve ser simétrico nos agrupamentos associados aos planos dessa numeração."
 
 

@@ -119,7 +119,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private VersaoControlador versaoControlador;
 
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
     private List<VersaoTabelaHoraria> versoesTabelasHorarias;
 
     @Column
@@ -146,6 +145,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
+
+    @JsonIgnore
+    @Transient
+    @Valid
+    private VersaoTabelaHoraria versaoTabelaHoraria;
 
     @JsonIgnore
     @Transient
@@ -637,6 +641,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         return null;
     }
 
+
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaAtiva() {
         if (versaoTabelaHorariaAtiva == null) {
@@ -670,13 +675,13 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHoraria() {
         if (getVersaoTabelaHorariaEmEdicao() != null) {
-            return getVersaoTabelaHorariaEmEdicao();
+            versaoTabelaHoraria = getVersaoTabelaHorariaEmEdicao();
         } else if (getVersaoTabelaHorariaConfigurada() != null) {
-            return getVersaoTabelaHorariaConfigurada();
+            versaoTabelaHoraria = getVersaoTabelaHorariaConfigurada();
         } else if (getVersaoTabelaHorariaAtiva() != null) {
-            return getVersaoTabelaHorariaAtiva();
+            versaoTabelaHoraria = getVersaoTabelaHorariaAtiva();
         }
-        return null;
+        return versaoTabelaHoraria;
     }
 
     public VersaoControlador getVersaoControlador() {
@@ -846,6 +851,21 @@ public class Controlador extends Model implements Cloneable, Serializable {
             ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
             ControladorAssociacaoDetectoresCheck.class).size() == 0;
+    }
+
+    public boolean isPlanoCentralConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            PlanosCheck.class, PlanosCentralCheck.class).size() == 0;
+    }
+
+    public boolean isPlanoConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            PlanosCheck.class).size() == 0;
+    }
+
+    public boolean isTabelaHorariaConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            TabelaHorariosCheck.class).size() == 0;
     }
 
     /**

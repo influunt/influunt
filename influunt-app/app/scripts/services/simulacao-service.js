@@ -11,7 +11,7 @@ angular.module('influuntApp')
 .service('SimulacaoService', function() {
 
   var podeSimular = function(controlador) {
-    return controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+    return controlador && controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
   };
 
   return {

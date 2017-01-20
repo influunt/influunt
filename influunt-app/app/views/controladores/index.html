@@ -42,6 +42,7 @@
                   </th>
                   <th>{{ 'controladores.geral.CLC' | translate }}</th>
                   <th sortable-th
+                    width='30%'
                     data-ng-model="pesquisa"
                     data-name="nomeEndereco"
                     data-label="{{ 'controladores.nomeEndereco' | translate }}"
@@ -66,7 +67,7 @@
                   <td>{{ controlador.dataAtualizacao }}</td>
                   <td>
                     <hgroup>
-                      <a class="btn btn-outline btn-primary"
+                      <a class="btn btn-sm btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.configuracao' | translate }}"
                          type="button"
@@ -74,7 +75,13 @@
                          permission permission-only="'verControlador'">
                         <i class="fa fa-eye"></i> {{ 'controladores.geral.configuracao' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary"
+                      <span class="badge badge-danger btn-exclamation"
+                            data-ng-if="!controlador.controladorConfigurado"
+                            inf-tooltip>
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+
+                      <a class="btn btn-sm btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.planos' | translate }}"
                          ui-sref="app.planos({id: controlador.id})"
@@ -82,7 +89,13 @@
                          permission permission-only="'verPlanos'">
                         <i class="fa fa-file-text"></i> {{ 'controladores.geral.planos' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary"
+                      <span class="badge badge-danger btn-exclamation"
+                            data-ng-if="!controlador.planoConfigurado"
+                            inf-tooltip>
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+
+                      <a class="btn btn-sm btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'geral.tooltip.verEditar' | translate }} {{ 'controladores.geral.tabelaHorario' | translate }}"
                          type="button"
@@ -91,7 +104,13 @@
                          permission permission-only="'verTabelaHoraria'">
                         <i class="fa fa-calendar"></i> {{ 'controladores.geral.tabelaHorario' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary"
+                      <span class="badge badge-danger btn-exclamation"
+                            data-ng-if="!controlador.tabelaHorariaConfigurado"
+                            inf-tooltip>
+                        <i class="fa fa-exclamation"></i>
+                      </span>
+
+                      <a class="btn btn-sm btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'controladores.geral.finalizar' | translate }} {{ 'controladores.geral.configuracao' | translate }}"
                          type="button"
@@ -100,7 +119,7 @@
                          permission permission-only="'criarControlador'">
                         <i class="fa fa-check"></i> {{ 'controladores.geral.finalizar' | translate }}
                       </a>
-                      <a class="btn btn-primary"
+                      <a class="btn btn-sm btn-primary"
                          type="button"
                          disabled="disabled"
                          tooltips tooltip-side="left"
@@ -109,7 +128,7 @@
                          permission permission-only="'criarControlador'">
                         <i class="fa fa-check"></i> {{ 'controladores.geral.finalizar' | translate }}
                       </a>
-                      <a class="btn btn-outline btn-primary"
+                      <a class="btn btn-sm btn-outline btn-primary"
                          tooltips tooltip-side="left"
                          tooltip-template="{{ 'controladores.geral.msgTooltipSimular' | translate }}"
                          type="button"

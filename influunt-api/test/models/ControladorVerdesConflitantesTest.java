@@ -43,7 +43,7 @@ public class ControladorVerdesConflitantesTest extends ControladorTest {
         paulista.setLocalizacao2("R. Bela Cintra");
         anelAtivo.setEndereco(paulista);
 
-        anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
+        anelAtivo.setEstagios(Arrays.asList(new Estagio(1, anelAtivo), new Estagio(2, anelAtivo)));
 
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
         criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
