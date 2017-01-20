@@ -1069,7 +1069,8 @@
     "plano": "Plano",
     "numeroPlano": "Número do Plano",
     "modoPlano": "Modo de Operação",
-    "subarea": "Subárea"
+    "subarea": "Subárea",
+    "agrupamento": "Agrupamento"
   },
   "diff": {
     "versaoCriadaPor": "Versão criada por",
