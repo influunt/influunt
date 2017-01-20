@@ -6,7 +6,7 @@ version := "0.1.0"
 
 lazy val influuntCore = (project in file("./../influunt-core")).enablePlugins(PlayJava, PlayEbean)
 
-lazy val influuntApi = (project in file("modules/influunt-api")).enablePlugins(PlayJava, PlayEbean)
+lazy val influuntApi = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
     .dependsOn(influuntCore)
     .aggregate(influuntCore)
 
