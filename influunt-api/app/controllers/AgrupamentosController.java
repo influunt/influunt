@@ -114,7 +114,7 @@ public class AgrupamentosController extends Controller {
             } else {
                 agrupamento.update();
                 agrupamento.refresh();
-                if (deveCriarEventos() || (existeconflito && deveSubstituirEventos())) {
+                if ((!existeconflito && deveCriarEventos()) || (existeconflito && deveSubstituirEventos())) {
                     agrupamento.criarEventos();
                 }
             }
