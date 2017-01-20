@@ -54,7 +54,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
                     }
 
                     //Se controlador completo, avisa o motor para colocar o controlador no ar
-                    if (storage.getControlador() != null && storage.getControlador().isCompleto()) {
+                    if (storage.getControlador() != null && storage.getControlador().isCompletoDevice()) {
                         getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
                     }
                 }

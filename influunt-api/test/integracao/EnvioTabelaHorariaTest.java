@@ -1,9 +1,6 @@
 package integracao;
 
-import checks.Erro;
-import checks.InfluuntValidator;
-import checks.PlanosCheck;
-import checks.TabelaHorariosCheck;
+import checks.*;
 import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
@@ -60,7 +57,8 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
 
     protected List<Erro> getErros(Controlador controlador) {
         return new InfluuntValidator<Controlador>().validate(controlador,
-            Default.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            Default.class, PlanosCheck.class, PlanosCentralCheck.class,
+            TabelaHorariosCheck.class);
     }
 
     private void enviarPacotePlano() {
