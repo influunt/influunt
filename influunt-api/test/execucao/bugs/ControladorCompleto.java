@@ -35,7 +35,9 @@ public class ControladorCompleto extends GerenciadorDeTrocasTest {
 
         JsonNode controladorJson = new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null));
 
-        assertTrue(controladorJson.get("controladorCompleto").asBoolean());
+        assertTrue(controladorJson.get("controladorConfigurado").asBoolean());
+        assertTrue(controladorJson.get("planoConfigurado").asBoolean());
+        assertTrue(controladorJson.get("tabelaHorariaConfigurado").asBoolean());
     }
 
 }

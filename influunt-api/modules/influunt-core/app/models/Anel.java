@@ -86,6 +86,10 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @Transient
+    private VersaoPlano versaoPlanoEmConfiguracao;
+
+    @JsonIgnore
+    @Transient
     private VersaoPlano versaoPlanoConfigurado;
 
     @OneToMany(mappedBy = "anel", cascade = CascadeType.ALL)
@@ -267,6 +271,17 @@ public class Anel extends Model implements Cloneable, Serializable {
     }
 
     @Transient
+    public VersaoPlano getVersaoPlanoEmConfiguracao() {
+        if (versaoPlanoEmConfiguracao == null) {
+            if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
+                this.versaoPlanoEmConfiguracao = getVersoesPlanos().stream()
+                    .filter(vp -> vp != null && vp.isEmConfiguracao()).findFirst().orElse(null);
+            }
+        }
+        return versaoPlanoEmConfiguracao;
+    }
+
+    @Transient
     public VersaoPlano getVersaoPlanoEmEdicao() {
         if (versaoPlanoEdicao == null) {
             if (getVersoesPlanos() != null && !getVersoesPlanos().isEmpty()) {
@@ -298,7 +313,9 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     @Transient
     public VersaoPlano getVersaoPlano() {
-        if (getVersaoPlanoEmEdicao() != null) {
+        if (getVersaoPlanoEmConfiguracao() != null) {
+            versaoPlano = getVersaoPlanoEmConfiguracao();
+        } else if (getVersaoPlanoEmEdicao() != null) {
             versaoPlano = getVersaoPlanoEmEdicao();
         } else if (getVersaoPlanoConfigurado() != null) {
             versaoPlano = getVersaoPlanoConfigurado();
@@ -493,6 +510,7 @@ public class Anel extends Model implements Cloneable, Serializable {
         }
 
         getVersoesPlanos().add(versaoPlano);
+        getVersaoPlano();
     }
 
     public List<Agrupamento> getAgrupamentos() {
