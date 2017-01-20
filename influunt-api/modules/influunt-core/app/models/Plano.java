@@ -434,7 +434,7 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = PlanosCheck.class,
-        message = "O Tempo de ciclo deve ser simétrico ou assimétrico nos agrupamentos associados aos planos dessa numeração.")
+        message = "O Tempo de ciclo deve ser simétrico nos agrupamentos associados aos planos dessa numeração.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlanoNoAgrupamento() {
         List<Agrupamento> agrupamentosPlano = getAgrupamentos();
         boolean planoFazParteDeAgrupamento = !agrupamentosPlano.isEmpty();
