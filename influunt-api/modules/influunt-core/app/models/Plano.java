@@ -469,21 +469,21 @@ public class Plano extends Model implements Cloneable, Serializable {
                 if (subarea != null) {
                     Integer tempoCicloBase = null;
 
-                    List<Agrupamento> agrupamentosAnel = Agrupamento.find.where().in("aneis.id", getAnel().getId().toString()).findList();
-                    boolean anelFazParteDeAgrupamento = !agrupamentosAnel.isEmpty();
-                    List<UUID> aneisIdsAgrupamento = agrupamentosAnel.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
+                    List<Agrupamento> agrupamentosDesseAnel = Agrupamento.find.where().in("aneis.id", getAnel().getId().toString()).findList();
+                    boolean anelFazParteDeAgrupamento = !agrupamentosDesseAnel.isEmpty();
+                    List<UUID> aneisIdsAgrupamentosDesseAnel = agrupamentosDesseAnel.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
 
                     List<Agrupamento> agrupamentosControlador = Agrupamento.find.where()
                         .eq("posicaoPlano", getPosicao())
                         .eq("aneis.controlador.id", getAnel().getControlador().getId()).findList();
-                    List<UUID> aneisIdsAgrupamentoControlador = agrupamentosControlador.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
+                    List<UUID> aneisIdsAgrupamentosDesseControlador = agrupamentosControlador.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
 
                     Plano planoBase;
                     if (anelFazParteDeAgrupamento) {
                         // existe agrupamento com esse anel, não considerar os planos que
                         // fazem parte do agrupamento.
                         planoBase = controlador.getAneisAtivos().stream()
-                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamento.contains(getAnel().getId()))
+                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamentosDesseAnel.contains(getAnel().getId()))
                             .flatMap(anel -> anel.getPlanos().stream())
                             .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                             .findFirst().orElse(null);
@@ -491,7 +491,7 @@ public class Plano extends Model implements Cloneable, Serializable {
                         // Plano do mesmo controlador de outro anel que não faz parte de
                         // nenhum agrupamento com plano do mesmo número
                         planoBase = controlador.getAneisAtivos().stream()
-                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamentoControlador.contains(a.getId()))
+                            .filter(a -> !a.equals(getAnel()) && !aneisIdsAgrupamentosDesseControlador.contains(a.getId()))
                             .flatMap(anel -> anel.getPlanos().stream())
                             .filter(p -> p != null && this.getPosicao().equals(p.getPosicao()) && p.isTempoFixoCoordenado())
                             .findFirst().orElse(null);
@@ -506,31 +506,41 @@ public class Plano extends Model implements Cloneable, Serializable {
                     if (!subarea.getTempoCiclo().isEmpty()) {
                         tempoCicloBase = subarea.getTempoCiclo().get(this.getPosicao().toString());
                     } else {
-                        Controlador controladorBase = Controlador.find.where()
+                        List<Controlador> controladoresBase = Controlador.find.where()
                             .ne("versaoControlador.statusVersao", "ARQUIVADO")
                             .ne("id", controlador.getId())
-                            .eq("subarea", subarea).setMaxRows(1).findUnique();
-                        if (controladorBase != null) {
+                            .eq("subarea", subarea).findList();
+                        for (Controlador controladorBase : controladoresBase) {
                             if (anelFazParteDeAgrupamento) {
                                 planoBase = controladorBase.getAneisAtivos().stream()
-                                    .filter(a -> !aneisIdsAgrupamento.contains(a.getId()))
+                                    .filter(a -> !aneisIdsAgrupamentosDesseAnel.contains(a.getId()))
                                     .flatMap(a -> a.getPlanos().stream())
                                     .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
                                     .findFirst().orElse(null);
                             } else {
+                                List<Agrupamento> agrupamentosControladorBase = Agrupamento.find.where()
+                                    .eq("posicaoPlano", getPosicao())
+                                    .eq("aneis.controlador.id", controladorBase.getId()).findList();
+                                // aneis do controlador base que estão em algum agrupamento
+                                List<UUID> aneisIdsAgrupamentosControladorBase = agrupamentosControladorBase.stream().flatMap(a -> a.getAneis().stream()).map(Anel::getId).collect(Collectors.toList());
+
+                                // Plano de outro controlador que não faz parte de nenhum agrupamento
                                 planoBase = controladorBase.getAneisAtivos().stream()
-                                    .filter(a -> !aneisIdsAgrupamentoControlador.contains(a.getId()))
+                                    .filter(a -> !aneisIdsAgrupamentosControladorBase.contains(a.getId()))
                                     .flatMap(a -> a.getPlanos().stream())
                                     .filter(p -> p.getPosicao().equals(this.getPosicao()) && p.isTempoFixoCoordenado())
                                     .findFirst().orElse(null);
-
                             }
 
                             if (planoBase != null) {
                                 tempoCicloBase = planoBase.getTempoCicloTotal();
+                                if (tempoCicloBase != null) {
+                                    break;
+                                }
                             }
                         }
                     }
+
                     if (tempoCicloBase != null && !InfluuntUtils.isMultiplo(tempoCicloBase, this.getTempoCicloTotal())) {
                         return false;
                     }
