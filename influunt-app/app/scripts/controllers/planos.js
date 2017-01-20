@@ -317,7 +317,7 @@ angular.module('influuntApp')
 
       $scope.getErrosEstagiosPlanos = function(estagioPlano) {
         var index = _.findIndex($scope.currentPlano.estagiosPlanos, {idJson: estagioPlano.idJson});
-        var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos[' + $scope.currentVersaoPlanoIndex + '].planos[' + getIndexPlano($scope.currentAnel, $scope.currentPlano) + '].estagiosPlanos[' + index + ']');
+        var erros = _.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versaoPlano.planos[' + getIndexPlano($scope.currentAnel, $scope.currentPlano) + '].estagiosPlanos[' + index + ']');
         return erros;
       };
 
@@ -400,7 +400,7 @@ angular.module('influuntApp')
       };
 
       $scope.planoTemErro = function(index) {
-        var temErro = !!_.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ index +']');
+        var temErro = !!_.get($scope.errors, 'aneis[' + $scope.currentAnelIndex + '].versaoPlano.planos['+ index +']');
         return temErro;
       };
 
@@ -428,17 +428,17 @@ angular.module('influuntApp')
       };
 
       $scope.erroTempoCiclo = function() {
-        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].tempoCiclo');
+        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versaoPlano.planos['+ $scope.currentPlanoIndex +'].tempoCiclo');
         return errors;
       };
 
       $scope.erroDefasagem = function() {
-        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].defasagem');
+        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versaoPlano.planos['+ $scope.currentPlanoIndex +'].defasagem');
         return errors;
       };
 
       $scope.getErrosTempo = function(tempo) {
-        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versoesPlanos['+ $scope.currentVersaoPlanoIndex +'].planos['+ $scope.currentPlanoIndex +'].estagiosPlanos['+ $scope.currentEstagioPlanoIndex +'].tempo'+tempo);
+        var errors = _.get($scope.errors, 'aneis['+ $scope.currentAnelIndex +'].versaoPlano.planos['+ $scope.currentPlanoIndex +'].estagiosPlanos['+ $scope.currentEstagioPlanoIndex +'].tempo'+tempo);
         return errors;
       };
 
