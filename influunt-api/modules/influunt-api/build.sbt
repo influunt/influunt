@@ -7,6 +7,8 @@ version := "0.1.0"
 lazy val influuntCore = (project in file("../influunt-core")).enablePlugins(PlayJava, PlayEbean)
 
 lazy val influuntSimulador = (project in file("../influunt-simulador")).enablePlugins(PlayJava, PlayEbean)
+    .dependsOn(influuntCore)
+    .aggregate(influuntCore)
 
 lazy val influuntApi = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
     .dependsOn(influuntCore, influuntSimulador)
@@ -51,7 +53,9 @@ libraryDependencies ++= Seq(
     "org.jfree" % "jfreesvg" % "3.1",
     "net.sf.jasperreports" % "jasperreports" % "6.3.1",
     "com.github.jhonnymertz" % "java-wkhtmltopdf-wrapper" % "1.0.1-RELEASE",
-    "org.awaitility" % "awaitility-scala" % "2.0.0")
+    "org.awaitility" % "awaitility-scala" % "2.0.0",
+    "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
+    "org.fusesource.mqtt-client" % "mqtt-client" % "1.14")
 
 
 jacoco.settings

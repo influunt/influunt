@@ -15,7 +15,7 @@ lazy val influuntSimulador = (project in file(".")).enablePlugins(PlayJava, Play
     .dependsOn(influuntCore)
     .aggregate(influuntCore)
     .settings(
-        name := """influunt-central""",
+        name := """influunt-simulador""",
         publishArtifact in(Compile, packageDoc) := false,
         publishArtifact in packageDoc := false,
         sources in(Compile, doc) := Seq.empty,
