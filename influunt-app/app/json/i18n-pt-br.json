@@ -1070,7 +1070,8 @@
     "numeroPlano": "Número do Plano",
     "modoPlano": "Modo de Operação",
     "subarea": "Subárea",
-    "tipoEvento": "Tipo do Evento"
+    "tipoEvento": "Tipo do Evento",
+    "agrupamento": "Agrupamento"
   },
   "diff": {
     "versaoCriadaPor": "Versão criada por",

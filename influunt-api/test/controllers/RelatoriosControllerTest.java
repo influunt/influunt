@@ -67,7 +67,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Map> report = Json.fromJson(json, List.class);
         assertEquals(20, report.size());
-        assertEquals(6, report.get(0).size());
+        assertEquals(7, report.get(0).size());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class RelatoriosControllerTest extends WithInfluuntApplicationNoAuthentic
         JsonNode json = Json.parse(Helpers.contentAsString(result));
         List<Map> report = Json.fromJson(json, List.class);
         assertEquals(4, report.size());
-        assertEquals(6, report.get(0).size());
+        assertEquals(7, report.get(0).size());
 
         boolean achouNatal = false;
         for (Map map : report) {

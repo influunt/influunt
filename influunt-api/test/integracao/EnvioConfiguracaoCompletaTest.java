@@ -57,7 +57,8 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
             Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
             ControladorAssociacaoGruposSemaforicosCheck.class, ControladorVerdesConflitantesCheck.class,
             ControladorTransicoesProibidasCheck.class, ControladorTabelaEntreVerdesCheck.class,
-            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, PlanosCentralCheck.class,
+            TabelaHorariosCheck.class);
     }
 
     private void enviarConfiguracaoCompleta(Controlador controlador) {

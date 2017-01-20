@@ -117,6 +117,11 @@ public class TabelaHorariaReportService extends ReportService<Controlador> {
                 datum.put("plano", "");
                 datum.put("modoOperacaoPlano", "");
             }
+            if (evento.getAgrupamento() != null) {
+                datum.put("agrupamento", evento.getAgrupamento().getTipo() + ": " + evento.getAgrupamento().getNome());
+            } else {
+                datum.put("agrupamento", "");
+            }
             if (controlador.getSubarea() != null) {
                 datum.put("subarea", controlador.getSubarea().getNome());
             } else {

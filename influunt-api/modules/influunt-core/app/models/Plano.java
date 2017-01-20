@@ -1,5 +1,6 @@
 package models;
 
+import checks.PlanosCentralCheck;
 import checks.PlanosCheck;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
@@ -433,6 +434,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
+
     @AssertTrue(groups = PlanosCheck.class,
         message = "O Tempo de ciclo deve ser simétrico nos agrupamentos associados aos planos dessa numeração.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlanoNoAgrupamento() {
@@ -456,7 +458,7 @@ public class Plano extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
-    @AssertTrue(groups = PlanosCheck.class,
+    @AssertTrue(groups = PlanosCentralCheck.class,
         message = "O Tempo de ciclo deve ser simétrico nessa subárea para todos os planos de mesma numeração.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
         List<Agrupamento> agrupamentosPlano = getAgrupamentos();

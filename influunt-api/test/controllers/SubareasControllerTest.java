@@ -401,11 +401,4 @@ public class SubareasControllerTest extends WithInfluuntApplicationNoAuthenticat
         // o dobro pois são dois controladores
         assertEquals(totalEventos * 2, errosJson.size());
     }
-
-    private List<Erro> getErrosControlador(Controlador controlador) {
-        return new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
-    }
 }
