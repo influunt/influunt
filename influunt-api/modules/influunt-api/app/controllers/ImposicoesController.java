@@ -1,23 +1,30 @@
 package controllers;
 
+import akka.actor.ActorSelection;
+import akka.actor.ActorSystem;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
+import helpers.TransacaoHelper;
+import json.ControladorCustomSerializer;
 import models.Anel;
+import models.Cidade;
 import models.Controlador;
 import models.ModoOperacaoPlano;
+import org.fusesource.mqtt.client.QoS;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import protocol.*;
 import security.Secured;
-import utils.TransacaoHelper;
+import status.PacoteTransacao;
+import status.Transacao;
+import utils.RangeUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
