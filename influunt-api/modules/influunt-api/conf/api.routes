@@ -161,12 +161,10 @@ GET       /v1/monitoramento/status/:id                                          
 GET       /v1/monitoramento/status                                                         controllers.monitoramento.StatusControladorFisicoController.ultimoStatusDosControladores()
 GET       /v1/monitoramento/status/:id/ultimo_status                                       controllers.monitoramento.StatusControladorFisicoController.ultimoStatus(id)
 
-
 # TrocaDePlanos Controlador
 GET       /v1/monitoramento/troca_planos_controladores/:id                                 controllers.monitoramento.TrocaPlanoControladorController.findOne(id)
 GET       /v1/monitoramento/troca_planos_controladores                                     controllers.monitoramento.TrocaPlanoControladorController.ultimoModoOperacaoDosControladores()
 GET       /v1/monitoramento/troca_planos_controladores/:id/historico/:pagina/:tamanho      controllers.monitoramento.TrocaPlanoControladorController.historico(id,pagina,tamanho)
-
 
 # Alarmes e Falhas Controladores
 GET       /v1/usuarios/:usuario_id/alarmes_e_falhas                                        controllers.monitoramento.AlarmesEFalhasController.getAlarmesEFalhasDoUsuario(usuario_id)
@@ -194,10 +192,6 @@ POST      /v1/cucumber                                                          
 POST      /v1/simulacao                                                                   controllers.simulacao.SimuladorController.simular
 POST      /v1/simulacao/:id/parar                                                         controllers.simulacao.SimuladorController.pararSimulacao(id)
 
-# Asset
-GET       /assets/*file                                                                    controllers.Assets.at(path="/public", file)
-
-
 # RELATORIOS
 GET       /v1/relatorios/controladores_status                                               controllers.RelatoriosController.gerarRelatorioControladoresStatus()
 GET       /v1/relatorios/controladores_falhas                                               controllers.RelatoriosController.gerarRelatorioControladoresFalhas()
@@ -216,3 +210,5 @@ POST       /v1/imposicoes/liberar                                               
 POST       /v1/imposicoes/colocar_manutencao                                                controllers.ImposicoesController.colocarManutencao
 POST       /v1/imposicoes/inativar                                                          controllers.ImposicoesController.inativar
 POST       /v1/imposicoes/ativar                                                            controllers.ImposicoesController.ativar
+
+GET       /assets/*file          controllers.Assets.at(path="/public", file)
