@@ -2,12 +2,12 @@ package test.execucao;
 
 import engine.AgendamentoTrocaPlano;
 import engine.IntervaloGrupoSemaforico;
-import test.integracao.ControladorHelper;
 import models.Evento;
 import models.Plano;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Before;
+import test.integracao.ControladorHelper;
 
 import java.util.HashMap;
 import java.util.List;

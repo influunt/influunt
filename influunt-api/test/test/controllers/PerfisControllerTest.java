@@ -1,8 +1,7 @@
 package test.controllers;
 
-import controllers.api.routes;
-
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.api.routes;
 import models.Perfil;
 import models.Permissao;
 import org.jetbrains.annotations.NotNull;

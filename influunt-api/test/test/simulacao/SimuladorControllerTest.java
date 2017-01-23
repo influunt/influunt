@@ -3,7 +3,6 @@ package test.simulacao;
 import checks.Erro;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import test.integracao.ControladorHelper;
 import models.Controlador;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.junit.Test;
@@ -11,6 +10,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import test.integracao.ControladorHelper;
 
 import java.util.ArrayList;
 import java.util.List;

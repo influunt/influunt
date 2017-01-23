@@ -6,7 +6,6 @@ import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
-
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;

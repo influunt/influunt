@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.api.routes;
-import test.integracao.ControladorHelper;
 import json.ControladorCustomSerializer;
 import models.*;
 import org.joda.time.LocalTime;
@@ -15,6 +14,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
 import test.config.WithInfluuntApplicationNoAuthentication;
+import test.integracao.ControladorHelper;
 import test.models.ControladorTestUtil;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 package test.execucao.gerenciadorEstagios;
 
-import test.integracao.ControladorHelper;
 import models.*;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import test.execucao.GerenciadorDeEstagiosTest;
+import test.integracao.ControladorHelper;
 
 import static org.junit.Assert.assertEquals;
 

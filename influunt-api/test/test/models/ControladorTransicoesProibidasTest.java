@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-
 import models.*;
 import org.hamcrest.Matchers;
 import org.junit.Test;

@@ -2,13 +2,13 @@ package test.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.api.routes;
-import test.config.WithInfluuntApplicationNoAuthentication;
 import models.Cidade;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import test.config.WithInfluuntApplicationNoAuthentication;
 
 import java.util.List;
 import java.util.UUID;

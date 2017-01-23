@@ -2,8 +2,6 @@ package test.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.api.routes;
-import test.config.WithInfluuntApplicationNoAuthentication;
-import test.integracao.ControladorHelper;
 import models.*;
 import org.joda.time.LocalTime;
 import org.junit.Test;
@@ -11,6 +9,8 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.Helpers;
+import test.config.WithInfluuntApplicationNoAuthentication;
+import test.integracao.ControladorHelper;
 import test.models.ControladorTestUtil;
 
 import java.util.ArrayList;

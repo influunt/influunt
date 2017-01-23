@@ -35,6 +35,7 @@ public class InfluuntContextManager {
     }
 
     public String getChave(Http.Context ctx) {
-        return ctx.args.get("ROUTE_VERB").toString() + " " + ctx.args.get("ROUTE_PATTERN").toString();
+        String path = ctx.args.get("ROUTE_PATTERN").toString().replace("/apiv1/", "/api/v1/");
+        return ctx.args.get("ROUTE_VERB").toString() + " " + path;
     }
 }

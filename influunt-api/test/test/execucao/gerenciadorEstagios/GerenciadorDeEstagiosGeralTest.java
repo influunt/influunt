@@ -2,11 +2,11 @@ package test.execucao.gerenciadorEstagios;
 
 import engine.EventoMotor;
 import engine.TipoEvento;
-import test.integracao.ControladorHelper;
 import models.*;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
 import test.execucao.GerenciadorDeEstagiosTest;
+import test.integracao.ControladorHelper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

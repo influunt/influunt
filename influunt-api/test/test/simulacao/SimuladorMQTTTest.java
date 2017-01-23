@@ -1,6 +1,5 @@
 package test.simulacao;
 
-import test.integracao.JUnitRetry;
 import io.moquette.interception.InterceptHandler;
 import io.moquette.interception.messages.*;
 import io.moquette.server.Server;
@@ -10,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import test.config.WithInfluuntApplicationNoAuthentication;
+import test.integracao.JUnitRetry;
 
 import java.io.IOException;
 import java.util.ArrayList;
