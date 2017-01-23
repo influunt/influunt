@@ -1,4 +1,4 @@
-package controllers;
+package controllers.central;
 
 import play.db.ebean.Transactional;
 import play.mvc.Controller;

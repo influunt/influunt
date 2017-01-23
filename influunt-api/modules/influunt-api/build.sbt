@@ -1,5 +1,3 @@
-
-
 name := """influunt-api"""
 
 version := "0.1.0"
@@ -75,22 +73,16 @@ resolvers ++= Seq("Jasper Third Party" at "http://jaspersoft.artifactoryonline.c
 resolvers ++= Seq("Java PDF" at "https://jitpack.io")
 
 mappings in Universal <++= (packageBin in Compile) map { jar =>
-    val scriptsDir = new java.io.File("app/templates/")
+    val scriptsDir = new java.io.File("modules/influunt-api/app/templates/")
     scriptsDir.listFiles.toSeq.map { f =>
-        f -> ("/app/templates/" + f.getName)
+        f -> ("app/templates/" + f.getName)
     }
 }
 
 mappings in Universal <++= (packageBin in Compile) map { jar =>
-    val scriptsDir = new java.io.File("app/templates/reports/")
-    scriptsDir.listFiles.toSeq.map { f =>
-        f -> ("app/templates/reports/" + f.getName)
-    }
-}
-
-mappings in Universal <++= (packageBin in Compile) map { jar =>
-    val scriptsDir = new java.io.File("public/images/")
+    val scriptsDir = new java.io.File("modules/influunt-api/public/images/")
     scriptsDir.listFiles.toSeq.map { f =>
         f -> ("public/images/" + f.getName)
     }
 }
+
