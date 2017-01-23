@@ -3,6 +3,7 @@ package test.controllers;
 import checks.Erro;
 import checks.InfluuntValidator;
 import checks.TabelaHorariosCheck;
+import controllers.api.routes;
 import models.Controlador;
 import models.Evento;
 import org.junit.Test;

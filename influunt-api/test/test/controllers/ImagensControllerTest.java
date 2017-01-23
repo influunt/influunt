@@ -4,6 +4,8 @@ import akka.stream.Materializer;
 import akka.stream.javadsl.FileIO;
 import akka.stream.javadsl.Source;
 import akka.util.ByteString;
+
+import controllers.api.routes;
 import models.*;
 import org.junit.Test;
 import play.mvc.Http;
@@ -30,11 +32,11 @@ public class ImagensControllerTest extends WithInfluuntApplicationNoAuthenticati
     @Test
     public void testCriarNovaImagem() {
         File appRootPath = app.path();
-        File imagem = new File(appRootPath, "/test/resources/ubuntu.jpeg");
+        File imagem = new File(appRootPath, "/test/test/resources/ubuntu.jpeg");
         // Necessário para o teste passar caso esteja sendo rodado
         // diretamente no IntelliJ
         if (!imagem.exists()) {
-            imagem = new File(appRootPath, "../../test/resources/ubuntu.jpeg");
+            imagem = new File(appRootPath, "../../test/test/resources/ubuntu.jpeg");
         }
         Materializer mat = app.injector().instanceOf(Materializer.class);
         DataPart dataPart = new DataPart("anelIdJson", "1234");

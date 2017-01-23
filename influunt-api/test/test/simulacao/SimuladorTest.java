@@ -48,7 +48,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametros.setControlador(controlador);
         parametros.setInicioControlador(inicioControlador);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
 
@@ -75,7 +75,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametros.setControlador(controlador);
         parametros.setInicioControlador(inicioControlador);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
 
@@ -107,7 +107,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametros.setControlador(controlador);
         parametros.setInicioControlador(inicioControlador);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
 
@@ -151,7 +151,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametros.setControlador(controlador);
         parametros.setInicioControlador(inicioControlador);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
 
@@ -221,7 +221,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
 
         parametros.setFalhas(falhas);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
 
@@ -286,7 +286,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
 
         parametros.setFalhas(falhas);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA * 2));
 
@@ -335,7 +335,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametros.setControlador(controlador);
         parametros.setInicioControlador(inicioControlador);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
 
@@ -388,7 +388,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         parametros.setControlador(controlador);
         parametros.setInicioControlador(inicioControlador);
 
-        simulacao.BasicSimuladorTest simulador = new simulacao.BasicSimuladorTest(controlador, parametros);
+        BasicSimuladorTest simulador = new BasicSimuladorTest(controlador, parametros);
 
         simulador.simular(inicioControlador.plusSeconds(SEGUNDOS_POR_PAGINA));
         DateTime disparo = inicioControlador.plusSeconds(112);
@@ -432,7 +432,7 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         simulador.simular(disparo.plusSeconds(SEGUNDOS_POR_PAGINA));
     }
 
-    private void clearListas(simulacao.BasicSimuladorTest simulador) {
+    private void clearListas(BasicSimuladorTest simulador) {
         simulador.listaModoManualAtivo.clear();
         simulador.listaTrocaManualBloqueada.clear();
         simulador.listaTrocaManualLiberada.clear();

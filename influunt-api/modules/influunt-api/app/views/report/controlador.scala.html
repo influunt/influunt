@@ -4,7 +4,7 @@
 <table>
     <tbody>
         <tr>
-            @*<td><img class="logo" src="@controllers.routes.Assets.at("images/logo-escura.png").absoluteURL()"></td>*@
+            <td><img class="logo" src="@controllers.api.routes.Assets.at("images/logo-escura.png").absoluteURL()"></td>
         </tr>
     </tbody>
 </table>
@@ -25,7 +25,7 @@
             <td>
                 <p><b>Estágios:</b> @controlador.getTotalEstagios() <br> <b>Total de Anéis:</b> @controlador.getAneisAtivos().size() <br><b>Número de detector veicular:</b> @controlador.getTotalDetectoresVeicular() <br> <b>Número de detector pedestre:</b> @controlador.getTotalDetectoresPedestre()</p>
             </td>
-            <td>@if(controlador.getCroqui() != null){ <img src="@controllers.routes.ImagensController.findOneVersion(controlador.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
+            <td>@if(controlador.getCroqui() != null){ <img src="@controllers.api.routes.ImagensController.findOneVersion(controlador.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
         </tr>
     </tbody>
 </table>
@@ -48,7 +48,7 @@
                     <p><b>Número de detectores pedestres:</b> @anel.getTotalDetectoresPedestre</p>
                     <p><b>Número de detectores veiculares:</b> @anel.getTotalDetectoresVeicular</p>
                 </td>
-                <td>@if(anel.getCroqui() != null) { <img src="@controllers.routes.ImagensController.findOneVersion(anel.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
+                <td>@if(anel.getCroqui() != null) { <img src="@controllers.api.routes.ImagensController.findOneVersion(anel.getCroqui().getId().toString(), "thumb").absoluteURL()">}</td>
             </tr>
         </tbody>
     </table>
@@ -86,7 +86,7 @@
                 <td>
                     <b>@estagio.getDescricao</b>
                     <hr>
-                    @if(estagio.getImagem() != null) { <img src="@controllers.routes.ImagensController.findOneVersion(estagio.getImagem().getId().toString(), "thumb").absoluteURL()">}
+                    @if(estagio.getImagem() != null) { <img src="@controllers.api.routes.ImagensController.findOneVersion(estagio.getImagem().getId().toString(), "thumb").absoluteURL()">}
                     <hr>
                     <p>@estagio.getDescricaoEstagiosGruposSemaforicos() <br> Tempo Max. Perman.: @estagio.getTempoMaximoPermanencia()s</p>
                 </td>

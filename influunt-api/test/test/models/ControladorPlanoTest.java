@@ -6,7 +6,7 @@ import checks.PlanosCentralCheck;
 import checks.PlanosCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.routes;
+import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
@@ -687,7 +687,7 @@ public class ControladorPlanoTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
+            .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -703,7 +703,7 @@ public class ControladorPlanoTest extends ControladorTest {
         Controlador controlador = getControladorPlanos();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
+            .uri(routes.PlanosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));

@@ -1,8 +1,8 @@
 package test.seguranca;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.SecurityController;
-import controllers.routes;
+import controllers.api.SecurityController;
+import controllers.api.routes;
 import models.*;
 import org.junit.Before;
 import org.junit.Test;

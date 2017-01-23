@@ -5,6 +5,7 @@ import checks.InfluuntValidator;
 import checks.TabelaHorariosCheck;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
@@ -198,7 +199,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         controlador.save();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
+            .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         assertEquals(UNPROCESSABLE_ENTITY, postResult.status());
@@ -214,7 +215,7 @@ public class ControladorTabelaHorarioTest extends ControladorTest {
         Controlador controlador = getControladorTabelaHorario();
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
-            .uri(controllers.routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
+            .uri(routes.TabelaHorariosController.create().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);
 
         JsonNode json = Json.parse(Helpers.contentAsString(postResult));

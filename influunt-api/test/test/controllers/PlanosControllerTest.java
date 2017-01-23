@@ -1,6 +1,7 @@
 package test.controllers;
 
 import com.avaje.ebean.Ebean;
+import controllers.api.routes;
 import models.*;
 import org.junit.Test;
 import play.mvc.Http;

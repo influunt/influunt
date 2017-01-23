@@ -3,7 +3,7 @@ package test.search;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controllers.routes;
+import controllers.api.routes;
 import models.*;
 import org.junit.Before;
 import org.junit.Test;

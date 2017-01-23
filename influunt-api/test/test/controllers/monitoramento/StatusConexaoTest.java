@@ -100,9 +100,9 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void testStatusControladorApi() {
-        System.out.println(controllers.monitoramento.routes.StatusControladorController.findOne("1").url());
+        System.out.println(controllers.api.monitoramento.routes.StatusControladorController.findOne("1").url());
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-            .uri(controllers.monitoramento.routes.StatusControladorController.findOne("1").url());
+            .uri(controllers.api.monitoramento.routes.StatusControladorController.findOne("1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -130,7 +130,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         StatusConexaoControlador.log(c2.getControladorFisicoId(), System.currentTimeMillis(), true);
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-            .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatusDosControladores().url());
+            .uri(controllers.api.monitoramento.routes.StatusControladorController.ultimoStatusDosControladores().url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -148,7 +148,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     public void testUltimoStatusDeUmControladorApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-            .uri(controllers.monitoramento.routes.StatusControladorController.ultimoStatus("2").url());
+            .uri(controllers.api.monitoramento.routes.StatusControladorController.ultimoStatus("2").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -163,7 +163,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
     public void testHistoricoApi() {
 
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
-            .uri(controllers.monitoramento.routes.StatusControladorController.historico("1", "0", "1").url());
+            .uri(controllers.api.monitoramento.routes.StatusControladorController.historico("1", "0", "1").url());
         Result postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -173,7 +173,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         assertFalse(json.get(0).get("conectado").asBoolean());
 
         postRequest = new Http.RequestBuilder().method("GET")
-            .uri(controllers.monitoramento.routes.StatusControladorController.historico("1", "1", "1").url());
+            .uri(controllers.api.monitoramento.routes.StatusControladorController.historico("1", "1", "1").url());
         postResult = route(postRequest);
 
         assertEquals(OK, postResult.status());
@@ -203,7 +203,7 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
         StatusConexaoControlador.log(cfId, now.minusDays(20).getMillis(), true);
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("GET")
-            .uri(controllers.monitoramento.routes.MonitoramentoController.detalheControlador(cfId).url());
+            .uri(controllers.api.monitoramento.routes.MonitoramentoController.detalheControlador(cfId).url());
         Result result = route(request);
         assertEquals(OK, result.status());
         JsonNode json = Json.parse(Helpers.contentAsString(result));

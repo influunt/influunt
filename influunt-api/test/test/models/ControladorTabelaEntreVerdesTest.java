@@ -2,13 +2,10 @@ package test.models;
 
 import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
+import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.Anel;
-import models.Controlador;
-import models.TabelaEntreVerdesTransicao;
-import models.Transicao;
+import models.*;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;

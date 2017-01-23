@@ -1,6 +1,7 @@
 package test.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.api.routes;
 import test.config.WithInfluuntApplicationNoAuthentication;
 import models.Cidade;
 import org.junit.Test;

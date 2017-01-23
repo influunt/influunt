@@ -3,6 +3,7 @@ package test.controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import controllers.api.routes;
 import test.integracao.ControladorHelper;
 import json.ControladorCustomSerializer;
 import models.*;

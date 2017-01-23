@@ -9,6 +9,7 @@ import utils.CustomCalendar;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
 
@@ -273,7 +274,12 @@ public class PrioridadeDeEventosTest {
     }
 
     private LocalTime getHorario(Date time) {
-        return new LocalTime(time.getHours(), time.getMinutes(), time.getSeconds());
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(time);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        int seconds = calendar.get(Calendar.SECOND);
+        return new LocalTime(hours, minutes, seconds);
     }
 
 

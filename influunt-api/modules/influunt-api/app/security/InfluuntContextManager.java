@@ -2,7 +2,7 @@ package security;
 
 import be.objectify.deadbolt.java.models.Subject;
 import com.google.inject.Inject;
-import controllers.SecurityController;
+import controllers.api.SecurityController;
 import models.Usuario;
 import play.mvc.Http;
 

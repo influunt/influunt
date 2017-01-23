@@ -1,6 +1,7 @@
 package test.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.api.routes;
 import models.Permissao;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;

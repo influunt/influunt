@@ -3,7 +3,7 @@ package test.integracao;
 import checks.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.routes;
+import controllers.api.routes;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;

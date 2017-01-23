@@ -1,6 +1,7 @@
 package test.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.api.routes;
 import models.Usuario;
 import org.junit.Before;
 import org.junit.Test;

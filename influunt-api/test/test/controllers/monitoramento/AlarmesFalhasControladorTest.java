@@ -1,6 +1,7 @@
 package test.controllers.monitoramento;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.api.monitoramento.routes;
 import engine.EventoMotor;
 import engine.TipoEvento;
 import models.GrupoSemaforico;

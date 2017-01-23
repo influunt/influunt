@@ -1,5 +1,6 @@
 package test.controllers;
 
+import controllers.api.routes;
 import models.*;
 import org.junit.Test;
 import play.mvc.Http;

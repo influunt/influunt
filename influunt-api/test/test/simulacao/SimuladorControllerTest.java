@@ -25,7 +25,7 @@ public class SimuladorControllerTest extends SimuladorMQTTTest {
     @Test
     public void testSimularWithoutData() {
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(controllers.simulacao.routes.SimuladorController.simular().url());
+            .uri(controllers.api.simulacao.routes.SimuladorController.simular().url());
         Result result = route(request);
         assertEquals(400, result.status());
     }
@@ -33,7 +33,7 @@ public class SimuladorControllerTest extends SimuladorMQTTTest {
     @Test
     public void testValidation() {
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(controllers.simulacao.routes.SimuladorController.simular().url())
+            .uri(controllers.api.simulacao.routes.SimuladorController.simular().url())
             .bodyJson(Json.parse("{}"));
         Result result = route(request);
         assertEquals(422, result.status());
@@ -49,7 +49,7 @@ public class SimuladorControllerTest extends SimuladorMQTTTest {
         ));
 
         request = new Http.RequestBuilder().method("POST")
-            .uri(controllers.simulacao.routes.SimuladorController.simular().url())
+            .uri(controllers.api.simulacao.routes.SimuladorController.simular().url())
             .bodyJson(Json.parse("{ \"disparoDetectores\": [{}], \"imposicaoPlanos\": [{}], \"imposicaoModos\": [{}], \"falhasControlador\": [{}], \"alarmesControlador\": [{}] }"));
         result = route(request);
         assertEquals(422, result.status());
@@ -95,7 +95,7 @@ public class SimuladorControllerTest extends SimuladorMQTTTest {
             "\"inicioControlador\":\"2016-02-01T02:00:00.000Z\"}";
 
         Http.RequestBuilder request = new Http.RequestBuilder().method("POST")
-            .uri(controllers.simulacao.routes.SimuladorController.simular().url())
+            .uri(controllers.api.simulacao.routes.SimuladorController.simular().url())
             .bodyJson(Json.parse(payload));
         Result result = route(request);
         assertEquals(200, result.status());

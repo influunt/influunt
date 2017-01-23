@@ -3,7 +3,7 @@ package test.models;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
+import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;

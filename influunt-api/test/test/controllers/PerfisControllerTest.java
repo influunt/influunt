@@ -1,5 +1,7 @@
 package test.controllers;
 
+import controllers.api.routes;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Perfil;
 import models.Permissao;

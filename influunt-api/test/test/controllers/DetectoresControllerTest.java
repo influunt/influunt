@@ -1,5 +1,6 @@
 package test.controllers;
 
+import controllers.api.routes;
 import models.Anel;
 import models.Detector;
 import models.Estagio;

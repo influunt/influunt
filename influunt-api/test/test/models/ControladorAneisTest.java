@@ -4,12 +4,10 @@ import checks.ControladorAneisCheck;
 import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import controllers.routes;
+import controllers.api.routes;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
-import models.Anel;
-import models.Controlador;
-import models.Estagio;
+import models.*;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import play.libs.Json;
@@ -188,8 +186,8 @@ public class ControladorAneisTest extends ControladorTest {
         assertControladorAnel(controlador, controladorRetornado);
         assertNotNull(controladorRetornado.getId());
         assertEquals("Criação de aneis", 4, controladorRetornado.getAneis().size());
-        assertEquals("Total de aneis ativos", 1, controladorRetornado.getAneis().stream().filter(anel -> anel.isAtivo()).count());
-        assertEquals("Criação de grupos semafóricos", 0, controladorRetornado.getAneis().stream().filter(anelInterno -> anelInterno.isAtivo()).findFirst().get().getGruposSemaforicos().size());
+        assertEquals("Total de aneis ativos", 1, controladorRetornado.getAneis().stream().filter(Anel::isAtivo).count());
+        assertEquals("Criação de grupos semafóricos", 0, controladorRetornado.getAneis().stream().filter(Anel::isAtivo).findFirst().get().getGruposSemaforicos().size());
     }
 
     @Override
