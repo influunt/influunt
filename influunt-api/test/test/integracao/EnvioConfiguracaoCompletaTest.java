@@ -1,14 +1,14 @@
 package test.integracao;
 
 import checks.*;
+import helpers.TransacaoHelperApi;
 import models.Anel;
 import models.Controlador;
 import org.junit.Test;
-import utils.TransacaoHelper;
 
 import javax.validation.groups.Default;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -62,7 +62,7 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     }
 
     private void enviarConfiguracaoCompleta(Controlador controlador) {
-        TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarConfiguracaoCompleta(Arrays.asList(controlador), 10000L);
+        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
+        transacaoHelper.enviarConfiguracaoCompleta(Collections.singletonList(controlador), 10000L);
     }
 }

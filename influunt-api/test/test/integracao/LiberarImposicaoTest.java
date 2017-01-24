@@ -1,11 +1,13 @@
 package test.integracao;
 
+import helpers.TransacaoHelperApi;
 import models.Anel;
 import org.junit.Test;
-import utils.TransacaoHelper;
+import utils.TransacaoHelperCentral;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;
 
@@ -35,7 +37,7 @@ public class LiberarImposicaoTest extends BasicMQTTTest {
     }
 
     private void liberarImposicao(Anel anel) {
-        TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.liberarImposicao(Arrays.asList(anel), 60000L);
+        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
+        transacaoHelper.liberarImposicao(Collections.singletonList(anel), 60000L);
     }
 }

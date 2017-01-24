@@ -2,4 +2,5 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET       /v1/teste                                          controllers.central.TestController.test
+POST       /v1/transacoes                             controllers.central.TransacoesController.enviar
+POST       /v1/ler_dados                               controllers.central.TransacoesController.lerDados

@@ -1,7 +1,6 @@
-package utils;
+package helpers;
 
 import akka.actor.ActorSelection;
-import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
@@ -11,25 +10,34 @@ import models.Cidade;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
+import play.Configuration;
 import play.libs.Json;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSRequest;
+import play.libs.ws.WSResponse;
 import protocol.*;
 import status.PacoteTransacao;
 import status.Transacao;
+import utils.RangeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 /**
- * Created by pedropires on 11/18/16.
+ * Created by pedropires on 1/23/17.
  */
-public class TransacaoHelper {
+public class TransacaoHelperApi {
 
     @Inject
-    private ActorSystem context;
+    private WSClient http;
 
-    public String enviarPacotePlanos(List<Controlador> controladores, long timeout) {
+    @Inject
+    private Configuration configuration;
+
+    public CompletionStage<WSResponse> enviarPacotePlanos(List<Controlador> controladores, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
 
         controladores.stream().forEach(controlador -> {
@@ -40,7 +48,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.PACOTE_PLANO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String enviarConfiguracaoCompleta(List<Controlador> controladores, long timeout) {
+    public CompletionStage<WSResponse> enviarConfiguracaoCompleta(List<Controlador> controladores, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         List<Cidade> cidades = Cidade.find.all();
         RangeUtils rangeUtils = RangeUtils.getInstance(null);
@@ -50,11 +58,10 @@ public class TransacaoHelper {
             JsonNode configuracaoJson = new ControladorCustomSerializer().getPacoteConfiguracaoCompletaJson(controlador, cidades, rangeUtils);
             transacoes.add(new Transacao(controladorId, configuracaoJson.toString(), TipoTransacao.CONFIGURACAO_COMPLETA));
         });
-
         return sendTransaction(TipoTransacao.CONFIGURACAO_COMPLETA, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String enviarTabelaHoraria(List<Controlador> controladores, boolean imediato, long timeout) {
+    public CompletionStage<WSResponse> enviarTabelaHoraria(List<Controlador> controladores, boolean imediato, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         controladores.stream().forEach(controlador -> {
             JsonNode pacoteTabelaHoraria = new ControladorCustomSerializer().getPacoteTabelaHorariaJson(controlador);
@@ -64,7 +71,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.PACOTE_TABELA_HORARIA, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String imporModoOperacao(List<Anel> aneis, ModoOperacaoPlano modoOperacao, Long horarioEntrada, int duracao, long timeout) {
+    public CompletionStage<WSResponse> imporModoOperacao(List<Anel> aneis, ModoOperacaoPlano modoOperacao, Long horarioEntrada, int duracao, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
 
         List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
@@ -78,7 +85,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.IMPOSICAO_MODO_OPERACAO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String imporPlano(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
+    public CompletionStage<WSResponse> imporPlano(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
         int posicaoPlanoTemporario = aneis.get(0).getControlador().getModelo().getLimitePlanos() + 1;
         if (posicaoPlano == posicaoPlanoTemporario) {
             // plano temporário
@@ -97,7 +104,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.IMPOSICAO_PLANO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    private String imporPlanoTemporario(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
+    private CompletionStage<WSResponse> imporPlanoTemporario(List<Anel> aneis, int posicaoPlano, Long horarioEntrada, int duracao, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
         controladores.stream().forEach(controlador -> {
@@ -110,7 +117,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.IMPOSICAO_PLANO_TEMPORARIO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String liberarImposicao(List<Anel> aneis, long timeout) {
+    public CompletionStage<WSResponse> liberarImposicao(List<Anel> aneis, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         List<Controlador> controladores = aneis.stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
         controladores.stream().forEach(controlador -> {
@@ -123,14 +130,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.LIBERAR_IMPOSICAO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String lerDados(Controlador controlador) {
-        Envelope envelope = new Envelope(TipoMensagem.LER_DADOS_CONTROLADOR, controlador.getControladorFisicoId(), DestinoCentral.leituraDadosControlador(), QoS.AT_LEAST_ONCE, null, null);
-        ActorSelection centralBroker = context.actorSelection(AtoresCentral.messageBroker());
-        centralBroker.tell(envelope, null);
-        return controlador.getControladorFisicoId();
-    }
-
-    public String colocarControladorManutencao(List<Controlador> controladores, long timeout) {
+    public CompletionStage<WSResponse> colocarControladorManutencao(List<Controlador> controladores, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         controladores.stream().forEach(controlador -> {
             String controladorId = controlador.getControladorFisicoId();
@@ -139,8 +139,7 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.COLOCAR_CONTROLADOR_MANUTENCAO, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-
-    public String inativarControlador(List<Controlador> controladores, long timeout) {
+    public CompletionStage<WSResponse> inativarControlador(List<Controlador> controladores, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         controladores.stream().forEach(controlador -> {
             String controladorId = controlador.getControladorFisicoId();
@@ -149,7 +148,8 @@ public class TransacaoHelper {
         return sendTransaction(TipoTransacao.INATIVAR_CONTROLADOR, timeout, transacoes, QoS.EXACTLY_ONCE);
     }
 
-    public String ativarControlador(List<Controlador> controladores, long timeout) {
+
+    public CompletionStage<WSResponse> ativarControlador(List<Controlador> controladores, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();
         controladores.stream().forEach(controlador -> {
             String controladorId = controlador.getControladorFisicoId();
@@ -159,16 +159,24 @@ public class TransacaoHelper {
     }
 
 
-    private String sendTransaction(TipoTransacao tipoTransacao, long tempoMaximo, List<Transacao> transacoes, QoS qos) {
-        PacoteTransacao pacoteTransacao = new PacoteTransacao(tipoTransacao, tempoMaximo, transacoes);
-        pacoteTransacao.create();
-
-        String pacoteTransacaoJson = pacoteTransacao.toJson().toString();
-
-        Envelope envelope = new Envelope(TipoMensagem.PACOTE_TRANSACAO, pacoteTransacao.getId(), null, qos, pacoteTransacaoJson, null);
-        ActorSelection centralBroker = context.actorSelection(AtoresCentral.messageBroker());
-        centralBroker.tell(envelope, null);
-
-        return pacoteTransacao.getId();
+    public CompletionStage<JsonNode> lerDados(Controlador controlador) {
+        JsonNode json = Json.newObject().put("controladorFisicoId", controlador.getControladorFisicoId());
+        String url = getCentralUrl() + "/ler_dados";
+        return http.url(url).post(json).thenApply(response -> Json.toJson(response.getBody()));
     }
+
+    private CompletionStage<WSResponse> sendTransaction(TipoTransacao tipoTransacao, long timeout, List<Transacao> transacoes, QoS qos) {
+        PacoteTransacao pacoteTransacao = new PacoteTransacao(tipoTransacao, timeout, transacoes);
+        pacoteTransacao.create();
+        JsonNode json = Json.newObject()
+            .put("qos", qos.toString())
+            .set("pacoteTransacao", pacoteTransacao.toJson());
+        String url = getCentralUrl() + "/transacoes";
+        return http.url(url).post(json);
+    }
+
+    private String getCentralUrl() {
+        return configuration.getConfig("central").getString("baseUrl");
+    }
+
 }

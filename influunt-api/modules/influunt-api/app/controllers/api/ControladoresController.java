@@ -5,7 +5,7 @@ import checks.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import helpers.TransacaoHelper;
+import helpers.TransacaoHelperApi;
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.*;
@@ -14,6 +14,7 @@ import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import play.mvc.Security;
 import security.Secured;
 import services.ControladorService;
@@ -33,7 +34,7 @@ public class ControladoresController extends Controller {
     private ControladorService controladorService;
 
     @Inject
-    private TransacaoHelper transacaoHelper;
+    private TransacaoHelperApi transacaoHelper;
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(bodyArea)")
@@ -497,8 +498,7 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            String controladorFisicoId = transacaoHelper.lerDados(controlador);
-            return CompletableFuture.completedFuture(ok(Json.toJson(controladorFisicoId)));
+            return transacaoHelper.lerDados(controlador).thenApply(Results::ok);
         }
     }
 

@@ -1,9 +1,10 @@
 package test.integracao;
 
+import helpers.TransacaoHelperApi;
 import models.Anel;
 import models.ModoOperacaoPlano;
 import org.junit.Test;
-import utils.TransacaoHelper;
+import utils.TransacaoHelperCentral;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
     }
 
     private void imporModoOperacao(Anel anel, Long horarioEntrada, int duracao) {
-        TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
+        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
         transacaoHelper.imporModoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L);
     }
 }

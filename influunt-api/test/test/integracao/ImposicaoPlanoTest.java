@@ -1,12 +1,14 @@
 package test.integracao;
 
+import helpers.TransacaoHelperApi;
 import models.Anel;
 import models.Plano;
 import org.junit.Test;
-import utils.TransacaoHelper;
+import utils.TransacaoHelperCentral;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;
 
@@ -40,8 +42,8 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
     }
 
     private void imporPlano(int posicaoPlano, Anel anel, Long horarioEntrada, int duracao) {
-        TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.imporPlano(Arrays.asList(anel), posicaoPlano, horarioEntrada, duracao, 60000L);
+        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
+        transacaoHelper.imporPlano(Collections.singletonList(anel), posicaoPlano, horarioEntrada, duracao, 60000L);
     }
 
 }

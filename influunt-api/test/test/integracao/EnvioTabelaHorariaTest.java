@@ -1,10 +1,10 @@
 package test.integracao;
 
 import checks.*;
+import helpers.TransacaoHelperApi;
 import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
-import utils.TransacaoHelper;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.awaitility.Awaitility.await;
@@ -62,8 +62,8 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     }
 
     private void enviarPacotePlano() {
-        TransacaoHelper transacaoHelper = provideApp.injector().instanceOf(TransacaoHelper.class);
-        transacaoHelper.enviarPacotePlanos(Arrays.asList(controlador), 60000L);
+        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
+        transacaoHelper.enviarPacotePlanos(Collections.singletonList(controlador), 60000L);
     }
 
 }
