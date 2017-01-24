@@ -2,7 +2,6 @@ package test.integracao;
 
 import checks.*;
 import helpers.transacao.TransacaoBuilder;
-import helpers.transacao.TransacaoHelperApi;
 import models.Anel;
 import models.Controlador;
 import org.fusesource.mqtt.client.QoS;

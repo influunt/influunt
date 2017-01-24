@@ -2,7 +2,6 @@ package test.integracao;
 
 import checks.*;
 import helpers.transacao.TransacaoBuilder;
-import helpers.transacao.TransacaoHelperApi;
 import models.Controlador;
 import org.apache.commons.codec.DecoderException;
 import org.fusesource.mqtt.client.QoS;

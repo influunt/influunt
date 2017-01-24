@@ -1,7 +1,6 @@
 package test.execucao.bugs;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Cidade;
