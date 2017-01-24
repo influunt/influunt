@@ -43,7 +43,7 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
 
     private void imporPlano(int posicaoPlano, Anel anel, Long horarioEntrada, int duracao) {
         TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.imporPlano(Collections.singletonList(anel), posicaoPlano, horarioEntrada, duracao, 60000L);
+        transacaoHelper.imporPlano(Collections.singletonList(anel), posicaoPlano, horarioEntrada, duracao, 60000L, "authToken");
     }
 
 }

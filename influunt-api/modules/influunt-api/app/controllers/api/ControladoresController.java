@@ -16,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security;
+import security.InfluuntContextManager;
 import security.Secured;
 import services.ControladorService;
 import services.FalhasEAlertasService;
@@ -35,6 +36,11 @@ public class ControladoresController extends Controller {
 
     @Inject
     private TransacaoHelperApi transacaoHelper;
+
+    @Inject
+    private InfluuntContextManager contextManager;
+
+
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(bodyArea)")
@@ -498,7 +504,8 @@ public class ControladoresController extends Controller {
         if (controlador == null) {
             return CompletableFuture.completedFuture(notFound());
         } else {
-            return transacaoHelper.lerDados(controlador).thenApply(Results::ok);
+            String authToken = contextManager.getAuthToken(ctx());
+            return transacaoHelper.lerDados(controlador, authToken).thenApply(Results::ok);
         }
     }
 

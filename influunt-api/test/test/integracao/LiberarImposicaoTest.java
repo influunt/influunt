@@ -38,6 +38,6 @@ public class LiberarImposicaoTest extends BasicMQTTTest {
 
     private void liberarImposicao(Anel anel) {
         TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.liberarImposicao(Collections.singletonList(anel), 60000L);
+        transacaoHelper.liberarImposicao(Collections.singletonList(anel), 60000L, "authToken");
     }
 }

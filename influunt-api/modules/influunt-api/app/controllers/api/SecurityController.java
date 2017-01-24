@@ -12,6 +12,7 @@ import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.AuthToken;
 import security.Authenticator;
 import utils.InfluuntEmailService;
 
@@ -23,10 +24,6 @@ import java.util.concurrent.CompletionStage;
 
 
 public class SecurityController extends Controller {
-
-    public static final String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
-
-    public static final String AUTH_TOKEN = "authToken";
 
     @Inject
     private Authenticator authenticator;
@@ -45,7 +42,7 @@ public class SecurityController extends Controller {
             String senha = json.get("senha").asText();
             final Usuario usuario = (Usuario) authenticator.getSubjectByCredentials(login, senha);
             if (usuario != null) {
-                response().setHeader(AUTH_TOKEN, authenticator.createSession(usuario, request().remoteAddress()));
+                response().setHeader(AuthToken.TOKEN, authenticator.createSession(usuario, request().remoteAddress()));
                 return CompletableFuture.completedFuture(ok(Json.toJson(usuario)));
             }
             return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("login", "usuário ou senha inválidos", "")))));

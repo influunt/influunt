@@ -8,6 +8,7 @@ import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import security.Secured;
 import utils.TransacaoHelperCentral;
 
 import java.util.concurrent.CompletableFuture;

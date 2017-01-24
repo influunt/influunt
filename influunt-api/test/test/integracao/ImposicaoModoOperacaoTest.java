@@ -39,6 +39,6 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
 
     private void imporModoOperacao(Anel anel, Long horarioEntrada, int duracao) {
         TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.imporModoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L);
+        transacaoHelper.imporModoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L, "authToken");
     }
 }

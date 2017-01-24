@@ -67,7 +67,7 @@ libraryDependencies ++= Seq(
     "net.sf.jasperreports" % "jasperreports" % "6.3.1",
     "com.github.jhonnymertz" % "java-wkhtmltopdf-wrapper" % "1.0.1-RELEASE",
     "org.awaitility" % "awaitility-scala" % "2.0.0",
-//    "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
+    "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
     "org.fusesource.mqtt-client" % "mqtt-client" % "1.14")
 
 

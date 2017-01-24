@@ -12,9 +12,13 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import security.InfluuntContextManager;
 import security.Secured;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
@@ -26,6 +30,11 @@ public class ImposicoesController extends Controller {
 
     @Inject
     private TransacaoHelperApi transacaoHelper;
+
+    @Inject
+    private InfluuntContextManager contextManager;
+
+
 
     @Transactional
     public CompletionStage<Result> pacotePlano() {
@@ -155,9 +164,11 @@ public class ImposicoesController extends Controller {
 
 
 
+
     private CompletionStage<Map<String, List<String>>> enviarPacotesPlanos(List<String> aneis, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
-        return transacaoHelper.enviarPacotePlanos(controladores, timeout)
+        return transacaoHelper.enviarPacotePlanos(controladores, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -167,8 +178,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> enviarConfiguracoesCompletas(List<String> aneis, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
-        return transacaoHelper.enviarConfiguracaoCompleta(controladores, timeout)
+        return transacaoHelper.enviarConfiguracaoCompleta(controladores, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -178,8 +190,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> enviarTabelaHoraria(List<String> aneis, boolean imediato, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
-        return transacaoHelper.enviarTabelaHoraria(controladores, imediato, timeout)
+        return transacaoHelper.enviarTabelaHoraria(controladores, imediato, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -190,8 +203,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> imporModoOperacao(List<String> aneisIds, ModoOperacaoPlano modoOperacao, int duracao, Long horarioEntrada, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
-        return transacaoHelper.imporModoOperacao(aneis, modoOperacao, horarioEntrada, duracao, timeout)
+        return transacaoHelper.imporModoOperacao(aneis, modoOperacao, horarioEntrada, duracao, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -202,8 +216,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> imporPlano(List<String> aneisIds, int posicaoPlano, int duracao, Long horarioEntrada, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
-        return transacaoHelper.imporPlano(aneis, posicaoPlano, horarioEntrada, duracao, timeout)
+        return transacaoHelper.imporPlano(aneis, posicaoPlano, horarioEntrada, duracao, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -213,8 +228,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> liberarImposicao(List<String> aneisIds, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
-        return transacaoHelper.liberarImposicao(aneis, timeout)
+        return transacaoHelper.liberarImposicao(aneis, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -225,8 +241,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> colocarControladorManutencao(List<String> aneis, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
-        return transacaoHelper.colocarControladorManutencao(controladores, timeout)
+        return transacaoHelper.colocarControladorManutencao(controladores, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -236,8 +253,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> inativarControlador(List<String> aneis, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
-        return transacaoHelper.inativarControlador(controladores, timeout)
+        return transacaoHelper.inativarControlador(controladores, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
@@ -248,8 +266,9 @@ public class ImposicoesController extends Controller {
     }
 
     private CompletionStage<Map<String, List<String>>> ativarControlador(List<String> aneis, Long timeout) {
+        String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
-        return transacaoHelper.ativarControlador(controladores, timeout)
+        return transacaoHelper.ativarControlador(controladores, timeout, authToken)
             .thenApply(response -> {
                 String pacoteTransacaoId = response.getBody();
                 Map<String, List<String>> ids = new HashMap<>();
