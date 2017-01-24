@@ -1,13 +1,14 @@
-package execucao.bugs;
+package test.execucao.bugs;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import execucao.GerenciadorDeTrocasTest;
+
 import json.ControladorCustomDeserializer;
 import json.ControladorCustomSerializer;
 import models.Cidade;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
+import test.execucao.GerenciadorDeTrocasTest;
 import utils.RangeUtils;
 
 import java.io.IOException;

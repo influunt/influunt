@@ -1,10 +1,14 @@
 package test.integracao;
 
 import checks.*;
-import helpers.TransacaoHelperApi;
+import helpers.transacao.TransacaoBuilder;
+import helpers.transacao.TransacaoHelperApi;
 import models.Controlador;
 import org.apache.commons.codec.DecoderException;
+import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
+import status.PacoteTransacao;
+import utils.TransacaoHelperCentral;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -62,8 +66,9 @@ public class EnvioTabelaHorariaTest extends BasicMQTTTest {
     }
 
     private void enviarPacotePlano() {
-        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.enviarPacotePlanos(Collections.singletonList(controlador), 60000L, "authToken");
+        PacoteTransacao pacotePlano = TransacaoBuilder.pacotePlanos(Collections.singletonList(controlador), 60000L);
+        TransacaoHelperCentral transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperCentral.class);
+        transacaoHelper.sendTransaction(pacotePlano.toJson(), QoS.EXACTLY_ONCE);
     }
 
 }

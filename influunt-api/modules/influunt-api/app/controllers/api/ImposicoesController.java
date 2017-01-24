@@ -3,7 +3,7 @@ package controllers.api;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import helpers.TransacaoHelperApi;
+import helpers.transacao.TransacaoHelperApi;
 import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;

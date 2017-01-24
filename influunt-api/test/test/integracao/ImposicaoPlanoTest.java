@@ -1,13 +1,15 @@
 package test.integracao;
 
-import helpers.TransacaoHelperApi;
+import helpers.transacao.TransacaoBuilder;
+import helpers.transacao.TransacaoHelperApi;
 import models.Anel;
 import models.Plano;
+import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
+import status.PacoteTransacao;
 import utils.TransacaoHelperCentral;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;
@@ -42,8 +44,9 @@ public class ImposicaoPlanoTest extends BasicMQTTTest {
     }
 
     private void imporPlano(int posicaoPlano, Anel anel, Long horarioEntrada, int duracao) {
-        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.imporPlano(Collections.singletonList(anel), posicaoPlano, horarioEntrada, duracao, 60000L, "authToken");
+        PacoteTransacao imposicaoPlano = TransacaoBuilder.plano(Collections.singletonList(anel), posicaoPlano, horarioEntrada, duracao, 60000L);
+        TransacaoHelperCentral transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperCentral.class);
+        transacaoHelper.sendTransaction(imposicaoPlano.toJson(), QoS.EXACTLY_ONCE);
     }
 
 }

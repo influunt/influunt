@@ -1,9 +1,12 @@
 package test.integracao;
 
-import helpers.TransacaoHelperApi;
+import helpers.transacao.TransacaoBuilder;
+import helpers.transacao.TransacaoHelperApi;
 import models.Anel;
 import models.ModoOperacaoPlano;
+import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
+import status.PacoteTransacao;
 import utils.TransacaoHelperCentral;
 
 import java.io.IOException;
@@ -38,7 +41,8 @@ public class ImposicaoModoOperacaoTest extends BasicMQTTTest {
     }
 
     private void imporModoOperacao(Anel anel, Long horarioEntrada, int duracao) {
-        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.imporModoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L, "authToken");
+        PacoteTransacao imposicaoModo = TransacaoBuilder.modoOperacao(Collections.singletonList(anel), ModoOperacaoPlano.INTERMITENTE, horarioEntrada, duracao, 60000L);
+        TransacaoHelperCentral transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperCentral.class);
+        transacaoHelper.sendTransaction(imposicaoModo.toJson(), QoS.EXACTLY_ONCE);
     }
 }

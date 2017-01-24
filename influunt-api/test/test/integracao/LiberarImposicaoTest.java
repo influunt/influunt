@@ -1,12 +1,14 @@
 package test.integracao;
 
-import helpers.TransacaoHelperApi;
+import helpers.transacao.TransacaoBuilder;
+import helpers.transacao.TransacaoHelperApi;
 import models.Anel;
+import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
+import status.PacoteTransacao;
 import utils.TransacaoHelperCentral;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.awaitility.Awaitility.await;
@@ -37,7 +39,8 @@ public class LiberarImposicaoTest extends BasicMQTTTest {
     }
 
     private void liberarImposicao(Anel anel) {
-        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.liberarImposicao(Collections.singletonList(anel), 60000L, "authToken");
+        PacoteTransacao liberar = TransacaoBuilder.liberarImposicao(Collections.singletonList(anel), 60000L);
+        TransacaoHelperCentral transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperCentral.class);
+        transacaoHelper.sendTransaction(liberar.toJson(), QoS.EXACTLY_ONCE);
     }
 }

@@ -8,6 +8,7 @@ import models.Anel;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import org.joda.time.DateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
@@ -29,6 +30,7 @@ import static play.test.Helpers.route;
 /**
  * Created by rodrigosol on 6/22/16.
  */
+@Ignore
 public class ImposicoesControllerTest extends BasicMQTTTest {
 
     @Test

@@ -1,10 +1,14 @@
 package test.integracao;
 
 import checks.*;
-import helpers.TransacaoHelperApi;
+import helpers.transacao.TransacaoBuilder;
+import helpers.transacao.TransacaoHelperApi;
 import models.Anel;
 import models.Controlador;
+import org.fusesource.mqtt.client.QoS;
 import org.junit.Test;
+import status.PacoteTransacao;
+import utils.TransacaoHelperCentral;
 
 import javax.validation.groups.Default;
 import java.io.IOException;
@@ -62,7 +66,8 @@ public class EnvioConfiguracaoCompletaTest extends BasicMQTTTest {
     }
 
     private void enviarConfiguracaoCompleta(Controlador controlador) {
-        TransacaoHelperApi transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperApi.class);
-        transacaoHelper.enviarConfiguracaoCompleta(Collections.singletonList(controlador), 10000L, "authToken");
+        TransacaoHelperCentral transacaoHelper = provideApp.injector().instanceOf(TransacaoHelperCentral.class);
+        PacoteTransacao config = TransacaoBuilder.configuracaoCompleta(Collections.singletonList(controlador), 10000L);
+        transacaoHelper.sendTransaction(config.toJson(), QoS.EXACTLY_ONCE);
     }
 }
