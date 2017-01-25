@@ -1,13 +1,12 @@
-
 name := """influunt-simulador"""
-
 version := "0.1.0"
-val akkaVersion = "2.4.7"
 scalaVersion := "2.11.7"
 
 resolvers += Resolver.jcenterRepo
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Dtest.timeout=600000"
+
+val akkaVersion = "2.4.7"
 
 lazy val influuntCore = (project in file("../influunt-core")).enablePlugins(PlayJava, PlayEbean)
 

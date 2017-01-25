@@ -1,15 +1,12 @@
-
 name := """influunt-device"""
-
 version := "0.1.0"
-val akkaVersion = "2.4.7"
 scalaVersion := "2.11.7"
 
 resolvers += Resolver.jcenterRepo
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Dtest.timeout=600000"
 
-
+lazy val influuntCore = (project in file("../influunt-core")).enablePlugins(PlayJava, PlayEbean)
 
 lazy val influuntDevice = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
     .dependsOn(influuntCore)
@@ -27,32 +24,18 @@ lazy val influuntDevice = (project in file(".")).enablePlugins(PlayJava, PlayEbe
         libraryDependencies ++= Seq(
             javaJdbc,
             cache,
-            javaWs,
-            evolutions,
-            //      "be.objectify" %% "deadbolt-java" % "2.5.0",
-            //      "mysql" % "mysql-connector-java" % "5.1.36",
             "org.apache.commons" % "commons-math3" % "3.6.1",
             "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
             "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5",
             "uk.co.modular-it" % "bean-utils" % "0.9.10",
-            //      "org.hamcrest" % "hamcrest-library" % "1.3",
             "commons-beanutils" % "commons-beanutils" % "1.9.2",
-            //      "net.coobird" % "thumbnailator" % "0.4.8",
             "org.mindrot" % "jbcrypt" % "0.3m",
-            //      "org.iq80.leveldb" % "leveldb" % "0.7",
-            //      "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
-            //      "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-            //      "com.novocode" % "junit-interface" % "0.11" % "test",
-            //      "net.sf.bluecove" % "bluecove" % "2.1.0",
             "com.typesafe" % "config" % "1.3.0",
             "com.fazecast" % "jSerialComm" % "1.3.11",
-            //      "com.googlecode.lanterna" % "lanterna" % "3.0.0-beta3",
-            //      "io.kamon" % "sigar-loader" % "1.6.6-rev002",
             "org.scream3r" % "jssc" % "2.8.0",
             "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
             "org.fusesource.mqtt-client" % "mqtt-client" % "1.14",
             "com.google.code.gson" % "gson" % "2.7",
-            //      "de.erichseifert.vectorgraphics2d" % "VectorGraphics2D" % "0.11",
             "org.jetbrains.kotlin" % "kotlin-stdlib" % "1.0.3",
             "org.eclipse.collections" % "eclipse-collections-api" % "7.1.0",
             "org.eclipse.collections" % "eclipse-collections" % "7.1.0",
@@ -60,20 +43,16 @@ lazy val influuntDevice = (project in file(".")).enablePlugins(PlayJava, PlayEbe
             "net.jpountz.lz4" % "lz4" % "1.3.0",
             "org.mapdb" % "elsa" % "3.0.0-M6",
             "com.google.guava" % "guava" % "19.0"),
-
-        javaOptions in run ++= Seq(
-            "-Xms128m", "-Xmx1024m", "-Djava.library.path=./target/native"),
-        // disable parallel tests
+        javaOptions in run ++= Seq("-Xms128m", "-Xmx1024m", "-Djava.library.path=./target/native"),
         parallelExecution in Test := false
-        // make sure that MultiJvm tests are executed by the default test target,
-        // and combine the results from ordinary test and multi-jvm tests
     )
 
-lazy val influuntCore = (project in file("../influunt-core")).enablePlugins(PlayJava, PlayEbean)
-
-
-
 mainClass in Compile := Some("os72c.client.Client")
+
+
+
+
+
 
 import com.typesafe.sbt.SbtNativePackager.autoImport.NativePackagerHelper._
 

@@ -1,18 +1,12 @@
-
-
 name := """influunt-core"""
-
 version := "0.1.0"
-
-lazy val influuntCore = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
-
-
 scalaVersion := "2.11.7"
+
 resolvers += Resolver.jcenterRepo
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Dtest.timeout=600000"
 
-
+lazy val influuntCore = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
 libraryDependencies ++= Seq(
     javaJdbc,
@@ -41,8 +35,7 @@ jacoco.reportFormats in jacoco.Config := Seq(
     de.johoop.jacoco4sbt.ScalaHTMLReport(encoding = "utf-8", withBranchCoverage = true),
     de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
 
-
 fork in run := false
-
 fork in Test := false
+
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")

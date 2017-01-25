@@ -1,6 +1,10 @@
 name := """influunt"""
-
 version := "0.1.0"
+scalaVersion := "2.11.7"
+
+resolvers += Resolver.jcenterRepo
+javaOptions in Test += "-Dconfig.file=conf/test.conf"
+javaOptions in Test += "-Dtest.timeout=600000"
 
 
 lazy val influuntCore = (project in file("modules/influunt-core")).enablePlugins(PlayJava, PlayEbean)
@@ -27,22 +31,11 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
     .aggregate(influuntCore, influuntDevice, influuntCentral, influuntSimulador, influuntApi)
 
 
-
-scalaVersion := "2.11.7"
-resolvers += Resolver.jcenterRepo
-javaOptions in Test += "-Dconfig.file=conf/test.conf"
-javaOptions in Test += "-Dtest.timeout=600000"
-
-
-
 libraryDependencies ++= Seq(
     javaJdbc,
     cache,
     javaWs,
     "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
-    //  "info.cukes" % "cucumber-junit" % "1.2.5" % "test",
-    //  "info.cukes" % "cucumber-java" % "1.2.5" % "test",
-    //  "info.cukes" % "cucumber-guice" % "1.2.5" % "test",
     "be.objectify" %% "deadbolt-java" % "2.5.0",
     "mysql" % "mysql-connector-java" % "5.1.36",
     "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
@@ -67,7 +60,6 @@ libraryDependencies ++= Seq(
     "net.sf.jasperreports" % "jasperreports" % "6.3.1",
     "com.github.jhonnymertz" % "java-wkhtmltopdf-wrapper" % "1.0.1-RELEASE",
     "org.awaitility" % "awaitility-scala" % "2.0.0",
-//    "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.1.0",
     "org.fusesource.mqtt-client" % "mqtt-client" % "1.14")
 
 
@@ -79,8 +71,8 @@ jacoco.reportFormats in jacoco.Config := Seq(
 
 
 fork in run := false
-
 fork in Test := false
+
 resolvers in ThisBuild ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
 resolvers in ThisBuild ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
 resolvers in ThisBuild ++= Seq("Jasper" at "http://jasperreports.sourceforge.net/maven2/")

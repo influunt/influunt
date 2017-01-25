@@ -41,7 +41,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
 # the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-api-*.zip').first }
+set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-*.zip').first }
 
 set :git_strategy, NoGitStrategy
 

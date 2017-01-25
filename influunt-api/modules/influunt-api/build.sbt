@@ -1,6 +1,16 @@
 name := """influunt-api"""
-
 version := "0.1.0"
+scalaVersion := "2.11.7"
+
+resolvers += Resolver.jcenterRepo
+resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
+resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
+resolvers ++= Seq("Jasper" at "http://jasperreports.sourceforge.net/maven2/")
+resolvers ++= Seq("Jasper Third Party" at "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/")
+resolvers ++= Seq("Java PDF" at "https://jitpack.io")
+
+javaOptions in Test += "-Dconfig.file=conf/test.conf"
+javaOptions in Test += "-Dtest.timeout=600000"
 
 lazy val influuntCore = (project in file("../influunt-core")).enablePlugins(PlayJava, PlayEbean)
 
@@ -13,21 +23,11 @@ lazy val influuntApi = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
     .aggregate(influuntCore, influuntSimulador)
 
 
-scalaVersion := "2.11.7"
-resolvers += Resolver.jcenterRepo
-javaOptions in Test += "-Dconfig.file=conf/test.conf"
-javaOptions in Test += "-Dtest.timeout=600000"
-
-
-
 libraryDependencies ++= Seq(
     javaJdbc,
     cache,
     javaWs,
     "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
-    //  "info.cukes" % "cucumber-junit" % "1.2.5" % "test",
-    //  "info.cukes" % "cucumber-java" % "1.2.5" % "test",
-    //  "info.cukes" % "cucumber-guice" % "1.2.5" % "test",
     "be.objectify" %% "deadbolt-java" % "2.5.0",
     "mysql" % "mysql-connector-java" % "5.1.36",
     "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
@@ -62,27 +62,27 @@ jacoco.reportFormats in jacoco.Config := Seq(
     de.johoop.jacoco4sbt.ScalaHTMLReport(encoding = "utf-8", withBranchCoverage = true),
     de.johoop.jacoco4sbt.XMLReport(encoding = "utf-8"))
 
-
 fork in run := false
-
 fork in Test := false
-resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/")
-resolvers ++= Seq("Sonatype snapshots repository 2" at "http://dl.bintray.com/andsel/maven/")
-resolvers ++= Seq("Jasper" at "http://jasperreports.sourceforge.net/maven2/")
-resolvers ++= Seq("Jasper Third Party" at "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/")
-resolvers ++= Seq("Java PDF" at "https://jitpack.io")
 
+
+mappings in Universal ++= Seq(new java.io.File("modules/influunt-api/conf/api.conf") -> "conf/application.conf")
+mappings in Universal ++= Seq(new java.io.File("conf/ebean.properties") -> "conf/ebean.properties")
+mappings in Universal <++= (packageBin in Compile) map { jar =>
+    val scriptsDir = new java.io.File("conf/evolutions/default")
+    scriptsDir.listFiles.toSeq.map { f =>
+        f -> ("conf/evolutions/default/" + f.getName)
+    }
+}
 mappings in Universal <++= (packageBin in Compile) map { jar =>
     val scriptsDir = new java.io.File("modules/influunt-api/app/templates/")
     scriptsDir.listFiles.toSeq.map { f =>
         f -> ("app/templates/" + f.getName)
     }
 }
-
 mappings in Universal <++= (packageBin in Compile) map { jar =>
     val scriptsDir = new java.io.File("modules/influunt-api/public/images/")
     scriptsDir.listFiles.toSeq.map { f =>
         f -> ("public/images/" + f.getName)
     }
 }
-
