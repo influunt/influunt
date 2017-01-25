@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings("unchecked")
 @Security.Authenticated(Secured.class)
 @Dynamic("Influunt")
 public class ImposicoesController extends Controller {
@@ -33,7 +33,6 @@ public class ImposicoesController extends Controller {
 
     @Inject
     private InfluuntContextManager contextManager;
-
 
 
     @Transactional
@@ -161,8 +160,6 @@ public class ImposicoesController extends Controller {
         return ativarControlador(Json.fromJson(json.get("aneisIds"), List.class), timeout)
             .thenApply(result -> ok(Json.toJson(result)));
     }
-
-
 
 
     private CompletionStage<Map<String, List<String>>> enviarPacotesPlanos(List<String> aneis, Long timeout) {

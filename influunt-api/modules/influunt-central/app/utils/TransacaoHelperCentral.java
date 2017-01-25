@@ -3,24 +3,11 @@ package utils;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import json.ControladorCustomSerializer;
-import models.Anel;
-import models.Cidade;
-import models.Controlador;
-import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
-import play.libs.Json;
-import protocol.*;
-import status.PacoteTransacao;
-import status.Transacao;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import protocol.DestinoCentral;
+import protocol.Envelope;
+import protocol.TipoMensagem;
 
 /**
  * Created by pedropires on 11/18/16.

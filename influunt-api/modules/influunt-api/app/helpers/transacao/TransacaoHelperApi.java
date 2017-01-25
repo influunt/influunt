@@ -1,31 +1,20 @@
 package helpers.transacao;
 
-import akka.actor.ActorSelection;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import json.ControladorCustomSerializer;
 import models.Anel;
-import models.Cidade;
 import models.Controlador;
 import models.ModoOperacaoPlano;
 import org.fusesource.mqtt.client.QoS;
 import play.Configuration;
 import play.libs.Json;
 import play.libs.ws.WSClient;
-import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
-import protocol.*;
 import security.AuthToken;
 import status.PacoteTransacao;
-import status.Transacao;
-import utils.RangeUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
 
 /**
  * Created by pedropires on 1/23/17.
@@ -102,7 +91,6 @@ public class TransacaoHelperApi {
         return http.url(url).setHeader(AuthToken.TOKEN, authToken).post(json)
             .thenApply(response -> Json.toJson(response.getBody()));
     }
-
 
 
     private CompletionStage<WSResponse> sendTransaction(PacoteTransacao pacoteTransacao, QoS qos, String authToken) {

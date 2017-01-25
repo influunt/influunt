@@ -5,4 +5,5 @@ package security;
  */
 public class AuthToken {
     public static final String TOKEN = "authToken";
+    private AuthToken() {}
 }
