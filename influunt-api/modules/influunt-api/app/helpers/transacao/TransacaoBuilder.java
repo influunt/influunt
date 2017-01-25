@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Created by pedropires on 1/24/17.
  */
-public class TransacaoBuilder {
+public final class TransacaoBuilder {
 
     private TransacaoBuilder() {}
 
