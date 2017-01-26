@@ -215,3 +215,4 @@ GET        /assets/*file                                                        
 
 #MQTT
 POST       /v1/mqtt/auth                                                                    controllers.api.mqtt.MqttController.auth
+GET        /v1/mqtt/acl                                                                     controllers.api.mqtt.MqttController.acl

@@ -76,7 +76,7 @@ public class ControladorSettingsForm {
             c.idControlador.setText(prop.getProperty("idControlador"));
             c.host.setText(prop.getProperty("host"));
             c.port.setText(prop.getProperty("port"));
-            c.senha.setText(prop.getProperty("senha"));
+            c.senha.setText(prop.getProperty("password"));
             c.chavePrivada.setText(prop.getProperty("privateKey"));
             c.chavePublica.setText(prop.getProperty("publicKey"));
         }

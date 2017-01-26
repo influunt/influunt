@@ -68,7 +68,7 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                         break;
                 }
 
-                envelope.setDestino(DestinoCentral.transacao(transacao.transacaoId));
+                envelope.setDestino(DestinoCentral.transacao(idControlador, transacao.transacaoId));
                 envelope.setConteudo(transacao.toJson().toString());
                 InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, transacao);
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());

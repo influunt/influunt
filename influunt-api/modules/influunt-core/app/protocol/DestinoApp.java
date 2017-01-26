@@ -33,7 +33,7 @@ public class DestinoApp {
         return "app/mudanca_status_controlador";
     }
 
-    public final static String dadosControlador(String envelopeId) {
-        return "app/controlador/".concat(envelopeId).concat("/dados");
+    public final static String dadosControlador(String controladorId) {
+        return "app/controlador/".concat(controladorId).concat("/dados");
     }
 }

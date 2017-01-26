@@ -9,6 +9,16 @@ public class MqttCredentials {
 
     protected String topic;
 
+    protected Integer access;
+
+    public Integer getAccess() {
+        return access;
+    }
+
+    public void setAccess(Integer access) {
+        this.access = access;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -39,5 +49,13 @@ public class MqttCredentials {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public boolean isSub() {
+        return access != null && access == 1;
+    }
+
+    public boolean isPub() {
+        return access != null && access == 2;
     }
 }

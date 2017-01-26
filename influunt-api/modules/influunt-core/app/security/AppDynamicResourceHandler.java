@@ -49,7 +49,6 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
             "GET /api/v1/monitoramento/detalhe_controlador/$id<[^/]+>".equals(chave) ||
             "GET /api/v1/controladores/$id<[^/]+>/status_dinamico".equals(chave);
 
-
         if (acessandoStatus) {
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }

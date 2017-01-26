@@ -158,7 +158,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
         subscribe("controladores/conn/online", QoS.AT_LEAST_ONCE.ordinal());
         subscribe("controladores/conn/offline", QoS.AT_LEAST_ONCE.ordinal());
-        subscribe("central/transacoes/+", QoS.EXACTLY_ONCE.ordinal());
+        subscribe("central/transacoes/+/+", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/alarmes_falhas", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/troca_plano", QoS.EXACTLY_ONCE.ordinal());
         subscribe("central/configuracao", QoS.EXACTLY_ONCE.ordinal());
