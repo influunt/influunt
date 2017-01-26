@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_3_1_1;
+
 /**
  * Created by rodrigosol on 7/7/16.
  */
@@ -29,6 +31,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
     private final String host;
 
     private final String port;
+
+    private final String password;
 
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
@@ -46,9 +50,10 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private ActorRef messageBroker;
 
-    public MQTTServerActor(final String host, final String port, final ActorRef router) {
+    public MQTTServerActor(final String host, final String port, final String password, final ActorRef router) {
         this.host = host;
         this.port = port;
+        this.password = password;
         this.router = router;
     }
 
@@ -134,9 +139,13 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
     private void connect() throws MqttException {
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
+
+        opts.setPassword(password.toCharArray());
+        opts.setUserName("central");
         opts.setAutomaticReconnect(false);
         opts.setCleanSession(false);
         opts.setConnectionTimeout(0);
+        opts.setMqttVersion(MQTT_VERSION_3_1_1);
         client.setCallback(this);
         client.connect(opts);
 

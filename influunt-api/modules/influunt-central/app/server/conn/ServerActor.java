@@ -40,6 +40,8 @@ public class ServerActor extends UntypedActor {
 
     private final String mqttPort;
 
+    private final String mqttPassword;
+
     private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     private ActorRef mqttCentral;
@@ -50,9 +52,10 @@ public class ServerActor extends UntypedActor {
 
     private Props mqttProps;
 
-    public ServerActor(final String mqttHost, final String mqttPort) {
+    public ServerActor(final String mqttHost, final String mqttPort, final String mqttPassword) {
         this.mqttHost = mqttHost;
         this.mqttPort = mqttPort;
+        this.mqttPassword = mqttPassword;
     }
 
     @Override
@@ -68,7 +71,7 @@ public class ServerActor extends UntypedActor {
         router = getContext().actorOf(new RoundRobinPool(5).props(Props.create(CentralMessageBroker.class, actorPacoteTrasancaoManager)), "centralMessageBroker");
 
         mqttProps = BackoffSupervisor.props(Backoff.onFailure(
-            Props.create(MQTTServerActor.class, mqttHost, mqttPort, router),
+            Props.create(MQTTServerActor.class, mqttHost, mqttPort,mqttPassword, router),
             "CentralMQTT",
             Duration.create(1, TimeUnit.SECONDS),
             Duration.create(10, TimeUnit.SECONDS),

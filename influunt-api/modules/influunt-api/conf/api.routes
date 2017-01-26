@@ -212,3 +212,6 @@ POST       /v1/imposicoes/inativar                                              
 POST       /v1/imposicoes/ativar                                                            controllers.api.ImposicoesController.ativar
 
 GET        /assets/*file                                                                    controllers.api.Assets.at(path="/public", file)
+
+#MQTT
+POST       /v1/mqtt/auth                                                                    controllers.api.mqtt.MqttController.auth

@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_3_1_1;
+
 /**
  * Created by rodrigosol on 7/7/16.
  */
@@ -125,7 +127,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
     private void connect() throws MqttException {
         try {
-            client = new MqttClient("tcp://" + host + ":" + port, id);
+            client = new MqttClient("tcp://" + host + ":" + port, "device_" + id);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -144,6 +146,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
 
         opts.setAutomaticReconnect(false);
         opts.setCleanSession(false);
+        opts.setMqttVersion(MQTT_VERSION_3_1_1);
         opts.setConnectionTimeout(0);
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
