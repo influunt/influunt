@@ -20,8 +20,6 @@ module NoGitStrategy
     filename = fetch(:project_tarball_path).split('/').last
     dist_name = filename.split('.')[0..-2].join('.')
     exec_name = dist_name.split('-')[0..-2].join('-')
-    # Unpack the tarball uploaded by deploy:upload_tarball task.
-    # context.execute "tar -xf /tmp/#{filename} -C #{release_path} && mv #{release_path}/#{dist_name}/* #{release_path} && rm -r #{release_path}/#{dist_name}"
     context.execute "unzip -q -o /tmp/#{filename} -d #{release_path}"
     context.execute "mv #{release_path}/#{dist_name}/* #{release_path}"
     context.execute "rm -r #{release_path}/#{dist_name}"

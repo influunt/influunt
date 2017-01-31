@@ -41,13 +41,13 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
 # the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-*.zip').first }
+set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-api-*.zip').first }
 
 set :git_strategy, NoGitStrategy
 
 # Finally we need a task to create the tarball and upload it,
 namespace :deploy do
-  desc 'Create and upload project tarball'
+  desc 'Upload project tarball'
   task :upload_tarball do
     tarball_path = fetch(:project_tarball_path)
 
@@ -69,7 +69,7 @@ namespace :app do
   desc 'Makes the production build'
   task :build do
     run_locally do
-      execute 'command -v activator >/dev/null 2>&1; if [ "$?" -eq 0 ]; then activator dist; else ../activator-1.3.10-minimal/bin/activator dist; fi;'
+      execute "[ -f #{fetch(:project_tarball_path)} ] || activator dist"
     end
   end
 

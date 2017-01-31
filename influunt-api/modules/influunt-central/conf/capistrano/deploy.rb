@@ -3,14 +3,14 @@ require_relative 'no_git_strategy'
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
-set :application, 'influunt-api'
+set :application, 'influunt-central'
 # set :repo_url, 'git@github.com:influunt/influunt.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/app/influunt-api'
+set :deploy_to, '/app/influunt-central'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -41,13 +41,13 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
 # the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-*.zip').first }
+set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-central-*.zip').first }
 
 set :git_strategy, NoGitStrategy
 
 # Finally we need a task to create the tarball and upload it,
 namespace :deploy do
-  desc 'Create and upload project tarball'
+  desc 'Upload project tarball'
   task :upload_tarball do
     tarball_path = fetch(:project_tarball_path)
 
@@ -60,7 +60,7 @@ namespace :deploy do
   task :restart do
     on roles(:all) do
       execute "if [[ -f #{shared_path}/influunt.pid ]]; then kill $(cat #{shared_path}/influunt.pid); else echo 'app not running!'; fi"
-      execute "#{release_path}/bin/influunt-api -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
+      execute "#{release_path}/bin/influunt-central -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
     end
   end
 end
@@ -69,7 +69,7 @@ namespace :app do
   desc 'Makes the production build'
   task :build do
     run_locally do
-      execute 'command -v activator >/dev/null 2>&1; if [ "$?" -eq 0 ]; then activator dist; else ../activator-1.3.10-minimal/bin/activator dist; fi;'
+      execute "[ -f #{fetch(:project_tarball_path)} ] || activator dist"
     end
   end
 
