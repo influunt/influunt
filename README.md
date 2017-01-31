@@ -60,7 +60,7 @@ Após a instalação do NodeJs, execute o seguinte comando para instalar o Bower
 1. Baixe o projeto utilizando o git:
 
         git clone git@github.com:influunt/influunt.git
- 
+
 2. Navegue para a pasta da central, e execute o comando `activator` para baixar as dependências da central:
 
         cd influunt/influunt-api
@@ -72,7 +72,7 @@ Depois de todas as dependências serem baixadas e instaladas, execute o comando 
         cd ../influunt-app
         npm install
         bower install
-        
+
 ### Configuração
 
 * **Configure o NginX**: Abra o arquivo `nginx.conf` (a localização depende do modo de instalação), e adicione o seguinte conteúdo no final do bloco `http`. Substitua as ocorrências de `<!CAMINHO PARA INFLUUNT-APP!>` com o caminho completo para chegar na pasta do `influunt-app`. Ex: `/Users/seunome/influunt/influunt-app`
@@ -192,7 +192,7 @@ Primeiramente entre no servidor com o usuário root.
 
 * Instale e configure o MySQL:<br><br>Primeiramente, instale a versão aberta do MySQL:
 
-        yum install mariadb
+        yum install mariadb-server
 Em seguida rode o comando para deixar a instalação segura (todas as opções sugeridas pelo programa são seguras de serem aceitas):
 
         mysql_secure_installation
@@ -205,13 +205,13 @@ Crie um novo usuário para acessar o banco de dados da aplicação, alterando o 
         GRANT ALL PRIVILEGES ON influunt.* TO 'influunt'@'localhost';
 
 * Instale e configure o MongoDB:<br><br>Primeiramente, instale o mongoDB:
-        
+
         yum install mongodb-org
 Inicie o mongoDB:
 
         mongod
 Configure o mongoDB para iniciar automaticamente:
-   
+
         systemctl enable mongod
 
 * Instale e configure o Mosquitto. Pode ser feito no mesmo servidor, ou em algum outro.<br><br>Instale o mosquitto:
@@ -234,7 +234,7 @@ Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
             persistence true
 
   Inicie o mosquitto, passando o caminho para o arquivo de configuração:
-  
+
         mosquitto -c /etc/mosquitto/mosquitto.conf
 
   **OBS:** Depois de instalado, é necessário alterar o arquivo de configuração dos controladores (no seu computador). Esse arquivo está em `influunt/influunt-app/app/resources/controlador.conf`. Basta alterar a chave `host` (endereço) para o endereço onde o Mosquitto está instalado.
@@ -245,9 +245,9 @@ Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
 Configure o NginX para servir a aplicação. Abra o arquivo `/etc/nginx/nginx.conf` e adicione o bloco `server` abaixo dentro do bloco `http`:
 
         http {
-        
+
             # outras configurações...
-        
+
             server {
                 listen 80;
                 charset UTF-8;
@@ -313,7 +313,7 @@ Crie a estrutura de pastas para a aplicação. **Os nomes de pastas utilizados s
         mkdir ${deploy_to}/{releases,shared}
         mkdir ${deploy_to}/shared/{imagens,logs}
         chown -R raro ${deploy_to}/{releases,shared}
-        
+
         deploy_to=/app/influunt-app
         mkdir -p ${deploy_to}
         chown raro:raro ${deploy_to}
@@ -328,7 +328,7 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
           autoApply = true
           autoApplyDowns = true
         }
-        
+
         db {
           default.driver=com.mysql.jdbc.Driver
           default.url="jdbc:mysql://localhost/influunt"
@@ -338,7 +338,7 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
           default.logSql=true
           default.jndiName=DefaultDS
         }
-        
+
         playjongo.uri="mongodb://127.0.0.1:27017/influunt"
 
         play.mailer {
@@ -350,12 +350,12 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
             tls = yes
             ssl = no
         }
-        
+
         influuntUrl = "ENDERECO SERVIDOR"      # <--- Substitua pelo endereço do servidor ex: http://influunt.com.br
 
         central {
             mqtt {
-                host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado. 
+                host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado.
                 port = 1883
                 login = ""
                 senha = ""
@@ -364,12 +364,12 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
 Após as alterações, adicione os seguintes valores ao arquivo:
 
         application.mode=PROD
-        pidfile.path = "/app/influunt-api/shared/influunt.pid"    
+        pidfile.path = "/app/influunt-api/shared/influunt.pid"
 
 
 #### Deploy da aplicação
 
-Para realizar o deploy (atualizar o código no servidor), primeiramente instale o ruby no seu computador ([Instruções de Instalação](https://www.ruby-lang.org/en/documentation/installation/)). 
+Para realizar o deploy (atualizar o código no servidor), primeiramente instale o ruby no seu computador ([Instruções de Instalação](https://www.ruby-lang.org/en/documentation/installation/)).
 <br>
 Em seguida execute o seguinte comando para instalar a ferramenta de deploy:
 

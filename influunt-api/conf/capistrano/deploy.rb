@@ -3,14 +3,14 @@ require_relative 'no_git_strategy'
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
-set :application, 'influunt-api'
+set :application, 'influunt'
 # set :repo_url, 'git@github.com:influunt/influunt.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/app/influunt-api'
+set :deploy_to, '/app/influunt'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -40,27 +40,53 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 # release id is just the commit hash used to create the tarball.
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
-# the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-*.zip').first }
+set :api_tarball_path, Proc.new { Dir.glob('modules/influunt-api/target/universal/influunt-api-*.zip').first }
+set :central_tarball_path, Proc.new { Dir.glob('modules/influunt-central/target/universal/influunt-central-*.zip').first }
+
+set :deploy_script_name, 'influunt-deploy.sh'
 
 set :git_strategy, NoGitStrategy
 
+def create_deploy_script(role)
+  filename = fetch(:"#{role}_tarball_path").split('/').last
+  dist_name = filename.split('.')[0..-2].join('.')
+  exec_name = dist_name.split('-')[0..-2].join('-')
+  script  = "#!/bin/bash\n\n"
+  script += "unzip -q -o /tmp/#{filename} -d #{release_path}\n"
+  script += "mv #{release_path}/#{dist_name}/* #{release_path}\n"
+  script += "rm -r #{release_path}/#{dist_name}\n"
+  script += "chmod +x #{release_path}/bin/#{exec_name}\n"
+  script += "rm /tmp/#{filename}"
+  File.write(fetch(:deploy_script_name), script)
+end
+
 # Finally we need a task to create the tarball and upload it,
 namespace :deploy do
-  desc 'Create and upload project tarball'
+  desc 'Upload project tarball'
   task :upload_tarball do
-    tarball_path = fetch(:project_tarball_path)
+    on roles(:api) do
+      create_deploy_script(:api)
+      upload! fetch(:deploy_script_name), '/tmp/'
+      upload! fetch(:api_tarball_path), '/tmp/'
+    end
 
-    on roles(:all) do
-      upload! tarball_path, '/tmp/'
+    on roles(:central) do
+      create_deploy_script(:central)
+      upload! fetch(:deploy_script_name), '/tmp/'
+      upload! fetch(:central_tarball_path), '/tmp/'
     end
   end
 
   desc 'Restart the application'
   task :restart do
-    on roles(:all) do
+    on roles(:api) do
       execute "if [[ -f #{shared_path}/influunt.pid ]]; then kill $(cat #{shared_path}/influunt.pid); else echo 'app not running!'; fi"
       execute "#{release_path}/bin/influunt-api -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
+    end
+
+    on roles(:central) do
+      execute "if [[ -f #{shared_path}/influunt.pid ]]; then kill $(cat #{shared_path}/influunt.pid); else echo 'app not running!'; fi"
+      execute "#{release_path}/bin/influunt-central -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
     end
   end
 end
@@ -76,7 +102,9 @@ namespace :app do
   desc 'Removes the tarball file'
   task :cleanup do
     run_locally do
-      execute "rm #{fetch(:project_tarball_path)}"
+      execute "rm #{fetch(:api_tarball_path)}"
+      execute "rm #{fetch(:central_tarball_path)}"
+      execute "rm #{fetch(:deploy_script_name)}"
     end
   end
 end

@@ -17,17 +17,10 @@ module NoGitStrategy
   end
 
   def release
-    filename = fetch(:project_tarball_path).split('/').last
-    dist_name = filename.split('.')[0..-2].join('.')
-    exec_name = dist_name.split('-')[0..-2].join('-')
-    # Unpack the tarball uploaded by deploy:upload_tarball task.
-    # context.execute "tar -xf /tmp/#{filename} -C #{release_path} && mv #{release_path}/#{dist_name}/* #{release_path} && rm -r #{release_path}/#{dist_name}"
-    context.execute "unzip -q -o /tmp/#{filename} -d #{release_path}"
-    context.execute "mv #{release_path}/#{dist_name}/* #{release_path}"
-    context.execute "rm -r #{release_path}/#{dist_name}"
-    context.execute "chmod +x #{release_path}/bin/#{exec_name}"
-    # Remove it just to keep things clean.
-    context.execute :rm, "/tmp/#{filename}"
+    deploy_script = fetch(:deploy_script_name)
+    context.execute "chmod +x /tmp/#{deploy_script}"
+    context.execute "/tmp/#{deploy_script}"
+    context.execute :rm, "/tmp/influunt-*"
   end
 
   def fetch_revision
