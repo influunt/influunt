@@ -175,48 +175,74 @@ Execute os seguintes comandos para rodar o projeto:
 
 * Coloque no navegador o endereço `http://localhost`. O Influunt deve abrir e mostrar a tela de login. Para entrar utiliz o login **root** e a senha **1234**.
 
-### Ambiente de Produção
-#### Dependências
+## Ambiente de Produção
+### Dependências
 
 As dependências do ambiente de produção são as mesmas do ambiente de desenvolvimento. O passo-a-passo abaixo irá mostrar como configurar um servidor linux (CentOS) de produção para rodar a aplicação.
 
-#### Configurar servidor de produção
+### Configurar servidor de produção (único servidor)
 
 **O passo-a-passo abaixo se refere a um servidor linux CentOS!**
 
 Primeiramente entre no servidor com o usuário root.
 
-* Instale o Java 8:<br><br>Baixe o arquivo RPM de instalação do Java em [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) e salve no servidor. Execute o seguinte comando para instalar (substituindo o nome do arquivo pelo o nome do que você baixou):
+#### Java 8
 
-        rpm -ivh jdk-8uxxx-linux-x64.rpm
+Baixe o arquivo RPM de instalação do Java em [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) e salve no servidor. Execute o seguinte comando para instalar (substituindo o nome do arquivo pelo o nome do que você baixou):
 
-* Instale e configure o MySQL:<br><br>Primeiramente, instale a versão aberta do MySQL:
+    rpm -ivh jdk-8uxxx-linux-x64.rpm
 
-        yum install mariadb-server
+
+#### MySQL
+
+Primeiramente, instale a versão aberta do MySQL:
+
+    yum install mariadb-server
+
 Em seguida rode o comando para deixar a instalação segura (todas as opções sugeridas pelo programa são seguras de serem aceitas):
 
-        mysql_secure_installation
+    mysql_secure_installation
+
 Entre no MySQL com o usuário `root`, utilizando a senha cadastrada no comando anterior, e crie um novo banco de dados:
 
-        CREATE DATABASE influunt;
+    CREATE DATABASE influunt;
+
 Crie um novo usuário para acessar o banco de dados da aplicação, alterando o valor `<SENHA>` por uma senha da sua preferência:
 
-        CREATE USER 'influunt'@'localhost' IDENTIFIED BY '<SENHA>';
-        GRANT ALL PRIVILEGES ON influunt.* TO 'influunt'@'localhost';
+    CREATE USER 'influunt'@'localhost' IDENTIFIED BY '<SENHA>';
+    GRANT ALL PRIVILEGES ON influunt.* TO 'influunt'@'localhost';
 
-* Instale e configure o MongoDB:<br><br>Primeiramente, instale o mongoDB:
 
-        yum install mongodb-org
+#### MongoDB
+
+Crie o arquivo `/etc/yum.repos.d/mongodb-org-3.4.repo` com o seguinte conteúdo:
+
+    [mongodb-org-3.4]
+    name=MongoDB Repository
+    baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
+    gpgcheck=1
+    enabled=1
+    gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
+
+Em seguida, instale o mongoDB:
+
+    yum install mongodb-org
+
 Inicie o mongoDB:
 
-        mongod
+    mongod
+
 Configure o mongoDB para iniciar automaticamente:
 
-        systemctl enable mongod
+    systemctl enable mongod
 
-* Instale e configure o Mosquitto. Pode ser feito no mesmo servidor, ou em algum outro.<br><br>Instale o mosquitto:
 
-        yum install mosquitto
+#### Mosquitto
+
+Instale o mosquitto:
+
+    yum install mosquitto
+
 Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
     * Na seção "Default Listeners" altere as propriedades `bind_address`, `port` e `protocol` com os seguintes valores:
 
@@ -239,138 +265,149 @@ Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
 
   **OBS:** Depois de instalado, é necessário alterar o arquivo de configuração dos controladores (no seu computador). Esse arquivo está em `influunt/influunt-app/app/resources/controlador.conf`. Basta alterar a chave `host` (endereço) para o endereço onde o Mosquitto está instalado.
 
-* Instale e configure o NginX:<br><br>Primeiramente, instale o NginX:
+#### NginX
 
-        yum install nginx
+Instale o NginX:
+
+    yum install nginx
+
 Configure o NginX para servir a aplicação. Abra o arquivo `/etc/nginx/nginx.conf` e adicione o bloco `server` abaixo dentro do bloco `http`:
 
-        http {
+    http {
+        # outras configurações...
 
-            # outras configurações...
-
-            server {
-                listen 80;
-                charset UTF-8;
-                server_name     influunt.com.br;
-                send_timeout    600;
-                gzip             on;
-                gzip_comp_level  8;
-                gzip_types       text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
-                client_max_body_size 100M;
-
-                location /api {
-                    try_files $uri @influuntapi;
-                }
-
-                # the notification server
-                location @influuntapi {
-                    proxy_http_version 1.1;
-                    proxy_pass  http://localhost:9000;
-                    proxy_redirect off;
-                    proxy_buffering off;
-                    proxy_connect_timeout       600;
-                    proxy_send_timeout          600;
-                    proxy_read_timeout          600;
-                    proxy_set_header        Host               $host;
-                }
-
-                location /assets {
-                    proxy_pass  http://localhost:9000;
-                }
-
-
-                location / {
-                    root   /app/influunt-app/current;
-                    index  index.html;
-                }
+        server {
+            listen 80;
+            charset UTF-8;
+            server_name     influunt.com.br;
+            send_timeout    600;
+            gzip             on;
+            gzip_comp_level  8;
+            gzip_types       text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+            client_max_body_size 100M;
+            location /api {
+                try_files $uri @influuntapi;
+            }
+            # the notification server
+            location @influuntapi {
+                proxy_http_version 1.1;
+                proxy_pass  http://localhost:9000;
+                proxy_redirect off;
+                proxy_buffering off;
+                proxy_connect_timeout       600;
+                proxy_send_timeout          600;
+                proxy_read_timeout          600;
+                proxy_set_header        Host               $host;
+            }
+            location /assets {
+                proxy_pass  http://localhost:9000;
+            }
+            location / {
+                root   /app/influunt-app/current;
+                index  index.html;
             }
         }
+
+    }
 Inicie o NginX com o comando
 
-        nginx
+    nginx
 
-* Crie um novo usuário e configure o servidor para o deploy da aplicação:<br><br>Primeiro crie um novo usuário e desabilite o seu login:
+#### Usuário para deploy
 
-        adduser raro
-        passwd -l raro
+Crie um novo usuário e desabilite o seu login:
+
+    adduser raro
+    passwd -l raro
+
 Em seguida adicione a sua chave SSH pública no servidor, executando os seguintes comandos (substitua `CHAVE_SSH_PUBLICA` pela sua chave SSH pública):
 
-        su - raro
-        cd ~
-        mkdir .ssh
-        echo CHAVE_SSH_PUBLICA >> .ssh/authorized_keys
-        chmod 700 .ssh
-        chmod 600 .ssh/authorized_keys
-        exit
-Crie a estrutura de pastas para a aplicação. **Os nomes de pastas utilizados são muito importantes para a configuração do servidor web, não modifique.**
+    su - raro
+    cd ~
+    mkdir .ssh
+    echo CHAVE_SSH_PUBLICA >> .ssh/authorized_keys
+    chmod 700 .ssh
+    chmod 600 .ssh/authorized_keys
+    exit
 
-        deploy_to=/app/influunt-api
-        mkdir -p ${deploy_to}
-        chown raro:raro ${deploy_to}
-        umask 0002
-        chmod g+s ${deploy_to}
-        mkdir ${deploy_to}/{releases,shared}
-        mkdir ${deploy_to}/shared/{imagens,logs}
-        chown -R raro ${deploy_to}/{releases,shared}
+#### Estrutura de pastas do app
 
-        deploy_to=/app/influunt-app
-        mkdir -p ${deploy_to}
-        chown raro:raro ${deploy_to}
-        umask 0002
-        chmod g+s ${deploy_to}
-        mkdir ${deploy_to}/{releases,shared}
-        chown raro ${deploy_to}/{releases,shared}
+**Os nomes de pastas utilizados são muito importantes para a configuração do servidor web, não modifique.**
+
+Execute os seguintes comandos para criar a estrutura de pastas da central e do app web.
+
+Configuração de pastas da central:
+
+    deploy_to=/app/influunt-api
+    mkdir -p ${deploy_to}
+    chown raro:raro ${deploy_to}
+    umask 0002
+    chmod g+s ${deploy_to}
+    mkdir ${deploy_to}/{releases,shared}
+    mkdir ${deploy_to}/shared/{imagens,logs}
+    chown -R raro ${deploy_to}/{releases,shared}
+
+Configuração de pastas do app web:
+
+    deploy_to=/app/influunt-app
+    mkdir -p ${deploy_to}
+    chown raro:raro ${deploy_to}
+    umask 0002
+    chmod g+s ${deploy_to}
+    mkdir ${deploy_to}/{releases,shared}
+    chown raro ${deploy_to}/{releases,shared}
+        
 Crie o arquivo de configuração da central, e altere os valores necessários. Primeiro copie o arquivo `influunt/influunt-api/conf/application.conf` do seu computador para o servidor, e o coloque na pasta `/app/influunt-api/shared/conf`. Altere os seguintes valores:
 
-        play.evolutions {
-          enabled = true
-          autoApply = true
-          autoApplyDowns = true
+    play.evolutions {
+      enabled = true
+      autoApply = true
+      autoApplyDowns = true
+    }
+
+    db {
+      default.driver=com.mysql.jdbc.Driver
+      default.url="jdbc:mysql://localhost/influunt"
+      default.username=influunt
+      default.password="SENHA"             # <--- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
+
+      default.logSql=true
+      default.jndiName=DefaultDS
+    }
+
+    playjongo.uri="mongodb://127.0.0.1:27017/influunt"
+
+    play.mailer {
+        host = smtp.gmail.com
+        port = 587
+        user = USUARIO_DO_EMAIL            # <--- Substitua pelo seu usuário no gmail
+        password = "SENHA_DO_EMAIL"        # <--- Substitua pela senha do seu usuário no gmail
+        from = "naoresponda@rarolabs.com.br"
+        tls = yes
+        ssl = no
+    }
+
+    influuntUrl = "ENDERECO SERVIDOR"      # <--- Substitua pelo endereço do servidor ex: http://influunt.com.br
+
+    central {
+        mqtt {
+            host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado.
+            port = 1883
+            login = ""
+            senha = ""
         }
+    }
 
-        db {
-          default.driver=com.mysql.jdbc.Driver
-          default.url="jdbc:mysql://localhost/influunt"
-          default.username=influunt
-          default.password="SENHA"             # <--- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
+Após as alterações, adicione os seguintes valores no final do arquivo:
 
-          default.logSql=true
-          default.jndiName=DefaultDS
-        }
-
-        playjongo.uri="mongodb://127.0.0.1:27017/influunt"
-
-        play.mailer {
-            host = smtp.gmail.com
-            port = 587
-            user = USUARIO_DO_EMAIL            # <--- Substitua pelo seu usuário no gmail
-            password = "SENHA_DO_EMAIL"        # <--- Substitua pela senha do seu usuário no gmail
-            from = "naoresponda@rarolabs.com.br"
-            tls = yes
-            ssl = no
-        }
-
-        influuntUrl = "ENDERECO SERVIDOR"      # <--- Substitua pelo endereço do servidor ex: http://influunt.com.br
-
-        central {
-            mqtt {
-                host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado.
-                port = 1883
-                login = ""
-                senha = ""
-            }
-        }
-Após as alterações, adicione os seguintes valores ao arquivo:
-
-        application.mode=PROD
-        pidfile.path = "/app/influunt-api/shared/influunt.pid"
+    application.mode=PROD
+    pidfile.path = "/app/influunt-api/shared/influunt.pid"
 
 
-#### Deploy da aplicação
+### Deploy da aplicação
 
 Para realizar o deploy (atualizar o código no servidor), primeiramente instale o ruby no seu computador ([Instruções de Instalação](https://www.ruby-lang.org/en/documentation/installation/)).
-<br>
+
 Em seguida execute o seguinte comando para instalar a ferramenta de deploy:
 
 ```bash
@@ -392,7 +429,7 @@ Em outra janela do terminal, entre na pasta `influunt/influunt-app` e execute o 
     cap production deploy
 
 
-Se este for o primeiro deploy feito no servidor, é necessário inserir o arquivo de seed no banco de dados. Para isso, faça o upload do arquivo `influunt/influunt-api/influunt)seed.sql` para o servidor, e execute o arquivo no Mysql:
+Se este for o primeiro deploy feito no servidor, é necessário inserir o arquivo de seed no banco de dados. Para isso, faça o upload do arquivo `influunt/influunt-api/influunt_seed.sql` para o servidor, e execute o arquivo no Mysql:
 
     mysql -u root -p influunt < influunt_seed.sql
 
@@ -401,7 +438,7 @@ E pronto! A aplicação já está rodando.
 
 
 
-### 72c
+## 72c
 
 O 72c pode ser executado em qualquer sistema operacional que suporte uma máquina virtual java (JVM) standard edition (SE) 1.8 ou superior.
 Dessa forma, antes de instalar o 72c certifique-se que a JVM está instalada e a versão é compatível:
