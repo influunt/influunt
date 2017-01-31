@@ -2,6 +2,7 @@
 
 ![Diagrama de Componentes](/influunt-doc/diagramas/componentes.png?raw=true "Componentes do Sistema")
 
+
 ## Referências
 
 * [Manual do Usuário](/influunt-doc/manual_usuario.pdf)
@@ -175,12 +176,12 @@ Execute os seguintes comandos para rodar o projeto:
 
 * Coloque no navegador o endereço `http://localhost`. O Influunt deve abrir e mostrar a tela de login. Para entrar utiliz o login **root** e a senha **1234**.
 
-## Ambiente de Produção
+## Ambiente de Produção (único servidor)
 ### Dependências
 
 As dependências do ambiente de produção são as mesmas do ambiente de desenvolvimento. O passo-a-passo abaixo irá mostrar como configurar um servidor linux (CentOS) de produção para rodar a aplicação.
 
-### Configurar servidor de produção (único servidor)
+### Configurar servidor de produção
 
 **O passo-a-passo abaixo se refere a um servidor linux CentOS!**
 
@@ -237,33 +238,59 @@ Configure o mongoDB para iniciar automaticamente:
     systemctl enable mongod
 
 
-#### Mosquitto
+#### eMQTT (MQTT Broker)
 
-Instale o mosquitto:
+Para instalar o eMQTT, entre no site e baixe o arquivo `.zip` de acordo com o servidor: [http://emqtt.io/downloads](http://emqtt.io/downloads). faça o upload do arquivo para o servidor, e descompacte o arquivo zip.
 
-    yum install mosquitto
+Entre na pasta descompactada, e altere o seguintes valores no arquivo `etc/emq.conf`:
 
-Altere o arquivo `/etc/mosquitto/mosquitto.conf`:
-    * Na seção "Default Listeners" altere as propriedades `bind_address`, `port` e `protocol` com os seguintes valores:
+Na seção "Node Args", altere as seguintes configurações:
 
-            # bind_address
-            port 1883
-            protocol mqtt
+* `node.name = emqttd@<IP_DO_SERVIDOR>`
 
-    * Na seção "Extra Listeners" altere as propriedades `listener` e `protocol`
+Na seção "MQTT Session", altere as seguintes configurações:
 
-            listener 1884
-            protocol websockets
+* `mqtt.session.max_inflight = 1000`
 
-    * Na seção "Persistence" altere a propriedade `persistence`
+Na seção "MQTT Listeners", altere as seguintes configurações:
 
-            persistence true
+* `mqtt.listener.tcp = 1883`
+* `mqtt.listener.tcp.max_clients = 4096`
+* `mqtt.listener.http = 1884`
 
-  Inicie o mosquitto, passando o caminho para o arquivo de configuração:
+Após alterar as configurações, crie o arquivo `etc/emq_auth_http.conf` com o seguinte conteúdo (substituindo `<IP_DO_SERVIDOR>` pelo IP do servidor):
 
-        mosquitto -c /etc/mosquitto/mosquitto.conf
+    ##--------------------------------------------------------------------
+    ## HTTP Auth/ACL Plugin
+    ##--------------------------------------------------------------------
 
-  **OBS:** Depois de instalado, é necessário alterar o arquivo de configuração dos controladores (no seu computador). Esse arquivo está em `influunt/influunt-app/app/resources/controlador.conf`. Basta alterar a chave `host` (endereço) para o endereço onde o Mosquitto está instalado.
+    ## Variables: %u = username, %c = clientid, %a = ipaddress, %P = password, %t = topic, %A access (2 - publish, 1 - subscribe)
+
+    auth.http.auth_req = http://<IP_DO_SERVIDOR>/api/v1/mqtt/auth
+    auth.http.auth_req.method = post
+    auth.http.auth_req.params = clientId=%c,username=%u,password=%P
+
+    auth.http.super_req = http://<IP_DO_SERVIDOR>:8080/mqtt/superuser
+    auth.http.super_req.method = post
+    auth.http.super_req.params = clientid=%c,username=%u
+
+    ## 'access' parameter: sub = 1, pub = 2
+    auth.http.acl_req =  http://<IP_DO_SERVIDOR>/api/v1/mqtt/acl
+    auth.http.acl_req.method = get
+    auth.http.acl_req.params = username=%u,clientId=%c,topic=%t,password=%P,access=%A
+
+    auth.http.acl_nomatch = deny
+
+
+Rode o eMQTT:
+
+    bin/emqttd
+
+Depois que o eMQTT estiver rodando, execute o seguinte comando para habilitar o plugin de autenticação:
+
+    bin/emqttd_ctl plugins load emq_auth_http
+
+  **OBS:** Depois de instalado, é necessário alterar o arquivo de configuração dos controladores (no seu computador). Esse arquivo está em `influunt/influunt-app/app/resources/controlador.conf`. Basta alterar a chave `host` (endereço) para o endereço onde o eMQTT está instalado.
 
 #### NginX
 
@@ -309,6 +336,7 @@ Configure o NginX para servir a aplicação. Abra o arquivo `/etc/nginx/nginx.co
         }
 
     }
+
 Inicie o NginX com o comando
 
     nginx
@@ -356,7 +384,9 @@ Configuração de pastas do app web:
     chmod g+s ${deploy_to}
     mkdir ${deploy_to}/{releases,shared}
     chown raro ${deploy_to}/{releases,shared}
-        
+
+#### Configuração do app
+
 Crie o arquivo de configuração da central, e altere os valores necessários. Primeiro copie o arquivo `influunt/influunt-api/conf/application.conf` do seu computador para o servidor, e o coloque na pasta `/app/influunt-api/shared/conf`. Altere os seguintes valores:
 
     play.evolutions {
@@ -404,6 +434,139 @@ Após as alterações, adicione os seguintes valores no final do arquivo:
     pidfile.path = "/app/influunt-api/shared/influunt.pid"
 
 
+## Ambiente de produção (vários servidores)
+
+É possível configurar o app em vários servidores, para uma melhor performance. Para essa configuração, são necessários pelo menos 5 servidores:
+
+* 2 servidores para a API (podem ser adicionados mais servidores)
+* 1 servidor para a CENTRAL (a central **deve** funcionar em somente 1 servidor)
+* 1 servidor de DADOS
+* 1 servidor para servir a aplicação WEB
+
+As dependências são as mesmas do ambiente de produção com somente um servidor, mas com essa configuração os servidores devem ser configurados individualmente.
+
+### Configuração
+
+#### Java 8
+
+O Java 8 deve ser instalado em todos os servidores para a API e no servidor para a CENTRAL. As intruções de instalação são as mesmas do ambiente de produção com somente um servidor.
+
+#### MySQL
+
+O MySQL deve ser instalado no servidor de DADOS. As intruções de instalação são as mesmas do ambiente de produção com somente um servidor, com uma diferença: devem ser rodados dois comandos a mais:
+
+    CREATE USER 'influunt'@'%' IDENTIFIED BY '<SENHA>';
+    GRANT ALL PRIVILEGES ON influunt.* TO 'influunt'@'&';
+
+Lembrando que o valor `<SENHA>` deve ser substituído pela mesma senha cadastrada no passo anterior.
+
+#### MongoDB
+
+O MongoDB deve ser instalado no servidor de DADOS. As intruções de instalação são as mesmas do ambiente de produção com somente um servidor.
+
+#### eMQTT
+
+O eMQTT deve ser instalado somente no servidor da CENTRAL. As intruções de instalação são as mesmas do ambiente de produção com somente um servidor. A diferença está na configuração do plugin de autenticação.
+
+Ao criar o arquivo de confiugração do plugin, ao invés de substituir o valor `<IP_DO_SERVIDOR>` pelo IP do servidor onde o eMQTT está instalado, deve ser substituído pelo IP do servidor WEB.
+
+#### NginX
+
+O MongoDB deve ser instalado no servidor WEB. As intruções de instalação são as mesmas do ambiente de produção com somente um servidor, mas a configuração é diferente.
+
+Abra o arquivo `/etc/nginx/nginx.conf` e adicione os seguintes blocos `server` e `upstream` abaixo dentro do bloco `http`
+
+    http {
+        # outras configurações...
+
+
+        upstream influuntapi {
+            server 10.38.5.94:9000; # API-01
+            server 10.38.5.91:9000; # API-02
+        }
+
+        server {
+            listen 80;
+            charset UTF-8;
+            server_name     influunt.com.br;
+            send_timeout    600;
+            gzip             on;
+            gzip_comp_level  8;
+            gzip_types       text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+            client_max_body_size 100M;
+
+            location /assets {
+                proxy_http_version 1.1;
+                proxy_redirect off;
+                proxy_buffering off;
+                proxy_connect_timeout       600;
+                proxy_send_timeout          600;
+                proxy_read_timeout          600;
+                proxy_pass  http://influuntapi;
+            }
+
+            location /api {
+                proxy_http_version 1.1;
+                proxy_redirect off;
+                proxy_buffering off;
+                proxy_connect_timeout       600;
+                proxy_send_timeout          600;
+                proxy_read_timeout          600;
+                proxy_pass  http://influuntapi;
+            }
+
+            location / {
+                root   /app/influunt-app/current;
+                index  index.html;
+            }
+        }
+
+
+    }
+
+#### Usuário para deploy
+
+Deve ser criado um usuário para realizar o deploy em cada um dos servidores. As instruções para criar os usuários são as mesmas do ambiente de produção com somente um servidor.
+
+Há uma diferença, porém: atualmente a aplicação está configurada para o deploy em produção com vários servidores usando o usuário "cet" (nas outras instruções foi criado o usuário "raro"). Para não precisar fazer mais alterações, o usuário deve ser criado como "cet".
+
+#### Estrutura de pasta do app
+
+Execute os seguintes comandos nos servidores para a API:
+
+    deploy_to=/app/influunt-api
+    mkdir -p ${deploy_to}
+    chown cet:cet ${deploy_to}
+    umask 0002
+    chmod g+s ${deploy_to}
+    mkdir ${deploy_to}/{releases,shared}
+    mkdir ${deploy_to}/shared/{imagens,logs}
+    chown -R cet ${deploy_to}/{releases,shared}
+
+Execute os seguintes comandos no servidor para a CENTRAL:
+
+    deploy_to=/app/influunt-central
+    mkdir -p ${deploy_to}
+    chown cet:cet ${deploy_to}
+    umask 0002
+    chmod g+s ${deploy_to}
+    mkdir ${deploy_to}/{releases,shared}
+    mkdir ${deploy_to}/shared/{imagens,logs}
+    chown -R cet ${deploy_to}/{releases,shared}
+
+Execute os seguintes comandos no servidor WEB:
+
+    deploy_to=/app/influunt-app
+    mkdir -p ${deploy_to}
+    chown cet:cet ${deploy_to}
+    umask 0002
+    chmod g+s ${deploy_to}
+    mkdir ${deploy_to}/{releases,shared}
+    chown cet ${deploy_to}/{releases,shared}
+
+
+
 ### Deploy da aplicação
 
 Para realizar o deploy (atualizar o código no servidor), primeiramente instale o ruby no seu computador ([Instruções de Instalação](https://www.ruby-lang.org/en/documentation/installation/)).
@@ -414,7 +577,9 @@ Em seguida execute o seguinte comando para instalar a ferramenta de deploy:
 gem install capistrano -v 3.5.0
 ```
 
-Altere os arquivos `influunt/influunt-api/conf/capistrano/deploy/production.rb` e `influunt/influunt-app/config/deploy/production.rb`, e insira o endereço do servidor de produção no local apropriado de cada arquivo:
+#### Deploy em ambiente de produção com somente um servidor:
+
+Altere os arquivos (no seu computador) `influunt/influunt-api/conf/capistrano/deploy/production.rb` e `influunt/influunt-app/config/deploy/production.rb`, e insira o endereço do servidor de produção no local apropriado de cada arquivo:
 
 ```ruby
 server 'xxx.xxx.xxx.xxx', user: 'raro', roles: %w{app db web}
@@ -433,8 +598,45 @@ Se este for o primeiro deploy feito no servidor, é necessário inserir o arquiv
 
     mysql -u root -p influunt < influunt_seed.sql
 
+#### Deploy em ambiente de produção com vários servidores
 
-E pronto! A aplicação já está rodando.
+Altere os seguintes arquivos (no seu computador):
+
+`influunt/influunt-api/modules/influunt-api/conf/capistrano/deploy/production.rb`
+
+* insira os endereços dos servidores da API, uma linha para cada um:
+
+        server 'xxx.xxx.xxx.xxx', user: 'cet', roles: %w{app db web}
+
+`influunt/influunt-api/modules/influunt-central/conf/capistrano/deploy/production.rb`
+
+* insira o endereço do servidor da CENTRAL:
+
+        server 'xxx.xxx.xxx.xxx', user: 'cet', roles: %w{app db web}
+
+`influunt/influunt-app/config/deploy/production.rb`
+
+* insira o endereço do servidor WEB:
+
+        server 'xxx.xxx.xxx.xxx', user: 'cet', roles: %w{app db web}
+
+
+Para executar o deploy em vários servidores, primeiro entre na pasta `influunt/influunt-api/modules/influunt-api` e execute o comando:
+
+    cap production deploy
+
+Em outra janela do terminal, entre na pasta `influunt/influunt-api/modules/influunt-central` e execute o comando:
+
+    cap production deploy
+
+Por último, em outra janela do terminal, entre na pasta `influunt/influunt-app` e execute o mesmo comando novamente:
+
+    cap production deploy
+
+Se este for o primeiro deploy feito no servidor, é necessário inserir o arquivo de seed no banco de dados. Para isso, faça o upload do arquivo `influunt/influunt-api/influunt_seed.sql` para o servidor DADOS, e execute o arquivo no MySQL:
+
+    mysql -u root -p influunt < influunt_seed.sql
+
 
 
 
