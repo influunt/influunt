@@ -2,6 +2,7 @@ package os72c.client.handlers.transacoes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.ModoOperacaoPlano;
+import models.StatusAnel;
 import org.joda.time.DateTime;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
@@ -12,7 +13,9 @@ import protocol.EtapaTransacao;
 import protocol.MensagemImposicaoModoOperacao;
 import status.Transacao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -26,7 +29,12 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode payloadJson = Json.parse(transacao.payload);
-        if (isImposicaoModoOperacaoOk(payloadJson)) {
+        List<Integer> numerosAneis = Json.fromJson(payloadJson.get("numerosAneis"), List.class);
+        List<StatusAnel> statusAneis = storage.getStatusAneis().entrySet().stream()
+            .filter(entry -> numerosAneis.contains(entry.getKey()))
+            .map(entry -> entry.getValue())
+            .collect(Collectors.toList());
+        if (isImposicaoModoOperacaoOk(payloadJson, statusAneis)) {
             storage.setTempData(transacao.transacaoId, "modoOperacao", payloadJson.get("modoOperacao").asText());
             storage.setTempData(transacao.transacaoId, "numerosAneis", payloadJson.get("numerosAneis").toString());
             storage.setTempData(transacao.transacaoId, "horarioEntrada", payloadJson.get("horarioEntrada").asText());
@@ -61,14 +69,17 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
         storage.clearTempData(transacao.transacaoId);
     }
 
-    private boolean isImposicaoModoOperacaoOk(JsonNode payload) {
+    private boolean isImposicaoModoOperacaoOk(JsonNode payload, List<StatusAnel> statusAneis) {
         try {
             ModoOperacaoPlano.valueOf(payload.get("modoOperacao").asText());
             Long horarioEntrada = payload.get("horarioEntrada").asLong();
             int duracao = payload.get("duracao").asInt();
             List<Integer> numerosAneis = Json.fromJson(payload.get("numerosAneis"), List.class);
             boolean numerosAneisOk = numerosAneis.stream().allMatch(numeroAnel -> numeroAnel >= 1);
-            return numerosAneisOk && duracao >= 15 && duracao <= 600 && horarioEntrada > DateTime.now().getMillis();
+            return numerosAneisOk &&
+                duracao >= 15 && duracao <= 600 &&
+                horarioEntrada > DateTime.now().getMillis() &&
+                statusAneis.stream().allMatch(entry -> !entry.equals(StatusAnel.IMPOSICAO));
         } catch (Exception e) {
             return false;
         }

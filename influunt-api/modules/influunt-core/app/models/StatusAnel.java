@@ -8,5 +8,6 @@ public enum StatusAnel {
     COM_FALHA,
     AMARELO_INTERMITENTE_POR_FALHA,
     APAGADO_POR_FALHA,
-    MANUAL
+    MANUAL,
+    IMPOSICAO
 }

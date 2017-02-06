@@ -340,6 +340,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
         numerosAneis.forEach(numeroAnel -> {
             motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada));
+            storage.setStatusAnel(numeroAnel, StatusAnel.IMPOSICAO);
         });
     }
 
@@ -350,14 +351,15 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
         numerosAneis.forEach(numeroAnel -> {
             motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada));
+            storage.setStatusAnel(numeroAnel, StatusAnel.IMPOSICAO);
         });
-
     }
 
     private void liberarImposicao(JsonNode conteudo) {
         List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
         numerosAneis.forEach(numeroAnel -> {
             motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+            storage.setStatusAnel(numeroAnel, StatusAnel.NORMAL);
         });
     }
 

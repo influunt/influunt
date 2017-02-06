@@ -1,6 +1,7 @@
 package os72c.client.handlers.transacoes;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.StatusAnel;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
@@ -10,6 +11,7 @@ import protocol.MensagemImposicaoPlano;
 import status.Transacao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -22,8 +24,13 @@ public class TransacaoImposicaoPlanoActorHandler extends TransacaoImposicaoActor
 
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
-        if (isImposicaoPlanoOk(storage.getControlador(), transacao)) {
-            JsonNode payloadJson = Json.parse(transacao.payload);
+        JsonNode payloadJson = Json.parse(transacao.payload);
+        List<Integer> numerosAneis = Json.fromJson(payloadJson.get("numerosAneis"), List.class);
+        List<StatusAnel> statusAneis = storage.getStatusAneis().entrySet().stream()
+            .filter(entry -> numerosAneis.contains(entry.getKey()))
+            .map(entry -> entry.getValue())
+            .collect(Collectors.toList());
+        if (isImposicaoPlanoOk(storage.getControlador(), transacao, statusAneis)) {
             storage.setTempData(transacao.transacaoId, "posicaoPlano", payloadJson.get("posicaoPlano").asText());
             storage.setTempData(transacao.transacaoId, "numerosAneis", payloadJson.get("numerosAneis").toString());
             storage.setTempData(transacao.transacaoId, "horarioEntrada", payloadJson.get("horarioEntrada").asText());
