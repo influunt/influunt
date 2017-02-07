@@ -34,8 +34,6 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
         }
-
-
     }
 
     @Override

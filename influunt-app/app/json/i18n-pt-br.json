@@ -1019,6 +1019,7 @@
   "COM_FALHA": "Com Falha",
   "AMARELO_INTERMITENTE_POR_FALHA": "Amarelo Intermitente Por Falha",
   "APAGADO_POR_FALHA": "Apagado Por Falha",
+  "IMPOSICAO": "Imposição",
   "MANUAL": "Manual",
   "relatorios": {
     "auditorias": "Auditorias",

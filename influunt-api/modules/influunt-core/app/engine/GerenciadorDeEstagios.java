@@ -469,6 +469,9 @@ public class GerenciadorDeEstagios implements EventoCallback {
         if (!naoPodeExecutarOAgendamento()) {
             agendamento.setMomentoDaTroca(tempoDecorrido);
             callback.onTrocaDePlanoEfetiva(agendamento);
+            if (agendamento.isSaidaImposicao()) {
+                callback.onLiberacaoImposicao(anel);
+            }
             reconhecePlano(this.agendamento.getPlano());
             this.agendamento = null;
         }
@@ -495,7 +498,10 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 if (this.plano.isManual() && !plano.isManual()) {
                     motor.desativaModoManual(getAnel(), inicioExecucao.plus(tempoDecorrido));
                 }
+            }
 
+            if (plano.isImposto()) {
+                this.callback.onImposicaoPlano(anel);
             }
 
             this.plano = plano;

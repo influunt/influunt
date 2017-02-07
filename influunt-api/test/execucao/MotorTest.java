@@ -247,6 +247,16 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
     }
 
     @Override
+    public void onImposicaoPlano(int anel) {
+
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+
+    }
+
+    @Override
     public void onEstagioChange(int anel, int numeroCiclos, Long tempoDecorrido, DateTime timestamp, IntervaloGrupoSemaforico intervalos) {
     }
 

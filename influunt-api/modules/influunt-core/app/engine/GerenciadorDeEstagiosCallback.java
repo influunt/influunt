@@ -17,4 +17,7 @@ public interface GerenciadorDeEstagiosCallback {
 
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano);
 
+    public void onImposicaoPlano(int anel);
+
+    public void onLiberacaoImposicao(int anel);
 }

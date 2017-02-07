@@ -217,6 +217,20 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         estadoDevice.putPlanos(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getPlano());
     }
 
+    @Override
+    public void onImposicaoPlano(int anel) {
+        storage.setStatusAnel(anel, StatusAnel.IMPOSICAO);
+        sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+        if (storage.getStatusAnel(anel).equals(StatusAnel.IMPOSICAO)) {
+            storage.setStatusAnel(anel, StatusAnel.NORMAL);
+            sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
+        }
+    }
+
     private void sendMessage(Envelope envelope) {
         system.actorSelection(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }

@@ -186,6 +186,16 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     @Override
+    public void onImposicaoPlano(int anel) {
+        callback.onImposicaoPlano(anel);
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+        callback.onLiberacaoImposicao(anel);
+    }
+
+    @Override
     public void onEvento(EventoMotor eventoMotor) {
         monitor.handle(eventoMotor);
     }

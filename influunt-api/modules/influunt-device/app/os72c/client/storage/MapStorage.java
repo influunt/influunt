@@ -144,7 +144,7 @@ public class MapStorage implements Storage {
 
     @Override
     public StatusAnel getStatusAnel(Integer anel) {
-        return StatusAnel.valueOf(this.statusAneis.get(anel.toString()));
+        return StatusAnel.valueOf(this.statusAneis.get(anel));
     }
 
     @Override
