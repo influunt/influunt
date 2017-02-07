@@ -353,7 +353,16 @@
     <div class="col-lg-4 col-sm-12">
       <div class="ibox float-e-margins white-bg">
         <div class="ibox-content ibox-heading yellow-bg">
-          <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ FALHAS: (errosControladores | falhaNaoRecuperada).length || 0 }"></h3>
+          <h3>
+            <select
+              class="transparent"
+              data-ng-model="filtroDeFalhas.selecionado"
+              data-ng-options="opcao.chave as opcao.label for opcao in filtroDeFalhas.opcoes"
+              data-ng-change="loadDashboard()"
+            >
+            </select>
+          </h3>
+          <h3 data-ng-bind-html="'main.falhasRegistradas' | translate:{ TEMPO_REGISTRO_FALHAS: 30, FALHAS: (errosControladores | falhaNaoRecuperada).length || 0 }"></h3>
           <small>
             <i class="fa fa-check-circle"></i>
             <span data-ng-bind-html="'main.recuperaFalhas' | translate:{FALHAS: (errosControladores | falhaRecuperada).length}"></span>
