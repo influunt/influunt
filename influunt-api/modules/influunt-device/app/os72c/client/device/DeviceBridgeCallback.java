@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface DeviceBridgeCallback {
     void onReady();
+
     CompletableFuture<?> restart();
 
     void onEvento(EventoMotor eventoMotor);

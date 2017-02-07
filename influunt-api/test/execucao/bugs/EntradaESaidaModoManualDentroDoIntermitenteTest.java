@@ -3,7 +3,6 @@ package execucao.bugs;
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
-import models.Controlador;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import play.libs.Json;

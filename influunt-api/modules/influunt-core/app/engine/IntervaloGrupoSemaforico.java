@@ -449,7 +449,6 @@ public class IntervaloGrupoSemaforico {
         }
 
 
-
         return intervalos;
     }
 

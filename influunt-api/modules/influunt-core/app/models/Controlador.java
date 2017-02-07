@@ -46,118 +46,88 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private static final long serialVersionUID = 521560643019927963L;
 
     public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
-
+    @JsonIgnore
+    @Transient
+    boolean atualizando = false;
     @Id
     private UUID id;
-
     @Column
     private String idJson;
-
     @NotNull(message = "não pode ficar em branco")
     private String nomeEndereco;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
-
     @Column
     private Integer sequencia;
-
     @Column
     private String numeroSMEE;
-
     @Column
     private String numeroSMEEConjugado1;
-
     @Column
     private String numeroSMEEConjugado2;
-
     @Column
     private String numeroSMEEConjugado3;
-
     @Column
     private String firmware;
-
     @OneToOne
     private Imagem croqui;
-
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
     private ModeloControlador modelo;
-
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
     private Area area;
-
     @ManyToOne
     @Valid
     private Subarea subarea;
-
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     @PrivateOwned
     private List<Anel> aneis;
-
     @OneToMany(mappedBy = "controlador")
     private List<GrupoSemaforico> gruposSemaforicos;
-
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private Endereco endereco;
-
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.REMOVE)
     private VersaoControlador versaoControlador;
-
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     private List<VersaoTabelaHoraria> versoesTabelasHorarias;
-
     @Column
     private Boolean bloqueado = false;
-
     @Column
     private Boolean planosBloqueado = false;
-
     @Column
     private Boolean sincronizado = false;
-
     @Column
     @NotNull
     private boolean exclusivoParaTeste = false;
-
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaAtiva;
-
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaEmEdicao;
-
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
-
     @JsonIgnore
     @Transient
     @Valid
     private VersaoTabelaHoraria versaoTabelaHoraria;
-
     @JsonIgnore
     @Transient
     private RangeUtils rangeUtils;
-
-    @JsonIgnore
-    @Transient
-    boolean atualizando = false;
 
     public static Controlador isValido(Object conteudo) {
         JsonNode controladorJson = Json.parse(conteudo.toString());

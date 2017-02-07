@@ -27,6 +27,7 @@ public class TransacaoImposicaoPlanoTemporarioActorHandler extends TransacaoImpo
     @Override
     protected void executePrepareToCommit(Transacao transacao) {
         JsonNode controladorJson = savePlanoTemporario(storage.getControladorJson(), transacao);
+
         if (isImposicaoPlanoTemporarioOk(controladorJson, transacao)) {
             JsonNode payloadJson = Json.parse(transacao.payload);
             storage.setTempData(transacao.transacaoId, "posicaoPlano", payloadJson.get("posicaoPlano").asText());

@@ -48,10 +48,6 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     private Map<Integer, Boolean> aneisProntosParaTrocaEstagioManual = new HashMap<>();
 
-    public DateTime getInstante() {
-        return instante;
-    }
-
     public Motor(Controlador controlador, DateTime inicioControlador, MotorCallback callback) {
 
         this.callback = callback;
@@ -94,6 +90,10 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
                 )
             )
         );
+    }
+
+    public DateTime getInstante() {
+        return instante;
     }
 
     public void setControladorTemporario(Controlador controlador) {
@@ -183,6 +183,16 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
                 "Troca de plano por tabela horária. Plano " + plano.getPosicao() + " - " + plano.getModoOperacao());
         }
         callback.onTrocaDePlanoEfetiva(agendamentoTrocaPlano);
+    }
+
+    @Override
+    public void onImposicaoPlano(int anel) {
+        callback.onImposicaoPlano(anel);
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+        callback.onLiberacaoImposicao(anel);
     }
 
     @Override

@@ -3,7 +3,6 @@ package os72c.client.handlers;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import models.Anel;
 import models.Controlador;
 import models.StatusAnel;
 import models.StatusDevice;
