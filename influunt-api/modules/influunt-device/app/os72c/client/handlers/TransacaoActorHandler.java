@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import logger.InfluuntLogger;
 import logger.NivelLog;
 import logger.TipoLog;
+import models.StatusAnel;
 import models.StatusDevice;
+import org.joda.time.DateTime;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
 import play.libs.Json;
@@ -15,6 +17,9 @@ import protocol.DestinoCentral;
 import protocol.Envelope;
 import protocol.TipoMensagem;
 import status.Transacao;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -69,5 +74,22 @@ public abstract class TransacaoActorHandler extends UntypedActor {
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());
             }
         }
+    }
+
+    protected boolean isImposicaoOk(JsonNode payload) {
+        List<Integer> numerosAneis = Json.fromJson(payload.get("numerosAneis"), List.class);
+        List<StatusAnel> statusAneis = storage.getStatusAneis().entrySet().stream()
+            .filter(entry -> numerosAneis.contains(entry.getKey()))
+            .map(entry -> entry.getValue())
+            .collect(Collectors.toList());
+
+        Long horarioEntrada = payload.get("horarioEntrada").asLong();
+        int duracao = payload.get("duracao").asInt();
+        boolean numerosAneisOk = numerosAneis.stream().allMatch(numeroAnel -> numeroAnel >= 1);
+
+        return numerosAneisOk &&
+            duracao >= 15 && duracao <= 600 &&
+            horarioEntrada > DateTime.now().getMillis() &&
+            statusAneis.stream().allMatch(entry -> !entry.equals(StatusAnel.IMPOSICAO));
     }
 }
