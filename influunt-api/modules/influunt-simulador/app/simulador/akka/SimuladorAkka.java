@@ -53,6 +53,16 @@ public class SimuladorAkka extends Simulador {
     }
 
     @Override
+    public void onImposicaoPlano(int anel) {
+
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+
+    }
+
+    @Override
     public void onTrocaDePlano(DateTime timestamp, Evento eventoAnterior, Evento eventoAtual, List<String> modos) {
         if (timestamp.compareTo(simuladorActor.getPagina()) >= 0) {
             simuladorActor.storeTrocaDePlano(timestamp, eventoAnterior, eventoAtual, modos);

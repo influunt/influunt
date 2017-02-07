@@ -61,7 +61,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private boolean pronto;
 
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice,ActorSystem system) {
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice, ActorSystem system) {
         this.storage = mapStorage;
         this.device = device;
         this.id = id;
@@ -217,6 +217,20 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         estadoDevice.putPlanos(agendamentoTrocaPlano.getAnel(), agendamentoTrocaPlano.getPlano());
     }
 
+    @Override
+    public void onImposicaoPlano(int anel) {
+        storage.setStatusAnel(anel, StatusAnel.IMPOSICAO);
+        sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+        if (storage.getStatusAnel(anel).equals(StatusAnel.IMPOSICAO)) {
+            storage.setStatusAnel(anel, StatusAnel.NORMAL);
+            sendMessage(MudancaStatusControlador.getMensagem(id, storage.getStatus(), storage.getStatusAneis()));
+        }
+    }
+
     private void sendMessage(Envelope envelope) {
         system.actorSelection(AtoresDevice.mqttActorPath(id)).tell(envelope, getSelf());
     }
@@ -279,10 +293,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public CompletableFuture restart() {
         tempoDecorrido = 0L;
-        if(motor!=null) {
+        if (motor != null) {
             motor.stop();
         }
-        if(executor != null) {
+        if (executor != null) {
             executor.cancel(true);
         }
 
@@ -340,6 +354,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
         numerosAneis.forEach(numeroAnel -> {
             motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_MODO, modoOperacao, numeroAnel, duracao, horarioEntrada));
+            storage.setStatusAnel(numeroAnel, StatusAnel.IMPOSICAO);
         });
     }
 
@@ -350,14 +365,15 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
         numerosAneis.forEach(numeroAnel -> {
             motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.IMPOSICAO_PLANO, posicaoPlano, numeroAnel, duracao, horarioEntrada));
+            storage.setStatusAnel(numeroAnel, StatusAnel.IMPOSICAO);
         });
-
     }
 
     private void liberarImposicao(JsonNode conteudo) {
         List<Integer> numerosAneis = Json.fromJson(conteudo.get("numerosAneis"), List.class);
         numerosAneis.forEach(numeroAnel -> {
             motor.onEvento(new EventoMotor(new DateTime(), TipoEvento.LIBERAR_IMPOSICAO, numeroAnel));
+            storage.setStatusAnel(numeroAnel, StatusAnel.NORMAL);
         });
     }
 

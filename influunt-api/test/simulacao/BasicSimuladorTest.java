@@ -105,4 +105,14 @@ public class BasicSimuladorTest extends Simulador {
 
     }
 
+    @Override
+    public void onImposicaoPlano(int anel) {
+
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+
+    }
+
 }

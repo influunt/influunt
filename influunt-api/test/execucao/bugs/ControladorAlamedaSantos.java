@@ -3,18 +3,13 @@ package execucao.bugs;
 import engine.Motor;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
-import models.Anel;
 import models.EstadoGrupoSemaforico;
-import models.EstagioPlano;
-import models.Plano;
-import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

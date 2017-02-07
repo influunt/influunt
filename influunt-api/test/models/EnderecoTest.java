@@ -6,7 +6,6 @@ import config.WithInfluuntApplicationNoAuthentication;
 import org.junit.Test;
 
 import javax.validation.groups.Default;
-
 import java.util.List;
 
 import static org.junit.Assert.*;

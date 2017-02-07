@@ -77,6 +77,16 @@ public class GerenciadorDeEstagiosTest extends MotorTest {
 
             }
 
+            @Override
+            public void onImposicaoPlano(int anel) {
+
+            }
+
+            @Override
+            public void onLiberacaoImposicao(int anel) {
+
+            }
+
         }, motor);
     }
 

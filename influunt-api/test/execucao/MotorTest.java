@@ -9,7 +9,6 @@ import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -245,6 +244,16 @@ public class MotorTest extends WithInfluuntApplicationNoAuthentication implement
 
     @Override
     public void onTrocaDePlanoEfetiva(AgendamentoTrocaPlano agendamentoTrocaPlano) {
+    }
+
+    @Override
+    public void onImposicaoPlano(int anel) {
+
+    }
+
+    @Override
+    public void onLiberacaoImposicao(int anel) {
+
     }
 
     @Override

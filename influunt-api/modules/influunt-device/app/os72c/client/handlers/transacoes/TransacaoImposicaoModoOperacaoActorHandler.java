@@ -2,7 +2,6 @@ package os72c.client.handlers.transacoes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.ModoOperacaoPlano;
-import org.joda.time.DateTime;
 import os72c.client.handlers.TransacaoActorHandler;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -35,8 +34,6 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
         } else {
             transacao.etapaTransacao = EtapaTransacao.PREPARE_FAIL;
         }
-
-
     }
 
     @Override
@@ -64,11 +61,8 @@ public class TransacaoImposicaoModoOperacaoActorHandler extends TransacaoActorHa
     private boolean isImposicaoModoOperacaoOk(JsonNode payload) {
         try {
             ModoOperacaoPlano.valueOf(payload.get("modoOperacao").asText());
-            Long horarioEntrada = payload.get("horarioEntrada").asLong();
-            int duracao = payload.get("duracao").asInt();
-            List<Integer> numerosAneis = Json.fromJson(payload.get("numerosAneis"), List.class);
-            boolean numerosAneisOk = numerosAneis.stream().allMatch(numeroAnel -> numeroAnel >= 1);
-            return numerosAneisOk && duracao >= 15 && duracao <= 600 && horarioEntrada > DateTime.now().getMillis();
+
+            return isImposicaoOk(payload);
         } catch (Exception e) {
             return false;
         }

@@ -64,16 +64,16 @@ public class ParametroSimulacaoFalha {
         return detector;
     }
 
+    public void setDetector(Pair<Integer, TipoDetector> detector) {
+        this.detector = detector;
+    }
+
     public Anel getAnel() {
         return anel;
     }
 
     public void setAnel(Anel anel) {
         this.anel = anel;
-    }
-
-    public void setDetector(Pair<Integer, TipoDetector> detector) {
-        this.detector = detector;
     }
 
     public void setParametro(String id) {

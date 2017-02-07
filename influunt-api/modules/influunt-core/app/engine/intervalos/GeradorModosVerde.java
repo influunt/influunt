@@ -3,7 +3,10 @@ package engine.intervalos;
 import com.google.common.collect.RangeMap;
 import engine.IntervaloEstagio;
 import helpers.GerenciadorEstagiosHelper;
-import models.*;
+import models.Estagio;
+import models.EstagioPlano;
+import models.ModoOperacaoPlano;
+import models.Plano;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.ArrayList;
@@ -83,7 +86,7 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             tempoEntreVerdeComAtraso = tabelaDeTemposEntreVerdeComAtraso.get(
                 new Pair<Integer, Integer>(estagioAnterior.getPosicao(), estagioAtual.getPosicao()));
 
-            if(desenergizacaoGrupo(estagioPlanoAtual, estagioPlano)) {
+            if (desenergizacaoGrupo(estagioPlanoAtual, estagioPlano)) {
                 ArrayList<Long> totalTempoEntreverdes = new ArrayList<Long>();
                 ArrayList<Long> totalTempoEntreverdesComAtraso = new ArrayList<Long>();
                 totalTempoEntreverdes.add(tempoEntreVerde);
@@ -102,14 +105,15 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
 
                         totalTempoEntreverdesComAtraso
                             .add(plano.getTempoEntreVerdeGrupoSemaforico(null, estagioAnterior, gp.getGrupoSemaforico(), true) * 1000L);
-                });
+                    });
                 tempoEntreVerde = Collections.max(totalTempoEntreverdes);
                 tempoEntreVerdeComAtraso = Collections.max(totalTempoEntreverdesComAtraso);
             }
 
             //Adiciona tempo de energizacao do Grupo Semaforico no tempo de entreverde
             if (energizacaoGrupo(estagioPlanoAtual, estagioPlano) && tempoEntreVerde < TEMPO_SEQUENCIA_DE_PARTIDA) {
-                tempoEntreVerde += TEMPO_SEQUENCIA_DE_PARTIDA - tempoEntreVerde;;
+                tempoEntreVerde += TEMPO_SEQUENCIA_DE_PARTIDA - tempoEntreVerde;
+                ;
             }
 
             verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,

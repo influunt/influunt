@@ -23,9 +23,8 @@ import java.util.regex.Pattern;
  */
 public class LerDadosActorHandler extends UntypedActor {
 
-    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-
     private static Map<String, LerDadosTimeout> timeout = new HashMap<>();
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object message) throws Exception {

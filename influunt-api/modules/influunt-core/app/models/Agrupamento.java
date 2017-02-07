@@ -195,16 +195,8 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         return horario;
     }
 
-    public void setHorario(LocalTime horario) {
-        this.horario = horario;
-    }
-
     public DiaDaSemana getDiaDaSemana() {
         return diaDaSemana;
-    }
-
-    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
-        this.diaDaSemana = diaDaSemana;
     }
 
     @AssertTrue(message = "Todos os aneis deste agrupamento devem pertencer à mesma área")
@@ -319,9 +311,17 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         return getId() == null || getDiaDaSemana() != null;
     }
 
+    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
+        this.diaDaSemana = diaDaSemana;
+    }
+
     @AssertTrue(message = "não pode ficar em branco")
     public boolean isHorario() {
         return getId() == null || getHorario() != null;
+    }
+
+    public void setHorario(LocalTime horario) {
+        this.horario = horario;
     }
 
     public List<Controlador> getControladores() {

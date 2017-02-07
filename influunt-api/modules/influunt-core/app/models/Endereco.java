@@ -192,17 +192,17 @@ public class Endereco extends Model implements Serializable {
         return !((this.getLocalizacao2() == null || this.getLocalizacao2().isEmpty()) && this.getAlturaNumerica() == null);
     }
 
+    public void setLocalizacao2(String localizacao2) {
+        this.localizacao2 = localizacao2;
+    }
+
     @AssertTrue(message = "não pode ser negativo.")
     public boolean isAlturaNumericaNegativa() {
-        if (this.getAlturaNumerica() != null ) {
+        if (this.getAlturaNumerica() != null) {
             return !(this.getAlturaNumerica() < 0);
         } else {
             return true;
         }
-    }
-
-    public void setLocalizacao2(String localizacao2) {
-        this.localizacao2 = localizacao2;
     }
 
     public String getOutraLocalizacao() {

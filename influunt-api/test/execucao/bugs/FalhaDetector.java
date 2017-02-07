@@ -1,13 +1,10 @@
 package execucao.bugs;
 
-import engine.EventoMotor;
 import engine.Motor;
-import engine.TipoEvento;
 import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
 import models.Anel;
 import models.Detector;
-import models.EstadoGrupoSemaforico;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
