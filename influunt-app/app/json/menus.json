@@ -57,6 +57,11 @@
         "name": "faixasDeValores",
         "label": "faixas_de_valores.titulo",
         "route": "app.faixas_de_valores_edit"
+      },
+      {
+        "name": "manual",
+        "label": "manual.titulo",
+        "route": "manual"
       }
     ]
   },

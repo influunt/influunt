@@ -198,3 +198,4 @@ public class Area extends Model implements Cloneable, Serializable {
         return id != null ? id.hashCode() : 0;
     }
 }
+

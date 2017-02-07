@@ -892,8 +892,8 @@
     "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
     "veicular": "Veicular"
   },
-  "streamControlador": {
-    "titulo": "Vídeo Controlador"
+  "manual": {
+    "titulo": "Manual"
   },
   "imporConfig": {
     "abortar": "Abortar",

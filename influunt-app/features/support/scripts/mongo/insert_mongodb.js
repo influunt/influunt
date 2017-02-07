@@ -87,6 +87,26 @@ var MongoInsert = function () {
     }
   ];
 
+  var logControlador1 =  [
+    {
+      '_id' : ObjectId('584589081314372101e3aa0d'),
+      'idControlador' : '66f6865f-6963-4ff5-b160-7c6febb68c03',
+      'timestamp' : toDayNumberLong,
+      'mensagem' : 'Anel 2: Falha no DP1 - Acionamento Direto',
+      'tipoLogControlador' : 'ALARME_FALHA'
+    }
+  ];
+
+  var logControlador2 =  [
+    {
+      '_id' : ObjectId('584589081314372101e3aa0e'),
+      'idControlador' : '3438f178-ecb4-4833-b6e7-e58d2812e35b',
+      'timestamp' : toDayNumberLong,
+      'mensagem' : 'Anel 1: Falha no DP2 - Acionamento Direto',
+      'tipoLogControlador' : 'STATUS_CONEXAO'
+    }
+  ];
+
   var clearDb = function(db, object, tableName, callback) {
     var id = object[0]._id;
 
@@ -113,12 +133,22 @@ var MongoInsert = function () {
 
   MongoClient.connect(url, (err, db) => {
     assert.equal(null, err);
+
     var tableTrocaPlanosControldaores = 'trocaPlanosControladores';
     var tableAlarmesFalhasControladores = 'alarmes_falhas_controladores';
     var tableStatusConexaoControladores = 'status_conexao_controladores';
     var tableStatusControladores = 'status_controladores';
+    var tableLogControladores = 'logs_controladores';
 
     clearDb(db, trocaPlanosControladores, tableTrocaPlanosControldaores, function() {
+      db.close();
+    });
+
+    clearDb(db, logControlador1, tableLogControladores, function() {
+      db.close();
+    });
+
+    clearDb(db, logControlador2, tableLogControladores, function() {
       db.close();
     });
 
@@ -155,6 +185,14 @@ var MongoInsert = function () {
     });
 
     insertDocuments(db, statusControlador, tableStatusControladores, () => {
+      db.close();
+    });
+
+    insertDocuments(db, logControlador1, tableLogControladores, () => {
+      db.close();
+    });
+
+    insertDocuments(db, logControlador2, tableLogControladores, () => {
       db.close();
     });
   });
