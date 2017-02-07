@@ -90,15 +90,19 @@ public class AlarmesFalhasControlador {
         return hash;
     }
 
-    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit, String query, List<String> ids) {
+    public static List<AlarmesFalhasControlador> ultimosAlarmesFalhasControladores(Integer limit, String query, List<String> ids, Long inicioIntervalo, Long fimIntervalo) {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
-
-        long ultimos30Dias = DateTime.now().minusDays(30).getMillis();
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
 
         Aggregate jongoQuery = alarmesFalhas().aggregate("{ $match: { recuperado: false }  }")
             .and("{ $match: { idControlador: {$in: " + controladoresIds + "} } }");
-        jongoQuery.and(" { $match: { timestamp: { $gt: " + ultimos30Dias + " } } } ");
+        if (inicioIntervalo != null && fimIntervalo != null) {
+            jongoQuery.and(" { $match: { timestamp: { $gte: " + inicioIntervalo + ", $lt: " + fimIntervalo + " } } } ");
+        } else {
+            long ultimos30Dias = DateTime.now().minusDays(30).getMillis();
+            jongoQuery.and(" { $match: { timestamp: { $gt: " + ultimos30Dias + " } } } ");
+        }
+
         if (query != null) {
             jongoQuery.and("{ $match: { 'conteudo.descricaoEvento': { $regex: '" + query + "', $options: 'i' } } }");
         }

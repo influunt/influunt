@@ -12,7 +12,7 @@ describe('Controller: MainCtrl', function () {
     });
 
     $httpBackend.expectGET('/json/menus.json').respond({});
-    $httpBackend.expectGET('/monitoramento/status_controladores').respond({});
+    $httpBackend.expectGET(/\/monitoramento\/status_controladores\?fim_intervalo\=\d+\&inicio_intervalo\=\d+/).respond({});
     $httpBackend.expectGET('/usuarios/alarmes_e_falhas').respond([]);
     $httpBackend.flush();
   }));

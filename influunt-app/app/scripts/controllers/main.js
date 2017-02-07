@@ -11,9 +11,11 @@ angular.module('influuntApp')
   .controller('MainCtrl', ['$scope', '$state', '$filter', '$controller', '$http', '$timeout', 'influuntAlert',
                            'Restangular', 'influuntBlockui', 'PermissionsService',
                            'eventosDinamicos', 'audioNotifier', 'Idle', 'alarmesDinamicoService',
+                           'filtroIntervaloFalhas',
     function MainCtrl($scope, $state, $filter, $controller, $http, $timeout, influuntAlert,
                       Restangular, influuntBlockui, PermissionsService,
-                      eventosDinamicos, audioNotifier, Idle, alarmesDinamicoService) {
+                      eventosDinamicos, audioNotifier, Idle, alarmesDinamicoService,
+                      filtroIntervaloFalhas) {
       // Herda todo o comportamento de breadcrumbs.
       $controller('BreadcrumbsCtrl', {$scope: $scope});
       Idle.watch();
@@ -25,6 +27,8 @@ angular.module('influuntApp')
         current: 1,
         maxSize: 5
       };
+
+      $scope.filtroDeFalhas = filtroIntervaloFalhas.get();
 
       $scope.sair = function() {
         influuntAlert
@@ -41,9 +45,10 @@ angular.module('influuntApp')
 
       $scope.loadDashboard = function() {
         _.set($scope.$root, 'eventos.exibirTodosAlertas', JSON.parse(localStorage.exibirAlertas || 'false'));
+        var intervalo = filtroIntervaloFalhas.getIntervalo($scope.filtroDeFalhas.selecionado);
 
         Restangular.one('monitoramento', 'status_controladores')
-          .get()
+          .get({'inicio_intervalo': intervalo.inicio, 'fim_intervalo': intervalo.fim})
           .then(function(res) {
             $scope.statusObj = res;
             atualizaDadosDinamicos();
