@@ -66,7 +66,6 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     private ScheduledFuture<?> filaCancellable;
 
 
-
     public SerialDeviceJava() {
         settings = Client.getConfig().getConfig("serial");
         porta = settings.getString("porta");
@@ -110,14 +109,14 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             enterRecoveryMode = true;
         }
 
-        if(enterRecoveryMode){
+        if (enterRecoveryMode) {
             CompletableFuture.supplyAsync(this::recoveryMode);
         }
     }
 
     private void startCommunication(DeviceBridgeCallback deviceBridgeCallback) throws InterruptedException {
 
-        if(filaCancellable!=null){
+        if (filaCancellable != null) {
             filaCancellable.cancel(true);
         }
 
@@ -176,24 +175,24 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
     }
 
     private void send(Mensagem mensagem) {
-            if(!emFalha) {
-                try {
-                    byte[] bytes = mensagem.toByteArray();
+        if (!emFalha) {
+            try {
+                byte[] bytes = mensagem.toByteArray();
 
-                    InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Enviando %d bytes pela serial", bytes.length));
-                    String encoded = "<I>".concat(Hex.encodeHexString(bytes)).concat("<F>");
-                    InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, encoded);
-                    int r = serialPort.writeBytes(encoded.getBytes(), encoded.getBytes().length);
+                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Enviando %d bytes pela serial", bytes.length));
+                String encoded = "<I>".concat(Hex.encodeHexString(bytes)).concat("<F>");
+                InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, encoded);
+                int r = serialPort.writeBytes(encoded.getBytes(), encoded.getBytes().length);
 
-                    if (r == -1) {
-                        CompletableFuture.supplyAsync(this::recoveryMode);
-                    }
-
-                } catch (Exception e) {
-                    InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, e.getMessage());
-                    e.printStackTrace();
+                if (r == -1) {
+                    CompletableFuture.supplyAsync(this::recoveryMode);
                 }
+
+            } catch (Exception e) {
+                InfluuntLogger.log(NivelLog.NORMAL, TipoLog.ERRO, e.getMessage());
+                e.printStackTrace();
             }
+        }
 
 
     }
@@ -207,32 +206,32 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.EXECUCAO, String.format("Entrando em modo de recuperação da comunicação de baixo nível"));
         InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "Portas Disponíveis");
         SerialPort[] ports = SerialPort.getCommPorts();
-        for(SerialPort sp :ports){
-            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("PORTA:%s - Aberta %s",sp.getSystemPortName(),String.valueOf(sp.isOpen())));
+        for (SerialPort sp : ports) {
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("PORTA:%s - Aberta %s", sp.getSystemPortName(), String.valueOf(sp.isOpen())));
         }
 
-        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Porta Serial Configurada: %s",serialPort.getSystemPortName()));
+        InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Porta Serial Configurada: %s", serialPort.getSystemPortName()));
 
         boolean notRecovered = true;
         int recoveryCount = 1;
         final byte[] zero = new byte[]{0};
 
-        while(notRecovered){
-            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Tentativa de recuperação: %d",recoveryCount));
+        while (notRecovered) {
+            InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, String.format("Tentativa de recuperação: %d", recoveryCount));
             serialPort.closePort();
-            if(serialPort.openPort()){
+            if (serialPort.openPort()) {
                 InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "A porta foi aberta com sucesso");
-                if(serialPort.writeBytes(zero,1) == 1){
+                if (serialPort.writeBytes(zero, 1) == 1) {
                     InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "Foi possivel enviar dados pela serial");
                     notRecovered = false;
-                }else{
+                } else {
                     InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "Não foi possivel enviar dados pela serial");
                 }
-            }else{
+            } else {
                 InfluuntLogger.log(NivelLog.SUPERDETALHADO, TipoLog.EXECUCAO, "Não foi possível abrir a porta");
             }
 
-            if(notRecovered){
+            if (notRecovered) {
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {

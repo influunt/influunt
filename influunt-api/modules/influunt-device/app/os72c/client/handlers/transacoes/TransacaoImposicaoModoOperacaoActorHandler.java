@@ -13,7 +13,6 @@ import protocol.EtapaTransacao;
 import protocol.MensagemImposicaoModoOperacao;
 import status.Transacao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 

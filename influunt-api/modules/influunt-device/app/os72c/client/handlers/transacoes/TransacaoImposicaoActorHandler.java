@@ -11,7 +11,6 @@ import os72c.client.storage.Storage;
 import play.libs.Json;
 import status.Transacao;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**

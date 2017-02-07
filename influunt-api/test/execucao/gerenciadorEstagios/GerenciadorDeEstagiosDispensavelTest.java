@@ -5,7 +5,6 @@ import engine.TipoEvento;
 import execucao.GerenciadorDeEstagiosTest;
 import models.*;
 import org.apache.commons.math3.util.Pair;
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

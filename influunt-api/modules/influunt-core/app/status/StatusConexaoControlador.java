@@ -174,7 +174,6 @@ public class StatusConexaoControlador {
     }
 
 
-
     public boolean isConectado() {
         return conectado;
     }

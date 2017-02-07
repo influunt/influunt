@@ -529,7 +529,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
             if (!inicio && this.agendamento != null) {
                 IntervaloEstagio intervalo = this.intervalos.get(0L);
 
-                if(agendamento.getMomentoDaTroca() == null) {
+                if (agendamento.getMomentoDaTroca() == null) {
                     agendamento.setMomentoDaTroca(tempoDecorrido);
                 }
 

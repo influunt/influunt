@@ -61,7 +61,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     private boolean pronto;
 
 
-    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice,ActorSystem system) {
+    public DeviceActor(Storage mapStorage, DeviceBridge device, String id, EstadoDevice estadoDevice, ActorSystem system) {
         this.storage = mapStorage;
         this.device = device;
         this.id = id;
@@ -279,10 +279,10 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
     @Override
     public CompletableFuture restart() {
         tempoDecorrido = 0L;
-        if(motor!=null) {
+        if (motor != null) {
             motor.stop();
         }
-        if(executor != null) {
+        if (executor != null) {
             executor.cancel(true);
         }
 
