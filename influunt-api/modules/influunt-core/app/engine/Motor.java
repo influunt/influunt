@@ -267,7 +267,7 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
             .filter(gerenciador -> gerenciador.getPlano().getAnel().isAceitaModoManual())
             .collect(Collectors.toList());
 
-        if (aneisComManual.isEmpty()) {
+        if (aneisComManual.isEmpty() && estagios.isEmpty()) {
             emModoManual = true;
             return emModoManual;
         }
