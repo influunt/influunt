@@ -58,14 +58,14 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         simulador.simular(disparoAcionamento.plusSeconds(SEGUNDOS_POR_PAGINA));
 
         assertTrue(simulador.listaModoManualAtivo.size() == 1);
-        assertEquals(disparoAcionamento.plus(100), simulador.listaModoManualAtivo.get(0));
+        assertEquals(disparoAcionamento.plusSeconds(6), simulador.listaModoManualAtivo.get(0));
 
         DateTime disparoTroca1 = inicioControlador.plusSeconds(194);
         simulador.trocarEstagioModoManual(disparoTroca1);
         simulador.simular(disparoTroca1.plusSeconds(SEGUNDOS_POR_PAGINA));
 
-        assertEquals(disparoAcionamento.plus(100), simulador.listaModoManualAtivo.get(0));
-        assertEquals(disparoAcionamento.plus(100), simulador.listaModoManualAtivo.get(1));
+        assertEquals(disparoAcionamento.plusSeconds(6), simulador.listaModoManualAtivo.get(0));
+        assertEquals(disparoAcionamento.plusSeconds(6), simulador.listaModoManualAtivo.get(1));
     }
 
     @Test
@@ -430,7 +430,6 @@ public class SimuladorTest extends WithInfluuntApplicationNoAuthentication {
         disparo = disparo.plusSeconds(52);
         simulador.alternarModoManual(disparo, false);
         simulador.simular(disparo.plusSeconds(SEGUNDOS_POR_PAGINA));
-
     }
 
     private void clearListas(BasicSimuladorTest simulador) {

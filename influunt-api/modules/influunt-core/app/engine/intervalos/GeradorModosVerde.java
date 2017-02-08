@@ -113,7 +113,6 @@ public class GeradorModosVerde extends GeradorDeIntervalos {
             //Adiciona tempo de energizacao do Grupo Semaforico no tempo de entreverde
             if (energizacaoGrupo(estagioPlanoAtual, estagioPlano) && tempoEntreVerde < TEMPO_SEQUENCIA_DE_PARTIDA) {
                 tempoEntreVerde += TEMPO_SEQUENCIA_DE_PARTIDA - tempoEntreVerde;
-                ;
             }
 
             verde = estagioPlano.getTempoVerdeEstagioComTempoDoEstagioDispensavel(tabelaDeTemposEntreVerdeComAtraso,

@@ -263,39 +263,53 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
     }
 
     public boolean ativaModoManual(int anel) {
-        verificaAneisEmFalha(aneisProntosParaManual, true);
-
-        entrarEmModoManualAbrupt = true;
-
-        aneisProntosParaManual.put(anel, true);
-
         List<GerenciadorDeEstagios> aneisComManual = estagios.stream()
-            .filter(gerenciador -> gerenciador.getPlano().getAnel().isAceitaModoManual() && gerenciador.getAnel() != anel)
+            .filter(gerenciador -> gerenciador.getPlano().getAnel().isAceitaModoManual())
             .collect(Collectors.toList());
 
-        aneisComManual.stream()
-            .forEach(gerenciador -> {
-                if (!aneisProntosParaManual.get(gerenciador.getAnel())) {
-                    GerenciadorDeEventos.entrarEmModoManual(gerenciador);
-                }
-            });
+        if (aneisComManual.isEmpty()) {
+            emModoManual = true;
+            return emModoManual;
+        }
 
-        if (aneisProntosParaManual.values().contains(Boolean.FALSE)) {
-            emModoManual = false;
-        } else {
+        verificaAneisEmFalha(aneisProntosParaManual, true);
+
+        GerenciadorDeEstagios anel1 = aneisComManual.stream().sorted((e1, e2) -> e1.getAnel().compareTo(e2.getAnel())).findFirst().get();
+
+        if (anel1.getAnel().equals(anel) || aneisProntosParaManual.get(anel1.getAnel())) {
+
+            entrarEmModoManualAbrupt = true;
+
+            aneisProntosParaManual.put(anel, true);
+
             aneisComManual.stream()
+                .filter(gerenciador -> gerenciador.getAnel() != anel)
                 .forEach(gerenciador -> {
-                    if (!gerenciador.isEmFalha()) {
-                        GerenciadorDeEventos.entrarEmModoManual(gerenciador);
-
-                        gerenciador.executaAgendamentoTrocaDePlano();
-                        gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
+                    if (!aneisProntosParaManual.get(gerenciador.getAnel())) {
+                        GerenciadorDeEventos.informarEntradaEmModoManual(gerenciador);
                     }
                 });
-            callback.modoManualAtivo(instante);
-            callback.trocaEstagioManualBloqueada(instante);
-            informadoBloqueado = true;
-            emModoManual = true;
+
+            if (aneisProntosParaManual.values().contains(Boolean.FALSE)) {
+                emModoManual = false;
+            } else {
+                aneisComManual.stream()
+                    .filter(gerenciador -> gerenciador.getAnel() != anel)
+                    .forEach(gerenciador -> {
+                        if (!gerenciador.isEmFalha()) {
+                            GerenciadorDeEventos.entrarEmModoManual(gerenciador);
+
+                            gerenciador.executaAgendamentoTrocaDePlano();
+                            gerenciador.verificaETrocaEstagio(gerenciador.getIntervalo());
+                        }
+                    });
+                callback.modoManualAtivo(instante);
+                callback.trocaEstagioManualBloqueada(instante);
+                informadoBloqueado = true;
+                emModoManual = true;
+            }
+        } else {
+            emModoManual = false;
         }
 
         return emModoManual;
@@ -356,5 +370,17 @@ public class Motor implements EventoCallback, GerenciadorDeEstagiosCallback {
 
     public void stop() {
         InfluuntLogger.log(NivelLog.NORMAL, TipoLog.FINALIZACAO, "Terminando a execução do motor");
+    }
+
+    public boolean isEntrarEmModoManual(int anel) {
+        List<GerenciadorDeEstagios> aneisComManual = estagios.stream()
+            .filter(gerenciador -> gerenciador
+                .getPlano().getAnel().isAceitaModoManual() &&
+                !gerenciador.isEmFalha())
+            .collect(Collectors.toList());
+
+        GerenciadorDeEstagios anel1 = aneisComManual.stream().sorted((e1, e2) -> e1.getAnel().compareTo(e2.getAnel())).findFirst().get();
+
+        return isEntrarEmModoManualAbrupt() || anel1.getAnel().equals(anel);
     }
 }

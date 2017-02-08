@@ -92,6 +92,10 @@ public abstract class GerenciadorDeEventos {
         new EntrarEmModoManualHandle(gerenciadorDeEstagios).processar(null);
     }
 
+    public static void informarEntradaEmModoManual(GerenciadorDeEstagios gerenciadorDeEstagios) {
+        new InformarEntradaEmModoManualHandle(gerenciadorDeEstagios).processar(null);
+    }
+
     protected abstract void processar(EventoMotor eventoMotor);
 
     protected void reduzirTempoEstagio(EstagioPlano estagioPlanoAnterior,

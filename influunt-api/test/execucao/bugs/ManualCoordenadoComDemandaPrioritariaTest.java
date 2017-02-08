@@ -17,6 +17,7 @@ import play.libs.Json;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 
@@ -45,36 +46,31 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
         avancarSegundos(motor, 4);
         acionarModoManual(motor);
-        avancarSegundos(motor, 30);
-        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(34), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, 3));
+        avancarSegundos(motor, 128);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(132), TipoEvento.ACIONAMENTO_DETECTOR_VEICULAR, detector, 3));
         avancarSegundos(motor, 200);
 
-        int offsetEstagio = 18;
+        int offsetEstagio = 120;
         int anel1 = 3;
-        assertEquals("Primeiro Estágio da Sequência - E2", 1, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 8000, 18000, EstadoGrupoSemaforico.VERDE));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 6000, 40000, EstadoGrupoSemaforico.VERDE));
 
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 12, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 12, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 12, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 12, 0, 3000, EstadoGrupoSemaforico.AMARELO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 12, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 12, 6000, 40000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 13, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 13, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 13, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 13, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 13, 6000, 40000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 14, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 14, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 14, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 14, 0, 3000, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 14, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 14, 6000, 40000, EstadoGrupoSemaforico.VERMELHO));
 
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
-        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 8000, 18000, EstadoGrupoSemaforico.VERDE));
-
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
+        verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 6000, 40000, EstadoGrupoSemaforico.VERDE));
         assertEquals("Primeiro Estágio da Sequência - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
 
-        offsetEstagio = 34;
+        offsetEstagio = 136;
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 0, 3000, EstadoGrupoSemaforico.AMARELO));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 6000, 16000, EstadoGrupoSemaforico.VERMELHO));
@@ -92,10 +88,10 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 6000, 16000, EstadoGrupoSemaforico.VERMELHO));
 
+        assertEquals("Estagio Alternativo - E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
 
-        assertEquals("Primeiro Estágio da Sequência - E2", 2, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
+        offsetEstagio = 152;
 
-        offsetEstagio = 50;
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 6000, 16000, EstadoGrupoSemaforico.VERDE));
 
@@ -113,9 +109,11 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 0, 6000, EstadoGrupoSemaforico.VERMELHO));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 6000, 16000, EstadoGrupoSemaforico.VERDE));
 
-        assertEquals("Primeiro Estágio da Sequência - E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
+        assertEquals("Demanda Prioritaria - E3", 3, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
 
-        offsetEstagio = 86;
+        offsetEstagio = 188;
+
+        assertEquals("Primeiro Estágio da Sequência - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 0, 3000, EstadoGrupoSemaforico.AMARELO));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 11, 6000, 36000, EstadoGrupoSemaforico.VERMELHO));
@@ -132,8 +130,6 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 0, 3000, EstadoGrupoSemaforico.VERMELHO_INTERMITENTE));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 3000, 6000, EstadoGrupoSemaforico.VERMELHO_LIMPEZA));
         verificaHistoricoGruposSemaforicos(offsetEstagio, new GrupoCheck(anel1, 15, 6000, 36000, EstadoGrupoSemaforico.VERMELHO));
-
-        assertEquals("Primeiro Estágio da Sequência - E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(offsetEstagio)).get(anel1).getEstagio().getPosicao().intValue());
     }
 
     @Test
@@ -144,36 +140,35 @@ public class ManualCoordenadoComDemandaPrioritariaTest extends GerenciadorDeTroc
 
         avancarSegundos(motor, 5);
         acionarModoManual(motor);
-        avancarSegundos(motor, 30);
+        avancarSegundos(motor, 130);
         desativarModoManual(motor);
         avancarSegundos(motor, 500);
 
-        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(18)));
-        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(35)));
+        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(120)));
+        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(136)));
 
         int anel = 1;
         assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(anel).getEstagio().getPosicao().intValue());
         assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(50)).get(anel).getEstagio().getPosicao().intValue());
         assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(70)).get(anel).getEstagio().getPosicao().intValue());
         assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(anel).getEstagio().getPosicao().intValue());
 
         anel = 2;
         assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(36)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(12)).get(anel).getEstagio().getPosicao().intValue());
         assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(48)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 3, listaEstagios.get(inicioExecucao.plusSeconds(86)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(130)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(anel).getEstagio().getPosicao().intValue());
 
         anel = 3;
         assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(0)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(35)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(20)).get(anel).getEstagio().getPosicao().intValue());
         assertEquals("Estágio", 2, listaEstagios.get(inicioExecucao.plusSeconds(80)).get(anel).getEstagio().getPosicao().intValue());
-        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(140)).get(anel).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(120)).get(anel).getEstagio().getPosicao().intValue());
 
+        //Sincronização após saída Manual
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(240)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(250)).get(2).getEstagio().getPosicao().intValue());
+        assertEquals("Estágio", 1, listaEstagios.get(inicioExecucao.plusSeconds(260)).get(3).getEstagio().getPosicao().intValue());
     }
 
     @Test

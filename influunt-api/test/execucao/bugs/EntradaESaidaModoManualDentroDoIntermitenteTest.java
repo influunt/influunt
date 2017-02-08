@@ -61,8 +61,8 @@ public class EntradaESaidaModoManualDentroDoIntermitenteTest extends Gerenciador
         acionarModoManual(motor);
         avancarSegundos(motor, 500);
 
-        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(120)));
-        assertEquals(inicioExecucao.plusSeconds(147), listaTrocaManualLiberada.get(0));
+        assertTrue(ativacaoModoManual.get(inicioExecucao.plusSeconds(150)));
+        assertEquals(inicioExecucao.plusSeconds(177), listaTrocaManualLiberada.get(0));
     }
 
 }

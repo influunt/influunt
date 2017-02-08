@@ -79,13 +79,13 @@ public class EntradaModoManualAntesTrocaPlanoTest extends GerenciadorDeTrocasTes
 
         avancarSegundos(motor, 25);
         acionarModoManual(motor);
-        avancarSegundos(motor, 54);
+        avancarSegundos(motor, 75);
         trocarEstagioModoManual(motor);
         avancarSegundos(motor, 300);
 
-        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(105)));
+        assertTrue(desativacaoModoManual.get(inicioExecucao.plusSeconds(126)));
 
-        assertEquals("E4", 4, listaEstagios.get(inicioExecucao.plusSeconds(105)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("E4", 4, listaEstagios.get(inicioExecucao.plusSeconds(126)).get(1).getEstagio().getPosicao().intValue());
 
         assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(260)).get(1).getEstagio().getPosicao().intValue());
         assertEquals("E1", 1, listaEstagios.get(inicioExecucao.plusSeconds(270)).get(2).getEstagio().getPosicao().intValue());
