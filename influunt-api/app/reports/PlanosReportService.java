@@ -26,8 +26,9 @@ public class PlanosReportService extends ReportService<Plano> {
 
     @Override
     public InputStream generateReport(Map<String, String[]> stringMap, List<Plano> lista, ReportType reportType) {
-        throw new NotImplementedException("Metodo nao implementado. Favor utilizar outro metodo gerador.");
+        throw new NotImplementedException("Metodo não implementado. Favor utilizar outro método gerador.");
     }
+
 
     public ObjectNode getPlanosReportData(Map<String, String[]> params, Area area) {
         Map<String, String[]> paramsAux = new HashMap<>();
@@ -40,18 +41,25 @@ public class PlanosReportService extends ReportService<Plano> {
         paramsAux.remove("tipoRelatorio");
 
         if (params.containsKey("filtrarPor_eq")) {
-            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
-                if (params.containsKey("subareaAgrupamento")) {
-                    paramsAux.put("versaoPlano.anel.controlador.subarea.nome", params.get("subareaAgrupamento"));
-                }
-            } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
-                if (params.containsKey("subareaAgrupamento")) {
-                    paramsAux.put("versaoPlano.anel.agrupamentos.nome", params.get("subareaAgrupamento"));
-                }
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento_eq")) {
+                paramsAux.put("versaoPlano.anel.controlador.subarea.nome_eq", params.get("subareaAgrupamento_eq"));
+            }
+
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")){
+                paramsAux.put("versaoPlano.anel.controlador.subarea.nome", params.get("subareaAgrupamento"));
+            }
+
+            if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento_eq")) {
+                paramsAux.put("versaoPlano.anel.agrupamentos.nome_eq", params.get("subareaAgrupamento_eq"));
+            }
+
+            if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")) {
+                paramsAux.put("versaoPlano.anel.agrupamentos.nome", params.get("subareaAgrupamento"));
             }
         }
 
         paramsAux.remove("subareaAgrupamento");
+        paramsAux.remove("subareaAgrupamento_eq");
         paramsAux.remove("filtrarPor_eq");
 
         paramsAux.put("sort", sort);
@@ -62,13 +70,34 @@ public class PlanosReportService extends ReportService<Plano> {
             paramsAux.put("versaoPlano.anel.controlador.area.id", areaId);
         }
 
+        if (params.containsKey("CLC") || params.containsKey("CLA")) {
+            String clc = params.containsKey("CLC") ? params.get("CLC")[0] : params.get("CLA")[0];
+
+            String[] parts = clc.split("\\.");
+            String areaDescricao = parts.length >= 1 ? parts[0].replaceFirst("^0+(?!$)", "") : null;
+            String subareaNumero = parts.length >= 2 ? parts[1].replaceFirst("^0+(?!$)", "") : null;
+            String sequencia = parts.length >= 3 ? parts[2].replaceFirst("^0+(?!$)", "") : null;
+            String anel = params.containsKey("CLA") ? parts[3].replaceFirst("^0+(?!$)", "") : null;
+
+            paramsAux.put("versaoPlano.anel.controlador.area.descricao", new String[] {areaDescricao});
+            paramsAux.put("versaoPlano.anel.controlador.subarea.numero", new String[] {subareaNumero});
+            paramsAux.put("versaoPlano.anel.controlador.sequencia", new String[] {sequencia});
+
+            if (anel != null) {
+                paramsAux.put("versaoPlano.anel.posicao", new String[]{anel});
+            }
+        }
+
+        paramsAux.remove("CLC");
+        paramsAux.remove("CLA");
+
         String[] statusArquivado = {"ARQUIVADO"};
         paramsAux.put("versaoPlano.statusVersao_ne", statusArquivado);
 
         String[] modoOperacao = {Integer.toString(ModoOperacaoPlano.MANUAL.ordinal())};
         paramsAux.put("modo_operacao_ne", modoOperacao);
 
-        List<String> fetches = Arrays.asList("versaoPlano.anel", "versaoPlano.anel.controlador.area");
+        List<String> fetches = Arrays.asList("versaoPlano.anel", "versaoPlano.anel.controlador.area", "versaoPlano.anel.controlador");
         InfluuntQueryResult result = new InfluuntQueryBuilder(Plano.class, paramsAux).fetch(fetches).query();
         List<Plano> planos = (List<Plano>) result.getResult();
 
@@ -77,9 +106,11 @@ public class PlanosReportService extends ReportService<Plano> {
             ArrayNode estagios = JsonNodeFactory.instance.arrayNode();
             Anel anel = plano.getAnel();
             plano.getEstagiosOrdenados().forEach(estagio -> {
+
                 estagios.addObject()
                     .put("estagio", estagio.getEstagio().toString())
                     .put("inicio", estagio.getInicio().toString())
+                    .put("isEstagioDispensavel", estagio.isDispensavel())
                     .put("verde", estagio.getTempoVerdeEstagio().toString())
                     .put("total", estagio.getDuracaoEstagio().toString());
             });

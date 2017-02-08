@@ -346,6 +346,16 @@ var ObjetosComuns = function () {
     });
   };
 
+  this.verificarTabelaPorThETdImagem = function(thText, tdClassImg) {
+    return world
+      .waitForOverlayDisappear().then(function() {
+        return world.waitForByXpath('//th[contains(text(), "'+thText+'")]');
+      })
+      .then(function() {
+          return world.waitForByXpath('//td//i[contains(@class, "'+tdClassImg+'")]');
+      });
+  };
+
   this.showH5 = function(title) {
     return world.waitForByXpath('//h5/small[contains(text(), "'+title+'")]');
   };

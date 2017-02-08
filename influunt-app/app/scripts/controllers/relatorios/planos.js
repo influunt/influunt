@@ -30,6 +30,16 @@ angular.module('influuntApp')
             nome: 'subareaAgrupamento',
             label: 'relatorios.subareaAgrupamento',
             tipo: 'texto'
+          },
+          {
+            nome: 'CLA',
+            label: 'controladores.CLA',
+            tipo: 'texto'
+          },
+          {
+            nome: 'CLC',
+            label: 'controladores.CLC',
+            tipo: 'texto'
           }
         ]
       };

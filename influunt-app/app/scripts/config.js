@@ -1025,13 +1025,11 @@ angular
           }
         })
 
-        // IMPOR CONFIGURAÇÃO
-        .state('app.stream_controlador', {
-          url: '/stream_controlador/',
-          templateUrl: 'views/stream_controlador/index.html',
-          data: {
-            title: 'streamControlador.titulo',
-          }
+        // Manual Externo para github
+        .state('manual', {
+          url: 'https://github.com/influunt/influunt/blob/staging/influunt-doc/influunt.pdf',
+          external: true,
+          data: {title: 'manual.titulo'}
         })
 
         // FAIXAS DE VALORES
@@ -1128,8 +1126,8 @@ angular
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
     }])
 
-  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
-    function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
+  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN', '$window',
+    function($rootScope, $state, $timeout, TELAS_SEM_LOGIN, $window) {
 
       $rootScope.$state = $state;
 
@@ -1147,6 +1145,10 @@ angular
             $state.go('login');
           }
         });
-      });
 
+        if (toState.external) {
+          ev.preventDefault();
+          $window.open(toState.url, '_self');
+        }
+      });
     }]);

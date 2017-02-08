@@ -201,6 +201,12 @@ module.exports = function() {
     return sharedSteps.verificarTabelaPorThETd(coluna, valor);
   });
 
+  this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" "([^"]*)"$/, function (coluna, imagem) {
+    var classImagem = imagem == "marcado" ? "fa-check certo" : "fa-times errado";
+
+    return sharedSteps.verificarTabelaPorThETdImagem(coluna, classImagem);
+  });
+
   this.Given(/^o usuário limpar o campo "([^"]*)"$/, function (campo) {
     return sharedSteps.limparCampo(campo);
   });
