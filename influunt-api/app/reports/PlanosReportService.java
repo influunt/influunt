@@ -41,16 +41,24 @@ public class PlanosReportService extends ReportService<Plano> {
         paramsAux.remove("tipoRelatorio");
 
         if (params.containsKey("filtrarPor_eq")) {
-            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
-                if (params.containsKey("subareaAgrupamento_eq")) {
-                    paramsAux.put("versaoPlano.anel.controlador.subarea.nome", params.get("subareaAgrupamento_eq"));
-                }
-            } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
-                if (params.containsKey("subareaAgrupamento_eq")) {
-                    paramsAux.put("versaoPlano.anel.agrupamentos.nome", params.get("subareaAgrupamento_eq"));
-                }
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento_eq")) {
+                paramsAux.put("versaoPlano.anel.controlador.subarea.nome_eq", params.get("subareaAgrupamento_eq"));
+            }
+
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")){
+                paramsAux.put("versaoPlano.anel.controlador.subarea.nome", params.get("subareaAgrupamento"));
+            }
+
+            if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento_eq")) {
+                paramsAux.put("versaoPlano.anel.agrupamentos.nome_eq", params.get("subareaAgrupamento_eq"));
+            }
+
+            if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")) {
+                paramsAux.put("versaoPlano.anel.agrupamentos.nome", params.get("subareaAgrupamento"));
             }
         }
+
+        paramsAux.remove("subareaAgrupamento");
         paramsAux.remove("subareaAgrupamento_eq");
         paramsAux.remove("filtrarPor_eq");
 
@@ -65,10 +73,11 @@ public class PlanosReportService extends ReportService<Plano> {
         if (params.containsKey("CLC") || params.containsKey("CLA")) {
             String clc = params.containsKey("CLC") ? params.get("CLC")[0] : params.get("CLA")[0];
 
-            String areaDescricao = clc.substring(0,1);
-            String subareaNumero = clc.substring(4,5);
-            String sequencia = clc.substring(9,10);
-            String anel = params.containsKey("CLA") ? clc.substring(11,12) : null;
+            String[] parts = clc.split("\\.");
+            String areaDescricao = parts.length >= 1 ? parts[0].replaceFirst("^0+(?!$)", "") : null;
+            String subareaNumero = parts.length >= 2 ? parts[1].replaceFirst("^0+(?!$)", "") : null;
+            String sequencia = parts.length >= 3 ? parts[2].replaceFirst("^0+(?!$)", "") : null;
+            String anel = params.containsKey("CLA") ? parts[3].replaceFirst("^0+(?!$)", "") : null;
 
             paramsAux.put("versaoPlano.anel.controlador.area.descricao", new String[] {areaDescricao});
             paramsAux.put("versaoPlano.anel.controlador.subarea.numero", new String[] {subareaNumero});

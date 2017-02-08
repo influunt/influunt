@@ -303,23 +303,26 @@ public class ControladoresReportService extends ReportService<Controlador> {
         }
 
         if (params.containsKey("filtrarPor_eq")) {
-            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
-                if (params.containsKey("subareaAgrupamento_eq")) {
-                    paramsAux.put("subarea.nome", params.get("subareaAgrupamento_eq"));
-                } else if (params.containsKey("subareaAgrupamento")){
-                    paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
-                }
-            } else if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0])) {
-                if (params.containsKey("subareaAgrupamento_eq")) {
-                    paramsAux.put("aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento_eq")[0]});
-                } else if ( params.containsKey("subareaAgrupamento")){
-                    paramsAux.put("aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
-                }
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento_eq")) {
+                paramsAux.put("subarea.nome_eq", params.get("subareaAgrupamento_eq"));
             }
-            paramsAux.remove("subareaAgrupamento");
-            paramsAux.remove("subareaAgrupamento_eq");
-            paramsAux.remove("filtrarPor_eq");
+
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")){
+                paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
+            }
+
+            if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento_eq")) {
+                paramsAux.put("aneis.agrupamentos.nome_eq", new String[]{params.get("subareaAgrupamento_eq")[0]});
+            }
+
+            if ("Agrupamento".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")) {
+                paramsAux.put("aneis.agrupamentos.nome", new String[]{params.get("subareaAgrupamento")[0]});
+            }
         }
+
+        paramsAux.remove("subareaAgrupamento");
+        paramsAux.remove("subareaAgrupamento_eq");
+        paramsAux.remove("filtrarPor_eq");
 
         int page = 0;
         int perPage = 30;

@@ -1032,15 +1032,6 @@ angular
           data: {title: 'manual.titulo'}
         })
 
-        // IMPOR CONFIGURAÇÃO
-        .state('app.stream_controlador', {
-          url: '/stream_controlador/',
-          templateUrl: 'views/stream_controlador/index.html',
-          data: {
-            title: 'streamControlador.titulo',
-          }
-        })
-
         // FAIXAS DE VALORES
         .state('app.faixas_de_valores_edit', {
           url: '/faixas_de_valores/edit',

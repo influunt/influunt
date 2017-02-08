@@ -202,7 +202,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" "([^"]*)"$/, function (coluna, imagem) {
-    var classImagem = imagem === "marcado" ? "fa-check certo" : "fa-times errado"
+    var classImagem = imagem == "marcado" ? "fa-check certo" : "fa-times errado";
 
     return sharedSteps.verificarTabelaPorThETdImagem(coluna, classImagem);
   });

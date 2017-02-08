@@ -3,7 +3,7 @@
 Funcionalidade: Realizar pesquisas em listagem
   Como um usuário
   Quero filtrar as informações em minhas listagems
-  Afim de facilitar a visualização do itens cadastrados
+  Para facilitar a visualização do itens cadastrados
 
   Cenário: Filtrar controladores pelo status
     Dado o usuário logue no sistema com usuário "mobilab" e perfil administrador
