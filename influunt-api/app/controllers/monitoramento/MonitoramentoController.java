@@ -35,6 +35,8 @@ public class MonitoramentoController extends Controller {
     public CompletionStage<Result> ultimoStatusDosControladores() {
         Map<String, String[]> params = ctx().request().queryString();
         Integer limiteQueryFalhas = params.containsKey("limite_alarmes_falhas") ? Integer.parseInt(params.get("limite_alarmes_falhas")[0]) : null;
+        Long inicioIntervalo = params.containsKey("inicio_intervalo") ? Long.parseLong(params.get("inicio_intervalo")[0]) : null;
+        Long fimIntervalo = params.containsKey("fim_intervalo") ? Long.parseLong(params.get("fim_intervalo")[0]) : null;
 
         Usuario usuario = getUsuario();
 
@@ -48,7 +50,7 @@ public class MonitoramentoController extends Controller {
 
         Map<String, Map> status = StatusControladorFisico.ultimoStatusDosControladores(controladoresIds);
         Map<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladoresIds);
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null, controladoresIds);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(limiteQueryFalhas, null, controladoresIds, inicioIntervalo, fimIntervalo);
         Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladoresIds);
 
@@ -75,7 +77,7 @@ public class MonitoramentoController extends Controller {
 
         Map<String, Map> status = StatusControladorFisico.ultimoStatusDosControladores(controladores);
         Map<String, Boolean> onlines = StatusConexaoControlador.ultimoStatusDosControladores(controladores);
-        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null, controladores);
+        List<AlarmesFalhasControlador> erros = AlarmesFalhasControlador.ultimosAlarmesFalhasControladores(null, null, controladores, null, null);
 
         List<HashMap> statusPlanosPorAnel = TrocaDePlanoControlador.ultimoStatusPlanoPorAnel(controladores);
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
