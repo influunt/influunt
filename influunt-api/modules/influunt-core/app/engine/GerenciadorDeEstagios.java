@@ -202,17 +202,25 @@ public class GerenciadorDeEstagios implements EventoCallback {
                 verificaEAjustaIntermitenteCasoDemandaPrioritaria();
 
                 if (this.agendamento != null && !this.plano.isManual()) {
-                    if (this.agendamento.getPlano().isManual()) {
+                    if (this.agendamento.getPlano().isManual() && this.motor.isEntrarEmModoManual(getAnel())) {
                         if (verificaSeDeveAguardarEntradaEmModoManual(ultimoIntervalo)) {
                             intervalo = this.intervalos.get(contadorIntervalo);
                             informaAlteracaoEstagio(duracaoAtual, intervalo.getDuracao());
 
                             return intervalo;
+                        } else {
+                            geraIntervalos(0);
+                            executaAgendamentoTrocaDePlano();
                         }
-                    }
+                    } else if (this.agendamento.getPlano().isManual()) {
 
-                    geraIntervalos(0);
-                    executaAgendamentoTrocaDePlano();
+                        atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
+                        geraIntervalos(0);
+                    } else {
+
+                        geraIntervalos(0);
+                        executaAgendamentoTrocaDePlano();
+                    }
                 } else {
                     atualizaListaEstagiosNovoCiclo(listaOriginalEstagioPlanos);
                     geraIntervalos(0);
@@ -700,7 +708,7 @@ public class GerenciadorDeEstagios implements EventoCallback {
         estagiosProximoCiclo.clear();
     }
 
-    public int getAnel() {
+    public Integer getAnel() {
         return anel;
     }
 
