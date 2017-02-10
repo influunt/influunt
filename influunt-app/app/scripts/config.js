@@ -1027,7 +1027,7 @@ angular
 
         // Manual Externo para github
         .state('manual', {
-          url: 'https://github.com/influunt/influunt/blob/staging/influunt-doc/influunt.pdf',
+          url: 'https://github.com/influunt/influunt/raw/staging/influunt-doc/manual_usuario.pdf',
           external: true,
           data: {title: 'manual.titulo'}
         })
