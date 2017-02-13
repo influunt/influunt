@@ -1,12 +1,12 @@
-package execucao.bugs;
+package test.execucao.bugs;
 
 import engine.Motor;
-import execucao.GerenciadorDeTrocasTest;
 import json.ControladorCustomDeserializer;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.Json;
+import test.execucao.GerenciadorDeTrocasTest;
 
 import java.io.IOException;
 
