@@ -424,7 +424,25 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
             host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado.
             port = 1883
             login = ""
-            senha = ""
+            senha = "<SENHA DE ACESSO DA CENTRAL>" # <--- Coloque uma senha para a central
+            acl = {
+                device = {
+                    publish: ["controladores/conn/online", "controladores/conn/offline", "central/transacoes/$USERNAME/+", "central/alarmes_falhas", "central/troca_plano", "central/configuracao", "central/mudanca_status_controlador", "central/info"],
+                    subscribe: ["controlador/$USERNAME/+"]
+                }
+                simulador_web = {
+                    publish: ["simulador/$USERNAME/morreu", "simulador/$USERNAME/proxima_pagina", "simulador/$USERNAME/detector", "simulador/$USERNAME/alternar_modo_manual", "simulador/$USERNAME/trocar_estagio"],
+                    subscribe: ["simulador/$USERNAME/estado"]
+                }
+                simulador_api = {
+                    publish: ["simulador/$USERNAME/estado", "simulador/$USERNAME/morreu"],
+                    subscribe: ["simulador/$USERNAME/proxima_pagina", "simulador/$USERNAME/detector", "simulador/$USERNAME/alternar_modo_manual", "simulador/$USERNAME/trocar_estagio"]
+                }
+                app = {
+                    subscribe: ["app/controlador/+/dados", "app/transacoes/+/status", "app/conn/offline", "app/conn/online", "app/troca_plano", "app/alarmes_falhas", "app/mudanca_status_controlador"],
+                    publish: ["central/app/transacoes/+"]
+                }
+            }
         }
     }
 
@@ -481,8 +499,8 @@ Abra o arquivo `/etc/nginx/nginx.conf` e adicione os seguintes blocos `server` e
 
 
         upstream influuntapi {
-            server 10.38.5.94:9000; # API-01
-            server 10.38.5.91:9000; # API-02
+            server <IP API 1>:9000; # API-01
+            server <IP API 2>:9000; # API-02
         }
 
         server {
@@ -565,7 +583,82 @@ Execute os seguintes comandos no servidor WEB:
     mkdir ${deploy_to}/{releases,shared}
     chown cet ${deploy_to}/{releases,shared}
 
+#### Configuração do app
 
+Para a configuração do app é necessário configurar a API e a CENTRAL.
+Para configurar a API, primeiramente copie o arquivo `influunt/influunt-api/modules/influunt-api/conf/api.conf` do seu computador para os servidores API, e o coloque na pasta `/app/influunt-api/shared/conf`. Altere os seguintes valores:
+
+    play.evolutions {
+      enabled = true
+      autoApply = true
+      autoApplyDowns = true
+    }
+
+    db {
+      default.driver=com.mysql.jdbc.Driver
+      default.url="jdbc:mysql://IP_SERVIDOR_BD/influunt" # <--- substitua IP_SERVIDOR_BD pelo IP do servidor de banco de dados
+      default.username=influunt
+      default.password="SENHA"             # <--- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
+
+      default.logSql=true
+      default.jndiName=DefaultDS
+    }
+
+    playjongo.uri="mongodb://IP_SERVIDOR_BD:27017/influunt" # <--- substitua IP_SERVIDOR_BD pelo IP do servidor de banco de dados
+
+    play.mailer {
+        host = smtp.gmail.com
+        port = 587
+        user = USUARIO_DO_EMAIL            # <--- Substitua pelo seu usuário no gmail
+        password = "SENHA_DO_EMAIL"        # <--- Substitua pela senha do seu usuário no gmail
+        from = "naoresponda@rarolabs.com.br"
+        tls = yes
+        ssl = no
+    }
+
+    influuntUrl = "ENDERECO SERVIDOR"      # <--- Substitua pelo endereço do servidor WEB
+
+    central {
+        mqtt {
+            host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o EMQTT foi instalado.
+            port = 1883
+            login = ""
+            senha = "<SENHA DE ACESSO DA CENTRAL>" # <--- Coloque uma senha para a central
+            acl = {
+                device = {
+                    publish: ["controladores/conn/online", "controladores/conn/offline", "central/transacoes/$USERNAME/+", "central/alarmes_falhas", "central/troca_plano", "central/configuracao", "central/mudanca_status_controlador", "central/info"],
+                    subscribe: ["controlador/$USERNAME/+"]
+                }
+                simulador_web = {
+                    publish: ["simulador/$USERNAME/morreu", "simulador/$USERNAME/proxima_pagina", "simulador/$USERNAME/detector", "simulador/$USERNAME/alternar_modo_manual", "simulador/$USERNAME/trocar_estagio"],
+                    subscribe: ["simulador/$USERNAME/estado"]
+                }
+                simulador_api = {
+                    publish: ["simulador/$USERNAME/estado", "simulador/$USERNAME/morreu"],
+                    subscribe: ["simulador/$USERNAME/proxima_pagina", "simulador/$USERNAME/detector", "simulador/$USERNAME/alternar_modo_manual", "simulador/$USERNAME/trocar_estagio"]
+                }
+                app = {
+                    subscribe: ["app/controlador/+/dados", "app/transacoes/+/status", "app/conn/offline", "app/conn/online", "app/troca_plano", "app/alarmes_falhas", "app/mudanca_status_controlador"],
+                    publish: ["central/app/transacoes/+"]
+                }
+            }
+        }
+    }
+
+Após as alterações, adicione os seguintes valores no final do arquivo:
+    application.mode=PROD
+    pidfile.path = "/app/influunt-api/shared/influunt.pid"
+    play.http.router = "api.Routes"
+
+
+Para configurar a CENTRAL, devem ser seguidos os mesmos passos da API, com as seguintes modificações:
+
+* o arquivo que deve ser copiado para o servidor é o `influunt/influunt-api/modules/influunt-central/conf/central.conf`
+* As configurações a serem adicionadas no final do arquivo são:
+
+        application.mode=PROD
+        pidfile.path = "/app/influunt-api/shared/influunt.pid"
+        play.http.router = "central.Routes"
 
 ### Deploy da aplicação
 
@@ -621,7 +714,9 @@ Altere os seguintes arquivos (no seu computador):
         server 'xxx.xxx.xxx.xxx', user: 'cet', roles: %w{app db web}
 
 
-Para executar o deploy em vários servidores, primeiro entre na pasta `influunt/influunt-api/modules/influunt-api` e execute o comando:
+Para executar o deploy em vários servidores, primeiro entre na pasta `influunt/influunt-api` e execute o comando `activator dist`.
+
+Em seguida, entre na pasta `influunt/influunt-api/modules/influunt-api` e execute o comando:
 
     cap production deploy
 

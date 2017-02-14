@@ -82,6 +82,6 @@ namespace :app do
 end
 
 before 'deploy:updating', 'deploy:upload_tarball'
-before 'deploy:upload_tarball', 'app:build'
+# before 'deploy:upload_tarball', 'app:build'
 after 'deploy:published', 'deploy:restart'
-after 'deploy:cleanup', 'app:cleanup'
+# after 'deploy:cleanup', 'app:cleanup'

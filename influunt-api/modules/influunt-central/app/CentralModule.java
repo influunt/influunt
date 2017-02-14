@@ -12,9 +12,7 @@ public class CentralModule extends AbstractModule {
 
     private final Configuration configuration;
 
-    public CentralModule(
-        Environment environment,
-        Configuration configuration) {
+    public CentralModule(Environment environment, Configuration configuration) {
         this.environment = environment;
         this.configuration = configuration;
     }

@@ -189,8 +189,8 @@ GET       /api/v1/monitoramento/status/:id/historico/:pagina/:tamanho           
 POST      /api/v1/cucumber                                                                     controllers.api.CucumberController.createDB()
 
 #Simulação
-POST      /api/v1/simulacao                                                                   controllers.api.simulacao.SimuladorController.simular
-POST      /api/v1/simulacao/:id/parar                                                         controllers.api.simulacao.SimuladorController.pararSimulacao(id)
+POST      /api/v1/simulacao                                                                    controllers.api.simulacao.SimuladorController.simular
+POST      /api/v1/simulacao/:id/parar                                                          controllers.api.simulacao.SimuladorController.pararSimulacao(id)
 
 # RELATORIOS
 GET       /api/v1/relatorios/controladores_status                                               controllers.api.RelatoriosController.gerarRelatorioControladoresStatus()
@@ -211,7 +211,7 @@ POST       /api/v1/imposicoes/colocar_manutencao                                
 POST       /api/v1/imposicoes/inativar                                                          controllers.api.ImposicoesController.inativar
 POST       /api/v1/imposicoes/ativar                                                            controllers.api.ImposicoesController.ativar
 
-GET        /assets/*file                                                                    controllers.api.Assets.at(path="/public", file)
+GET        /assets/*file                                                                        controllers.api.Assets.at(path="/public", file)
 
 #MQTT
 POST       /api/v1/mqtt/auth                                                                    controllers.api.mqtt.MqttController.auth

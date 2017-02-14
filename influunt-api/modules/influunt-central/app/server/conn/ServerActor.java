@@ -71,7 +71,7 @@ public class ServerActor extends UntypedActor {
         router = getContext().actorOf(new RoundRobinPool(5).props(Props.create(CentralMessageBroker.class, actorPacoteTrasancaoManager)), "centralMessageBroker");
 
         mqttProps = BackoffSupervisor.props(Backoff.onFailure(
-            Props.create(MQTTServerActor.class, mqttHost, mqttPort,mqttPassword, router),
+            Props.create(MQTTServerActor.class, mqttHost, mqttPort, mqttPassword, router),
             "CentralMQTT",
             Duration.create(1, TimeUnit.SECONDS),
             Duration.create(10, TimeUnit.SECONDS),

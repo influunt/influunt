@@ -156,7 +156,7 @@ public class MQTTAuthService {
 
 
     public StatusHeader check(String type, MqttCredentials credentials) {
-        StatusHeader retorno = null;
+        StatusHeader retorno;
         String cli = functions.get(type).keySet().stream()
             .filter(cliente -> credentials.getClientId().startsWith(cliente))
             .findFirst().orElse(null);
