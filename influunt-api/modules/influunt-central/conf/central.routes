@@ -2,5 +2,5 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-POST       /v1/transacoes                             controllers.central.TransacoesController.enviar
-POST       /v1/ler_dados                               controllers.central.TransacoesController.lerDados
+POST       /central/v1/transacoes                             controllers.central.TransacoesController.enviar
+POST       /central/v1/ler_dados                               controllers.central.TransacoesController.lerDados
