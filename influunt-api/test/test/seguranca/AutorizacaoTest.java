@@ -26,7 +26,7 @@ import static play.test.Helpers.route;
  */
 public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
-    private List<Permissao> permissoes = new ArrayList<Permissao>();
+    private List<Permissao> permissoes = new ArrayList<>();
 
     private Usuario usuarioComAcesso;
 
@@ -494,7 +494,7 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
         Iterator<Permissao> it = perfilComAcesso.getPermissoes().iterator();
         while (it.hasNext()) {
             Permissao p = it.next();
-            if ("GET /api/v1/usuarios/$id<[^/]+>".equals(p.getChave()) || "PUT /api/v1/usuarios/$id<[^/]+>".equals(p.getChave())) {
+            if ("GET /api/api/v1/usuarios/$id<[^/]+>".equals(p.getChave()) || "PUT /api/api/v1/usuarios/$id<[^/]+>".equals(p.getChave())) {
                 it.remove();
             }
         }

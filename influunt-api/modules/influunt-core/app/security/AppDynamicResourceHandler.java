@@ -83,7 +83,11 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
                 return CompletableFuture.completedFuture(Boolean.TRUE);
             }
         } else {
-            if ("GET /api/v1/usuarios/$id<[^/]+>".equals(chave) || "PUT /api/v1/usuarios/$id<[^/]+>".equals(chave)) {
+            boolean editandoProprioUsuario = "GET /api/v1/usuarios/$id<[^/]+>".equals(chave) ||
+                "GET /api/api/v1/usuarios/$id<[^/]+>".equals(chave) ||
+                "PUT /api/v1/usuarios/$id<[^/]+>".equals(chave) ||
+                "PUT /api/api/v1/usuarios/$id<[^/]+>".equals(chave);
+            if (editandoProprioUsuario) {
                 String usuarioId = getUsuarioIdFromPath(ctx.request().path());
                 if (usuario.getId().toString().equals(usuarioId)) {
                     return CompletableFuture.completedFuture(Boolean.TRUE);
