@@ -307,7 +307,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
                 paramsAux.put("subarea.nome_eq", params.get("subareaAgrupamento_eq"));
             }
 
-            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")){
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")) {
                 paramsAux.put("subarea.nome", params.get("subareaAgrupamento"));
             }
 

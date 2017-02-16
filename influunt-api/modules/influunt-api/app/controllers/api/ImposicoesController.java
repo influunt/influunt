@@ -1,6 +1,7 @@
 package controllers.api;
 
 import be.objectify.deadbolt.java.actions.Dynamic;
+import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import helpers.transacao.TransacaoHelperApi;
@@ -9,6 +10,7 @@ import models.Controlador;
 import models.ModoOperacaoPlano;
 import play.db.ebean.Transactional;
 import play.libs.Json;
+import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
@@ -166,36 +169,21 @@ public class ImposicoesController extends Controller {
         String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
         return transacaoHelper.enviarPacotePlanos(controladores, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(controladores));
     }
 
     private CompletionStage<Map<String, List<String>>> enviarConfiguracoesCompletas(List<String> aneis, Long timeout) {
         String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
         return transacaoHelper.enviarConfiguracaoCompleta(controladores, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(controladores));
     }
 
     private CompletionStage<Map<String, List<String>>> enviarTabelaHoraria(List<String> aneis, boolean imediato, Long timeout) {
         String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
         return transacaoHelper.enviarTabelaHoraria(controladores, imediato, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(controladores));
 
     }
 
@@ -203,12 +191,7 @@ public class ImposicoesController extends Controller {
         String authToken = contextManager.getAuthToken(ctx());
         List<Anel> aneis = Anel.find.fetch("controlador").where().in("id", aneisIds).findList();
         return transacaoHelper.imporModoOperacao(aneis, modoOperacao, horarioEntrada, duracao, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, aneis.stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(aneis));
 
     }
 
@@ -216,24 +199,14 @@ public class ImposicoesController extends Controller {
         String authToken = contextManager.getAuthToken(ctx());
         List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
         return transacaoHelper.imporPlano(aneis, posicaoPlano, horarioEntrada, duracao, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, aneis.stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(aneis));
     }
 
     private CompletionStage<Map<String, List<String>>> liberarImposicao(List<String> aneisIds, Long timeout) {
         String authToken = contextManager.getAuthToken(ctx());
         List<Anel> aneis = Anel.find.fetch("controlador").fetch("controlador.modelo").where().in("id", aneisIds).findList();
         return transacaoHelper.liberarImposicao(aneis, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, aneis.stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(aneis));
 
     }
 
@@ -241,24 +214,14 @@ public class ImposicoesController extends Controller {
         String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
         return transacaoHelper.colocarControladorManutencao(controladores, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(controladores));
     }
 
     private CompletionStage<Map<String, List<String>>> inativarControlador(List<String> aneis, Long timeout) {
         String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
         return transacaoHelper.inativarControlador(controladores, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(controladores));
 
     }
 
@@ -266,12 +229,7 @@ public class ImposicoesController extends Controller {
         String authToken = contextManager.getAuthToken(ctx());
         List<Controlador> controladores = getControladores(aneis);
         return transacaoHelper.ativarControlador(controladores, timeout, authToken)
-            .thenApply(response -> {
-                String pacoteTransacaoId = response.getBody();
-                Map<String, List<String>> ids = new HashMap<>();
-                ids.put(pacoteTransacaoId, controladores.stream().map(c -> c.getId().toString()).collect(Collectors.toList()));
-                return ids;
-            });
+            .thenApply(wsResponseMapFunction(controladores));
     }
 
 
@@ -281,5 +239,20 @@ public class ImposicoesController extends Controller {
             .map(Anel::getControlador)
             .distinct()
             .collect(Collectors.toList());
+    }
+
+    private Function<WSResponse, Map<String, List<String>>> wsResponseMapFunction(List<? extends Model> objetos) {
+        return response -> {
+            String pacoteTransacaoId = response.getBody();
+            Map<String, List<String>> ids = new HashMap<>();
+            ids.put(pacoteTransacaoId, objetos.stream().map(c -> {
+                if (c instanceof Controlador) {
+                    return ((Controlador) c).getId().toString();
+                } else {
+                    return ((Anel) c).getId().toString();
+                }
+            }).collect(Collectors.toList()));
+            return ids;
+        };
     }
 }

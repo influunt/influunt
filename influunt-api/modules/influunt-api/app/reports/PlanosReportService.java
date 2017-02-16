@@ -45,7 +45,7 @@ public class PlanosReportService extends ReportService<Plano> {
                 paramsAux.put("versaoPlano.anel.controlador.subarea.nome_eq", params.get("subareaAgrupamento_eq"));
             }
 
-            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")){
+            if ("Subarea".equalsIgnoreCase(params.get("filtrarPor_eq")[0]) && params.containsKey("subareaAgrupamento")) {
                 paramsAux.put("versaoPlano.anel.controlador.subarea.nome", params.get("subareaAgrupamento"));
             }
 
@@ -79,9 +79,9 @@ public class PlanosReportService extends ReportService<Plano> {
             String sequencia = parts.length >= 3 ? parts[2].replaceFirst("^0+(?!$)", "") : null;
             String anel = params.containsKey("CLA") ? parts[3].replaceFirst("^0+(?!$)", "") : null;
 
-            paramsAux.put("versaoPlano.anel.controlador.area.descricao", new String[] {areaDescricao});
-            paramsAux.put("versaoPlano.anel.controlador.subarea.numero", new String[] {subareaNumero});
-            paramsAux.put("versaoPlano.anel.controlador.sequencia", new String[] {sequencia});
+            paramsAux.put("versaoPlano.anel.controlador.area.descricao", new String[]{areaDescricao});
+            paramsAux.put("versaoPlano.anel.controlador.subarea.numero", new String[]{subareaNumero});
+            paramsAux.put("versaoPlano.anel.controlador.sequencia", new String[]{sequencia});
 
             if (anel != null) {
                 paramsAux.put("versaoPlano.anel.posicao", new String[]{anel});

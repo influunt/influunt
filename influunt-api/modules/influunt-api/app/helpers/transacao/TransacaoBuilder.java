@@ -23,7 +23,8 @@ import java.util.stream.Collectors;
  */
 public final class TransacaoBuilder {
 
-    private TransacaoBuilder() {}
+    private TransacaoBuilder() {
+    }
 
     public static PacoteTransacao pacotePlanos(List<Controlador> controladores, long timeout) {
         List<Transacao> transacoes = new ArrayList<>();

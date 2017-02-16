@@ -20,7 +20,10 @@ import security.InfluuntContextManager;
 import security.Secured;
 import services.ControladorService;
 import services.FalhasEAlertasService;
-import utils.*;
+import utils.ImposicaoHelper;
+import utils.InfluuntQueryBuilder;
+import utils.InfluuntResultBuilder;
+import utils.RangeUtils;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -39,7 +42,6 @@ public class ControladoresController extends Controller {
 
     @Inject
     private InfluuntContextManager contextManager;
-
 
 
     @Transactional

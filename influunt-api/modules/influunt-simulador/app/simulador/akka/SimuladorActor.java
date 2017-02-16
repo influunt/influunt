@@ -22,9 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static play.libs.Json.newObject;
-
 import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_3_1_1;
+import static play.libs.Json.newObject;
 
 /**
  * Created by rodrigosol on 10/4/16.

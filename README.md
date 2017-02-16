@@ -399,7 +399,7 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
       default.driver=com.mysql.jdbc.Driver
       default.url="jdbc:mysql://localhost/influunt"
       default.username=influunt
-      default.password="SENHA"             # <--- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
+      default.password="SENHA"                # <--- substitua SENHA pela senha escolhida para o usuário influunt no banco de dados
 
       default.logSql=true
       default.jndiName=DefaultDS
@@ -408,23 +408,23 @@ Crie o arquivo de configuração da central, e altere os valores necessários. P
     playjongo.uri="mongodb://127.0.0.1:27017/influunt"
 
     play.mailer {
-        host = smtp.gmail.com
+        host = smtp.gmail.com                 # <--- Substitua pelo seu host do seu serviço de email
         port = 587
-        user = USUARIO_DO_EMAIL            # <--- Substitua pelo seu usuário no gmail
-        password = "SENHA_DO_EMAIL"        # <--- Substitua pela senha do seu usuário no gmail
-        from = "naoresponda@rarolabs.com.br"
+        user = USUARIO_DO_EMAIL               # <--- Substitua pelo seu usuário de email
+        password = "SENHA_DO_EMAIL"           # <--- Substitua pela senha do seu usuário de email
+        from = "naoresponda@rarolabs.com.br"  # <--- Substitua pelo seu email
         tls = yes
         ssl = no
     }
 
-    influuntUrl = "ENDERECO SERVIDOR"      # <--- Substitua pelo endereço do servidor ex: http://influunt.com.br
+    influuntUrl = "ENDERECO SERVIDOR"         # <--- Substitua pelo endereço do servidor ex: http://influunt.com.br
 
     central {
         mqtt {
-            host = "SERVIDOR MQTT"         # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado.
+            host = "SERVIDOR MQTT"            # <--- Substitua esse valor pelo endereço onde o Mosquitto foi instalado.
             port = 1883
             login = ""
-            senha = "<SENHA DE ACESSO DA CENTRAL>" # <--- Coloque uma senha para a central
+            senha = "SENHA DE ACESSO DA CENTRAL" # <--- Coloque uma senha para a central
             acl = {
                 device = {
                     publish: ["controladores/conn/online", "controladores/conn/offline", "central/transacoes/$USERNAME/+", "central/alarmes_falhas", "central/troca_plano", "central/configuracao", "central/mudanca_status_controlador", "central/info"],

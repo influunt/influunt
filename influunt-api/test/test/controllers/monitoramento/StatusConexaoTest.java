@@ -29,12 +29,6 @@ import static play.test.Helpers.route;
  */
 public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
-    private Cidade cidade;
-
-    private Http.Context context;
-
-    private Optional<String> tokenComAcesso;
-
     private ArrayList<String> controladoresIds;
 
     private PlayJongo jongo;
@@ -100,7 +94,6 @@ public class StatusConexaoTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void testStatusControladorApi() {
-        System.out.println(controllers.api.monitoramento.routes.StatusControladorController.findOne("1").url());
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("GET")
             .uri(controllers.api.monitoramento.routes.StatusControladorController.findOne("1").url());
         Result postResult = route(postRequest);

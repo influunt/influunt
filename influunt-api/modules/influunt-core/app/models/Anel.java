@@ -36,7 +36,7 @@ public class Anel extends Model implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -6992146830358479832L;
 
-    public static Finder<UUID, Anel> find = new Finder<UUID, Anel>(Anel.class);
+    public static Finder<UUID, Anel> find = new Finder<>(Anel.class);
 
     @Id
     private UUID id;

@@ -4,16 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.ControladorFisico;
 import play.Configuration;
-import play.Logger;
-import play.mvc.Http;
 import play.mvc.StatusHeader;
 import security.Authenticator;
 import security.MqttCredentials;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static play.mvc.Results.ok;
@@ -45,7 +41,7 @@ public class MQTTAuthService {
     private final List<String> aclDefinitionSubApp;
 
     @Inject
-    Authenticator authenticator;
+    private Authenticator authenticator;
 
     private static final String CENTRAL = "central";
 
@@ -100,7 +96,6 @@ public class MQTTAuthService {
     }
 
 
-
     private StatusHeader authSimuladorWeb(MqttCredentials credentials) {
         return ok();
     }
@@ -125,7 +120,6 @@ public class MQTTAuthService {
     private StatusHeader authCentral(MqttCredentials credentials) {
         return centralPassword.equals(credentials.getPassword()) ? ok() : unauthorized();
     }
-
 
 
     private StatusHeader aclCentral(MqttCredentials credentials) {
@@ -163,7 +157,7 @@ public class MQTTAuthService {
         if (cli == null) {
             retorno = unauthorized();
         } else {
-            retorno  = functions.get(type).get(cli).apply(credentials);
+            retorno = functions.get(type).get(cli).apply(credentials);
         }
         return retorno;
     }
@@ -180,10 +174,8 @@ public class MQTTAuthService {
             String[] topicSplitted = credentials.getTopic().split("/");
             if (item.length == topicSplitted.length) {
                 for (int i = 0; i < item.length; i++) {
-                    if (!item[i].equals("+")) {
-                        if (!item[i].equals(topicSplitted[i])) {
-                            return false;
-                        }
+                    if (!item[i].equals("+") && !item[i].equals(topicSplitted[i])) {
+                        return false;
                     }
                 }
                 return true;
