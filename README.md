@@ -532,6 +532,7 @@ Abra o arquivo `/etc/nginx/nginx.conf` e adicione os seguintes blocos `server` e
                 proxy_send_timeout          600;
                 proxy_read_timeout          600;
                 proxy_pass  http://influuntapi;
+                proxy_set_header Host "IP DESSE SERVIDOR"; # <--- Substitua pelo IP desse servidor (load balancer)
             }
 
             location / {
