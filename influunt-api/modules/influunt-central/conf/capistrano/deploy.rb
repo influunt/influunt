@@ -69,7 +69,7 @@ namespace :app do
   desc 'Makes the production build'
   task :build do
     run_locally do
-      execute "[ -f #{fetch(:project_tarball_path)} ] || activator dist"
+      execute "[ -f '#{fetch(:project_tarball_path)}' ] || activator dist"
     end
   end
 
@@ -82,6 +82,6 @@ namespace :app do
 end
 
 before 'deploy:updating', 'deploy:upload_tarball'
-# before 'deploy:upload_tarball', 'app:build'
+before 'deploy:upload_tarball', 'app:build'
 after 'deploy:published', 'deploy:restart'
 # after 'deploy:cleanup', 'app:cleanup'
