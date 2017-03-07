@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_3_1_1;
 import static play.libs.Json.newObject;
 
 /**
@@ -76,6 +77,7 @@ public class SimuladorActor extends UntypedActor {
 
             opts.setAutomaticReconnect(false);
             opts.setConnectionTimeout(10);
+            opts.setMqttVersion(MQTT_VERSION_3_1_1);
             opts.setWill("simulador/" + id + "/morreu", "morreu".getBytes(), QoS.AT_LEAST_ONCE.ordinal(), false);
 
             client.connect(opts);

@@ -55,7 +55,7 @@ public class TransacaoManagerActorHandler extends UntypedActor {
                     ref.tell(envelope, getSelf());
                 } else {
                     transacao.etapaTransacao = EtapaTransacao.ABORT;
-                    envelope.setDestino(DestinoCentral.transacao(transacao.transacaoId));
+                    envelope.setDestino(DestinoCentral.transacao(idControlador, transacao.transacaoId));
                     envelope.setConteudo(transacao.toJson().toString());
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelope, getSelf());
                 }

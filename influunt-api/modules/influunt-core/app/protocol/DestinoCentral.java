@@ -21,8 +21,8 @@ public class DestinoCentral {
         return "central/troca_plano";
     }
 
-    public static String transacao(String idTransacao) {
-        return "central/transacoes/".concat(idTransacao);
+    public static String transacao(String controladorId, String idTransacao) {
+        return "central/transacoes/".concat(controladorId).concat("/").concat(idTransacao);
     }
 
     public final static String leituraDadosControlador() {

@@ -4,7 +4,6 @@ import com.google.common.collect.RangeMap;
 import engine.EventoMotor;
 import engine.GerenciadorDeEstagios;
 import engine.IntervaloEstagio;
-import models.EstagioPlano;
 
 /**
  * Created by rodrigosol on 11/8/16.

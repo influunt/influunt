@@ -1012,7 +1012,7 @@ var influunt;
 
 
           // connect the client
-          client.connect({ onSuccess: onConnect });
+          client.connect({ onSuccess: onConnect, userName: 'simulador-web', password: 'simulador-web' });
           mqttClient = client;
 
           criaAneis();

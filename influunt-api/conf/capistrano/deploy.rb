@@ -41,7 +41,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('logs', 'imagens')
 set :project_release_id, `git log --pretty=format:'%h' -n 1 staging`
 
 # the same path is used local and remote... just to make things simple for who wrote this.
-set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-api-*.zip').first }
+set :project_tarball_path, Proc.new { Dir.glob('target/universal/influunt-*.zip').first }
 
 set :git_strategy, NoGitStrategy
 
@@ -60,7 +60,7 @@ namespace :deploy do
   task :restart do
     on roles(:all) do
       execute "if [[ -f #{shared_path}/influunt.pid ]]; then kill $(cat #{shared_path}/influunt.pid); else echo 'app not running!'; fi"
-      execute "#{release_path}/bin/influunt-api -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
+      execute "#{release_path}/bin/influunt -Dconfig.file=#{shared_path}/conf/application.conf > #{shared_path}/logs/startup.log 2>&1 &"
     end
   end
 end
