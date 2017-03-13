@@ -52,9 +52,9 @@ describe('Controller: ControladoresAneisCtrl', function () {
     });
 
     describe('Configuração válida', function() {
-      beforeEach(inject(function($q, CTELocalizacaoService) {
+      beforeEach(inject(function($q, CETLocalizacaoService) {
         var deferred = $q.defer();
-        spyOn(CTELocalizacaoService, 'getLatLng').and.returnValue(deferred.promise);
+        spyOn(CETLocalizacaoService, 'getLatLng').and.returnValue(deferred.promise);
         deferred.resolve({lat: 1, lng: 2});
 
         var endereco1       = {idJson: 1, localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};

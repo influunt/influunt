@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc service
- * @name influuntApp.CTELocalizacao
+ * @name influuntApp.CETLocalizacao
  * @description
- * # CTELocalizacao
+ * # CETLocalizacao
  * Factory in the influuntApp.
  */
 angular.module('influuntApp')
-  .factory('CTELocalizacaoService', ['$http', '$filter', 'PLACES_API', function CTELocalizacaoService($http, $filter, PLACES_API) {
+  .factory('CETLocalizacaoService', ['$http', '$filter', 'PLACES_API', function CETLocalizacaoService($http, $filter, PLACES_API) {
     var URL = PLACES_API.baseUrl + '/latloninexato';
 
     var getLatLng = function(endereco) {

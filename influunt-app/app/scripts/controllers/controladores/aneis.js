@@ -10,10 +10,10 @@
 angular.module('influuntApp')
   .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
                                          'influuntAlert', 'Restangular', 'toast', 'influuntBlockui', 'removerPlanosTabelasHorarias',
-                                         'CTELocalizacaoService',
+                                         'CETLocalizacaoService',
     function ($scope, $state, $controller, $q, $filter, assertControlador,
               influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias,
-              CTELocalizacaoService) {
+              CETLocalizacaoService) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -254,7 +254,7 @@ angular.module('influuntApp')
         }, true);
 
         $scope.$watch('currentEndereco', function(currentVal, prevVal) {
-          CTELocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
+          CETLocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
         }, true);
       };
 

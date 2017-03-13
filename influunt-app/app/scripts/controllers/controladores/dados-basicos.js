@@ -10,10 +10,10 @@
 angular.module('influuntApp')
   .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert',
                                                 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies',
-                                                'breadcrumbs', 'ROOT_API_SMEE', 'CTELocalizacaoService',
+                                                'breadcrumbs', 'ROOT_API_SMEE', 'CETLocalizacaoService',
     function ($scope, $controller, $filter, influuntBlockui, influuntAlert,
               Restangular, toast, PermissionsService, PermissionStrategies,
-              breadcrumbs, ROOT_API_SMEE, CTELocalizacaoService) {
+              breadcrumbs, ROOT_API_SMEE, CETLocalizacaoService) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs, confirmaEnderecoSMEE,
@@ -90,7 +90,7 @@ angular.module('influuntApp')
       };
 
       $scope.$watch('currentEndereco', function(currentVal, prevVal) {
-        CTELocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
+        CETLocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
       }, true);
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {
