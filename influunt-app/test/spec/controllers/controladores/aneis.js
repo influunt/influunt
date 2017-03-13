@@ -51,8 +51,12 @@ describe('Controller: ControladoresAneisCtrl', function () {
       });
     });
 
-    describe('Configuração válida', function () {
-      beforeEach(function() {
+    describe('Configuração válida', function() {
+      beforeEach(inject(function($q, CTELocalizacaoService) {
+        var deferred = $q.defer();
+        spyOn(CTELocalizacaoService, 'getLatLng').and.returnValue(deferred.promise);
+        deferred.resolve({lat: 1, lng: 2});
+
         var endereco1       = {idJson: 1, localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
         var enderecoVazio   = {idJson: 2, localizacao: ''};
 
@@ -63,10 +67,11 @@ describe('Controller: ControladoresAneisCtrl', function () {
           numeroSMEE: 2
         };
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
-      });
+      }));
 
       it('Deve iniciar a tela com o primeiro anel selecionado', function() {
         scope.currentEndereco = {localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
+
         scope.$apply();
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
@@ -82,10 +87,10 @@ describe('Controller: ControladoresAneisCtrl', function () {
         expect(scope.aneis[0].endereco).toBeDefined();
       });
 
-      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonso Penna"', function() {
+      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "x" "Av Afonso Penna"', function() {
         var anel = scope.objeto.aneis[0];
-        expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonso Penna');
-        expect(scope.controladorLocalizacao).toBe('Av Bandeirantes com Av Afonso Penna');
+        expect(anel.localizacao).toBe('Av Bandeirantes x Av Afonso Penna');
+        expect(scope.controladorLocalizacao).toBe('Av Bandeirantes x Av Afonso Penna');
       });
 
       it('no segundo anel o "nomeEndereco" deve ser vazio', function() {

@@ -26,10 +26,10 @@ describe('Filter: nomeEndereco', function () {
     expect(nomeEndereco(endereco)).toBe(endereco.localizacao);
   });
 
-  it('Deve retornar "`localizacao1` com `localizacao2`" quando ambas forem informadas', function() {
+  it('Deve retornar "`localizacao1` x `localizacao2`" quando ambas forem informadas', function() {
     delete endereco.alturaNumerica;
     delete endereco.referencia;
-    expect(nomeEndereco(endereco)).toBe(endereco.localizacao + ' com ' + endereco.localizacao2);
+    expect(nomeEndereco(endereco)).toBe(endereco.localizacao + ' x ' + endereco.localizacao2);
   });
 
   it('Deve retornar, "`localizacao1`, nº `alturaNumerica`" se ambos forem informados', function() {
@@ -46,7 +46,7 @@ describe('Filter: nomeEndereco', function () {
 
   it('Deve retornar um endereço completo, se todos os elementos forem informados', function() {
     var expectation = [
-      endereco.localizacao, ', nº ', endereco.alturaNumerica, ' com ',
+      endereco.localizacao, ', nº ', endereco.alturaNumerica, ' x ',
       endereco.localizacao2, '. ref.: ', endereco.referencia
     ].join('');
     expect(nomeEndereco(endereco)).toMatch(expectation);

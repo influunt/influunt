@@ -36,7 +36,6 @@ angular
     'oitozero.ngSweetAlert',
     'ui.bootstrap',
     'ui.sortable',
-    'google.places',
     '720kb.tooltips',
 
     // template cache engine.

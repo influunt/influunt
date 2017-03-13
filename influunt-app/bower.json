@@ -19,7 +19,6 @@
     "restangular": "^1.5.2",
     "ngSweetAlert": "angular-sweetalert#^1.1.0",
     "leaflet": "^0.7.7",
-    "angular-google-places-autocomplete": "^0.2.7",
     "tooltipster": "^4.0.4",
     "select2": "^4.0.3",
     "metisMenu": "^2.5.2",
@@ -80,11 +79,6 @@
     "jquery.slimscroll": {
       "main": [
         "jquery.slimscroll.js"
-      ]
-    },
-    "angular-google-places-autocomplete": {
-      "main": [
-        "./src/autocomplete.css"
       ]
     }
   },
