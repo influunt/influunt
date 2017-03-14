@@ -147,7 +147,7 @@
                 <div class="form-group" data-ng-class="{'has-error': errors.endereco.localizacao}">
                   <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
                   <select helper-endereco
-                      ng-model="objeto.todosEnderecos[enderecoControladorIndex].localizacao"
+                      localizacao="objeto.todosEnderecos[enderecoControladorIndex].localizacao"
                       class="form-control"
                   />
                   <p class="help-block error-msg" data-ng-repeat="error in errors.endereco.localizacao">{{ error }}</p>
@@ -159,7 +159,7 @@
                 <div class="form-group" data-ng-class="{'has-error': errors.endereco.localizacao2}">
                   <label class="control-label">{{ 'controladores.localizacao2' | translate }}:</label>
                   <select helper-endereco
-                      ng-model="objeto.todosEnderecos[enderecoControladorIndex].localizacao2"
+                      localizacao="objeto.todosEnderecos[enderecoControladorIndex].localizacao2"
                       class="form-control"
                   />
                   <p class="help-block error-msg" data-ng-repeat="error in errors.endereco.localizacao2">{{ error }}</p>
