@@ -96,7 +96,10 @@
                   <div class="col-lg-6 col-sm-6" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao }">
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao }">
                       <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
-                      <helper-endereco ng-model="currentEndereco.localizacao" localizacao="currentEndereco.localizacao" latitude="currentEndereco.latitude" longitude="currentEndereco.longitude"></helper-endereco>
+                      <select helper-endereco
+                          ng-model="currentEndereco.localizacao"
+                          class="form-control"
+                      />
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.localizacao">{{ error }}</p>
                     </div>
 
@@ -126,7 +129,10 @@
                   <div class="col-lg-6 col-sm-6">
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao2 }">
                       <label class="control-label">{{ 'controladores.localizacao2' | translate }}:</label>
-                      <helper-endereco ng-model="currentEndereco.localizacao2" localizacao="currentEndereco.localizacao2" latitude="currentEndereco.latitude2" longitude="currentEndereco.longitude2"></helper-endereco>
+                      <select helper-endereco
+                          ng-model="currentEndereco.localizacao2"
+                          class="form-control"
+                      />
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.localizacao2">{{ error }}</p>
                     </div>
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.referencia }">

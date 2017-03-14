@@ -64,6 +64,6 @@ describe('Filter: resourceToLink', function () {
       controlador_id: '1234'
     }
     var link = resourceToLink(resource, 'other', 'app.controladores_show', 'controlador_id', 'id');
-    expect(link).toBe('<a href="#/app/controladores/1234">texto do link</a>');
+    expect(link).toBe('<a href="#!/app/controladores/1234">texto do link</a>');
   });
 });
