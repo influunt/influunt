@@ -12,7 +12,8 @@ angular.module('influuntApp')
       return {
         restrict: 'A',
         scope: {
-          localizacao: '='
+          localizacao: '=',
+          anelId: '=?'
         },
         link: function (scope, element) {
           var URL = PLACES_API.baseUrl + '/endereco';
@@ -58,9 +59,11 @@ angular.module('influuntApp')
           })
           ;
 
+          var cacheAnel = null;
           scope.$watch('localizacao', function(val, prevVal) {
             $timeout(function() {
-              if (val && typeof prevVal === 'undefined') {
+              if (cacheAnel !== scope.anelId || val && typeof prevVal === 'undefined') {
+                cacheAnel = scope.anelId;
                 var $option = $('<option></option>').val(val).text(val);
                 $(element).append($option).val(val).trigger('change');
               }
