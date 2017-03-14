@@ -97,7 +97,7 @@
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao }">
                       <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
                       <select helper-endereco
-                          ng-model="currentEndereco.localizacao"
+                          localizacao="currentEndereco.localizacao"
                           class="form-control"
                       />
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.localizacao">{{ error }}</p>
@@ -130,7 +130,7 @@
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao2 }">
                       <label class="control-label">{{ 'controladores.localizacao2' | translate }}:</label>
                       <select helper-endereco
-                          ng-model="currentEndereco.localizacao2"
+                          localizacao="currentEndereco.localizacao2"
                           class="form-control"
                       />
                       <p class="help-block error-msg" data-ng-repeat="error in errors.aneis[currentAnelIndex].endereco.localizacao2">{{ error }}</p>

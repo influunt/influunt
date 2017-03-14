@@ -12,7 +12,7 @@ angular.module('influuntApp')
       return {
         restrict: 'A',
         scope: {
-          ngModel: '='
+          localizacao: '='
         },
         link: function (scope, element) {
           var URL = PLACES_API.baseUrl + '/endereco';
@@ -50,11 +50,17 @@ angular.module('influuntApp')
               },
               minimumInputLength: 3
             }
-          );
-
-          scope.$watch('ngModel', function(val) {
+          )
+          .on('change', function(ev) {
             $timeout(function() {
-              if (val) {
+              scope.localizacao = ev.target.value;
+            });
+          })
+          ;
+
+          scope.$watch('localizacao', function(val, prevVal) {
+            $timeout(function() {
+              if (val && typeof prevVal === 'undefined') {
                 var $option = $('<option></option>').val(val).text(val);
                 $(element).append($option).val(val).trigger('change');
               }
