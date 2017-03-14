@@ -97,6 +97,7 @@
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao }">
                       <label class="control-label">{{ 'controladores.localizacao' | translate }}:</label>
                       <select helper-endereco
+                          anel-id="currentAnel.id"
                           localizacao="currentEndereco.localizacao"
                           class="form-control"
                       />
@@ -130,6 +131,7 @@
                     <div class="form-group" data-ng-class="{ 'has-error': errors.aneis[currentAnelIndex].endereco.localizacao2 }">
                       <label class="control-label">{{ 'controladores.localizacao2' | translate }}:</label>
                       <select helper-endereco
+                          anel-id="currentAnel.id"
                           localizacao="currentEndereco.localizacao2"
                           class="form-control"
                       />

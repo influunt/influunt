@@ -255,6 +255,7 @@ angular.module('influuntApp')
 
         $scope.$watch('currentEndereco', function(currentVal, prevVal) {
           CETLocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
+          $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
         }, true);
       };
 
