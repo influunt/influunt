@@ -371,4 +371,6 @@ angular.module('influuntApp')
       loadAlarmesEFalhas();
 
       $scope.$root.$on('$stateChangeSuccess', registerWatchers);
+
+      $scope.now = new Date();
     }]);
