@@ -219,6 +219,7 @@ var mapProviderObj = function(MAP, $timeout) {
 
     var points = L.LatLng.getLatLng(obj.points);
     points = L.LatLng.orderPoints(points);
+    points = _.compact(points);
     points = L.LatLng.getMiddlePoints(points);
     points = L.LatLng.getBoundingBox(points);
     points = L.LatLng.getHullPoints(points);
