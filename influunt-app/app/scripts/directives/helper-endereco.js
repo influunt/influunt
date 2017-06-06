@@ -62,12 +62,12 @@ angular.module('influuntApp')
           var cacheAnel = null;
           scope.$watch('localizacao', function(val, prevVal) {
             $timeout(function() {
-              if (cacheAnel !== scope.anelId || val && typeof prevVal === 'undefined') {
+              if (!!scope.anelId && cacheAnel !== scope.anelId || !!val && typeof prevVal === 'undefined') {
                 cacheAnel = scope.anelId;
                 var $option = $('<option></option>').val(val).text(val);
                 $(element).append($option).val(val).trigger('change');
               }
-            });
+            }, 1000);
           });
         }
       };
