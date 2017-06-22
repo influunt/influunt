@@ -372,7 +372,9 @@ public class ControladorUtil {
             plano.getEstagiosPlanos().forEach(estagioPlano -> {
                 if (estagioPlano.isDispensavel()) {
                     EstagioPlano epOriginal = estagiosPlanos.get(estagioPlano.getIdJson());
-                    setarEstagioQueRecebeDispensavel(plano, epOriginal);
+                    if (epOriginal.getEstagioQueRecebeEstagioDispensavel() != null) {
+                        setarEstagioQueRecebeDispensavel(plano, epOriginal);
+                    }
                 }
             });
         }));
