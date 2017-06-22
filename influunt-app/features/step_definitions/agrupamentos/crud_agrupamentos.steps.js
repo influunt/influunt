@@ -8,22 +8,12 @@ module.exports = function() {
   var agrupamentosPage = new AgrupamentosPage();
   var objetosComuns = new ObjetosComuns();
 
-  this.Given(/^que exista ao menos um agrupamento cadastrado no sistema$/, function() {
-    return agrupamentosPage.existeAoMenosUmAgrupamento();
+  this.Given(/^o usuário em evento selecionar o valor "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
+    return agrupamentosPage.selecionarValor(valor, select);
   });
 
-  this.Given(/^que este controlador esteja finalizado$/, function() {
-    return agrupamentosPage.controladorConfigurado();
-  });
-
-  this.Given(/^o usuário acessar a tela de listagem de agrupamentos$/, function() {
-    return agrupamentosPage.indexPage();
-  });
-
-  this.Given(/^deve ser exibida uma lista com os agrupamentos já cadastrados no sistema$/, function() {
-    return agrupamentosPage.getItensTabela().then(function(itens) {
-      expect(itens).to.have.length.at.least(4);
-    });
+  this.Given(/^o usuário em evento selecionar o valor plano "([^"]*)" no campo "([^"]*)"$/, function (valor, select) {
+    return agrupamentosPage.selecionarValor(valor, select);
   });
 
   this.Given(/^clicar no botão de Novo Agrupamento$/, function() {
@@ -40,16 +30,8 @@ module.exports = function() {
     return agrupamentosPage.newPage();
   });
 
-  this.Given(/^o usuário selecionar o valor "([^"]*)" no campo Controladores$/, function (valor) {
-    return agrupamentosPage.selecionarControlador(valor);
-  });
-
   this.Given(/^o registro do agrupamento deverá ser salvo com nome igual a "([^"]*)"$/, function(nome) {
     return agrupamentosPage.textoExisteNaTabela(nome);
-  });
-
-  this.Given(/^o sistema deverá retornar à tela de listagem de agrupamentos$/, function() {
-    return agrupamentosPage.isIndex();
   });
 
   this.Given(/^clicar no botão de visualizar um agrupamento$/, function() {
@@ -57,9 +39,7 @@ module.exports = function() {
   });
 
   this.Given(/^o sistema deverá redirecionar para a tela de visualização de agrupamentos$/, function() {
-    return agrupamentosPage.isShow().then(function(resp) {
-      return expect(resp).to.not.be.null;
-    });
+    return agrupamentosPage.isShow();
   });
 
   this.Given(/^clicar no botão de editar um agrupamento$/, function() {
@@ -73,7 +53,6 @@ module.exports = function() {
   });
 
   this.Given(/^o usuário acessar o formulário de edição de agrupamentos$/, function() {
-    agrupamentosPage.indexPage();
     return objetosComuns.clicarLinkComTexto('Editar');
   });
 
@@ -83,7 +62,7 @@ module.exports = function() {
 
   this.Given(/^o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir o agrupamento$/, function() {
     return agrupamentosPage.textoConfirmacaoApagarRegistro().then(function(text) {
-      expect(text).to.equal('Quer mesmo apagar este registro?');
+      expect(text).to.equal('Ao apagar esse registro todos os planos com numeração 1 serão apagados de todos os anéis que fazem parte desse agrupamento.');
     });
   });
 
@@ -93,10 +72,11 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema deve mostrar erro no campo controladores avulsos com a mensagem "([^"]*)"$/, function(msg) {
+    return agrupamentosPage.getErrorMessageInP(msg)
+  });
 
-  this.Given(/^nenhum agrupamento deve ser excluído$/, function() {
-    return agrupamentosPage.nenhumAgrupamentoDeveSerExcluido().then(function(res) {
-      return expect(res).to.be.true;
-    });
+  this.Given(/^o usuário agrupar o controlador "([^"]*)"$/, function(controlador) {
+    return agrupamentosPage.agruparControlador(controlador);
   });
 };

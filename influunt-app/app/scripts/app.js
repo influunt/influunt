@@ -10,6 +10,7 @@
  */
 angular
   .module('influuntApp', [
+    // 'ngRaven',
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -28,12 +29,13 @@ angular
     // API consume.
     'restangular',
 
+    // expiração de sessão por falta de uso.
+    'ngIdle',
+
     // ui
-    'toaster',
     'oitozero.ngSweetAlert',
     'ui.bootstrap',
     'ui.sortable',
-    'google.places',
     '720kb.tooltips',
 
     // template cache engine.
@@ -44,5 +46,8 @@ angular
     'tmh.dynamicLocale',
 
     //DatePicker
-    'datePicker'
+    'datePicker',
+
+    //MorrisChart
+    'angular.morris'
   ]);

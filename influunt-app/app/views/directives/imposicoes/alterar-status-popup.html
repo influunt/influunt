@@ -1,0 +1,26 @@
+<button data-toggle="modal"
+        data-target="#modal-alterar-status"
+        class="btn btn-w-m btn-primary"
+        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
+        {{ 'imporConfig.alterarStatus' | translate }}
+</button>
+
+<div class="modal inmodal" id="modal-alterar-status" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <div class="row text-left">
+          <div class="col-sm-12">
+            <alterar-status
+                aneis-selecionados="aneisSelecionados"
+                ids-transacoes="idsTransacoes"
+                track-transaction="trackTransaction"
+                transacoes="transacoes"
+                dismiss-on-submit="true">
+            </alterar-status>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

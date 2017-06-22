@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface ConformidadeDeNumeroDeDetectoresDePedestre {
 
-    String message() default "Numero total de detectores de pedestre informado individualmente nos aneis excede o limite do controlador";
+    String message() default "Número total de detectores de pedestre informado individualmente nos anéis excede o limite do controlador";
 
     Class<?>[] groups() default {};
 

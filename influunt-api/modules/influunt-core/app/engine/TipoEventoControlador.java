@@ -5,6 +5,8 @@ public enum TipoEventoControlador {
     ALARME,
     DETECTOR_VEICULAR,
     DETECTOR_PEDESTRE,
-    IMPOSICAO_PLANO,
-    TROCA_PLANO;
+    IMPOSICAO,
+    TROCA_PLANO,
+    MODO_MANUAL,
+    REMOCAO_FALHA;
 }

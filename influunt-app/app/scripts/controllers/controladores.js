@@ -30,6 +30,11 @@ angular.module('influuntApp')
         imagensUrl: APP_ROOT + '/imagens'
       };
 
+      var filtroControladoresTestes = {};
+      filtroControladoresTestes[$filter('translate')('controladores.filtroControladoresTestes.exibirTodos')] = null;
+      filtroControladoresTestes[$filter('translate')('controladores.filtroControladoresTestes.exibirSomenteTestes')] = 1;
+      filtroControladoresTestes[$filter('translate')('controladores.filtroControladoresTestes.exibirSomenteReais')] = 0;
+
       $scope.pesquisa = {
         campos: [
           {
@@ -59,6 +64,12 @@ angular.module('influuntApp')
             label: 'controladores.modelo',
             tipo: 'texto'
           },
+          {
+            nome: 'exclusivoParaTeste',
+            label: 'controladores.controladorParaSimulacao',
+            tipo: 'select',
+            options: {'Exibir Todos': null, 'Somente Teste': 1, 'Somente Reais': 0}
+          }
         ]
       };
 
@@ -186,6 +197,10 @@ angular.module('influuntApp')
               toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
             }
 
+            if (angular.isFunction($scope.afterSubmitForm)) {
+              $scope.afterSubmitForm();
+            }
+
             $state.go(nextStep, {id: $scope.objeto.id});
           })
           .catch(function(res) {
@@ -308,6 +323,7 @@ angular.module('influuntApp')
         transicoesToSearchFor.forEach(function(t) {
           var transicao = _.find(transicoesToFindIn, { idJson: t.idJson });
           $scope.currentTabelaOrigensEDestinos[t.idJson] = {
+            transicao: transicao,
             origem: _.find($scope.objeto.estagios, { idJson: transicao.origem.idJson }),
             destino: _.find($scope.objeto.estagios, { idJson: transicao.destino.idJson }),
           };
@@ -483,8 +499,10 @@ angular.module('influuntApp')
                   $scope.index();
                 })
                 .catch(function(err) {
-                  toast.clear();
-                  influuntAlert.alert('Controlador', err.data[0].message);
+                  if (err.status === 422) {
+                    toast.clear();
+                    influuntAlert.alert('Controlador', err.data[0].message);
+                  }
                 })
                 .finally(influuntBlockui.unblock);
             }
@@ -541,13 +559,12 @@ angular.module('influuntApp')
         return _.get($scope.objeto, 'bloqueado');
       };
 
-      $scope.podeAtivar = function(controlador) {
-        return controlador.statusControlador === 'CONFIGURADO' && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
-      };
-
       $scope.podeFinalizar = function(controlador) {
         var statusControladorOk = controlador.statusControladorReal === 'EM_CONFIGURACAO' || controlador.statusControladorReal === 'EDITANDO';
-        return statusControladorOk && controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+        return statusControladorOk &&
+          controlador.controladorConfigurado &&
+          controlador.planoConfigurado &&
+          controlador.tabelaHorariaConfigurado;
       };
 
       $scope.podeMostrarPlanosETabelaHoraria = function(controlador) {
@@ -555,7 +572,16 @@ angular.module('influuntApp')
       };
 
       $scope.podeSimular = function(controlador) {
-        return controlador.controladorConfigurado;
+        return SimulacaoService.podeSimular(controlador);
+      };
+
+      $scope.imprimir = function(controlador) {
+        return Restangular.one('relatorios').withHttpConfig({ responseType: 'arraybuffer' }).customGET("controlador/"+controlador, null)
+          .then(function(res) {
+            var blob = new Blob([res], {type: 'application/pdf'});
+            saveAs(blob, 'controlador.pdf');
+          })
+          .finally(influuntBlockui.unblock);
       };
 
     }]);

@@ -11,7 +11,7 @@ angular.module('influuntApp')
   .controller('LoginCtrl', ['$scope', 'Restangular', '$state', '$filter', 'influuntAlert', 'toast', '$location', 'influuntBlockui', 'PermissionsService',
     function LoginCtrl ($scope, Restangular, $state, $filter, influuntAlert, toast, $location, influuntBlockui, PermissionsService) {
 
-      var getTokenFromLocation, saveUsuario;
+      var getTokenFromLocation;
 
       $scope.credenciais = {};
       $scope.browsersRequired = [{chrome: '51'}];
@@ -25,7 +25,7 @@ angular.module('influuntApp')
 
         Restangular.all('login').post($scope.credenciais)
           .then(function(res) {
-            saveUsuario(res);
+            PermissionsService.setUsuario(res);
             PermissionsService.loadPermissions()
               .then(function() {
                 $state.go('app.main');
@@ -49,7 +49,7 @@ angular.module('influuntApp')
 
         Restangular.all('recuperar_senha').post($scope.credenciais)
           .then(function() {
-            toast.success($filter('translate')('login.recuperar_senha_sucesso'));
+            toast.success($filter('translate')('login.recuperarSenhaSucesso'));
             $state.go('login');
           })
           .catch(function(err) {
@@ -103,13 +103,4 @@ angular.module('influuntApp')
         }
         return token;
       };
-
-      saveUsuario = function(res) {
-        var usuario = _.pick(res, ['id', 'login', 'email', 'root', 'permissoes']);
-        if (res.area) {
-          usuario.area = { idJson: res.area.idJson };
-        }
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-      };
-
     }]);

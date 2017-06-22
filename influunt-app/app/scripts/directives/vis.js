@@ -15,6 +15,7 @@ angular.module('influuntApp')
           grupos: '=',
           estagios: '=',
           onChangeCheckbox: '&',
+          beforeChangeCheckbox: '&?', // deve retornar uma promise
           tempoCiclo: '=',
           comCheckBoxGrupo: '='
         },
@@ -30,16 +31,29 @@ angular.module('influuntApp')
             });
           };
 
-          var bindCheckboxEvents = function() {
-            $('.group-checkbox').on('change', function() {
-              var checkbox = $(this);
-              var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
-              grupo.ativado = checkbox.is(':checked');
+          var handleCheckboxChange = function() {
+            var checkbox = $(this);
+            var grupo = _.find(scope.grupos, {posicao: checkbox.data('posicao')});
+            var grupoAtivado = checkbox.is(':checked');
 
+            // se beforeChangeCheckbox for definido, o checkbox só troca de estado
+            // se a promise retornada por scope.beforeChangeCheckbox for resolvida.
+            if (scope.beforeChangeCheckbox) {
+              checkbox.prop('checked', !grupoAtivado);
+              scope.beforeChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado})
+                .then(function() {
+                  grupo.ativado = grupoAtivado;
+                  scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado});
+                });
+            } else {
+              grupo.ativado = grupoAtivado;
               scope.onChangeCheckbox({grupo: grupo, isAtivo: grupo.ativado});
               scope.$apply();
-            });
+            }
+          };
 
+          var bindCheckboxEvents = function() {
+            $('.group-checkbox').on('change', handleCheckboxChange);
           };
 
           var setData = function(grupos, estagios) {
@@ -64,28 +78,30 @@ angular.module('influuntApp')
 
               var initialState = 0;
               if (grupo.intervalos[0].status === 0) {
+                var duracao = parseInt(grupo.intervalos[0].duracao);
                 items.push({
                   start: 0,
-                  end: grupo.intervalos[0].duracao,
+                  end: duracao,
                   group: groupId,
-                  content: grupo.intervalos[0].duracao + 's',
+                  content: duracao + 's',
                   id: groupId + 'i' + index,
                   className: 'indicacao-' + modoOperacaoService.getCssClass(0),
                   type: 'range'
                 });
               } else {
                 grupo.intervalos.forEach(function(intervalo, index) {
+                  var duracao = parseInt(intervalo.duracao);
                   items.push({
                     start: initialState,
-                    end: initialState + intervalo.duracao,
+                    end: initialState + duracao,
                     group: groupId,
-                    content: intervalo.duracao + 's',
+                    content: duracao + 's',
                     id: groupId + 'i' + index,
                     className: 'indicacao-' + modoOperacaoService.getCssClass(intervalo.status),
                     type: 'range'
                   });
 
-                  initialState += intervalo.duracao;
+                  initialState += duracao;
                 });
               }
             });
@@ -130,7 +146,7 @@ angular.module('influuntApp')
               moveable: false,
               zoomable: false,
               type: 'range',
-              start: 1,
+              start: 0,
               end: parseInt(scope.tempoCiclo)
             };
             timeline.setOptions(options);

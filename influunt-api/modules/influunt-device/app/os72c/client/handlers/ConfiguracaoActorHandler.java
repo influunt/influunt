@@ -4,6 +4,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import models.Controlador;
+import models.StatusAnel;
 import models.StatusDevice;
 import os72c.client.storage.Storage;
 import os72c.client.utils.AtoresDevice;
@@ -18,7 +19,7 @@ public class ConfiguracaoActorHandler extends UntypedActor {
 
     private final String idControlador;
 
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
     public ConfiguracaoActorHandler(String idControlador, Storage storage) {
         this.idControlador = idControlador;
@@ -29,32 +30,36 @@ public class ConfiguracaoActorHandler extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Envelope) {
             Envelope envelope = (Envelope) message;
-            if (envelope.getTipoMensagem().equals(TipoMensagem.CONFIGURACAO)) {
-                if (envelope.getEmResposta() == null) {
-                    log.info("Mensagem de configuração errada: {}", envelope.getConteudo().toString());
-                } else {
-                    log.info("Central respondeu a configuração: {}", envelope.getConteudo().toString());
+            if (TipoMensagem.CONFIGURACAO.equals(envelope.getTipoMensagem())) {
+                if (envelope.getEmResposta() != null) {
                     Envelope envelopeSinal;
-                    Envelope envelopeStatus;
+                    Envelope envelopeStatus = null;
                     Controlador controlador = Controlador.isValido(envelope.getConteudo());
                     if (controlador != null) {
                         storage.setControlador(controlador);
                         storage.setStatus(StatusDevice.CONFIGURADO);
-                        log.info("Responder OK para Central: {}", envelope.getConteudo().toString());
-                        envelopeSinal = Sinal.getMensagem(TipoMensagem.OK, idControlador, DestinoCentral.pedidoConfiguracao());
+                        controlador.getAneisAtivos().stream().forEach(anel -> storage.setStatusAnel(anel.getPosicao(), StatusAnel.NORMAL));
+
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_OK, idControlador, DestinoCentral.pedidoConfiguracao());
+                        envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus(), storage.getStatusAneis());
                     } else {
-                        log.info("Responder ERRO para Central: {}", envelope.getConteudo().toString());
-                        envelopeSinal = Sinal.getMensagem(TipoMensagem.ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
+                        envelopeSinal = Sinal.getMensagem(TipoMensagem.CONFIGURACAO_ERRO, idControlador, DestinoCentral.pedidoConfiguracao());
                     }
                     envelopeSinal.setEmResposta(envelope.getIdMensagem());
-                    envelopeStatus = MudancaStatusControlador.getMensagem(idControlador, storage.getStatus());
+
                     getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeSinal, getSelf());
-                    getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
+                    if (envelopeStatus != null) {
+                        getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(envelopeStatus, getSelf());
+                    }
+
+                    //Se controlador completo, avisa o motor para colocar o controlador no ar
+                    if (storage.getControlador() != null && storage.getControlador().isCompletoDevice()) {
+                        getContext().actorSelection(AtoresDevice.motor(idControlador)).tell(envelopeSinal, getSelf());
+                    }
                 }
             }
         } else if (message instanceof String) {
             if (message.toString().equals("VERIFICA")) {
-                log.info("Solicita configuração a central: {}", sender());
                 getContext().actorSelection(AtoresDevice.mqttActorPath(idControlador)).tell(Sinal.getMensagem(TipoMensagem.CONFIGURACAO_INICIAL, idControlador, "central/configuracao"), getSelf());
             }
         }

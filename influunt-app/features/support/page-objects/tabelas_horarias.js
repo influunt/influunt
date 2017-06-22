@@ -20,6 +20,17 @@ var TabelasHorariasPage = function () {
     return world.waitForByXpath('//ng-include[contains(@src, "views/tabela_horarios/tabs-eventos.html")]');
   };
 
+  this.checkErroMensagem = function(msg) {
+    return world.waitForByXpath('//li[contains(text(), "'+msg+'")]');
+  };
+
+  this.mudarEvento = function(evento) {
+    var xpath = ('//li[contains(@aria-selected, "false")]//a[contains(text(), "Eventos '+evento+'")]');
+    return world.waitForOverlayDisappear().then(function (){
+      return world.getElementByXpath(xpath).click();
+    });
+  };
+
   this.selecionarValor = function(valor, select) {
     return world.waitForOverlayDisappear().then(function (){
       return world.selectByOptionAtribute(eventoAdd, selects[select], 'value', valor);
@@ -30,8 +41,13 @@ var TabelasHorariasPage = function () {
     return world.waitForByXpath('//tr[contains(@data-ng-repeat, "evento")]//span[contains(@class, "badge")]');
   };
 
-  this.contagemNaAba = function(valor){
-    return world.waitForByXpath('//a[text()="Eventos"]//span[text()="'+valor+'"]');
+  this.preencherDescricaoEvento = function(campo, valor) {
+    world.sleep(300);
+    return world.setValue('[name="'+campo+'"]', valor);
+  };
+
+  this.contagemNaAba = function(aba, valor){
+    return world.waitForByXpath('//a[text()="'+aba+'"]//span[text()="'+valor+'"]');
   };
 
   this.removerEvento = function(){

@@ -11,8 +11,9 @@ angular.module('influuntApp')
   .factory('planoService', ['validaTransicao', 'modoOperacaoService', 'geraDadosDiagramaIntervalo', 'PermissionsService',
     function planoService(validaTransicao, modoOperacaoService, geraDadosDiagramaIntervalo, PermissionsService) {
 
-      var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, adicionar,
-          verdeMinimoDoEstagio, setDiagramaEstatico, podeEditarControlador;
+      var criarPlano, associarEstagios, associarGruposSemaforicos, criarPlanoManualExclusivo, criarPlanoExclusivoTemporario, adicionar,
+          verdeMinimoDoEstagio, setDiagramaEstatico, podeEditarControlador, getGruposNaoAssociados,
+          isGrupoDemandaPrioritaria, isGrupoNemAssociadoNemDemandaPrioritaria;
 
       verdeMinimoDoEstagio = function(controlador, verdeMin, estagio) {
         var tempoMax = verdeMin;
@@ -49,9 +50,20 @@ angular.module('influuntApp')
         delete plano.cicloMin;
       };
 
+      criarPlanoExclusivoTemporario = function(controlador, anel) {
+        var plano = _.find(controlador.planos, {posicao: (controlador.limitePlanos + 1), anel: {idJson: anel.idJson}});
+        if (plano) {
+          plano.configurado = true;
+        } else {
+          plano = criarPlano(controlador, anel, controlador.limitePlanos + 1, 'Plano temporário');
+        }
+        plano.planoTemporario = true;
+        delete plano.cicloMin;
+      };
+
       criarPlano = function(controlador, anel, posicao, descricao, modoOperacao) {
         descricao = descricao || 'PLANO ' + posicao ;
-        modoOperacao = modoOperacao || 'TEMPO_FIXO_ISOLADO';
+        modoOperacao = modoOperacao || 'TEMPO_FIXO_COORDENADO';
         var plano = {
           idJson: UUID.generate(),
           anel: { idJson: anel.idJson },
@@ -108,6 +120,7 @@ angular.module('influuntApp')
         controlador.estagiosPlanos = controlador.estagiosPlanos || [];
         anel.estagios.forEach(function (e){
           var estagio =  _.find(controlador.estagios, {idJson: e.idJson});
+
           if(!estagio.demandaPrioritaria){
             var estagioPlano = {
               idJson: UUID.generate(),
@@ -122,8 +135,13 @@ angular.module('influuntApp')
               dispensavel: false
             };
 
+            controlador.estagiosPlanos = controlador.estagiosPlanos || [];
+            plano.estagiosPlanos = plano.estagiosPlanos || [];
+            estagio.estagiosPlanos = estagio.estagiosPlanos || [];
+
             controlador.estagiosPlanos.push(estagioPlano);
             plano.estagiosPlanos.push({idJson: estagioPlano.idJson});
+            estagio.estagiosPlanos.push({idJson: estagioPlano.idJson});
           }
         });
 
@@ -191,7 +209,7 @@ angular.module('influuntApp')
         var currentEstagiosPlanos = _
           .chain(controlador.estagiosPlanos)
           .filter(function(ep) {
-            return ids.indexOf(ep.idJson) >= 0;
+            return !ep.destroy && ids.indexOf(ep.idJson) >= 0;
           })
           .orderBy('posicao')
           .value();
@@ -238,14 +256,20 @@ angular.module('influuntApp')
           dadosDiagrama = {
             erros: _.chain(transicoesProibidas).map('mensagem').uniq().value()
           };
-        } else if (['INTERMITENTE', 'APAGADO', 'ATUADO', 'MANUAL'].indexOf(plano.modoOperacao) < 0) {
+        } else if (plano && ['INTERMITENTE', 'APAGADO', 'ATUADO', 'MANUAL'].indexOf(plano.modoOperacao) < 0) {
           var fakenPlano = getPlanoParaDiagrama(plano, anel, currentGruposSemaforicos, controlador);
           var diagramaBuilder = new influunt.components.DiagramaIntervalos(fakenPlano, valoresMinimos);
           var result = diagramaBuilder.calcula();
 
+          if (!plano) {
+            return false;
+          }
+
           var estagiosPlanos = _.chain(controlador.estagiosPlanos)
-            .filter(function(ep) { return ep.plano.idJson === plano.idJson; })
-            .orderBy(['posicao'])
+            .filter(function(ep) {
+              return !ep.destroy && ep.plano.idJson === plano.idJson;
+            })
+            .orderBy('posicao')
             .value();
 
           _.each(result.estagios, function(e, i) {
@@ -254,24 +278,33 @@ angular.module('influuntApp')
           });
 
           var gruposSemaforicos = _.chain(controlador.gruposSemaforicos)
-            .filter(function(gs) { return gs.anel.idJson === anel.idJson; })
-            .orderBy(['posicao'])
+            .filter({ anel: { idJson: anel.idJson } })
+            .orderBy('posicao')
             .value();
 
           _.each(result.gruposSemaforicos, function(g) {
             var grupo = gruposSemaforicos[g.posicao-1];
             var grupoPlano = _.find(fakenPlano.gruposSemaforicosPlanos, {grupoSemaforico: {idJson: grupo.idJson}, plano: {idJson: fakenPlano.idJson}});
+            var nemAssociadoNemDemandaPrioritaria = isGrupoNemAssociadoNemDemandaPrioritaria(controlador, anel, fakenPlano, grupo);
+
+            if (nemAssociadoNemDemandaPrioritaria) {
+              grupoPlano.ativado = false;
+              var grupoSemaforicoPlano = _.find(controlador.gruposSemaforicosPlanos, {idJson: grupoPlano.idJson});
+              grupoSemaforicoPlano.ativado = false;
+            }
+
             g.ativado = grupoPlano.ativado;
+
             if(!g.ativado){
               g.intervalos.unshift({
-                status: modoOperacaoService.getModoIdByName('APAGADO'),
+                status: modoOperacaoService.get('APAGADO'),
                 duracao: fakenPlano.tempoCiclo || controlador.cicloMax
               });
             }
           });
 
           dadosDiagrama = result;
-        } else {
+        } else if(plano) {
           dadosDiagrama = setDiagramaEstatico(controlador, plano, anel);
         }
 
@@ -288,8 +321,8 @@ angular.module('influuntApp')
        * nenhum destes, deverá utilizar o diagrama produzido a partir do plugin de diagrama.
        */
       setDiagramaEstatico = function(controlador, plano, anel) {
-        var modo = modoOperacaoService.getModoIdByName(plano.modoOperacao);
-        var modoApagado = modoOperacaoService.getModoIdByName('APAGADO');
+        var modo = modoOperacaoService.get(plano.modoOperacao);
+        var modoApagado = modoOperacaoService.get('APAGADO');
         var grupos = _.map(anel.gruposSemaforicos, function(g) {
           var grupo = _.find(controlador.gruposSemaforicos, {idJson: g.idJson});
           return {
@@ -298,7 +331,7 @@ angular.module('influuntApp')
             labelPosicao: 'G' + grupo.posicao,
             intervalos: [{
               status: grupo.tipo === 'VEICULAR' ? modo : modoApagado,
-              duracao: plano.tempoCiclo || controlador.cicloMax
+              duracao: controlador.cicloMax
             }]
           };
         });
@@ -313,8 +346,8 @@ angular.module('influuntApp')
 
       montaTabelaValoresMinimos = function(controlador) {
         return {
-          verdeMin: controlador.verdeMin,
-          verdeMinimoMin: controlador.verdeMinimoMin
+          verdeMin: parseInt(controlador.verdeMin),
+          verdeMinimoMin: parseInt(controlador.verdeMinimoMin)
         };
       };
 
@@ -328,11 +361,63 @@ angular.module('influuntApp')
         return false;
       };
 
+
+      getGruposNaoAssociados = function(controlador, anel, plano) {
+        var estagiosIdJson = _.chain(controlador.estagios)
+                              .filter({ anel: { idJson: anel.idJson } })
+                              .map('idJson')
+                              .value();
+        var estagiosAssociadosIdJson = _.chain(controlador.estagiosPlanos)
+                                        .filter(function(ep) { return !ep.destroy && estagiosIdJson.indexOf(ep.estagio.idJson) > -1 && ep.plano.idJson === plano.idJson; })
+                                        .map('estagio.idJson')
+                                        .value();
+
+        var gruposSemaforicos = _.filter(controlador.gruposSemaforicos, { anel: { idJson: anel.idJson } });
+        var gruposNaoAssociados = [];
+        _.each(gruposSemaforicos, function(gs) {
+          var isGrupoNaoAssociado = _
+            .chain(controlador.estagiosGruposSemaforicos)
+            .filter(function(egs) { return egs.grupoSemaforico.idJson === gs.idJson && estagiosAssociadosIdJson.indexOf(egs.estagio.idJson) > -1; })
+            .value().length === 0;
+
+          if (isGrupoNaoAssociado) {
+            gruposNaoAssociados.push(gs.idJson);
+          }
+        });
+
+        return gruposNaoAssociados;
+      };
+
+      isGrupoDemandaPrioritaria = function(controlador, grupoSemaforico) {
+        var estagios = _.chain(controlador.estagiosGruposSemaforicos)
+                        .filter({ grupoSemaforico: { idJson: grupoSemaforico.idJson } })
+                        .map('estagio.idJson')
+                        .value();
+        return _.find(controlador.estagios, function(e) { return e.demandaPrioritaria && estagios.indexOf(e.idJson) > -1; });
+      };
+
+      /*
+       * Retorna true se:
+       *   - o grupo semafórico não estiver associado a um estágio
+       *      de demanda prioritária
+       *   - nenhum estágio associado ao grupo semafórico estiver associado à
+       *     sequência de estágios do plano.
+       */
+      isGrupoNemAssociadoNemDemandaPrioritaria = function(controlador, anel, plano, grupoSemaforico) {
+        var isDemandaPrioritaria = isGrupoDemandaPrioritaria(controlador, grupoSemaforico);
+        if (!isDemandaPrioritaria) {
+          var gruposNaoAssociados = getGruposNaoAssociados(controlador, anel, plano);
+          var isGrupoNaoAssociado = gruposNaoAssociados.indexOf(grupoSemaforico.idJson) > -1;
+          return isGrupoNaoAssociado;
+        }
+        return false;
+      };
+
       return {
         adicionar: adicionar,
         verdeMinimoDoEstagio: verdeMinimoDoEstagio,
         criarPlanoManualExclusivo: criarPlanoManualExclusivo,
-
+        criarPlanoExclusivoTemporario: criarPlanoExclusivoTemporario,
         atualizaPlanos: atualizaPlanos,
         atualizaGruposSemaforicos: atualizaGruposSemaforicos,
         atualizaEstagios: atualizaEstagios,
@@ -342,6 +427,7 @@ angular.module('influuntApp')
         atualizaTransicoesProibidas: atualizaTransicoesProibidas,
         atualizaDiagramaIntervalos: atualizaDiagramaIntervalos,
         montaTabelaValoresMinimos: montaTabelaValoresMinimos,
-        podeEditarControlador: podeEditarControlador
+        podeEditarControlador: podeEditarControlador,
+        isGrupoNemAssociadoNemDemandaPrioritaria: isGrupoNemAssociadoNemDemandaPrioritaria
       };
     }]);

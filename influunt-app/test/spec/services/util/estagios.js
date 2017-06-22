@@ -25,6 +25,11 @@ describe('Service: utilEstagios', function () {
       expect(result).toBe(null);
     });
 
+    it('Não deverá retornar o primeiro elemento se o estágio atual for o ultimo e o array não for cíclico', function() {
+      var result = utilEstagios.getProximoEstagio(lista, lista.length - 1, false);
+      expect(result).not.toBeDefined();
+    });
+
     it('Deve retornar null se for pesquisado um indice menor que 0', function() {
       var result = utilEstagios.getProximoEstagio(lista, -1);
       expect(result).toBe(null);
@@ -42,6 +47,11 @@ describe('Service: utilEstagios', function () {
       expect(result).toBe(lista[4]);
     });
 
+    it('Não deverá retornar o ultimo elemento se o estágio atual for o primeiro e o array não for cíclico', function() {
+      var result = utilEstagios.getEstagioAnterior(lista, 0, false);
+      expect(result).not.toBeDefined();
+    });
+
     it('Deve retornar null se for pesquisado um indice maior que o tamanho do array', function() {
       var result = utilEstagios.getEstagioAnterior(lista, 100);
       expect(result).toBe(null);
@@ -51,7 +61,5 @@ describe('Service: utilEstagios', function () {
       var result = utilEstagios.getEstagioAnterior(lista, -1);
       expect(result).toBe(null);
     });
-
   });
-
 });

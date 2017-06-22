@@ -211,7 +211,7 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVermelhoIntermitenteMin(3);
         valores.setTempoVermelhoIntermitenteMax(32);
         valores.setTempoVermelhoLimpezaVeicularMin(0);
-        valores.setTempoVermelhoLimpezaVeicularMax(7);
+        valores.setTempoVermelhoLimpezaVeicularMax(20);
         valores.setTempoVermelhoLimpezaPedestreMin(0);
         valores.setTempoVermelhoLimpezaPedestreMax(5);
         valores.setTempoAtrasoGrupoMin(0);
@@ -220,7 +220,7 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVerdeSegurancaVeicularMax(30);
         valores.setTempoVerdeSegurancaPedestreMin(4);
         valores.setTempoVerdeSegurancaPedestreMax(10);
-        valores.setTempoMaximoPermanenciaEstagioMin(60);
+        valores.setTempoMaximoPermanenciaEstagioMin(20);
         valores.setTempoMaximoPermanenciaEstagioMax(255);
         valores.setDefaultTempoMaximoPermanenciaEstagioVeicular(127);
         valores.setTempoCicloMin(30);
@@ -236,9 +236,9 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVerdeMin(1);
         valores.setTempoVerdeMax(255);
         valores.setTempoAusenciaDeteccaoMin(0);
-        valores.setTempoAusenciaDeteccaoMax(4320);
+        valores.setTempoAusenciaDeteccaoMax(5800);
         valores.setTempoDeteccaoPermanenteMin(0);
-        valores.setTempoDeteccaoPermanenteMax(1440);
+        valores.setTempoDeteccaoPermanenteMax(10);
         return valores;
     }
 

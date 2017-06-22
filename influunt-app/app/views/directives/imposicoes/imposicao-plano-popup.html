@@ -1,0 +1,23 @@
+<button data-toggle="modal"
+        data-target="#modal-impor-plano"
+        class="btn btn-w-m btn-primary"
+        data-ng-disabled="!(aneisSelecionados && aneisSelecionados.length > 0)">
+        {{ 'imporConfig.plano.titulo' | translate }}
+</button>
+
+<!-- modal  -->
+<div class="modal inmodal" id="modal-impor-plano" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-body">
+        <imposicao-plano
+            aneis-selecionados="aneisSelecionados"
+            ids-transacoes="idsTransacoes"
+            track-transaction="trackTransaction"
+            transacoes="transacoes"
+            dismiss-on-submit="true">
+        </imposicao-plano>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,10 +5,11 @@ describe('Controller: PerfisCtrl', function () {
   var PerfisCtrl,
     scope,
     $httpBackend,
-    $state;
+    $state,
+    $q;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _$state_) {
+  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _$state_, _$q_) {
     scope = $rootScope.$new();
     PerfisCtrl = $controller('PerfisCtrl', {
       $scope: scope
@@ -17,6 +18,8 @@ describe('Controller: PerfisCtrl', function () {
 
     $httpBackend = _$httpBackend_;
     $state = _$state_;
+    $q = _$q_;
+
   }));
 
   it('Deve conter as definições das funções de CRUD', function() {
@@ -65,4 +68,12 @@ describe('Controller: PerfisCtrl', function () {
     expect(_.map(scope.objeto.permissoes, 'id')).toContain('4');
   });
 
+  it('Deve atualizar as permissões do usuário logado ao editar as permisões de um perfil', function() {
+    var usuario = { id: '1234', nome: 'teste', login: 'teste', permissoes: [] };
+    scope.objeto = { id: 1, save: function() { return $q.resolve(); } };
+    localStorage.usuario = JSON.stringify(usuario);
+    $httpBackend.expectGET('/usuarios/1234').respond(usuario);
+    scope.save();
+    $httpBackend.flush();
+  });
 });

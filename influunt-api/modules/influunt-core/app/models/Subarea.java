@@ -19,10 +19,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entidade que representa um {@link Subarea} no sistema
@@ -72,6 +69,9 @@ public class Subarea extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @Transient
+    private Map<String, Integer> tempoCiclo = new HashMap<>();
 
     public Subarea() {
         super();
@@ -142,17 +142,43 @@ public class Subarea extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public Map<String, Integer> tempoCicloDaRede(Controlador controlador) {
+        Controlador controladorBase = this.getControladores()
+            .stream().filter(c -> !c.equals(controlador))
+            .findFirst().orElse(null);
+
+        Map<String, Integer> tempos = new HashMap<>();
+        if (controladorBase != null) {
+            controladorBase.getAneis()
+                .stream().map(Anel::getPlanos)
+                .flatMap(Collection::stream)
+                .filter(Plano::isTempoFixoCoordenado)
+                .forEach(plano -> {
+                    tempos.put(plano.getPosicao().toString(), plano.getTempoCicloTotal());
+                });
+        }
+        return tempos;
+    }
+
+    public Map<String, Integer> getTempoCiclo() {
+        return tempoCiclo;
+    }
+
+    public void setTempoCiclo(HashMap<String, Integer> tempoCiclo) {
+        this.tempoCiclo = tempoCiclo;
+    }
+
     public void addControlador(Controlador controlador) {
         if (this.getControladores() == null) {
-            this.setControladores(new ArrayList<Controlador>());
+            this.setControladores(new ArrayList<>());
         }
         this.getControladores().add(controlador);
     }
 
     @AssertTrue(groups = SubareasCheck.class,
-            message = "Já existe uma Subarea cadastrada com esse número.")
+        message = "Já existe uma subárea cadastrada com esse número.")
     public boolean isNumeroUnique() {
-        if (Objects.nonNull(getNumero())) {
+        if (Objects.nonNull(getNumero()) && getArea() != null) {
             Subarea subareaAux = Subarea.find.where().eq("area_id", getArea().getId().toString()).ieq("numero", getNumero().toString()).findUnique();
 
             return subareaAux == null || (this.getId() != null && subareaAux.getId().equals(this.getId()));
@@ -161,9 +187,9 @@ public class Subarea extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = SubareasCheck.class,
-            message = "Já existe uma Subarea cadastrada com esse nome.")
+        message = "Já existe uma subárea cadastrada com esse nome.")
     public boolean isNomeUnique() {
-        if (Objects.nonNull(getNome())) {
+        if (Objects.nonNull(getNome()) && getArea() != null) {
             Subarea subareaAux = Subarea.find.where().eq("area_id", getArea().getId().toString()).ieq("nome", getNome().toString()).findUnique();
 
             return subareaAux == null || (this.getId() != null && subareaAux.getId().equals(this.getId()));
@@ -174,5 +200,9 @@ public class Subarea extends Model implements Cloneable, Serializable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String toString() {
+        return this.getNumero() + " - " + this.getNome();
     }
 }

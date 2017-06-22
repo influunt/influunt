@@ -71,7 +71,7 @@ describe('Controller: ControladoresCtrl', function () {
       });
     });
 
-    describe('controaldor em edição', function () {
+    describe('controlador em edição', function () {
       var helpers, id, objeto;
       beforeEach(inject(function($state) {
         id = 'id';
@@ -132,7 +132,7 @@ describe('Controller: ControladoresCtrl', function () {
     });
 
     it('Deve retornar a localização do anel selecionado', function() {
-      expect(scope.currentAnel.localizacao).toBe("Av Paulista com Av Pedro I");
+      expect(scope.currentAnel.localizacao).toBe("Av Paulista x Av Pedro I");
     });
   });
 

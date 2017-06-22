@@ -1,5 +1,7 @@
 package protocol;
 
+import org.fusesource.mqtt.client.QoS;
+
 /**
  * Created by rodrigosol on 9/6/16.
  */
@@ -11,7 +13,12 @@ public class ControladorOffline {
     }
 
     public static Envelope getMensagem(String idControlador) {
-        return new Envelope(TipoMensagem.CONTROLADOR_OFFLINE, idControlador, "controladores/conn/offline", 1, null, null);
+        return new Envelope(TipoMensagem.CONTROLADOR_OFFLINE,
+            idControlador,
+            DestinoControlador.offline(),
+            QoS.AT_LEAST_ONCE,
+            null,
+            null);
     }
 
 }

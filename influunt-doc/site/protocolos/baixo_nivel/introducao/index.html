@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Protocolo de Baixo Nível - Influunt Documentação</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Influunt Documentação">
+    <meta property="og:image" content="None/../../../">
+    <meta name="apple-mobile-web-app-title" content="Influunt Documentação">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../../assets/fonts/icon.eot?52m981');
+      	src: url('../../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="../../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Protocolos <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Protocolo de Baixo Nível
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Influunt Documentação
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Introdução" href="../../..">
+      Introdução
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Comunicação</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Introdução" href="../../../comunicacao/introducao/">
+      Introdução
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Envelope" href="../../../comunicacao/envelope/">
+      Envelope
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Mensagens" href="../../../comunicacao/mensagens/">
+      Mensagens
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Segurança" href="../../../comunicacao/seguranca/">
+      Segurança
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Compactação de Dados" href="../../../comunicacao/gzip/">
+      Compactação de Dados
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Protocolos</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Protocolo de Alto Nível" href="../../alto_nivel/introducao/">
+      Protocolo de Alto Nível
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Conectividade" href="../../alto_nivel/conectividade/">
+      Conectividade
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Ciclo de Vida" href="../../alto_nivel/ciclo_vida/">
+      Ciclo de Vida
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Configuração do Controlador" href="../../alto_nivel/configuracao/">
+      Configuração do Controlador
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Transações" href="../../alto_nivel/transacoes/">
+      Transações
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Alertas e Falhas" href="../../alto_nivel/alertas_e_falhas/">
+      Alertas e Falhas
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Mudança de Status" href="../../alto_nivel/mudanca_de_status/">
+      Mudança de Status
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troca de Planos" href="../../alto_nivel/troca_de_planos/">
+      Troca de Planos
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Ler Dados" href="../../alto_nivel/ler_dados/">
+      Ler Dados
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Info" href="../../alto_nivel/info/">
+      Info
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Protocolo de Baixo Nível" href="./">
+      Protocolo de Baixo Nível
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Mensagem" href="#mensagem">
+                Mensagem
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Log</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Especificação" href="../../../log/especificacao/">
+      Especificação
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="introducao">Introdução</h1>
+<p>O protocolo de baixo nível especifica um protocolo serial para controladores que utilizem o 72c. Esse protocolo constitui uma série de mensagens binárias que são enviadas do 72c para o hardware ou do hardware para o 72c. As mensagens são empacotadas de forma padrão na estrutura chamada Mensagem e são transmitidas em formato binário.</p>
+<h2 id="mensagem">Mensagem</h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>3 bytes</td>
+<td>&lt;I></td>
+</tr>
+<tr>
+<td>Tamanho</td>
+<td>8 bits</td>
+<td>Tamanho em bytes da mensagem que está sendo enviada</td>
+</tr>
+<tr>
+<td>Tipo de Mensagem</td>
+<td>8 bits</td>
+<td>Descreve o tipo de mensagem que está sendo enviada conforme a tabela de tipo de mensagem</td>
+</tr>
+<tr>
+<td>Sequencia</td>
+<td>16 bits</td>
+<td>Número sequência da mensagem. Deve ser incrementado a cada nova mensagem enviada</td>
+</tr>
+<tr>
+<td>Mensagem</td>
+<td>Variável</td>
+<td>Conteúdo da mensagem que está sendo enviada</td>
+</tr>
+<tr>
+<td>Checksum</td>
+<td>8 bits</td>
+<td><em>Checksum</em> de toda a mensagem utilizando o algorítmo <em>LRC</em></td>
+</tr>
+<tr>
+<td>Trailler</td>
+<td>3 bytes</td>
+<td>&lt;F></td>
+</tr>
+</tbody>
+</table>
+<p>O conteúdo entre o Header e Trailler deve ser convertido para um <em>String</em> representando cada byte em Hexadecimal com duas casas, no caso de um caracter inserir zero a esquerda. </p>
+<h3 id="mensagem-de-inicio">Mensagem de Início</h3>
+<p>O 72c envia a mensagem de início ao hardware para informar que está pronto para começar o envio de estágios.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anel G1</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G1</td>
+</tr>
+<tr>
+<td>Anel G2</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G2</td>
+</tr>
+<tr>
+<td>Anel G3</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G3</td>
+</tr>
+<tr>
+<td>Anel G4</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G4</td>
+</tr>
+<tr>
+<td>Anel G5</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G5</td>
+</tr>
+<tr>
+<td>Anel G6</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G6</td>
+</tr>
+<tr>
+<td>Anel G7</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G7</td>
+</tr>
+<tr>
+<td>Anel G8</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G8</td>
+</tr>
+<tr>
+<td>Anel G9</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G9</td>
+</tr>
+<tr>
+<td>Anel G10</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G10</td>
+</tr>
+<tr>
+<td>Anel G11</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G11</td>
+</tr>
+<tr>
+<td>Anel G12</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G12</td>
+</tr>
+<tr>
+<td>Anel G13</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G13</td>
+</tr>
+<tr>
+<td>Anel G14</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G14</td>
+</tr>
+<tr>
+<td>Anel G15</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G15</td>
+</tr>
+<tr>
+<td>Anel G16</td>
+<td>4 bits</td>
+<td>Indica a qual anel pertence o grupo semafórico G16</td>
+</tr>
+</tbody>
+</table>
+<p>O hardware deve responder a mensagem de início com à mensagem de retorno OK e uma mensagem de INFO.</p>
+<h3 id="estagio">Estágio</h3>
+<p>O 72c informa a configuração dos grupos semafóricos de um determinado anel. Essa configuração deve ser seguida pelo hardware até que uma nova configuração seja enviada.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flag 1</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Flag 2</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Flag 3</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Quantidade de Grupos Semafóricos</td>
+<td>5 bits</td>
+<td>Quantidade de grupos semafóricos que fazem parte dessa configuração de estágio</td>
+</tr>
+<tr>
+<td>Configuração do Grupo Semafórico</td>
+<td>14 bytes por grupo semafórico</td>
+<td>Configuração dos tempos de cada grupo semafórico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grupo-semaforico">Grupo semafórico</h3>
+<p>Descreve como um grupo semafórico deve se comportar nesse estágio:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reservado</td>
+<td>4 bits</td>
+<td>Reservado</td>
+</tr>
+<tr>
+<td>Flag pedestre/veicular</td>
+<td>1 bit</td>
+<td>Se diferente de 0, então esse é um grupo semafórico de pedestre</td>
+</tr>
+<tr>
+<td>Flag composição dos tempos</td>
+<td>3 bits</td>
+<td>Ver tabela de flag composição dos tempos</td>
+</tr>
+<tr>
+<td>Grupo</td>
+<td>8 bits</td>
+<td>Número do grupo semafórico</td>
+</tr>
+<tr>
+<td>Tempo De Atraso de Grupo ou Entreverde</td>
+<td>24 bits</td>
+<td>Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito de passagem.</td>
+</tr>
+<tr>
+<td>Tempo Amarelo</td>
+<td>24 bits</td>
+<td>Tempo de amarelo para veicular ou vermelho intermitente para pedestre</td>
+</tr>
+<tr>
+<td>Tempo Vermelho Limpeza</td>
+<td>24 bits</td>
+<td>Tempo de vermelho de limpeza</td>
+</tr>
+<tr>
+<td>Tempo do Estágio</td>
+<td>24 bits</td>
+<td>Verde para quem tem direito de passagem e vermelho para quem não tem.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="info">Info</h3>
+<p>Obtém do hardware qual é o fabricante, o modelo e a versão do firmware.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fabricante</td>
+<td>Livre</td>
+<td>String com o nome do fabricante, seguida pela caractere ";". Em formato ASCII convertida para HEX</td>
+</tr>
+<tr>
+<td>Modelo</td>
+<td>Livre</td>
+<td>String com o modelo do equipamento, seguida pela caractere ";". Em formato ASCII convertida para HEX</td>
+</tr>
+<tr>
+<td>Fabricante</td>
+<td>Livre</td>
+<td>String com o versão do firmware do equipamento. Em formato ASCII convertida para HEX</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reservado</td>
+<td>4 bits</td>
+<td>Reservado</td>
+</tr>
+<tr>
+<td>Flag pedestre/veicular</td>
+<td>1 bit</td>
+<td>Se verdadeiro, esse é um grupo semafórico de pedestre</td>
+</tr>
+<tr>
+<td>Flag composição dos tempos</td>
+<td>3 bits</td>
+<td>Ver tabela de flag composição dos tempos</td>
+</tr>
+<tr>
+<td>Grupo</td>
+<td>8 bits</td>
+<td>Número do grupo semafórico</td>
+</tr>
+<tr>
+<td>Tempo De Atraso de Grupo ou Entreverde</td>
+<td>24 bits</td>
+<td>Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.</td>
+</tr>
+<tr>
+<td>Tempo Amarelo</td>
+<td>24 bits</td>
+<td>Tempo de amarelo para veicular ou vermelho intermitente para pedestre</td>
+</tr>
+<tr>
+<td>Tempo Vermelho Limpeza</td>
+<td>24 bits</td>
+<td>Tempo de vermelho de limpeza</td>
+</tr>
+<tr>
+<td>Tempo do Estágio</td>
+<td>24 bits</td>
+<td>Verde para quem tem direito de passagem e vermelho para quem não tem.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="flag-de-composicao-de-tempo">Flag de composição de tempo</h4>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>O grupo semafórico estará desligado durante o tempo de estágio</td>
+</tr>
+<tr>
+<td>1</td>
+<td>O grupo semafórico estará verde durante o tempo de estágio</td>
+</tr>
+<tr>
+<td>2</td>
+<td>O grupo semafórico estará vermelho durante o tempo de estágio</td>
+</tr>
+<tr>
+<td>3</td>
+<td>O grupo semafórico estará em amarelo intermitente para veícular ou desligado para pedestre durante o tempo de estágio</td>
+</tr>
+<tr>
+<td>4</td>
+<td>O grupo semafórico está executando à sequencia de partida</td>
+</tr>
+</tbody>
+</table>
+<h3 id="detector">Detector</h3>
+<p>O hardware informa ao 72c que um detector foi acionado.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flag 1</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Flag 2</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Flag 3</td>
+<td>1 bit</td>
+<td>Verdadeiro, se o detector for de pedestre</td>
+</tr>
+<tr>
+<td>Posição</td>
+<td>5 bits</td>
+<td>Posição do grupo semafórico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="falha-anel">Falha Anel</h3>
+<p>O hardware informa ao 72c uma falha em um anel</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anel</td>
+<td>8 bits</td>
+<td>Número do anel</td>
+</tr>
+<tr>
+<td>Código da falha</td>
+<td>8 bits</td>
+<td>Código da falha</td>
+</tr>
+</tbody>
+</table>
+<h3 id="falha-anel_1">Falha Anel</h3>
+<p>O hardware informa ao 72c uma falha em um grupo semafórico</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>grupo</td>
+<td>8 bits</td>
+<td>Número do grupo semafórico</td>
+</tr>
+<tr>
+<td>Código da falha</td>
+<td>8 bits</td>
+<td>Código da falha</td>
+</tr>
+</tbody>
+</table>
+<h3 id="falha-generica">Falha Genérica</h3>
+<p>O hardware informa ao 72c uma falha genérica</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código da falha</td>
+<td>8 bits</td>
+<td>Código da falha</td>
+</tr>
+</tbody>
+</table>
+<h3 id="falha-detector">Falha Detector</h3>
+<p>O hardware informa ao 72c uma falha no Detector</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flag 1</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Flag 2</td>
+<td>1 bit</td>
+<td>Reservado para uso futuro</td>
+</tr>
+<tr>
+<td>Flag 3</td>
+<td>1 bit</td>
+<td>Verdadeiro, se o detector for de pedestre</td>
+</tr>
+<tr>
+<td>Posição</td>
+<td>5 bits</td>
+<td>Posição do grupo detector</td>
+</tr>
+<tr>
+<td>Código da Falha</td>
+<td>8 bits</td>
+<td>Código da falha</td>
+</tr>
+</tbody>
+</table>
+<h3 id="alarme">Alarme</h3>
+<p>O hardware informa ao 72c um alarme</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código do alarme</td>
+<td>8 bits</td>
+<td>Código do alarme</td>
+</tr>
+</tbody>
+</table>
+<h3 id="retorno">Retorno</h3>
+<p>Mensagem de confirmação de recebimento</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tipo de retorno</td>
+<td>8 bits</td>
+<td>Tipo do retorno</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tabela-de-tipos-de-mensagem">Tabela de Tipos de Mensagem</h3>
+<table>
+<thead>
+<tr>
+<th>Codigo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Retorno</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Início</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Estágio</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Detector</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Falha anel</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Falha detector</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Falha grupo semafórico</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Falha genérica</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Alarme</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Remoção de falha</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Inserção de plug</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Remoção de plug</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Troca de estágio modo manual</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Modo manual ativado</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Modo manual desativado</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tabela-de-tipos-de-retorno">Tabela de Tipos de Retorno</h3>
+<table>
+<thead>
+<tr>
+<th>Codigo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>1</td>
+<td>INVALID_CHECKSUM</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Tipo de Mensagem Inválido</td>
+</tr>
+</tbody>
+</table>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../../alto_nivel/info/" title="Info">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Info
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../../../log/especificacao/" title="Especificação">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Especificação
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,28 @@
+.lista-falhas {
+  max-height: 500px;
+  overflow: scroll;
+}
+
+
+
+.chart {
+  width:200px;
+  height:200px;
+  margin-right: auto;
+  margin-left: auto;
+
+  .content-not-available{
+    text-align: center;
+    height: 90%;
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+select.transparent {
+  background-color: transparent;
+  border: none;
+}

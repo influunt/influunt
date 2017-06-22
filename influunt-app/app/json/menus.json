@@ -1,5 +1,15 @@
 [
   {
+    "name": "controladores",
+    "label": "controladores.titulo",
+    "route": "app.controladores"
+  },
+  {
+    "name": "imporConfig",
+    "label": "imporConfig.titulo",
+    "route": "app.impor_config"
+  },
+  {
     "name": "cadastros",
     "label": "menu.cadastros",
     "children": [
@@ -47,27 +57,27 @@
         "name": "faixasDeValores",
         "label": "faixas_de_valores.titulo",
         "route": "app.faixas_de_valores_edit"
+      },
+      {
+        "name": "manual",
+        "label": "manual.titulo",
+        "route": "manual"
       }
     ]
-  },
-  {
-    "name": "controladores",
-    "label": "controladores.titulo",
-    "route": "app.controladores"
   },
   {
     "name": "relatorios",
     "label": "relatorios.titulo",
     "children": [
       {
-        "name": "relatorioAuditorias",
-        "label": "relatorios.auditorias",
-        "route": "app.relatorios_auditorias"
-      },
-      {
         "name": "relatorioControladoresStatus",
         "label": "relatorios.controladoresStatus",
         "route": "app.relatorios_controladores_status"
+      },
+      {
+        "name": "relatorioPlanos",
+        "label": "relatorios.planos",
+        "route": "app.relatorios_planos"
       },
       {
         "name": "relatorioControladoresFalhas",
@@ -75,10 +85,20 @@
         "route": "app.relatorios_controladores_falhas"
       },
       {
-        "name": "relatorioControladoresEntreVerdes",
-        "label": "relatorios.controladoresEntreVerdes",
-        "route": "app.relatorios_controladores_entreverdes"
+        "name": "relatorioTabelaHoraria",
+        "label": "relatorios.tabelaHoraria",
+        "route": "app.relatorios_tabela_horaria"
+      },
+      {
+        "name": "relatorioLogControladores",
+        "label": "relatorios.logControladores",
+        "route": "app.relatorios_log_controladores"
       }
     ]
+  },
+  {
+    "name": "mapa",
+    "label": "controladores.mapa",
+    "route": "app.mapa_controladores"
   }
 ]

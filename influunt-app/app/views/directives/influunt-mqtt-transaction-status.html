@@ -1,0 +1,10 @@
+<!-- done requets. -->
+<span data-ng-if="pacoteFinalizou()"
+    data-ng-bind-html="etapaTransacao === 'COMPLETED' | trueOrFalseIcon"></span>
+
+<!-- pending requests -->
+<span class="grey-scaled" data-ng-if="pendingComErro()"
+    data-ng-bind-html="false | trueOrFalseIcon"></span>
+
+<!-- in progress requests -->
+<influunt-loading data-ng-if="!pacoteFinalizou()"></influunt-loading>

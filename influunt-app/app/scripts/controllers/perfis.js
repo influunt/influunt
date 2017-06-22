@@ -53,7 +53,7 @@ angular.module('influuntApp')
         PermissionsService.getPermissions()
           .then(function(response) {
             $scope.permissions = response.permissoes;
-            $scope.roles = response.permissoesApp;
+            $scope.roles = _.orderBy(response.permissoesApp, 'nome');
             permissoesLoaded = true;
             if (objetoLoaded) {
               atualizarRolesAtivos();
@@ -84,20 +84,20 @@ angular.module('influuntApp')
       };
 
       $scope.atualizarPermissoes = function() {
-          var permissoes = [];
-          _.forEach($scope.rolesAtivados, function(ativado, roleId) {
-            var role = _.find($scope.roles, { id: roleId });
-            if (ativado) {
-              permissoes.push(role.permissoes);
-            }
-          });
-          $scope.objeto.permissoes = _
-            .chain(permissoes)
-            .flatten()
-            .map('id')
-            .uniq()
-            .map(function(permissaoId) { return { id: permissaoId }; })
-            .value();
+        var permissoes = [];
+        _.forEach($scope.rolesAtivados, function(ativado, roleId) {
+          var role = _.find($scope.roles, { id: roleId });
+          if (ativado) {
+            permissoes.push(role.permissoes);
+          }
+        });
+        $scope.objeto.permissoes = _
+          .chain(permissoes)
+          .flatten()
+          .map('id')
+          .uniq()
+          .map(function(permissaoId) { return { id: permissaoId }; })
+          .value();
       };
 
       atualizarRolesAtivos = function() {
@@ -106,6 +106,10 @@ angular.module('influuntApp')
           var permissoesObjeto = _.map($scope.objeto.permissoes, 'id');
           $scope.rolesAtivados[role.id] = _.intersection(permissoesRole, permissoesObjeto).length === permissoesRole.length;
         });
+      };
+
+      $scope.afterSave = function() {
+        PermissionsService.refreshUsuario();
       };
 
     }]);

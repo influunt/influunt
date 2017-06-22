@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Entidade que representa um {@link Agrupamento} no sistema
@@ -72,11 +73,9 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     @Column
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "não pode ficar em branco")
     private DiaDaSemana diaDaSemana;
 
     @Column
-    @NotNull(message = "não pode ficar em branco")
     private LocalTime horario;
 
     @OneToMany(cascade = CascadeType.REMOVE)
@@ -196,16 +195,8 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         return horario;
     }
 
-    public void setHorario(LocalTime horario) {
-        this.horario = horario;
-    }
-
     public DiaDaSemana getDiaDaSemana() {
         return diaDaSemana;
-    }
-
-    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
-        this.diaDaSemana = diaDaSemana;
     }
 
     @AssertTrue(message = "Todos os aneis deste agrupamento devem pertencer à mesma área")
@@ -218,24 +209,21 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     @AssertTrue(message = "O plano associado ao agrupamento deve estar configurado em todos os anéis")
     public boolean isPlanoConfiguradoEmTodosOsAneis() {
-        if (getPosicaoPlano() != null) {
-            return getAneis()
-                    .stream()
-                    .filter(Anel::isAtivo)
-                    .allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> getPosicaoPlano().equals(plano.getPosicao())));
-        }
-        return true;
+        return getId() == null || getAneis().stream().filter(Anel::isAtivo).allMatch(anel -> anel.getPlanos().stream().anyMatch(plano -> plano.getPosicao().equals(getPosicaoPlano())));
     }
 
     // Testa se o plano X (1, 2, etc.) em todos os anéis são múltiplos entre si.
-    @AssertTrue(message = "O Tempo de ciclo deve ser simétrico ou assimétrico ao tempo de ciclo dos planos.")
+    @AssertTrue(message = "O Tempo de ciclo deve ser simétrico ao tempo de ciclo dos planos.")
     public boolean isTempoCicloIgualOuMultiploDeTodoPlano() {
+        if (getId() == null) {
+            return true;
+        }
         boolean isMultiplo = true;
         int tempoCiclo = this.getTempoCiclo();
         for (Anel anel : getAneis()) {
             for (Plano plano : anel.getPlanos()) {
-                if (plano.getPosicao().equals(getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado())) {
-                    if (!InfluuntUtils.getInstance().multiplo(tempoCiclo, plano.getTempoCiclo())) {
+                if (plano.getPosicao().equals(getPosicaoPlano()) && plano.isTempoFixoCoordenado()) {
+                    if (!InfluuntUtils.isMultiplo(tempoCiclo, plano.getTempoCicloTotal())) {
                         isMultiplo = false;
                         break;
                     }
@@ -249,15 +237,15 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
     // Retorna o tempo de ciclo do plano do primeiro anel
     private Integer getTempoCiclo() {
         Plano p = getAneis()
-                .stream()
-                .map(Anel::getPlanos)
-                .flatMap(Collection::stream)
-                .filter(plano -> plano.getPosicao().equals(this.getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado()))
-                .findFirst()
-                .orElse(null);
+            .stream()
+            .map(Anel::getPlanos)
+            .flatMap(Collection::stream)
+            .filter(plano -> plano.getPosicao().equals(this.getPosicaoPlano()) && (plano.isTempoFixoCoordenado() || plano.isTempoFixoIsolado()))
+            .findFirst()
+            .orElse(null);
 
         if (p != null) {
-            return p.getTempoCiclo();
+            return p.getTempoCicloTotal();
         }
         return 1;
     }
@@ -266,25 +254,48 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
         List<Evento> eventos = Evento.find.where().eq("agrupamento_id", getId().toString()).findList();
         eventos.forEach(Evento::delete);
 
-        for (Anel anel : getAneis()) {
-            TabelaHorario tabela = anel.getControlador().getTabelaHoraria();
+        List<TabelaHorario> tabelas = getControladores().stream().map(Controlador::getTabelaHoraria).collect(Collectors.toList());
+        tabelas.forEach(tabela -> {
             if (tabela != null) {
-                Evento evento = new Evento();
-                evento.setTabelaHorario(tabela);
-                evento.setTipo(TipoEvento.NORMAL);
-                evento.setPosicaoPlano(getPosicaoPlano());
-                evento.setDiaDaSemana(getDiaDaSemana());
-                evento.setHorario(getHorario());
-                evento.setAgrupamento(this);
-                List<Evento> eventoPosicao = Evento.find.select("posicao").where().eq("tabela_horario_id", tabela.getId()).orderBy("posicao desc").setMaxRows(1).findList();
-                if (!eventoPosicao.isEmpty()) {
-                    evento.setPosicao(eventoPosicao.get(0).getPosicao() + 1);
+                Evento eventoConflito = Evento.find.where()
+                    .eq("tabelaHorario.id", tabela.getId())
+                    .eq("diaDaSemana", getDiaDaSemana().name())
+                    .eq("horario", getHorario())
+                    .eq("tipo", TipoEvento.NORMAL).findUnique();
+                if (eventoConflito != null) {
+                    eventoConflito.setPosicaoPlano(getPosicaoPlano());
+                    eventoConflito.setAgrupamento(this);
+                    eventoConflito.update();
                 } else {
-                    evento.setPosicao(1);
+                    Evento evento = new Evento();
+                    evento.setTabelaHorario(tabela);
+                    evento.setTipo(TipoEvento.NORMAL);
+                    evento.setPosicaoPlano(getPosicaoPlano());
+                    evento.setDiaDaSemana(getDiaDaSemana());
+                    evento.setHorario(getHorario());
+                    evento.setAgrupamento(this);
+                    List<Evento> eventoPosicao = Evento.find.select("posicao").where().eq("tabela_horario_id", tabela.getId()).orderBy("posicao desc").setMaxRows(1).findList();
+                    if (!eventoPosicao.isEmpty()) {
+                        evento.setPosicao(eventoPosicao.get(0).getPosicao() + 1);
+                    } else {
+                        evento.setPosicao(1);
+                    }
+                    evento.save();
                 }
-                evento.save();
             }
-        }
+        });
+    }
+
+    public boolean existeEventoMesmoHorario() {
+        return getAneis().stream()
+            .map(Anel::getControlador)
+            .distinct()
+            .flatMap(c -> c.getTabelaHoraria().getEventos().stream())
+            .filter(Evento::isEventoNormal)
+            .anyMatch(evento ->
+                evento.getDiaDaSemana().equals(getDiaDaSemana()) &&
+                    evento.getHorario().equals(getHorario()) &&
+                    !evento.getPosicaoPlano().equals(getPosicaoPlano()));
     }
 
     public List<Evento> getEventos() {
@@ -293,5 +304,27 @@ public class Agrupamento extends Model implements Cloneable, Serializable {
 
     public void setEventos(List<Evento> eventos) {
         this.eventos = eventos;
+    }
+
+    @AssertTrue(message = "não pode ficar em branco")
+    public boolean isDiaDaSemana() {
+        return getId() == null || getDiaDaSemana() != null;
+    }
+
+    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
+        this.diaDaSemana = diaDaSemana;
+    }
+
+    @AssertTrue(message = "não pode ficar em branco")
+    public boolean isHorario() {
+        return getId() == null || getHorario() != null;
+    }
+
+    public void setHorario(LocalTime horario) {
+        this.horario = horario;
+    }
+
+    public List<Controlador> getControladores() {
+        return getAneis().stream().map(Anel::getControlador).distinct().collect(Collectors.toList());
     }
 }

@@ -22,12 +22,18 @@ angular.module('influuntApp')
       };
 
       var alertPopup = function(title, text) {
+        var deferred = $q.defer();
         SweetAlert.swal({
           type: 'warning',
           title: title,
           text: text,
-          showConfirmButton: true
+          showConfirmButton: true,
+          html: true
+        }, function() {
+          deferred.resolve(true);
         });
+
+        return deferred.promise;
       };
 
       /**
@@ -40,7 +46,8 @@ angular.module('influuntApp')
         var defer = $q.defer(),
             options = Objects.merge(defaultOptions, {
               title: title,
-              text: text
+              text: text,
+              html: true
             });
 
         SweetAlert.swal(options, function (confirmado) {
@@ -61,7 +68,8 @@ angular.module('influuntApp')
             options = Objects.merge(defaultOptions, {
               title: title,
               text: text,
-              type: 'input'
+              type: 'input',
+              html: true
             });
 
         SweetAlert.swal(options, function (inputvalue) {
@@ -88,6 +96,26 @@ angular.module('influuntApp')
               title: title,
               text: text,
               cancelButtonText: $filter('translate')('geral.mensagens.nao'),
+              html: true
+            });
+
+        SweetAlert.swal(options, function (confirmado) {
+          setTimeout(function() {
+            defer.resolve(confirmado);
+          }, 100);
+        });
+
+        return defer.promise;
+      };
+
+      var errorPopup = function(title, text) {
+        var defer = $q.defer(),
+            options = Objects.merge(defaultOptions, {
+              title: title,
+              text: text,
+              showConfirmButton: false,
+              cancelButtonText: $filter('translate')('geral.mensagens.ok'),
+              html: true
             });
 
         SweetAlert.swal(options, function (confirmado) {
@@ -105,7 +133,8 @@ angular.module('influuntApp')
         delete: deleteAlert,
         prompt: promptPopup,
         ask: askPopup,
-        success: success
+        success: success,
+        error: errorPopup
       };
 
     }]);

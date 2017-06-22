@@ -1,0 +1,53 @@
+<form role="form" name="formImposicaoDeModo">
+  <div class="row">
+    <div class="col-sm-12" data-ng-class="{'has-error': !formImposicaoDeModo.modoOperacao.$pristine && !formImposicaoDeModo.modoOperacao.$valid}">
+      <p>
+        <input type="radio" name="modoOperacao" ichecks value="APAGADO" data-ng-model="configuracao.modoOperacao" ng-required="!configuracao.modoOperacao">
+        {{ 'imporConfig.imporApagado' | translate }}
+      </p>
+      <p>
+        <input type="radio" name="modoOperacao" ichecks value="INTERMITENTE" data-ng-model="configuracao.modoOperacao" ng-required="!configuracao.modoOperacao">
+        {{ 'imporConfig.imporInterm' | translate }}
+      </p>
+    </div>
+  </div>
+  <div class="row text-left">
+    <influunt-date-time-picker
+      label="{{ 'imporConfig.plano.horarioEntrada' | translate }}"
+      is-required="true"
+      name="horarioEntrada"
+      ng-model="configuracao.horarioEntradaObj">
+  </influunt-date-time-picker>
+  </div>
+  <div class="row text-left">
+    <div class="col-sm-12 no-padding">
+      <div class="col-sm-12">
+        <label>{{ 'imporConfig.duracao' | translate }}</label>
+      </div>
+      <div class="col-sm-12" data-ng-class="{'has-error': !formImposicaoDeModo.duracao.$pristine && !formImposicaoDeModo.duracao.$valid}">
+        <div class="input-group">
+          <input type="number"
+              class="form-control"
+              name="duracao"
+              ng-model="configuracao.duracao"
+              required="true"
+              min="{{ LIMITE_MINIMO_DURACAO }}"
+              max="{{ LIMITE_MAXIMO_DURACAO }}">
+          <span class="input-group-addon ng-binding">{{ 'geral.minuto' | translate }}</span>
+        </div>
+        <p class="help-block error-msg" data-ng-if="!formImposicaoDeModo.duracao.$pristine && !formImposicaoDeModo.duracao.$valid">
+          {{ 'imporConfig.plano.validacoes.duracaoEntreMinimoEMaximo' | translate: {MINIMO: LIMITE_MINIMO_DURACAO, MAXIMO: LIMITE_MAXIMO_DURACAO} }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="text-center" style="padding: 15px;">
+      <button type="button" class="btn btn-primary" id="impor-modo-submit" data-ng-click="imporModo()" data-ng-disabled="!formImposicaoDeModo.$valid">
+        {{ 'imporConfig.imporModo' | translate }}
+      </button>
+    </div>
+  </div>
+
+</form>

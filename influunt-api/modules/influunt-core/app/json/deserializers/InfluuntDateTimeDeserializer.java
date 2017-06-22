@@ -35,7 +35,7 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
     @SuppressWarnings("unchecked")
     public static <T extends ReadableInstant> JsonDeserializer<T> forType(Class<T> cls) {
         return (JsonDeserializer<T>) new InfluuntDateTimeDeserializer(cls,
-                FormatConfig.DEFAULT_DATETIME_PARSER);
+            FormatConfig.DEFAULT_DATETIME_PARSER);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
 
     @Override
     public ReadableDateTime deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException {
+        throws IOException {
         JsonToken t = p.getCurrentToken();
 
         if (t == JsonToken.VALUE_NUMBER_INT) {
@@ -63,8 +63,8 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
             if (ix > 0) {
                 int ix2 = str.lastIndexOf(']');
                 String tzId = (ix2 < ix)
-                        ? str.substring(ix + 1)
-                        : str.substring(ix + 1, ix2);
+                    ? str.substring(ix + 1)
+                    : str.substring(ix + 1, ix2);
                 DateTimeZone tz;
                 try {
                     tz = DateTimeZone.forID(tzId);
@@ -84,8 +84,8 @@ public class InfluuntDateTimeDeserializer extends JodaDateDeserializerBase<Reada
                 }
                 */
                 return _format.createParser(ctxt)
-                        .parseDateTime(str)
-                        .withZone(tz);
+                    .parseDateTime(str)
+                    .withZone(tz);
             }
             // Not sure if it should use timezone or not...
             // 15-Sep-2015, tatu: impl of 'createParser()' SHOULD handle all timezone/locale setup

@@ -8,12 +8,16 @@
  * Controller of the influuntApp
  */
 angular.module('influuntApp')
-  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert', 'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies', 'breadcrumbs',
-    function ($scope, $controller, $filter, influuntBlockui, influuntAlert, Restangular, toast, PermissionsService, PermissionStrategies, breadcrumbs) {
+  .controller('ControladoresDadosBasicosCtrl', ['$scope', '$controller', '$filter', 'influuntBlockui', 'influuntAlert',
+                                                'Restangular', 'toast', 'PermissionsService', 'PermissionStrategies',
+                                                'breadcrumbs', 'ROOT_API_SMEE', 'CETLocalizacaoService',
+    function ($scope, $controller, $filter, influuntBlockui, influuntAlert,
+              Restangular, toast, PermissionsService, PermissionStrategies,
+              breadcrumbs, ROOT_API_SMEE, CETLocalizacaoService) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
-      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs;
-
+      var deletarCroquiNoServidor, inicializaObjetoCroqui, setarAreaControlador, updateBreadcrumbs, confirmaEnderecoSMEE,
+          alertaSmeeNaoEncontrado, setEnderecoControladorIndex;
       $scope.PermissionStrategies = PermissionStrategies;
 
       $scope.inicializaWizardDadosBasicos = function() {
@@ -21,19 +25,94 @@ angular.module('influuntApp')
           inicializaObjetoCroqui();
           setarAreaControlador();
           updateBreadcrumbs();
-        }).finally(influuntBlockui.unblock);
+          setEnderecoControladorIndex();
+        });
       };
+
+      setEnderecoControladorIndex = function() {
+        var enderecoIdJson = _.get($scope.objeto, 'endereco.idJson');
+        if (enderecoIdJson) {
+          $scope.enderecoControladorIndex = _.findIndex($scope.objeto.todosEnderecos, { idJson: enderecoIdJson });
+        } else {
+          $scope.enderecoControladorIndex = 0;
+        }
+      };
+
+      $scope.consultaNumeroSMEE = function(field) {
+        var numero = $scope.objeto[field];
+
+        $scope.checkingSMEE = $scope.checkingSMEE || {};
+        if (numero) {
+          $scope.checkingSMEE[field] = true;
+          return Restangular
+            .oneUrl('api_smee', ROOT_API_SMEE)
+            .one('local', numero)
+            .get()
+            .then(function(res) {
+              if (res.IdLocal !== null && res.IdLocal !== undefined) {
+                confirmaEnderecoSMEE(res.Descricao);
+              } else {
+                alertaSmeeNaoEncontrado();
+              }
+            })
+            .catch(function(res) {
+              // bad request.
+              if (res.status === 400) {
+                alertaSmeeNaoEncontrado();
+              }
+            })
+            .finally(function() {
+              $scope.checkingSMEE[field] = false;
+            });
+        }
+      };
+
+      alertaSmeeNaoEncontrado = function() {
+        influuntAlert.alert(
+          $filter('translate')('controladores.confirmacaoEnderecoTitulo'),
+          $filter('translate')('controladores.validacaoNumeroSMEE')
+        )
+        .then(function() {
+          $scope.objeto.numeroSMEE = null;
+        });
+      };
+
+      confirmaEnderecoSMEE = function(descricao) {
+        influuntAlert.confirm(
+          $filter('translate')('controladores.confirmacaoEnderecoTitulo'),
+          $filter('translate')('controladores.confirmacaoEndereco', {descricao: descricao})
+        )
+        .then(function(resposta) {
+          if (!resposta) {
+            $scope.objeto.numeroSMEE = null;
+          }
+        });
+      };
+
+      $scope.$watch('currentEndereco', function(currentVal, prevVal) {
+        CETLocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
+      }, true);
 
       $scope.$watch('objeto.todosEnderecos', function(todosEnderecos) {
         if (!_.isArray(todosEnderecos)) { return false; }
-        $scope.objeto.nomeEndereco = $filter('nomeEndereco')(todosEnderecos[0]);
+        var endereco = $scope.objeto.todosEnderecos[$scope.enderecoControladorIndex];
+        $scope.currentEndereco = endereco;
+
+        $scope.objeto.nomeEndereco = $filter('nomeEndereco')(endereco);
       }, true);
 
       $scope.$watchGroup(['objeto.area.idJson', 'helpers.cidade.areas'], function (){
         $scope.currentSubareas = [];
         if ($scope.objeto && $scope.helpers && $scope.objeto.area && $scope.objeto.area.idJson){
           var area = _.find($scope.helpers.cidade.areas, {idJson: $scope.objeto.area.idJson});
-          $scope.currentSubareas = area.subareas;
+          $scope.currentSubareas = area.subareas.map(function(s) {
+            s.area = {idJson: area.idJson};
+            return s;
+          });
+
+          if ($scope.objeto.subarea) {
+            $scope.objeto.subarea = _.find($scope.currentSubareas, {idJson: $scope.objeto.subarea.idJson});
+          }
         }
         return $scope.currentSubareas;
       }, true);

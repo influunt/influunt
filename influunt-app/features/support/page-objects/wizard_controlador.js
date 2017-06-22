@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 
 var worldObj = require('../world');
 var world = new worldObj.World();
@@ -311,6 +311,7 @@ var WizardControladorPage = function () {
     var anel1Est3  = '../resources/anel1_est3.jpg';
     var anel2Est1  = '../resources/anel2_est1.jpg';
     var anel2Est2  = '../resources/anel2_est2.jpg';
+    var dwg        = '../resources/tipodwg.dwg';
 
     switch(localImagem) {
       case 'Croqui':
@@ -325,6 +326,8 @@ var WizardControladorPage = function () {
         return this.adicionarImagem(anel2Est1);
       case 'Anel 2 como Estágio2':
         return this.adicionarImagem(anel2Est2);
+      case 'Anel 1 DWG':
+        return this.adicionarImagem(dwg);
       default:
         throw new Error('Localização da imagem não encontrada: '+localImagem);
      }
@@ -339,6 +342,10 @@ var WizardControladorPage = function () {
     return Promise.all(promises).then(function() {
       return world.waitForAJAX();
     });
+  };
+
+  this.errorImagem = function (msg) {
+    return world.waitForByXpath('//div[contains(@class, "dz-error-message")][contains(text(), "'+msg+'")]')
   };
 
   this.selecionaEstagioAlternativoParaTransicaoProibida = function(transicao, estagio) {
@@ -412,7 +419,9 @@ var WizardControladorPage = function () {
     var tr = parseInt(e1.substring(1));
     var td = parseInt(e2.substring(1)) + 1;
     return world.scrollToDown().then(function() {
-      return world.getElement('tbody tr:nth-child('+tr+') td:nth-child('+td+')').click();
+      return world.waitForOverlayDisappear().then(function(){
+        return world.getElement('tbody tr:nth-child('+tr+') td:nth-child('+td+')').click();
+      });
     });
   };
 
@@ -458,6 +467,7 @@ var WizardControladorPage = function () {
   this.marcarTempoAtrasoGrupo = function(value, field) {
     var baseSelector = 'influunt-knob[title="'+field+'"]';
     world.sleep(500);
+    world.waitForOverlayDisappear();
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
@@ -466,6 +476,7 @@ var WizardControladorPage = function () {
   this.marcarTempoAtrasoGrupoTransicao = function(tipoTransicao, value, posicao) {
     var baseSelector = 'li[data-ng-repeat="transicao in '+tipoTransicao+'"] div.initial-position div.knob-item[id="tv_'+posicao+'"] influunt-knob[title="Atraso de Grupo"]';
     world.sleep(500);
+    world.waitForOverlayDisappear();
     return world.getElement(baseSelector + ' p.knob-value').click().then(function() {
       return world.resetValue(baseSelector + ' input.rs-input', value);
     }).then(world.waitForAnimationFinishes);
@@ -478,7 +489,7 @@ var WizardControladorPage = function () {
   };
 
   this.confirmaSemConfiguracao = function(){
-    var xpath = '//ins[contains(@class, "iCheck-helper")]';
+    var xpath = '//div[contains(@class, "icheckbox_square-green")]//ins[contains(@class, "iCheck-helper")]';
     return world.scrollToDown().then(function() {
       return world.getElementByXpath(xpath).click();
     });
@@ -501,12 +512,35 @@ var WizardControladorPage = function () {
     });
   };
 
-  this.preencherCampoSMEECom123 = function() {
-    return world.setValue('[name="numeroSMEE"]', '123');
+  this.preencherCampoSMEECom = function(numero) {
+    world.sleep(1000);
+    return world.setValue('[name="numeroSMEE"]', numero)
+      .then(function() {
+        return world.waitForOverlayDisappear();
+      })
+      .then(function(){
+        return world.getElement('div').click();
+      });
   };
 
   this.preencherModificao = function(valor){
     return world.setValue('div.sweet-alert input', valor);
+  };
+
+  this.verificaFraseNadaPreencher = function(texto){
+    return world.getElementByXpath('//span[contains(text(), "'+texto+'")]');
+  };
+
+  this.changeEstagioPosicao = function(estagio){
+    return world.waitForOverlayDisappear().then(function(){
+      return world.getElementByXpath('//hgroup//p[contains(text(), '+estagio+')]//following-sibling::button//i[contains(@class, "fa-arrow-down")]').click();
+    });
+  };
+
+  this.mensgagemTooltipeBotaoSalvar = function(msg){
+    return world.waitForOverlayDisappear().then(function(){
+      return world.waitForByXpath('//a[contains(@class, "btn-primary btn-footer right")][contains(@tooltip-template, "<b><span>'+msg+'</span></b>")]');
+    });
   };
 
   this.associarDetectorEstagio = function(detector, estagio) {

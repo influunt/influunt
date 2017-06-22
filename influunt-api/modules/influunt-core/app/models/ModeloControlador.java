@@ -46,6 +46,9 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     @NotNull(message = "não pode ficar em branco")
     private Fabricante fabricante;
 
+    @OneToMany(mappedBy = "modelo")
+    private List<Controlador> controladores;
+
     @Column
     @NotNull(message = "não pode ficar em branco")
     private String descricao;
@@ -235,5 +238,13 @@ public class ModeloControlador extends Model implements Cloneable, Serializable 
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public List<Controlador> getControladores() {
+        return controladores;
+    }
+
+    public void setControladores(List<Controlador> controladores) {
+        this.controladores = controladores;
     }
 }

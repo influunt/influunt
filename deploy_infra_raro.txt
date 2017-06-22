@@ -1,0 +1,17 @@
+Para fazer o deploy em production na ifra da raro:
+
+influunt-api
+- entrar na pasta influnut/influunt-api e executar 'cap production deploy'
+
+influunt-app
+- alterar o arquivo influunt/influunt-app/app/json/env.json na seção de production:
+
+  "APP_ROOT": "http://influunt.com.br/api/api/v1"
+
+  "MQTT_ROOT": {
+    "url": "mosquitto.rarolabs.com.br",
+    "port": 1884
+  }
+
+- alterar o arquivo influunt/influunt-app/config/deploy/production.rb e comentar a linha com o servidor da CET
+  e descomentar a linha com o servidor na infra da raro.

@@ -1,4 +1,4 @@
-<div class="no-padding-left" data-ng-class="{'col-lg-12 col-sm-12': currentTipoEvento !== 'NORMAL', 'col-lg-7 col-sm-7': currentTipoEvento === 'NORMAL'}">
+<div class="no-padding-left" data-ng-class="{ 'col-sm-12': currentTipoEvento !== 'NORMAL', 'col-sm-7': currentTipoEvento === 'NORMAL' }">
   <table class="table table-hover text-center">
     <thead class="uppercase">
       <tr>
@@ -16,6 +16,7 @@
     <tbody>
       <tr data-ng-repeat="evento in currentEventos"
         influunt-evento
+        class="evento"
         data-evento="evento"
         data-planos="planos"
         data-dias="dias"
@@ -25,6 +26,7 @@
         pode-remover="true"
         on-verifica-atualizacao-de-eventos="verificaAtualizacaoDeEventos"
         on-visualizar-plano="visualizarPlano"
+        pode-visualizar-plano="podeVisualizarPlanos"
         on-remover-evento="removerEvento"
         erros="currentErrosEventos[$index]"
         read-only="somenteVisualizacao">
@@ -46,9 +48,10 @@
     </tbody>
   </table>
 </div>
-<div class="col-lg-5 col-sm-5 no-padding-right lightgray-bg" data-ng-show="currentTipoEvento === 'NORMAL'">
+<div class="col-sm-5 no-padding-right lightgray-bg" data-ng-show="currentTipoEvento === 'NORMAL'">
   <ng-include src="'views/tabela_horarios/quadro-horarios.html'">
 </div>
+
 <!-- MODAL -->
 <div class="modal inmodal" id="modalDiagramaIntervalos" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">

@@ -10,8 +10,10 @@
 angular.module('influuntApp')
   .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
                                          'influuntAlert', 'Restangular', 'toast', 'influuntBlockui', 'removerPlanosTabelasHorarias',
+                                         'CETLocalizacaoService',
     function ($scope, $state, $controller, $q, $filter, assertControlador,
-              influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias) {
+              influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias,
+              CETLocalizacaoService) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -193,21 +195,18 @@ angular.module('influuntApp')
 
       $scope.deletarUltimoAnelAtivo = function(data) {
         var tabWasAdded = !!$(data.tab).data('newtab');
-        if (tabWasAdded) {
-          return $q.resolve(true);
-        } else {
-          var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
-              text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
-          return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
-            if (deveApagarAnel) {
-              var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
-              $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
-              $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
-              $scope.submitForm('aneis', 'app.wizard_controladores.aneis').then(atualizarAneisAtivos);
-            }
-            return deveApagarAnel;
-          });
-        }
+        var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
+            text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
+        return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
+          if (deveApagarAnel && !tabWasAdded) {
+            var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
+            $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
+            $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
+            $scope.submitForm('aneis', 'app.wizard_controladores.aneis').then(atualizarAneisAtivos);
+          }
+
+          return deveApagarAnel;
+        });
       };
 
       deletarCroquiNoServidor = function(imagemIdJson) {
@@ -252,6 +251,11 @@ angular.module('influuntApp')
         $scope.$watch('currentAnel', function(anel) {
           watcherEndereco(anel);
           setarImagensEstagios(anel);
+        }, true);
+
+        $scope.$watch('currentEndereco', function(currentVal, prevVal) {
+          CETLocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
+          $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
         }, true);
       };
 

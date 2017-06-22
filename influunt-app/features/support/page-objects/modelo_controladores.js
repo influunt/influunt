@@ -10,7 +10,7 @@ var ModelosPage = function () {
   var formModelos = 'form[name="formModelos"]';
   var inputDescricaoModelo = '[name="descricao"]';
 
-  var totalModelosIndex = 2;
+  var totalModelosIndex = 1;
 
   this.indexPage = function() {
     world.visit(INDEX_PATH);
@@ -24,6 +24,10 @@ var ModelosPage = function () {
 
   this.clicarBotaoNovoModelo = function() {
     return world.clickButton('a[href*="/modelos/new"]');
+  };
+
+  this.cadastrarFabricante = function() {
+    return world.execSqlScript('features/support/scripts/modelos_controladores/create_fabricante.sql');
   };
 
   this.formModelos = function() {
@@ -49,6 +53,14 @@ var ModelosPage = function () {
   this.isShow = function() {
     return world.getElement('h5 small').getText().then(function(text) {
       return text.match(/ - #/);
+    });
+  };
+
+  this.clicarNoBotaoPorModelo = function(modelo, botao) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.sleep(500).then(function() {
+        return world.getElementByXpath('//td[text() = "'+modelo+'"]/following-sibling::td[2]/a[text() = "'+botao+'"]').click();
+      });
     });
   };
 

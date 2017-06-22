@@ -67,7 +67,7 @@
   }
   .area-mapa {
     width: 100% !important;
-    height: 500px !important;
+    height: 70vh;
     margin-left: 40px;
     border: 1px solid #ddd;
   }
@@ -118,5 +118,27 @@
     .btn {
       min-width: 180px;
     }
+  }
+}
+
+#modal-legenda-agrupamentos {
+  .agrupamento-sample {
+    border: 0.3em dashed;
+    width: 50px;
+    height: 12px;
+
+    &.rota { border-color: #555; }
+    &.corredor { border-color: #2196f3; }
+    &.subarea { border-color: #4caf50; }
+  }
+
+  .texto-legenda {
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .marker-legenda {
+    width: 32px;
+    height: 37px;
   }
 }

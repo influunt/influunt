@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -74,6 +73,9 @@ public class Transicao extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @Column
+    private boolean modoIntermitenteOuApagado;
 
     @Column
     private boolean destroy;
@@ -159,6 +161,14 @@ public class Transicao extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
+    public boolean isModoIntermitenteOuApagado() {
+        return modoIntermitenteOuApagado;
+    }
+
+    public void setModoIntermitenteOuApagado(boolean modoIntermitenteOuApagado) {
+        this.modoIntermitenteOuApagado = modoIntermitenteOuApagado;
+    }
+
     public boolean isDestroy() {
         return destroy;
     }
@@ -194,7 +204,7 @@ public class Transicao extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = ControladorAtrasoDeGrupoCheck.class, message = "O tempo de atraso de grupo deve estar entre {min} e {max}.")
     public boolean isTempoAtrasoDeGrupoDentroDaFaixa() {
-        return getAtrasoDeGrupo() != null && RangeUtils.getInstance().TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
+        return getAtrasoDeGrupo() != null && getGrupoSemaforico().getAnel().getControlador().getRangeUtils().TEMPO_ATRASO_GRUPO.contains(getAtrasoDeGrupo().getAtrasoDeGrupo());
     }
 
     public void addTabelaEntreVerdesTransicao(TabelaEntreVerdesTransicao tabelaEntreVerdesTransicao) {

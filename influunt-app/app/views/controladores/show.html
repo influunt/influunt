@@ -4,9 +4,22 @@
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
           <fieldset>
-            <div class="row margin-top-20">
-              <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+            <div class="row margin-top-20 margin-left-right-10">
+              <div class="col-sm-12 actions clearfix">
+                <div class="left">
+                  <a class="btn btn-success" type="button"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.instalacao' | translate }}"
+                      data-target="#modal-instalacao" data-toggle="modal">
+                    <i class="fa fa-wrench"></i> {{ 'controladores.geral.instalacao' | translate }}
+                  </a>
+                </div>
                 <div class="right">
+                  <a type="button" class="btn btn-primary"
+                      tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.imprimir' | translate }} {{ 'controladores.controlador' | translate }}"
+                      data-ng-click="imprimir(objeto.id)"
+                      permission permission-only="'gerarRelatorioControlador'">
+                    <i class="fa fa-print"></i> {{ 'controladores.print' | translate }}
+                  </a>
                   <a class="btn btn-primary"
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
                       type="button" data-target="#modal-timeline" data-toggle="modal">
@@ -26,7 +39,7 @@
                       tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.editar' | translate }} {{ 'controladores.controlador' | translate }}"
                       type="button"
                       ng-click="copiar(objeto.id)"
-                      ng-if="(objeto.statusControlador == 'ATIVO' || objeto.statusControlador == 'CONFIGURADO') && podeEditarControlador(objeto) && !controladorBloqueadoParaEdicao()"
+                      ng-if="(objeto.statusControlador == 'SINCRONIZADO' || objeto.statusControlador == 'CONFIGURADO') && podeEditarControlador(objeto) && !controladorBloqueadoParaEdicao()"
                       permission permission-only="'criarControlador'">
                     <i class="fa fa-edit"></i> {{ 'crud.editar' | translate }}
                   </a>
@@ -60,7 +73,15 @@
             </div>
 
             <influunt-revisao objeto="objeto" data-ng-controller="ControladoresRevisaoCtrl"></influunt-revisao>
-            <influunt-modal-timeline resource="'controladores'" resource-id="$state.params.id"></influunt-modal-timeline>
+
+            <influunt-modal-timeline
+              resource="'controladores'"
+              resource-id="$state.params.id"></influunt-modal-timeline>
+
+            <influunt-modal-instalacao
+              resource="'controladores'"
+              resource-id="$state.params.id">
+            </influunt-modal-instalacao>
           </fieldset>
 
 

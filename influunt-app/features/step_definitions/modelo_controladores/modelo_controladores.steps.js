@@ -10,6 +10,10 @@ module.exports = function() {
   var objetosComuns = new ObjetosComuns();
   var world = new worldObj.World();
 
+  this.Given(/^que tenha um fabricante cadastrado$/, function() {
+    return modelosPage.cadastrarFabricante();
+  });
+
   this.Given(/^que o usuário esteja na tela de listagem de modelos$/, function() {
     return modelosPage.indexPage();
   });
@@ -56,8 +60,8 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^clicar no botão de editar um modelo$/, function() {
-    objetosComuns.clicarLinkComTexto('Editar');
+  this.Given(/^clicar no botão "([^"]*)" do "([^"]*)"$/, function(botao, modelo) {
+    modelosPage.clicarNoBotaoPorModelo(modelo, botao);
   });
 
   this.Given(/^o usuário limpe o campo Descrição$/, function() {
@@ -73,13 +77,6 @@ module.exports = function() {
   this.Given(/^o usuário acessar o formulário de edição de modelos$/, function() {
     modelosPage.indexPage();
     return objetosComuns.clicarLinkComTexto('Editar');
-  });
-
-  this.Given(/^clicar no botão de excluir um modelo$/, function() {
-    // objetosComuns.clicarLinkComTexto('Excluir');
-    return world.sleep(500).then(function() {
-      return world.getElementByXpath('//td[text() = "Modelo 2"]/following-sibling::td[2]/a[text() = "Excluir"]').click();
-    });
   });
 
   this.Given(/^nenhum modelo deve ser excluído$/, function() {

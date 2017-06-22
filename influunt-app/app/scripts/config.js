@@ -10,8 +10,8 @@
  */
 angular
   .module('influuntApp')
-  .config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$compileProvider',
+    function ($stateProvider, $urlRouterProvider, $compileProvider) {
 
       $urlRouterProvider.otherwise(function($injector) {
         var $state = $injector.get('$state');
@@ -80,7 +80,6 @@ angular
             }
           }
         })
-
 
         // CRUD cidades
         .state('app.cidades', {
@@ -258,6 +257,21 @@ angular
             permissions: {
               only: 'visualizarSubareas',
               redirectTo: 'app.main'
+            }
+          }
+        })
+
+        .state('app.subareas_tabela_horaria', {
+          url: '/subareas/:id/tabela_horaria',
+          templateUrl: 'views/subareas/tabela-horaria.html',
+          controller: 'SubareasTabelaHorariaCtrl',
+          controllerAs: 'subareas_tabela_horaria',
+          data: {
+            title: 'subareas.titulo',
+            breadcrumb: 'subareas.mostrar',
+            permissions: {
+              only: 'cadastrarTabelaHorariaSubarea',
+              redirectTo: 'app.subareas'
             }
           }
         })
@@ -641,6 +655,15 @@ angular
           }
         })
 
+        .state('app.tabelas_horarias_diff', {
+          url: '/tabela_horarios/:id/diff/:versaoIdJson',
+          templateUrl: 'views/tabela_horarios/diff.html',
+          controller: 'TabelaHorariosDiffCtrl',
+          data: {
+            title: 'tabelaHorarios.titulo'
+          }
+        })
+
         // Crud perfis.
         .state('app.perfis', {
           url: '/perfis',
@@ -867,6 +890,20 @@ angular
           }
         })
 
+        .state('app.alarmes_e_falhas', {
+          url: '/usuarios/:id/alarmes-e-falhas',
+          templateUrl: 'views/usuarios/alarmes-e-falhas.html',
+          controller: 'AlarmesEFalhasCtrl',
+          data: {
+            title: 'alarmesEFalhas.titulo',
+            breadcrumb: 'alarmesEFalhas.titulo',
+            permissions: {
+              only: 'configurarAlarmesFalhas',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
         // CRUD Agrupamentos
         .state('app.agrupamentos', {
           url: '/agrupamentos',
@@ -972,6 +1009,29 @@ angular
           }
         })
 
+        // IMPOR CONFIGURAÇÃO
+        .state('app.impor_config', {
+          url: '/impor_config?status&online',
+          templateUrl: 'views/impor_config/index.html',
+          reloadOnSearch: false,
+          controller: 'ImporConfigCtrl',
+          controllerAs: 'imporConfig',
+          data: {
+            title: 'imporConfig.titulo',
+            permissions: {
+              only: 'acessarPainelDeFacilidades',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
+        // Manual Externo para github
+        .state('manual', {
+          url: 'https://github.com/influunt/influunt/raw/staging/influunt-doc/manual_usuario.pdf',
+          external: true,
+          data: {title: 'manual.titulo'}
+        })
+
         // FAIXAS DE VALORES
         .state('app.faixas_de_valores_edit', {
           url: '/faixas_de_valores/edit',
@@ -988,25 +1048,10 @@ angular
           }
         })
 
-        // RELATORIOS
-        .state('app.relatorios_auditorias', {
-          url: '/relatorios/auditorias',
-          templateUrl: 'views/relatorios/auditorias.html',
-          controller: 'RelatoriosCtrl',
-          controllerAs: 'relatorios',
-          data: {
-            title: 'relatorios.auditorias',
-            permissions: {
-              only: 'gerarRelatorioAuditorias',
-              redirectTo: 'app.main'
-            }
-          }
-        })
-
         .state('app.relatorios_controladores_status', {
           url: '/relatorios/controladores_status',
-          templateUrl: 'views/relatorios/controladoresStatus.html',
-          controller: 'RelatoriosCtrl',
+          templateUrl: 'views/relatorios/status.html',
+          controller: 'RelatoriosStatusCtrl',
           controllerAs: 'relatorios',
           data: {
             title: 'relatorios.controladoresStatus',
@@ -1017,10 +1062,24 @@ angular
           }
         })
 
+        .state('app.relatorios_planos', {
+          url: '/relatorios/planos',
+          templateUrl: 'views/relatorios/planos.html',
+          controller: 'RelatoriosPlanosCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.planos',
+            permissions: {
+              only: 'gerarRelatorioPlanos',
+              redirectTo: 'app.main'
+            }
+          }
+        })
+
         .state('app.relatorios_controladores_falhas', {
           url: '/relatorios/controladores_falhas',
-          templateUrl: 'views/relatorios/controladoresFalhas.html',
-          controller: 'RelatoriosCtrl',
+          templateUrl: 'views/relatorios/falhas.html',
+          controller: 'RelatoriosFalhasCtrl',
           controllerAs: 'relatorios',
           data: {
             title: 'relatorios.controladoresFalhas',
@@ -1031,28 +1090,44 @@ angular
           }
         })
 
-        .state('app.relatorios_controladores_entreverdes', {
-          url: '/relatorios/controladores_entreverdes',
-          templateUrl: 'views/relatorios/controladoresEntreverdes.html',
-          controller: 'RelatoriosCtrl',
+        .state('app.relatorios_tabela_horaria', {
+          url: '/relatorios/tabela_horaria',
+          templateUrl: 'views/relatorios/tabelaHoraria.html',
+          controller: 'RelatorioTabelaHorariaCtrl',
           controllerAs: 'relatorios',
           data: {
-            title: 'relatorios.controladoresEntreVerdes',
+            title: 'relatorios.tabelaHoraria',
             permissions: {
-              only: 'gerarRelatorioControladoresEntreverdes',
+              only: 'gerarRelatorioTabelaHoraria',
               redirectTo: 'app.main'
             }
           }
         })
 
+        .state('app.relatorios_log_controladores', {
+          url: '/relatorios/log_controladores',
+          templateUrl: 'views/relatorios/logControladores.html',
+          controller: 'RelatoriosLogControladoresCtrl',
+          controllerAs: 'relatorios',
+          data: {
+            title: 'relatorios.logControladores',
+            permissions: {
+              only: 'gerarRelatorioLogControladores',
+              redirectTo: 'app.main'
+            }
+          }
+        })
       ;
 
       // Prevent router from automatic state resolving
       $urlRouterProvider.deferIntercept();
+
+      // habilita download de blobs (configuração do controlador)
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
     }])
 
-  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN',
-    function($rootScope, $state, $timeout, TELAS_SEM_LOGIN) {
+  .run(['$rootScope', '$state', '$timeout', 'TELAS_SEM_LOGIN', '$window',
+    function($rootScope, $state, $timeout, TELAS_SEM_LOGIN, $window) {
 
       $rootScope.$state = $state;
 
@@ -1070,6 +1145,10 @@ angular
             $state.go('login');
           }
         });
-      });
 
+        if (toState.external) {
+          ev.preventDefault();
+          $window.open(toState.url, '_self');
+        }
+      });
     }]);

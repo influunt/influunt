@@ -1,7 +1,6 @@
 'use strict';
 
 var worldObj = require('../world');
-
 var world = new worldObj.World();
 
 var PlanosPage = function () {
@@ -13,8 +12,10 @@ var PlanosPage = function () {
   this.selecionarModoOperacao = function(modoOperacao) {
     var modos = ['Atuado', 'Coordenado', 'Isolado', 'Intermitente', 'Apagado'];
     var index = modos.indexOf(modoOperacao) + 1;
-    return world.getElement('[name="modoOperacao"] option:nth-child('+index+')').click().then(function() {
+    return world.waitFor('[name="modoOperacao"]').then(function(){
+      return world.getElement('[name="modoOperacao"] option:nth-child('+index+')').click().then(function() {
       return world.sleep(500);
+      });
     });
   };
 
@@ -28,6 +29,10 @@ var PlanosPage = function () {
 
   this.isTempoDeCicloHidden = function() {
     return world.waitForInverse('influunt-knob[title="TEMPO DE CICLO"]');
+  };
+
+  this.isEstagioDispensavelHidden = function() {
+    return world.waitForInverse('input[name="dispensavel"]').then(true);
   };
 
   this.isTempoDeCicloVisible = function() {
@@ -58,11 +63,16 @@ var PlanosPage = function () {
   };
 
   this.clicarBotaoApagarEstagio = function(estagio) {
-     return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click().then(function() {
-      return world.waitFor('div#modal-configuracao-estagio');
-    }).then(function() {
-      return world.waitForAnimationFinishes('div.modal-content');
-    });
+    return world.waitForOverlayDisappear()
+      .then(function(){
+        return world.getElementByXpath('//ul[contains(@class, "planos")]//h4[contains(@id, "'+estagio+'")]/i[contains(@class, "fa-trash")]').click();
+      })
+      .then(function() {
+        return world.waitFor('div#modal-configuracao-estagio');
+      })
+      .then(function() {
+        return world.waitForAnimationFinishes('div.modal-content');
+      });
   };
 
   this.marcarValorConfig = function(field, value) {
@@ -99,7 +109,7 @@ var PlanosPage = function () {
     });
   };
 
-  this.estagioExcluido = function(numeroEstagios) {
+  this.numeroEstagiosIncluidos = function(numeroEstagios) {
     return world.getElements('div.sortable-list').then(function(elements) {
       return elements.length === numeroEstagios;
     });
@@ -125,8 +135,8 @@ var PlanosPage = function () {
   };
 
   this.selecionarPlano = function(valor) {
-    var campo = 'select[name="controladores"]';
-    return world.selectOption(campo, valor);
+    var campo = 'controladores';
+    return world.select2OptionByXpath(campo, valor);
   };
 
   this.nomePlanoAlterado = function(plano) {
@@ -152,6 +162,11 @@ var PlanosPage = function () {
     return world.waitForByXpath('//h4[contains (@id, "'+estagio+'")]//span[contains (@class, "badge-danger")]');
   };
 
+  this.erroDefasagem = function(){
+    var xpath = '//span[contains(@messages, "[erroDefasagem()]")][contains(@class, "ng-hide")]';
+    return world.waitForByXpathInverse(xpath);
+  };
+
   this.clickInPlano = function(numeroPlano){
     return world.waitForOverlayDisappear().then(function() {
       return world.getElementByXpath('//li[contains (@id, "'+numeroPlano+'")]//ins[contains(@class, "iCheck-helper")]').click();
@@ -174,8 +189,36 @@ var PlanosPage = function () {
       });
   };
 
+  this.selectGrupoInDiagrama = function(grupo) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//input[contains(@type, "checkbox")][contains(@name, "'+grupo+'")]').click();
+    });
+  };
+
   this.alertVerdeSeguranca = function() {
     return world.getTextInSweetAlert();
+  };
+
+  this.checkEstagioDispensavel = function() {
+    return world.waitForByXpath('//input[contains(@name, "dispensavel")]').then(function() {
+      return world.getElementByXpath('//input[contains(@name, "dispensavel")]/..').click();
+    });
+  };
+
+  this.selecionaEstagioQueRecebeDispensavel = function(estagio) {
+    return world.getElementByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(text(), "'+estagio+'")]').click();
+  };
+
+  this.deveConterEstagioQueRecebeDispensavel = function(estagio) {
+    return world.waitForByXpath('//select[contains(@name, "tipoEstagio")]//option[contains(@selected, "selected")][contains(text(), "'+estagio+'")]');
+  };
+
+  this.selecionarCicloDuplo = function() {
+    return world.getElementByXpath('//input[contains(@name, "cicloDuplo")]//following-sibling::ins').click();
+  };
+
+  this.valorDoKnob = function(valor, Knob) {
+    return world.waitForByXpath('//influunt-knob[contains(@title, "'+Knob+'")]//p[contains(@class, "knob-value")][contains(text(), "'+valor+'")]');
   };
 };
 

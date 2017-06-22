@@ -33,10 +33,6 @@ var CidadesPage = function () {
     return world.waitFor(inputNomeCidade);
   };
 
-  this.existeAoMenosUmaCidade = function() {
-    return world.execSqlScript('features/support/scripts/cidades/create_cidade.sql');
-  };
-
   this.toastMessage = function() {
     return world.waitFor('#toast-container div.toast-message').then(function() {
       return world.sleep(500);
@@ -68,12 +64,6 @@ var CidadesPage = function () {
 
   this.clicarBotaoNovaCidade = function() {
     return world.clickButton(novaCidadeButton);
-  };
-
-  this.cidadeIdH5 = function() {
-    return world.getElementByXpath('//h5/small').then(function(element) {
-      return element.getText();
-    });
   };
 
   this.clicarNaoConfirmacaoApagarRegistro = function() {

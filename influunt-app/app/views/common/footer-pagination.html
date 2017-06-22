@@ -2,7 +2,7 @@
   <div class="row">
 
     <div class="col-md-6 page-num-info">
-      <span>
+      <span data-ng-if="!esconderPerPage">
         {{ 'geral.crud.itensPorPagina' | translate }}
         <input type="number" min="0" step="1" ng-model="pagination.perPage" data-ng-change="onPerPageChange()">
       </span>

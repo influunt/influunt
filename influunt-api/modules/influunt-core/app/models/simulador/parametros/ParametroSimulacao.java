@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.simulacao.ParametroSimulacaoDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import models.Controlador;
-import models.Detector;
 import models.simulador.SimulacaoConfig;
 import org.joda.time.DateTime;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,22 +35,29 @@ public class ParametroSimulacao {
     @NotNull(message = "não pode ficar em branco")
     private DateTime inicioControlador;
 
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @NotNull(message = "não pode ficar em branco")
-    private DateTime inicioSimulacao;
-
-    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
-    @NotNull(message = "não pode ficar em branco")
-    private DateTime fimSimulacao;
-
+    @Valid
     private List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
 
+    @Valid
     private List<ParametroSimulacaoImposicaoPlano> imposicoes = new ArrayList<>();
 
-    private List<ParametroFalha> falhas = new ArrayList<>();
+    @Valid
+    private List<ParametroSimulacaoImposicaoModo> imposicoesModos = new ArrayList<>();
+
+    @Valid
+    private List<ParametroSimulacaoLiberacaoImposicao> liberacoesImposicoes = new ArrayList<>();
+
+    @Valid
+    private List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
+
+    @Valid
+    private List<ParametroSimulacaoAlarme> alarmes = new ArrayList<>();
 
     private UUID idControlador;
 
+    private List<ParametroSimulacaoManual> insercaoDePlugDeControleManual = new ArrayList<>();
+
+    private List<ParametroSimulacaoTrocaDeEstagioManual> trocasEstagioModoManual = new ArrayList<>();
 
     public ParametroSimulacao() {
         this.id = UUID.randomUUID();
@@ -86,23 +93,7 @@ public class ParametroSimulacao {
     }
 
     public void setInicioControlador(DateTime inicioControlador) {
-        this.inicioControlador =  inicioControlador;
-    }
-
-    public DateTime getInicioSimulacao() {
-        return inicioSimulacao;
-    }
-
-    public void setInicioSimulacao(DateTime inicioSimulacao) {
-        this.inicioSimulacao = inicioSimulacao;
-    }
-
-    public DateTime getFimSimulacao() {
-        return fimSimulacao;
-    }
-
-    public void setFimSimulacao(DateTime fimSimulacao) {
-        this.fimSimulacao = fimSimulacao;
+        this.inicioControlador = inicioControlador;
     }
 
     public List<ParametroSimulacaoDetector> getDetectores() {
@@ -121,12 +112,36 @@ public class ParametroSimulacao {
         this.imposicoes = imposicoes;
     }
 
-    public List<ParametroFalha> getFalhas() {
+    public List<ParametroSimulacaoImposicaoModo> getImposicoesModos() {
+        return imposicoesModos;
+    }
+
+    public void setImposicoesModos(List<ParametroSimulacaoImposicaoModo> imposicoesModos) {
+        this.imposicoesModos = imposicoesModos;
+    }
+
+    public List<ParametroSimulacaoLiberacaoImposicao> getLiberacoesImposicoes() {
+        return liberacoesImposicoes;
+    }
+
+    public void setLiberacoesImposicoes(List<ParametroSimulacaoLiberacaoImposicao> liberacoesImposicoes) {
+        this.liberacoesImposicoes = liberacoesImposicoes;
+    }
+
+    public List<ParametroSimulacaoFalha> getFalhas() {
         return falhas;
     }
 
-    public void setFalhas(List<ParametroFalha> falhas) {
+    public void setFalhas(List<ParametroSimulacaoFalha> falhas) {
         this.falhas = falhas;
+    }
+
+    public List<ParametroSimulacaoAlarme> getAlarmes() {
+        return alarmes;
+    }
+
+    public void setAlarmes(List<ParametroSimulacaoAlarme> alarmes) {
+        this.alarmes = alarmes;
     }
 
     public UUID getIdControlador() {
@@ -146,22 +161,23 @@ public class ParametroSimulacao {
         List<SimulacaoConfig.DetectorSimulacaoConfig> detectores = new ArrayList<>();
 
         getControlador().getAneis().stream()
-                .sorted((o1, o2) -> o1.getPosicao()
-                        .compareTo(o2.getPosicao())).forEach(anel -> {
+            .sorted((o1, o2) -> o1.getPosicao()
+                .compareTo(o2.getPosicao())).forEach(anel -> {
             SimulacaoConfig.AnelSimulacaoConfig anelSimulacaoConfig = new SimulacaoConfig.AnelSimulacaoConfig();
             anelSimulacaoConfig.setNumero(anel.getPosicao());
+            anelSimulacaoConfig.setAceitaModoManual(anel.isAceitaModoManual());
             anel.getGruposSemaforicos().stream().sorted((o1, o2) -> o1.getPosicao().compareTo(o2.getPosicao()))
-                    .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
+                .forEach(grupoSemaforico -> anelSimulacaoConfig.getTiposGruposSemaforicos().add(grupoSemaforico.getTipo()));
             anel.getEstagios().forEach(estagio -> {
                 anelSimulacaoConfig.getEstagios().add(new SimulacaoConfig.EstagioSimulacaoConfig(estagio.getPosicao(),
-                        "api/v1/imagens/" + estagio.getImagem().getId() + "/thumb"));
+                    "api/v1/imagens/" + estagio.getImagem().getId() + "/thumb"));
             });
             aneis.add(anelSimulacaoConfig);
 
             List<SimulacaoConfig.DetectorSimulacaoConfig> detectoresConfig = anel.getDetectores().stream().map(detector ->
-                    new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
-                            anel.getPosicao(),
-                            detector.getPosicao())).collect(Collectors.toList());
+                new SimulacaoConfig.DetectorSimulacaoConfig(detector.getTipo(),
+                    anel.getPosicao(),
+                    detector.getPosicao())).collect(Collectors.toList());
 
             detectores.addAll(detectoresConfig);
 
@@ -176,9 +192,17 @@ public class ParametroSimulacao {
         return sc;
     }
 
-    public void associa() {
-        getDetectores().stream().forEach(parametroSimulacaoDetector -> {
-            parametroSimulacaoDetector.setDetector(Detector.find.byId(parametroSimulacaoDetector.getDetector().getId()));
-        });
+    public List<ParametroSimulacaoManual> getInsercaoDePlugDeControleManual() {
+        return insercaoDePlugDeControleManual;
+    }
+
+    public List<ParametroSimulacaoTrocaDeEstagioManual> getTrocasEstagioModoManual() {
+        return trocasEstagioModoManual;
+    }
+
+    public void removeEventos(DateTime disparo) {
+        getDetectores().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+        getInsercaoDePlugDeControleManual().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
+        getTrocasEstagioModoManual().removeIf(evento -> evento.getDisparo().compareTo(disparo) > 0);
     }
 }

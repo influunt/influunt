@@ -37,6 +37,7 @@ describe('Controller: SubAreasCtrl', function () {
   });
 
   it('Deve retornar a lista de areas', function() {
+    httpBackend.expectGET('/controladores/sem_subarea').respond({});
     httpBackend.expectGET('/areas').respond(listaAreas);
     scope.beforeShow();
     httpBackend.flush();

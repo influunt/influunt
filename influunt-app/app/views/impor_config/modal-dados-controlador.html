@@ -1,0 +1,98 @@
+<!-- modal | sincronizar -->
+<div class="modal inmodal" id="modalLerDados" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="width: 95%;">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h2>{{ 'imporConfig.dadosControlador' | translate }}</h2>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-lg-4">
+                <p><strong>{{ 'controladores.CLC' | translate }}:</strong> {{ dadosControlador.conteudo.clc }}</p>
+                <p><strong>{{ 'imporConfig.statusControlador' | translate }}:</strong> {{ dadosControlador.conteudo.status | translate}}</p>
+                <p><strong>{{ 'imporConfig.relogio' | translate }}:</strong> {{ dadosControlador.conteudo.relogio | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+              </div>
+            </div>
+
+            <h2 class='text-center'>{{ 'imporConfig.parametrosControlador' | translate }}</h2>
+            <!-- PARAMETROS -->
+            <table class="footable table table-stripped table-bordered" >
+              <thead>
+                <tr>
+                  <th>{{ 'imporConfig.log' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="dado in dadosControlador.conteudo.dados | orderBy:texto:reverse=true">
+                  <td>{{ dado.texto }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2 class='text-center'>{{ 'imporConfig.indicacaoFalhas' | translate }}</h2>
+            <!-- FALHAS -->
+            <table class="footable table table-stripped table-bordered" >
+              <thead>
+                <tr>
+                  <th>{{ 'simulacao.dataFalha' | translate }}</th>
+                  <th>{{ 'imporConfig.codigoFalha' | translate }}</th>
+                  <th>{{ 'imporConfig.dataRemocaoFalha' | translate }}</th>
+                  <th>{{ 'imporConfig.falha' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="erro in dadosControlador.erros">
+                  <td>{{ erro.conteudo.timestamp }}</td>
+                  <td>{{ erro.conteudo.tipoEvento.codigo }}</td>
+                  <td>{{ erro.dataRecuperado | date: 'dd/MM/yyyy HH:MM:ss' }}</td>
+                  <td>{{ erro.conteudo.descricaoEvento }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2 class='text-center'>{{ 'planos.titulo' | translate }}</h2>
+            <!-- PLANOS -->
+            <table class="footable table table-stripped table-bordered" >
+              <thead>
+                <tr>
+                  <th>{{ 'controladores.CLA' | translate }}</th>
+                  <th>{{ 'imporConfig.posicaoPlano' | translate }}</th>
+                  <th>{{ 'imporConfig.statusPlano' | translate }}</th>
+                  <th>{{ 'imporConfig.modoOperacaoTitulo' | translate }}</th>
+                  <th>{{ 'imporConfig.estagioAtual' | translate }}</th>
+                  <th>{{ 'imporConfig.tempoRestanteDoEstagio' | translate }}</th>
+                  <th>{{ 'imporConfig.tempoRestanteDoCiclo' | translate }}</th>
+                  <th>{{ 'imporConfig.momentoCiclo' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="plano in dadosControlador.conteudo.planos">
+                  <td>{{ plano.cla }}</td>
+                  <td>{{ plano.posicaoPlano }}</td>
+                  <td data-ng-if="plano.imposto">{{'imporConfig.planoForcado' | translate}}</td>
+                  <td data-ng-if="plano.impostoPorFalha">{{'imporConfig.planoImpostoFalha' | translate}}</td>
+                  <td data-ng-if="!plano.impostoPorFalha && !plano.imposto">{{'imporConfig.tabelaHoraria' | translate }}</td>
+                  <td>{{ plano.modoOperacao | humanize }}</td>
+                  <td>{{ plano.estagioAtual }}</td>
+                  <td>{{ plano.tempoRestanteDoEstagio }}</td>
+                  <td>{{ plano.tempoRestanteDoCiclo }}</td>
+                  <td>{{ plano.momentoCiclo }}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            {{dadosControlador.conteudo.ips.join(",")}}
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          {{ 'geral.crud.fechar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

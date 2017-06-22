@@ -1,6 +1,8 @@
 package protocol;
 
 import models.StatusDevice;
+import org.fusesource.mqtt.client.QoS;
+import play.libs.Json;
 
 /**
  * Created by rodrigosol on 9/6/16.
@@ -8,19 +10,30 @@ import models.StatusDevice;
 public class ControladorOnline {
     public long dataHora;
 
-    public String versao72c;
+    public String firmware;
 
     public StatusDevice status;
 
-    private ControladorOnline(long dataHora, String versao72c, StatusDevice status) {
+    public String marca;
+
+    public String modelo;
+
+    private ControladorOnline(long dataHora, String firmware, StatusDevice status, String marca, String modelo) {
         this.dataHora = dataHora;
-        this.versao72c = versao72c;
+        this.firmware = firmware;
         this.status = status;
+        this.marca = marca;
+        this.modelo = modelo;
     }
 
-    public static Envelope getMensagem(String idControlador, Long dataHora, String versao, StatusDevice status) {
-        ControladorOnline controladorOnline = new ControladorOnline(dataHora, versao, status);
-        return new Envelope(TipoMensagem.CONTROLADOR_ONLINE, idControlador, "controladores/conn/online", 1, controladorOnline, null);
+    public static Envelope getMensagem(String idControlador, Long dataHora, String firmware, StatusDevice status, String marca, String modelo) {
+        ControladorOnline controladorOnline = new ControladorOnline(dataHora, firmware, status, marca, modelo);
+        return new Envelope(TipoMensagem.CONTROLADOR_ONLINE,
+            idControlador,
+            DestinoControlador.online(),
+            QoS.AT_LEAST_ONCE,
+            Json.toJson(controladorOnline).toString(),
+            null);
     }
 
 }

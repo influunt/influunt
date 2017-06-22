@@ -14,7 +14,6 @@ public class InfluuntValidator<T> {
 
     public static Validator validator;
 
-
     public InfluuntValidator() {
         if (validator == null) {
             validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -31,7 +30,7 @@ public class InfluuntValidator<T> {
 
     private List<Erro> parse(Set<ConstraintViolation<T>> violations) {
         return violations.stream().map(v ->
-                new Erro(v.getRootBeanClass().getSimpleName(), v.getMessage(), v.getPropertyPath().toString())
+            new Erro(v.getRootBeanClass().getSimpleName(), v.getMessage(), v.getPropertyPath().toString())
         ).collect(Collectors.toList());
     }
 

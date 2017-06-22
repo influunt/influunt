@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class MessageBrokerUtils {
     public static Router createRoutees(UntypedActorContext context, int size, Class clazz, Object... params) {
-        List<Routee> routees = new ArrayList<Routee>();
+        List<Routee> routees = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             ActorRef ref;
             if (params.length > 0) {

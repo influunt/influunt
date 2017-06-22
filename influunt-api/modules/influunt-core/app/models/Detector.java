@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -51,9 +50,6 @@ public class Detector extends Model implements Cloneable, Serializable {
     @OneToOne
     private Estagio estagio;
 
-    @ManyToOne
-    private Controlador controlador;
-
     @Column
     private Integer posicao;
 
@@ -80,6 +76,9 @@ public class Detector extends Model implements Cloneable, Serializable {
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
+
+    @Transient
+    private boolean comFalha;
 
     public Detector() {
         super();
@@ -119,11 +118,11 @@ public class Detector extends Model implements Cloneable, Serializable {
     }
 
     public Controlador getControlador() {
-        return controlador;
+        return getAnel().getControlador();
     }
 
     public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
+        getAnel().setControlador(controlador);
     }
 
     public Integer getPosicao() {
@@ -193,27 +192,27 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O tempo de ausência de detecção deve estar entre {min} e {max}.")
+        message = "O tempo de ausência de detecção deve estar entre {min} e {max}.")
     public boolean isTempoAusenciaDeteccaoEstaDentroDaFaixa() {
         if (isMonitorado()) {
-            return getTempoAusenciaDeteccao() != null && RangeUtils.getInstance().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
+            return getTempoAusenciaDeteccao() != null && getAnel().getControlador().getRangeUtils().TEMPO_AUSENCIA_DETECCAO.contains(getTempoAusenciaDeteccao());
         }
         return true;
     }
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O tempo de detecção permanente deve estar entre {min} e {max}.")
+        message = "O tempo de detecção permanente deve estar entre {min} e {max}.")
     public boolean isTempoDeteccaoPermanenteEstaDentroDaFaixa() {
         if (isMonitorado()) {
-            return getTempoDeteccaoPermanente() != null && RangeUtils.getInstance().TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
+            return getTempoDeteccaoPermanente() != null && getAnel().getControlador().getRangeUtils().TEMPO_DETECCAO_PERMANENTE.contains(getTempoDeteccaoPermanente());
         }
         return true;
     }
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.")
+        message = "O detector veicular deve estar associado a um estágio com grupo semafórico veicular.")
     public boolean isAssociadoAoMenosUmEstagioVeicular() {
         if (this.isAssociadoAoMenosUmEstagio() && this.isVeicular()) {
             return getEstagio().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isVeicular());
@@ -223,7 +222,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.")
+        message = "O detector de pedestre deve estar associado a um estágio com grupo semafórico de pedestre.")
     public boolean isAssociadoAoMenosUmEstagioPedestre() {
         if (this.isAssociadoAoMenosUmEstagio() && this.isPedestre()) {
             return getEstagio().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.isPedestre());
@@ -233,7 +232,7 @@ public class Detector extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoDetectoresCheck.class,
-            message = "O detector deve estar associado a pelo menos um estágio.")
+        message = "O detector deve estar associado a pelo menos um estágio.")
     public boolean isAssociadoAoMenosUmEstagio() {
         return !Objects.isNull(getEstagio());
     }
@@ -267,5 +266,18 @@ public class Detector extends Model implements Cloneable, Serializable {
     @Transient
     public boolean isPedestre() {
         return TipoDetector.PEDESTRE.equals(this.getTipo());
+    }
+
+    public boolean isComFalha() {
+        return comFalha;
+    }
+
+    public void setComFalha(boolean comFalha) {
+        this.comFalha = comFalha;
+    }
+
+    @Override
+    public String toString() {
+        return "D".concat(Character.toString(getTipo().toString().charAt(0))).concat(getPosicao().toString());
     }
 }

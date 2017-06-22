@@ -56,17 +56,28 @@ angular.module('influuntApp')
         });
       };
 
-      $scope.submit = function(refObjeto) {
+      $scope.submit = function(refObjeto, nextState, customPath) {
         // planos são ordenados antes de submeter o form
         // para que os erros voltem ordenados da API.
         // @todo: Testar se isso pode causar problemas no submit de tabelas horárias.
         sortPlanos(refObjeto);
         sortEventos(refObjeto);
 
-        return Restangular.all(resourceName).post(refObjeto)
+        if (typeof nextState === 'undefined') {
+          nextState = 'app.controladores';
+        }
+
+        var request = Restangular.all(resourceName);
+        if (typeof customPath === 'undefined') {
+          request = request.post(refObjeto);
+        } else {
+          request = request.customPOST(refObjeto, customPath);
+        }
+
+        return request
           .then(function(res) {
             influuntBlockui.unblock();
-            $state.go('app.controladores');
+            $state.go(nextState);
             return res;
           })
           .catch(function(res) {
@@ -75,6 +86,12 @@ angular.module('influuntApp')
               console.error(res);
               return $q.reject(res);
             }
+
+            // Os `errorsUibAlert` são utilizados somente no cadastro de tabela horária p/ subárea
+            $scope.errorsUibAlert = _.chain(res.data)
+              .map(function(erro) { return erro.root + ': ' + erro.message; })
+              .uniq()
+              .value();
 
             return $q.reject(handleValidations.buildValidationMessages(res.data, refObjeto));
           });

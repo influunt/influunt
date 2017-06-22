@@ -157,7 +157,7 @@ var ResumoControladorPage = function () {
   };
 
   this.findMapa = function(){
-    return world.waitForByXpath('//figure//div[contains (@class, "influunt-map ")]');
+    return world.waitForByXpath('//figure//div[contains (@markers, "markerEnderecoControlador")]');
   };
 
   this.verificaMonitoramento = function(monitoramento){

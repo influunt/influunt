@@ -8,14 +8,20 @@
 @import url(./../plugins/footable/footable.core.css);
 @import url(./../../bower_components/bootstrap/dist/css/bootstrap.css);
 @import url(./../../bower_components/select2/dist/css/select2.css);
+@import url(./font-open-sans.css);
 @import url(./font-awesome.css);
 @import url(./animate.css);
 @import url(./style.css);
 @import url(./pace.css);
 @import url(./influunt.css);
+@import url(./influunt/dashboard.css);
 @import url(./influunt/plano.css);
 @import url(./influunt/mapa-controladores.css);
 @import url(./influunt/simulacao.css);
+@import url(./influunt/diff.css);
+@import url(./influunt/imposicoes.css);
+@import url(./influunt/video.css);
+@import url(./influunt/agrupamentos.css);
 @import url(./directives/influunt-knob.css);
 @import url(./directives/influunt-map.css);
 @import url(./directives/influunt-tabs.css);
@@ -152,6 +158,11 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 .form-group label {
   font-size: 12px;
   text-transform: uppercase;
+}
+
+.label.label-modo-manual {
+  background-color: #5e5e5e;
+  color: #d1dade;
 }
 
 .wizard-step-title h2, h3 {

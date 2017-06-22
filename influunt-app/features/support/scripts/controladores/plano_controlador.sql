@@ -20,21 +20,21 @@ SET @PlanoId8 = RANDOM_UUID();
 SET @PlanoId9 = RANDOM_UUID();
 SET @PlanoId10 = RANDOM_UUID();
 
-INSERT INTO `versoes_planos` (`id`,`id_json`,`versao_anterior_id`,`anel_id`,`usuario_id`,`descricao`,`status_versao`,`data_criacao`) VALUES
-                             (@VersaoPlanoId1, RANDOM_UUID(), null, @anel1_id, '90574f0a-cd7b-477c-9fa6-98c426813ea8', 'Planos criado', 'EDITANDO', NOW()),
-                             (@VersaoPlanoId2, RANDOM_UUID(), null, @anel2_id, '90574f0a-cd7b-477c-9fa6-98c426813ea8', 'Planos criado', 'EDITANDO', NOW());
+INSERT INTO `versoes_planos` (`id`,`id_json`,`versao_anterior_id`,`anel_id`,`usuario_id`,`descricao`,`status_versao`,`data_criacao`, `data_atualizacao`) VALUES
+                             (@VersaoPlanoId1, RANDOM_UUID(), null, @anel1_id, '90574f0a-cd7b-477c-9fa6-98c426813ea8', 'Planos criado', 'EDITANDO', NOW(), NOW()),
+                             (@VersaoPlanoId2, RANDOM_UUID(), null, @anel2_id, '90574f0a-cd7b-477c-9fa6-98c426813ea8', 'Planos criado', 'EDITANDO', NOW(), NOW());
 
-INSERT INTO `planos` (`id`, `id_json`,`posicao`,`descricao`,`tempo_ciclo`,`defasagem`,`versao_plano_id`,`modo_operacao`,`posicao_tabela_entre_verde`,`data_criacao`,`data_atualizacao`) VALUES
-                     (@PlanoId1,RANDOM_UUID(),1,'PLANO 77',45,0,@VersaoPlanoId1,0, 1, NOW(), NOW()),
-                     (@PlanoId2,RANDOM_UUID(),2,'PLANO 2',50,0,@VersaoPlanoId1, 1, 1, NOW(), NOW()),
-                     (@PlanoId3,RANDOM_UUID(),3,'PLANO 3',30,0,@VersaoPlanoId1, 4, 1, NOW(), NOW()),
-                     (@PlanoId4,RANDOM_UUID(),4,'PLANO 4',30,0,@VersaoPlanoId1, 3, 1, NOW(), NOW()),
-                     (@PlanoId5,RANDOM_UUID(),5,'PLANO 5',0 ,0,@VersaoPlanoId1, 2, 1, NOW(), NOW()),
-                     (@PlanoId6,RANDOM_UUID(),1,'PLANO 1',45,0,@VersaoPlanoId2, 0, 1, NOW(), NOW()),
-                     (@PlanoId7,RANDOM_UUID(),2,'PLANO 2',30,0,@VersaoPlanoId2, 0, 1, NOW(), NOW()),
-                     (@PlanoId8,RANDOM_UUID(),3,'PLANO 3',30,0,@VersaoPlanoId2, 4, 1, NOW(), NOW()),
-                     (@PlanoId9,RANDOM_UUID(),4,'PLANO 4',30,0,@VersaoPlanoId2, 3, 1, NOW(), NOW()),
-                     (@PlanoId10,RANDOM_UUID(),5,'PLANO 5',0,0,@VersaoPlanoId2, 2, 1, NOW(), NOW());
+INSERT INTO `planos` (`id`, `id_json`,`posicao`,`descricao`,`tempo_ciclo`,`defasagem`,`versao_plano_id`,`modo_operacao`,`posicao_tabela_entre_verde`,`data_criacao`,`data_atualizacao`, `ciclo_duplo`, `tempo_ciclo_duplo`) VALUES
+                     (@PlanoId1,RANDOM_UUID(),1,'PLANO 77',45,0,@VersaoPlanoId1,0, 1, NOW(), NOW(),0,0),
+                     (@PlanoId2,RANDOM_UUID(),2,'PLANO 2',50,0,@VersaoPlanoId1, 1, 1, NOW(), NOW(),0,0),
+                     (@PlanoId3,RANDOM_UUID(),3,'PLANO 3',30,0,@VersaoPlanoId1, 4, 1, NOW(), NOW(),0,0),
+                     (@PlanoId4,RANDOM_UUID(),4,'PLANO 4',30,0,@VersaoPlanoId1, 3, 1, NOW(), NOW(),0,0),
+                     (@PlanoId5,RANDOM_UUID(),5,'PLANO 5',0 ,0,@VersaoPlanoId1, 2, 1, NOW(), NOW(),0,0),
+                     (@PlanoId6,RANDOM_UUID(),1,'PLANO 1',45,0,@VersaoPlanoId2, 0, 1, NOW(), NOW(),0,0),
+                     (@PlanoId7,RANDOM_UUID(),2,'PLANO 2',30,0,@VersaoPlanoId2, 0, 1, NOW(), NOW(),0,0),
+                     (@PlanoId8,RANDOM_UUID(),3,'PLANO 3',30,0,@VersaoPlanoId2, 4, 1, NOW(), NOW(),0,0),
+                     (@PlanoId9,RANDOM_UUID(),4,'PLANO 4',30,0,@VersaoPlanoId2, 3, 1, NOW(), NOW(),0,0),
+                     (@PlanoId10,RANDOM_UUID(),5,'PLANO 5',0,0,@VersaoPlanoId2, 2, 1, NOW(), NOW(),0,0);
 
 
 -- estágio_id já j[a está cadastrado pelo arquivo controlador.sql

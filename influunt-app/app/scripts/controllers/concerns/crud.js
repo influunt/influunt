@@ -14,8 +14,11 @@ angular.module('influuntApp')
     function ($scope, $state, $filter, $timeout,
               Restangular, toast, influuntAlert, handleValidations,
               influuntBlockui) {
-    var buildFilterQuery, buildSortQuery, buildFilterDataFields;
+
+    var buildFilterQuery, buildSortQuery, buildFilterDataFields, buildReportQuery;
     var resourceName = null;
+    var customURL = null;
+
     $scope.pagination = {
       current: 1,
       perPage: 30,
@@ -32,9 +35,11 @@ angular.module('influuntApp')
      * Inicializa novo crud.
      *
      * @param      {string}  param   Nome base para a rota do crud.
+     * @url        {string}  url     Complemento da URL
      */
-    $scope.inicializaNovoCrud = function(param) {
+    $scope.inicializaNovoCrud = function(param, url) {
       resourceName =  param;
+      customURL = url || null;
     };
 
     /**
@@ -44,10 +49,11 @@ angular.module('influuntApp')
      */
     $scope.index = function() {
       var query = $scope.buildQuery($scope.pesquisa);
-      return Restangular.all(resourceName).customGET(null, query)
+      return Restangular.all(resourceName).customGET(customURL, query)
         .then(function(res) {
           $scope.lista = res.data;
           $scope.pagination.totalItems = res.total;
+          $scope.afterIndex();
         })
         .finally(influuntBlockui.unblock);
     };
@@ -60,12 +66,18 @@ angular.module('influuntApp')
 
       buildFilterQuery(query, pesquisa);
       buildSortQuery(query, pesquisa);
+      buildReportQuery(query, pesquisa);
 
       return query;
     };
 
     buildFilterQuery = function(query, pesquisa) {
       _.each(pesquisa.filtro, function(dadosFiltro, nomeCampo) {
+        // Elimina queries vazias.
+        if (_.isString(dadosFiltro.valor) && _.isEmpty(dadosFiltro.valor)) {
+          return false;
+        }
+
         var field;
         if (dadosFiltro.tipoCampo === 'texto' || dadosFiltro.tipoCampo === 'numerico') {
           field = (nomeCampo + '_' + dadosFiltro.tipoFiltro).replace(/\_$/, '');
@@ -95,13 +107,15 @@ angular.module('influuntApp')
       query.sort_type = pesquisa.orderReverse ? 'desc' : 'asc';
     };
 
-    var perPageTimeout = null;
-    $scope.onPerPageChange = function() {
-      $timeout.cancel(perPageTimeout);
-      perPageTimeout = $timeout(function() {
-        $scope.index();
-      }, 500);
+    buildReportQuery = function(query, pesquisa) {
+      if(pesquisa.tipoRelatorio !== '') {
+        query.tipoRelatorio = pesquisa.tipoRelatorio;
+      }
     };
+
+    $scope.onPerPageChange = _.debounce(function() {
+      $scope.index();
+    }, 500);
 
     $scope.onPageChange = function() {
       return $scope.index();
@@ -143,7 +157,6 @@ angular.module('influuntApp')
      * @return     {boolean}  { description_of_the_return_value }
      */
     $scope.save = function(formValido) {
-
       // Não deve tentar enviar os dados se há informações de formulário invalido.
       $scope.submited = true;
       if (angular.isDefined(formValido) && !formValido) {
@@ -153,14 +166,18 @@ angular.module('influuntApp')
       var promise = $scope.objeto.id ? $scope.update() : $scope.create();
       return promise
         .then(function() {
+          if (angular.isFunction($scope.afterSave)) {
+            $scope.afterSave();
+          }
           $scope.submited = false;
           $state.go('app.' + resourceName);
           toast.success($filter('translate')('geral.mensagens.salvo_com_sucesso'));
         })
         .catch(function(err) {
           if (err.status === 422) {
-            // $scope.errors = err.data;
             $scope.errors = handleValidations.handle(err.data);
+          } else if (err.status === 409) {
+            throw err;
           } else {
             toast.error($filter('translate')('geral.mensagens.default_erro'));
             throw new Error(JSON.stringify(err));
@@ -191,16 +208,23 @@ angular.module('influuntApp')
 
     $scope.confirmDelete = function(id) {
       influuntAlert.delete().then(function(confirmado) {
-        return confirmado && Restangular.one(resourceName, id).remove()
-          .then(function() {
-            toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
-            return $scope.index();
-          })
-          .catch(function() {
-            toast.error($filter('translate')('geral.mensagens.default_erro'));
-          })
-          .finally(influuntBlockui.unblock);
+        return confirmado && $scope.delete(id);
       });
+    };
+
+    $scope.delete = function(id) {
+      return Restangular.one(resourceName, id).remove()
+        .then(function() {
+          toast.success($filter('translate')('geral.mensagens.removido_com_sucesso'));
+          return $scope.index();
+        })
+        .catch(function(err) {
+          if (err.status === 422) {
+            _.map(handleValidations.handle(err.data).general, function(error) { toast.warn(error); });
+          } else {
+            toast.error($filter('translate')('geral.mensagens.default_erro'));
+          }
+        });
     };
 
     // callbacks
@@ -213,5 +237,10 @@ angular.module('influuntApp')
      * Implementação de callbacks para o crud base.
      */
     $scope.afterShow = function() {};
+
+    /**
+     * Implementação de callbacks para o crud base.
+     */
+    $scope.afterIndex = function() {};
 
   }]);

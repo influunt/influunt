@@ -13,10 +13,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="i in horarios track by $index" style="line-height:1px;height:1px">
-      <td  style="font-size:11px;padding:1px 5px">{{ $index }}</td>
-      <td data-ng-repeat="(k,v) in agenda" data-ng-class="getTableCell(v, $parent.$index)" ng-mouseover="highlightEvento(v, $parent.$index)" ng-mouseleave="leaveHighlightEvento(v, $parent.$index)" class="programacao"></td>
-      <td  style="font-size:11px;padding:1px 5px">{{ $index }}</td>
+    <tr data-ng-repeat="i in horarios track by $index" style="line-height: 1px; height: 1px">
+      <td  style="font-size: 11px; padding: 1px 5px">{{ $index }}</td>
+      <td class="programacao"
+          data-ng-repeat="(k,v) in agenda"
+          data-ng-class="getTableCell(v, $parent.$index)"
+          data-ng-mouseover="highlightEvento(v, $parent.$index)"
+          data-ng-mouseleave="leaveHighlightEvento(v, $parent.$index)"></td>
+      <td  style="font-size: 11px; padding: 1px 5px">{{ $index }}</td>
     </tr>
   </tbody>
 </table>

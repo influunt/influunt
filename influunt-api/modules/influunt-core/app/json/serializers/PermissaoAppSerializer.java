@@ -26,7 +26,7 @@ public class PermissaoAppSerializer extends JsonSerializer<PermissaoApp> {
 
         if (permissaoApp.getNome() != null) {
             jgen.writeStringField("nome", permissaoApp.getNome());
-        }        
+        }
 
         if (permissaoApp.getDescricao() != null) {
             jgen.writeStringField("descricao", permissaoApp.getDescricao());
