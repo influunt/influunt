@@ -243,10 +243,17 @@
                                               class="btn btn-primary btn-xs"
                                               data-toggle="modal"
                                               data-target="#modal-configuracao-estagio"
-                                              ng-disabled="somenteVisualizacao"
-                                              data-ng-if="currentPlano.modoOperacao != 'MANUAL'">
+                                              data-ng-if="currentPlano.modoOperacao != 'MANUAL' && !somenteVisualizacao">
                                             <i class="fa fa-cog" />
                                             {{'crud.configurar' | translate}}
+                                          </button>
+                                          <button type="button"
+                                              class="btn btn-primary btn-xs"
+                                              data-toggle="modal"
+                                              data-target="#modal-configuracao-estagio"
+                                              data-ng-if="currentPlano.modoOperacao != 'MANUAL' && somenteVisualizacao">
+                                            <i class="fa fa-eye" />
+                                            {{'crud.visualizar' | translate}}
                                           </button>
                                           <button type="button" class="btn btn-primary btn-xs" data-ng-click="leftEstagio($index)" ng-disabled="$first || somenteVisualizacao">
                                             <i class="fa fa-arrow-left" />
