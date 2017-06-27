@@ -208,4 +208,71 @@ describe('Controller: ControladoresAneisCtrl', function () {
       expect(scope.objeto.aneis[0].ativo).toBeTruthy();
     });
   });
+
+  describe('bugs', function() {
+    describe('estágios sem imagens', function () {
+      describe('Quando a API retorna um estágio sem imagem', function () {
+        beforeEach(function() {
+          var objeto = {
+            aneis: [
+              {
+                idJson: 'anel-1',
+                ativo: true,
+                endereco: {idJson: 'e3'},
+                estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
+                gruposSemaforicos: [{idJson: 'gs1'}],
+                detectores: [{idJson: 'd1'}],
+                planos: [{idJson: 'p1'}]
+              },
+              {idJson: 'anel-3',ativo: false}
+            ],
+            todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}],
+            estagios: [{idJson: 'e1', imagem: { idJson: 'imagem-1'}}, {idJson: 'e2'}],
+            imagens: [{idJson: 'imagem-1'}]
+          };
+
+          WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
+          scope.$apply();
+        });
+
+        it('Os estágios sem imagens devem ser removidos da lista de estágios', function () {
+          expect(scope.imagensDeEstagios.length).toBe(1);
+          expect(true).toBe(true);
+        });
+
+      });
+
+      describe('Quado o app produz estágios sem imagem', function () {
+        beforeEach(function() {
+          var objeto = {
+            aneis: [
+              {
+                idJson: 'anel-1',
+                ativo: true,
+                endereco: {idJson: 'e3'},
+                estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
+                gruposSemaforicos: [{idJson: 'gs1'}],
+                detectores: [{idJson: 'd1'}],
+                planos: [{idJson: 'p1'}]
+              }
+            ],
+            todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}],
+            estagios: [{idJson: 'e1', imagem: { idJson: 'imagem-1'}}, {idJson: 'e2'}],
+            imagens: [{idJson: 'imagem-1'}]
+          };
+
+          WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
+          scope.$apply();
+        });
+
+        it('Deve remover os estágios sem imagens antes de enviar à API', function () {
+          scope.beforeSubmitForm();
+          scope.$apply();
+
+          expect(scope.objeto.aneis[0].estagios.length).toBe(1);
+          expect(scope.objeto.estagios.length).toBe(1);
+        });
+      });
+    });
+  });
 });

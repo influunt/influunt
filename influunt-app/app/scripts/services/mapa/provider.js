@@ -10,7 +10,7 @@ var mapProviderObj = function(MAP, $timeout) {
   var DEFAULTS = {LATITUDE: -23.550382, LONGITUDE: -46.663956, ZOOM: 15};
 
   // funcoes de mapa.
-  var initializeMap, setView, getMap;
+  var initializeMap, setView, getMap, resetView;
 
   // funcoes de markers.
   var onMarkerClick, setOnMarkerClick;
@@ -239,6 +239,10 @@ var mapProviderObj = function(MAP, $timeout) {
     }
   };
 
+  resetView = function() {
+    map.invalidateSize();
+  };
+
   return {
     initializeMap: initializeMap,
     getMap: getMap,
@@ -247,6 +251,7 @@ var mapProviderObj = function(MAP, $timeout) {
     renderMarkers: renderMarkers,
     renderAreas: renderAreas,
     renderAgrupamentos: renderAgrupamentos,
+    resetView: resetView,
 
     setOnMarkerClick: setOnMarkerClick,
     selectMarkerById: selectMarkerById
