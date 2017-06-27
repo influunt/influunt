@@ -237,9 +237,7 @@ describe('Controller: ControladoresAneisCtrl', function () {
 
         it('Os estágios sem imagens devem ser removidos da lista de estágios', function () {
           expect(scope.imagensDeEstagios.length).toBe(1);
-          expect(true).toBe(true);
         });
-
       });
 
       describe('Quado o app produz estágios sem imagem', function () {
