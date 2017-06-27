@@ -18,8 +18,8 @@ angular.module('influuntApp')
         onClickMarker: '&?',
         mapId: '=?'
       },
-      link: function(scope, element) {
-        scope.mapId = UUID.generate();
+      link: function(scope, element, attrs) {
+        scope.mapId = attrs.mapaId || UUID.generate();
         var _mapaProvider = mapaProvider.getMap(scope.mapId);
 
         _mapaProvider.initializeMap(element[0], scope.options);

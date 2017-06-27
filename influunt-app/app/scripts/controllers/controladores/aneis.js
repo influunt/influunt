@@ -64,6 +64,19 @@ angular.module('influuntApp')
        */
       $scope.beforeSubmitForm = function() {
         $scope.objeto.aneis.forEach(function(anel) {
+
+          // se o sistema permitir, por alguma falha, que haja um estágio que não possua imagem, este bloco deverá
+          // impedir que este estágio "quebrado" seja submetido.
+          anel.estagios.forEach(function(e, index) {
+            var idx = _.findIndex($scope.objeto.estagios, { idJson: e.idJson });
+            var estagio = $scope.objeto.estagios[idx];
+            var comImagem = estagio && estagio.imagem && estagio.imagem.idJson;
+            if (!comImagem) {
+              $scope.objeto.estagios.splice(idx, 1);
+              anel.estagios.splice(index, 1);
+            }
+          });
+
           if (!anel.ativo) {
             delete anel.enderecos;
           }
@@ -153,19 +166,19 @@ angular.module('influuntApp')
           if (deveApagarEstagio) {
             var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
             if (estagio.id) {
-            return Restangular.one('estagios', estagio.id).remove()
-              .then(function() {
-                $scope.inicializaWizard().then(function() {
-                  $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-                  $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
-                  setarImagensEstagios($scope.currentAnel);
-                });
-                return true;
-              }).catch(function() {
-                toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
-                return false;
-              })
-              .finally(influuntBlockui.unblock);
+              return Restangular.one('estagios', estagio.id).remove()
+                .then(function() {
+                  $scope.inicializaWizard().then(function() {
+                    $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+                    $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+                    setarImagensEstagios($scope.currentAnel);
+                  });
+                  return true;
+                }).catch(function() {
+                  toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
+                  return false;
+                })
+                .finally(influuntBlockui.unblock);
             } else {
               var imagem = _.find($scope.objeto.imagens, { idJson: estagio.imagem.idJson });
               $scope.removerEstagio(imagem);
@@ -275,7 +288,10 @@ angular.module('influuntApp')
         $scope.imagensDeEstagios = _
           .chain(estagios)
           .map(function(e) {
-            var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
+            return _.find($scope.objeto.estagios, {idJson: e.idJson});
+          })
+          .filter('imagem')
+          .map(function(estagio) {
             var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
             var obj = {
               idJson: estagio.idJson,
