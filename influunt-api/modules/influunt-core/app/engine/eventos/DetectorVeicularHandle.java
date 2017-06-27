@@ -113,7 +113,7 @@ public class DetectorVeicularHandle extends GerenciadorDeEventos {
             .orElse(null);
 
         IntervaloEstagio intervalo = this.intervalos.get(contadorIntervalo);
-        if (!intervalo.isEntreverde() && estagioPlanoAtual.equals(estagioPlano)) {
+        if (intervalo != null && !intervalo.isEntreverde() && estagioPlanoAtual.equals(estagioPlano)) {
             aumentarTempoEstagioAtual(estagioPlano);
         }
     }
