@@ -309,6 +309,9 @@ public class InfluuntQueryBuilder {
                 String[] values = valueStr.substring(1, valueStr.length() - 1).split(",");
                 expr = Expr.in(key, values);
                 break;
+            case SearchFieldDefinition.NOTIN:
+                expr = Expr.not(Expr.in(key, ((String) value).substring(1, ((String) value).length() - 1).split(",")));
+                break;
             case SearchFieldDefinition.EQ:
                 expr = Expr.eq(key, value);
                 break;

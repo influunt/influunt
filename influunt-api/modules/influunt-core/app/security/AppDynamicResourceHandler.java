@@ -44,10 +44,13 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
 
         String chave = ctxManager.getChave(ctx);
         boolean acessandoStatus = "GET /api/v1/monitoramento/status_controladores".equals(chave) ||
+            "GET /api/api/v1/monitoramento/status_controladores".equals(chave) ||
             "GET /api/v1/monitoramento/controladores_onlines".equals(chave) ||
             "GET /api/v1/monitoramento/controladores_offlines".equals(chave) ||
             "GET /api/v1/monitoramento/detalhe_controlador/$id<[^/]+>".equals(chave) ||
-            "GET /api/v1/controladores/$id<[^/]+>/status_dinamico".equals(chave);
+            "GET /api/v1/controladores/$id<[^/]+>/status_dinamico".equals(chave) ||
+            "GET /api/v1/usuarios/$usuario_id<[^/]+>/alarmes_e_falhas".equals(chave) ||
+            "GET /api/api/v1/usuarios/$usuario_id<[^/]+>/alarmes_e_falhas".equals(chave);
 
         if (acessandoStatus) {
             return CompletableFuture.completedFuture(Boolean.TRUE);
@@ -93,6 +96,14 @@ public class AppDynamicResourceHandler implements DynamicResourceHandler {
                     return CompletableFuture.completedFuture(Boolean.TRUE);
                 }
             }
+
+            boolean cadastrandoUsuario = "GET /api/api/v1/areas".equals(chave) ||
+                "GET /api/api/v1/perfis".equals(chave);
+
+            if (cadastrandoUsuario && usuario.getArea() != null) {
+                return CompletableFuture.completedFuture(Boolean.TRUE);
+            }
+
         }
 
         return CompletableFuture.completedFuture(Boolean.FALSE);
