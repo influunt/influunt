@@ -23,7 +23,7 @@ angular.module('influuntApp')
         };
 
         scope.translateBotaoSalvar = function(step) {
-          var stepEntreVerdes = "app.wizard_controladores.entre_verdes";
+          var stepEntreVerdes = 'app.wizard_controladores.entre_verdes';
           var botaoEntreVerdes = 'geral.tooltip.naoPodeSalvarSemConfirmacaoEntreVerdes';
           var botaoDefault = 'geral.tooltip.naoPodeSalvarSemConfirmacao';
 
@@ -35,4 +35,22 @@ angular.module('influuntApp')
         };
       }
     };
-  }]);
+  }])
+  .directive('popupRevisao', ['mapaProvider', '$timeout', function (mapaProvider, $timeout) {
+    return {
+      templateUrl: 'views/controladores/wizard/common/popup-revisao.html',
+      restrict: 'E',
+      link: function(scope, el, attrs) {
+        $(document).ready(function() {
+          $('#myModal').on('show.bs.modal', function() {
+            $timeout(function() {
+              var mapa = mapaProvider.getMap('popup-revisao');
+              mapa.resetView();
+              mapa.setViewForMarkers();
+            }, 500);
+          });
+        });
+      }
+    };
+  }])
+  ;

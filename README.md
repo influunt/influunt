@@ -756,10 +756,6 @@ No caso do debian, instale o pacote no sistema operacional utilizando o comando 
 sudo dpkg -i 72c_linux_1_0.deb
 ```
 
-Para instalar o pacote RPM utilize o seguinte comando:
-```bash
-rpm -ivh 72c_linux_1_0.rpm
-```
 Após a instalação execute o comando baixo para parar a execução do 72c.
 
 ```bash
