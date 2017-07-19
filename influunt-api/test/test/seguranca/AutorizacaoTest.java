@@ -491,6 +491,18 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
     @Test
     public void testEditarProprioUsuario() {
+        Cidade sp = new Cidade();
+        sp.setNome("São Paulo");
+        sp.save();
+
+        Area areaSP = new Area();
+        areaSP.setDescricao(1);
+        areaSP.setCidade(sp);
+        areaSP.save();
+
+        usuarioComAcesso.setArea(areaSP);
+        usuarioComAcesso.save();
+
         Iterator<Permissao> it = perfilComAcesso.getPermissoes().iterator();
         while (it.hasNext()) {
             Permissao p = it.next();

@@ -276,4 +276,12 @@ public class Usuario extends Model implements Subject, Serializable {
     public boolean isPerfilObrigatorioSeNaoForRoot() {
         return isRoot() || getPerfil() != null;
     }
+
+    @AssertTrue(message = "não pode ficar em branco")
+    public boolean isAreaObrigatorioSeNaoForRoot() {
+        if (isRoot() || getPerfil() == null) {
+            return true;
+        }
+        return getPerfil().isAdministrador() || getArea() != null;
+    }
 }

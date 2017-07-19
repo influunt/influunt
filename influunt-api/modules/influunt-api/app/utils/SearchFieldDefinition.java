@@ -20,6 +20,8 @@ public class SearchFieldDefinition {
 
     public static final String NE = "ne";
 
+    public static final String NOTIN = "notin";
+
     private String fieldName;
 
     private String fieldOperator;

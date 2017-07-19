@@ -5,6 +5,7 @@ import checks.Erro;
 import checks.InfluuntValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Perfil;
+import models.Usuario;
 import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -14,9 +15,7 @@ import security.Secured;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -59,7 +58,22 @@ public class PerfisController extends Controller {
 
     @Transactional
     public CompletionStage<Result> findAll() {
-        InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Perfil.class, request().queryString()).query());
+        Usuario u = getUsuario();
+        InfluuntResultBuilder result;
+        Map<String, String[]> params = new HashMap<>();
+
+        if (u.isRoot() || u.getPerfil().isAdministrador()) {
+            result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Perfil.class, request().queryString()).query());
+        } else {
+
+            if (u.getPerfil().isCoordenador()) {
+                params.put("nome_notin", new String[]{"[Administrador]"});
+            } else {
+                params.put("nome_notin", new String[]{"[Administrador, Coordenador]"});
+            }
+
+            result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Perfil.class, params).query());
+        }
         return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 
@@ -102,6 +116,10 @@ public class PerfisController extends Controller {
         } else {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         }
+    }
+
+    private Usuario getUsuario() {
+        return (Usuario) ctx().args.get("user");
     }
 
 }
