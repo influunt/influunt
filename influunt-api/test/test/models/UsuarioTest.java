@@ -7,6 +7,7 @@ import models.Cidade;
 import models.Perfil;
 import models.Usuario;
 import org.junit.Test;
+import test.config.WithInfluuntApplicationNoAuthentication;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by pedropires on 12/21/16.
  */
-public class UsuarioTest {
+public class UsuarioTest extends WithInfluuntApplicationNoAuthentication {
 
     @Test
     public void testValidation() {
