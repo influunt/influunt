@@ -2,6 +2,8 @@ package test.models;
 
 import checks.Erro;
 import checks.InfluuntValidator;
+import models.Area;
+import models.Cidade;
 import models.Perfil;
 import models.Usuario;
 import org.junit.Test;
@@ -41,6 +43,23 @@ public class UsuarioTest {
 
         usuario.setRoot(false);
         usuario.setPerfil(perfil);
+
+        erros = new InfluuntValidator<Usuario>().validate(usuario);
+        assertEquals(1, erros.size());
+        assertThat(erros, org.hamcrest.Matchers.hasItems(
+            new Erro("Usuario", "não pode ficar em branco", "areaObrigatorioSeNaoForRoot")
+        ));
+
+        Cidade sp = new Cidade();
+        sp.setNome("São Paulo");
+        sp.save();
+
+        Area areaSP = new Area();
+        areaSP.setDescricao(1);
+        areaSP.setCidade(sp);
+        areaSP.save();
+
+        usuario.setArea(areaSP);
 
         erros = new InfluuntValidator<Usuario>().validate(usuario);
         assertEquals(0, erros.size());
