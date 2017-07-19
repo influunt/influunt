@@ -130,10 +130,10 @@ public class Perfil extends Model implements Role, Serializable {
     }
 
     public boolean isAdministrador() {
-        return "Administrador".equals(nome);
+        return "Administrador".equalsIgnoreCase(nome);
     }
 
     public boolean isCoordenador() {
-        return "Coordenador".equals(nome);
+        return "Coordenador".equalsIgnoreCase(nome);
     }
 }
