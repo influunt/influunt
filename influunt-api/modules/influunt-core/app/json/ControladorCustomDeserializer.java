@@ -1335,9 +1335,9 @@ public class ControladorCustomDeserializer {
         }
 
         if (node.has("data")) {
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat formatter = new SimpleDateFormat("ddMMyyyy");
             try {
-                evento.setData(formatter.parse(node.get("data").asText()));
+                evento.setData(formatter.parse(node.get("data").asText().replaceAll("\\D+", "")));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
