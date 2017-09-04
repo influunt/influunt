@@ -120,6 +120,7 @@ public class PlanosReportService extends ReportService<Plano> {
                 .put("endereco", anel.getEndereco().nomeEndereco())
                 .put("ciclo", plano.getTempoCiclo().toString())
                 .put("defasagem", plano.getDefasagem().toString())
+                .put("modoOperacao", plano.getModoOperacao().getName())
                 .put("controlador_id", anel.getControlador().getId().toString())
                 .set("estagios", estagios);
         });
@@ -141,7 +142,7 @@ public class PlanosReportService extends ReportService<Plano> {
 
         StringBuilder buffer = new StringBuilder(82);
 
-        buffer.append("Relatório de Controladores por Falhas").append(NEW_LINE_SEPARATOR);
+        buffer.append("Relatório de Planos").append(NEW_LINE_SEPARATOR);
 
         buffer.append("Gerado em:").append(COMMA_DELIMITER).append(InfluuntUtils.formatDateToString(new DateTime(), FORMAT_DATE_HOUR_COMPLETE));
         buffer.append(NEW_LINE_SEPARATOR).append(NEW_LINE_SEPARATOR);
@@ -151,7 +152,7 @@ public class PlanosReportService extends ReportService<Plano> {
         // Write the CSV file header
         buffer.append("PLANO").append(COMMA_DELIMITER).append("CONTROLADOR").append(COMMA_DELIMITER)
             .append("LOCAL").append(COMMA_DELIMITER).append("CICLO").append(COMMA_DELIMITER)
-            .append("DEFASAGEM").append(NEW_LINE_SEPARATOR);
+            .append("DEFASAGEM").append(COMMA_DELIMITER).append("MODO OPERACAO").append(NEW_LINE_SEPARATOR);
 
         retorno.get("data").forEach(jsonNode -> {
             buffer.append(StringUtils.defaultIfBlank(jsonNode.get("numero").asText(), StringUtils.EMPTY)).append(COMMA_DELIMITER)

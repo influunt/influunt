@@ -317,12 +317,21 @@ public class IntervaloGrupoSemaforico {
                         if (atraso > 0) {
                             tempoAtraso = atraso * 1000L;
                         } else if (atraso == 0) {
-                            Transicao proximaTransicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAtual,
-                                estagioPlano.getEstagioPlanoProximo(plano.getEstagiosOrdenados()).getEstagio());
+                            EstagioPlano possivelProximoEstagio = null;
+                            do {
+                                if (possivelProximoEstagio == null) {
+                                    possivelProximoEstagio = estagioPlano.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
+                                } else {
+                                    possivelProximoEstagio = possivelProximoEstagio.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
+                                }
 
-                            if (proximaTransicao != null) {
-                                proximaTransicao.getAtrasoDeGrupo().setAtrasoDeGrupo(entreverde.getDiffEntreVerde().intValue() / 1000);
-                            }
+                                Transicao proximaTransicao = grupoSemaforico.findTransicaoByOrigemDestino(estagioAtual, possivelProximoEstagio.getEstagio());
+
+                                if (proximaTransicao != null) {
+                                    proximaTransicao.getAtrasoDeGrupo().setAtrasoDeGrupo(entreverde.getDiffEntreVerde().intValue() / 1000);
+                                }
+                            } while (possivelProximoEstagio != null && possivelProximoEstagio.isDispensavel());
+
                         }
                     }
 

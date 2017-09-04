@@ -8,7 +8,6 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
-
         <div class="ibox-content">
           <!-- botão de novo fabricante -->
           <div class="pull-left actions">
@@ -21,7 +20,7 @@
             <div class="table">
               <thead>
                 <tr>
-                  <th colspan="5" scope='colgroup'></th>
+                  <th colspan="6" scope='colgroup'></th>
                   <th colspan="4" scope='colgroup' data-ng-repeat="estagio in arrayEstagios" style="text-align: center">{{estagio + 1}}</th>
                 </tr>
                 <tr>
@@ -30,10 +29,11 @@
                   <th>{{ 'relatorios.local' | translate }}</th>
                   <th>{{ 'relatorios.ciclo' | translate }}</th>
                   <th>{{ 'relatorios.defasagem' | translate }}</th>
+                  <th>{{ 'relatorios.modoPlano' | translate }}</th>
                   <th data-ng-repeat-start="estagio in arrayEstagios">Inicio</th>
                   <th>Verde</th>
                   <th>Total</th>
-                  <th data-ng-repeat-end>Dispensável</th>
+                  <th data-ng-repeat-end>Disp.</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,7 +43,7 @@
                   <td ng-bind-html="plano | resourceToLink: 'endereco':'app.controladores_show':'controlador_id':'id'"></td>
                   <td>{{ plano.ciclo }}</td>
                   <td>{{ plano.defasagem }}</td>
-
+                  <td>{{ plano.modoOperacao }}</td>
                   <td data-ng-repeat-start="estagio in arrayEstagios"><strong>{{plano.estagios[estagio].estagio}}</strong> {{plano.estagios[estagio].inicio}}</td>
                   <td>{{plano.estagios[estagio].verde}}</td>
                   <td>{{plano.estagios[estagio].total}}</td>
