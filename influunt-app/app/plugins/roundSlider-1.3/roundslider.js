@@ -215,7 +215,7 @@
             this.input.keypress(function(event) {
               var charCode = (typeof event.which == "undefined") ? event.keyCode : event.which;
               var charStr = String.fromCharCode(charCode);
-              if (event.which != 8 && event.which != 13 && /\D/g.test(charStr)) {
+              if (charCode != 8 && charCode != 13 && /\D/g.test(charStr)) {
                 event.preventDefault();
               }
             });
