@@ -1,3 +1,5 @@
+require 'net/ssh/proxy/command'
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -6,7 +8,11 @@
 # server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
-server '177.8.164.87', user: 'cet', port: '11013', roles: %w{app db web}
+
+# server '177.8.164.87', user: 'cet', port: '11013', roles: %w{app db web}
+server 'API-CENTRAL', ssh_options: { proxy: Net::SSH::Proxy::Command.new('ssh -t cet@177.8.164.87 -p 11011 -W %h:%p') }, user: 'cet', roles: %w{app db web} # API-02
+
+set :connection_timeout, 360
 
 # role-based syntax
 # ==================
