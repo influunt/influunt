@@ -8,7 +8,8 @@
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
 ## infra da CET
-server '177.8.164.87', user: 'cet', port: '11015', roles: %w{app db web}
+# server '177.8.164.87', user: 'cet', port: '11015', roles: %w{app db web}
+server 'API-LB', ssh_options: { proxy: Net::SSH::Proxy::Command.new('ssh -t cet@177.8.164.87 -p 11011 -W %h:%p') }, user: 'cet', roles: %w{app db web} # API-LB
 
 ## infra da Raro
 # server '162.243.118.190', user: 'raro', roles: %w{app db web}
