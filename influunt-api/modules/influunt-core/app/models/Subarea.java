@@ -48,7 +48,7 @@ public class Subarea extends Model implements Cloneable, Serializable {
     private String nome;
 
     @Column
-    @NotBlank(message = "não pode ficar em branco")
+    @NotNull(message = "não pode ficar em branco")
     private Integer numero;
 
     @ManyToOne
