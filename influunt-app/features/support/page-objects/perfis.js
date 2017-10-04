@@ -17,7 +17,6 @@ var PerfisPage = function () {
     return world.waitFor('tbody tr[data-ng-repeat="perfil in lista"]');
   };
 
-
   this.clicarNoLinkDoPerfil = function(perfil, botao) {
     return world.waitForOverlayDisappear().then(function (){
       return world.getElementByXpath('//tr//td[contains(text(), "'+perfil+'")]//following-sibling::td//a[contains(text(), "'+botao+'")]').click();
@@ -31,7 +30,9 @@ var PerfisPage = function () {
   };
 
   this.naoPossuiMenu = function(menu) {
-    return world.getElementByXpath('//a[contains(@href, "#'+menu+'")][contains(@class, "ng-hide")]');
+    return world.waitForByXpath('//a[contains(@href, "#'+menu+'")]').then(function(){
+      return world.getElementByXpath('//a[contains(@href, "#'+menu+'")][contains(@class, "ng-hide")]');
+    });
   };
 
   this.checkPerfilNaTabela = function(permissao) {
@@ -50,12 +51,10 @@ var PerfisPage = function () {
     return world.getElementByXpath('//a[contains(text(), "'+botao+'")]');
   };
 
-  this.desabilitarPermissoes = function() {
-    return world.execSqlScript('features/support/scripts/perfis/remover_permissoes.sql');
-  };
-
   this.botaoDeveEstarEscondido = function(botao) {
-    return world.getElementByXpath('//a[contains(text(), "'+botao+'")][contains(@class, "ng-hide")]');
+    return world.waitForByXpath('//a[contains(text(), "'+botao+'")]').then(function(){
+      return world.getElementByXpath('//a[contains(text(), "'+botao+'")][contains(@class, "ng-hide")]');
+    });
   };
 
   this.setArea2 = function() {

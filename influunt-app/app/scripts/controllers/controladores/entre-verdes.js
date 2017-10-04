@@ -74,6 +74,7 @@ angular.module('influuntApp')
           if ($scope.assertEntreVerdes()) {
             $scope.limiteTabelasEntreVerdes = $scope.objeto.limiteTabelasEntreVerdes;
             $scope.sortByPosicao();
+            $scope.inicializaModoIntermitenteOuApagado();
             $scope.inicializaConfirmacaoNadaHaPreencher();
           }
         });
@@ -325,7 +326,27 @@ angular.module('influuntApp')
           }
         });
 
-        return msg + _.map(posicoesGrupos, function(posicao) { return "G"+posicao; }).join(", ");
+        return msg + _.map(posicoesGrupos, function(posicao) { return 'G' + posicao; }).join(', ');
+      };
+
+      $scope.inicializaModoIntermitenteOuApagado = function() {
+        $scope.modoIntermitenteOuApagado = {};
+        _.each($scope.objeto.transicoes, function (t){
+          var grupo = _.find($scope.objeto.gruposSemaforicos, {idJson: t.grupoSemaforico.idJson});
+          var origem = _.find($scope.objeto.estagios, {idJson: t.origem.idJson});
+          var transicao = _.find($scope.objeto.transicoes, {origem: {idJson: origem.idJson}, grupoSemaforico: {idJson: grupo.idJson}, modoIntermitenteOuApagado: true});
+          transicao = transicao || _.find($scope.objeto.transicoes, {origem: {idJson: origem.idJson}, grupoSemaforico: {idJson: grupo.idJson}});
+          transicao.modoIntermitenteOuApagado = true;
+          $scope.modoIntermitenteOuApagado[grupo.posicao] = $scope.modoIntermitenteOuApagado[grupo.posicao] || {};
+          $scope.modoIntermitenteOuApagado[grupo.posicao][origem.posicao] = transicao.idJson;
+        });
+        return $scope.modoIntermitenteOuApagado;
+      };
+
+      $scope.changeModoAmareloIntermitenteOuApagado = function(idJsonTransicao) {
+        var transicao = _.find($scope.objeto.transicoes, {idJson: idJsonTransicao});
+        transicao.modoIntermitenteOuApagado = !transicao.modoIntermitenteOuApagado;
+        return transicao;
       };
 
     }]);

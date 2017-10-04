@@ -5,5 +5,20 @@ package models;
  */
 public enum ModoOperacaoPlano {
 
-    TEMPO_FIXO_ISOLADO, TEMPO_FIXO_COORDENADO, ATUADO, APAGADO, INTERMITENTE, MANUAL
+    TEMPO_FIXO_ISOLADO("Isolado"),
+    TEMPO_FIXO_COORDENADO("Coordenado"),
+    ATUADO("Atuado"),
+    APAGADO("Apagado"),
+    INTERMITENTE("Intermitente"),
+    MANUAL("Manual");
+
+    private String name;
+
+    ModoOperacaoPlano(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

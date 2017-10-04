@@ -110,7 +110,8 @@ angular.module('influuntApp')
           numDetectoresVeicular: _.filter($scope.objeto.detectores, {tipo : 'VEICULAR'}).length,
           numDetectoresPedestre: _.filter($scope.objeto.detectores, {tipo : 'PEDESTRE'}).length,
           endereco: $scope.objeto.nomeEndereco,
-          croqui: $scope.getImagemDeCroqui($scope.objeto)
+          croqui: $scope.getImagemDeCroqui($scope.objeto),
+          exclusivoParaTeste: $scope.objeto.exclusivoParaTeste
         };
       };
 
@@ -303,6 +304,7 @@ angular.module('influuntApp')
                   tempoAtrasoGrupo: tevt.tempoAtrasoGrupo,
                   tempoVermelhoLimpeza: tevt.tempoVermelhoLimpeza,
                   tipo: transicao.tipo,
+                  modoIntermitenteOuApagado: transicao.modoIntermitenteOuApagado,
                   label: 'E' + origem.posicao + '-' + 'E' + destino.posicao
                 };
               });

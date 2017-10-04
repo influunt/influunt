@@ -5,11 +5,11 @@
       novalidate="novalidate"
       data-ng-submit="save()">
 
-    <div class="form-group" data-ng-class="{'has-error': errors.nomeUnique}">
+    <div class="form-group" data-ng-class="{'has-error': errors.nome || errors.nomeUnique}">
       <label class="control-label col-sm-2 control-label">{{ 'cidades.nome' | translate }}</label>
       <div class="col-sm-9">
         <input class="string optional form-control" name="nome" type="text" data-ng-model="objeto.nome">
-        <p class="help-block error-msg" data-ng-repeat="error in errors.nomeUnique">{{ error }}</p>
+        <p class="help-block error-msg" data-ng-repeat="error in errors.nome || errors.nomeUnique">{{ error }}</p>
       </div>
     </div>
 

@@ -5,9 +5,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.simulador.parametros.ParametroSimulacao;
-import models.simulador.parametros.ParametroSimulacaoDetector;
-import models.simulador.parametros.ParametroSimulacaoImposicaoPlano;
+import models.simulador.parametros.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import play.libs.Json;
@@ -41,14 +39,6 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
             params.setInicioControlador(DateTime.parse(node.get("inicioControlador").asText(), ISODateTimeFormat.dateTimeParser()));
         }
 
-        if (node.has("inicioSimulacao")) {
-            params.setInicioSimulacao(DateTime.parse(node.get("inicioSimulacao").asText(), ISODateTimeFormat.dateTimeParser()));
-        }
-
-        if (node.has("fimSimulacao")) {
-            params.setFimSimulacao(DateTime.parse(node.get("fimSimulacao").asText(), ISODateTimeFormat.dateTimeParser()));
-        }
-
         if (node.has("disparoDetectores")) {
             List<ParametroSimulacaoDetector> detectores = new ArrayList<>();
             for (JsonNode detector : node.get("disparoDetectores")) {
@@ -63,6 +53,38 @@ public class ParametroSimulacaoDeserializer extends JsonDeserializer<ParametroSi
                 imposicoes.add(Json.fromJson(imposicao, ParametroSimulacaoImposicaoPlano.class));
             }
             params.setImposicoes(imposicoes);
+        }
+
+        if (node.has("imposicaoModos")) {
+            List<ParametroSimulacaoImposicaoModo> imposicoes = new ArrayList<>();
+            for (JsonNode imposicao : node.get("imposicaoModos")) {
+                imposicoes.add(Json.fromJson(imposicao, ParametroSimulacaoImposicaoModo.class));
+            }
+            params.setImposicoesModos(imposicoes);
+        }
+
+        if (node.has("liberacaoImposicoes")) {
+            List<ParametroSimulacaoLiberacaoImposicao> liberacoes = new ArrayList<>();
+            for (JsonNode liberacao : node.get("liberacaoImposicoes")) {
+                liberacoes.add(Json.fromJson(liberacao, ParametroSimulacaoLiberacaoImposicao.class));
+            }
+            params.setLiberacoesImposicoes(liberacoes);
+        }
+
+        if (node.has("falhasControlador")) {
+            List<ParametroSimulacaoFalha> falhas = new ArrayList<>();
+            for (JsonNode falha : node.get("falhasControlador")) {
+                falhas.add(Json.fromJson(falha, ParametroSimulacaoFalha.class));
+            }
+            params.setFalhas(falhas);
+        }
+
+        if (node.has("alarmesControlador")) {
+            List<ParametroSimulacaoAlarme> alarmes = new ArrayList<>();
+            for (JsonNode alarme : node.get("alarmesControlador")) {
+                alarmes.add(Json.fromJson(alarme, ParametroSimulacaoAlarme.class));
+            }
+            params.setAlarmes(alarmes);
         }
 
         return params;

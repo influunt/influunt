@@ -6,20 +6,8 @@ var expect = require('chai').expect;
 module.exports = function() {
   var sharedSteps = new ObjetosComuns();
 
-  this.Given(/^que o sistema possui ao menos um controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarControlador();
-  });
-
-  this.Given(/^que o sistema possua controladores cadastrados$/, function() {
-    return sharedSteps.variosControladores();
-  });
-
-  this.Given(/^que o sistema possua planos para o controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarPlanoParaControlador();
-  });
-
-  this.Given(/^que o sistema possua tabela horária para o controlador cadastrado$/, function() {
-    return sharedSteps.cadastrarTabelaHorariaParaControlador();
+  this.Given(/^o usuário acessar a tela de listagem de "([^"]*)"$/, function(path) {
+    return sharedSteps.indexPage(path);
   });
 
   this.Given(/^o usuário clicar em "([^"]*)"$/, function (botao) {
@@ -36,8 +24,25 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema exibe um alerta com a mensagem "([^"]*)"$/, function(msg) {
+    return sharedSteps.textoSweetAlert().then(function(text) {
+      sharedSteps.aguardar(900);
+      expect(text).to.equal(msg);
+    });
+  });
+
+  this.Given(/^o sistema exibe uma mensagem "([^"]*)"$/, function(msg) {
+    return sharedSteps.toastMessage().then(function(text) {
+      expect(text).to.equal(msg);
+    });
+  });
+
   this.Given(/^o usuário confirmar$/, function() {
-    return sharedSteps.botaoConfirmSweetAlert();
+    return sharedSteps.botaoSweetAlert('confirm');
+  });
+
+  this.Given(/^o usuário cancelar$/, function() {
+    return sharedSteps.botaoSweetAlert('cancel');
   });
 
   this.Given(/^o usuário realize um scroll up$/, function() {
@@ -46,6 +51,10 @@ module.exports = function() {
 
   this.Given(/^o usuário realizar um scroll down$/, function() {
     return sharedSteps.realizarScrollDown();
+  });
+
+  this.Given(/^o usuário realizar um scroll down no modal$/, function() {
+    return sharedSteps.realizarScrollDownModal();
   });
 
   this.Given(/^que o usuário selecione o anel (\d+)$/, function (numeroAnel) {
@@ -59,6 +68,10 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá redirecionar o usuário para a página de listagem de controladores$/, function () {
     return sharedSteps.isIndexPage();
+  });
+
+  this.Given(/^o sistema deverá redirecionar o usuário para a listagem "([^"]*)"$/, function (title) {
+    return sharedSteps.isListagem(title);
   });
 
   this.Given(/^que o usuário deslogue no sistema$/, function () {
@@ -81,10 +94,6 @@ module.exports = function() {
     return sharedSteps.checarTotalInseridosNaTabela(numero);
   });
 
-  this.Given(/^que possua controladores com áreas diferentes cadastrados$/, function () {
-    return sharedSteps.controladoresAreasDiferentes();
-  });
-
   this.Given(/^o usuário preencha o alert com "([^"]*)"$/, function (descricao) {
     return sharedSteps.preencherSweetAlert(descricao);
   });
@@ -95,18 +104,24 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^o sistema deverá indicar erro no campo "([^"]*)" com a mensagem "([^"]*)"$/, function (nomeCampo, msg) {
+    return sharedSteps.getErrorMessageFor(nomeCampo).then(function(result) {
+      return expect(result).to.equal(msg);
+    });
+  });
+
   this.Given(/^o sistema deverá redirecionar para o formulário "([^"]*)"$/, function(formName) {
     return sharedSteps.form(formName).then(function(form) {
       return expect(form).to.exist;
     });
   });
 
-  this.Given(/^o sistema deverá mostrar o controlador da área "([^"]*)"$/, function (numeroClc) {
-    return sharedSteps.checarClcControladorListagem(numeroClc);
+  this.Given(/^o sistema deverá mostrar o controlador da rua "([^"]*)"$/, function (endereco) {
+    return sharedSteps.checarControladorPorEndereco(endereco);
   });
 
   this.Given(/^o sistema deverá mostrar o status do controlador como "([^"]*)"$/, function (status) {
-    return sharedSteps.checarValoresNaTabela(status);
+    return sharedSteps.checarBadgeStatusControlador(status);
   });
 
   this.Given(/^o sistema deverá mostrar na tabela o valor "([^"]*)"$/, function (status) {
@@ -117,11 +132,114 @@ module.exports = function() {
     return sharedSteps.clicarEditarEmResumo(tooltipSelector);
   });
 
+  this.Given(/^o usuário clicar para visualizar o resumo$/, function () {
+    return sharedSteps.clicarVisualizarResumo();
+  });
+
   this.Given(/^o usuário esteja na listagem de controladores$/, function () {
     return sharedSteps.isListagemControladores();
   });
 
   this.Given(/^o usuário acesse a listagem de "([^"]*)"$/, function (localizacao) {
     return sharedSteps.visitarListagem(localizacao);
+  });
+
+  this.Given(/^o usuário selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.selecionarBySelect2Option(campo, valor);
+  });
+
+  this.Given(/^o usuário não consiga selecionar o valor "([^"]*)" para o campo "([^"]*)"$/, function (valor, campo) {
+    return sharedSteps.naoConsigaSelecionar(campo, valor);
+  });
+
+  this.Given(/^o usuário remover o "([^"]*)" selecionado do campo "([^"]*)"$/, function (opcao, campo) {
+    return sharedSteps.removeSelect2Option(opcao, campo);
+  });
+
+  this.Given(/^o usuário clicar em "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.clicarBotaoEspecificoTabelaControladores(botao, controlador);
+  });
+
+  this.Given(/^o usuário na tabela clicar em "([^"]*)" do registro "([^"]*)"$/, function (botao, registro) {
+    return sharedSteps.clicarBotaoEspecificoTabela(botao, registro);
+  });
+
+  this.Given(/^o usuário na transição proibida "([^"]*)" selecionar a alternativa "([^"]*)"$/, function (transicao, alternativa) {
+    var campo = '#estagio-alternativo-'+transicao+'';
+    var selectSelector = 'select[name="alternativos"]';
+    var optionAtribute = 'label';
+    var value = ''+alternativa+'';
+
+    return sharedSteps.selectBySelectOptionAtribute(campo, selectSelector, optionAtribute, value);
+  });
+
+  this.Given(/^o sistema deverá mostrar na "([^"]*)" posição com a data "([^"]*)"$/, function (posicao, data) {
+    return sharedSteps.checkPosicaoHistorico(posicao, data);
+  });
+
+  this.Given(/^o sistema não deverá mostrar o botão "([^"]*)" do controlador "([^"]*)"$/, function (botao, controlador) {
+    return sharedSteps.naoPodeMostraBotaoControlador(botao, controlador);
+  });
+
+  this.Given(/^o sistema não deverá mostrar o botão "([^"]*)"$/, function (botao) {
+    return sharedSteps.naoPodeMostraBotao(botao);
+  });
+
+  this.Given(/^o usuário clicar em fechar o modal "([^"]*)"$/, function (modal) {
+    return sharedSteps.fecharModal(modal);
+  });
+
+  this.Given(/^o usuário digitar no campo "([^"]*)" com a informação "([^"]*)"$/, function (campo, texto) {
+    return sharedSteps.preencherCampo(campo, texto);
+  });
+
+  this.Given(/^o sistema deverá mostrar em linhas com valor "([^"]*)" na tabela$/, function (valorLinha) {
+    return sharedSteps.verificarValoresEmLinhasNaTabela(valorLinha);
+  });
+
+  this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" com valor "([^"]*)"$/, function (coluna, valor) {
+    return sharedSteps.verificarTabelaPorThETd(coluna, valor);
+  });
+
+  this.Given(/^o sistema deverá mostrar na coluna "([^"]*)" "([^"]*)"$/, function (coluna, imagem) {
+    var classImagem = imagem == "marcado" ? "fa-check certo" : "fa-times errado";
+
+    return sharedSteps.verificarTabelaPorThETdImagem(coluna, classImagem);
+  });
+
+  this.Given(/^o usuário limpar o campo "([^"]*)"$/, function (campo) {
+    return sharedSteps.limparCampo(campo);
+  });
+
+  this.Given(/^o sistema deve mostrar o endereço "([^"]*)" no breadcrumb$/, function (endereco) {
+    return sharedSteps.enderecoBreadcrumb(endereco);
+  });
+
+  this.Given(/^que o usuário aguarde um tempo de "([^"]*)" milisegundos$/, function (time) {
+    return sharedSteps.aguardar(time);
+  });
+
+  this.Given(/^o sistema não deve apresentar erro$/, function () {
+    return sharedSteps.naoDeveApresentarErro();
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o show "([^"]*)"$/, function(title) {
+    return sharedSteps.showH5(title);
+  });
+
+  this.Given(/^o usuário fechar o modal clicando nele$/, function () {
+    return sharedSteps.clickForaModal();
+  });
+
+  this.Given(/^o usuário no campo data preencher com valor "([^"]*)"$/, function (valor) {
+    return sharedSteps.setarData(valor);
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário$/, function() {
+    return sharedSteps.isForm();
+  });
+
+  this.Given(/^o sistema deverá redirecionar para o formulário$/, function() {
+    return sharedSteps.isForm();
   });
 };

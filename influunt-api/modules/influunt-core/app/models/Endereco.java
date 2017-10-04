@@ -10,6 +10,7 @@ import json.deserializers.EnderecoDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.EnderecoSerializer;
 import json.serializers.InfluuntDateTimeSerializer;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 
@@ -188,11 +189,20 @@ public class Endereco extends Model implements Serializable {
 
     @AssertTrue(message = "não pode ficar em branco, caso não seja preenchido a altura numérica.")
     public boolean isLocalizacao2() {
-        return !(this.getLocalizacao2() == null && this.getAlturaNumerica() == null);
+        return !((this.getLocalizacao2() == null || this.getLocalizacao2().isEmpty()) && this.getAlturaNumerica() == null);
     }
 
     public void setLocalizacao2(String localizacao2) {
         this.localizacao2 = localizacao2;
+    }
+
+    @AssertTrue(message = "não pode ser negativo.")
+    public boolean isAlturaNumericaNegativa() {
+        if (this.getAlturaNumerica() != null) {
+            return !(this.getAlturaNumerica() < 0);
+        } else {
+            return true;
+        }
     }
 
     public String getOutraLocalizacao() {
@@ -201,5 +211,22 @@ public class Endereco extends Model implements Serializable {
 
     public void setOutraLocalizacao(String outraLocalizacao) {
         this.outraLocalizacao = outraLocalizacao;
+    }
+
+    @Transient
+    public String nomeEndereco() {
+        StringBuilder nomeEndereco = new StringBuilder(getLocalizacao());
+        if (getAlturaNumerica() != null) {
+            nomeEndereco.append(", nº ").append(getAlturaNumerica());
+        }
+
+        if (StringUtils.isNotEmpty(getLocalizacao2())) {
+            nomeEndereco.append(" com ").append(getLocalizacao2());
+        }
+
+        if (StringUtils.isNotEmpty(getReferencia())) {
+            nomeEndereco.append(". ref.: ").append(getReferencia());
+        }
+        return nomeEndereco.toString();
     }
 }

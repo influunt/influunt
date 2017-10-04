@@ -1,6 +1,8 @@
 package status;
 
+import models.StatusAnel;
 import models.StatusDevice;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
@@ -22,24 +24,29 @@ public class StatusControladorFisico {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    public String _id;
+    private String _id;
 
-    public String idControlador;
+    private String idControlador;
 
-    public Long timestamp;
+    private Long timestamp;
 
-    public StatusDevice statusDevice;
+    private StatusDevice statusDevice;
 
-    public StatusControladorFisico(String idControlador, long timestamp, StatusDevice statusDevice) {
+    private Map<Integer, StatusAnel> statusAneis = new HashMap<>();
+
+    public StatusControladorFisico(String idControlador, long timestamp,
+                                   StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
         this.idControlador = idControlador;
         this.timestamp = timestamp;
         this.statusDevice = statusDevice;
+        this.statusAneis = statusAneis;
     }
 
     public StatusControladorFisico(Map map) {
         this.idControlador = map.get("idControlador").toString();
         this.timestamp = (long) map.get("timestamp");
         this.statusDevice = StatusDevice.valueOf(map.get("statusDevice").toString());
+        this.statusAneis = (HashMap) map.get("statusAneis");
     }
 
     public static MongoCollection status() {
@@ -51,14 +58,18 @@ public class StatusControladorFisico {
         return toList(status().find("{ idControlador: # }", idControlador).sort("{timestamp: -1}").as(Map.class));
     }
 
-    public static HashMap<String, StatusDevice> ultimoStatusDosControladores() {
-        //TODO: Confirmar se o last nao pega um registro aleatorio. Ele pode ser causa de inconsitencia
-        HashMap<String, StatusDevice> hash = new HashMap<>();
+    public static Map<String, Map> ultimoStatusDosControladores(List<String> ids) {
+        String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
         Aggregate.ResultsIterator<Map> ultimoStatus =
-                status().aggregate("{$sort:{timestamp:-1}}").and("{$group:{_id:'$idControlador', 'timestamp': {$max:'$timestamp'},'statusDevice': {$first:'$statusDevice'}}}").
-                        as(Map.class);
+            status()
+                .aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }")
+                .and("{$sort:{timestamp:-1}}")
+                .and("{$group:{_id:'$idControlador', 'timestamp': {$first:'$timestamp'},'statusDevice': {$first:'$statusDevice'}, 'statusAneis': {$first:'$statusAneis'}}}")
+                .as(Map.class);
+
+        Map<String, Map> hash = new HashMap<>();
         for (Map m : ultimoStatus) {
-            hash.put(m.get("_id").toString(), StatusDevice.valueOf(m.get("statusDevice").toString()));
+            hash.put(m.get("_id").toString(), m);
         }
 
         return hash;
@@ -78,6 +89,32 @@ public class StatusControladorFisico {
         return toList(result);
     }
 
+    public static Map<String, Map> getControladoresByStatusAnel(StatusAnel status) {
+        StringBuilder matchQuery = new StringBuilder("{ $or: [");
+        // número máximo de anéis depende do modelo do controlador
+        int numeroMaximoDeAneis = 16;
+        for (int i = 1; i <= numeroMaximoDeAneis; i++) {
+            matchQuery.append("{ 'statusAneis.").append(i).append("': '").append(status.toString()).append("' }");
+            if (i < numeroMaximoDeAneis) {
+                matchQuery.append(", ");
+            }
+        }
+        matchQuery.append("] }");
+
+        Aggregate.ResultsIterator<Map> ultimoStatus = status()
+            .aggregate("{ $sort: { timestamp: -1 } }")
+            .and("{ $group: { _id: '$idControlador', 'timestamp': { $first: '$timestamp' }, 'statusDevice': { $first: '$statusDevice' }, 'statusAneis': { $first: '$statusAneis' } } }")
+            .and("{ $match: " + matchQuery.toString() + " }")
+            .as(Map.class);
+
+        Map<String, Map> hash = new HashMap<>();
+        for (Map m : ultimoStatus) {
+            hash.put(m.get("_id").toString(), m);
+        }
+
+        return hash;
+    }
+
 
     @NotNull
     private static List<StatusControladorFisico> toList(MongoCursor<Map> status) {
@@ -92,9 +129,8 @@ public class StatusControladorFisico {
         status().drop();
     }
 
-    public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice) {
-        new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice).save();
-
+    public static void log(String idControlador, long carimboDeTempo, StatusDevice statusDevice, Map<Integer, StatusAnel> statusAneis) {
+        new StatusControladorFisico(idControlador, carimboDeTempo, statusDevice, statusAneis).save();
     }
 
     public StatusDevice getStatusDevice() {

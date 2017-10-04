@@ -208,7 +208,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         this.posicao = posicao;
     }
 
-    public Boolean getFaseVermelhaApagadaAmareloIntermitente() {
+    public Boolean isFaseVermelhaApagadaAmareloIntermitente() {
         return faseVermelhaApagadaAmareloIntermitente;
     }
 
@@ -287,7 +287,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
-    @AssertTrue(groups = ControladorVerdesConflitantesCheck.class, message = "Esse grupo semafórico deve estar associado a pelo menos um estágio")
+    @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class, message = "Esse grupo semafórico deve estar associado a pelo menos um estágio")
     public boolean isAssociadoAoMenosAUmEstágio() {
         if (this.getAnel() != null) {
             boolean anyEstagioGrupoSemaforico = this.getAnel().getGruposSemaforicos().stream().anyMatch(grupoSemaforico -> grupoSemaforico.getEstagiosGruposSemaforicos() != null && grupoSemaforico.getEstagiosGruposSemaforicos().size() > 0);
@@ -329,7 +329,7 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
 
     @JsonIgnore
     @AssertTrue(groups = ControladorAssociacaoGruposSemaforicosCheck.class,
-            message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.")
+        message = "Esse grupo semafórico não pode estar associado a um estágio de demanda prioritária e a outro estágio ao mesmo tempo.")
     public boolean isNaoEstaAssociadoAEstagioDemandaPrioritariaEOutroEstagio() {
         if (getEstagiosGruposSemaforicos() != null && getEstagiosGruposSemaforicos().stream().anyMatch(estagioGrupoSemaforico -> estagioGrupoSemaforico.getEstagio().isDemandaPrioritaria())) {
             return getEstagiosGruposSemaforicos().size() <= 1;
@@ -338,12 +338,27 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     }
 
     @JsonIgnore
-    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entre-verdes definido na configuração do controlador.")
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter no máximo o número de tabelas entreverdes definido na configuração do controlador.")
     public boolean isNumeroCorretoTabelasEntreVerdes() {
         if (this.getAnel() != null && this.getAnel().isAtivo()) {
             int totalTabelasEntreVerdes = getTabelasEntreVerdes().stream().filter(tabelaEntreVerdes -> !tabelaEntreVerdes.isDestroy()).collect(Collectors.toList()).size();
             int limiteTabelasEntreVerdes = getAnel().getControlador().getModelo().getLimiteTabelasEntreVerdes();
             return totalTabelasEntreVerdes <= limiteTabelasEntreVerdes;
+        }
+        return true;
+    }
+
+    @JsonIgnore
+    @AssertTrue(groups = ControladorTabelaEntreVerdesCheck.class, message = "Esse grupo semafórico deve ter selecionado qual entreverdes deverá ser utilizado caso ocorra um transição do estágio origem para o modo intermitente ou apagado.")
+    public boolean isAoMenosUmaTransicaoPorOrigemDeveSerModoIntermitente() {
+        if (!getTransicoesComPerdaDePassagem().isEmpty()) {
+            for (EstagioGrupoSemaforico estagioGrupoSemaforico : getEstagiosGruposSemaforicos()) {
+                Estagio origem = estagioGrupoSemaforico.getEstagio();
+                List<Transicao> transicoes = getTransicoes().stream().filter(transicao -> origem.equals(transicao.getOrigem())).collect(Collectors.toList());
+                if (!transicoes.isEmpty() && transicoes.stream().filter(Transicao::isModoIntermitenteOuApagado).count() != 1) {
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -363,7 +378,8 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança veicular deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldVeicular() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.VEICULAR)) {
-            return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
+            RangeUtils rangeUtils = getRangeUtils();
+            return rangeUtils.TEMPO_VERDE_SEGURANCA_VEICULAR.contains(getTempoVerdeSeguranca());
         }
         return true;
     }
@@ -371,7 +387,8 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
     @AssertTrue(groups = ControladorGruposSemaforicosCheck.class, message = "Tempo de verde de segurança pedestre deve estar entre {min} e {max}")
     public boolean isTempoVerdeSegurancaFieldPedestre() {
         if (this.getTempoVerdeSeguranca() != null && this.getTipo().equals(TipoGrupoSemaforico.PEDESTRE)) {
-            return RangeUtils.getInstance().TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
+            RangeUtils rangeUtils = getRangeUtils();
+            return rangeUtils.TEMPO_VERDE_SEGURANCA_PEDESTRE.contains(getTempoVerdeSeguranca());
         }
         return true;
     }
@@ -388,18 +405,18 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         getTransicoes().forEach(transicao -> transicao.setDestroy(true));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
-                this.getAnel().getEstagios().stream()
-                        .filter(estagio ->
-                                !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
-                        .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.PERDA_DE_PASSAGEM))));
+            this.getAnel().getEstagios().stream()
+                .filter(estagio ->
+                    !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagioGrupoSemaforico.getEstagio().temTransicaoProibidaParaEstagio(estagio))
+                .forEach(estagio ->
+                    this.addTransicaoSeNecessario(new Transicao(this, estagioGrupoSemaforico.getEstagio(), estagio, TipoTransicao.PERDA_DE_PASSAGEM))));
 
         getEstagiosGruposSemaforicos().forEach(estagioGrupoSemaforico ->
-                this.getAnel().getEstagios().stream()
-                        .filter(estagio ->
-                                !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
-                        .forEach(estagio ->
-                                this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.GANHO_DE_PASSAGEM))));
+            this.getAnel().getEstagios().stream()
+                .filter(estagio ->
+                    !estagio.equals(estagioGrupoSemaforico.getEstagio()) && !estagio.getGruposSemaforicos().contains(this) && !estagio.temTransicaoProibidaParaEstagio(estagioGrupoSemaforico.getEstagio()))
+                .forEach(estagio ->
+                    this.addTransicaoSeNecessario(new Transicao(this, estagio, estagioGrupoSemaforico.getEstagio(), TipoTransicao.GANHO_DE_PASSAGEM))));
 
         getTransicoes().forEach(transicao -> {
             if (transicao.isDestroy()) {
@@ -419,12 +436,12 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
             setTransicoes(new ArrayList<Transicao>());
         }
         Transicao transicaoAux = getTransicoes().stream()
-                .filter(t ->
-                        t.getOrigem().equals(transicao.getOrigem()) &&
-                                t.getDestino().equals(transicao.getDestino()) &&
-                                ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
-                                        (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
-                .findFirst().orElse(null);
+            .filter(t ->
+                t.getOrigem().equals(transicao.getOrigem()) &&
+                    t.getDestino().equals(transicao.getDestino()) &&
+                    ((t.isGanhoDePassagem() && transicao.isGanhoDePassagem()) ||
+                        (t.isPerdaDePassagem() && transicao.isPerdaDePassagem())))
+            .findFirst().orElse(null);
 
         if (transicaoAux != null) {
             transicaoAux.setDestroy(false);
@@ -484,6 +501,17 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         getVerdesConflitantesOrigem().add(verdesConflitantes);
     }
 
+    public Transicao findTransicaoByDestinoIntermitente(Estagio origem) {
+        List<Transicao> transicoes = getTransicoesComPerdaDePassagem().stream().filter(transicao -> origem.equals(transicao.getOrigem())).collect(Collectors.toList());
+        if (!transicoes.isEmpty()) {
+            return transicoes.stream().filter(Transicao::isModoIntermitenteOuApagado).findFirst().orElse(null);
+        } else {
+            //TODO: Caso não exista desse grupo semaforico para outro, pois existe transição proibida e o grupo roda nos dois estágios
+            //Devolvendo o primeiro marcado para usar modoIntermitenteOuApagado
+            return getTransicoesComPerdaDePassagem().stream().filter(Transicao::isModoIntermitenteOuApagado).findFirst().orElse(null);
+        }
+    }
+
     public Transicao findTransicaoByOrigemDestino(Estagio origem, Estagio destino) {
         return getTransicoesComPerdaDePassagem().stream().filter(transicao -> origem.equals(transicao.getOrigem()) && destino.equals(transicao.getDestino())).findFirst().orElse(null);
     }
@@ -512,18 +540,56 @@ public class GrupoSemaforico extends Model implements Cloneable, Serializable {
         isDestroy = destroy;
     }
 
-    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior) {
+    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano, EstagioPlano estagioPlanoAnterior, int contadorDeCiclos) {
         int tempoDecorrido = 0;
-        if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
-            tempoDecorrido += estagioPlanoAnterior.getTempoVerde();
-            tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
-        } else {
-            Transicao transicao = findTransicaoComGanhoDePassagemByOrigemDestino(estagioPlanoAnterior.getEstagio(), estagioPlano.getEstagio());
-            if (transicao != null) {
-                tempoDecorrido += transicao.getTempoAtrasoGrupo();
+        if (estagioPlanoAnterior != null) {
+            if (estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(this)) {
+                if (estagioPlanoAnterior.ultimoEstagioDaSequencia()) {
+                    contadorDeCiclos--;
+                }
+                tempoDecorrido += estagioPlanoAnterior.getTempoVerdeEstagio(contadorDeCiclos);
+                tempoDecorrido += estagioPlanoAnterior.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlano.getEstagio(), estagioPlanoAnterior.getEstagio());
+            } else {
+                Transicao transicao = findTransicaoComGanhoDePassagemByOrigemDestino(estagioPlanoAnterior.getEstagio(), estagioPlano.getEstagio());
+                if (transicao != null) {
+                    tempoDecorrido += transicao.getTempoAtrasoGrupo();
+                }
             }
         }
         return Math.max(0, getTempoVerdeSeguranca() - tempoDecorrido);
+    }
+
+    public Integer getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlano,
+                                                  EstagioPlano estagioPlanoAnterior,
+                                                  EstagioPlano estagioPlanoProximo,
+                                                  int contadorDeCiclos) {
+        int verdeSegurancaFaltante = getTempoVerdeSegurancaFaltante(estagioPlano, estagioPlanoAnterior, contadorDeCiclos);
+        int tempoQueVaiDecorrido = 0;
+        if (estagioPlanoProximo != null) {
+            if (estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(this)) {
+                if (estagioPlanoProximo.primeiroEstagioDaSequencia()) {
+                    contadorDeCiclos++;
+                }
+                tempoQueVaiDecorrido += estagioPlanoProximo.getTempoVerdeEstagio(contadorDeCiclos);
+                tempoQueVaiDecorrido += estagioPlanoProximo.getPlano().getTempoEntreVerdeEntreEstagios(estagioPlanoProximo.getEstagio(), estagioPlano.getEstagio());
+            } else {
+                Transicao transicao = findTransicaoByOrigemDestino(estagioPlano.getEstagio(), estagioPlanoProximo.getEstagio());
+                if (transicao != null) {
+                    tempoQueVaiDecorrido += transicao.getTempoAtrasoGrupo();
+                }
+            }
+        }
+        return Math.max(0, verdeSegurancaFaltante - tempoQueVaiDecorrido);
+    }
+
+
+    @Override
+    public String toString() {
+        return "G" + getPosicao();
+    }
+
+    private RangeUtils getRangeUtils() {
+        return getAnel().getControlador().getRangeUtils();
     }
 }
 

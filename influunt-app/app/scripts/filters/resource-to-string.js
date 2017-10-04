@@ -16,4 +16,16 @@ angular.module('influuntApp')
         return input[nomeCampo];
       }
     };
-  });
+  })
+
+  .filter('resourceToLink', ['$state', function ($state) {
+    return function (input, label, uiSref, param, uiSrefKeyName) {
+      label = label || 'descricao';
+      uiSrefKeyName = uiSrefKeyName || param;
+      if (input) {
+        var query = {};
+        query[uiSrefKeyName] = input[param];
+        return '<a href="' + $state.href(uiSref, query) + '">' + input[label] + '</a>';
+      }
+    };
+  }]);

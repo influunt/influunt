@@ -12,16 +12,21 @@ Funcionalidade: tela de cadastro de cidades
     E clicar no botão de Nova Cidade
     Então o sistema deverá redirecionar para o formulário de cadastro de novas cidades
 
+  Cenário: Tentar salvar uma cidade sem nome
+    Dado que o usuário deixe os campos em branco
+    Quando clicar no botão de salvar
+    E o sistema deverá indicar erro no campo "nome" com a mensagem "não pode ficar em branco"
+
   Cenário: Cadastro de cidades
-    Quando o usuário acessar a tela de cadastro de novas cidades
-    E o usuário preencher o campo "Nome" com "São Paulo"
-    E clicar no botão de salvar
+    Dado o usuário preencher o campo "Nome" com "São Paulo"
+    Quando clicar no botão de salvar
     Então o registro da cidade deverá ser salvo com nome igual a "São Paulo"
     E o sistema deverá retornar à tela de listagem de cidades
 
   Cenário: Cadastro de cidades com mesmo nome
-    Dado que exista uma cidade cadastrada no sistema com o nome "Belo Horizonte"
-    Quando o usuário acessar a tela de cadastro de novas cidades
+    Dado o usuário acessar a tela de listagem de cidades
+    E que exista uma cidade cadastrada no sistema com o nome "Belo Horizonte"
+    Quando clicar no botão de Nova Cidade
     E o usuário preencher o campo "Nome" com "Belo Horizonte"
     E clicar no botão de salvar
     Então o sistema deverá indicar erro no campo "nome"
@@ -29,7 +34,7 @@ Funcionalidade: tela de cadastro de cidades
   Cenário: Acesso à tela de detalhes de cidades
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de visualizar cidade
-    Então o sistema deverá redirecionar para a tela de visualização de cidades
+    Então o sistema deverá redirecionar para o show "Belo Horizonte"
 
   Cenário: Acesso à tela de edição de cidades
     Quando o usuário acessar a tela de listagem de cidades
@@ -48,11 +53,20 @@ Funcionalidade: tela de cadastro de cidades
     E clicar no botão de excluir uma cidade
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário responde não
-    Então nenhuma cidade deve ser excluída
+    Então o sistema deverá mostrar "1" items na tabela
 
   Cenário: Exclusão de cidades com confirmação
     Quando o usuário acessar a tela de listagem de cidades
     E clicar no botão de excluir uma cidade
     Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
     Quando o usuário confirmar
-    Então a cidade deverá ser excluida
+    Então o sistema deverá mostrar "0" items na tabela
+
+  Cenário: Validar a não exclusão de cidades que possuam associação
+    Dado que o sistema possui ao menos um controlador cadastrado
+    Quando o usuário acessar a tela de listagem de "cidades"
+    E o usuário clicar em "Excluir"
+    Então o sistema exibe uma caixa de confirmação se o usuário deve mesmo excluir
+    Quando o usuário confirmar
+    Então o sistema deverá mostrar "1" items na tabela
+    E o sistema exibe uma mensagem "Essa cidade não pode ser removida, pois existe(m) área(s) vinculada(s) à mesma."

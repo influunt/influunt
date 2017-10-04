@@ -37,18 +37,16 @@
                   <div class="col-lg-3 col-sm-3">
                     <div class="col-lg-12 col-sm-12 association table-entry-green min-green relative tabelas-entre-verdes">
                       <div class="ibox-title">
-                        <h5>TABELAS</h5>
+                        <h5>{{ 'controladores.entreVerdes.tabelas' | translate }}</h5>
                         <a data-ng-show="currentTabelasEntreVerdes.length < limiteTabelasEntreVerdes" class="btn btn-primary btn-xs m-l right" target="Nova tabela" data-ng-click="adicionarTabelaEntreVerdes()" data-toggle="tooltip" data-placement="top" title="Adicionar uma nova tabela padrão">
-                          Nova tabela <i class="fa fa-plus"></i>
+                          {{ 'controladores.entreVerdes.novaTabela' | translate }} <i class="fa fa-plus"></i>
                         </a>
                       </div>
                       <nav>
                         <ul>
                           <li data-ng-repeat="tabelaEntreVerdes in currentTabelasEntreVerdes" data-ng-class="{ 'active': $index == currentTabelaEntreVerdesIndex }" data-ng-click="selecionaTabelaEntreVerdes(tabelaEntreVerdes, $index)">
-                            <div class="col-lg-12 col-sm-12">
-                              <label for="">TABELA {{ tabelaEntreVerdes.descricao }}</label>
-                              <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes(tabelaEntreVerdes)"></i>
-                            </div>
+                            {{ 'controladores.entreVerdes.tabela' | translate }} {{ tabelaEntreVerdes.descricao }}
+                            <i class="fa fa-times pull-right m-t-sm remove-tabela-entre-verdes" data-ng-if="$last && $index !== 0" data-ng-click="removerTabelaEntreVerdes(tabelaEntreVerdes)"></i>
                           </li>
                         </ul>
                       </nav>
@@ -59,7 +57,7 @@
                   <div class="col-lg-7 col-sm-7 association tables-associated white-bg">
                     <header class="col-lg-12 col-sm-12 no-padding">
                       <div class="form-group">
-                        <label>Descrição</label>
+                        <label>{{ 'controladores.entreVerdes.descricao' | translate }}</label>
                         <input type="text" placeholder="Descrição" class="form-control" ng-model="currentTabelaEntreVerdes.descricao">
                       </div>
                     </header>
@@ -85,7 +83,7 @@
                           <div class="group-figures col-sm-7 no-padding initial-position">
                             <div class="knob">
                               <div class="text-center row">
-                                <div class="knob-item col-sm-6">
+                                <div class="knob-item col-sm-4">
                                   <span class="badge badge-danger badge-notification"
                                     data-ng-show="possuiErroAmareloOuVermelho(currentGrupoSemaforico, $index)"
                                     inf-tooltip
@@ -101,7 +99,7 @@
                                     data-ng-model="tevTransicao[amareloOuVermelho(currentGrupoSemaforico, true)]">
                                   </influunt-knob>
                                 </div>
-                                <div class="knob-item col-sm-6">
+                                <div class="knob-item col-sm-4">
                                   <span class="badge badge-danger badge-notification"
                                     data-ng-show="possuiErroVermelhoLimpeza(currentGrupoSemaforico, $index)"
                                     inf-tooltip
@@ -116,6 +114,15 @@
                                     max="limites(currentGrupoSemaforico).tempoVermelhoLimpeza.max"
                                     data-ng-model="tevTransicao.tempoVermelhoLimpeza">
                                   </influunt-knob>
+                                </div>
+                                <div class="knob-item col-sm-4">
+                                  <p class="title">{{ 'controladores.entreVerdes.modoIntermitenteOuApagado' | translate }}</p>
+                                  <input type="radio"
+                                    name="modoIntermitenteOuApagado[currentGrupoSemaforico.posicao][{{ currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao }}]"
+                                    ichecks
+                                    data-ng-model="modoIntermitenteOuApagado[currentGrupoSemaforico.posicao][currentTabelaOrigensEDestinos[tevTransicao.transicao.idJson].origem.posicao]"
+                                    if-changed="changeModoAmareloIntermitenteOuApagado(tevTransicao.transicao.idJson)"
+                                    value="{{ tevTransicao.transicao.idJson }}">
                                 </div>
                               </div>
                             </div>
@@ -146,5 +153,3 @@
       require-assertion="true">
   </wizard-footer>
 </fieldset>
-
-<ng-include src="'views/controladores/wizard/common/popup-revisao.html'">

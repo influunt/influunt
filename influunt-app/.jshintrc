@@ -21,16 +21,22 @@
     "moment": true,
     "humanizeDuration": true,
     "Phaser": true,
+    "Phasetips": true,
+    "PIXI": true,
     "Paho": true,
     "Blob": true,
     "saveAs": true,
     "bowser": true,
+    "toastr": true,
 
     // leaflet lib
     "L": true,
     "hull": true,
+    "google": true,
 
     "UUID": true,
+
+    "Raven": true,
 
     // karma/jasmine globals
     "afterEach": true,
@@ -40,14 +46,15 @@
     "inject": true,
     "it": true,
     "jasmine": true,
-    "Paho": true,
     "spyOn": true,
 
     // tests helpers
     "WizardControladores": true,
     "ControladorBasico": true,
     "ControladorComPlanos": true,
-    "ControladorComPlanoExclusivo": true
+    "ControladorComPlanoExclusivo": true,
+    "ControladorAtrasoGrupoAutomatico": true,
+    "ControladorComVariosAneis": true
   }
 }
 

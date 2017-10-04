@@ -1,5 +1,4 @@
 'use strict';
-
 var fs = require('fs');
 var webdriver = require('selenium-webdriver');
 var platform = process.env.PLATFORM || 'PHANTOMJS';
@@ -64,6 +63,17 @@ var World = function () {
     return _this.waitForInverse('#toast-container div.toast-message', timeout);
   };
 
+  this.waitForToastWarningDisapear = function(timeout) {
+    var _this = this;
+    return _this.waitForInverse('div.toast-warning', timeout);
+  };
+
+  this.getSucessToastMessage = function() {
+    var _this = this;
+    _this.sleep(300);
+    return _this.getElementByXpath('//div[contains(@class, "toast-success")]').getText();
+  };
+
   this.waitFor = function(cssLocator, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
@@ -84,6 +94,10 @@ var World = function () {
     return self.waitForInverse('div.blockUI');
   };
 
+  this.waitForSweetOverlayDisappear = function() {
+    return self.waitForByXpathInverse('//div[contains(@class, "sweet-overlay")and contains(@style, "display: block;")]');
+  };
+
   this.waitForByXpath = function(xpath, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
@@ -94,10 +108,20 @@ var World = function () {
   this.waitForByXpathInverse = function(xpath, timeout) {
     var waitTimeout = timeout || defaultTimeout;
     return driver.wait(function() {
-      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(isElementPresent) {
-        return !isElementPresent;
+      return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(element) {
+        return self.elementShouldNotPresent(element);
       });
     }, waitTimeout);
+  };
+
+  this.haveNoError = function (xpath) {
+    return driver.isElementPresent(webdriver.By.xpath(xpath)).then(function(element) {
+      return self.elementShouldNotPresent(element);
+    });
+  };
+
+  this.elementShouldNotPresent = function(isElementPresent) {
+    return !isElementPresent;
   };
 
   this.waitForAJAX = function(timeout) {
@@ -183,15 +207,29 @@ var World = function () {
     }, Promise.resolve());
   };
 
-  this.countTableSize = function(numberElements) {
+  this.countTableSize = function(numberElements, xpathTable) {
     var numeroElementosEsperado = numberElements;
-    return driver.findElements(webdriver.By.xpath('//table[contains(@class, "table")]//tbody//tr')).then(function(elements){
+    return driver.findElements(webdriver.By.xpath(xpathTable)).then(function(elements){
       var sizeElementsOnTabele = elements.length.toString();
       return new Promise(function(resolve, reject) {
         if (sizeElementsOnTabele === numeroElementosEsperado) {
           resolve(true);
         } else {
           reject('Quantidade de registros na tabela são "'+sizeElementsOnTabele+'" mas o número esperado é "'+numberElements+'"');
+        }
+      });
+    });
+  };
+
+  this.calculateByXpath = function(xpathSelector, quantity) {
+    return driver.findElements(webdriver.By.xpath(xpathSelector)).then(function(elements){
+    var sizeElements = elements.length.toString();
+
+      return new Promise(function(resolve, reject) {
+        if (sizeElements === quantity) {
+          resolve(true);
+        } else {
+          reject('Espera que retorne "'+quantity+'" mas o valor retornado é "'+sizeElements+'"');
         }
       });
     });
@@ -233,6 +271,12 @@ var World = function () {
     return driver.findElement(webdriver.By.linkText(text));
   };
 
+  this.shoulNotFindLinkByText = function(text) {
+    return driver.isElementPresent(webdriver.By.linkText(text)).then(function(isElementPresent) {
+      return !isElementPresent;
+    });
+  };
+
   this.waitToggle = function() {
     var _this = this;
     return _this.sleep(300);
@@ -271,6 +315,11 @@ var World = function () {
     });
   };
 
+  this.select2OptionByXpath = function(campo, valueToSelector) {
+    var _this = this;
+    return _this.getElementByXpath('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]').click();
+  };
+
   this.selectSelect2Option = function(selectSelector, optionText) {
     var _this = this;
     return _this.getElement(selectSelector + ' + span[class^="select2 "]').click().then(function() {
@@ -307,6 +356,11 @@ var World = function () {
   this.checkICheck = function(checkboxSelector) {
     var jQuerySelector = '$('+checkboxSelector+')';
     return this.execJavascript(jQuerySelector + '.iCheck("check");');
+  };
+
+  this.closeModal = function(modalId) {
+    var jQuerySelector = '$("#'+modalId+'")';
+    return this.execJavascript(jQuerySelector + '.modal("hide");');
   };
 
   this.uncheckICheck = function(checkboxSelector) {
@@ -358,6 +412,12 @@ var World = function () {
     });
   };
 
+  this.scrollToDownModal = function() {
+    return driver.executeScript('$("#myModal").scrollTop(10000);').then(function() {
+      return driver.sleep(500);
+    });
+  };
+
   this.scrollToUp = function() {
     return driver.executeScript('window.scrollTo(0, 0);').then(function() {
       return driver.sleep(500);
@@ -370,7 +430,9 @@ var World = function () {
 
   this.getTextInSweetAlert = function() {
     var _this = this;
-    return _this.getElement('div[class*="sweet-alert"] p').getText();
+    return _this.waitFor('div[class*="sweet-alert"]').then(function(){
+      return _this.getElement('div[class*="sweet-alert"] p').getText();
+    });
   };
 
   this.dragAndDrop = function(element, location) {
@@ -392,6 +454,7 @@ var World = function () {
     }).then(function () {
       return _this.visit('/login');
     }).then(function () {
+      _this.sleep(300);
       return _this.setValue('input[name="usuario"]', user);
     }).then(function () {
       return _this.setValue('input[name="senha"]', password);

@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -64,20 +65,29 @@ public class VersaoPlano extends Model implements Serializable {
     @CreatedTimestamp
     private DateTime dataCriacao;
 
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
+
     public VersaoPlano() {
         super();
         this.idJson = UUID.randomUUID().toString();
         this.statusVersao = StatusVersao.EDITANDO;
-        this.descricao = "Planos criado";
+    }
+
+    public VersaoPlano(Usuario usuario) {
+        this();
+        this.usuario = usuario;
+        if (usuario != null && usuario.getNome() != null) {
+            this.descricao = "Versão criada pelo usuário: ".concat(usuario.getNome());
+        }
     }
 
     public VersaoPlano(Anel anel, Usuario usuario) {
-        super();
-        this.idJson = UUID.randomUUID().toString();
+        this(usuario);
         this.anel = anel;
-        this.usuario = usuario;
-        this.descricao = "Planos criado pelo usuário:".concat(usuario.getNome());
-        this.statusVersao = StatusVersao.EDITANDO;
     }
 
     /**
@@ -86,26 +96,16 @@ public class VersaoPlano extends Model implements Serializable {
      * @param anel
      * @return
      */
+
     public static List<VersaoPlano> versoes(Anel anel) {
-        ArrayList<VersaoPlano> versoes = new ArrayList<VersaoPlano>();
-        getElement(versoes, anel.getVersaoPlano());
-        return versoes;
+        return findOrderByAnel(anel);
     }
 
-    public static VersaoPlano findByVersaoAnterior(VersaoPlano versaoAnterior) {
-        return VersaoPlano.find.where().eq("versao_plano_id", versaoAnterior.getId()).findUnique();
-    }
-
-    private static void getElement(ArrayList<VersaoPlano> versoes, VersaoPlano versaoPlano) {
-        if (versaoPlano != null) {
-            VersaoPlano versao = findByVersaoAnterior(versaoPlano);
-            if (versao != null) {
-                versoes.add(versao);
-                if (versao.getVersaoAnterior() != null) {
-                    getElement(versoes, versao.getVersaoAnterior());
-                }
-            }
-        }
+    public static List<VersaoPlano> findOrderByAnel(Anel anel) {
+        return VersaoPlano.find.where()
+            .eq("anel_id", anel.getId())
+            .orderBy("dataAtualizacao desc")
+            .findList();
     }
 
     public UUID getId() {
@@ -180,6 +180,14 @@ public class VersaoPlano extends Model implements Serializable {
         this.dataCriacao = dataCriacao;
     }
 
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
     public void addPlano(Plano plano) {
         if (getPlanos() == null) {
             setPlanos(new ArrayList<Plano>());
@@ -188,11 +196,15 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     public boolean isAtivo() {
-        return StatusVersao.ATIVO.equals(this.getStatusVersao());
+        return StatusVersao.SINCRONIZADO.equals(this.getStatusVersao());
     }
 
     public boolean isEditando() {
         return StatusVersao.EDITANDO.equals(this.getStatusVersao());
+    }
+
+    public boolean isEmConfiguracao() {
+        return StatusVersao.EM_CONFIGURACAO.equals(this.getStatusVersao());
     }
 
     public boolean isConfigurado() {
@@ -200,7 +212,7 @@ public class VersaoPlano extends Model implements Serializable {
     }
 
     public void ativar() {
-        setStatusVersao(StatusVersao.ATIVO);
+        setStatusVersao(StatusVersao.SINCRONIZADO);
     }
 
     public void finalizar() {
@@ -210,12 +222,12 @@ public class VersaoPlano extends Model implements Serializable {
     @Override
     public String toString() {
         return "VersaoPlano{"
-                + "id=" + id
-                + ", idJson='" + idJson + '\''
-                + ", versaoAnterior=" + versaoAnterior
-                + ", descricao='" + descricao + '\''
-                + ", statusVersao=" + statusVersao
-                + ", dataCriacao=" + dataCriacao
-                + '}';
+            + "id=" + id
+            + ", idJson='" + idJson + '\''
+            + ", versaoAnterior=" + versaoAnterior
+            + ", descricao='" + descricao + '\''
+            + ", statusVersao=" + statusVersao
+            + ", dataCriacao=" + dataCriacao
+            + '}';
     }
 }

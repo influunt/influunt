@@ -4,32 +4,21 @@ var worldObj = require('../world');
 var world = new worldObj.World();
 
 var AgrupamentosPage = function () {
-  var INDEX_PATH = '/app/agrupamentos';
   var NEW_PATH = '/app/agrupamentos/new';
 
   var formAgrupamentos = 'form[name="formAgrupamentos"]';
   var inputNomeAgrupamento = '[name="nome"]';
 
-  var totalAgrupamentosIndex = 0;
+  var selects = {
+    'Dias':                            '[name="agrupamentoPlanoDiaSemana"]',
+    'Hora':                            '[name="planoHora"]',
+    'Minuto':                          '[name="planoMinuto"]',
+    'Segundo':                         '[name="planoSegundo"]',
+    'Plano':                           '[name="posicaoPlano"]'
+  };
 
   this.existeAoMenosUmAgrupamento = function() {
     return world.execSqlScript('features/support/scripts/agrupamentos/create_agrupamento.sql');
-  };
-
-  this.controladorConfigurado = function(){
-    return world.execSqlScript('features/support/scripts/controladores/set_controlador_finalizado.sql');
-  };
-
-  this.indexPage = function() {
-    world.visit(INDEX_PATH);
-    world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
-      totalAgrupamentosIndex = elements.length;
-    });
-    return world.waitFor('tbody tr[data-ng-repeat="agrupamento in lista"]');
-  };
-
-  this.getItensTabela = function() {
-    return world.getElements('tbody tr td');
   };
 
   this.formAgrupamentos = function() {
@@ -40,10 +29,6 @@ var AgrupamentosPage = function () {
     return world.visit(NEW_PATH).then(function(){
       return world.waitFor(formAgrupamentos);
     });
-  };
-
-  this.selecionarControlador = function(option) {
-    return world.selectSelect2Option('select[name="controladores"]', option);
   };
 
   this.textoExisteNaTabela = function(text) {
@@ -57,9 +42,7 @@ var AgrupamentosPage = function () {
   };
 
   this.isShow = function() {
-    return world.getElement('h5 small').getText().then(function(text) {
-      return text.match(/ - #/);
-    });
+    return world.waitForByXpath('//td[contains(text(), "Corredor da Paulista")]');
   };
 
   this.textoFieldNomeAgrupamento = function() {
@@ -76,12 +59,32 @@ var AgrupamentosPage = function () {
 
   this.nenhumAgrupamentoDeveSerExcluido = function() {
     return world.getElements('tbody tr[data-ng-repeat="agrupamento in lista"]').then(function(elements) {
-      return elements.length === totalAgrupamentosIndex;
+      return elements.length === 1;
     });
   };
 
   this.alertaAtulizarTabelaHoraria = function() {
     return world.getTextInSweetAlert();
+  };
+
+  this.selecionarValor = function(valor, select) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.selectByOptionAtribute('div', selects[select], 'value', valor);
+    });
+  };
+
+  this.agruparControlador = function(controlador) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.getElementByXpath('//*[b="'+controlador+'"]//div[contains(@class, "icheckbox_square-green")]').click();
+    });
+  };
+
+  this.getErrorMessageInP = function(msg) {
+    var cssSelector = 'p[class*="error-msg"]'
+    world.sleep(600);
+    return world.waitFor(cssSelector).then(function() {
+      return world.getElement(cssSelector).getText();
+    });
   };
 
   this.toastMessage = function() {

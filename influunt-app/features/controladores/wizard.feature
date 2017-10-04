@@ -12,7 +12,17 @@ Funcionalidade: Fluxo de cadastro de controladores
     Dado que o usuário esteja no wizard no passo "Dados Básicos"
     E que o usuário deixe os campos em branco
     Quando o usuário clicar no botão para ir pro próximo passo
-    Então o sistema deverá indicar erro nos campos do passo "Dados Básicos"
+    Então o sistema deverá indicar erro no campo "endereco"
+    E o sistema deverá indicar erro no campo "area"
+    E o sistema deverá indicar erro no campo "endereco2" com a mensagem "não pode ficar em branco, caso não seja preenchido a altura numérica."
+    E o sistema deverá indicar erro no campo "modelo"
+    E o sistema irá continuar no passo "Dados Básicos"
+
+  Cenário: Campo altura númerica não pode aceitar números negativos
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    Quando o usuário preencher o campo "Altura Numérica" com "-123"
+    E clicar no botão para ir pro próximo passo
+    Então o sistema deverá indicar erro no campo "alturaNumerica" com a mensagem "não pode ser negativo."
     E o sistema irá continuar no passo "Dados Básicos"
 
   Cenário: Salvar dados básicos do controlador
@@ -20,14 +30,33 @@ Funcionalidade: Fluxo de cadastro de controladores
     E o usuário selecionar o valor "São Paulo" no campo "Cidade"
     E o usuário adicionar imagem ao "Croqui"
     E o usuário selecionar o valor "1" no campo "Área"
-    E o usuário preencher o campo NÚMERO SMEE com 123
     E o usuário buscar o endereço "Av Paulista" no primeiro endereço
     E o usuário buscar o endereço "Rua Bela Cintra" para o endereço 2
+    E o usuário limpar o campo "alturaNumerica"
     E o usuário preencher o campo "Altura Numérica" com "123"
     E o usuário selecionar o valor "Raro Labs" no campo "Fabricante"
     E o usuário selecionar o valor "Mínima" no campo "Modelo"
-    E clicar no botão para ir pro próximo passo
+
+  Cenário: Validar o número do SMEE buscando da base do SMEE
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário preencher o campo NÚMERO SMEE com "0"
+    E o usuário realizar um scroll down
+    Então o sistema exibe um alerta com a mensagem "O número informado não é reconhecido na base do SMEE."
+    E o usuário confirmar
+
+  Cenário: Preencher o valor SMEE correto
+    Dado que o usuário esteja no wizard no passo "Dados Básicos"
+    E o usuário limpar o campo "SMEE"
+    E o usuário preencher o campo NÚMERO SMEE com "1234"
+    Então o sistema exibe um alerta com a mensagem "O endereço pesquisado é RIO BONITO, AV DO x NEUCHATEL, R x GUIDO BONI, PC - (**)?"
+    E o usuário confirmar
+    Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Anéis"
+
+  Cenário: Salvar anéis do controlador
+    Dado que o usuário esteja no wizard no passo "Anéis"
+    Quando o usuário adicionar imagem ao "Anel 1 DWG"
+    Então o sistema deverá apresentar erro com a frase "Não foi possível adicionar este arquivo. Exclua-o e tente novamente."
 
   Cenário: Salvar anéis do controlador
     Dado que o usuário esteja no wizard no passo "Anéis"
@@ -115,6 +144,10 @@ Funcionalidade: Fluxo de cadastro de controladores
     E clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Transições Proibidas"
 
+  Cenário: Deve mostrar o tooltip com uma mensagem
+    Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    Então o botão salvar e avançar deve ter a mensagem "É necessário preencher os dados ou confirmar que não há nada a ser feito em todos os anéis."
+
   Cenário: Tentar salvar uma transição proibida sem informar estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
     E que a tabela de estágios alternativos esteja em branco
@@ -137,6 +170,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar uma transição proibida informando um estágio alternativo
     Dado que o usuário esteja no wizard no passo "Transições Proibidas"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que não há configurações a serem feitas nesse anel."
     E o usuário selecionar o anel 1
     E o usuário selecionar o valor "E1" no campo "Alternativa"
     E o usuário selecionar o anel 2
@@ -145,8 +179,13 @@ Funcionalidade: Fluxo de cadastro de controladores
     Quando clicar no botão para ir pro próximo passo
     Então o sistema irá avançar para o passo "Tabela Entre Verdes"
 
+  Cenário: Deve mostrar o tooltip com uma mensagem diferente para entre verder
+    Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
+    Então o botão salvar e avançar deve ter a mensagem "É necessário preencher os dados ou confirmar que não há nada a ser feito em cada grupo semafórico. Verifique todos os grupos "
+
   Cenário: Salvar tabela entre verdes
     Dado que o usuário esteja no wizard no passo "Tabela Entre Verdes"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que será utilizada a configuração padrão para esse grupo semafórico."
     E que o usuário marque 4 no tempo "Amarelo" da transição "E1-E3"
     E que o usuário marque 2 no tempo "Vermelho de Limpeza" da transição "E1-E3"
     E que o usuário clique no grupo "G2"
@@ -166,6 +205,7 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar um atraso de grupo
     Dado que o usuário esteja no wizard no passo "Atraso de Grupo"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que não há configurações a serem feitas nesse anel."
     E que o usuário marque 15 no campo 1 para transições com perda de direito de passagem
     E que o usuário marque 20 no campo 1 para transições com ganho de direito de passagem
     E que o usuário marque 15 no campo 2 para transições com ganho de direito de passagem
@@ -185,8 +225,10 @@ Funcionalidade: Fluxo de cadastro de controladores
 
   Cenário: Tentar salvar detectores sem configurar
     Dado que o usuário esteja no wizard no passo "Detectores"
+    Então o sistema deverá mostrar um check box com a seguinte mensagem "Confirmo que não há configurações a serem feitas nesse anel."
     E que o usuário adicione um detector do tipo "Veicular"
     E que o usuário adicione um detector do tipo "Veicular"
+    E o usuário realizar um scroll down
     E que o usuário adicione um detector do tipo "Pedestre"
     Quando o usuário clicar no botão para ir pro próximo passo
     E o sistema irá continuar no passo "Detectores"

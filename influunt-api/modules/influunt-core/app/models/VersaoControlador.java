@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -12,7 +13,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,6 +63,12 @@ public class VersaoControlador extends Model implements Serializable {
     @CreatedTimestamp
     private DateTime dataCriacao;
 
+    @Column
+    @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
+    @JsonSerialize(using = InfluuntDateTimeSerializer.class)
+    @UpdatedTimestamp
+    private DateTime dataAtualizacao;
+
     public VersaoControlador() {
 
     }
@@ -106,23 +113,21 @@ public class VersaoControlador extends Model implements Serializable {
      * @return
      */
     public static List<VersaoControlador> versoes(Controlador controlador) {
-        ArrayList<VersaoControlador> versoes = new ArrayList<VersaoControlador>();
-        getElement(versoes, controlador);
-        return versoes;
-    }
-
-    private static void getElement(ArrayList<VersaoControlador> versoes, Controlador controlador) {
-        VersaoControlador versao = findByControlador(controlador);
-        if (versao != null) {
-            versoes.add(versao);
-            if (versao.getControladorOrigem() != null) {
-                getElement(versoes, versao.getControladorOrigem());
-            }
-        }
+        return findByControladorOrdered(controlador);
     }
 
     public static VersaoControlador findByControlador(Controlador controlador) {
         return VersaoControlador.find.where().eq("controlador_id", controlador.getId()).findUnique();
+    }
+
+    public static List<VersaoControlador> findByControladorOrdered(Controlador controlador) {
+        ControladorFisico controladorFisico = ControladorFisico.find.where().eq("id", controlador.getVersaoControlador().getControladorFisico().getId()).findUnique();
+
+        if (controladorFisico == null) {
+            return Collections.emptyList();
+        }
+
+        return VersaoControlador.find.where().eq("controlador_fisico_id", controladorFisico.getId()).orderBy("data_atualizacao desc").findList();
     }
 
     public UUID getId() {
@@ -181,6 +186,14 @@ public class VersaoControlador extends Model implements Serializable {
         this.dataCriacao = dataCriacao;
     }
 
+    public DateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(DateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
     public StatusVersao getStatusVersao() {
         return statusVersao;
     }
@@ -214,7 +227,7 @@ public class VersaoControlador extends Model implements Serializable {
     }
 
     public void ativar() {
-        setStatusVersao(StatusVersao.ATIVO);
+        setStatusVersao(StatusVersao.SINCRONIZADO);
     }
 
     public void finalizar() {

@@ -32,6 +32,10 @@ module.exports = function() {
     return planosPage.isTempoDeCicloHidden();
   });
 
+  this.Given(/^o usuário não deve ter a opção de marcar estágio dispensável$/, function () {
+    return planosPage.isEstagioDispensavelHidden();
+  });
+
   this.Given(/^o usuário deve ter a opção de marcar o tempo de ciclo do estágio$/, function () {
     return planosPage.isTempoDeCicloVisible();
   });
@@ -42,6 +46,10 @@ module.exports = function() {
 
   this.Given(/^o usuário deve ter a opção de marcar a defasagem do ciclo$/, function () {
     return planosPage.isTempoDefasagemVisible();
+  });
+
+  this.Given(/^o sistema deverá apresentar erro em defasagem$/, function () {
+    return planosPage.erroDefasagem();
   });
 
   this.Given(/^que o usuário clique no botão de configurar o estágio "([^"]*)"$/, function (estagio) {
@@ -74,7 +82,7 @@ module.exports = function() {
   });
 
   this.Given(/^a quantidade de estagios na lista deverá ser (\d+)$/, function (numeroEstagios) {
-    return planosPage.estagioExcluido(numeroEstagios);
+    return planosPage.numeroEstagiosIncluidos(numeroEstagios);
   });
 
   this.Given(/^o usuário decide adicionar o estágio removido "([^"]*)"$/, function (estagio) {
@@ -101,10 +109,6 @@ module.exports = function() {
     return planosPage.getTextInModal().then(function(text) {
       expect(text).to.equal('selecione os planos que deverão copiar as configurações de PLANO 1');
     });
-  });
-
-  this.Given(/^o usuário prenche o campo com "([^"]*)"$/, function (valor) {
-    return planosPage.preencherCampoEditarPlano(valor);
   });
 
   this.Given(/^o usuário selecionar o "([^"]*)"$/, function (valor) {
@@ -174,5 +178,29 @@ module.exports = function() {
 
   this.Given(/^o sistema deverá apresentar erro no estágio "([^"]*)"$/, function (estagio) {
     return planosPage.erroInEstagio(estagio);
+  });
+
+  this.Given(/^e o usuário clicar em estágio dispensável$/, function () {
+    return planosPage.checkEstagioDispensavel();
+  });
+
+  this.Given(/^o usuário selecionar o estágio que recebe o estágio dispensável "([^"]*)"$/, function (estagio) {
+    return planosPage.selecionaEstagioQueRecebeDispensavel(estagio);
+  });
+
+  this.Given(/^o estágio "([^"]*)" deve estar selecionado para estágio dispensável$/, function (estagio) {
+    return planosPage.deveConterEstagioQueRecebeDispensavel(estagio);
+  });
+
+  this.Given(/^o valor "([^"]*)" deverá ser "([^"]*)"$/, function (Knob,valor) {
+    return planosPage.valorDoKnob(valor, Knob);
+  });
+
+  this.Given(/^o usuário no diagrama selecionar o grupo "([^"]*)"$/, function (grupo) {
+    return planosPage.selectGrupoInDiagrama(grupo);
+  });
+
+  this.Given(/^o usuário ativar o ciclo duplo$/, function () {
+    return planosPage.selecionarCicloDuplo();
   });
 };

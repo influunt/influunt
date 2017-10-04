@@ -211,7 +211,15 @@
 
             this._bind(this.input, "blur", this._focusOut);
             this._bind(this.input, "change", this._focusOut);
-        },
+
+            this.input.keypress(function(event) {
+              var charCode = (typeof event.which == "undefined") ? event.keyCode : event.which;
+              var charStr = String.fromCharCode(charCode);
+              if (charCode != 8 && charCode != 13 && /\D/g.test(charStr)) {
+                event.preventDefault();
+              }
+            });
+          },
         _focusOut: function (e) {
             if (e.type == "change") {
                 this.options.value = this.input.val().replace("-", ",");

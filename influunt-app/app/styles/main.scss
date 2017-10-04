@@ -16,15 +16,21 @@
 @import "./../../bower_components/select2/dist/css/select2.css";
 
 
+@import "./font-open-sans.css";
 @import "./font-awesome.css";
 @import "./animate.css";
 @import "./style.css";
 @import "./pace.css";
 @import "./influunt.css";
+@import "./influunt/dashboard.css";
 @import "./influunt/plano.css";
 @import "./influunt/mapa-controladores.css";
 @import "./influunt/controlador/associacao-detectores.scss";
 @import "./influunt/simulacao.css";
+@import "./influunt/diff.css";
+@import "./influunt/imposicoes.css";
+@import "./influunt/video.css";
+@import "./influunt/agrupamentos.css";
 
 // directives
 @import "./directives/influunt-knob.css";
@@ -159,6 +165,10 @@ i.sinal-verde-conflitante, i.transicao-proibida {
 .form-group label {
   font-size: 12px;
   text-transform: uppercase;
+}
+.label.label-modo-manual {
+  background-color: #5e5e5e;
+  color: #d1dade;
 }
 
 .wizard-step-title h2, h3 {

@@ -1,6 +1,5 @@
 log
 logs
-log
 target
 /.idea
 /.idea_modules
@@ -10,3 +9,10 @@ target
 /RUNNING_PID
 imagens/*
 /bin/
+local
+form.properties
+*-tcplocalhost1883
+*-tcp1270011883
+*-tcpmosquittorarolabscombr1883
+*-tcp17781648711017
+*.log

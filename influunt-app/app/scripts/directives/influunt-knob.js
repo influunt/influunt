@@ -57,7 +57,7 @@ angular.module('influuntApp')
             var value = ev.value;
             var oldValue = scope.ngModel;
 
-            if (value) {
+            if (angular.isDefined(value)) {
               scope.ngModel = ev.value;
               scope.$apply();
               return angular.isFunction(scope.onChange()) && scope.onChange()(oldValue, value);
@@ -66,7 +66,6 @@ angular.module('influuntApp')
 
           knob.on('outOfBounds', _.debounce(function() {
             var texto;
-
             if (parseFloat(scope.ngModel) === parseFloat(scope.max)) {
               texto = $filter('translate')('directives.influuntKnob.alertaLimiteMaximo');
             } else {

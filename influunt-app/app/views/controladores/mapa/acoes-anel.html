@@ -9,14 +9,39 @@
       </div>
       <div class="ibox-content">
         <p>{{ currentAnel.localizacao }}</p>
+      </div>
 
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="exibirTabelasHorarias(currentControlador)">
-          {{ 'controladores.mapaControladores.tabelasHorarias' | translate }}
-        </button>
+      <div class="ibox-content">
+        <h3>{{ 'controladores.mapaControladores.status.titulo' | translate }}</h3>
+        <ul>
+          <li data-ng-if="currentControlador.status">
+            <strong>{{ 'controladores.mapaControladores.status.statusControlador' | translate }}:</strong>
+            <span ng-bind-html="currentControlador.status.statusDevice | statusControlador"></span>
+          </li>
+          <li>
+            <strong>{{ 'controladores.mapaControladores.status.online' | translate }}: </strong>
+            <span data-ng-bind-html="currentControlador.online | trueOrFalseIcon"></span>
+          </li>
+          <li data-ng-if="currentAnel.modoOperacao">
+            <strong>{{ 'controladores.mapaControladores.status.modoOperacao' | translate }}: </strong>
+            <span>{{ 'planos.modosOperacao.' + currentAnel.modoOperacao | translate }}</span>
+          </li>
+          <li data-ng-if="currentAnel.planoVigente">
+            <strong>{{ 'controladores.mapaControladores.status.planoVigente' | translate }}: </strong>
+            <a data-ng-click="showDiagramaIntervalos(currentAnel.planoVigente)">
+              {{ 'controladores.geral.plano' | translate}} {{ currentAnel.planoVigente.posicao }} - {{ currentAnel.planoVigente.descricao }}
+            </a>
+          </li>
 
+          <li data-ng-if="currentAnel.hasPlanoImposto">
+            <strong>{{ 'controladores.mapaControladores.planoImposto' | translate }}</strong>
+            <liberar-imposicao
+              anel="currentAnel"
+              transacoes="statusObj.transacoes"
+              data-ng-if="currentControlador.online"></liberar-imposicao>
+          </li>
+
+        </ul>
       </div>
 
       <div class="ibox-content" ng-init="openPlanos()">
@@ -26,36 +51,46 @@
         </h3>
         <ul class="planos">
           <li data-ng-repeat="plano in currentAnel.planos">
-            <a data-ng-click="showDiagramaIntervalos(plano)">{{ 'controladores.geral.plano' | translate}} {{ plano.posicao }} - {{ plano.descricao }}</a>
+            <a data-ng-click="showDiagramaIntervalos(plano)">
+              {{ 'controladores.geral.plano' | translate}} {{ posicaoPlano(plano) }}{{ plano.isTemporario ? '' : ' - ' + plano.descricao }}
+            </a>
           </li>
         </ul>
       </div>
-      <div class="ibox-content">
-        <h3>Ações</h3>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentAnel.planos.length > 0)"
-            data-toggle="modal" data-target="#modal-imposicao-plaos" aria-hidden="true">
-          {{ 'controladores.mapaControladores.imporPlanos' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentAnel.planos.length > 0)"
-            data-ng-click="enviarPlano(currentAnel)">
-          {{ 'controladores.mapaControladores.enviarPlano' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="trocarTabelaHoraria(currentControlador)">
-          {{ 'controladores.mapaControladores.trocarTabela' | translate }}
-        </button>
-        <button
-            class="btn btn-primary"
-            data-ng-disabled="!(currentControlador.tabelasHorarias.length > 0)"
-            data-ng-click="enviarTabela(currentControlador)">
-          {{ 'controladores.mapaControladores.enviarTabela' | translate }}
-        </button>
+
+      <div class="ibox-content" permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos',
+              'sincronizarTabelaHoraria', 'colocarControladorManutencao', 'ativarControlador', 'desativarControlador',
+              'imporPlanos', 'imporModoOperacao']" data-ng-if="currentControlador.online">
+        <h3>{{ 'controladores.mapaControladores.acoes' | translate }}</h3>
+
+        <imposicao-plano-popup
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
+            track-transaction="true"
+            permission permission-only="'imporPlanos'">
+        </imposicao-plano-popup>
+        <imposicao-modo-popup
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
+            track-transaction="true"
+            permission permission-only="'imporModoOperacao'">
+        </imposicao-modo-popup>
+        <sincronizacao-popup
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
+            track-transaction="true"
+            permission permission-only="['sincronizarConfiguracaoCompleta', 'sincronizarPlanos', 'sincronizarTabelaHoraria']">
+        </sincronizacao-popup>
+        <alterar-status-popup
+            aneis-selecionados="[currentAnel]"
+            ids-transacoes="{}"
+            transacoes="statusObj.transacoes"
+            track-transaction="true"
+            permission permission-only="['colocarControladorManutencao', 'ativarControlador', 'desativarControlador']">
+        </alterar-status-popup>
       </div>
     </div>
   </div>

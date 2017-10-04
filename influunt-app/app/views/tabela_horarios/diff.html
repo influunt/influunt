@@ -1,0 +1,150 @@
+<div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
+  <section role="complementary" class="basic-wizard">
+    <div class="content clearfix wizard-body">
+      <div class="step-content tabs-container body">
+        <fieldset>
+
+          <div class="row">
+            <div class="col-sm-12 col-lg-12 actions clearfix padding-right-20">
+              <div class="right">
+                <a class="btn btn-outline btn-primary btn-footer m-r-sm" ui-sref="app.tabelas_horarias({id: $state.params.id})">
+                  <i class="fa fa-arrow-left"></i> {{ 'plugins.steps.labels.back' | translate }}
+                </a>
+                <a class="btn btn-primary btn-footer"
+                   tooltips tooltip-side="bottom" tooltip-template="{{ 'geral.tooltip.ver' | translate }} {{ 'controladores.geral.historico' | translate }}"
+                   data-target="#modal-timeline" data-toggle="modal">
+                  <i class="fa fa-code-fork"></i> {{ 'controladores.geral.historico' | translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <influunt-tabs class="tabpanel"
+                         data-on-activate="selecionaTipoEvento"
+                         data-aneis-ativos="tipoEventos"
+                         data-name-tabs="nomesTabs"
+                         data-can-rename-tabs="true">
+          </influunt-tabs>
+
+          <div class="col-sm-12 no-padding ibox white-bg">
+
+            <div class="dropdown pull-right m-t m-r legenda">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Legenda <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a><div class="removido"></div>Evento removido</a></li>
+                <li><a><div class="adicionado"></div>Evento adicionado</a></li>
+              </ul>
+            </div>
+
+            <div class="ibox float-e-margins">
+              <div class="tabpanel">
+                <div class="col-lg-12 col-sm-12 tabs-container m-t-md">
+
+                  <div class="ui-layout-content tab-content">
+                    <div>
+                      <div class="col-lg-12 col-sm-12 bg-border no-padding" style="background:#f2f2f2">
+                        <div class="ibox float-e-margins">
+                          <div class="tabpanel">
+                            <div class="col-lg-12 col-sm-12 tabs-container no-padding">
+                              <div class="ui-layout-content tab-content">
+                                <div id="tabs-1">
+                                  <div class="row">
+                                    <div class="col-sm-6">
+
+                                      <div class="no-padding-left col-sm-12 diff-table">
+                                        <span class="versao-usuario"><strong>{{ 'diff.versaoCriadaPor' | translate }} {{ versaoOrigem.usuario.nome }} {{ 'diff.em' | translate }} {{ versaoOrigem.dataCriacao }}</strong></span>
+                                        <table class="table text-center">
+                                          <thead class="uppercase">
+                                            <tr>
+                                              <th class="text-center"></th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoNormal()">{{ 'tabelaHorarios.dias' | translate }}</th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial() || tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.nome' | translate }}</th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial()">{{ 'tabelaHorarios.diaMes' | translate }}</th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.diaMesAno' | translate }}</th>
+                                              <th class="text-center">{{ 'tabelaHorarios.horas' | translate }}</th>
+                                              <th class="text-center">{{ 'tabelaHorarios.minutos' | translate }}</th>
+                                              <th class="text-center">{{ 'tabelaHorarios.segundos' | translate }}</th>
+                                              <th class="text-center" colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr data-ng-repeat="evento in eventosOrigem"
+                                              class="{{ evento.status }}"
+                                              influunt-evento
+                                              data-evento="evento"
+                                              data-planos="planos"
+                                              data-dias="dias"
+                                              data-horarios="horarios"
+                                              data-minutos="minutos"
+                                              data-segundos="segundos"
+                                              pode-remover="false"
+                                              pode-visualizar-plano="false"
+                                              read-only="true">
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                      <div class="no-padding-left col-sm-12 diff-table">
+                                        <span class="versao-usuario"><strong>{{ 'diff.versaoCriadaPor' | translate }} {{ versaoBase.usuario.nome }} {{ 'diff.em' | translate }} {{ versaoBase.dataCriacao }}</strong></span>
+                                        <table class="table text-center">
+                                          <thead class="uppercase">
+                                            <tr>
+                                              <th class="text-center"></th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoNormal()">{{ 'tabelaHorarios.dias' | translate }}</th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial() || tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.nome' | translate }}</th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoEspecial()">{{ 'tabelaHorarios.diaMes' | translate }}</th>
+                                              <th class="text-center" data-ng-if="tabelaHorariaService.isCurrentTipoEventoNaoRecorrente()">{{ 'tabelaHorarios.diaMesAno' | translate }}</th>
+                                              <th class="text-center">{{ 'tabelaHorarios.horas' | translate }}</th>
+                                              <th class="text-center">{{ 'tabelaHorarios.minutos' | translate }}</th>
+                                              <th class="text-center">{{ 'tabelaHorarios.segundos' | translate }}</th>
+                                              <th class="text-center" colspan="3">{{ 'tabelaHorarios.plano' | translate }}</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr data-ng-repeat="evento in eventosBase"
+                                              class="{{ evento.status }}"
+                                              influunt-evento
+                                              data-evento="evento"
+                                              data-planos="planos"
+                                              data-dias="dias"
+                                              data-horarios="horarios"
+                                              data-minutos="minutos"
+                                              data-segundos="segundos"
+                                              pode-remover="false"
+                                              pode-visualizar-plano="false"
+                                              read-only="true">
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <influunt-modal-timeline
+            resource="'tabelas_horarias'"
+            resource-id="$state.params.id"
+            mostrar-link-alteracoes="true"
+            link-alteracoes="app.tabelas_horarias_diff"></influunt-modal-timeline>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+</div>

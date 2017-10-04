@@ -51,8 +51,12 @@ describe('Controller: ControladoresAneisCtrl', function () {
       });
     });
 
-    describe('Configuração válida', function () {
-      beforeEach(function() {
+    describe('Configuração válida', function() {
+      beforeEach(inject(function($q, CETLocalizacaoService) {
+        var deferred = $q.defer();
+        spyOn(CETLocalizacaoService, 'getLatLng').and.returnValue(deferred.promise);
+        deferred.resolve({lat: 1, lng: 2});
+
         var endereco1       = {idJson: 1, localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
         var enderecoVazio   = {idJson: 2, localizacao: ''};
 
@@ -63,10 +67,11 @@ describe('Controller: ControladoresAneisCtrl', function () {
           numeroSMEE: 2
         };
         WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
-      });
+      }));
 
       it('Deve iniciar a tela com o primeiro anel selecionado', function() {
         scope.currentEndereco = {localizacao: 'Av Bandeirantes', localizacao2: 'Av Afonso Penna'};
+
         scope.$apply();
         expect(scope.currentAnelIndex).toBe(0);
         expect(scope.currentAnel).toBe(scope.aneis[0]);
@@ -82,10 +87,10 @@ describe('Controller: ControladoresAneisCtrl', function () {
         expect(scope.aneis[0].endereco).toBeDefined();
       });
 
-      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "com" "Av Afonso Penna"', function() {
+      it('Deve criar o texto em "nomeEndereco" associando os nomes do "Av Bandeirantes" "x" "Av Afonso Penna"', function() {
         var anel = scope.objeto.aneis[0];
-        expect(anel.localizacao).toBe('Av Bandeirantes com Av Afonso Penna');
-        expect(scope.controladorLocalizacao).toBe('Av Bandeirantes com Av Afonso Penna');
+        expect(anel.localizacao).toBe('Av Bandeirantes x Av Afonso Penna');
+        expect(scope.controladorLocalizacao).toBe('Av Bandeirantes x Av Afonso Penna');
       });
 
       it('no segundo anel o "nomeEndereco" deve ser vazio', function() {
@@ -201,6 +206,71 @@ describe('Controller: ControladoresAneisCtrl', function () {
     it('Não deve permitir desativar o primeiro anel', function() {
       scope.desativarUltimoAnel();
       expect(scope.objeto.aneis[0].ativo).toBeTruthy();
+    });
+  });
+
+  describe('bugs', function() {
+    describe('estágios sem imagens', function () {
+      describe('Quando a API retorna um estágio sem imagem', function () {
+        beforeEach(function() {
+          var objeto = {
+            aneis: [
+              {
+                idJson: 'anel-1',
+                ativo: true,
+                endereco: {idJson: 'e3'},
+                estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
+                gruposSemaforicos: [{idJson: 'gs1'}],
+                detectores: [{idJson: 'd1'}],
+                planos: [{idJson: 'p1'}]
+              },
+              {idJson: 'anel-3',ativo: false}
+            ],
+            todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}],
+            estagios: [{idJson: 'e1', imagem: { idJson: 'imagem-1'}}, {idJson: 'e2'}],
+            imagens: [{idJson: 'imagem-1'}]
+          };
+
+          WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
+          scope.$apply();
+        });
+
+        it('Os estágios sem imagens devem ser removidos da lista de estágios', function () {
+          expect(scope.imagensDeEstagios.length).toBe(1);
+        });
+      });
+
+      describe('Quado o app produz estágios sem imagem', function () {
+        beforeEach(function() {
+          var objeto = {
+            aneis: [
+              {
+                idJson: 'anel-1',
+                ativo: true,
+                endereco: {idJson: 'e3'},
+                estagios: [{idJson: 'e1'}, {idJson: 'e2'}],
+                gruposSemaforicos: [{idJson: 'gs1'}],
+                detectores: [{idJson: 'd1'}],
+                planos: [{idJson: 'p1'}]
+              }
+            ],
+            todosEnderecos: [{idJson: 'e1'},{idJson: 'e2'},{idJson: 'e3'},{idJson: 'e4'}],
+            estagios: [{idJson: 'e1', imagem: { idJson: 'imagem-1'}}, {idJson: 'e2'}],
+            imagens: [{idJson: 'imagem-1'}]
+          };
+
+          WizardControladores.fakeInicializaWizard(scope, $q, objeto, scope.inicializaAneis);
+          scope.$apply();
+        });
+
+        it('Deve remover os estágios sem imagens antes de enviar à API', function () {
+          scope.beforeSubmitForm();
+          scope.$apply();
+
+          expect(scope.objeto.aneis[0].estagios.length).toBe(1);
+          expect(scope.objeto.estagios.length).toBe(1);
+        });
+      });
     });
   });
 });

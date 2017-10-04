@@ -2,37 +2,40 @@
 
 var worldObj = require('../world');
 var world = new worldObj.World();
+var expect = require('chai').expect;
 
 var ObjetosComuns = function () {
-  this.cadastrarControlador = function() {
-    return world.execSqlScript('features/support/scripts/planos/controlador.sql');
+
+  var getXpathEnderecoControlador = function (endereco) {
+    return '//td[contains(text(), "'+endereco+'")]';
   };
 
-  this.cadastrarPlanoParaControlador = function() {
-    return world.execSqlScript('features/support/scripts/controladores/plano_controlador.sql');
+  var xpathBotoesControladores = function(botao, endereco) {
+    var enderecoControlador = getXpathEnderecoControlador(endereco);
+    return ''+enderecoControlador+'//following-sibling::td//a[contains(@tooltip-template, "'+botao+'")]';
   };
 
-  this.cadastrarTabelaHorariaParaControlador = function() {
-    return world.execSqlScript('features/support/scripts/controladores/tabela_horaria_controlador.sql');
-  };
-
-  this.controladoresAreasDiferentes = function() {
-    return world.execSqlScript('features/support/scripts/controladores/controladores_por_areas.sql');
-  };
-
-  this.variosControladores = function() {
-    return world.execSqlScript('features/support/scripts/controladores/controladores.sql');
+  this.indexPage = function(path) {
+    return world.visit('/app/'+path+'');
   };
 
   this.clicarLinkNovo = function() {
     return world.waitForOverlayDisappear().then(function (){
-      return world.getElement('i[class="fa fa-plus"]').click();
+      return world.waitForToastMessageDisapear().then(function (){
+        return world.getElement('i[class="fa fa-plus"]').click();
+      });
     });
   };
 
   this.isListagemControladores = function() {
     return world.waitForOverlayDisappear().then(function (){
       return world.waitForByXpath('//h5[contains(text(), "Programação")]');
+    });
+  };
+
+  this.isListagem = function(title) {
+    return world.waitForOverlayDisappear().then(function (){
+      return world.waitForByXpath('//h5[contains(text(), "'+title+'")]');
     });
   };
 
@@ -47,19 +50,22 @@ var ObjetosComuns = function () {
 
   this.clicarLinkComTexto = function(texto) {
     return world.waitForOverlayDisappear().then(function (){
+      return world.waitForToastMessageDisapear();
+    })
+    .then(function (){
       return world.findLinkByText(texto).click();
     });
   };
 
   this.trocarAnel = function(numeroAnel) {
     var xpath = ('//li[contains(@aria-selected, "false")]//a[contains(text(), "Anel '+numeroAnel+'")]');
-    return  world.sleep(300).then(function(){
+    return world.sleep(600).then(function(){
       return world.getElementByXpath(xpath).click();
     });
   };
 
   this.limparCampo = function(campo) {
-    return world.clearField(campo);
+    return world.clearFieldByXpath('//input[contains(@name, "'+campo+'")]');
   };
 
   this.errosImpeditivos = function(texto){
@@ -67,12 +73,14 @@ var ObjetosComuns = function () {
   };
 
   this.textoSweetAlert = function() {
-    return world.getTextInSweetAlert();
+    return world.sleep(1000).then(function(){
+      return world.getTextInSweetAlert();
+    });
   };
 
-  this.botaoConfirmSweetAlert = function() {
+  this.botaoSweetAlert = function(action) {
     return world.waitFor('div[class^="sweet-alert"][class$="visible"]').then(function() {
-      return world.clickButton('div[class^="sweet-alert"] button.confirm');
+      return world.clickButton('div[class^="sweet-alert"] button.'+action+'');
     });
   };
 
@@ -82,13 +90,16 @@ var ObjetosComuns = function () {
     });
   };
 
-
   this.realizarScrollUp = function(){
     return world.scrollToUp();
   };
 
   this.realizarScrollDown = function(){
     return world.scrollToDown();
+  };
+
+  this.realizarScrollDownModal = function() {
+    return world.scrollToDownModal();
   };
 
   // verifica diagrama
@@ -143,8 +154,9 @@ var ObjetosComuns = function () {
   };
 
   this.checarTotalInseridosNaTabela = function(quantidade) {
-    return world.sleep(300).then(function(){
-      return world.countTableSize(quantidade);
+    var xpathTable = '//table[contains(@class, "table")]//tbody//tr';
+    return world.sleep(600).then(function(){
+      return world.countTableSize(quantidade, xpathTable);
     });
   };
 
@@ -164,9 +176,10 @@ var ObjetosComuns = function () {
   };
 
   this.getErrorMessageFor = function(campo) {
-    world.sleep(400);
-    return world.waitFor('[name="'+campo+'"] + p[class*="error-msg"]').then(function() {
-      return world.getElement('[name="'+campo+'"] + p[class*="error-msg"]').getText();
+    var cssSelector = '[name="'+campo+'"] + p[class*="error-msg"]';
+    world.sleep(600);
+    return world.waitFor(cssSelector).then(function() {
+      return world.getElement(cssSelector).getText();
     });
   };
 
@@ -174,8 +187,9 @@ var ObjetosComuns = function () {
     return world.getElement('form[name="form'+nameForm+'"]');
   };
 
-  this.checarClcControladorListagem = function(numero) {
-    return world.getElementByXpath('//td[contains(text(), "'+numero+'.000.0001")]');
+  this.checarControladorPorEndereco = function(endereco) {
+    var xpathEndereco = getXpathEnderecoControlador(endereco);
+    return world.getElementByXpath(xpathEndereco);
   };
 
   this.checarValoresNaTabela = function(valor) {
@@ -187,13 +201,183 @@ var ObjetosComuns = function () {
   };
 
   this.clicarEditarEmResumo = function(selectorText) {
-    return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
+    return world.waitForOverlayDisappear().then(function() {
+      return world.getElementByXpath('//button[contains(@tooltip-template, "'+selectorText+'")]').click();
+    });
+  };
+
+  this.clicarBotaoEspecificoTabelaControladores = function(botao, controlador) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.sleep(600);
+    }).then(function() {
+      return world.waitForOverlayDisappear().then(function() {
+        return world.getElementByXpath(xpathBotoesControladores(botao,controlador)).click();
+      });
+    });
+  };
+
+  this.clicarBotaoEspecificoTabela = function(botao, registro) {
+    var xpathBotao = '//td[contains(text(), "'+registro+'")]//following-sibling::td//a[contains(text(), "'+botao+'")]';
+    return world.waitForOverlayDisappear().then(function() {
+      return world.sleep(600);
+    }).then(function() {
+      return world.waitForOverlayDisappear().then(function() {
+        return world.getElementByXpath(xpathBotao).click();
+      });
+    });
+  };
+
+  this.naoPodeMostraBotaoControlador = function(botao, controlador) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpathInverse(xpathBotoesControladores(botao,controlador));
+    });
+  };
+
+  this.naoPodeMostraBotao = function(botao) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.shoulNotFindLinkByText(botao);
+    });
+  };
+
+  this.selecionarBySelect2Option = function(field, option) {
+    return world.select2OptionByXpath(field, option);
+  };
+
+  this.selectBySelectOptionAtribute = function(campo, selectSelector, optionAtribute, value) {
+    return world.sleep(300).then(function(){
+      return world.selectByOptionAtribute(campo, selectSelector, optionAtribute, value);
+    });
+  };
+
+  this.removeSelect2Option = function(option, field) {
+    return world.sleep(400).then(function(){
+      return world.getElementByXpath('//li[contains(@title, "'+option+'")]//span').click().then(function(){
+        return world.getElementByXpath('//select[contains(@name, "'+field+'")]//following::li[contains(@class, "select2-search")]').click();
+      });
+    });
   };
 
   this.visitarListagem = function(local) {
     return world.visit('/app/'+local+'');
   };
-};
 
+  this.fecharModal = function(modal) {
+    return world.sleep(600).then(function(){
+      return world.getElementByXpath('//div[contains(@id, "'+modal+'")]//button[contains(text(), "Fechar")]').click();
+    });
+  };
+
+  this.checarBadgeStatusControlador = function(status) {
+    var _this = this;
+    switch(status) {
+      case 'Em revisão':
+        return _this.getBadgeByClassStatus('badge-warning', status);
+      case 'Configurado':
+        return _this.getBadgeByClassStatus('badge-primary', status);
+      default:
+        throw new Error('Status não encontrado: '+status);
+    }
+  };
+
+  this.getBadgeByClassStatus = function(badge, text) {
+    return world.waitForByXpath('//span[contains(@class, "'+badge+'")][contains(text(), "'+text+'")]');
+  };
+
+  this.naoConsigaSelecionar = function(campo, valueToSelector) {
+    return world.waitForByXpathInverse('//select[contains(@name, "'+campo+'")]//option[contains(@label, "'+valueToSelector+'")]');
+  };
+
+  this.checkPosicaoHistorico = function(posicao, data) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('(//div[contains(@class, "vertical-timeline-content")])['+posicao+']//small[contains(text(), "'+data+'")]');
+    });
+  };
+
+  this.preencherCampo = function(campo, valor) {
+    world.sleep(500);
+    return world.setValue('[name="'+campo+'"]', valor);
+  };
+
+  this.clicarVisualizarResumo = function() {
+    return world.getElementByXpath('//i[contains(@class, "fa-eye")]').click();
+  };
+
+  this.enderecoBreadcrumb = function(endereco) {
+    return world.waitForByXpath('//p[contains(@class, "cruzamento")][contains(text(), "'+endereco+'")]');
+  };
+
+  this.textoToastSalvoSucesso = function(msg) {
+    world.sleep(2000);
+    return world.getSucessToastMessage().then(function(text) {
+      expect(text).to.equal(msg);
+    });
+  };
+
+  this.toastMessage = function() {
+    return world.waitFor('#toast-container div.toast-message').then(function() {
+      return world.sleep(500);
+    }).then(function() {
+      return world.getElement('#toast-container div.toast-message').getText();
+    });
+  };
+
+  this.naoDeveApresentarErro = function() {
+    world.sleep(500);
+    return world.waitForByXpathInverse('//div[contains(@class, "toast-error")]');
+  };
+
+  this.aguardar = function(time) {
+    return world.sleep(time);
+  };
+
+  this.verificarValoresEmLinhasNaTabela = function(valor) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.sleep(1000);
+    }).then(function() {
+      return world.getElementByXpath('//li[contains(text(), "'+valor+'")]');
+    });
+  };
+
+  this.verificarTabelaPorThETd = function(thText, tdText) {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('//th[contains(text(), "'+thText+'")]').then(function() {
+        return world.waitForByXpath('//td[contains(text(), "'+tdText+'")]');
+      });
+    });
+  };
+
+  this.verificarTabelaPorThETdImagem = function(thText, tdClassImg) {
+    return world
+      .waitForOverlayDisappear().then(function() {
+        return world.waitForByXpath('//th[contains(text(), "'+thText+'")]');
+      })
+      .then(function() {
+          return world.waitForByXpath('//td//i[contains(@class, "'+tdClassImg+'")]');
+      });
+  };
+
+  this.showH5 = function(title) {
+    return world.waitForByXpath('//h5/small[contains(text(), "'+title+'")]');
+  };
+
+  this.clickForaModal = function() {
+    return world.closeModal('modal-transacoes-distribuidas');
+  };
+
+  this.isForm = function() {
+    return world.waitForOverlayDisappear().then(function() {
+      return world.waitForByXpath('//form[contains(@class, "simple_form")]');
+    });
+  };
+
+  this.setarData = function(valor){
+    var xpath = '//input[contains(@type, "datetime")]';
+    return world.waitForOverlayDisappear().then(function (){
+      return world.waitToggle().then(function(){
+        return world.setValueByXpath(xpath, valor);
+      });
+    });
+  };
+};
 
 module.exports = ObjetosComuns;

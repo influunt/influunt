@@ -7,7 +7,7 @@ var CrudPage = function () {
 
   var campos = {
     'Área':                            '[name="area"]',
-    'Altura Numérica':                 '[name="objeto.todosEnderecos[0].alturaNumerica"]',
+    'Altura Numérica':                 '[name="alturaNumerica"]',
     'Cidade':                          'select[name="cidade"]',
     'Configuração Controlador':        'select[name="configuracao"]',
     'Configuração':                    'select[name="configuracao"]',
@@ -27,7 +27,6 @@ var CrudPage = function () {
     'Tipo':                            '[name="tipo"]',
     'Número SMEE':                     '[name="numeroSMEE"]',
     'Alternativa':                     'select[name="alternativos"]',
-    'Descrição':                       '[name="descricao"]',
     'Limite Estágios':                 '[name="limiteEstagio"]',
     'Limite Grupos Semafóricos':       '[name="limiteGrupoSemaforico"]',
     'Limite Aneies':                   '[name="limiteAnel"]',
@@ -40,7 +39,12 @@ var CrudPage = function () {
     'Minuto':                          '[name="planoMinuto"]',
     'Segundo':                         '[name="planoSegundo"]',
     'Plano':                           '[name="posicaoPlano"]',
-    'Nome Perfil':                     '[name="perfil_nome"]'
+    'Nome Perfil':                     '[name="perfil_nome"]',
+    'Nome Usuário':                    '[name="usuario_nome"]',
+    'Login':                           '[name="usuario_login"]',
+    'Email':                           '[name="usuario_email"]',
+    'Senha':                           '[name="usuario_senha"]',
+    'Confirmação Senha':               '[name="usuario_confirmacao_senha"]'
   };
 
   this.toastMessage = function() {

@@ -45,20 +45,6 @@ angular.module('influuntApp')
       };
 
       /**
-      * Relatorio de Controladores por Status
-      */
-      $scope.gerarRelatorioControladoresPorStatus = function() {
-        return generateReport('relatorio_controladores_status', 'controladores_status', $scope.relatorio);
-      };
-
-      /**
-      * Relatorio de Controladores por Falhas
-      */
-      $scope.gerarRelatorioControladoresPorFalhas = function() {
-        return generateReport('relatorio_controladores_falhas', 'controladores_falhas', $scope.relatorio);
-      };
-
-      /**
       * Relatorio de Controladores com alteracao de entreverdes no periodo
       */
       $scope.gerarRelatorioControladoresEntreverdes = function() {
@@ -88,7 +74,6 @@ angular.module('influuntApp')
             }
           })
           .finally(influuntBlockui.unblock);
-
       };
 
   }]);

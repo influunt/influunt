@@ -14,17 +14,18 @@ import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
+import play.libs.Json;
+import status.StatusConexaoControlador;
 import utils.DBUtils;
+import utils.RangeUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -45,121 +46,155 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private static final long serialVersionUID = 521560643019927963L;
 
     public static Finder<UUID, Controlador> find = new Finder<UUID, Controlador>(Controlador.class);
-
+    @JsonIgnore
+    @Transient
+    boolean atualizando = false;
     @Id
     private UUID id;
-
     @Column
     private String idJson;
-
     @NotNull(message = "não pode ficar em branco")
     private String nomeEndereco;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
     private DateTime dataCriacao;
-
     @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
-
     @Column
     private Integer sequencia;
-
     @Column
     private String numeroSMEE;
-
     @Column
     private String numeroSMEEConjugado1;
-
     @Column
     private String numeroSMEEConjugado2;
-
     @Column
     private String numeroSMEEConjugado3;
-
     @Column
     private String firmware;
-
     @OneToOne
     private Imagem croqui;
-
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
     private ModeloControlador modelo;
-
     @ManyToOne
     @Valid
     @NotNull(message = "não pode ficar em branco")
     private Area area;
-
     @ManyToOne
     @Valid
     private Subarea subarea;
-
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     @PrivateOwned
     private List<Anel> aneis;
-
     @OneToMany(mappedBy = "controlador")
     private List<GrupoSemaforico> gruposSemaforicos;
-
-    @OneToMany(mappedBy = "controlador")
-    private List<Detector> detectores;
-
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.ALL)
     @Valid
     private Endereco endereco;
-
     @OneToOne(mappedBy = "controlador", cascade = CascadeType.REMOVE)
     private VersaoControlador versaoControlador;
-
     @OneToMany(mappedBy = "controlador", cascade = CascadeType.ALL)
-    @Valid
     private List<VersaoTabelaHoraria> versoesTabelasHorarias;
-
     @Column
     private Boolean bloqueado = false;
-
     @Column
     private Boolean planosBloqueado = false;
-
+    @Column
+    private Boolean sincronizado = false;
+    @Column
+    @NotNull
+    private boolean exclusivoParaTeste = false;
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaAtiva;
-
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaEmEdicao;
-
     @JsonIgnore
     @Transient
     private VersaoTabelaHoraria versaoTabelaHorariaConfigurada;
+    @JsonIgnore
+    @Transient
+    @Valid
+    private VersaoTabelaHoraria versaoTabelaHoraria;
+    @JsonIgnore
+    @Transient
+    private RangeUtils rangeUtils;
 
     public static Controlador isValido(Object conteudo) {
-        JsonNode controladorJson = play.libs.Json.parse(conteudo.toString());
+        JsonNode controladorJson = Json.parse(conteudo.toString());
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(controladorJson);
+
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class);
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class);
         return erros.isEmpty() ? controlador : null;
     }
 
     public static Controlador isPacotePlanosValido(Object controladorObject, Object planosObject) {
-        JsonNode controladorJson = play.libs.Json.parse(controladorObject.toString());
-        JsonNode planoJson = play.libs.Json.parse(planosObject.toString());
-        Controlador controlador = new ControladorCustomDeserializer().getPacotesFromJson(controladorJson, planoJson);
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode planoJson = Json.parse(planosObject.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacotePlanosFromJson(controladorJson, planoJson);
         List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty() ? controlador : null;
+    }
+
+    public static Controlador isPacoteTabelaHorariaValido(Object controladorObject, Object pacoteTabelaHoraria) {
+        return isPacoteTabelaHorariaValido(controladorObject, pacoteTabelaHoraria, null);
+    }
+
+    private static Controlador isPacoteTabelaHorariaValido(Object controladorObject, Object pacoteTabelaHoraria, Usuario usuario) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson, usuario);
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty() ? controlador : null;
+    }
+
+    public static Object checkConfiguracaoTabelaHoraria(Object controladorObject, Object pacoteTabelaHoraria, Usuario usuario) {
+        Controlador controlador = isPacoteTabelaHorariaValido(controladorObject, pacoteTabelaHoraria, usuario);
+        if (controlador == null) {
+            JsonNode controladorJson = Json.parse(controladorObject.toString());
+            JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+
+            controlador = new ControladorCustomDeserializer().getPacoteTabelaHorariaFromJson(controladorJson, pacoteTabelaHorariaJson);
+            return new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
                 ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
                 ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
                 ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        }
+        return controlador;
+    }
+
+
+    public static Controlador isPacoteConfiguracaoCompletaValido(Object controladorObject, Object pacotePlanos, Object pacoteTabelaHoraria) {
+        JsonNode controladorJson = Json.parse(controladorObject.toString());
+        JsonNode pacoteTabelaHorariaJson = Json.parse(pacoteTabelaHoraria.toString());
+        JsonNode pacotePlanosJson = Json.parse(pacotePlanos.toString());
+
+        Controlador controlador = new ControladorCustomDeserializer().getPacoteConfiguracaoCompletaFromJson(controladorJson, pacotePlanosJson, pacoteTabelaHorariaJson);
+
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(controlador, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
         return erros.isEmpty() ? controlador : null;
     }
 
@@ -169,6 +204,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public static List<Controlador> findListByArea(String areaId) {
         return Controlador.find.where().eq("area_id", areaId).findList();
+    }
+
+    public boolean isCompletoDevice() {
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, TabelaHorariosCheck.class);
+        return erros.isEmpty();
+    }
+
+    public boolean isCompleto() {
+        List<Erro> erros = new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class, PlanosCheck.class, PlanosCentralCheck.class,
+            TabelaHorariosCheck.class);
+        return erros.isEmpty();
     }
 
     @Override
@@ -186,6 +238,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
     private void antesDeSalvarOuAtualizar() {
         if (this.getId() == null) {
             this.setStatusVersao(StatusVersao.EM_CONFIGURACAO);
+
             int quantidade = this.getModelo().getLimiteAnel();
             for (int i = 0; i < quantidade; i++) {
                 this.addAnel(new Anel(this, i + 1));
@@ -201,14 +254,33 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        this.deleteAnelSeNecessario();
+        deleteAnelSeNecessario();
         deleteGruposSemaforicos(this);
         deleteVerdesConflitantes(this);
         deleteEstagiosGruposSemaforicos(this);
         deleteTransicoesProibidas(this);
         deleteTabelasEntreVerdes(this);
+        deleteEstagiosGruposSemaforicosPlanos(this);
         deleteEventos(this);
-        this.criarPossiveisTransicoes();
+        deleteEstagiosPlanos(this);
+        if (isAtualizando()) {
+            // agrupamentos só podem ser apagados numa atualização
+            // de controlador. Cadastro de planos também passa por aqui
+            deleteAgrupamentos(this);
+        }
+        criarPossiveisTransicoes();
+    }
+
+    public void deleteAnelSeNecessario() {
+        ListIterator<Anel> it = getAneis().listIterator();
+        while (it.hasNext()) {
+            Anel anel = it.next();
+            if (anel.isDestroy()) {
+                anel.setControlador(null);
+                it.remove();
+                it.add(new Anel(this, anel.getPosicao()));
+            }
+        }
     }
 
     private void deleteEventos(Controlador controlador) {
@@ -225,11 +297,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (controlador.getId() != null) {
             controlador.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                        grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
-                            if (tabelaEntreVerdes.isDestroy()) {
-                                tabelaEntreVerdes.delete();
-                            }
-                        }));
+                    grupoSemaforico.getTabelasEntreVerdes().forEach(tabelaEntreVerdes -> {
+                        if (tabelaEntreVerdes.isDestroy()) {
+                            tabelaEntreVerdes.delete();
+                        }
+                    }));
             });
         }
     }
@@ -238,11 +310,11 @@ public class Controlador extends Model implements Cloneable, Serializable {
         if (c.getId() != null) {
             c.getAneis().forEach(anel -> {
                 anel.getGruposSemaforicos().forEach(grupoSemaforico ->
-                        grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
-                            if (verdeConflitante.isDestroy()) {
-                                verdeConflitante.delete();
-                            }
-                        }));
+                    grupoSemaforico.getVerdesConflitantes().forEach(verdeConflitante -> {
+                        if (verdeConflitante.isDestroy()) {
+                            verdeConflitante.delete();
+                        }
+                    }));
             });
         }
     }
@@ -273,6 +345,23 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
     }
 
+    private void deleteEstagiosGruposSemaforicosPlanos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().forEach(anel -> {
+                anel.getPlanos().forEach(plano -> {
+                    if (plano != null) {
+                        plano.getGruposSemaforicosPlanos().forEach(grupoSemaforicoPlano -> {
+                            if (grupoSemaforicoPlano.isDestroy()) {
+                                grupoSemaforicoPlano.delete();
+                            }
+                        });
+                    }
+                });
+            });
+
+        }
+    }
+
     private void deleteTransicoesProibidas(Controlador controlador) {
         if (controlador.getId() != null) {
             controlador.getAneis().forEach(anel -> {
@@ -299,12 +388,50 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
     }
 
+    private void deleteEstagiosPlanos(Controlador controlador) {
+        if (controlador.getId() != null) {
+            controlador.getAneis().stream().filter(Anel::isAtivo).forEach(anel -> {
+                anel.getVersoesPlanos().forEach(versaoPlano -> {
+                    versaoPlano.getPlanos().forEach(plano -> {
+                        if (plano != null) {
+                            plano.getEstagiosPlanos().stream()
+                                .filter(EstagioPlano::isDestroy)
+                                .forEach(EstagioPlano::delete);
+                        }
+                    });
+                });
+            });
+        }
+    }
+
+    private void deleteAgrupamentos(Controlador controlador) {
+        VersaoControlador versao = controlador.getVersaoControlador();
+        if (versao != null) {
+            Controlador controladorOrigem = versao.getControladorOrigem();
+            if (controladorOrigem != null) {
+                if (controladorOrigem.getAneisAtivos().size() != getAneisAtivos().size()) {
+                    // mudança no controlador foi muito grande, agrupamentos
+                    // não fazem mais sentido do jeito que são. Todos os agrupamentos
+                    // associados com a versão antiga do controlador serão apagados.
+                    getAneis().forEach(anel -> {
+                        List<Agrupamento> agrupamentos = Agrupamento.find.where().eq("aneis.id", anel.getId()).findList();
+                        if (agrupamentos != null && !agrupamentos.isEmpty()) {
+                            for (Agrupamento agrupamento : agrupamentos) {
+                                agrupamento.delete();
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+
     private void gerarCLC() {
         List<Controlador> controladorList =
-                Controlador.find.query()
-                        .select("sequencia")
-                        .where().eq("area_id", area.getId().toString())
-                        .order("sequencia desc").setMaxRows(1).findList();
+            Controlador.find.query()
+                .select("sequencia")
+                .where().eq("area_id", area.getId().toString())
+                .order("sequencia desc").setMaxRows(1).findList();
 
         if (controladorList.size() == 0) {
             this.sequencia = 1;
@@ -435,6 +562,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         this.subarea = subarea;
     }
 
+
     public List<Anel> getAneis() {
         return aneis;
     }
@@ -450,14 +578,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setGruposSemaforicos(List<GrupoSemaforico> gruposSemaforicos) {
         this.gruposSemaforicos = gruposSemaforicos;
-    }
-
-    public List<Detector> getDetectores() {
-        return detectores;
-    }
-
-    public void setDetectores(List<Detector> detectores) {
-        this.detectores = detectores;
     }
 
     public DateTime getDataCriacao() {
@@ -490,6 +610,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         }
         return null;
     }
+
 
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHorariaAtiva() {
@@ -524,21 +645,29 @@ public class Controlador extends Model implements Cloneable, Serializable {
     @Transient
     public VersaoTabelaHoraria getVersaoTabelaHoraria() {
         if (getVersaoTabelaHorariaEmEdicao() != null) {
-            return getVersaoTabelaHorariaEmEdicao();
+            versaoTabelaHoraria = getVersaoTabelaHorariaEmEdicao();
         } else if (getVersaoTabelaHorariaConfigurada() != null) {
-            return getVersaoTabelaHorariaConfigurada();
+            versaoTabelaHoraria = getVersaoTabelaHorariaConfigurada();
         } else if (getVersaoTabelaHorariaAtiva() != null) {
-            return getVersaoTabelaHorariaAtiva();
+            versaoTabelaHoraria = getVersaoTabelaHorariaAtiva();
         }
-        return null;
+        return versaoTabelaHoraria;
     }
 
     public VersaoControlador getVersaoControlador() {
         return versaoControlador;
     }
 
+    public void setVersaoControlador(VersaoControlador versaoControlador) {
+        this.versaoControlador = versaoControlador;
+    }
+
     public StatusVersao getStatusVersao() {
-        return getVersaoControlador().getStatusVersao();
+        if (getVersaoControlador() != null) {
+            return getVersaoControlador().getStatusVersao();
+        }
+
+        return null;
     }
 
     public void setStatusVersao(StatusVersao statusVersao) {
@@ -547,10 +676,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
             versao.setStatusVersao(statusVersao);
             versao.update();
         }
-    }
-
-    public void setVersaoControlador(VersaoControlador versaoControlador) {
-        this.versaoControlador = versaoControlador;
     }
 
     public List<VersaoTabelaHoraria> getVersoesTabelasHorarias() {
@@ -570,9 +695,14 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = TabelaHorariosCheck.class,
-            message = "O controlador deve ter tabela horária configurada.")
+        message = "O controlador deve ter tabela horária configurada.")
     public boolean isPossuiTabelaHoraria() {
         return this.getTabelaHoraria() != null;
+    }
+
+    @AssertTrue(groups = ControladorFinalizaConfiguracaoCheck.class, message = "O controlador não pode ser finalizado sem o número do SMEE preenchido.")
+    public boolean isNumeroSmeePreenchido() {
+        return (this.getNumeroSMEE() != null && !this.getNumeroSMEE().isEmpty()) || this.isExclusivoParaTeste();
     }
 
     @Override
@@ -588,8 +718,8 @@ public class Controlador extends Model implements Cloneable, Serializable {
     }
 
     public StatusVersao getStatusControladorReal() {
-        StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
-        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador)) {
+        StatusVersao statusVersaoControlador = getStatusVersao();
+        if (StatusVersao.CONFIGURADO.equals(statusVersaoControlador) || StatusVersao.SINCRONIZADO.equals(statusVersaoControlador)) {
             TabelaHorario tabela = getTabelaHoraria();
             if (tabela != null) {
                 VersaoTabelaHoraria versaoTabelaHoraria = tabela.getVersaoTabelaHoraria();
@@ -614,19 +744,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
             }
         }
 
-        return getVersaoControlador().getStatusVersao();
-    }
-
-    public void deleteAnelSeNecessario() {
-        ListIterator<Anel> it = getAneis().listIterator();
-        while (it.hasNext()) {
-            Anel anel = it.next();
-            if (anel.isDestroy()) {
-                anel.setControlador(null);
-                it.remove();
-                it.add(new Anel(this, anel.getPosicao()));
-            }
-        }
+        return getStatusVersao();
     }
 
     public void addVersaoTabelaHoraria(VersaoTabelaHoraria versaoTabelaHoraria) {
@@ -654,11 +772,6 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 }
             });
 
-            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
-            if (controladorOrigem != null) {
-                this.reassociarAgrupamentos(controladorOrigem);
-            }
-
             setBloqueado(false);
             setPlanosBloqueado(false);
             this.update();
@@ -683,66 +796,46 @@ public class Controlador extends Model implements Cloneable, Serializable {
                 }
             });
 
-
-            Controlador controladorOrigem = versaoControlador.getControladorOrigem();
-            if (controladorOrigem != null) {
-                this.reassociarAgrupamentos(controladorOrigem);
-            }
             this.update();
         });
     }
 
+    public boolean isConfigurado() {
+        if (getEndereco() != null) {
+            getEndereco().getAlturaNumerica();
+        }
 
-    private void reassociarAgrupamentos(Controlador controladorOrigem) {
-        long totalAneisOrigem = controladorOrigem.getAneis().stream().filter(Anel::isAtivo).count();
-        long totalAneisAtual = this.getAneis().stream().filter(Anel::isAtivo).count();
-
-        if (totalAneisAtual == totalAneisOrigem) {
-            controladorOrigem.getAneis().stream().filter(Anel::isAtivo).forEach(anelOrigem -> {
-                if (anelOrigem.getAgrupamentos() != null) {
-
-                    anelOrigem.getAgrupamentos().forEach(agrupamento -> {
-                        Anel anelAtual = this.getAneis()
-                                .stream()
-                                .filter(anel -> anel.getPosicao().equals(anelOrigem.getPosicao()))
-                                .findFirst()
-                                .orElse(null);
-                        if (anelAtual != null) {
-                            ListIterator<Anel> it = agrupamento.getAneis().listIterator();
-                            while (it.hasNext()) {
-                                Anel anel = it.next();
-                                if (anel.getId().equals(anelOrigem.getId())) {
-                                    it.remove(); // remove anel antigo do agrupamento
-                                    it.add(anelAtual); // adiciona nova versão do anel no agrupamento
-                                }
-                            }
-                            agrupamento.update();
-                        }
-                    });
-
-                }
-            });
-        } else {
-            // mudança no controlador foi muito grande, agrupamentos
-            // não fazem mais sentido do jeito que são. Todos os agrupamentos
-            // associados com a versão antiga do controlador serão apagados.
-            controladorOrigem.getAneis().forEach(anel -> {
-                if (anel.getAgrupamentos() != null) {
-                    anel.getAgrupamentos().forEach(Agrupamento::delete);
+        if (getAneis() != null) {
+            getAneisAtivos().stream().forEach(anel -> {
+                if (anel.getEndereco() != null) {
+                    anel.getEndereco().getAlturaNumerica();
                 }
             });
         }
-    }
 
-    public boolean isConfigurado() {
-        getEndereco().getAlturaNumerica();
-        getAneis().stream().filter(Anel::isAtivo).forEach(anel -> anel.getEndereco().getAlturaNumerica());
-        getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
+        if (getVersoesTabelasHorarias() != null) {
+            getVersoesTabelasHorarias().forEach(versaoTabelaHoraria -> versaoTabelaHoraria.getTabelaHoraria().getVersaoTabelaHoraria());
+        }
 
         return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class, ControladorAneisCheck.class, ControladorGruposSemaforicosCheck.class,
-                ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
-                ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
-                ControladorAssociacaoDetectoresCheck.class).size() == 0;
+            ControladorVerdesConflitantesCheck.class, ControladorAssociacaoGruposSemaforicosCheck.class,
+            ControladorTransicoesProibidasCheck.class, ControladorAtrasoDeGrupoCheck.class, ControladorTabelaEntreVerdesCheck.class,
+            ControladorAssociacaoDetectoresCheck.class).size() == 0;
+    }
+
+    public boolean isPlanoCentralConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            PlanosCheck.class, PlanosCentralCheck.class).size() == 0;
+    }
+
+    public boolean isPlanoConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            PlanosCheck.class).size() == 0;
+    }
+
+    public boolean isTabelaHorariaConfigurado() {
+        return new InfluuntValidator<Controlador>().validate(this, javax.validation.groups.Default.class,
+            TabelaHorariosCheck.class).size() == 0;
     }
 
     /**
@@ -766,7 +859,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public boolean podeClonar() {
         StatusVersao statusVersaoControlador = getVersaoControlador().getStatusVersao();
-        return StatusVersao.ATIVO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
+        return StatusVersao.SINCRONIZADO.equals(statusVersaoControlador) || StatusVersao.CONFIGURADO.equals(statusVersaoControlador);
     }
 
     public boolean podeEditar(Usuario usuario) {
@@ -802,5 +895,191 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setPlanosBloqueado(boolean planosBloqueado) {
         this.planosBloqueado = planosBloqueado;
+    }
+
+    public Anel findAnelByPosicao(Integer posicao) {
+        if (Objects.nonNull(posicao)) {
+            return getAneis().stream().filter(anel -> posicao.equals(anel.getPosicao())).findFirst().orElse(null);
+        }
+        return null;
+    }
+
+    public Detector findDetectorByPosicaoETipo(TipoDetector tipoDetector, Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getDetectores)
+            .flatMap(Collection::stream)
+            .filter(detector -> posicao.equals(detector.getPosicao()) && tipoDetector.equals(detector.getTipo()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public RangeUtils getRangeUtils() {
+        return rangeUtils;
+    }
+
+    public void setRangeUtils(RangeUtils rangeUtils) {
+        this.rangeUtils = rangeUtils;
+    }
+
+    public Anel findAnelByDetector(TipoDetector tipoDetector, Integer posicao) {
+        Detector detector = findDetectorByPosicaoETipo(tipoDetector, posicao);
+        if (detector != null) {
+            return detector.getAnel();
+        }
+        return null;
+    }
+
+    public GrupoSemaforico findGrupoSemaforicoByPosicao(Integer posicao) {
+        return getAneis().stream()
+            .map(Anel::getGruposSemaforicos)
+            .flatMap(Collection::stream)
+            .filter(grupoSemaforico -> posicao.equals(grupoSemaforico.getPosicao()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public Anel findAnelByGrupoSemaforico(Integer posicao) {
+        GrupoSemaforico grupoSemaforico = findGrupoSemaforicoByPosicao(posicao);
+        if (grupoSemaforico != null) {
+            return grupoSemaforico.getAnel();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Controlador controlador = (Controlador) o;
+
+        return id != null ? id.equals(controlador.id) : idJson != null ? idJson.equals(controlador.idJson) : controlador.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    public List<Anel> getAneisAtivos() {
+        return getAneis().stream().filter(Anel::isAtivo).collect(Collectors.toList());
+    }
+
+    public Integer getTotalEstagios() {
+        return getAneisAtivos().stream().mapToInt(anel -> anel.getEstagios().size()).sum();
+    }
+
+    public Long getTotalDetectoresVeicular() {
+        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isVeicular()).count()).sum();
+    }
+
+    public Long getTotalDetectoresPedestre() {
+        return getAneisAtivos().stream().mapToLong(anel -> anel.getDetectores().stream().filter(detector -> detector.isPedestre()).count()).sum();
+    }
+
+    @JsonIgnore
+    public String getControladorFisicoId() {
+        return getVersaoControlador().getControladorFisico().getId().toString();
+    }
+
+    @JsonIgnore
+    public String getFabricanteOs() {
+        return getVersaoControlador().getControladorFisico().getMarca();
+    }
+
+    @JsonIgnore
+    public String getModeloOs() {
+        return getVersaoControlador().getControladorFisico().getModelo();
+    }
+
+    @JsonIgnore
+    public String getVersaoOs() {
+        return getFirmware();
+    }
+
+    @JsonIgnore
+    public String getFabricanteHardware() {
+        return getVersaoControlador().getControladorFisico().getFabricanteHardware();
+    }
+
+    @JsonIgnore
+    public String getModeloHardware() {
+        return getVersaoControlador().getControladorFisico().getModeloHardware();
+    }
+
+    @JsonIgnore
+    public String getVersaoHardware() {
+        return getVersaoControlador().getControladorFisico().getVersaoFirmwareHardware();
+    }
+
+    @JsonIgnore
+    public DateTime getAtualizacaoVersao() {
+        return getVersaoControlador().getControladorFisico().getAtualizacaoVersaoHardware();
+    }
+
+    @JsonIgnore
+    public String getCentralPublicKey() {
+        return this.getVersaoControlador().getControladorFisico().getCentralPublicKey();
+    }
+
+    @JsonIgnore
+    public String getControladorPrivateKey() {
+        return this.getVersaoControlador().getControladorFisico().getControladorPrivateKey();
+    }
+
+    @JsonIgnore
+    public String getCentralPrivateKey() {
+        return this.getVersaoControlador().getControladorFisico().getCentralPrivateKey();
+    }
+
+    public Boolean getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(Boolean sincronizado) {
+        this.sincronizado = sincronizado;
+    }
+
+    public boolean podeInativar() {
+        return (getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO)
+            || getControladorFisico().getStatusDevice().equals(StatusDevice.EM_MANUTENCAO)
+            || getControladorFisico().getStatusDevice().equals(StatusDevice.CONFIGURADO));
+    }
+
+    public boolean podeColocarEmManutencao() {
+        return (getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO) || getControladorFisico().getStatusDevice().equals(StatusDevice.COM_FALHAS));
+    }
+
+    public boolean podeAtivar() {
+        return (!getControladorFisico().getStatusDevice().equals(StatusDevice.ATIVO) && !getControladorFisico().getStatusDevice().equals(StatusDevice.NOVO));
+    }
+
+    private ControladorFisico getControladorFisico() {
+        return getVersaoControlador().getControladorFisico();
+    }
+
+    public boolean isExclusivoParaTeste() {
+        return exclusivoParaTeste;
+    }
+
+    public void setExclusivoParaTeste(boolean exclusivoParaTeste) {
+        this.exclusivoParaTeste = exclusivoParaTeste;
+    }
+
+    public boolean isOnline() {
+        StatusConexaoControlador status = StatusConexaoControlador.ultimoStatus(this.getControladorFisicoId());
+        if (status != null) {
+            return status.isConectado();
+        }
+        return false;
+    }
+
+    public boolean isAtualizando() {
+        return atualizando;
+    }
+
+    public void setAtualizando(boolean atualizando) {
+        this.atualizando = atualizando;
     }
 }

@@ -1,21 +1,21 @@
 'use strict';
 
 /**
- * @ngdoc service
- * @name influuntApp.SimulacaoService
- * @description
- * # SimulacaoService
- * Service in the influuntApp.
- */
+* @ngdoc service
+* @name influuntApp.SimulacaoService
+* @description
+* # SimulacaoService
+* Service in the influuntApp.
+*/
 angular.module('influuntApp')
-  .service('SimulacaoService', function () {
+.service('SimulacaoService', function() {
 
-    var podeSimular = function(controlador) {
-      return _.includes(['ATIVO', 'CONFIGURADO'], _.get(controlador, 'statusControlador'));
-    };
+  var podeSimular = function(controlador) {
+    return controlador && controlador.controladorConfigurado && controlador.planoConfigurado && controlador.tabelaHorariaConfigurado;
+  };
 
-    return {
-      podeSimular: podeSimular
-    };
+  return {
+    podeSimular: podeSimular
+  };
 
-  });
+});

@@ -17,6 +17,7 @@ public class SimulacaoConfig {
     private List<Integer> tempoCicloAnel = new ArrayList<>();
 
     private List<AnelSimulacaoConfig> aneis;
+
     private List<DetectorSimulacaoConfig> detectores;
 
     public String getSimulacaoId() {
@@ -78,11 +79,15 @@ public class SimulacaoConfig {
             return imagem;
         }
     }
+
     public static class AnelSimulacaoConfig {
+        public List<EstagioSimulacaoConfig> estagios = new ArrayList<>();
+
         private int numero;
 
+        private boolean aceitaModoManual;
+
         private List<TipoGrupoSemaforico> tiposGruposSemaforicos = new ArrayList<>();
-        public List<EstagioSimulacaoConfig> estagios = new ArrayList<>();
 
         public int getNumero() {
             return numero;
@@ -106,6 +111,14 @@ public class SimulacaoConfig {
 
         public void setEstagios(List<EstagioSimulacaoConfig> estagios) {
             this.estagios = estagios;
+        }
+
+        public boolean isAceitaModoManual() {
+            return aceitaModoManual;
+        }
+
+        public void setAceitaModoManual(boolean aceitaModoManual) {
+            this.aceitaModoManual = aceitaModoManual;
         }
     }
 

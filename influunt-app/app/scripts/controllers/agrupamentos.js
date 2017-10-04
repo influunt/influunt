@@ -373,28 +373,57 @@ angular.module('influuntApp')
       };
 
       $scope.salvar = function(formValido) {
-        var title = $filter('translate')('agrupamentos.eventosPopup.title'),
-            text = $filter('translate')('agrupamentos.eventosPopup.text');
-
-        return influuntAlert.ask(title, text)
-          .then(function(criarEventos) {
-            $scope.criarEventos = criarEventos;
-            $scope.save(formValido);
-          });
+        if ($scope.objeto.id) {
+          var title = $filter('translate')('agrupamentos.eventosPopup.title'),
+              text = $filter('translate')('agrupamentos.eventosPopup.text');
+          return influuntAlert.ask(title, text)
+            .then(function(criarEventos) {
+              $scope.criarEventos = criarEventos;
+              $scope.save(formValido)
+                .catch(function(err) {
+                  if (err.status === 409) {
+                    title = $filter('translate')('agrupamentos.conflitoPopup.title');
+                    text = $filter('translate')('agrupamentos.conflitoPopup.text');
+                    influuntAlert.ask(title, text)
+                      .then(function(resp) {
+                        $scope.substituirEventos = resp;
+                        $scope.save(formValido);
+                      });
+                  }
+                });
+            });
+        } else {
+          return $scope.save(formValido);
+        }
       };
 
       $scope.create = function() {
         return Restangular
           .service('agrupamentos')
-          .post($scope.objeto, { criarEventos: $scope.criarEventos })
-          .finally(influuntBlockui.unblock);
+          .post($scope.objeto);
       };
 
       $scope.update = function() {
-        return $scope
-          .objeto
-          .save({ criarEventos: $scope.criarEventos })
-          .finally(influuntBlockui.unblock);
+        var queryString = { criarEventos: $scope.criarEventos };
+        if (!_.isUndefined($scope.substituirEventos)) {
+          queryString.substituirEventos = $scope.substituirEventos;
+          $scope.substituirEventos = undefined;
+        }
+        return $scope.objeto.save(queryString);
+      };
+
+      $scope.isEditando = function() {
+        return !!_.get($scope.objeto, 'id');
+      };
+
+      $scope.confirmDelete = function(id) {
+        var posicaoPlano = _.find($scope.lista, {id: id}).posicaoPlano;
+        var title = $filter('translate')('agrupamentos.deletePopup.title'),
+            text = $filter('translate')('agrupamentos.deletePopup.text', { numPlano: posicaoPlano });
+        return influuntAlert.confirm(title, text)
+          .then(function(confirmado) {
+            return confirmado && $scope.delete(id);
+          });
       };
 
     }]);

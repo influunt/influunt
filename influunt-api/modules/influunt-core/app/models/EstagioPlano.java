@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.ChangeLog;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import json.deserializers.InfluuntDateTimeDeserializer;
@@ -83,6 +84,10 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
     @UpdatedTimestamp
     private DateTime dataAtualizacao;
 
+    @Transient
+    @JsonIgnore
+    private boolean destroy;
+
     public EstagioPlano() {
         super();
         this.idJson = UUID.randomUUID().toString();
@@ -132,6 +137,13 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         return tempoVerde;
     }
 
+    public Integer getTempoVerde(int ciclo) {
+        if (plano.isCicloDuplo() && ciclo % 2 != 0) {
+            return getTempoVerdeCicloDuplo();
+        }
+        return getTempoVerde();
+    }
+
     public Integer getTempoVerdeMinimo() {
         return tempoVerdeMinimo;
     }
@@ -176,14 +188,12 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
-        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
-    }
-
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde deve estar entre {min} e {max}")
     public boolean isTempoVerde() {
-        if (getPlano().isTempoFixoIsolado() || getPlano().isTempoFixoCoordenado()) {
-            return RangeUtils.getInstance().TEMPO_VERDE.contains(getTempoVerde());
+        if (!isDestroy()) {
+            if (getPlano().isTempoFixoIsolado() || getPlano().isTempoFixoCoordenado()) {
+                return getPlano().getAnel().getControlador().getRangeUtils().TEMPO_VERDE.contains(getTempoVerde());
+            }
         }
         return true;
     }
@@ -194,8 +204,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde mínimo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMinimo() {
-        if (getPlano().isAtuado()) {
-            return RangeUtils.getInstance().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo());
+        if (getPlano().isAtuado() && !isDestroy()) {
+            return getPlano().getAnel().getControlador().getRangeUtils().TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo());
         }
         return true;
     }
@@ -206,8 +216,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde máximo deve estar entre {min} e {max}")
     public boolean isTempoVerdeMaximo() {
-        if (getPlano().isAtuado()) {
-            return RangeUtils.getInstance().TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo());
+        if (getPlano().isAtuado() && !isDestroy()) {
+            return getPlano().getAnel().getControlador().getRangeUtils().TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo());
         }
         return true;
     }
@@ -218,8 +228,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de verde intermediário deve estar entre {min} e {max}")
     public boolean isTempoVerdeIntermediario() {
-        if (getPlano().isAtuado()) {
-            return RangeUtils.getInstance().TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario());
+        if (getPlano().isAtuado() && !isDestroy()) {
+            return getPlano().getAnel().getControlador().getRangeUtils().TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario());
         }
         return true;
     }
@@ -230,8 +240,8 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "Tempo de extensão de verde deve estar entre {min} e {max}")
     public boolean isTempoExtensaoVerde() {
-        if (getPlano().isAtuado()) {
-            return RangeUtils.getInstance().TEMPO_EXTENSAO_VERDE.contains(getTempoExtensaoVerde());
+        if (getPlano().isAtuado() && !isDestroy()) {
+            return getPlano().getAnel().getControlador().getRangeUtils().TEMPO_EXTENSAO_VERDE.contains(getTempoExtensaoVerde());
         }
         return true;
     }
@@ -242,60 +252,118 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde intermediário deve estar entre os valores de verde mínimo e verde máximo.")
     public boolean isTempoVerdeIntermediarioFieldEntreMinimoMaximo() {
-        RangeUtils rangeUtils = RangeUtils.getInstance();
-        if (getPlano().isAtuado() &&
-            rangeUtils.TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) &&
-            rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo()) &&
-            rangeUtils.TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario())) {
-            return Range.between(getTempoVerdeMinimo(), getTempoVerdeMaximo()).contains(getTempoVerdeIntermediario());
+        if (!isDestroy()) {
+            RangeUtils rangeUtils = getPlano().getAnel().getControlador().getRangeUtils();
+            if (getPlano().isAtuado() &&
+                rangeUtils.TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) &&
+                rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo()) &&
+                rangeUtils.TEMPO_VERDE_INTERMEDIARIO.contains(getTempoVerdeIntermediario())) {
+                return Range.between(getTempoVerdeMinimo(), getTempoVerdeMaximo()).contains(getTempoVerdeIntermediario());
+            }
         }
         return true;
     }
 
-    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde mínimo deve ser maior ou igual ao verde de segurança e menor que o verde máximo.")
+    @AssertTrue(groups = PlanosCheck.class, message = "O tempo de verde mínimo deve ser maior que o verde de segurança e menor que o verde máximo.")
     public boolean isTempoVerdeMinimoFieldMenorMaximo() {
-        RangeUtils rangeUtils = RangeUtils.getInstance();
-        if (getPlano().isAtuado() &&
-            rangeUtils.TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) &&
-            rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
-            return getTempoVerdeMinimo() < getTempoVerdeMaximo();
+        if (!isDestroy()) {
+            RangeUtils rangeUtils = getPlano().getAnel().getControlador().getRangeUtils();
+            if (getPlano().isAtuado() &&
+                rangeUtils.TEMPO_VERDE_MINIMO.contains(getTempoVerdeMinimo()) &&
+                rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
+                return getTempoVerdeMinimo() < getTempoVerdeMaximo();
+            }
         }
         return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O tempo de estagio ultrapassa o tempo máximo de permanência.")
     public boolean isUltrapassaTempoMaximoPermanencia() {
-        if (getEstagio().getTempoMaximoPermanenciaAtivado()) {
-            RangeUtils rangeUtils = RangeUtils.getInstance();
+        if (getEstagio().isTempoMaximoPermanenciaAtivado() && !isDestroy()) {
+            RangeUtils rangeUtils = getPlano().getAnel().getControlador().getRangeUtils();
+            int tempo;
             if (getPlano().isAtuado() && rangeUtils.TEMPO_VERDE_MAXIMO.contains(getTempoVerdeMaximo())) {
-                return getTempoVerdeMaximo() <= getEstagio().getTempoMaximoPermanencia();
+                tempo = getTempoVerdeMaximo();
+
+                tempo = adicionaTempoEstagioDuplo(tempo, true);
+
+                return tempo <= getEstagio().getTempoMaximoPermanencia();
             } else if ((getPlano().isTempoFixoCoordenado() || getPlano().isTempoFixoIsolado()) && rangeUtils.TEMPO_VERDE.contains(getTempoVerde())) {
-                return getTempoVerde() <= getEstagio().getTempoMaximoPermanencia();
+                tempo = getTempoVerde();
+
+                tempo = adicionaTempoEstagioDuplo(tempo, false);
+
+                return tempo <= getEstagio().getTempoMaximoPermanencia();
             }
         }
         return true;
     }
 
+    private int adicionaTempoEstagioDuplo(int tempo, boolean atuado) {
+        if (getEstagioPlanoAnterior() != null && getEstagioPlanoAnterior().getEstagio().equals(getEstagio())) {
+            if (atuado) {
+                tempo += getEstagioPlanoAnterior().getTempoVerdeMaximo();
+            } else {
+                tempo += getEstagioPlanoAnterior().getTempoVerdeCicloDuplo();
+            }
+        }
+
+        if (getEstagioPlanoProximo() != null && getEstagioPlanoProximo().getEstagio().equals(getEstagio())) {
+            if (atuado) {
+                tempo += getEstagioPlanoProximo().getTempoVerdeMaximo();
+            } else {
+                tempo += getEstagioPlanoProximo().getTempoVerdeCicloDuplo();
+            }
+        }
+        return tempo;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável não pode ficar em branco.")
     public boolean isEstagioQueRecebeEstagioDispensavel() {
-        if (getPlano().isTempoFixoCoordenado() && isDispensavel()) {
-            return getEstagioQueRecebeEstagioDispensavel() != null;
+        if (getPlano().isTempoFixoCoordenado() && isDispensavel() && !isDestroy() && !primeiroEstagioDaSequencia()) {
+            return getEstagioQueRecebeEstagioDispensavel() != null &&
+                !getEstagioQueRecebeEstagioDispensavel().isDestroy();
         }
         return true;
     }
 
+    public void setEstagioQueRecebeEstagioDispensavel(EstagioPlano estagioQueRecebeEstagioDispensavel) {
+        this.estagioQueRecebeEstagioDispensavel = estagioQueRecebeEstagioDispensavel;
+    }
+
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o estágio anterior ou posterior ao estágio dispensável.")
     public boolean isEstagioQueRecebeEstagioDispensavelFieldEstagioQueRecebeValido() {
-        if (getEstagioQueRecebeEstagioDispensavel() != null) {
+        if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() &&
+            !primeiroEstagioDaSequencia() && !ultimoEstagioDaSequencia()) {
             List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
-            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) || getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
+            return getEstagioQueRecebeEstagioDispensavel()
+                .getIdJson()
+                .equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson()) ||
+                getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoProximo(listaEstagioPlanos).getIdJson());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio que recebe o tempo do estágio dispensável deve ser o anterior, pois esse estágio é o último da sequência.")
+    public boolean isEstagioQueRecebeEstagioDispensavelEAnterior() {
+        if (getEstagioQueRecebeEstagioDispensavel() != null && !isDestroy() && ultimoEstagioDaSequencia()) {
+            List<EstagioPlano> listaEstagioPlanos = getPlano().getEstagiosOrdenados();
+            return getEstagioQueRecebeEstagioDispensavel().getIdJson().equals(getEstagioPlanoAnterior(listaEstagioPlanos).getIdJson());
+        }
+        return true;
+    }
+
+    @AssertTrue(groups = PlanosCheck.class, message = "O estágio dispensável não pode ser o primeiro estágio da sequência.")
+    public boolean isPrimeiroEstagioNaoDispensavel() {
+        if (isDispensavel() && !isDestroy()) {
+            return !primeiroEstagioDaSequencia();
         }
         return true;
     }
 
     @AssertTrue(groups = PlanosCheck.class, message = "O estágio precisa estar associado a um detector para ser dispensável.")
     public boolean isPodeSerEstagioDispensavel() {
-        if (isDispensavel()) {
+        if (isDispensavel() && !isDestroy()) {
             return getEstagio().getDetector() != null;
         }
         return true;
@@ -337,94 +405,209 @@ public class EstagioPlano extends Model implements Cloneable, Serializable {
 
     public EstagioPlano getEstagioPlanoAnterior(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
+
+        if (index == -1) {
+            return null;
+        }
+
         if (index == 0) {
             return listaEstagioPlanos.get(listaEstagioPlanos.size() - 1);
         }
         return listaEstagioPlanos.get(index - 1);
     }
 
+    public EstagioPlano getEstagioPlanoProximo() {
+        List<EstagioPlano> listaEstagioPlanos = getPlano().ordenarEstagiosPorPosicaoSemEstagioDispensavel();
+        return getEstagioPlanoProximo(listaEstagioPlanos);
+    }
+
     public EstagioPlano getEstagioPlanoProximo(List<EstagioPlano> listaEstagioPlanos) {
         Integer index = listaEstagioPlanos.indexOf(this);
+
+        if (index == -1) {
+            return null;
+        }
+
         if (index == listaEstagioPlanos.size() - 1) {
             return listaEstagioPlanos.get(0);
         }
         return listaEstagioPlanos.get(index + 1);
     }
 
-    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos, GrupoSemaforico grupoSemaforico) {
+    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos,
+                                                  GrupoSemaforico grupoSemaforico) {
+        return getTempoVerdeDoGrupoSemaforico(listaEstagioPlanos, grupoSemaforico, 0);
+    }
+
+    public Integer getTempoVerdeDoGrupoSemaforico(List<EstagioPlano> listaEstagioPlanos,
+                                                  GrupoSemaforico grupoSemaforico,
+                                                  int ciclo) {
         Integer tempoVerde = 0;
         EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(listaEstagioPlanos);
         while (!this.equals(estagioPlanoAnterior) && estagioPlanoAnterior.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
-            tempoVerde += estagioPlanoAnterior.getTempoVerdeEstagio();
+            tempoVerde += estagioPlanoAnterior.getTempoVerdeEstagio(ciclo);
             estagioPlanoAnterior = estagioPlanoAnterior.getEstagioPlanoAnterior(listaEstagioPlanos);
         }
         EstagioPlano estagioPlanoProximo = this.getEstagioPlanoProximo(listaEstagioPlanos);
-        while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
-            tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio();
-            estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+        if (!estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+            Transicao transicao = grupoSemaforico.findTransicaoByOrigemDestino(this.getEstagio(), estagioPlanoProximo.getEstagio());
+            if (transicao != null) {
+                tempoVerde += transicao.getTempoAtrasoGrupo();
+            }
+        } else {
+            while (!this.equals(estagioPlanoProximo) && estagioPlanoProximo.getEstagio().getGruposSemaforicos().contains(grupoSemaforico)) {
+                tempoVerde += estagioPlanoProximo.getTempoVerdeEstagio(ciclo);
+                estagioPlanoProximo = estagioPlanoProximo.getEstagioPlanoProximo(listaEstagioPlanos);
+            }
         }
-        tempoVerde += this.getTempoVerdeEstagio();
+
+        tempoVerde += this.getTempoVerdeEstagio(ciclo);
         return tempoVerde;
     }
 
     public Integer getTempoVerdeEstagio() {
-        if (this.getPlano().isAtuado() && this.getTempoVerdeMinimo() != null) {
-            return this.getTempoVerdeMinimo();
+        return getTempoVerdeEstagio(0);
+    }
+
+    public Integer getTempoVerdeEstagio(int ciclo) {
+        if (getPlano().isAtuado() && getTempoVerdeMinimo() != null) {
+            if (getEstagio().getDetector().isComFalha()) {
+                return getTempoVerdeIntermediario();
+            }
+            return getTempoVerdeMinimo();
+        } else if (getPlano().isManual() && !getEstagio().isDemandaPrioritaria()) {
+            return 255;
         }
-        return this.getTempoVerde();
+
+        if (getPlano().isTempoFixoCoordenado() && getPlano().isCicloDuplo() && !getEstagio().isDemandaPrioritaria()) {
+            return getTempoVerde(ciclo);
+        }
+        return getTempoVerde();
     }
 
     public Integer getDuracaoEstagio() {
         return getPlano().getTempoEstagio(this);
     }
 
-    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior) {
-        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior) * 1000L;
+    public Integer getDuracaoEstagio(int ciclo) {
+        return getPlano().getTempoEstagio(this, ciclo);
     }
 
-    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano) {
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, int contadorDeCiclos) {
+        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, contadorDeCiclos) * 1000L;
+    }
+
+    public long getTempoVerdeSegurancaFaltante(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo, int contadorDeCiclos) {
+        return this.getTempoMaximoVerdeSeguranca(estagioPlanoAnterior, estagioPlanoProximo, contadorDeCiclos) * 1000L;
+    }
+
+    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioAnteriorPlano, int contadorDeCiclos) {
         return this.getEstagio()
             .getGruposSemaforicos()
             .stream()
-            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano))
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioAnteriorPlano, contadorDeCiclos))
             .max()
             .orElse(0);
     }
 
-    public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaDeTemposEntreVerde, List<EstagioPlano> listaEstagioPlanos) {
-        //TODO: Como funciona a compensação de estagios em caso de demanda prioritaria
+    public Integer getTempoMaximoVerdeSeguranca(EstagioPlano estagioPlanoAnterior, EstagioPlano estagioPlanoProximo, int contadorDeCiclos) {
+        return this.getEstagio()
+            .getGruposSemaforicos()
+            .stream()
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSegurancaFaltante(this, estagioPlanoAnterior, estagioPlanoProximo, contadorDeCiclos))
+            .max()
+            .orElse(0);
+    }
+
+    public int getTempoVerdeEstagioComTempoDoEstagioDispensavel(HashMap<Pair<Integer, Integer>, Long> tabelaEntreVerde,
+                                                                long tempoCicloDecorrido,
+                                                                List<EstagioPlano> listaEstagioPlanos,
+                                                                EstagioPlano estagioPlanoPassado,
+                                                                int ciclo) {
+        final int index = listaEstagioPlanos.indexOf(this) + 1;
+        if (index < listaEstagioPlanos.size() && listaEstagioPlanos.get(index).getEstagio().isDemandaPrioritaria()) {
+            return getTempoVerdeSeguranca();
+        }
         int tempoVerdeDoEstagioDispensavel = 0;
-        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado()) {
+        if (!getEstagio().isDemandaPrioritaria() && getPlano().isTempoFixoCoordenado() && ciclo != 0) {
             EstagioPlano estagioPlanoAnterior = getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
-            EstagioPlano estagioPlanoProximo = getEstagioPlanoProximo(plano.getEstagiosOrdenados());
             if (estagioPlanoAnterior.isDispensavel() &&
-                !listaEstagioPlanos.contains(estagioPlanoAnterior) &&
-                this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel())) {
-                tempoVerdeDoEstagioDispensavel += estagioPlanoAnterior.getTempoVerde();
-                tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
+                !estagioPlanoAnterior.equals(estagioPlanoPassado) &&
+                this.equals(estagioPlanoAnterior.getEstagioQueRecebeEstagioDispensavel()) &&
+                !estagioPlanoAnterior.ultimoEstagioDaSequencia()) {
+
+                tempoVerdeDoEstagioDispensavel = ((Long) ((getPlano().getMomentoEntradaEstagioPlano(this, ciclo) - tempoCicloDecorrido) / 1000)).intValue();
+                tempoVerdeDoEstagioDispensavel += tabelaEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoAnterior.getEstagio().getPosicao(),
                     this.getEstagio().getPosicao())) / 1000;
 
-                //TODO: Caso acha diferença entre os entreverdes quando não ocorre o estagio dispensavel também deverá ser adicionado
-                EstagioPlano anterior = estagioPlanoAnterior.getEstagioPlanoAnterior(plano.getEstagiosOrdenados());
-                long diff = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anterior.getEstagio().getPosicao(), estagioPlanoAnterior.getEstagio().getPosicao())) -
-                    tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(anterior.getEstagio().getPosicao(), this.getEstagio().getPosicao()));
-                tempoVerdeDoEstagioDispensavel += (diff / 1000);
-
-            }
-            //TODO: Caso o detector seja acionado quando o tempo de Verde já tenha sido adiciona a outro estagio, como o controlador deve se comportar
-            if (estagioPlanoProximo.isDispensavel() &&
-                !listaEstagioPlanos.contains(estagioPlanoProximo) &&
-                this.equals(estagioPlanoProximo.getEstagioQueRecebeEstagioDispensavel())) {
-                tempoVerdeDoEstagioDispensavel += estagioPlanoProximo.getTempoVerde();
-                EstagioPlano proximo = estagioPlanoProximo.getEstagioPlanoProximo(plano.getEstagiosOrdenados());
-                tempoVerdeDoEstagioDispensavel += tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoProximo.getEstagio().getPosicao(),
-                    proximo.getEstagio().getPosicao())) / 1000;
-                //TODO: Caso acha diferença entre os entreverdes quando não ocorre o estagio dispensavel também deverá ser adicionado
-                long diff = tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(this.getEstagio().getPosicao(), estagioPlanoProximo.getEstagio().getPosicao())) -
-                    tabelaDeTemposEntreVerde.get(new Pair<Integer, Integer>(this.getEstagio().getPosicao(), proximo.getEstagio().getPosicao()));
-                tempoVerdeDoEstagioDispensavel += (diff / 1000);
+                tempoVerdeDoEstagioDispensavel -= tabelaEntreVerde.get(new Pair<Integer, Integer>(estagioPlanoPassado.getEstagio().getPosicao(),
+                    this.getEstagio().getPosicao())) / 1000;
             }
         }
-        return getTempoVerdeEstagio() + tempoVerdeDoEstagioDispensavel;
+        return getTempoVerdeEstagio(ciclo) + tempoVerdeDoEstagioDispensavel;
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
+    }
+
+
+    public Integer getTempoVerdeSeguranca() {
+        return this.getEstagio()
+            .getGruposSemaforicos()
+            .stream()
+            .mapToInt(grupoSemaforico -> grupoSemaforico.getTempoVerdeSeguranca())
+            .max()
+            .orElse(0);
+    }
+
+    public Integer getInicio() {
+        return getPlano().getDefasagem() + getPlano().getEstagiosOrdenados().stream()
+            .filter(estagioPlano -> estagioPlano.getPosicao() < getPosicao()).mapToInt(EstagioPlano::getDuracaoEstagio).sum();
+    }
+
+    public boolean estagioQueRecebeEstagioDispensavelEAnterior() {
+        return getEstagioQueRecebeEstagioDispensavel().equals(getEstagioPlanoAnterior(getPlano().getEstagiosOrdenados()));
+    }
+
+    public boolean ultimoEstagioDispensavel() {
+        return !getPlano().getEstagiosOrdenados()
+            .stream()
+            .anyMatch(estagioPlano -> estagioPlano.isDispensavel() && estagioPlano.getPosicao().compareTo(getPosicao()) > 0);
+    }
+
+    public boolean ultimoEstagioDaSequencia() {
+        return getPlano().getEstagiosOrdenados().get(getPlano().getEstagiosOrdenados().size() - 1).equals(this);
+    }
+
+    public boolean primeiroEstagioDaSequencia() {
+        return getPosicao() != null && getPosicao().equals(1);
+    }
+
+    public Integer getTempoAdicionalCicloDuplo() {
+        Plano plano = getPlano();
+        if (!plano.isCicloDuplo()) {
+            return 0;
+        }
+        final Integer tempoAdicional;
+        final Integer diffTempoCiclos = plano.getTempoCicloDuplo() - plano.getTempoCiclo();
+        if (primeiroEstagioDaSequencia()) {
+            tempoAdicional = diffTempoCiclos - plano.getEstagiosOrdenados()
+                .stream()
+                .filter(ep -> !ep.getPosicao().equals(1))
+                .mapToInt(EstagioPlano::getTempoAdicionalCicloDuplo)
+                .sum();
+        } else {
+            tempoAdicional = (int) ((getTempoVerde() / (float) plano.getSomatorioTempoVerde()) * (diffTempoCiclos));
+        }
+        return tempoAdicional;
+    }
+
+    public Integer getTempoVerdeCicloDuplo() {
+        return getTempoVerde() + getTempoAdicionalCicloDuplo();
     }
 }

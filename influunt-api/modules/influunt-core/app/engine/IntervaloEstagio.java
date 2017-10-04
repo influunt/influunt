@@ -9,6 +9,10 @@ import java.util.List;
 
 public class IntervaloEstagio {
 
+    private final Long diffEntreVerde;
+
+    private final boolean inicio;
+
     private long duracao;
 
     private boolean entreverde = false;
@@ -24,6 +28,28 @@ public class IntervaloEstagio {
         this.entreverde = entreverde;
         this.estagioPlano = estagioPlano;
         this.estagioPlanoAnterior = estagioPlanoAnterior;
+        this.inicio = false;
+        this.diffEntreVerde = 0L;
+    }
+
+    public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano,
+                            EstagioPlano estagioPlanoAnterior, boolean inicio) {
+        this.duracao = duracao;
+        this.entreverde = entreverde;
+        this.estagioPlano = estagioPlano;
+        this.estagioPlanoAnterior = estagioPlanoAnterior;
+        this.inicio = inicio;
+        this.diffEntreVerde = 0L;
+    }
+
+    public IntervaloEstagio(long duracao, boolean entreverde, EstagioPlano estagioPlano,
+                            EstagioPlano estagioPlanoAnterior, long diffEntreVerde, boolean inicio) {
+        this.duracao = duracao;
+        this.entreverde = entreverde;
+        this.estagioPlano = estagioPlano;
+        this.estagioPlanoAnterior = estagioPlanoAnterior;
+        this.inicio = inicio;
+        this.diffEntreVerde = diffEntreVerde;
     }
 
     public long getDuracao() {
@@ -62,19 +88,29 @@ public class IntervaloEstagio {
         this.eventos = eventos;
     }
 
+    public boolean isInicio() {
+        return inicio;
+    }
+
+    public Long getDiffEntreVerde() {
+        return diffEntreVerde;
+    }
+
     @Override
     public String toString() {
         return "IntervaloEstagio{" +
-                "duracao=" + duracao +
-                ", entreverde=" + entreverde +
-                ", estagioPlano=" + estagioPlano +
-                '}';
+            "duracao=" + duracao +
+            ", entreverde=" + entreverde +
+            ", estagioPlano=" + estagioPlano +
+            '}';
     }
 
     public void addEvento(long contadorIntervalo, EventoMotor eventoMotor) {
-        if(!this.eventos.containsKey(contadorIntervalo)){
-            this.eventos.put(contadorIntervalo,new ArrayList<>());
+
+        if (!this.eventos.containsKey(contadorIntervalo)) {
+            this.eventos.put(contadorIntervalo, new ArrayList<>());
         }
         this.eventos.get(contadorIntervalo).add(eventoMotor);
     }
+
 }

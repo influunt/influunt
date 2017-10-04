@@ -1,0 +1,42 @@
+<div class="container-fluid wrapper wrapper-content animated fadeInRight" data-ng-init="init()">
+  <section role="complementary" class="basic-wizard">
+    <div class="content clearfix wizard-body">
+      <div class="step-content tabs-container body">
+        <fieldset>
+
+          <div class="row">
+            <uib-alert type="danger" data-ng-if="errorsUibAlert">
+              <div style="padding-left: 12px;">
+                <ul>
+                  <li data-ng-repeat="message in errorsUibAlert">{{ message }}</li>
+                </ul>
+              </div>
+            </uib-alert>
+          </div>
+
+
+          <influunt-tabela-horaria
+            read-only="somenteVisualizacao"
+            objeto="objeto"
+            errors="errors"
+            pode-inicializar="podeInicializar"
+            pode-visualizar-planos="false">
+          </influunt-tabela-horaria>
+
+
+          <div class="col-sm-12 col-lg-12 bg-border-footer pg-bt-footer actions clearfix">
+            <div class="right">
+              <a tooltips tooltip-template="Descartar" ui-sref="app.subareas" class="btn btn-outline btn-info btn-footer right m-r-sm right">
+                {{ 'tabelaHorarios.descartar' | translate }}
+              </a>
+              <a data-ng-click="submitForm()" go-to-top tooltips tooltip-template="Salvar" class="btn btn-primary btn-footer right">
+                {{ 'geral.crud.salvar' | translate }}
+              </a>
+            </div>
+          </div>
+
+        </fieldset>
+      </div>
+    </div>
+  </section>
+</div>

@@ -13,7 +13,20 @@ public class DestinoCentral {
         return "central/configuracao";
     }
 
-    public static String transacao(String idTransacao) {
-        return "central/transacoes/".concat(idTransacao);
+    public final static String alarmeFalhaConfiguracao() {
+        return "central/alarmes_falhas";
     }
+
+    public final static String trocaDePlanoEfetiva() {
+        return "central/troca_plano";
+    }
+
+    public static String transacao(String controladorId, String idTransacao) {
+        return "central/transacoes/".concat(controladorId).concat("/").concat(idTransacao);
+    }
+
+    public final static String leituraDadosControlador() {
+        return "central/info";
+    }
+
 }

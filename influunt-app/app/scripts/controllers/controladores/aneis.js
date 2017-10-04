@@ -10,8 +10,10 @@
 angular.module('influuntApp')
   .controller('ControladoresAneisCtrl', ['$scope', '$state', '$controller', '$q', '$filter', 'assertControlador',
                                          'influuntAlert', 'Restangular', 'toast', 'influuntBlockui', 'removerPlanosTabelasHorarias',
+                                         'CETLocalizacaoService',
     function ($scope, $state, $controller, $q, $filter, assertControlador,
-              influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias) {
+              influuntAlert, Restangular, toast, influuntBlockui, removerPlanosTabelasHorarias,
+              CETLocalizacaoService) {
       $controller('ControladoresCtrl', {$scope: $scope});
 
       // Métodos privados.
@@ -62,6 +64,19 @@ angular.module('influuntApp')
        */
       $scope.beforeSubmitForm = function() {
         $scope.objeto.aneis.forEach(function(anel) {
+
+          // se o sistema permitir, por alguma falha, que haja um estágio que não possua imagem, este bloco deverá
+          // impedir que este estágio "quebrado" seja submetido.
+          anel.estagios.forEach(function(e, index) {
+            var idx = _.findIndex($scope.objeto.estagios, { idJson: e.idJson });
+            var estagio = $scope.objeto.estagios[idx];
+            var comImagem = estagio && estagio.imagem && estagio.imagem.idJson;
+            if (!comImagem) {
+              $scope.objeto.estagios.splice(idx, 1);
+              anel.estagios.splice(index, 1);
+            }
+          });
+
           if (!anel.ativo) {
             delete anel.enderecos;
           }
@@ -151,19 +166,19 @@ angular.module('influuntApp')
           if (deveApagarEstagio) {
             var estagio = _.find($scope.objeto.estagios, { idJson: estagioIdJson });
             if (estagio.id) {
-            return Restangular.one('estagios', estagio.id).remove()
-              .then(function() {
-                $scope.inicializaWizard().then(function() {
-                  $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
-                  $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
-                  setarImagensEstagios($scope.currentAnel);
-                });
-                return true;
-              }).catch(function() {
-                toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
-                return false;
-              })
-              .finally(influuntBlockui.unblock);
+              return Restangular.one('estagios', estagio.id).remove()
+                .then(function() {
+                  $scope.inicializaWizard().then(function() {
+                    $scope.objeto.aneis = _.orderBy($scope.objeto.aneis, ['posicao']);
+                    $scope.currentAnel = $scope.objeto.aneis[$scope.currentAnelIndex];
+                    setarImagensEstagios($scope.currentAnel);
+                  });
+                  return true;
+                }).catch(function() {
+                  toast.error($filter('translate')('controladores.estagios.msg_erro_apagar_estagio'));
+                  return false;
+                })
+                .finally(influuntBlockui.unblock);
             } else {
               var imagem = _.find($scope.objeto.imagens, { idJson: estagio.imagem.idJson });
               $scope.removerEstagio(imagem);
@@ -193,21 +208,18 @@ angular.module('influuntApp')
 
       $scope.deletarUltimoAnelAtivo = function(data) {
         var tabWasAdded = !!$(data.tab).data('newtab');
-        if (tabWasAdded) {
-          return $q.resolve(true);
-        } else {
-          var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
-              text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
-          return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
-            if (deveApagarAnel) {
-              var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
-              $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
-              $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
-              $scope.submitForm('aneis', 'app.wizard_controladores.aneis').then(atualizarAneisAtivos);
-            }
-            return deveApagarAnel;
-          });
-        }
+        var title = $filter('translate')('controladores.aneis.titulo_msg_apagar_anel'),
+            text = $filter('translate')('controladores.aneis.corpo_msg_apagar_anel');
+        return influuntAlert.confirm(title, text).then(function(deveApagarAnel) {
+          if (deveApagarAnel && !tabWasAdded) {
+            var ultimoAnelAtivoIndex = _.findLastIndex($scope.objeto.aneis, { ativo: true });
+            $scope.objeto.aneis[ultimoAnelAtivoIndex].ativo = false;
+            $scope.objeto.aneis[ultimoAnelAtivoIndex]._destroy = true;
+            $scope.submitForm('aneis', 'app.wizard_controladores.aneis').then(atualizarAneisAtivos);
+          }
+
+          return deveApagarAnel;
+        });
       };
 
       deletarCroquiNoServidor = function(imagemIdJson) {
@@ -253,6 +265,11 @@ angular.module('influuntApp')
           watcherEndereco(anel);
           setarImagensEstagios(anel);
         }, true);
+
+        $scope.$watch('currentEndereco', function(currentVal, prevVal) {
+          CETLocalizacaoService.atualizaLatLngPorEndereco(currentVal, prevVal);
+          $scope.currentAnel.localizacao = $filter('nomeEndereco')($scope.currentEndereco);
+        }, true);
       };
 
       watcherEndereco = function(anel) {
@@ -271,7 +288,10 @@ angular.module('influuntApp')
         $scope.imagensDeEstagios = _
           .chain(estagios)
           .map(function(e) {
-            var estagio = _.find($scope.objeto.estagios, {idJson: e.idJson});
+            return _.find($scope.objeto.estagios, {idJson: e.idJson});
+          })
+          .filter('imagem')
+          .map(function(estagio) {
             var imagem = _.find($scope.objeto.imagens, {idJson: estagio.imagem.idJson});
             var obj = {
               idJson: estagio.idJson,

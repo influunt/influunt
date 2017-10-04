@@ -128,4 +128,12 @@ public class Perfil extends Model implements Role, Serializable {
     public void setDataAtualizacao(DateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
+
+    public boolean isAdministrador() {
+        return "Administrador".equalsIgnoreCase(nome);
+    }
+
+    public boolean isCoordenador() {
+        return "Coordenador".equalsIgnoreCase(nome);
+    }
 }

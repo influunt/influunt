@@ -27,7 +27,7 @@ public class InfluuntDateTimeSerializer extends JodaDateSerializerBase<DateTime>
     public InfluuntDateTimeSerializer(JacksonJodaDateFormat format) {
         // false -> no arrays (numbers)
         super(DateTime.class, format, false,
-                SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     public static String parse(DateTime dateTime) {

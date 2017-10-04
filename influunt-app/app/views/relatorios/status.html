@@ -1,0 +1,52 @@
+<pesquisa-lateral
+    data-ng-model="pesquisa.filtro"
+    campos="pesquisa.campos"
+    on-close="index()">
+</pesquisa-lateral>
+
+
+<div class="wrapper wrapper-content animated fadeInRight" data-ng-init="index()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-content">
+          <!-- botão de novo fabricante -->
+          <div class="pull-left actions">
+            <a class="btn btn-xs btn-primary" tooltips tooltip-template="{{ 'relatorios.exportarCsv' | translate }}" data-ng-click="gerarRelatorioControladoresPorStatusCSV()">
+              {{ 'relatorios.CSV' | translate }}
+            </a>
+          </div>
+
+          <table datatable="ng" dt-options="datatables.options" dt-instance="datatables.instance" class="table table-bordered table-hover">
+            <div class="table">
+              <thead>
+                <tr>
+                  <th>{{ 'relatorios.cla' | translate }}</th>
+                  <th>{{ 'relatorios.nomeCruzamento' | translate }}</th>
+                  <th data-toggle="true"class="footable-visible footable-first-column footable-sortable footable-sorted-desc">
+                    {{ 'relatorios.estado' | translate }}<span class="footable-sort-indicator"></span>
+                  </th>
+                  <th>{{ 'relatorios.plano' | translate }}</th>
+                  <th>{{ 'relatorios.modo' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="status in lista">
+                  <td>{{ status.cla }}</td>
+                  <td>{{ status.endereco }}</td>
+                  <td>{{ status.estado }}</td>
+                  <td>{{ status.plano }}</td>
+                  <td>{{ 'planos.modosOperacao.' + status.modo | translate }}</td>
+                </tr>
+              </tbody>
+            </div>
+          </table>
+          <ng-include src="'views/common/footer-pagination.html'"></ng-include>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

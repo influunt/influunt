@@ -8,6 +8,6 @@ public enum StatusVersao {
     EM_CONFIGURACAO,
     CONFIGURADO,
     EDITANDO,
-    ATIVO,
+    SINCRONIZADO,
     ARQUIVADO
 }

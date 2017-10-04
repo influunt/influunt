@@ -21,6 +21,15 @@ var LoginPage = function () {
     return world.setValue('[name="senha"]', senha);
   };
 
+  this.preencherEmail = function(email) {
+    world.sleep(500);
+    return world.setValue('[name="email"]', email);
+  };
+
+  this.clicarBotaoRecuperar = function() {
+    return world.getElementByXpath('//button[contains(@id, "acessar")]').click();
+  };
+
   this.confirmarFormulario = function() {
     return world.setValue('[name="senha"]', world.webdriver.Key.ENTER);
   };

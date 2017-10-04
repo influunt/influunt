@@ -116,7 +116,7 @@ public class Cidade extends Model implements Cloneable, Serializable {
     }
 
     @AssertTrue(groups = CidadesCheck.class,
-            message = "Já existe uma Cidade cadastrada com esse nome.")
+        message = "Já existe uma Cidade cadastrada com esse nome.")
     public boolean isNomeUnique() {
         if (Objects.nonNull(getNome())) {
             Cidade cidadeAux = Cidade.find.where().ieq("nome", getNome()).findUnique();
@@ -134,7 +134,7 @@ public class Cidade extends Model implements Cloneable, Serializable {
     @Override
     public String toString() {
         return "Cidade [id=" + id + ", nome=" + nome + ", areas=" + areas + ", dataCriacao=" + dataCriacao
-                + ", dataAtualizacao=" + dataAtualizacao + "]";
+            + ", dataAtualizacao=" + dataAtualizacao + "]";
     }
 
 }

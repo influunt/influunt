@@ -10,10 +10,44 @@
     <influunt-knob
       title="TEMPO DE CICLO"
       label="SEG"
+      ng-click="setCicloDuplo()"
       min="objeto.cicloMin"
       max="objeto.cicloMax"
       read-only="somenteVisualizacao"
       ng-model="currentPlano.tempoCiclo">
+    </influunt-knob>
+  </div>
+
+  <div data-ng-if="currentPlano.modoOperacao === 'TEMPO_FIXO_COORDENADO'">
+    <div class="col-lg-12 col-sm-12">
+      <div class="form-group">
+        <label>{{ 'planos.cicloDuplo' | translate | uppercase }}</label>
+        <p>
+          <input type="checkbox"
+                 name="cicloDuplo"
+                 is-disabled="somenteVisualizacao"
+                 data-ng-model="currentPlano.cicloDuplo"
+                 ichecks
+                 data-if-checked="setCicloDuplo()">
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="knob-item col-lg-12 col-sm-12" data-ng-if="currentPlano.cicloDuplo">
+    <span class="badge badge-danger badge-notification badge-tempo-ciclo"
+      data-ng-show="erroTempoCicloDuplo()"
+      inf-tooltip
+      messages="[erroTempoCicloDuplo()]">
+      <i class="fa fa-exclamation"></i>
+    </span>
+    <influunt-knob
+      title="TEMPO DE CICLO DUPLO"
+      label="SEG"
+      min="objeto.cicloMin"
+      max="objeto.cicloMax"
+      read-only="true"
+      ng-model="currentPlano.tempoCicloDuplo">
     </influunt-knob>
   </div>
 

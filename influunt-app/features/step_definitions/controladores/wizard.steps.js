@@ -56,11 +56,6 @@ module.exports = function() {
     return wizardPage.addImagens(localImagem);
   });
 
-  this.Given(/^o usuário adicionar (\d+) imagens para os estágios do anel corrente$/, function (qtde) {
-    var path = '../resources/croquigeral.jpg';
-    return wizardPage.adicionarImagensEstagios(qtde, path);
-  });
-
   this.Given(/^o usuário adicionar um novo anel ativo$/, function () {
     return wizardPage.marcarSegundoAnelComoAtivo();
   });
@@ -169,8 +164,8 @@ module.exports = function() {
     return wizardPage.limparCampos();
   });
 
-  this.Given(/^o usuário preencher o campo NÚMERO SMEE com 123$/, function () {
-    return wizardPage.preencherCampoSMEECom123();
+  this.Given(/^o usuário preencher o campo NÚMERO SMEE com "([^"]*)"$/, function (numero) {
+    return wizardPage.preencherCampoSMEECom(numero);
   });
 
   this.Given(/^o usuário clicar para fechar o modal$/, function () {
@@ -181,8 +176,8 @@ module.exports = function() {
     return wizardPage.clickBotaoSimSweet();
   });
 
-  this.Given(/^que o usuário clicar Confirmo que não há configurações a serem feitas aqui$/, function(){
-    return wizardPage.selecionarValor();
+  this.Given(/^o sistema deverá mostrar um check box com a seguinte mensagem "([^"]*)"$/, function(mensagem){
+    return wizardPage.verificaFraseNadaPreencher(mensagem);
   });
 
   this.Given(/^que o usuário confirme que não há configurações a serem feitas nesse anel$/, function(){
@@ -201,4 +196,15 @@ module.exports = function() {
     return wizardPage.errorTransacaoProibidaEstagio(estagio, anel);
   });
 
+  this.Given(/^o sistema deverá apresentar erro com a frase "([^"]*)"$/, function(msg){
+    return wizardPage.errorImagem(msg);
+  });
+
+  this.Given(/^o usuário descer o estágio "([^"]*)"$/, function(estagio){
+    return wizardPage.changeEstagioPosicao(estagio);
+  });
+
+  this.Given(/^o botão salvar e avançar deve ter a mensagem "([^"]*)"$/, function(msg){
+    return wizardPage.mensgagemTooltipeBotaoSalvar(msg);
+  });
 };
