@@ -1,11 +1,11 @@
 # Mantendo a Segurança na Comunicação
 Toda a comunicação entre os controladores e a central é criptografada. Para isso são usados dois pares de chaves assimétricas por controlador. Um par na central e outro no controlador.
 
-Cada mensagem é criptografada com uma chave simétrica que é criptografada pela chave privada assimétrica. 
+Cada mensagem é criptografada com uma chave simétrica que é criptografada pela chave privada assimétrica.
 
 As chaves assimétricas são geradas automaticamente no cadastro do controlador na central. Cada controlador deve conhecer sua chave privada e a chave pública da central. As chaves simétricas devem ser geradas a cada nova mensagem trafegada.
 
-Dessa forma, toda a mensagem recebida no controlador deve ser descriptografada com a chave simétrica, após essa ser descriptografada pela chave privada assimétrica. O mesmo acontece no sentido contrário, ou seja, quando uma mensagem é recebida no controlador.
+Dessa forma, toda a mensagem recebida no controlador deve ser descriptografada com a chave simétrica, após essa ser descriptografada pela chave privada assimétrica. O mesmo acontece no sentido contrário, ou seja, quando uma mensagem é recebida na central.
 
 O esquema de segurança adotado pela central garante:
 
@@ -25,10 +25,10 @@ Toda a comunicação em ambos os sentidos deve ser empacotada em um envelope seg
 
 ```JSON
 {
-  "key"="469caede37e5336f...adb131458c3", 
-  "idControlador"="1d473b41-7136-4b1d-a077-3dc17828c225", 
+  "key"="469caede37e5336f...adb131458c3",
+  "idControlador"="1d473b41-7136-4b1d-a077-3dc17828c225",
   "content"="f09138a8a9113e57c30994221cb6ed...671ad94f9870d97a69cf41c3c1105189"
-} 
+}
 ```
 
 | Campo| Tipo | Descrição |

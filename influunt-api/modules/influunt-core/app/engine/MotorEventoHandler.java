@@ -2,6 +2,7 @@ package engine;
 
 import models.Anel;
 import models.GrupoSemaforico;
+import models.ModoOperacaoPlano;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
@@ -58,8 +59,7 @@ public class MotorEventoHandler {
                 break;
 
             case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
-            case REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO:
-                //TODO: Qual a diferenca para FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA
+            case REMOCAO_FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO:
                 break;
 
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
@@ -73,7 +73,6 @@ public class MotorEventoHandler {
             case REMOCAO_FALHA_DETECTOR_PEDESTRE:
                 handleRemocaoFalhaDetector(eventoMotor);
                 break;
-
 
             case FALHA_VERDES_CONFLITANTES:
                 handleFalhaAnel(eventoMotor);
@@ -90,11 +89,16 @@ public class MotorEventoHandler {
 
             case FALHA_WATCH_DOG:
             case FALHA_MEMORIA:
+            case FALHA_AMARELO_INTERMITENTE:
+            case FALHA_SEMAFORO_APAGADO:
                 handleControlador(eventoMotor);
                 break;
 
-            case ALARME_AMARELO_INTERMITENTE:
-            case ALARME_SEMAFORO_APAGADO:
+            case REMOCAO_FALHA_AMARELO_INTERMITENTE:
+            case REMOCAO_FALHA_SEMAFORO_APAGADO:
+                handleRemoveFalhaControlador(eventoMotor);
+                break;
+
             case FALHA_ACERTO_RELOGIO_GPS:
                 break;
 
@@ -109,6 +113,7 @@ public class MotorEventoHandler {
         }
 
     }
+
 
     private void handleRemoveFalhaAnel(EventoMotor eventoMotor) {
         Integer anel = (Integer) eventoMotor.getParams()[0];
@@ -126,6 +131,14 @@ public class MotorEventoHandler {
 
     private void handleControlador(EventoMotor eventoMotor) {
         motor.getEstagios().forEach(gerenciadorDeEstagios -> {
+            gerenciadorDeEstagios.onEvento(eventoMotor);
+        });
+    }
+
+    private void handleRemoveFalhaControlador(EventoMotor eventoMotor) {
+        motor.getEstagios().forEach(gerenciadorDeEstagios -> {
+            Integer anel = gerenciadorDeEstagios.getAnel();
+            eventoMotor.setParams(new Object[]{anel, getMotor().getPlanoAtual(anel)});
             gerenciadorDeEstagios.onEvento(eventoMotor);
         });
     }

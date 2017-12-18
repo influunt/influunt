@@ -312,7 +312,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
         if (TipoEvento.FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
             eventoMotor.setParams(new Object[]{});
             sendAlarmeOuFalha(eventoMotor);
-        } else if (TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
+        } else if (TipoEvento.REMOCAO_FALHA_COMUNICACAO_BAIXO_NIVEL.equals(eventoMotor.getTipoEvento())) {
             sendRemocaoFalha(eventoMotor);
         } else {
             Anel anel = null;
