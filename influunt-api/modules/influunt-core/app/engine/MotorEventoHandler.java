@@ -60,7 +60,6 @@ public class MotorEventoHandler {
 
             case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
             case REMOCAO_FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO:
-                //TODO: Qual a diferenca para FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA
                 break;
 
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:

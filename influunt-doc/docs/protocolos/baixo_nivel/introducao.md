@@ -11,9 +11,9 @@ O protocolo de baixo nível especifica um protocolo serial para controladores qu
 |Sequencia | 16 bits | Número sequência da mensagem. Deve ser incrementado a cada nova mensagem enviada |
 |Mensagem | Variável | Conteúdo da mensagem que está sendo enviada |
 |Checksum | 8 bits   | _Checksum_ de toda a mensagem utilizando o algorítmo _LRC_ |
-|Trailler| 3 bytes | <F\> |
+|Trailer| 3 bytes | <F\> |
 
-O conteúdo entre o Header e Trailler deve ser convertido para um _String_ representando cada byte em Hexadecimal com duas casas, no caso de um caracter inserir zero a esquerda.
+O conteúdo entre o Header e Trailer deve ser convertido para um _String_ representando cada byte em Hexadecimal com duas casas, no caso de um caractere inserir zero a esquerda.
 
 ### Mensagem de Início
 O 72c envia a mensagem de início ao hardware para informar que está pronto para começar o envio de estágios.
@@ -95,7 +95,7 @@ O hardware informa ao 72c que um detector foi acionado.
 | Flag 1| 1 bit | Reservado para uso futuro|
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Verdadeiro, se o detector for de pedestre|
-| Posição| 5 bits | Posição do grupo semafórico|
+| Posição| 5 bits | Posição do detector|
 
 ### Falha Anel
 O hardware informa ao 72c uma falha em um anel
@@ -129,7 +129,7 @@ O hardware informa ao 72c uma falha no Detector
 | Flag 1| 1 bit | Reservado para uso futuro|
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Verdadeiro, se o detector for de pedestre|
-| Posição| 5 bits | Posição do grupo detector|
+| Posição| 5 bits | Posição do detector|
 | Código da Falha| 8 bits | Código da falha|
 
 ### Alarme
