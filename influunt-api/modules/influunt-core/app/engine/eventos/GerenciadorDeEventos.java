@@ -9,6 +9,7 @@ import logger.InfluuntLogger;
 import logger.NivelLog;
 import logger.TipoLog;
 import models.EstagioPlano;
+import models.ModoOperacaoPlano;
 import models.Plano;
 
 import java.util.List;
@@ -64,7 +65,11 @@ public abstract class GerenciadorDeEventos {
                 break;
             case REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO:
             case REMOCAO_FALHA_VERDES_CONFLITANTES:
+            case REMOCAO_FALHA_AMARELO_INTERMITENTE:
                 new RemoverAmareloIntermitenteHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
+            case REMOCAO_FALHA_SEMAFORO_APAGADO:
+                new RemoverApagadoHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case FALHA_DETECTOR_VEICULAR_FALTA_ACIONAMENTO:
             case FALHA_DETECTOR_PEDESTRE_FALTA_ACIONAMENTO:
@@ -78,7 +83,11 @@ public abstract class GerenciadorDeEventos {
             case FALHA_VERDES_CONFLITANTES:
             case FALHA_WATCH_DOG:
             case FALHA_MEMORIA:
+            case FALHA_AMARELO_INTERMITENTE:
                 new ImporAmareloIntermitentePorFalhaHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
+            case FALHA_SEMAFORO_APAGADO:
+                new ImporApagadoPorFalhaHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
             case REMOCAO_FALHA_DETECTOR_PEDESTRE:
             case REMOCAO_FALHA_DETECTOR_VEICULAR:

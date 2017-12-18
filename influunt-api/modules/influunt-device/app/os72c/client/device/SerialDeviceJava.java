@@ -241,7 +241,7 @@ public class SerialDeviceJava implements DeviceBridge, SerialPortDataListener {
             recoveryCount++;
         }
         emFalha = false;
-        callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.REMOCAO_COMUNICACAO_BAIXO_NIVEL));
+        callback.onEvento(new EventoMotor(new DateTime(), TipoEvento.REMOCAO_FALHA_COMUNICACAO_BAIXO_NIVEL));
         CompletableFuture.supplyAsync(callback::restart);
         return null;
     }

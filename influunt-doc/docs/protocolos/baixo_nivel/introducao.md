@@ -9,11 +9,11 @@ O protocolo de baixo nível especifica um protocolo serial para controladores qu
 | Tamanho      | 8 bits        | Tamanho em bytes da mensagem que está sendo enviada|
 |Tipo de Mensagem| 8 bits | Descreve o tipo de mensagem que está sendo enviada conforme a tabela de tipo de mensagem|
 |Sequencia | 16 bits | Número sequência da mensagem. Deve ser incrementado a cada nova mensagem enviada |
-|Mensagem | Variável | Conteúdo da mensagem que está sendo enviada | 
-|Checksum | 8 bits   | _Checksum_ de toda a mensagem utilizando o algorítmo _LRC_ | 
-|Trailler| 3 bytes | <F\> |
+|Mensagem | Variável | Conteúdo da mensagem que está sendo enviada |
+|Checksum | 8 bits   | _Checksum_ de toda a mensagem utilizando o algorítmo _LRC_ |
+|Trailer| 3 bytes | <F\> |
 
-O conteúdo entre o Header e Trailler deve ser convertido para um _String_ representando cada byte em Hexadecimal com duas casas, no caso de um caracter inserir zero a esquerda. 
+O conteúdo entre o Header e Trailer deve ser convertido para um _String_ representando cada byte em Hexadecimal com duas casas, no caso de um caractere inserir zero a esquerda.
 
 ### Mensagem de Início
 O 72c envia a mensagem de início ao hardware para informar que está pronto para começar o envio de estágios.
@@ -48,7 +48,8 @@ O 72c informa a configuração dos grupos semafóricos de um determinado anel. E
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Reservado para uso futuro|
 | Quantidade de Grupos Semafóricos| 5 bits | Quantidade de grupos semafóricos que fazem parte dessa configuração de estágio|
-| Configuração do Grupo Semafórico| 14 bytes por grupo semafórico | Configuração dos tempos de cada grupo semafórico | 
+| Configuração do Grupo Semafórico| 14 bytes por grupo semafórico | Configuração dos tempos de cada grupo semafórico |
+
 
 ### Grupo semafórico
 
@@ -75,26 +76,12 @@ Obtém do hardware qual é o fabricante, o modelo e a versão do firmware.
 |Modelo | Livre | String com o modelo do equipamento, seguida pela caractere ";". Em formato ASCII convertida para HEX|
 |Fabricante | Livre | String com o versão do firmware do equipamento. Em formato ASCII convertida para HEX|
 
-
-| Campo| Tamanho| Descrição |
-| ------------ | ------------- | ------------ |
-|Reservado | 4 bits | Reservado|
-|Flag pedestre/veicular | 1 bit | Se verdadeiro, esse é um grupo semafórico de pedestre|
-|Flag composição dos tempos| 3 bits| Ver tabela de flag composição dos tempos  |
-|Grupo | 8 bits | Número do grupo semafórico|
-|Tempo De Atraso de Grupo ou Entreverde | 24 bits| Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.|
-|Tempo Amarelo| 24 bits| Tempo de amarelo para veicular ou vermelho intermitente para pedestre|
-|Tempo Vermelho Limpeza| 24 bits| Tempo de vermelho de limpeza|
-|Tempo do Estágio | 24 bits| Verde para quem tem direito de passagem e vermelho para quem não tem.|
-
-
-
 #### Flag de composição de tempo
 
 | Valor| Descrição |
 | -----|-----------|
 |0     | O grupo semafórico estará desligado durante o tempo de estágio |
-|1     | O grupo semafórico estará verde durante o tempo de estágio | 
+|1     | O grupo semafórico estará verde durante o tempo de estágio |
 |2     | O grupo semafórico estará vermelho durante o tempo de estágio |
 |3     | O grupo semafórico estará em amarelo intermitente para veícular ou desligado para pedestre durante o tempo de estágio |
 |4     | O grupo semafórico está executando à sequencia de partida |
@@ -108,7 +95,7 @@ O hardware informa ao 72c que um detector foi acionado.
 | Flag 1| 1 bit | Reservado para uso futuro|
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Verdadeiro, se o detector for de pedestre|
-| Posição| 5 bits | Posição do grupo semafórico|
+| Posição| 5 bits | Posição do detector|
 
 ### Falha Anel
 O hardware informa ao 72c uma falha em um anel
@@ -118,7 +105,7 @@ O hardware informa ao 72c uma falha em um anel
 | anel| 8 bits | Número do anel|
 | Código da falha| 8 bits | Código da falha|
 
-### Falha Anel
+### Falha Grupo Semafórico
 O hardware informa ao 72c uma falha em um grupo semafórico
 
 | Campo| Tamanho| Descrição |
@@ -142,7 +129,7 @@ O hardware informa ao 72c uma falha no Detector
 | Flag 1| 1 bit | Reservado para uso futuro|
 | Flag 2| 1 bit | Reservado para uso futuro|
 | Flag 3| 1 bit | Verdadeiro, se o detector for de pedestre|
-| Posição| 5 bits | Posição do grupo detector|
+| Posição| 5 bits | Posição do detector|
 | Código da Falha| 8 bits | Código da falha|
 
 ### Alarme
@@ -159,6 +146,18 @@ Mensagem de confirmação de recebimento
 | ------------ | ------------- | ------------ |
 | Tipo de retorno| 8 bits | Tipo do retorno|
 
+### Remoção de falha
+O hardware informa ao 72c uma remoção de falha em um anel
+
+| Campo| Tamanho| Descrição |
+| ------------ | ------------- | ------------ |
+| anel| 8 bits | Número do anel|
+| Código da falha| 8 bits | Código da falha|
+
+
+### Outras
+
+Para mensagens dos tipos Inserção de plug, Remoção de plug, Troca de estágio modo manual, Modo manual ativado e Modo manual desativado o campo mensagem deve ser vazio.
 
 ### Tabela de Tipos de Mensagem
 |Codigo| Descrição|
@@ -186,4 +185,4 @@ Mensagem de confirmação de recebimento
 |1|	INVALID_CHECKSUM|
 |2|	Tipo de Mensagem Inválido|
 
-  
+

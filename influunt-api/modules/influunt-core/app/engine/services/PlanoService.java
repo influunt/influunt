@@ -60,4 +60,11 @@ public class PlanoService {
         novoPlano.setImposto(true);
         return novoPlano;
     }
+
+    public static Plano gerarPlanoApagadoPorFalha(Plano plano) {
+        Plano novoPlano = gerarPlano(plano);
+        novoPlano.setModoOperacao(ModoOperacaoPlano.APAGADO);
+        novoPlano.setImpostoPorFalha(true);
+        return novoPlano;
+    }
 }
