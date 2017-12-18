@@ -17,6 +17,8 @@ npm-debug.log
 influunt-api/default-create-all.sql
 influunt-api/default-drop-all.sql
 influunt-api/central-tcp*
+influunt-bin/instaladores/72c/*
+influunt-bin/instaladores/controlador_virtual/*
 influunt-api/influunt.log*
 db
 mongodump
