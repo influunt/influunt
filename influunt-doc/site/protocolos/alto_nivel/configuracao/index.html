@@ -1,480 +1,1603 @@
+
+
+
+
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
-<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
-<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
-<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en" class="no-js">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.4">
+    
     
       
         <title>Configuração do Controlador - Influunt Documentação</title>
       
-      
-      
-      
-    
-    <meta property="og:url" content="None">
-    <meta property="og:title" content="Influunt Documentação">
-    <meta property="og:image" content="None/../../../">
-    <meta name="apple-mobile-web-app-title" content="Influunt Documentação">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
-    <style>
-      @font-face {
-      	font-family: 'Icon';
-      	src: url('../../../assets/fonts/icon.eot?52m981');
-      	src: url('../../../assets/fonts/icon.eot?#iefix52m981')
-               format('embedded-opentype'),
-      		   url('../../../assets/fonts/icon.woff?52m981')
-               format('woff'),
-      		   url('../../../assets/fonts/icon.ttf?52m981')
-               format('truetype'),
-      		   url('../../../assets/fonts/icon.svg?52m981#icon')
-               format('svg');
-      	font-weight: normal;
-      	font-style: normal;
-      }
-    </style>
-    <link rel="stylesheet" href="../../../assets/stylesheets/application-a422ff04cc.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.bcabdff3.css">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
     
     
       
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
-      
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
-      <style>
-        body, input {
-          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
-        }
-        pre, code {
-          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
-        }
-      </style>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-    <script src="../../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
+    <body>
   
-  
-  <body class=" ">
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-    <div class="backdrop">
-      <div class="backdrop-paper"></div>
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="Influunt Documentação" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Influunt Documentação
+              </span>
+              <span class="md-header-nav__topic">
+                Configuração do Controlador
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
     </div>
-    <input class="toggle" type="checkbox" id="toggle-drawer">
-    <input class="toggle" type="checkbox" id="toggle-search">
-    <label class="toggle-button overlay" for="toggle-drawer"></label>
-    <header class="header">
-      <nav aria-label="Header">
-  <div class="bar default">
-    <div class="button button-menu" role="button" aria-label="Menu">
-      <label class="toggle-button icon icon-menu" for="toggle-drawer">
-        <span></span>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    Influunt Documentação
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introdução" class="md-nav__link">
+      Introdução
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Comunicação
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Comunicação
       </label>
-    </div>
-    <div class="stretch">
-      <div class="title">
+      <ul class="md-nav__list" data-md-scrollfix>
         
-          <span class="path">
-            
-              
-                Protocolos <i class="icon icon-link"></i>
-              
-            
-          </span>
         
-        Configuração do Controlador
-      </div>
-    </div>
-    
-    
-    <div class="button button-search" role="button" aria-label="Search">
-      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
-    </div>
-  </div>
-  <div class="bar search">
-    <div class="button button-close" role="button" aria-label="Close">
-      <label class="toggle-button icon icon-back" for="toggle-search"></label>
-    </div>
-    <div class="stretch">
-      <div class="field">
-        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
-      </div>
-    </div>
-    <div class="button button-reset" role="button" aria-label="Search">
-      <button class="toggle-button icon icon-close" id="reset-search"></button>
-    </div>
-  </div>
-</nav>
-    </header>
-    <main class="main">
-      
-      <div class="drawer">
-        <nav aria-label="Navigation">
-  
-  <a href="/" class="project">
-    <div class="banner">
-      
-      <div class="name">
-        <strong>
-          Influunt Documentação
-          <span class="version">
-            
-          </span>
-        </strong>
-        
-      </div>
-    </div>
-  </a>
-  <div class="scrollable">
-    <div class="wrapper">
-      
-      <div class="toc">
-        <ul>
           
-            
-  <li>
-    <a class="" title="Introdução" href="../../..">
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/introducao/" title="Introdução" class="md-nav__link">
       Introdução
     </a>
-    
   </li>
 
+        
           
-            
-  <li>
-    <span class="section">Comunicação</span>
-    <ul>
-      
-        
-  <li>
-    <a class="" title="Introdução" href="../../../comunicacao/introducao/">
-      Introdução
-    </a>
-    
-  </li>
+          
+          
 
-      
-        
-  <li>
-    <a class="" title="Envelope" href="../../../comunicacao/envelope/">
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/envelope/" title="Envelope" class="md-nav__link">
       Envelope
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Mensagens" href="../../../comunicacao/mensagens/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/mensagens/" title="Mensagens" class="md-nav__link">
       Mensagens
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Segurança" href="../../../comunicacao/seguranca/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/seguranca/" title="Segurança" class="md-nav__link">
       Segurança
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Compactação de Dados" href="../../../comunicacao/gzip/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/gzip/" title="Compactação de Dados" class="md-nav__link">
       Compactação de Dados
     </a>
-    
   </li>
 
-      
-    </ul>
-  </li>
-
-          
-            
-  <li>
-    <span class="section">Protocolos</span>
-    <ul>
-      
         
-  <li>
-    <a class="" title="Protocolo de Alto Nível" href="../introducao/">
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Protocolos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Protocolos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../introducao/" title="Protocolo de Alto Nível" class="md-nav__link">
       Protocolo de Alto Nível
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Conectividade" href="../conectividade/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../conectividade/" title="Conectividade" class="md-nav__link">
       Conectividade
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Ciclo de Vida" href="../ciclo_vida/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ciclo_vida/" title="Ciclo de Vida" class="md-nav__link">
       Ciclo de Vida
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="current" title="Configuração do Controlador" href="./">
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Configuração do Controlador
+      </label>
+    
+    <a href="./" title="Configuração do Controlador" class="md-nav__link md-nav__link--active">
       Configuração do Controlador
     </a>
     
       
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#controlador" title="Controlador" class="md-nav__link">
+    Controlador
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
         
+          <li class="md-nav__item">
+  <a href="#especificacao" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anel" title="Anel" class="md-nav__link">
+    Anel
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_1" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_1" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grupo-semaforico" title="Grupo Semafórico" class="md-nav__link">
+    Grupo Semafórico
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_2" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_2" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estagio" title="Estágio" class="md-nav__link">
+    Estágio
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_3" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_3" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detector" title="Detector" class="md-nav__link">
+    Detector
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_4" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_4" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao" title="Transição" class="md-nav__link">
+    Transição
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_5" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_5" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao-com-ganho-de-passagem" title="Transição com ganho de passagem" class="md-nav__link">
+    Transição com ganho de passagem
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_6" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_6" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao-proibida" title="Transição Proibida" class="md-nav__link">
+    Transição Proibida
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_7" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_7" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-entreverdes" title="Tabela Entreverdes" class="md-nav__link">
+    Tabela Entreverdes
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_8" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_8" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-entreverdes-transicao" title="Tabela Entreverdes Transição" class="md-nav__link">
+    Tabela Entreverdes Transição
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_9" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_9" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estagio-grupo-semaforico" title="Estágio Grupo Semáforico" class="md-nav__link">
+    Estágio Grupo Semáforico
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_10" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_10" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verde-conflitante" title="Verde Conflitante" class="md-nav__link">
+    Verde Conflitante
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_11" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_11" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plano" title="Plano" class="md-nav__link">
+    Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_12" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_12" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estagio-plano" title="Estágio Plano" class="md-nav__link">
+    Estágio Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_13" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_13" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grupo-semaforico-plano" title="Grupo Semafórico Plano" class="md-nav__link">
+    Grupo Semafórico Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_14" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_14" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versao-plano" title="Versão Plano" class="md-nav__link">
+    Versão Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_15" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_15" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versao-tabela-horaria" title="Versão Tabela Horária" class="md-nav__link">
+    Versão Tabela Horária
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_16" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_16" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-horaria" title="Tabela Horária" class="md-nav__link">
+    Tabela Horária
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_17" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_17" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evento" title="Evento" class="md-nav__link">
+    Evento
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_18" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_18" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atraso-de-grupo" title="Atraso de Grupo" class="md-nav__link">
+    Atraso de Grupo
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_19" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_19" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplo-completo" title="Exemplo Completo" class="md-nav__link">
+    Exemplo Completo
+  </a>
+  
+</li>
       
       
-        <ul>
-          
-            <li class="anchor">
-              <a title="Controlador" href="#controlador">
-                Controlador
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Anel" href="#anel">
-                Anel
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Grupo Semafórico" href="#grupo-semaforico">
-                Grupo Semafórico
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Estágio" href="#estagio">
-                Estágio
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Detector" href="#detector">
-                Detector
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Transição" href="#transicao">
-                Transição
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Transição com ganho de passagem" href="#transicao-com-ganho-de-passagem">
-                Transição com ganho de passagem
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Transição Proibida" href="#transicao-proibida">
-                Transição Proibida
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Tabela Entreverdes" href="#tabela-entreverdes">
-                Tabela Entreverdes
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Tabela Entreverdes Transição" href="#tabela-entreverdes-transicao">
-                Tabela Entreverdes Transição
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Estágio Grupo Semáforico" href="#estagio-grupo-semaforico">
-                Estágio Grupo Semáforico
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Verde Conflitante" href="#verde-conflitante">
-                Verde Conflitante
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Plano" href="#plano">
-                Plano
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Estágio Plano" href="#estagio-plano">
-                Estágio Plano
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Grupo Semafórico Plano" href="#grupo-semaforico-plano">
-                Grupo Semafórico Plano
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Versão Plano" href="#versao-plano">
-                Versão Plano
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Versão Tabela Horária" href="#versao-tabela-horaria">
-                Versão Tabela Horária
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Tabela Horária" href="#tabela-horaria">
-                Tabela Horária
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Evento" href="#evento">
-                Evento
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Atraso de Grupo" href="#atraso-de-grupo">
-                Atraso de Grupo
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Exemplo Completo" href="#exemplo-completo">
-                Exemplo Completo
-              </a>
-            </li>
-          
-        </ul>
       
+    </ul>
+  
+</nav>
     
   </li>
 
-      
         
-  <li>
-    <a class="" title="Transações" href="../transacoes/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../transacoes/" title="Transações" class="md-nav__link">
       Transações
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Alertas e Falhas" href="../alertas_e_falhas/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../alertas_e_falhas/" title="Alertas e Falhas" class="md-nav__link">
       Alertas e Falhas
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Mudança de Status" href="../mudanca_de_status/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../mudanca_de_status/" title="Mudança de Status" class="md-nav__link">
       Mudança de Status
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Troca de Planos" href="../troca_de_planos/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../troca_de_planos/" title="Troca de Planos" class="md-nav__link">
       Troca de Planos
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Ler Dados" href="../ler_dados/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ler_dados/" title="Ler Dados" class="md-nav__link">
       Ler Dados
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Info" href="../info/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../info/" title="Info" class="md-nav__link">
       Info
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Protocolo de Baixo Nível" href="../../baixo_nivel/introducao/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../baixo_nivel/introducao/" title="Protocolo de Baixo Nível" class="md-nav__link">
       Protocolo de Baixo Nível
     </a>
-    
   </li>
 
-      
-    </ul>
-  </li>
-
-          
-            
-  <li>
-    <span class="section">Log</span>
-    <ul>
-      
         
-  <li>
-    <a class="" title="Especificação" href="../../../log/especificacao/">
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Log
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Log
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../log/especificacao/" title="Especificação" class="md-nav__link">
       Especificação
     </a>
-    
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#controlador" title="Controlador" class="md-nav__link">
+    Controlador
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anel" title="Anel" class="md-nav__link">
+    Anel
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_1" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_1" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grupo-semaforico" title="Grupo Semafórico" class="md-nav__link">
+    Grupo Semafórico
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_2" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_2" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estagio" title="Estágio" class="md-nav__link">
+    Estágio
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_3" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_3" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detector" title="Detector" class="md-nav__link">
+    Detector
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_4" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_4" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao" title="Transição" class="md-nav__link">
+    Transição
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_5" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_5" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao-com-ganho-de-passagem" title="Transição com ganho de passagem" class="md-nav__link">
+    Transição com ganho de passagem
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_6" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_6" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao-proibida" title="Transição Proibida" class="md-nav__link">
+    Transição Proibida
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_7" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_7" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-entreverdes" title="Tabela Entreverdes" class="md-nav__link">
+    Tabela Entreverdes
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_8" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_8" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-entreverdes-transicao" title="Tabela Entreverdes Transição" class="md-nav__link">
+    Tabela Entreverdes Transição
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_9" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_9" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estagio-grupo-semaforico" title="Estágio Grupo Semáforico" class="md-nav__link">
+    Estágio Grupo Semáforico
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_10" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_10" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verde-conflitante" title="Verde Conflitante" class="md-nav__link">
+    Verde Conflitante
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_11" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_11" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plano" title="Plano" class="md-nav__link">
+    Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_12" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_12" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estagio-plano" title="Estágio Plano" class="md-nav__link">
+    Estágio Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_13" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_13" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grupo-semaforico-plano" title="Grupo Semafórico Plano" class="md-nav__link">
+    Grupo Semafórico Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_14" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_14" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versao-plano" title="Versão Plano" class="md-nav__link">
+    Versão Plano
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_15" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_15" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versao-tabela-horaria" title="Versão Tabela Horária" class="md-nav__link">
+    Versão Tabela Horária
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_16" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_16" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-horaria" title="Tabela Horária" class="md-nav__link">
+    Tabela Horária
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_17" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_17" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evento" title="Evento" class="md-nav__link">
+    Evento
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_18" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_18" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atraso-de-grupo" title="Atraso de Grupo" class="md-nav__link">
+    Atraso de Grupo
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#especificacao_19" title="Especificação" class="md-nav__link">
+    Especificação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-json_19" title="Exemplo JSON" class="md-nav__link">
+    Exemplo JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplo-completo" title="Exemplo Completo" class="md-nav__link">
+    Exemplo Completo
+  </a>
+  
+</li>
+      
+      
       
     </ul>
-  </li>
-
-          
-        </ul>
-        
-      </div>
-    </div>
-  </div>
+  
 </nav>
-      </div>
-      <article class="article">
-        <div class="wrapper">
+                  </div>
+                </div>
+              </div>
+            
           
-          <h1 id="introducao">Introdução</h1>
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="introducao">Introdução</h1>
 <p>A estrutura do controlador é definida pelo objeto <a href="#controlador">CONTROLADOR</a> que inclui seus dados básicos e listas de objetos associados. Para evitar referências cruzadas e problemas de navegação no grafo de objetos, adotou-se uma estratura de <em>JSON</em> desnormatizada. Sendo assim, todos os objetos são escritos diretamente na raiz do controlador e não internamente de forma hierárquica. Em compensação os objetos internos trazem referências para os objetos externos.</p>
 <p>A figura abaixo apresenta os objetos que fazem parte da configuração de um controlador. As setas representam referências entre esses objetos.</p>
 <p><img alt="Controlador" src="../../../img/controlador.png" /></p>
@@ -500,8 +1623,8 @@
 <tr>
 <td>numeroSMEE</td>
 <td>Texto</td>
+<td></td>
 <td>N</td>
-<td>Número SMEE do Controlador</td>
 </tr>
 <tr>
 <td>nomeEndereco</td>
@@ -977,8 +2100,8 @@
 <tr>
 <td>numeroSMEE</td>
 <td>Texto</td>
+<td></td>
 <td>N</td>
-<td>Número SMEE do Anel</td>
 </tr>
 <tr>
 <td>CLA</td>
@@ -1150,8 +2273,8 @@
 <tr>
 <td>tempoVerdeSeguranca</td>
 <td>Inteiro</td>
+<td></td>
 <td>S</td>
-<td>Tempo de verde de segurança do grupo semáforico</td>
 </tr>
 <tr>
 <td>posicao</td>
@@ -1297,20 +2420,20 @@
 <tr>
 <td>tempoMaximoPermanencia</td>
 <td>Inteiro</td>
+<td></td>
 <td>S</td>
-<td>O tempo máximo que o estágio pode ter direito de passagem</td>
 </tr>
 <tr>
 <td>tempoMaximoPermanenciaAtivado</td>
 <td>Booleano</td>
+<td></td>
 <td>S</td>
-<td>Define se o tempo máximo de permanência será monitorado</td>
 </tr>
 <tr>
 <td>demandaPrioritaria</td>
 <td>Booleano</td>
+<td></td>
 <td>S</td>
-<td>Define se o estágio é de demanda prioritária</td>
 </tr>
 <tr>
 <td>tempoVerdeDemandaPrioritaria</td>
@@ -1447,8 +2570,8 @@
 <tr>
 <td>tipo</td>
 <td>Texto</td>
+<td></td>
 <td>S</td>
-<td>PEDESTRE ou VEICULAR</td>
 </tr>
 <tr>
 <td>monitorado</td>
@@ -1805,8 +2928,8 @@
 <tr>
 <td>descricao</td>
 <td>Texto</td>
+<td></td>
 <td>S</td>
-<td>Descrição da Tabela de Entreverdes</td>
 </tr>
 <tr>
 <td>grupoSemaforico</td>
@@ -1870,26 +2993,26 @@
 <tr>
 <td>tempoAmarelo</td>
 <td>Inteiro</td>
+<td></td>
 <td>N</td>
-<td>Tempo de amarelo do entreverdes</td>
 </tr>
 <tr>
 <td>tempoVermelhoIntermitente</td>
 <td>Inteiro</td>
+<td></td>
 <td>N</td>
-<td>Tempo de vermelho intermitente</td>
 </tr>
 <tr>
 <td>tempoVermelhoLimpeza</td>
 <td>Inteiro</td>
+<td></td>
 <td>S</td>
-<td>Tempo de vermelho de limpeza do entreverdes</td>
 </tr>
 <tr>
 <td>tempoAtrasoGrupo</td>
 <td>Inteiro</td>
+<td></td>
 <td>S</td>
-<td>Tempo de atraso de grupo</td>
 </tr>
 <tr>
 <td>tabelaEntreVerdes</td>
@@ -5142,79 +6265,82 @@
   ]
 }
 </code></pre>
-          <aside class="copyright" role="note">
-            
-            Documentation built with
-            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
-            using the
-            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
-              Material
-            </a>
-            theme.
-          </aside>
-          
-            <footer class="footer">
+                
+                  
+                
               
-  <nav class="pagination" aria-label="Footer">
-    <div class="previous">
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
       
-        <a href="../ciclo_vida/" title="Ciclo de Vida">
-          <span class="direction">
-            Previous
-          </span>
-          <div class="page">
-            <div class="button button-previous" role="button" aria-label="Previous">
-              <i class="icon icon-back"></i>
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../ciclo_vida/" title="Ciclo de Vida" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
-            <div class="stretch">
-              <div class="title">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
                 Ciclo de Vida
-              </div>
+              </span>
             </div>
-          </div>
-        </a>
-      
-    </div>
-    <div class="next">
-      
-        <a href="../transacoes/" title="Transações">
-          <span class="direction">
-            Next
-          </span>
-          <div class="page">
-            <div class="stretch">
-              <div class="title">
+          </a>
+        
+        
+          <a href="../transacoes/" title="Transações" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
                 Transações
-              </div>
+              </span>
             </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
             </div>
-          </div>
-        </a>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
       
     </div>
-  </nav>
-
-            </footer>
-          
-        </div>
-      </article>
-      <div class="results" role="status" aria-live="polite">
-        <div class="scrollable">
-          <div class="wrapper">
-            <div class="meta"></div>
-            <div class="list"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-    <script>
-      var base_url = '../../..';
-      var repo_id  = '';
-    </script>
-    <script src="../../../assets/javascripts/application-997097ee0c.js"></script>
+  </div>
+</footer>
+      
+    </div>
     
+      <script src="../../../assets/javascripts/application.6cdc17f0.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:"../../.."}})</script>
+      
+    
+    
+      
     
   </body>
 </html>

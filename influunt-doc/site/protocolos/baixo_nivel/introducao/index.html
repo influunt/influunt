@@ -1,360 +1,771 @@
+
+
+
+
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
-<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
-<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
-<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en" class="no-js">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.4">
+    
     
       
         <title>Protocolo de Baixo Nível - Influunt Documentação</title>
       
-      
-      
-      
-    
-    <meta property="og:url" content="None">
-    <meta property="og:title" content="Influunt Documentação">
-    <meta property="og:image" content="None/../../../">
-    <meta name="apple-mobile-web-app-title" content="Influunt Documentação">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="../../../assets/images/favicon-e565ddfa3b.ico">
-    <style>
-      @font-face {
-      	font-family: 'Icon';
-      	src: url('../../../assets/fonts/icon.eot?52m981');
-      	src: url('../../../assets/fonts/icon.eot?#iefix52m981')
-               format('embedded-opentype'),
-      		   url('../../../assets/fonts/icon.woff?52m981')
-               format('woff'),
-      		   url('../../../assets/fonts/icon.ttf?52m981')
-               format('truetype'),
-      		   url('../../../assets/fonts/icon.svg?52m981#icon')
-               format('svg');
-      	font-weight: normal;
-      	font-style: normal;
-      }
-    </style>
-    <link rel="stylesheet" href="../../../assets/stylesheets/application-a422ff04cc.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.bcabdff3.css">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
     
     
       
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
-      
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
-      <style>
-        body, input {
-          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
-        }
-        pre, code {
-          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
-        }
-      </style>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-    <script src="../../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
+    <body>
   
-  
-  <body class=" ">
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-    <div class="backdrop">
-      <div class="backdrop-paper"></div>
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="Influunt Documentação" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Influunt Documentação
+              </span>
+              <span class="md-header-nav__topic">
+                Protocolo de Baixo Nível
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
     </div>
-    <input class="toggle" type="checkbox" id="toggle-drawer">
-    <input class="toggle" type="checkbox" id="toggle-search">
-    <label class="toggle-button overlay" for="toggle-drawer"></label>
-    <header class="header">
-      <nav aria-label="Header">
-  <div class="bar default">
-    <div class="button button-menu" role="button" aria-label="Menu">
-      <label class="toggle-button icon icon-menu" for="toggle-drawer">
-        <span></span>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    Influunt Documentação
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introdução" class="md-nav__link">
+      Introdução
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Comunicação
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Comunicação
       </label>
-    </div>
-    <div class="stretch">
-      <div class="title">
+      <ul class="md-nav__list" data-md-scrollfix>
         
-          <span class="path">
-            
-              
-                Protocolos <i class="icon icon-link"></i>
-              
-            
-          </span>
         
-        Protocolo de Baixo Nível
-      </div>
-    </div>
-    
-    
-    <div class="button button-search" role="button" aria-label="Search">
-      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
-    </div>
-  </div>
-  <div class="bar search">
-    <div class="button button-close" role="button" aria-label="Close">
-      <label class="toggle-button icon icon-back" for="toggle-search"></label>
-    </div>
-    <div class="stretch">
-      <div class="field">
-        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
-      </div>
-    </div>
-    <div class="button button-reset" role="button" aria-label="Search">
-      <button class="toggle-button icon icon-close" id="reset-search"></button>
-    </div>
-  </div>
-</nav>
-    </header>
-    <main class="main">
-      
-      <div class="drawer">
-        <nav aria-label="Navigation">
-  
-  <a href="/" class="project">
-    <div class="banner">
-      
-      <div class="name">
-        <strong>
-          Influunt Documentação
-          <span class="version">
-            
-          </span>
-        </strong>
-        
-      </div>
-    </div>
-  </a>
-  <div class="scrollable">
-    <div class="wrapper">
-      
-      <div class="toc">
-        <ul>
           
-            
-  <li>
-    <a class="" title="Introdução" href="../../..">
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/introducao/" title="Introdução" class="md-nav__link">
       Introdução
     </a>
-    
   </li>
 
+        
           
-            
-  <li>
-    <span class="section">Comunicação</span>
-    <ul>
-      
-        
-  <li>
-    <a class="" title="Introdução" href="../../../comunicacao/introducao/">
-      Introdução
-    </a>
-    
-  </li>
+          
+          
 
-      
-        
-  <li>
-    <a class="" title="Envelope" href="../../../comunicacao/envelope/">
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/envelope/" title="Envelope" class="md-nav__link">
       Envelope
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Mensagens" href="../../../comunicacao/mensagens/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/mensagens/" title="Mensagens" class="md-nav__link">
       Mensagens
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Segurança" href="../../../comunicacao/seguranca/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/seguranca/" title="Segurança" class="md-nav__link">
       Segurança
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Compactação de Dados" href="../../../comunicacao/gzip/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comunicacao/gzip/" title="Compactação de Dados" class="md-nav__link">
       Compactação de Dados
     </a>
-    
   </li>
 
-      
-    </ul>
-  </li>
-
-          
-            
-  <li>
-    <span class="section">Protocolos</span>
-    <ul>
-      
         
-  <li>
-    <a class="" title="Protocolo de Alto Nível" href="../../alto_nivel/introducao/">
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Protocolos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Protocolos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/introducao/" title="Protocolo de Alto Nível" class="md-nav__link">
       Protocolo de Alto Nível
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Conectividade" href="../../alto_nivel/conectividade/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/conectividade/" title="Conectividade" class="md-nav__link">
       Conectividade
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Ciclo de Vida" href="../../alto_nivel/ciclo_vida/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/ciclo_vida/" title="Ciclo de Vida" class="md-nav__link">
       Ciclo de Vida
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Configuração do Controlador" href="../../alto_nivel/configuracao/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/configuracao/" title="Configuração do Controlador" class="md-nav__link">
       Configuração do Controlador
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Transações" href="../../alto_nivel/transacoes/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/transacoes/" title="Transações" class="md-nav__link">
       Transações
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Alertas e Falhas" href="../../alto_nivel/alertas_e_falhas/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/alertas_e_falhas/" title="Alertas e Falhas" class="md-nav__link">
       Alertas e Falhas
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Mudança de Status" href="../../alto_nivel/mudanca_de_status/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/mudanca_de_status/" title="Mudança de Status" class="md-nav__link">
       Mudança de Status
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Troca de Planos" href="../../alto_nivel/troca_de_planos/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/troca_de_planos/" title="Troca de Planos" class="md-nav__link">
       Troca de Planos
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Ler Dados" href="../../alto_nivel/ler_dados/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/ler_dados/" title="Ler Dados" class="md-nav__link">
       Ler Dados
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="" title="Info" href="../../alto_nivel/info/">
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../alto_nivel/info/" title="Info" class="md-nav__link">
       Info
     </a>
-    
   </li>
 
-      
         
-  <li>
-    <a class="current" title="Protocolo de Baixo Nível" href="./">
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Protocolo de Baixo Nível
+      </label>
+    
+    <a href="./" title="Protocolo de Baixo Nível" class="md-nav__link md-nav__link--active">
       Protocolo de Baixo Nível
     </a>
     
       
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mensagem" title="Mensagem" class="md-nav__link">
+    Mensagem
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
         
+          <li class="md-nav__item">
+  <a href="#mensagem-de-inicio" title="Mensagem de Início" class="md-nav__link">
+    Mensagem de Início
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estagio" title="Estágio" class="md-nav__link">
+    Estágio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupo-semaforico" title="Grupo semafórico" class="md-nav__link">
+    Grupo semafórico
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" title="Info" class="md-nav__link">
+    Info
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flag-de-composicao-de-tempo" title="Flag de composição de tempo" class="md-nav__link">
+    Flag de composição de tempo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detector" title="Detector" class="md-nav__link">
+    Detector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-anel" title="Falha Anel" class="md-nav__link">
+    Falha Anel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-grupo-semaforico" title="Falha Grupo Semafórico" class="md-nav__link">
+    Falha Grupo Semafórico
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-generica" title="Falha Genérica" class="md-nav__link">
+    Falha Genérica
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-detector" title="Falha Detector" class="md-nav__link">
+    Falha Detector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alarme" title="Alarme" class="md-nav__link">
+    Alarme
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retorno" title="Retorno" class="md-nav__link">
+    Retorno
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remocao-de-falha" title="Remoção de falha" class="md-nav__link">
+    Remoção de falha
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outras" title="Outras" class="md-nav__link">
+    Outras
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabela-de-tipos-de-mensagem" title="Tabela de Tipos de Mensagem" class="md-nav__link">
+    Tabela de Tipos de Mensagem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabela-de-tipos-de-retorno" title="Tabela de Tipos de Retorno" class="md-nav__link">
+    Tabela de Tipos de Retorno
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
       
-        <ul>
-          
-            <li class="anchor">
-              <a title="Mensagem" href="#mensagem">
-                Mensagem
-              </a>
-            </li>
-          
-        </ul>
       
+    </ul>
+  
+</nav>
     
   </li>
 
-      
-    </ul>
+        
+      </ul>
+    </nav>
   </li>
 
-          
-            
-  <li>
-    <span class="section">Log</span>
-    <ul>
+    
       
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Log
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Log
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
         
-  <li>
-    <a class="" title="Especificação" href="../../../log/especificacao/">
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../log/especificacao/" title="Especificação" class="md-nav__link">
       Especificação
     </a>
-    
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mensagem" title="Mensagem" class="md-nav__link">
+    Mensagem
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mensagem-de-inicio" title="Mensagem de Início" class="md-nav__link">
+    Mensagem de Início
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estagio" title="Estágio" class="md-nav__link">
+    Estágio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupo-semaforico" title="Grupo semafórico" class="md-nav__link">
+    Grupo semafórico
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" title="Info" class="md-nav__link">
+    Info
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flag-de-composicao-de-tempo" title="Flag de composição de tempo" class="md-nav__link">
+    Flag de composição de tempo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detector" title="Detector" class="md-nav__link">
+    Detector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-anel" title="Falha Anel" class="md-nav__link">
+    Falha Anel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-grupo-semaforico" title="Falha Grupo Semafórico" class="md-nav__link">
+    Falha Grupo Semafórico
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-generica" title="Falha Genérica" class="md-nav__link">
+    Falha Genérica
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#falha-detector" title="Falha Detector" class="md-nav__link">
+    Falha Detector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alarme" title="Alarme" class="md-nav__link">
+    Alarme
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retorno" title="Retorno" class="md-nav__link">
+    Retorno
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remocao-de-falha" title="Remoção de falha" class="md-nav__link">
+    Remoção de falha
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outras" title="Outras" class="md-nav__link">
+    Outras
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabela-de-tipos-de-mensagem" title="Tabela de Tipos de Mensagem" class="md-nav__link">
+    Tabela de Tipos de Mensagem
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabela-de-tipos-de-retorno" title="Tabela de Tipos de Retorno" class="md-nav__link">
+    Tabela de Tipos de Retorno
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
       
     </ul>
-  </li>
-
-          
-        </ul>
-        
-      </div>
-    </div>
-  </div>
+  
 </nav>
-      </div>
-      <article class="article">
-        <div class="wrapper">
+                  </div>
+                </div>
+              </div>
+            
           
-          <h1 id="introducao">Introdução</h1>
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="introducao">Introdução</h1>
 <p>O protocolo de baixo nível especifica um protocolo serial para controladores que utilizem o 72c. Esse protocolo constitui uma série de mensagens binárias que são enviadas do 72c para o hardware ou do hardware para o 72c. As mensagens são empacotadas de forma padrão na estrutura chamada Mensagem e são transmitidas em formato binário.</p>
 <h2 id="mensagem">Mensagem</h2>
 <table>
@@ -397,13 +808,13 @@
 <td><em>Checksum</em> de toda a mensagem utilizando o algorítmo <em>LRC</em></td>
 </tr>
 <tr>
-<td>Trailler</td>
+<td>Trailer</td>
 <td>3 bytes</td>
 <td>&lt;F></td>
 </tr>
 </tbody>
 </table>
-<p>O conteúdo entre o Header e Trailler deve ser convertido para um <em>String</em> representando cada byte em Hexadecimal com duas casas, no caso de um caracter inserir zero a esquerda. </p>
+<p>O conteúdo entre o Header e Trailer deve ser convertido para um <em>String</em> representando cada byte em Hexadecimal com duas casas, no caso de um caractere inserir zero a esquerda.</p>
 <h3 id="mensagem-de-inicio">Mensagem de Início</h3>
 <p>O 72c envia a mensagem de início ao hardware para informar que está pronto para começar o envio de estágios.</p>
 <table>
@@ -617,57 +1028,6 @@
 </tr>
 </tbody>
 </table>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Tamanho</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Reservado</td>
-<td>4 bits</td>
-<td>Reservado</td>
-</tr>
-<tr>
-<td>Flag pedestre/veicular</td>
-<td>1 bit</td>
-<td>Se verdadeiro, esse é um grupo semafórico de pedestre</td>
-</tr>
-<tr>
-<td>Flag composição dos tempos</td>
-<td>3 bits</td>
-<td>Ver tabela de flag composição dos tempos</td>
-</tr>
-<tr>
-<td>Grupo</td>
-<td>8 bits</td>
-<td>Número do grupo semafórico</td>
-</tr>
-<tr>
-<td>Tempo De Atraso de Grupo ou Entreverde</td>
-<td>24 bits</td>
-<td>Tempo de atraso de grupo para perda do direito de passagem ou tempo de vermelho no período de entreverdes para o grupo com ganho do direito passagem.</td>
-</tr>
-<tr>
-<td>Tempo Amarelo</td>
-<td>24 bits</td>
-<td>Tempo de amarelo para veicular ou vermelho intermitente para pedestre</td>
-</tr>
-<tr>
-<td>Tempo Vermelho Limpeza</td>
-<td>24 bits</td>
-<td>Tempo de vermelho de limpeza</td>
-</tr>
-<tr>
-<td>Tempo do Estágio</td>
-<td>24 bits</td>
-<td>Verde para quem tem direito de passagem e vermelho para quem não tem.</td>
-</tr>
-</tbody>
-</table>
 <h4 id="flag-de-composicao-de-tempo">Flag de composição de tempo</h4>
 <table>
 <thead>
@@ -728,7 +1088,7 @@
 <tr>
 <td>Posição</td>
 <td>5 bits</td>
-<td>Posição do grupo semafórico</td>
+<td>Posição do detector</td>
 </tr>
 </tbody>
 </table>
@@ -755,7 +1115,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="falha-anel_1">Falha Anel</h3>
+<h3 id="falha-grupo-semaforico">Falha Grupo Semafórico</h3>
 <p>O hardware informa ao 72c uma falha em um grupo semafórico</p>
 <table>
 <thead>
@@ -825,7 +1185,7 @@
 <tr>
 <td>Posição</td>
 <td>5 bits</td>
-<td>Posição do grupo detector</td>
+<td>Posição do detector</td>
 </tr>
 <tr>
 <td>Código da Falha</td>
@@ -870,6 +1230,31 @@
 </tr>
 </tbody>
 </table>
+<h3 id="remocao-de-falha">Remoção de falha</h3>
+<p>O hardware informa ao 72c uma remoção de falha em um anel</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tamanho</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anel</td>
+<td>8 bits</td>
+<td>Número do anel</td>
+</tr>
+<tr>
+<td>Código da falha</td>
+<td>8 bits</td>
+<td>Código da falha</td>
+</tr>
+</tbody>
+</table>
+<h3 id="outras">Outras</h3>
+<p>Para mensagens dos tipos Inserção de plug, Remoção de plug, Troca de estágio modo manual, Modo manual ativado e Modo manual desativado o campo mensagem deve ser vazio.</p>
 <h3 id="tabela-de-tipos-de-mensagem">Tabela de Tipos de Mensagem</h3>
 <table>
 <thead>
@@ -964,79 +1349,82 @@
 </tr>
 </tbody>
 </table>
-          <aside class="copyright" role="note">
-            
-            Documentation built with
-            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
-            using the
-            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
-              Material
-            </a>
-            theme.
-          </aside>
-          
-            <footer class="footer">
+                
+                  
+                
               
-  <nav class="pagination" aria-label="Footer">
-    <div class="previous">
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
       
-        <a href="../../alto_nivel/info/" title="Info">
-          <span class="direction">
-            Previous
-          </span>
-          <div class="page">
-            <div class="button button-previous" role="button" aria-label="Previous">
-              <i class="icon icon-back"></i>
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../alto_nivel/info/" title="Info" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
-            <div class="stretch">
-              <div class="title">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
                 Info
-              </div>
+              </span>
             </div>
-          </div>
-        </a>
-      
-    </div>
-    <div class="next">
-      
-        <a href="../../../log/especificacao/" title="Especificação">
-          <span class="direction">
-            Next
-          </span>
-          <div class="page">
-            <div class="stretch">
-              <div class="title">
+          </a>
+        
+        
+          <a href="../../../log/especificacao/" title="Especificação" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
                 Especificação
-              </div>
+              </span>
             </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
             </div>
-          </div>
-        </a>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
       
     </div>
-  </nav>
-
-            </footer>
-          
-        </div>
-      </article>
-      <div class="results" role="status" aria-live="polite">
-        <div class="scrollable">
-          <div class="wrapper">
-            <div class="meta"></div>
-            <div class="list"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-    <script>
-      var base_url = '../../..';
-      var repo_id  = '';
-    </script>
-    <script src="../../../assets/javascripts/application-997097ee0c.js"></script>
+  </div>
+</footer>
+      
+    </div>
     
+      <script src="../../../assets/javascripts/application.6cdc17f0.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:"../../.."}})</script>
+      
+    
+    
+      
     
   </body>
 </html>

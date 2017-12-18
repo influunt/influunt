@@ -3,8 +3,8 @@
 
     
     <url>
-     <loc>None/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,102 +12,32 @@
     
         
     <url>
-     <loc>None/comunicacao/introducao/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/comunicacao/introducao/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/comunicacao/envelope/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/comunicacao/envelope/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/comunicacao/mensagens/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/comunicacao/mensagens/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/comunicacao/seguranca/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/comunicacao/seguranca/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/comunicacao/gzip/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    
-
-    
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/introducao/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/conectividade/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/ciclo_vida/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/configuracao/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/transacoes/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/alertas_e_falhas/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/mudanca_de_status/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/troca_de_planos/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/ler_dados/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/alto_nivel/info/</loc>
-     <lastmod>2017-01-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/protocolos/baixo_nivel/introducao/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/comunicacao/gzip/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -116,8 +46,78 @@
     
         
     <url>
-     <loc>None/log/especificacao/</loc>
-     <lastmod>2017-01-05</lastmod>
+     <loc>/protocolos/alto_nivel/introducao/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/conectividade/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/ciclo_vida/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/configuracao/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/transacoes/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/alertas_e_falhas/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/mudanca_de_status/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/troca_de_planos/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/ler_dados/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/alto_nivel/info/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/protocolos/baixo_nivel/introducao/</loc>
+     <lastmod>2017-12-18</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>/log/especificacao/</loc>
+     <lastmod>2017-12-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
