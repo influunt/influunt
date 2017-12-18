@@ -1,7 +1,6 @@
 .DS_Store
-log
-logs
-log
+influunt-api/log
+influunt-api/logs
 target
 /.idea
 /.idea_modules

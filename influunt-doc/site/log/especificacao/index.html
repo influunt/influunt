@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Especificação - Influunt Documentação</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Influunt Documentação">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="Influunt Documentação">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Log <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Especificação
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          Influunt Documentação
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Introdução" href="../..">
+      Introdução
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Comunicação</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Introdução" href="../../comunicacao/introducao/">
+      Introdução
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Envelope" href="../../comunicacao/envelope/">
+      Envelope
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Mensagens" href="../../comunicacao/mensagens/">
+      Mensagens
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Segurança" href="../../comunicacao/seguranca/">
+      Segurança
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Compactação de Dados" href="../../comunicacao/gzip/">
+      Compactação de Dados
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Protocolos</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Protocolo de Alto Nível" href="../../protocolos/alto_nivel/introducao/">
+      Protocolo de Alto Nível
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Conectividade" href="../../protocolos/alto_nivel/conectividade/">
+      Conectividade
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Ciclo de Vida" href="../../protocolos/alto_nivel/ciclo_vida/">
+      Ciclo de Vida
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Configuração do Controlador" href="../../protocolos/alto_nivel/configuracao/">
+      Configuração do Controlador
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Transações" href="../../protocolos/alto_nivel/transacoes/">
+      Transações
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Alertas e Falhas" href="../../protocolos/alto_nivel/alertas_e_falhas/">
+      Alertas e Falhas
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Mudança de Status" href="../../protocolos/alto_nivel/mudanca_de_status/">
+      Mudança de Status
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Troca de Planos" href="../../protocolos/alto_nivel/troca_de_planos/">
+      Troca de Planos
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Ler Dados" href="../../protocolos/alto_nivel/ler_dados/">
+      Ler Dados
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Info" href="../../protocolos/alto_nivel/info/">
+      Info
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Protocolo de Baixo Nível" href="../../protocolos/baixo_nivel/introducao/">
+      Protocolo de Baixo Nível
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Log</span>
+    <ul>
+      
+        
+  <li>
+    <a class="current" title="Especificação" href="./">
+      Especificação
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Formato" href="#formato">
+                Formato
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Classes" href="#classes">
+                Classes
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Níveis" href="#niveis">
+                Níveis
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Padrão das Mensagens para os níveis normal e detalhado" href="#padrao-das-mensagens-para-os-niveis-normal-e-detalhado">
+                Padrão das Mensagens para os níveis normal e detalhado
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <h1 id="introducao">Introdução</h1>
+<h3 id="formato">Formato</h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data e Hora</td>
+<td>Data e hora no formato dd/mm/yyyy HH:MM:SS</td>
+</tr>
+<tr>
+<td>espaço</td>
+<td>um caracter de espaço usado como separador de campos</td>
+</tr>
+<tr>
+<td>Nome da classe do tipo de evento do log</td>
+<td>Nome da classe de log entre couchetes</td>
+</tr>
+<tr>
+<td>espaço</td>
+<td>um caracter de espaço usado como separador de campos</td>
+</tr>
+<tr>
+<td>evento do log</td>
+<td>Descrição textual do evento conforme especificação dos Eventos do Log</td>
+</tr>
+</tbody>
+</table>
+<pre><code>22/02/1982 20:40 [EXECUCAO] Ocorreu uma falha de verdes conflitantes no anel 1 
+</code></pre>
+
+<h2 id="classes">Classes</h2>
+<h3 id="comunicacao">COMUNICAÇÃO</h3>
+<p>Eventos de log relacionados a comunicação do controlador com a central</p>
+<h3 id="execucao">EXECUÇÃO</h3>
+<p>Eventos de log relacionados a execução dos planos semafóricos</p>
+<h3 id="inicializacao">INICIALIZAÇÃO</h3>
+<p>Eventos de log relacionados a inicialização do controlador</p>
+<h3 id="finalizacao">FINALIZAÇÃO</h3>
+<p>Eventos de log relacionados a finalização do controlador</p>
+<h3 id="erro">ERRO</h3>
+<p>Eventos de log relacionados a erros no controlador</p>
+<h2 id="niveis">Níveis</h2>
+<p>O controlador deve ser capaz de ser configurado para atender 3 nível de log diferentes. As mensagem de log dos níveis normal e detalhado são padranizadas e não podem ser alteradas. As mensagem de log do nível superdetalhado são de livre utilização.</p>
+<h3 id="normal">NORMAL</h3>
+<p>Eventos normais da execução do controlador.</p>
+<h3 id="detalhado">DETALHADO</h3>
+<p>Incluí os eventos do nível normal é adiciona eventos para ajudar a encontrar problemas na comunicação.</p>
+<h3 id="superdetalhado">SUPERDETALHADO</h3>
+<p>Incluí o máximo de informações possíveis no log.</p>
+<h2 id="padrao-das-mensagens-para-os-niveis-normal-e-detalhado">Padrão das Mensagens para os níveis normal e detalhado</h2>
+<table>
+<thead>
+<tr>
+<th>Nível</th>
+<th>Tópico</th>
+<th>Momento</th>
+<th>Padrão</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DETALHADO</td>
+<td>COMUNICACAO</td>
+<td>A cada passo de uma transação</td>
+<td>"[%s] %s" tipo da transação, etapa da transação</td>
+<td></td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>COMUNICACAO</td>
+<td>Quando o cliente perde conexão a conexão com o broker MQTT</td>
+<td>MQTT perdeu a conexão com o broker. Restartando ator.</td>
+<td></td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>COMUNICACAO</td>
+<td>Quando uma mensagem não pode ser processada</td>
+<td>Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada</td>
+<td></td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>EXECUCAO</td>
+<td>Quando a comunicação serial é iniciada</td>
+<td>Comunicação serial pronta para iniciar</td>
+<td></td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>EXECUCAO</td>
+<td>Quando a comunicação serial é iniciada</td>
+<td>Iniciando a comunicação serial</td>
+<td></td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Ao definir a porta MQTT</td>
+<td>"MQTT PORT       :%s", port</td>
+<td>03/01/2017 17:37:48.887 - [INICIALIZACAO] MQTT PORT :1883</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Ao definir a senha do MQTT</td>
+<td>"MQTT PWD        :%s", senha</td>
+<td>03/01/2017 17:37:48.887 - [INICIALIZACAO] MQTT PWD :PASSWORD</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Ao definir o host MQTT</td>
+<td>"MQTT HOST       :%s", host</td>
+<td>03/01/2017 17:37:48.886 - [INICIALIZACAO] MQTT HOST :mosquitto.influunt.com.br</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Ao definir o id do controlador</td>
+<td>"ID CONTROLADOR  :%s", id</td>
+<td>03/01/2017 17:37:48.886 - [INICIALIZACAO] ID CONTROLADOR :d933e586-b763-4c26-bc5f-ef1a60428003</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Ao definir o login do MQTT</td>
+<td>"MQTT LOGIN      :%s", login</td>
+<td>03/01/2017 17:37:48.887 - [INICIALIZACAO] MQTT LOGIN :d933e586-b763-4c26-bc5f-ef1a60428003</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Ao solicitar configuração à central</td>
+<td>Verificando a configuração do controlador</td>
+<td>03/01/2017 17:37:51.430 - [INICIALIZACAO] Verificando a configuração do controlador</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Quando a central devolve a configuração</td>
+<td>Configuração encontrada</td>
+<td>03/01/2017 17:37:51.443 - [INICIALIZACAO] Configuração encontrada</td>
+</tr>
+<tr>
+<td>DETALHADO</td>
+<td>INICIALIZACAO</td>
+<td>Quando o controlador começa a executar a programação semafórica</td>
+<td>O controlador foi colocado em execução</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>ERRO</td>
+<td>Quando não é possível se conectar na porta serial</td>
+<td>Falha na comunicação serial. Não foi possivel enviar mensagem</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>ERRO</td>
+<td>Quando não é possível se conectar na porta serial</td>
+<td>Não foi possível abrir comunicação pela porta:  + porta</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>ERRO</td>
+<td>Quando não é possível se conectar na porta serial</td>
+<td>Não foi possível iniciar a comunicação serial</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>EXECUCAO</td>
+<td>Quando a tabela horária muda</td>
+<td>Mudança de tabela horária</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>INICIALIZACAO</td>
+<td>Ao iniciar o OS</td>
+<td>Iniciando O 72C</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>INICIALIZACAO</td>
+<td>Quando o controlador está no ar, mas ainda não existe uma configuração válida</td>
+<td>Não existe configuração para iniciar o motor</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>INICIALIZACAO</td>
+<td>Quando o controlador está no ar, mas ainda não existe uma configuração válida</td>
+<td>O controlador será iniciado quando um configuração for recebida</td>
+<td></td>
+</tr>
+<tr>
+<td>NORMAL</td>
+<td>EXECUCAO</td>
+<td>Quando um evento é gerado</td>
+<td>"[%s] %s", Tipo evento - Descricao do evento"</td>
+<td>Ver tabela de descrição de tipo de evento</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tabela-de-descricao-de-tipo-de-evento">Tabela de descrição de tipo de evento</h3>
+<table>
+<thead>
+<tr>
+<th>Tipo Evento</th>
+<th>Descrição</th>
+<th>Parâmetros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALARME ABERTURA DA PORTA PRINCIPAL DO CONTROLADOR</td>
+<td>Abertura da porta principal do controlador</td>
+<td></td>
+</tr>
+<tr>
+<td>ALARME FECHAMENTO DA PORTA PRINCIPAL DO CONTROLADOR</td>
+<td>Fechamento da porta principal do controlador</td>
+<td></td>
+</tr>
+<tr>
+<td>ALARME ABERTURA DA PORTA DO PAINEL DE FACILIDADES DO CONTROLADOR</td>
+<td>Abertura da porta do painel de facilidades do controlador</td>
+<td></td>
+</tr>
+<tr>
+<td>ALARME FECHAMENTO DA PORTA DO PAINEL DE FACILIDADES DO CONTROLADOR</td>
+<td>Fechamento da porta do painel de facilidades do controlador</td>
+<td></td>
+</tr>
+<tr>
+<td>ALARME AMARELO INTERMITENTE</td>
+<td>Amarelo Intermitente</td>
+<td></td>
+</tr>
+<tr>
+<td>ALARME SEMAFORO APAGADO</td>
+<td>Semafóro apagado</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>FALHA DETECTOR PEDESTRE FALTA ACIONAMENTO</td>
+<td>Anel %s: Falha no DP%s - Falta de Acionamento</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>FALHA DETECTOR PEDESTRE ACIONAMENTO DIRETO</td>
+<td>Anel %s: Falha no DP%s - Acionamento Direto</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>FALHA DETECTOR VEICULAR FALTA ACIONAMENTO</td>
+<td>Anel %s: Falha no DV%s - Falta de Acionamento</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>FALHA DETECTOR VEICULAR ACIONAMENTO DIRETO</td>
+<td>Anel %s: Falha no DV%s - Acionamento Direto</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>FALHA DESRESPEITO AO TEMPO MAXIMO DE PERMANENCIA NO ESTAGIO</td>
+<td>Anel %s: Desrespeito ao tempo máximo de permanência no estágio</td>
+<td>Número do Anel</td>
+</tr>
+<tr>
+<td>FALHA FASE VERMELHA DE GRUPO SEMAFORICO APAGADA</td>
+<td>Anel %s: Fase vermelha do G%s apagada</td>
+<td>Número do Anel</td>
+</tr>
+<tr>
+<td>FALHA SEQUENCIA DE CORES</td>
+<td>Anel %s: Falha sequencia de cores</td>
+<td>Número do Anel</td>
+</tr>
+<tr>
+<td>FALHA VERDES CONFLITANTES</td>
+<td>Anel %s: Falha de Verdes conflitantes</td>
+<td>Número do Anel</td>
+</tr>
+<tr>
+<td>FALHA WATCH DOG</td>
+<td>Falha CPU</td>
+<td></td>
+</tr>
+<tr>
+<td>FALHA MEMORIA</td>
+<td>Falha Memoria</td>
+<td></td>
+</tr>
+<tr>
+<td>FALHA FOCO VERMELHO DE GRUPO SEMAFORICO APAGADA</td>
+<td>Anel %s: Foco vermelho do G%s apagado</td>
+<td>Número do Anel, Número do Grupo Semafórico</td>
+</tr>
+<tr>
+<td>FALHA COMUNICACAO BAIXO NIVEL</td>
+<td>Falha na comunicação do protocolo de baixo nível</td>
+<td></td>
+</tr>
+<tr>
+<td>FALHA ACERTO RELOGIO GPS</td>
+<td>Falha acerto relógio GPS</td>
+<td></td>
+</tr>
+<tr>
+<td>REMOCAO FALHA DETECTOR PEDESTRE</td>
+<td>Anel %s: Falha no DP%s removida</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>REMOCAO FALHA DETECTOR VEICULAR</td>
+<td>Anel %s: Falha no DV%s removida</td>
+<td>Número do Anel, Número do Detector</td>
+</tr>
+<tr>
+<td>REMOCAO FALHA FASE VERMELHA DE GRUPO SEMAFORICO</td>
+<td>%s: Fase vermelha do G%s apagada removida</td>
+<td>Número do Anel, Número do Grupo Semafórico</td>
+</tr>
+<tr>
+<td>REMOCAO FALHA VERDES CONFLITANTES</td>
+<td>Anel %s: Falha de Verdes conflitantes removido</td>
+<td>Número do Anel</td>
+</tr>
+<tr>
+<td>REMOCAO FOCO VERMELHO DE GRUPO SEMAFORICO</td>
+<td>Anel %s: Foco vermelho do G%s apagado removida</td>
+<td>Número do Anel, Número do Grupo Semafórico</td>
+</tr>
+<tr>
+<td>REMOCAO COMUNICACAO BAIXO NIVEL</td>
+<td>Comunicação do protocolo de baixo nível recuperada</td>
+<td></td>
+</tr>
+<tr>
+<td>ACIONAMENTO DETECTOR VEICULAR</td>
+<td>%s foi acionado</td>
+<td>Número do Detector</td>
+</tr>
+<tr>
+<td>ACIONAMENTO DETECTOR PEDESTRE</td>
+<td>%s foi acionado</td>
+<td>Número do Detector</td>
+</tr>
+<tr>
+<td>INSERCAO DE PLUG DE CONTROLE MANUAL</td>
+<td>Inserção de plug do controle manual</td>
+<td></td>
+</tr>
+<tr>
+<td>RETIRADA DE PLUG DE CONTROLE MANUAL</td>
+<td>Retirada de plug do controle manual</td>
+<td></td>
+</tr>
+<tr>
+<td>TROCA ESTAGIO MANUAL</td>
+<td>Troca estágio no modo manual</td>
+<td></td>
+</tr>
+<tr>
+<td>MODO MANUAL ATIVADO</td>
+<td>Modo manual ativado</td>
+<td>Número do Anel, Número do Plano</td>
+</tr>
+<tr>
+<td>IMPOSICAO PLANO</td>
+<td>Anel %s: Plano %s foi imposto com duração de %s minutos</td>
+<td>Número do Anel, Número do Plano, minutos</td>
+</tr>
+<tr>
+<td>IMPOSICAO MODO</td>
+<td>Anel %s: Modo de operação %s foi imposto</td>
+<td>Número do Anel, Modo de Operação</td>
+</tr>
+<tr>
+<td>LIBERAR IMPOSICAO</td>
+<td>Anel %s: Foi liberado da imposição</td>
+<td>Número do Anel</td>
+</tr>
+<tr>
+<td>TROCA DE PLANO NO ANEL</td>
+<td>Plano %s está ativo</td>
+<td>Número do Plano</td>
+</tr>
+</tbody>
+</table>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../../protocolos/baixo_nivel/introducao/" title="Protocolo de Baixo Nível">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Protocolo de Baixo Nível
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>
