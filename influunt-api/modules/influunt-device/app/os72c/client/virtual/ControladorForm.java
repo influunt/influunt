@@ -341,12 +341,12 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
         btnCPU.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_WATCH_DOG, null));
         btnMemoria.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_MEMORIA, null));
 
-        btnFocoApagado.addActionListener(new AnelActionListener(this, TipoEvento.FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA, TipoEvento.REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO));
+        btnFocoApagado.addActionListener(new AnelActionListener(this, TipoEvento.FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA, TipoEvento.REMOCAO_FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO));
 
         btnPortaPrincipal.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_ABERTURA_DA_PORTA_PRINCIPAL_DO_CONTROLADOR, TipoEvento.ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR));
         btnPortalDePainel.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR, TipoEvento.ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR));
-        btnIntermitente.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_AMARELO_INTERMITENTE, null));
-        btnSemaforoApagado.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_SEMAFORO_APAGADO, null));
+        btnIntermitente.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_AMARELO_INTERMITENTE, TipoEvento.REMOCAO_FALHA_AMARELO_INTERMITENTE));
+        btnSemaforoApagado.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_SEMAFORO_APAGADO, TipoEvento.REMOCAO_FALHA_SEMAFORO_APAGADO));
         btnAcertoRelogio.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_ACERTO_RELOGIO_GPS, null));
 
 

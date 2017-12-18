@@ -81,7 +81,7 @@ public class ParametroSimulacaoFalha {
             case FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO_APAGADA:
             case REMOCAO_FALHA_FASE_VERMELHA_DE_GRUPO_SEMAFORICO:
             case FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA:
-            case REMOCAO_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO:
+            case REMOCAO_FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO:
                 grupoSemaforico = GrupoSemaforico.find.byId(UUID.fromString(id));
                 this.anel = grupoSemaforico.getAnel();
                 break;
