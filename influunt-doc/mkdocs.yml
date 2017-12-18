@@ -17,7 +17,6 @@ pages:
   - 'Alertas e Falhas': 'protocolos/alto_nivel/alertas_e_falhas.md'
   - 'Mudança de Status': 'protocolos/alto_nivel/mudanca_de_status.md'
   - 'Troca de Planos': 'protocolos/alto_nivel/troca_de_planos.md'
-  - 'Modo Manual': 'protocolos/alto_nivel/modo_manual.md'
   - 'Ler Dados': 'protocolos/alto_nivel/ler_dados.md'
   - 'Info': 'protocolos/alto_nivel/info.md'
   - 'Protocolo de Baixo Nível': 'protocolos/baixo_nivel/introducao.md'
