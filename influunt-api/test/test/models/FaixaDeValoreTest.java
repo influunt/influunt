@@ -62,9 +62,15 @@ public class FaixaDeValoreTest extends WithInfluuntApplicationNoAuthentication {
         assertEquals(valorPadrao, faixasDeValores.getTempoVerdeMax().toString());
 
         assertEquals("0", faixasDeValores.getTempoAusenciaDeteccaoMin().toString());
-        assertEquals("5800", faixasDeValores.getTempoAusenciaDeteccaoMax().toString());
+        assertEquals("1440", faixasDeValores.getTempoAusenciaDeteccaoMax().toString());
 
         assertEquals("0", faixasDeValores.getTempoDeteccaoPermanenteMin().toString());
-        assertEquals("10", faixasDeValores.getTempoDeteccaoPermanenteMax().toString());
+        assertEquals("1440", faixasDeValores.getTempoDeteccaoPermanenteMax().toString());
+
+        assertEquals("0", faixasDeValores.getTempoAusenciaDeteccaoPedestreMin().toString());
+        assertEquals("5800", faixasDeValores.getTempoAusenciaDeteccaoPedestreMax().toString());
+
+        assertEquals("0", faixasDeValores.getTempoDeteccaoPermanentePedestreMin().toString());
+        assertEquals("10", faixasDeValores.getTempoDeteccaoPermanentePedestreMax().toString());
     }
 }

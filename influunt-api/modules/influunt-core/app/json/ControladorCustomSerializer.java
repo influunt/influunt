@@ -552,6 +552,10 @@ public class ControladorCustomSerializer {
             root.put("ausenciaDeteccaoMax", rangeUtils.TEMPO_AUSENCIA_DETECCAO.getMax().toString());
             root.put("deteccaoPermanenteMin", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMin().toString());
             root.put("deteccaoPermanenteMax", rangeUtils.TEMPO_DETECCAO_PERMANENTE.getMax().toString());
+            root.put("ausenciaDeteccaoPedestreMin", rangeUtils.TEMPO_AUSENCIA_DETECCAO_PEDESTRE.getMin().toString());
+            root.put("ausenciaDeteccaoPedestreMax", rangeUtils.TEMPO_AUSENCIA_DETECCAO_PEDESTRE.getMax().toString());
+            root.put("deteccaoPermanentePedestreMin", rangeUtils.TEMPO_DETECCAO_PERMANENTE_PEDESTRE.getMin().toString());
+            root.put("deteccaoPermanentePedestreMax", rangeUtils.TEMPO_DETECCAO_PERMANENTE_PEDESTRE.getMax().toString());
         }
 
         if (controlador.getVersaoControlador() != null) {

@@ -1,11 +1,11 @@
 DELETE FROM `sessoes`;
 DELETE FROM `versoes_controladores`;
 DELETE FROM `permissoes_perfis`;
-DELETE FROM `permissoes`;
-DELETE FROM `permissoes_app`;
 DELETE FROM `permissoes_app_permissoes`;
-DELETE FROM `perfis`;
+DELETE FROM `permissoes_app`;
+DELETE FROM `permissoes`;
 DELETE FROM `usuarios`;
+DELETE FROM `perfis`;
 
 -- Set @AreaId = (SELECT m.id FROM AREAS m WHERE m.descricao = '1');
 

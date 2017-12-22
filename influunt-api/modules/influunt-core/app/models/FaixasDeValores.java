@@ -181,6 +181,22 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
     private Integer tempoDeteccaoPermanenteMax;
 
     @Column
+    @NotNull(message = "não pode ficar em branco")
+    private Integer tempoAusenciaDeteccaoPedestreMin;
+
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private Integer tempoAusenciaDeteccaoPedestreMax;
+
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private Integer tempoDeteccaoPermanentePedestreMin;
+
+    @Column
+    @NotNull(message = "não pode ficar em branco")
+    private Integer tempoDeteccaoPermanentePedestreMax;
+
+    @Column
     @JsonDeserialize(using = InfluuntDateTimeDeserializer.class)
     @JsonSerialize(using = InfluuntDateTimeSerializer.class)
     @CreatedTimestamp
@@ -236,9 +252,13 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
         valores.setTempoVerdeMin(1);
         valores.setTempoVerdeMax(255);
         valores.setTempoAusenciaDeteccaoMin(0);
-        valores.setTempoAusenciaDeteccaoMax(5800);
+        valores.setTempoAusenciaDeteccaoMax(1440);
         valores.setTempoDeteccaoPermanenteMin(0);
-        valores.setTempoDeteccaoPermanenteMax(10);
+        valores.setTempoDeteccaoPermanenteMax(1440);
+        valores.setTempoAusenciaDeteccaoPedestreMin(0);
+        valores.setTempoAusenciaDeteccaoPedestreMax(5800);
+        valores.setTempoDeteccaoPermanentePedestreMin(0);
+        valores.setTempoDeteccaoPermanentePedestreMax(10);
         return valores;
     }
 
@@ -536,6 +556,38 @@ public class FaixasDeValores extends Model implements Cloneable, Serializable {
 
     public void setTempoDeteccaoPermanenteMax(Integer tempoDeteccaoPermanenteMax) {
         this.tempoDeteccaoPermanenteMax = tempoDeteccaoPermanenteMax;
+    }
+
+    public Integer getTempoAusenciaDeteccaoPedestreMin() {
+        return tempoAusenciaDeteccaoPedestreMin;
+    }
+
+    public void setTempoAusenciaDeteccaoPedestreMin(Integer tempoAusenciaDeteccaoPedestreMin) {
+        this.tempoAusenciaDeteccaoPedestreMin = tempoAusenciaDeteccaoPedestreMin;
+    }
+
+    public Integer getTempoAusenciaDeteccaoPedestreMax() {
+        return tempoAusenciaDeteccaoPedestreMax;
+    }
+
+    public void setTempoAusenciaDeteccaoPedestreMax(Integer tempoAusenciaDeteccaoPedestreMax) {
+        this.tempoAusenciaDeteccaoPedestreMax = tempoAusenciaDeteccaoPedestreMax;
+    }
+
+    public Integer getTempoDeteccaoPermanentePedestreMin() {
+        return tempoDeteccaoPermanentePedestreMin;
+    }
+
+    public void setTempoDeteccaoPermanentePedestreMin(Integer tempoDeteccaoPermanentePedestreMin) {
+        this.tempoDeteccaoPermanentePedestreMin = tempoDeteccaoPermanentePedestreMin;
+    }
+
+    public Integer getTempoDeteccaoPermanentePedestreMax() {
+        return tempoDeteccaoPermanentePedestreMax;
+    }
+
+    public void setTempoDeteccaoPermanentePedestreMax(Integer tempoDeteccaoPermanentePedestreMax) {
+        this.tempoDeteccaoPermanentePedestreMax = tempoDeteccaoPermanentePedestreMax;
     }
 
     public DateTime getDataCriacao() {

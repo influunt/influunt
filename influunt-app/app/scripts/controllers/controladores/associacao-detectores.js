@@ -14,7 +14,7 @@ angular.module('influuntApp')
       $controller('ConfirmacaoNadaHaPreencherCtrl', {$scope: $scope});
 
       var atualizaPosicoesDetectores, atualizaEstagiosComDetector, excluirDetectorNoCliente,
-      abreModalConfiguracaoDetector;
+      abreModalConfiguracaoDetector, verificaDisponibilidadeDetector;
 
       /**
        * Pré-condições para acesso à tela de associcao de detectores: Somente será possivel
@@ -46,8 +46,7 @@ angular.module('influuntApp')
             $scope.selecionaAnelAssociacaoDetectores(0);
             atualizaEstagiosComDetector();
 
-            $scope.podeDetectorPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'PEDESTRE'}).length > 0;
-            $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0;
+            verificaDisponibilidadeDetector();
 
             $scope.inicializaConfirmacaoNadaHaPreencher();
             $scope.atualizaTotalDetectoresPorAnel();
@@ -64,6 +63,38 @@ angular.module('influuntApp')
       $scope.atribuiTempoDeteccao = function(detector) {
         detector.tempoAusenciaDeteccao = $scope.objeto.ausenciaDeteccaoMin;
         detector.tempoDeteccaoPermanente = $scope.objeto.deteccaoPermanenteMin;
+      };
+
+      $scope.ausenciaDeteccaoMin = function(detector) {
+        if (detector.tipo === 'PEDESTRE') {
+          return $scope.objeto.ausenciaDeteccaoPedestreMin;
+        } else {
+          return $scope.objeto.ausenciaDeteccaoMin;
+        }
+      };
+
+      $scope.ausenciaDeteccaoMax = function(detector) {
+        if (detector.tipo === 'PEDESTRE') {
+          return $scope.objeto.ausenciaDeteccaoPedestreMax;
+        } else {
+          return $scope.objeto.ausenciaDeteccaoMax;
+        }
+      };
+
+      $scope.deteccaoPermanenteMin = function(detector) {
+        if (detector.tipo === 'PEDESTRE') {
+          return $scope.objeto.deteccaoPermanentePedestreMin;
+        } else {
+          return $scope.objeto.deteccaoPermanenteMin;
+        }
+      };
+
+      $scope.deteccaoPermanenteMax = function(detector) {
+        if (detector.tipo === 'PEDESTRE') {
+          return $scope.objeto.deteccaoPermanentePedestreMax;
+        } else {
+          return $scope.objeto.deteccaoPermanenteMax;
+        }
       };
 
       /**
@@ -103,7 +134,11 @@ angular.module('influuntApp')
           posicao: posicao,
           tipo: tipo,
           tempoAusenciaDeteccao: 0,
-          tempoDeteccaoPermanente: 0
+          tempoDeteccaoPermanente: 0,
+          deteccaoPermanenteMin: tipo === 'PEDESTRE' ? $scope.objeto.deteccaoPermanentePedestreMin : $scope.objeto.deteccaoPermanenteMin,
+          deteccaoPermanenteMax: tipo === 'PEDESTRE' ? $scope.objeto.deteccaoPermanentePedestreMax : $scope.objeto.deteccaoPermanenteMax,
+          ausenciaDeteccaoMin: tipo === 'PEDESTRE' ? $scope.objeto.ausenciaDeteccaoPedestreMin : $scope.objeto.ausenciaDeteccaoMin,
+          ausenciaDeteccaoMax: tipo === 'PEDESTRE' ? $scope.objeto.ausenciaDeteccaoPedestreMax : $scope.objeto.ausenciaDeteccaoMax
         };
 
         $scope.objeto.detectores = $scope.objeto.detectores || [];
@@ -116,6 +151,7 @@ angular.module('influuntApp')
         $scope.verificaConfirmacaoNadaHaPreencher();
         $scope.errors = null;
         $scope.atualizaTotalDetectoresPorAnel();
+        verificaDisponibilidadeDetector();
       };
 
       $scope.atualizaTotalDetectoresPorAnel = function(){
@@ -135,6 +171,8 @@ angular.module('influuntApp')
         atualizaEstagiosComDetector();
         $scope.verificaConfirmacaoNadaHaPreencher();
         $scope.atualizaTotalDetectoresPorAnel();
+
+        verificaDisponibilidadeDetector();
       };
 
       $scope.excluirDetector = function(detector) {
@@ -205,6 +243,7 @@ angular.module('influuntApp')
 
       $scope.configurarDetector = function(detector) {
         detector.configurado = true;
+        $scope.shouldDestroyDetector = true;
       };
 
       /**
@@ -238,6 +277,17 @@ angular.module('influuntApp')
           var estagio = _.find($scope.currentEstagios, {idJson: e.idJson});
           estagio.temDetector = true;
         });
+      };
+
+      /*
+      * Verifica se pode adicionar mais detectores de pedestre e/ou veicular
+      */
+
+      verificaDisponibilidadeDetector = function() {
+        $scope.podeDetectorPedestre = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'PEDESTRE'}).length > 0 &&
+              _.filter($scope.objeto.detectores, {tipo: 'PEDESTRE'}).length < $scope.objeto.limiteDetectorPedestre;
+        $scope.podeDetectorVeicular = _.filter($scope.objeto.gruposSemaforicos, {tipo: 'VEICULAR'}).length > 0 &&
+              _.filter($scope.objeto.detectores, {tipo: 'VEICULAR'}).length < $scope.objeto.limiteDetectorVeicular;
       };
 
       $scope.possuiInformacoesPreenchidas = function(anel) {

@@ -108,7 +108,16 @@ public class ControladorAssociacaoDetectoresTest extends ControladorTest {
             new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
         ));
 
-        detector2.setTempoAusenciaDeteccao(0);
+        detector2.setTempoAusenciaDeteccao(1500);
+        detector2.setTempoDeteccaoPermanente(1400);
+
+        erros = getErros(controlador);
+        assertEquals(1, erros.size());
+        assertThat(erros, Matchers.hasItems(
+            new Erro(CONTROLADOR, "O tempo de detecção permanente deve estar entre {min} e {max}.", "aneis[0].detectores[0].tempoDeteccaoPermanenteEstaDentroDaFaixa")
+        ));
+
+        detector2.setTempoAusenciaDeteccao(5800);
         detector2.setTempoDeteccaoPermanente(10);
 
         erros = getErros(controlador);
