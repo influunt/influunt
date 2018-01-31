@@ -7,7 +7,7 @@
   },
   "alarmesEFalhas": {
     "titulo": "Desarme de Alarmes",
-    "configurar": "Configurar perfil de alarmes",
+    "configurar": "Configurar alarmes",
     "descricao": "Descrição",
     "tiposEventos": {
       "falhas": "Falhas",
