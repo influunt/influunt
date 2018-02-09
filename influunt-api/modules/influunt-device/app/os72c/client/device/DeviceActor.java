@@ -329,6 +329,11 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
                 eventoMotor.setParams(new Object[]{eventoMotor.getParams()[0],
                     anel.getPosicao()});
             }
+
+            if (eventoMotor.getParams() == null) {
+                eventoMotor.setParams(new Object[]{});
+            }
+            
             motor.onEvento(eventoMotor);
         }
     }

@@ -1827,6 +1827,18 @@ public class ControladorCustomDeserializer {
         if (node.has("deteccaoPermanenteMax")) {
             valores.setTempoDeteccaoPermanenteMax(node.get("deteccaoPermanenteMax").asInt());
         }
+        if (node.has("ausenciaDeteccaoPedestreMin")) {
+            valores.setTempoAusenciaDeteccaoPedestreMin(node.get("ausenciaDeteccaoPedestreMin").asInt());
+        }
+        if (node.has("ausenciaDeteccaoPedestreMax")) {
+            valores.setTempoAusenciaDeteccaoPedestreMax(node.get("ausenciaDeteccaoPedestreMax").asInt());
+        }
+        if (node.has("deteccaoPermanentePedestreMin")) {
+            valores.setTempoDeteccaoPermanentePedestreMin(node.get("deteccaoPermanentePedestreMin").asInt());
+        }
+        if (node.has("deteccaoPermanentePedestreMax")) {
+            valores.setTempoDeteccaoPermanentePedestreMax(node.get("deteccaoPermanentePedestreMax").asInt());
+        }
         return valores;
     }
 

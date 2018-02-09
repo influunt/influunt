@@ -27,7 +27,7 @@ var getDriver = function() {
 var World = function () {
   var defaultTimeout = 20 * 1000;
   var screenshotPath = 'screenshots';
-  var baseUrl = 'http://localhost/#';
+  var baseUrl = 'http://localhost/#!';
   var self = this;
 
   this.webdriver = webdriver;
@@ -449,7 +449,7 @@ var World = function () {
 
   this.logar = function(createSQL, user, password) {
     var _this = this;
-    return _this.execScript('curl -XPOST localhost:9000/api/v1/cucumber').then(function(){
+    return _this.execScript('curl -XPOST localhost:9000/api/api/v1/cucumber').then(function(){
       return _this.execSqlScript('features/support/scripts/'+createSQL+'.sql');
     }).then(function () {
       return _this.visit('/login');

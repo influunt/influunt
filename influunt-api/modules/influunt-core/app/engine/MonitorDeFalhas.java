@@ -188,6 +188,7 @@ public class MonitorDeFalhas {
                 eventoHandler.handle(eventoMotor);
                 break;
             case FALHA:
+
                 if (!isControladorEmFalha(eventoMotor.getAnel())) {
                     motor.onFalha(eventoMotor);
                     eventoHandler.handle(eventoMotor);

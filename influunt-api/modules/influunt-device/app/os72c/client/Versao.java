@@ -9,7 +9,7 @@ public class Versao {
 
     public static final String modelo = "72c";
 
-    public static final String versao = "1.0.9";
+    public static final String versao = "1.0.10";
 
     private Versao() {
     }

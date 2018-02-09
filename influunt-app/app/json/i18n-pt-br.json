@@ -888,8 +888,10 @@
     "tempoVerdeIntermediario": "Tempo de Verde Intermediário",
     "tempoExtensaoVerde": "Tempo de Extensão de Verde",
     "tempoVerde": "Tempo de Verde",
-    "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção",
-    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente",
+    "tempoAusenciaDeteccao": "Tempo de Ausência de Detecção (Veicular)",
+    "tempoDeteccaoPermanente": "Tempo de Detecção Permanente (Veicular)",
+    "tempoAusenciaDeteccaoPedestre": "Tempo de Ausência de Detecção (Pedestre)",
+    "tempoDeteccaoPermanentePedestre": "Tempo de Detecção Permanente (Pedestre)",
     "veicular": "Veicular"
   },
   "manual": {
@@ -1082,7 +1084,8 @@
     "modoPlano": "Modo de Operação",
     "subarea": "Subárea",
     "tipoEvento": "Tipo do Evento",
-    "agrupamento": "Agrupamento"
+    "agrupamento": "Agrupamento",
+    "dataHora": "Data e Hora"
   },
   "diff": {
     "versaoCriadaPor": "Versão criada por",
