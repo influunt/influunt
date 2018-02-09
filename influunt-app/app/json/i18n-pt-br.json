@@ -1084,7 +1084,8 @@
     "modoPlano": "Modo de Operação",
     "subarea": "Subárea",
     "tipoEvento": "Tipo do Evento",
-    "agrupamento": "Agrupamento"
+    "agrupamento": "Agrupamento",
+    "dataHora": "Data e Hora"
   },
   "diff": {
     "versaoCriadaPor": "Versão criada por",

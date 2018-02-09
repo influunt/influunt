@@ -22,6 +22,7 @@
             <div class="table">
               <thead>
                 <tr>
+                  <th>{{ 'relatorios.dataHora' | translate }}</th>
                   <th>{{ 'relatorios.clc' | translate }}</th>
                   <th>{{ 'relatorios.cla' | translate }}</th>
                   <th>{{ 'relatorios.nomeCruzamento' | translate }}</th>
@@ -31,6 +32,7 @@
               </thead>
               <tbody>
                 <tr data-ng-repeat="falha in lista">
+                  <td>{{falha.dataHora}}</td>
                   <td>{{falha.clc}}</td>
                   <td>{{falha.cla}}</td>
                   <td>{{falha.endereco}}</td>

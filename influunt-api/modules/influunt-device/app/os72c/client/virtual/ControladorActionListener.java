@@ -18,22 +18,16 @@ public class ControladorActionListener extends GenericPanelActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        final ControladorActionListener anelActionListener = this;
+        final ControladorActionListener controladorActionListener = this;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
 
-                new JOptionPaneControlador().displayGUI(anelActionListener);
+                new JOptionPaneControlador().displayGUI(controladorActionListener);
 
             }
         });
 
     }
-
-    @Override
-    public void onFalha(String anel) {
-        controladorForm.getCallback().onEvento(new EventoMotor(DateTime.now(), tipoFalha));
-    }
-
 
 }

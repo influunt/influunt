@@ -621,6 +621,127 @@ public class GerenciadorDeFalhasTest extends GerenciadorDeTrocasTest {
         verificaGruposSemaforicos(315, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
     }
 
+
+    @Test
+    public void falhaAmareloIntermitente() {
+        inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        //Avancar
+        avancarSegundos(motor, 60);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.FALHA_AMARELO_INTERMITENTE));
+        avancarSegundos(motor, 600);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(660), TipoEvento.REMOCAO_FALHA_AMARELO_INTERMITENTE));
+        avancarSegundos(motor, 100);
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(34)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(52)).get(1).getEstagio().getPosicao().intValue());
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(60)).get(1).getEstagio().getPosicao());
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        //Novo Ciclo
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        //Recuperando da Falha
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(660)).get(1).getEstagio().getPosicao().intValue());
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 1, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 1, 3000, 13000, EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 2, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 2, 3000, 13000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 3, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 3, 3000, 13000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 4, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 4, 3000, 13000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 5, 0, 3000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 5, 3000, 13000, EstadoGrupoSemaforico.VERDE));
+    }
+
+
+    @Test
+    public void falhaSemaforoApagado() {
+        inicioExecucao = new DateTime(2016, 10, 18, 0, 0, 0);
+        Motor motor = new Motor(controlador, inicioExecucao, this);
+
+        //Avancar
+        avancarSegundos(motor, 60);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(60), TipoEvento.FALHA_SEMAFORO_APAGADO));
+        avancarSegundos(motor, 600);
+        motor.onEvento(new EventoMotor(inicioExecucao.plusSeconds(660), TipoEvento.REMOCAO_FALHA_SEMAFORO_APAGADO));
+        avancarSegundos(motor, 100);
+
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 2, listaEstagios.get(inicioExecucao.plusSeconds(18)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 3, listaEstagios.get(inicioExecucao.plusSeconds(34)).get(1).getEstagio().getPosicao().intValue());
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(52)).get(1).getEstagio().getPosicao().intValue());
+        assertNull("Estagio atual", listaEstagios.get(inicioExecucao.plusSeconds(60)).get(1).getEstagio().getPosicao());
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(60, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        //Novo Ciclo
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 1, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 2, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 3, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 4, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        verificaGruposSemaforicos(315, new GrupoCheck(1, 5, 0, 255000, EstadoGrupoSemaforico.DESLIGADO));
+
+        //Recuperando da Falha
+        assertEquals("Estagio atual", 1, listaEstagios.get(inicioExecucao.plusSeconds(660)).get(1).getEstagio().getPosicao().intValue());
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 1, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 1, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 1, 8000, 18000, EstadoGrupoSemaforico.VERDE));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 2, 0, 5000, EstadoGrupoSemaforico.AMARELO_INTERMITENTE));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 2, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 2, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 3, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 3, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 3, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 4, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 4, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 4, 8000, 18000, EstadoGrupoSemaforico.VERMELHO));
+
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 5, 0, 5000, EstadoGrupoSemaforico.DESLIGADO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 5, 5000, 8000, EstadoGrupoSemaforico.VERMELHO));
+        verificaGruposSemaforicos(660, new GrupoCheck(1, 5, 8000, 18000, EstadoGrupoSemaforico.VERDE));
+    }
+
 }
 
 

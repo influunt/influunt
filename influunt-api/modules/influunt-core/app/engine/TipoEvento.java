@@ -43,8 +43,8 @@ public enum TipoEvento {
     FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA(TipoEventoControlador.FALHA, 11, "Foco vermelho apagado", "Anel %s: Foco vermelho do G%s apagado", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
     FALHA_COMUNICACAO_BAIXO_NIVEL(TipoEventoControlador.FALHA, 12, true, "Falha na comunicação do protocolo de baixo nível", "Falha na comunicação do protocolo de baixo nível", null),
     FALHA_ACERTO_RELOGIO_GPS(TipoEventoControlador.FALHA, 13, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
-    FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 14, "Amarelo Intermitente", "Amarelo Intermitente", null),
-    FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 15, "Semáforo apagado", "Semáforo apagado", null),
+    FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 14, true, "Amarelo Intermitente", "Amarelo Intermitente", null),
+    FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 15, true, "Semáforo apagado", "Semáforo apagado", null),
 
 
     //Remocao de Falhas
@@ -54,8 +54,8 @@ public enum TipoEvento {
     REMOCAO_FALHA_VERDES_CONFLITANTES(TipoEventoControlador.REMOCAO_FALHA, 4, true, "Verdes conflitantes removido", "Anel %s: Falha de Verdes conflitantes removido", new TipoEventoParamsDescriptor("Anel", TipoEventoParamsTipoDeDado.ANEL)),
     REMOCAO_FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO(TipoEventoControlador.REMOCAO_FALHA, 5, "Foco vermelho apagado removida", "Anel %s: Foco vermelho do G%s apagado removida", new TipoEventoParamsDescriptor("Grupo Semafórico", TipoEventoParamsTipoDeDado.GRUPO_SEMAFORICO)),
     REMOCAO_FALHA_COMUNICACAO_BAIXO_NIVEL(TipoEventoControlador.REMOCAO_FALHA, 6, true, "Comunicação do protocolo de baixo nível recuperada", "Comunicação do protocolo de baixo nível recuperada", null),
-    REMOCAO_FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.REMOCAO_FALHA, 7, "Recuperou do Amarelo Intermitente", "Recuperou do Amarelo Intermitente", null),
-    REMOCAO_FALHA_SEMAFORO_APAGADO(TipoEventoControlador.REMOCAO_FALHA, 8, "Recuperou do semáforo apagado", "Recuperou do semáforo apagado", null),
+    REMOCAO_FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.REMOCAO_FALHA, 7, true, "Recuperou do Amarelo Intermitente", "Recuperou do Amarelo Intermitente", null),
+    REMOCAO_FALHA_SEMAFORO_APAGADO(TipoEventoControlador.REMOCAO_FALHA, 8, true, "Recuperou do semáforo apagado", "Recuperou do semáforo apagado", null),
 
     //Detector
     ACIONAMENTO_DETECTOR_VEICULAR(TipoEventoControlador.DETECTOR_VEICULAR, 1, "Acionamento de detector veicular", "%s foi acionado", new TipoEventoParamsDescriptor("Detector veicular", TipoEventoParamsTipoDeDado.DETECTOR_VEICULAR)),
