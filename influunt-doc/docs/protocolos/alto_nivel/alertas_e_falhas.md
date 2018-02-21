@@ -12,6 +12,10 @@ A seguir estão detalhados todos os eventos possíveis:
 |ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR|	2|	 Fechamento da porta principal do controlador|
 |ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR|	3|	 Abertura da porta do painel de facilidades do controlador|
 |ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR|	4|	 Fechamento da porta do painel de facilidades do controlador|
+|ALARME_SUBTENSAO|	5|	 Subtensão de rede|
+|ALARME_TENSAO_RESTABELECIDA|	6|	 Tensão de rede restabelecida|
+|ALARME_FALTA_DE_ENERGIA|	7|	Falta de energia|
+|ALARME_ENERGIA_RESTABELECIDA|	8|	Energia restabelecida|
 
 ### Campos do contéudo
 | Campo| Tipo | Obrigatório| Descrição |
@@ -116,10 +120,8 @@ Exemplo:
 |FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO_APAGADA|	11|	 Foco vermelho apagado|1) Nº Grupo Semafórico|
 |FALHA_COMUNICACAO_BAIXO_NIVEL|	12|	 Falha na comunicação do protocolo de baixo nível||
 |FALHA_ACERTO_RELOGIO_GPS|	13|	 Falha acerto relógio GPS||
-|FALHA_SUBTENSAO|	14|	 Falha de subtensão de rede||
-|FALHA_FALTA_DE_ENERGIA|	15|	 Falta de energia||
-|FALHA_AMARELO_INTERMITENTE|	16|	 Amarelo Intermitente|
-|FALHA_SEMAFORO_APAGADO|	17|	 Semáforo apagado|
+|FALHA_AMARELO_INTERMITENTE|	14|	 Amarelo Intermitente|
+|FALHA_SEMAFORO_APAGADO|	15|	 Semáforo apagado|
 
 ```JSON
 {
@@ -154,10 +156,8 @@ Exemplo:
 |REMOCAO_FALHA_VERDES_CONFLITANTES|	4|	 Verdes conflitantes removido|1) Nº Anel|
 |REMOCAO_FALHA_FOCO_VERMELHO_DE_GRUPO_SEMAFORICO|	5|	Foco vermelho apagado removida|1) Nº Grupo Semafórico|
 |REMOCAO_FALHA_COMUNICACAO_BAIXO_NIVEL|	6|	Comunicação do protocolo de baixo nível recuperada||
-|REMOCAO_FALHA_SUBTENSAO|	7|	Tensão da rede restabeleciada||
-|REMOCAO_FALHA_FALTA_DE_ENERGIA|	8|	Energia restabeleciada||
-|REMOCAO_FALHA_AMARELO_INTERMITENTE|	9|	 Recuperou do Amarelo Intermitente|
-|REMOCAO_FALHA_SEMAFORO_APAGADO|	10|	 Recuperou do Semáforo apagado|
+|REMOCAO_FALHA_AMARELO_INTERMITENTE|	7|	 Recuperou do Amarelo Intermitente|
+|REMOCAO_FALHA_SEMAFORO_APAGADO|	8|	 Recuperou do Semáforo apagado|
 
 ```JSON
 {
@@ -183,10 +183,4 @@ Exemplo:
   "emResposta": "null"
 }
 ```
-
-
-
-
-
-
 
