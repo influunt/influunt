@@ -16,7 +16,7 @@ li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-act
 }
 
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-tabs-active.ui-state-active a {
-  padding: 5px 30px 10px 20px;
+  padding: 15px 30px 15px 20px;
   background: transparent;
   color: #fff;
   border: none;
@@ -39,7 +39,7 @@ li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
   color: #c8c8c8;
   background: transparent;
-  padding: 5px 30px 10px 20px;
+  padding: 15px 30px 15px 20px;
 }
 
 li.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab.ui-state-hover {
@@ -56,12 +56,13 @@ li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab {
   padding: 0px 40px 0px 0px;
   background: #1AB394;
   font-size: 16px;
+  margin-top: 8px;
   height: auto;
 }
 
 li.addTab.button.ui-tabs-tab.ui-corner-top.ui-state-default.ui-tab a {
   color: #ffffff;
-  padding: 0px 15px 5px 13px;
+  padding: 5px 15px 5px 13px;
 }
 
 .tabs-container .nav-tabs {
