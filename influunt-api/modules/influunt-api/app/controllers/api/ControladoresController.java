@@ -224,7 +224,11 @@ public class ControladoresController extends Controller {
     public CompletionStage<Result> findAll() {
         Usuario u = getUsuario();
         if (u.isRoot() || u.podeAcessarTodasAreas()) {
-            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, request().queryString()).fetch(Arrays.asList("versaoControlador", "modelo")).query());
+            Map<String, String[]> params = new HashMap<>();
+            params.putAll(ctx().request().queryString());
+            params.put("per_page", new String[] {String.valueOf(Controlador.find.all().size())});
+
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("versaoControlador", "modelo")).query());
             return CompletableFuture.completedFuture(ok(result.toJson()));
         } else if (u.getArea() != null) {
             String[] areaId = {u.getArea().getId().toString()};
@@ -234,6 +238,8 @@ public class ControladoresController extends Controller {
                 params.remove("area.descricao");
             }
             params.put("area.id", areaId);
+            params.put("per_page", new String[] {String.valueOf(Controlador.find.all().size())});
+
             InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
             return CompletableFuture.completedFuture(ok(result.toJson()));
         }
