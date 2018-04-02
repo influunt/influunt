@@ -133,7 +133,6 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 
 .btn_VERMELHO_INTERMITENTE {
   background-color: white;
-  background-image: -webkit-linear-gradient(0deg, rgba(200, 0, 0, 0.5) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 0, 0, 0.5) 50%, transparent 50%);
   background-image: linear-gradient(90deg, rgba(200, 0, 0, 0.5) 50%, transparent 50%), linear-gradient(rgba(200, 0, 0, 0.5) 50%, transparent 50%);
   background-size: 5px 5px;
   -webkit-text-fill-color: white;
@@ -145,7 +144,6 @@ i.sinal-verde-conflitante.ativo, i.transicao-proibida.ativo {
 
 .btn_AMARELO_INTERMITENTE {
   background-color: white;
-  background-image: -webkit-linear-gradient(0deg, rgba(200, 200, 0, 0.5) 50%, transparent 50%), -webkit-linear-gradient(rgba(200, 200, 0, 0.5) 50%, transparent 50%);
   background-image: linear-gradient(90deg, rgba(200, 200, 0, 0.5) 50%, transparent 50%), linear-gradient(rgba(200, 200, 0, 0.5) 50%, transparent 50%);
   background-size: 5px 5px;
   -webkit-text-fill-color: white;

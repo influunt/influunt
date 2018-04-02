@@ -20,5 +20,7 @@ influunt-api/central-tcp*
 influunt-bin/instaladores/72c/*
 influunt-bin/instaladores/controlador_virtual/*
 influunt-api/influunt.log*
+influunt-api/device_*
+influunt-app/influunt-app.tar.gz
 db
 mongodump
