@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="7.0.3" transformSequenceNumber="7">
+<install4j version="7.0.4" transformSequenceNumber="7">
   <directoryPresets config="/Users/pedropires/Projects/influunt/influunt/influunt-bin/instaladores/72c" />
-  <application name="Influunt - 72c" distributionSourceDir="" applicationId="3363-0272-4078-1667" mediaDir="/Users/pedropires/Projects/influunt/influunt/influunt-bin/instaladores/72c" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="72c" publisher="Raro Labs" publisherWeb="http://www.rarolabs.com.br" version="1.9" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="17bf7b24a966ef8f" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <application name="Influunt - 72c" distributionSourceDir="" applicationId="3363-0272-4078-1667" mediaDir="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-bin/instaladores/72c" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="72c" publisher="Raro Labs" publisherWeb="http://www.rarolabs.com.br" version="1.0.11" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="17bf7b24a966ef8f" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="pt_BR" customLocalizationFile="" />
       <additionalLanguages />
@@ -22,7 +22,7 @@
       <mountPoint id="22" root="" location="" mode="755" />
     </mountPoints>
     <entries>
-      <dirEntry mountPoint="22" file="/Users/pedropires/Projects/influunt/influunt/influunt-api/modules/influunt-device/target/universal/influunt-device-0.1.0" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="influunt-device-0.1.0" excludeSuffixes="" dirMode="755" overrideDirMode="false">
+      <dirEntry mountPoint="22" file="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-api/modules/influunt-device/target/universal/influunt-device-0.1.0" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="influunt-device-0.1.0" excludeSuffixes="" dirMode="755" overrideDirMode="false">
         <exclude />
       </dirEntry>
     </entries>
@@ -1058,7 +1058,7 @@ return console.askYesNo(message, true);
     </styles>
   </installerGui>
   <mediaSets>
-    <linuxDeb name="Linux Deb Archive" id="24" customizedId="" mediaFileName="" installDir="/opt/${compiler:sys.shortName}" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="" manualJREEntry="false" overwriteNeverAsConfigFiles="false" bzip="false" description="" dependencies="" maintainerEmail="" architectureSet="false" architecture="">
+    <linuxDeb name="Linux Deb Archive" id="24" customizedId="" mediaFileName="" installDir="/opt/${compiler:sys.shortName}" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="" manualJREEntry="false" overwriteNeverAsConfigFiles="false" dependencies="" bzip="false" description="" maintainerEmail="" architectureSet="false" architecture="">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers />
@@ -1083,7 +1083,7 @@ return console.askYesNo(message, true);
         <content />
       </postUninstallScript>
     </linuxDeb>
-    <linuxRPM name="Linux RPM" id="25" customizedId="" mediaFileName="" installDir="/opt/${compiler:sys.shortName}" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="" manualJREEntry="false" overwriteNeverAsConfigFiles="false" os="linux" arch="i386">
+    <linuxRPM name="Linux RPM" id="25" customizedId="" mediaFileName="" installDir="/opt/${compiler:sys.shortName}" overridePrincipalLanguage="false" jreBitType="all" runPostProcessor="false" postProcessor="" failOnPostProcessorError="false" useLegacyMediaFileIds="false" legacyMediaFileIds="" downloadURL="" includeAllDownloadableComponents="true" includedJRE="" manualJREEntry="false" overwriteNeverAsConfigFiles="false" dependencies="" os="linux" arch="i386">
       <excludedComponents />
       <includedDownloadableComponents />
       <excludedLaunchers />
