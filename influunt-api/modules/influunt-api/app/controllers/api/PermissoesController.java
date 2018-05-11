@@ -56,6 +56,8 @@ public class PermissoesController extends Controller {
     @Transactional
     public CompletionStage<Result> findAll() {
         InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Permissao.class, request().queryString()).query());
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("X-teste", "opa!");
         return CompletableFuture.completedFuture(ok(result.toJson()));
     }
 

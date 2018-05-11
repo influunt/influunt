@@ -12,8 +12,7 @@
 .wrapper-content .basic-wizard .steps ul li.current a:after,
 .wrapper-content .basic-wizard .steps ul li.disabled a:after {
   background: url("../images/wizard-steps-after.png") no-repeat;
-  -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
+  transition: all 0.5s ease;
   position: absolute;
   display: block;
   height: 48px;
@@ -31,8 +30,7 @@
 .wrapper-content .basic-wizard .steps ul li.current:not(:nth-child(1)) a:before,
 .wrapper-content .basic-wizard .steps ul li.disabled a:before {
   background: url("../images/wizard-steps-before.png") no-repeat;
-  -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
+  transition: all 0.5s ease;
   position: absolute;
   display: block;
   height: 48px;
@@ -80,15 +78,13 @@
 }
 
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td i {
-  -webkit-transition: all .5s ease;
-          transition: all .5s ease;
+  transition: all .5s ease;
   font-size: 28px;
   color: #19b4a8;
 }
 
 .wrapper-content .basic-wizard .content .body .tableless.association-detectors table tbody tr td:hover i {
-  -webkit-transition: all .5s ease;
-          transition: all .5s ease;
+  transition: all .5s ease;
   color: #f7f7f7;
 }
 
@@ -429,8 +425,7 @@ header .nav-secon li a {
 
 .wrapper-content .basic-wizard .content .body .tableless table {
   border: 1px solid #e1e1e1;
-  -webkit-transition: all .5s ease;
-          transition: all .5s ease;
+  transition: all .5s ease;
 }
 
 .wrapper-content .basic-wizard .content .body .tableless table .tg-031e.rings-1 {
@@ -484,8 +479,7 @@ header .nav-secon li a {
   /*    width: 5%;*/
   min-width: 74px;
   max-width: 74px;
-  -webkit-transition: all .5s ease;
-          transition: all .5s ease;
+  transition: all .5s ease;
   cursor: pointer;
   background: #ffffff;
 }
@@ -1592,8 +1586,7 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .steps ul li a {
-  -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
+  transition: all 0.5s ease;
   margin: 0 20px 0 25px;
   height: 48px;
   line-height: 48px;
@@ -1603,8 +1596,7 @@ header .nav-secon li a {
 }
 
 .wrapper-content .basic-wizard .steps ul li:nth-child(1) a {
-  -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
+  transition: all 0.5s ease;
   margin: 0 20px 0 0px;
   height: 48px;
   line-height: 48px;
@@ -1960,7 +1952,6 @@ td.estagio-ativo {
 /* TABELA DIAGONAL  TRANSICOES */
 table.table-diagonal:nth-of-type(1) th.diagonal {
   background-color: #e5e5e5 !important;
-  background-image: -webkit-linear-gradient(bottom left, transparent 48%, #cacaca, transparent 52%) !important;
   background-image: linear-gradient(to top right, transparent 48%, #cacaca, transparent 52%) !important;
 }
 

@@ -1381,9 +1381,13 @@ public class ControladorCustomDeserializer {
             endereco.setIdJson(node.get("idJson").asText());
         }
 
-        endereco.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
-        endereco.setLatitude((node.get("latitude") != null && node.get("latitude").isNumber()) ? node.get("latitude").asDouble() : null);
-        endereco.setLongitude((node.get("longitude") != null && node.get("longitude").isNumber()) ? node.get("longitude").asDouble() : null);
+//        endereco.setLocalizacao(node.get("localizacao") != null ? node.get("localizacao").asText() : null);
+//        endereco.setLatitude((node.get("latitude") != null && node.get("latitude").isNumber()) ? node.get("latitude").asDouble() : null);
+//        endereco.setLongitude((node.get("longitude") != null && node.get("longitude").isNumber()) ? node.get("longitude").asDouble() : null);
+        endereco.setLocalizacao("Rua Paul Bouthilier");
+        endereco.setLatitude(-19.9245);
+        endereco.setLongitude(-43.9352);
+
 
         if (node.has("localizacao2")) {
             endereco.setLocalizacao2(node.get("localizacao2").asText());
