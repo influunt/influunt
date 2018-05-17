@@ -1,7 +1,6 @@
 .mapa-container .leaflet-left {
   left: 10px;
-  -webkit-transition-duration: 0.8s;
-          transition-duration: 0.8s;
+  transition-duration: 0.8s;
 }
 
 .mapa-container .leaflet-left.open {
@@ -44,8 +43,7 @@
   margin-left: 0;
   margin-right: 45px;
   background: #ffffff;
-  -webkit-transition-duration: 0.8s;
-          transition-duration: 0.8s;
+  transition-duration: 0.8s;
 }
 
 .mapa-container .ajutes.theme-config .theme-config-box .skin-setttings .inputAjustes {
@@ -91,8 +89,7 @@
   display: table;
   padding: 10px;
   background: #ffffff;
-  -webkit-transition-duration: 0.8s;
-          transition-duration: 0.8s;
+  transition-duration: 0.8s;
 }
 
 .mapa-container .acoes.open-acao-panel {
