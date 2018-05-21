@@ -187,12 +187,12 @@ public class ControladorPlanoTest extends ControladorTest {
         plano1Anel4.addGruposSemaforicoPlano(grupoPlano);
 
         erros = getErros(controlador);
-        assertEquals(10, erros.size());
+        assertEquals(6, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado"),
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[2].grupoApagadoSeNaoAssociado"),
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[1].versaoPlano.planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado"),
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[2].grupoApagadoSeNaoAssociado"),
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[1].versaoPlano.planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
             new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versaoPlano.planos[0].modoOperacaoValido"),
             new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versaoPlano.planos[0].tempoCiclo"),
             new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versaoPlano.planos[0].quantidadeEstagioIgualQuantidadeAnel"),
@@ -206,15 +206,15 @@ public class ControladorPlanoTest extends ControladorTest {
         criarGrupoSemaforicoPlano(anelCom4Estagios, plano1Anel4);
 
         erros = getErros(controlador);
-        assertEquals(7, erros.size());
+        assertEquals(4, erros.size());
         assertThat(erros, org.hamcrest.Matchers.hasItems(
             new Erro(CONTROLADOR, "Configure um detector veicular para cada estágio no modo atuado.", "aneis[0].versaoPlano.planos[0].modoOperacaoValido"),
             new Erro(CONTROLADOR, "Tempo de ciclo deve estar entre {min} e {max}", "aneis[1].versaoPlano.planos[0].tempoCiclo"),
             new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[0].versaoPlano.planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versaoPlano.planos[0].quantidadeEstagioIgualQuantidadeAnel"),
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado"),
-            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[1].versaoPlano.planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado")
+            new Erro(CONTROLADOR, "Deve possuir pelo menos 2 estágios configurados.", "aneis[1].versaoPlano.planos[0].quantidadeEstagioIgualQuantidadeAnel")
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[0].grupoApagadoSeNaoAssociado"),
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[0].versaoPlano.planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado"),
+//            new Erro(CONTROLADOR, "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.", "aneis[1].versaoPlano.planos[0].gruposSemaforicosPlanos[1].grupoApagadoSeNaoAssociado")
         ));
 
         criarEstagioPlano(anelCom2Estagios, plano1Anel2, new int[]{1, 1});
