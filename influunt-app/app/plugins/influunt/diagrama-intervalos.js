@@ -26,7 +26,7 @@ var influunt;
         var j = 0;
         var t = 0;
         var estagioPlanoAtual, estagioAtual, tempoVerde, estagioAnterior, grupo, tabelaEntreVerde, transicao,
-        tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza, 
+        tabelaEntreVerdesTransicao, tempoAmarelo, tempoVermelhoIntermitente, tempoAtrasoGrupo, tempoVermelhoLimpeza,
         grupoSemaforicoPlano;
 
         // cria uma matriz de tamanho quantidadeGruposSemaforicos x tempoCiclo, inicializada com -1 em todos os campos.
@@ -43,7 +43,7 @@ var influunt;
           estagioAnterior = this.estagioAnterior(plano.estagiosPlanos,i).estagio;
           temposEntreverdes = {};
           if (estagioAtual.idJson !== estagioAnterior.idJson) {
-            for(j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
+            for (j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               grupo = estagioAnterior.gruposSemaforicos[j];
               grupoSemaforicoPlano = _.find(plano.gruposSemaforicosPlanos, { grupoSemaforico: { idJson: grupo.idJson } });
               dados = {};
@@ -65,7 +65,7 @@ var influunt;
               temposEntreverdes[grupo.posicao] = dados;
             }
 
-            for(j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
+            for (j = 0; j < estagioAnterior.gruposSemaforicos.length; j++){
               grupo = estagioAnterior.gruposSemaforicos[j];
               grupoSemaforicoPlano = _.find(plano.gruposSemaforicosPlanos, { grupoSemaforico: { idJson: grupo.idJson } });
               dados = temposEntreverdes[grupo.posicao];
@@ -74,16 +74,16 @@ var influunt;
                 if (dados.tempoEntreVerde < entreverde && dados.tempoAtrasoGrupo === 0) {
                   dados.tempoAtrasoGrupo = entreverde - dados.tempoEntreVerde;
                 }
-                
-                if(dados.tempoAtrasoGrupo > 0){
+
+                if (dados.tempoAtrasoGrupo > 0){
                   for(t = tempoCiclo; t < tempoCiclo + dados.tempoAtrasoGrupo; t++){
                     diagrama[dados.posicao][t] = VERDE;
                   }
                 }
-                for(t = tempoCiclo + dados.tempoAtrasoGrupo; t < tempoCiclo + dados.tempoAmareloOuVermelhoIntermitente + dados.tempoAtrasoGrupo; t++){
+                for (t = tempoCiclo + dados.tempoAtrasoGrupo; t < tempoCiclo + dados.tempoAmareloOuVermelhoIntermitente + dados.tempoAtrasoGrupo; t++){
                   diagrama[dados.posicao][t] = grupo.tipo === 'VEICULAR' ? AMARELO : VERMELHO_INTERMITENTE;
                 }
-                for(t = tempoCiclo + dados.tempoAmareloOuVermelhoIntermitente + dados.tempoAtrasoGrupo; t < tempoCiclo + dados.tempoEntreVerde + dados.tempoAtrasoGrupo; t++){
+                for (t = tempoCiclo + dados.tempoAmareloOuVermelhoIntermitente + dados.tempoAtrasoGrupo; t < tempoCiclo + dados.tempoEntreVerde + dados.tempoAtrasoGrupo; t++){
                   diagrama[dados.posicao][t] = VERMELHO_LIMPEZA;
                 }
               }
@@ -133,7 +133,7 @@ var influunt;
 
               // Primeiro percorre todos os grupos semafóricos no mesmo instante no ciclo
               // coletando todos os grupos que estão em verde ou entreverde ao mesmo tempo.
-              for(grupo = 0; grupo < diagrama.length; grupo++) {
+              for (grupo = 0; grupo < diagrama.length; grupo++) {
                 if (diagrama[grupo][instanteNoCiclo] === VERDE || ENTREVERDES.indexOf(diagrama[grupo][instanteNoCiclo]) > -1) {
                   conflitos.push(grupo);
                 }
@@ -161,7 +161,7 @@ var influunt;
                         diagrama[conflitos[k]].splice(instanteNoCiclo, 1, INDEFINIDO);
                       } else {
                         // grupoA passou p/ vermelho
-                        diagrama[conflitos[k]].splice(instanteNoCiclo, 0, INDEFINIDO);
+                        diagrama[conflitos[k]].splice(instanteNoCiclo, 1, INDEFINIDO);
                       }
                     } else if (possuiGrupoSemaforico(estagioAtual, grupoB)) {
                       // grupoB está verde
@@ -170,7 +170,7 @@ var influunt;
                         diagrama[conflitos[j]].splice(instanteNoCiclo, 1, INDEFINIDO);
                       } else {
                         // grupoB passou p/ vermelho
-                        diagrama[conflitos[j]].splice(instanteNoCiclo, 0, INDEFINIDO);
+                        diagrama[conflitos[j]].splice(instanteNoCiclo, 1  , INDEFINIDO);
                       }
                     }
                   }
@@ -182,6 +182,7 @@ var influunt;
           }
 
           _.each(diagrama, function(grupo) {
+            // debugger
             if (grupo.length > tempoCiclo) {
               for (var i = grupo.length - 1; i >= tempoCiclo; i--) {
                 if (grupo[i] === INDEFINIDO) {
@@ -199,7 +200,7 @@ var influunt;
             }
           });
 
-          return houveConflito;
+          return false;
         };
 
         var houveConflito = true;
