@@ -226,7 +226,9 @@ public class ControladoresController extends Controller {
         if (u.isRoot() || u.podeAcessarTodasAreas()) {
             Map<String, String[]> params = new HashMap<>();
             params.putAll(ctx().request().queryString());
-            params.put("per_page", new String[] {String.valueOf(Controlador.find.all().size())});
+            if(params.get("per_page") == null) {
+                params.put("per_page", new String[] {String.valueOf(Controlador.find.all().size())});
+            }
 
             InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("versaoControlador", "modelo")).query());
             return CompletableFuture.completedFuture(ok(result.toJson()));
@@ -238,7 +240,9 @@ public class ControladoresController extends Controller {
                 params.remove("area.descricao");
             }
             params.put("area.id", areaId);
-            params.put("per_page", new String[] {String.valueOf(Controlador.find.all().size())});
+            if(params.get("per_page") == null) {
+                params.put("per_page", new String[]{String.valueOf(Controlador.find.all().size())});
+            }
 
             InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
             return CompletableFuture.completedFuture(ok(result.toJson()));
