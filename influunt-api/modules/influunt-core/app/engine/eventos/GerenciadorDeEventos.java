@@ -86,6 +86,9 @@ public abstract class GerenciadorDeEventos {
             case FALHA_AMARELO_INTERMITENTE:
                 new ImporAmareloIntermitentePorFalhaHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;
+            case FALHA_AMARELO_INTERMITENTE_FORCADO:
+                new ImporAmareloIntermitenteForcadoHandle(gerenciadorDeEstagios).processar(eventoMotor);
+                break;
             case FALHA_SEMAFORO_APAGADO:
                 new ImporApagadoPorFalhaHandle(gerenciadorDeEstagios).processar(eventoMotor);
                 break;

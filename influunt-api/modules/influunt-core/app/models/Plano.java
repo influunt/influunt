@@ -107,6 +107,9 @@ public class Plano extends Model implements Cloneable, Serializable {
     private boolean impostoPorFalha = false;
 
     @Transient
+    private boolean impostoForcado = false;
+
+    @Transient
     private boolean imposto = false;
 
     public Plano() {
@@ -239,6 +242,14 @@ public class Plano extends Model implements Cloneable, Serializable {
 
     public void setImpostoPorFalha(boolean impostoPorFalha) {
         this.impostoPorFalha = impostoPorFalha;
+    }
+
+    public boolean isImpostoForcado() {
+        return this.impostoForcado;
+    }
+
+    public void setImpostoForcado(boolean impostoForcado) {
+        this.impostoForcado = impostoForcado;
     }
 
     public boolean isCicloDuplo() {

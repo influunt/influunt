@@ -30,7 +30,7 @@ public class ServerActor extends UntypedActor {
                         return SupervisorStrategy.stop();
                     } else {
                         t.printStackTrace();
-                        logger.error("Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
+                        logger.error("Ocorreu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();
                     }
                 }

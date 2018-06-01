@@ -31,6 +31,8 @@ public class AgendamentoTrocaPlano {
 
     private boolean impostoPorFalha = false;
 
+    private boolean impostoForcado = false;
+
     private boolean saidaDoModoManual = false;
 
     private boolean tempoDeEntradaCalculado = false;
@@ -53,9 +55,10 @@ public class AgendamentoTrocaPlano {
         this.momentoOriginal = momentoOriginal;
     }
 
-    public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal, boolean impostoPorFalha) {
+    public AgendamentoTrocaPlano(Evento evento, Plano plano, DateTime momentoOriginal, boolean impostoPorFalha, boolean impostoForcado) {
         this(evento, plano, momentoOriginal);
         this.impostoPorFalha = impostoPorFalha;
+        this.impostoForcado = impostoForcado;
     }
 
     public Evento getEvento() {
@@ -114,6 +117,12 @@ public class AgendamentoTrocaPlano {
         this.impostoPorFalha = impostoPorFalha;
     }
 
+    public boolean isImpostoForcado() { return impostoForcado; }
+
+    public void setImpostoForcado(boolean impostoForcado) {
+        this.impostoForcado = impostoForcado;
+    }
+
     public boolean isSaidaDoModoManual() {
         return this.saidaDoModoManual;
     }
@@ -164,6 +173,8 @@ public class AgendamentoTrocaPlano {
             texto.append(" Imposto");
         } else if (getPlano().isImpostoPorFalha()) {
             texto = new StringBuffer("Controlador em modo ").append(getPlano().getModoOperacao().toString()).append(" por falha");
+        } else if (getPlano().isImpostoForcado()) {
+            texto = new StringBuffer("Controlador em modo ").append(getPlano().getModoOperacao().toString()).append(" por acionamento de chave no painel de facilidade");
         } else {
             texto.append(" de tabela horária");
         }

@@ -345,7 +345,7 @@ public class ControladorForm implements Sender, DeviceBridge, DeviceObserver {
 
         btnPortaPrincipal.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_ABERTURA_DA_PORTA_PRINCIPAL_DO_CONTROLADOR, TipoEvento.ALARME_FECHAMENTO_DA_PORTA_PRINCIPAL_DO_CONTROLADOR));
         btnPortalDePainel.addActionListener(new ControladorActionListener(this, TipoEvento.ALARME_ABERTURA_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR, TipoEvento.ALARME_FECHAMENTO_DA_PORTA_DO_PAINEL_DE_FACILIDADES_DO_CONTROLADOR));
-        btnIntermitente.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_AMARELO_INTERMITENTE, TipoEvento.REMOCAO_FALHA_AMARELO_INTERMITENTE));
+        btnIntermitente.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_AMARELO_INTERMITENTE_FORCADO, TipoEvento.REMOCAO_FALHA_AMARELO_INTERMITENTE));
         btnSemaforoApagado.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_SEMAFORO_APAGADO, TipoEvento.REMOCAO_FALHA_SEMAFORO_APAGADO));
         btnAcertoRelogio.addActionListener(new ControladorActionListener(this, TipoEvento.FALHA_ACERTO_RELOGIO_GPS, null));
 

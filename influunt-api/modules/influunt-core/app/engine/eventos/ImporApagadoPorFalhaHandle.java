@@ -26,6 +26,6 @@ public class ImporApagadoPorFalhaHandle extends GerenciadorDeEventos {
     protected void processar(EventoMotor eventoMotor) {
         Plano plano = PlanoService.gerarPlanoApagadoPorFalha(gerenciadorDeEstagios.getPlano());
         terminaTempoEstagio(this.intervalos, contadorIntervalo);
-        gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp(), true));
+        gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp(), true, false));
     }
 }
