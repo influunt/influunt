@@ -1176,6 +1176,11 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 
 
 
+-- # executar transações na Central (impor plano, liberar imposição, etc.)
+Set @permissaoCentralTransacoes = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@permissaoCentralTransacoes, 'POST /central/v1/transacoes', '[Central] - Executar transação', NOW(), NOW());
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @permissaoCentralTransacoes);
+
 -- # liberar imposição
 Set @liberarImposicao = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@liberarImposicao, 'POST /api/v1/imposicoes/liberar', '[Imposição] - Liberar imposição em um controlador', NOW(), NOW());
@@ -1191,6 +1196,7 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
   (@permAppId, 'imporPlanos', '[Comandos da Central] - Impor planos', 'O usuário com essa permissão pode realizar uma imposição de planos através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @imporPlanos);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @liberarImposicao);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 
@@ -1204,6 +1210,7 @@ INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`
   (@permAppId, 'imporModoOperacao', '[Comandos da Central] - Impor Modo de Operação', 'O usuário com essa permissão pode realizar uma imposição de modo de operação através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @imporModoOperacao);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @liberarImposicao);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 
@@ -1217,6 +1224,7 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'sincronizarConfiguracaoCompleta', '[Comandos da Central] - Sincronizar Tabela Horária, Planos e Configuração do Controlador', 'O usuário com essa permissão pode fazer a sincronização de tabela horária, planos e configuração de controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 
@@ -1228,6 +1236,7 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'sincronizarPlanos', '[Comandos da Central] - Sincronizar Planos', 'O usuário com essa permissão pode fazer a sincronização de planos em controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 
@@ -1239,17 +1248,22 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'sincronizarTabelaHoraria', '[Comandos da Central] - Sincronizar Tabela Horária', 'O usuário com essa permissão pode fazer a sincronização de tabelas horárias em controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 
 Set @PermissaoId = UUID();
+Set @PermissaoCentralLerDados = UUID();
 INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'POST /api/v1/controladores/ler_dados', '[Imposição] - Ler dados do controlador', NOW(), NOW());
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoCentralLerDados, 'POST /central/v1/ler_dados', '[Imposição] - Ler dados do controlador', NOW(), NOW());
 INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoId);
+INSERT INTO `permissoes_perfis` (`perfil_id`, `permissao_id`) VALUES (@PerfilAdministradorId, @PermissaoCentralLerDados);
 
 SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'lerDadosControlador', '[Comandos da Central] - Ler Dados do Controlador', 'O usuário com essa permissão pode ler os dados dos controladores.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoCentralLerDados);
 
 
 
@@ -1262,6 +1276,7 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'colocarControladorManutencao', '[Comandos da Central] - Colocar Controlador em Manutenção', 'O usuário com essa permissão pode colocar um controlador em manutenção.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 # ativar controlador
@@ -1273,6 +1288,7 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'ativarControlador', '[Comandos da Central] - Ativar um controlador', 'O usuário com essa permissão pode ativar um controlador através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 
 # desativar controlador
@@ -1284,6 +1300,7 @@ SET @permAppId = UUID();
 INSERT INTO `permissoes_app` (`id`, `chave`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`) VALUES
   (@permAppId, 'desativarControlador', '[Comandos da Central] - Desativar um controlador', 'O usuário com essa permissão pode desativar um controlador através dos Comandos da Central.', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @PermissaoId);
+INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@permAppId, @permissaoCentralTransacoes);
 
 # Configuração dos perfis de monitoramento.
 Set @monitPermissoesId = UUID();

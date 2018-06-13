@@ -304,7 +304,11 @@ public class MapStorage implements Storage {
                 this.status.put("status", StatusDevice.ATIVO.toString());
             }
             if (!emFalha(remocao.getAnel())) {
-                this.statusAneis.put(remocao.getAnel(), StatusAnel.NORMAL.toString());
+                if (remocao.getAnel() > 0) {
+                    this.statusAneis.put(remocao.getAnel(), StatusAnel.NORMAL.toString());
+                } else {
+                    atualizarStatusAneis(StatusAnel.NORMAL);
+                }
             }
             db.commit();
         }
@@ -380,7 +384,8 @@ public class MapStorage implements Storage {
     }
 
     private void atualizarStatusAneis(StatusAnel statusAnel) {
-        for (int i = 1; i <= this.statusAneis.size(); i++) {
+        int total = this.statusAneis.size();
+        for (int i = 1; i <= total; i++) {
             this.statusAneis.put(i, statusAnel.toString());
         }
     }

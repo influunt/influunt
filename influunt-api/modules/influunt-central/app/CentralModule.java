@@ -1,7 +1,11 @@
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
+import security.Authenticator;
+import security.DBAuthenticator;
+import security.InfluuntContextManager;
 import server.Central;
 
 /**
@@ -21,6 +25,8 @@ public class CentralModule extends AbstractModule {
     protected void configure() {
         if (!environment.isTest()) {
             Logger.info("Binding central");
+            bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
+            bind(InfluuntContextManager.class).asEagerSingleton();
             bind(Central.class).asEagerSingleton();
         }
     }

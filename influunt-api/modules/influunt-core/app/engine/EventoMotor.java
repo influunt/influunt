@@ -101,7 +101,7 @@ public class EventoMotor {
 
     public Integer getAnel() {
         String[] paramsStr = getStringParams();
-        if (paramsStr.length > 0) {
+        if (paramsStr.length > 0 && paramsStr[0] != null) {
             return Integer.parseInt(paramsStr[0]);
         }
         return 0;

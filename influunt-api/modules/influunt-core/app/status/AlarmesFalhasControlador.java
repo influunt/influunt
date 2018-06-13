@@ -94,8 +94,7 @@ public class AlarmesFalhasControlador {
         ArrayList<AlarmesFalhasControlador> list = new ArrayList<>();
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
 
-        Aggregate jongoQuery = alarmesFalhas().aggregate("{ $match: { recuperado: false }  }")
-            .and("{ $match: { idControlador: {$in: " + controladoresIds + "} } }");
+        Aggregate jongoQuery = alarmesFalhas().aggregate("{ $match: { idControlador: {$in: " + controladoresIds + "} } }");
         if (inicioIntervalo != null && fimIntervalo != null) {
             jongoQuery.and(" { $match: { timestamp: { $gte: " + inicioIntervalo + ", $lt: " + fimIntervalo + " } } } ");
         } else {

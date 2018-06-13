@@ -58,9 +58,56 @@
                             <i class="fa fa-exclamation" style="font-size: inherit;"></i>
                           </span>
                           <br/>
-                          <button type="button" class="btn btn-primary btn-xs center" data-toggle="modal" data-target="#Config">
+                          <button type="button" class="btn btn-primary btn-xs center" data-toggle="modal" data-target="#Config-{{ detector | nomeDetector }}">
                             {{ 'geral.crud.configurar' | translate }}
                           </button>
+                          <!-- MODAL -->
+                          <div class="modal inmodal" id="Config-{{ detector | nomeDetector }}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog associacao-modal">
+                              <div class="modal-content animated bounceInRight">
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Configuração do detector <strong>{{ detector | nomeDetector }}</strong></h4>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                    <div data-ng-if="detector" class="col-lg-12 col-sm-12">
+                                      <div class="col-lg-4 col-sm-4 estagio-detalhe">
+                                        <input type="checkbox" ichecks data-ng-model="detector.monitorado"
+                                        data-if-unchecked="limpaTempoDeteccao(detector)" data-if-checked="atribuiTempoDeteccao(detector)">
+                                        <strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong>
+                                      </div>
+                                      <div class="knob">
+                                        <div class="col-lg-4 col-sm-4 text-center knob-item">
+                                          <influunt-knob
+                                              title="{{ 'controladores.associacaoDetectores.ausencia' | translate }}"
+                                              label="MIN"
+                                              min="detector.ausenciaDeteccaoMin"
+                                              max="detector.ausenciaDeteccaoMax"
+                                              read-only="!detector.monitorado"
+                                              data-ng-model="detector.tempoAusenciaDeteccao">
+                                          </influunt-knob>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-4 text-center knob-item">
+                                          <influunt-knob
+                                              title="{{ 'controladores.associacaoDetectores.deteccao' | translate }}"
+                                              label="MIN"
+                                              min="detector.deteccaoPermanenteMin"
+                                              max="detector.deteccaoPermanenteMax"
+                                              read-only="!detector.monitorado"
+                                              data-ng-model="detector.tempoDeteccaoPermanente">
+                                          </influunt-knob>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-white" ng-click="configurarDetector(currentDetector)" data-dismiss="modal">{{ 'geral.crud.fechar' | translate }}</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td data-ng-repeat="estagio in currentEstagios track by $index"
                             data-ng-class="{disabled: estagio.temDetector && detector.estagio.idJson !== estagio.idJson}"
@@ -109,54 +156,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL -->
-  <div class="modal inmodal" id="Config" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog associacao-modal">
-      <div class="modal-content animated bounceInRight">
-        <div class="modal-header">
-          <h4 class="modal-title">Configuração do detector <strong>{{ currentDetector | nomeDetector }}</strong></h4>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div data-ng-if="currentDetector" class="col-lg-12 col-sm-12">
-              <div class="col-lg-4 col-sm-4 estagio-detalhe">
-                <input type="checkbox" ichecks data-ng-model="currentDetector.monitorado"
-                data-if-unchecked="limpaTempoDeteccao(currentDetector)" data-if-checked="atribuiTempoDeteccao(currentDetector)">
-                <strong>{{ 'controladores.associacaoDetectores.monitoramentoFalha' | translate }}</strong>
-              </div>
-              <div class="knob">
-                <div class="col-lg-4 col-sm-4 text-center knob-item">
-                  <influunt-knob
-                      title="{{ 'controladores.associacaoDetectores.ausencia' | translate }}"
-                      label="MIN"
-                      min="objeto.ausenciaDeteccaoMin"
-                      max="objeto.ausenciaDeteccaoMax"
-                      read-only="!currentDetector.monitorado"
-                      data-ng-model="currentDetector.tempoAusenciaDeteccao">
-                  </influunt-knob>
-                </div>
-                <div class="col-lg-4 col-sm-4 text-center knob-item">
-                  <influunt-knob
-                      title="{{ 'controladores.associacaoDetectores.deteccao' | translate }}"
-                      label="MIN"
-                      min="objeto.deteccaoPermanenteMin"
-                      max="objeto.deteccaoPermanenteMax"
-                      read-only="!currentDetector.monitorado"
-                      data-ng-model="currentDetector.tempoDeteccaoPermanente">
-                  </influunt-knob>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-white" ng-click="configurarDetector(currentDetector)" data-dismiss="modal">{{ 'geral.crud.fechar' | translate }}</button>
         </div>
       </div>
     </div>

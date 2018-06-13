@@ -41,6 +41,10 @@ public class RangeUtils {
 
     public InfluuntRange TEMPO_DETECCAO_PERMANENTE;
 
+    public InfluuntRange TEMPO_AUSENCIA_DETECCAO_PEDESTRE;
+
+    public InfluuntRange TEMPO_DETECCAO_PERMANENTE_PEDESTRE;
+
     private Integer defaultMaximoPermanenciaEstagioVeicular;
 
     private RangeUtils(FaixasDeValores valores) {
@@ -65,6 +69,8 @@ public class RangeUtils {
         TEMPO_VERDE = new InfluuntRange<>(valores.getTempoVerdeMin(), valores.getTempoVerdeMax());
         TEMPO_AUSENCIA_DETECCAO = new InfluuntRange<>(valores.getTempoAusenciaDeteccaoMin(), valores.getTempoAusenciaDeteccaoMax());
         TEMPO_DETECCAO_PERMANENTE = new InfluuntRange<>(valores.getTempoDeteccaoPermanenteMin(), valores.getTempoDeteccaoPermanenteMax());
+        TEMPO_AUSENCIA_DETECCAO_PEDESTRE = new InfluuntRange<>(valores.getTempoAusenciaDeteccaoPedestreMin(), valores.getTempoAusenciaDeteccaoPedestreMax());
+        TEMPO_DETECCAO_PERMANENTE_PEDESTRE = new InfluuntRange<>(valores.getTempoDeteccaoPermanentePedestreMin(), valores.getTempoDeteccaoPermanentePedestreMax());
     }
 
     public static RangeUtils getInstance(FaixasDeValores valores) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install4j version="7.0.3" transformSequenceNumber="7">
-  <directoryPresets config="/Users/pedropires/Downloads/certificado_raro_labs.p12" />
-  <application name="Influunt - Controlador Virtual" distributionSourceDir="" applicationId="3252-6417-6122-6678" mediaDir="/Users/pedropires/Projects/influunt/influunt/influunt-bin/instaladores/controlador_virtual" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="influunt" publisher="Raro Läbs" publisherWeb="http://www.rarolabs.com.br" version="1.9" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="b2f15a74cffacf1" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+<install4j version="7.0.4" transformSequenceNumber="7">
+  <directoryPresets config="/Users/leonardoherbert/Downloads/rarolabs_2017/rarolabs_2017.p12" />
+  <application name="Influunt - Controlador Virtual" distributionSourceDir="" applicationId="3252-6417-6122-6678" mediaDir="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-bin/instaladores/controlador_virtual" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="influunt" publisher="Raro Labs" publisherWeb="http://www.rarolabs.com.br" version="1.0.12" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="true" macSignature="????" macVolumeId="b2f15a74cffacf1" javaMinVersion="1.8" javaMaxVersion="1.8" allowBetaVM="false" jdkMode="runtimeJre" jdkName="JDK 1.8">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="pt_BR" customLocalizationFile="" />
       <additionalLanguages />
@@ -13,7 +13,7 @@
     </searchSequence>
     <variables />
     <mergedProjects />
-    <codeSigning macEnabled="false" macPkcs12File="/Users/leonardo/Downloads/chave_rarolabs/rarolabs.p12" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="/Users/pedropires/Downloads/certificado_raro_labs.p12" />
+    <codeSigning macEnabled="false" macPkcs12File="/Users/leonardo/Downloads/chave_rarolabs/rarolabs.p12" windowsEnabled="true" windowsKeySource="pkcs12" windowsPvkFile="" windowsSpcFile="" windowsPkcs12File="/Users/leonardoherbert/Downloads/rarolabs_2017/rarolabs_2017.p12" />
   </application>
   <files keepModificationTimes="false" missingFilesStrategy="warn" globalExcludeSuffixes="" defaultOverwriteMode="4" defaultUninstallMode="0" launcherOverwriteMode="3" defaultFileMode="644" defaultDirMode="755">
     <filesets />
@@ -22,7 +22,7 @@
       <mountPoint id="22" root="" location="" mode="755" />
     </mountPoints>
     <entries>
-      <dirEntry mountPoint="22" file="/Users/pedropires/Projects/influunt/influunt/influunt-api/modules/influunt-device/target/universal/influunt-device-0.1.0" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="influunt-device-0.1.0" excludeSuffixes="" dirMode="755" overrideDirMode="false">
+      <dirEntry mountPoint="22" file="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-api/modules/influunt-device/target/universal/influunt-device-0.1.0" overwriteMode="4" shared="false" fileMode="644" uninstallMode="0" overrideFileMode="false" overrideOverwriteMode="false" overrideUninstallMode="false" entryMode="direct" subDirectory="influunt-device-0.1.0" excludeSuffixes="" dirMode="755" overrideDirMode="false">
         <exclude />
       </dirEntry>
     </entries>
@@ -33,7 +33,7 @@
       <executable name="influunt" type="1" iconSet="true" iconFile="" executableDir="lib" redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="true" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="requireAdministrator" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false">
         <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" />
       </executable>
-      <splashScreen show="true" width="0" height="0" bitmapFile="/Users/pedropires/Projects/influunt/influunt/influunt-app/app/images/simbolo.png" textOverlay="false">
+      <splashScreen show="true" width="0" height="0" bitmapFile="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-app/app/images/simbolo.png" textOverlay="false">
         <text>
           <statusLine x="20" y="20" text="" fontSize="8" fontColor="0,0,0" bold="false" />
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
@@ -59,11 +59,11 @@
         <content />
       </infoPlist>
       <iconImageFiles>
-        <file path="/Users/pedropires/Projects/influunt/influunt/influunt-app/app/images/simbolo32.png" />
-        <file path="/Users/pedropires/Projects/influunt/influunt/influunt-app/app/images/simbolo64.png" />
-        <file path="/Users/pedropires/Projects/influunt/influunt/influunt-app/app/images/simbolo128.png" />
-        <file path="/Users/pedropires/Projects/influunt/influunt/influunt-app/app/images/simbolo256.png" />
-        <file path="/Users/pedropires/Projects/influunt/influunt/influunt-app/app/images/simbolo512.png" />
+        <file path="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-app/app/images/simbolo32.png" />
+        <file path="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-app/app/images/simbolo64.png" />
+        <file path="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-app/app/images/simbolo128.png" />
+        <file path="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-app/app/images/simbolo256.png" />
+        <file path="/Users/leonardoherbert/ProjetosRaro/influunt/influunt-app/app/images/simbolo512.png" />
       </iconImageFiles>
     </launcher>
   </launchers>

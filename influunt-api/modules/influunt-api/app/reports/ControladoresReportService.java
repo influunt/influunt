@@ -225,7 +225,9 @@ public class ControladoresReportService extends ReportService<Controlador> {
                 }
 
                 Endereco endereco = (anel != null) ? anel.getEndereco() : controlador.getEndereco();
+                String date = InfluuntDateTimeSerializer.parse(new DateTime(falha.getTimestamp()));
                 itens.addObject()
+                    .put("dataHora", date)
                     .put("clc", controlador.getCLC())
                     .put("cla", anel != null ? anel.getCLA() : "TODOS OS ANÉIS APRESENTAM FALHAS")
                     .putPOJO(ENDERECO, endereco.nomeEndereco())
