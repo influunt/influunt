@@ -3,21 +3,25 @@ package controllers.api.monitoramento;
 import be.objectify.deadbolt.java.actions.DeferredDeadbolt;
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.Erro;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mongodb.Mongo;
 import models.*;
 import org.jetbrains.annotations.NotNull;
+import org.jongo.MongoCursor;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
-import status.AlarmesFalhasControlador;
-import status.StatusConexaoControlador;
-import status.StatusControladorFisico;
-import status.TrocaDePlanoControlador;
+import status.*;
+import utils.InfluuntStatusControllers;
 
+import javax.persistence.Id;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -32,7 +36,7 @@ import java.util.stream.Collectors;
 public class MonitoramentoController extends Controller {
 
 
-    public CompletionStage<Result> ultimoStatusDosControladores() {
+    public CompletionStage<Result> ultimoStatusDosControladores() throws IOException {
         Map<String, String[]> params = ctx().request().queryString();
         Integer limiteQueryFalhas = params.containsKey("limite_alarmes_falhas") ? Integer.parseInt(params.get("limite_alarmes_falhas")[0]) : null;
         Long inicioIntervalo = params.containsKey("inicio_intervalo") ? Long.parseLong(params.get("inicio_intervalo")[0]) : null;
@@ -41,10 +45,15 @@ public class MonitoramentoController extends Controller {
         Usuario usuario = getUsuario();
 
         if (usuario == null) {
-            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não econtrado", "")))));
+            return CompletableFuture.completedFuture(unauthorized(Json.toJson(Collections.singletonList(new Erro("clonar", "usuário não encontrado", "")))));
         }
 
-        List<ControladorFisico> todosControladores = ControladorFisico.getControladoresPorUsuario(usuario);
+        StatusAtualControlador statusAtualControlador = new StatusAtualControlador();
+        if(statusAtualControlador.count() == 0){
+            InfluuntStatusControllers influuntStatusControllers = new InfluuntStatusControllers();
+        }
+
+//        List<ControladorFisico> todosControladores = ControladorFisico.getControladoresPorUsuario(usuario);
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
@@ -54,16 +63,29 @@ public class MonitoramentoController extends Controller {
         Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladoresIds);
 
+
+        Map<String, Map<String, Float>> todosControladores = getStatusTodosControladores();
+
+//        long start_quant = System.currentTimeMillis();
+//        HashMap<String, Integer> quantidadeDeAneisPorControlador = getQuantidadeDeAneisPorControlador(todosControladores);
+//        long elapsed_quant = System.currentTimeMillis() - start_quant;
+
+//        long start = System.currentTimeMillis();
+//        HashMap<String, String> statusControladoresLogicos = getStatusControladoresLogicos(todosControladores);
+//        long elapsed = System.currentTimeMillis() - start;
+
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
         retorno.set("erros", errosToJson(erros));
         retorno.set("modosOperacoes", Json.toJson(modosOperacoes));
         retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
-        retorno.set("aneisPorControlador", Json.toJson(getQuantidadeDeAneisPorControlador(todosControladores)));
-        retorno.set("statusControladoresLogicos", Json.toJson(getStatusControladoresLogicos(todosControladores)));
+//        retorno.set("aneisPorControlador", Json.toJson(quantidadeDeAneisPorControlador));
+//        retorno.set("statusControladoresLogicos", Json.toJson(statusControladoresLogicos));
+//        retorno.set("tempoBuscarQuantidadeAneis", Json.toJson(elapsed_quant));
+//        retorno.set("tempoBuscarStatusControladoresLogicos", Json.toJson(elapsed));
 
-        return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
+        return CompletableFuture.completedFuture(ok(retorno));
     }
 
     public CompletionStage<Result> ultimoStatusDosAneis() {
@@ -152,6 +174,23 @@ public class MonitoramentoController extends Controller {
         });
 
         return controladores;
+    }
+
+    private static class StatusTodosControladores {
+        public Map<String, Map<String, Float>> status;
+    }
+
+    private Map getStatusTodosControladores() throws IOException {
+
+        Map<String, Map<String, Float>> status = null;
+
+        StatusAtualControlador statusAtualControlador = new StatusAtualControlador();
+        MongoCursor<StatusTodosControladores> statusTodosControladoresObj = statusAtualControlador.find().as(StatusTodosControladores.class);
+        while(statusTodosControladoresObj.hasNext()){
+            status = statusTodosControladoresObj.next().status;
+        }
+        statusTodosControladoresObj.close();
+        return status;
     }
 
     private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {
