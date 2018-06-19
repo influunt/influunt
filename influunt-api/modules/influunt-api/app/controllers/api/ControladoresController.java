@@ -43,16 +43,21 @@ public class ControladoresController extends Controller {
     @Inject
     private InfluuntContextManager contextManager;
 
+    public boolean stepAneis;
+    public int aneisAnterior;
+
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(bodyArea)")
     public CompletionStage<Result> dadosBasicos() {
+        stepAneis = true;
         return doStep(javax.validation.groups.Default.class);
     }
 
     @Transactional
     @Dynamic(value = "ControladorAreaAuth(body)")
     public CompletionStage<Result> aneis() {
+        stepAneis = true;
         return doStep(javax.validation.groups.Default.class, ControladorAneisCheck.class);
     }
 
@@ -154,10 +159,16 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "controlador não pode ser clonado", "")))));
         }
 
+        StatusVersao statusAnterior = controlador.getStatusVersao();
         Controlador controladorEdicao = controladorService.criarCloneControlador(controlador, usuario);
         if (controladorEdicao == null) {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "erro ao clonar controlador", "")))));
         }
+
+        int nAneis = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
+        controlador.atualizarStatusControlador(StatusVersao.EDITANDO, statusAnterior,
+            1, 1, nAneis, nAneis);
+
         return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controladorEdicao, Cidade.find.all(), RangeUtils.getInstance(null))));
     }
 
@@ -182,8 +193,14 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("clonar", "plano não pode ser clonado", "")))));
         }
 
+        StatusVersao statusAnterior = controlador.getStatusVersao();
         if (controladorService.criarClonePlanos(controlador, usuario)) {
             controlador.refresh();
+
+            int nAneis = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
+            controlador.atualizarStatusControlador(StatusVersao.EDITANDO, statusAnterior,
+                1, 1, nAneis, nAneis);
+
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
@@ -211,8 +228,14 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(Collections.singletonList(new Erro("editar", "tabela horária não pode ser clonada", "")))));
         }
 
+        StatusVersao statusAnterior = controlador.getStatusVersao();
         if (controladorService.criarCloneTabelaHoraria(controlador, getUsuario())) {
             controlador.refresh();
+
+            int nAneis = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
+            controlador.atualizarStatusControlador(StatusVersao.EDITANDO, statusAnterior,
+                1, 1, nAneis, nAneis);
+
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
 
@@ -438,7 +461,14 @@ public class ControladoresController extends Controller {
                     versaoControlador.update();
                 }
             }
+            StatusVersao statusAnterior = controlador.getStatusVersao();
+            int aneisAtual = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
+
             controlador.finalizar();
+
+            controlador.atualizarStatusControlador(StatusVersao.CONFIGURADO, statusAnterior,
+                                                  1, 1, aneisAtual, aneisAnterior);
+
             return CompletableFuture.completedFuture(ok());
         }
     }
@@ -451,6 +481,11 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(notFound());
         } else {
             controlador.ativar();
+
+            int nAneis = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
+            controlador.atualizarStatusControlador(StatusVersao.SINCRONIZADO, StatusVersao.CONFIGURADO,
+                                                  1, 1, nAneis, nAneis);
+
             return CompletableFuture.completedFuture(ok());
         }
     }
@@ -542,6 +577,11 @@ public class ControladoresController extends Controller {
             return CompletableFuture.completedFuture(status(UNPROCESSABLE_ENTITY, Json.toJson(erros)));
         } else {
             if (controladorJaExiste) {
+                if(stepAneis){
+                    Controlador controlador_anterior = Controlador.find.byId(controlador.getId());
+                    aneisAnterior = (int) controlador_anterior.getAneis().stream().filter(Anel::isAtivo).count();
+                    stepAneis = false;
+                }
                 controlador.setAtualizando(true);
                 controlador.update();
             } else {
@@ -554,9 +594,11 @@ public class ControladoresController extends Controller {
                 controladorFisico.setArea(controlador.getArea());
                 controlador.save();
                 controladorFisico.save();
-            }
-            Controlador controlador1 = Controlador.find.byId(controlador.getId());
 
+                controlador.atualizarStatusControlador(StatusVersao.EM_CONFIGURACAO, StatusVersao.EM_CONFIGURACAO, 1, 0, 0, 0);
+            }
+
+            Controlador controlador1 = Controlador.find.byId(controlador.getId());
             return CompletableFuture.completedFuture(ok(new ControladorCustomSerializer().getControladorJson(controlador1, Cidade.find.all(), RangeUtils.getInstance(null))));
         }
     }
