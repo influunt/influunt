@@ -1094,7 +1094,7 @@ public class Controlador extends Model implements Cloneable, Serializable {
         String parameters = "{$inc: { status."+versaoAnteriorControlador+".nControladores: "+(-nControladoresAnterior)+", "+
                                      "status."+versaoAnteriorControlador+".nAneis: "+(-nAneisAnterior)+", "+
                                      "status."+versaoAtualControlador+".nControladores: "+nControladoresAtual+", "+
-                                     "status."+versaoAtualControlador+".nAneis: "+(-nAneisAtual)+"}}";
+                                     "status."+versaoAtualControlador+".nAneis: "+nAneisAtual+"}}";
 
         statusAtualControlador.update("{}", parameters);
     }

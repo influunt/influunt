@@ -53,7 +53,7 @@ public class MonitoramentoController extends Controller {
             InfluuntStatusControllers influuntStatusControllers = new InfluuntStatusControllers();
         }
 
-//        List<ControladorFisico> todosControladores = ControladorFisico.getControladoresPorUsuario(usuario);
+        Map<String, Map<String, Float>> statusTodosControladoresLogicos = getStatusTodosControladores();
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
@@ -63,29 +63,13 @@ public class MonitoramentoController extends Controller {
         Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladoresIds);
 
-        long start = System.currentTimeMillis();
-        Map<String, Map<String, Float>> statusTodosControladoresLogicos = getStatusTodosControladores();
-        long elapsed = System.currentTimeMillis() - start;
-
-//        long start_quant = System.currentTimeMillis();
-//        HashMap<String, Integer> quantidadeDeAneisPorControlador = getQuantidadeDeAneisPorControlador(todosControladores);
-//        long elapsed_quant = System.currentTimeMillis() - start_quant;
-
-//        long start = System.currentTimeMillis();
-//        HashMap<String, String> statusControladoresLogicos = getStatusControladoresLogicos(todosControladores);
-//        long elapsed = System.currentTimeMillis() - start;
-
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         retorno.set("status", Json.toJson(status));
         retorno.set("onlines", Json.toJson(onlines));
         retorno.set("erros", errosToJson(erros));
         retorno.set("modosOperacoes", Json.toJson(modosOperacoes));
         retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
-//        retorno.set("aneisPorControlador", Json.toJson(quantidadeDeAneisPorControlador));
-//        retorno.set("statusControladoresLogicos", Json.toJson(statusControladoresLogicos));
-//        retorno.set("tempoBuscarQuantidadeAneis", Json.toJson(elapsed_quant));
         retorno.set("statusControladoresLogicos", Json.toJson(statusTodosControladoresLogicos));
-        retorno.set("tempoBuscarStatusControladoresLogicos", Json.toJson(elapsed));
 
         return CompletableFuture.completedFuture(ok(retorno));
     }

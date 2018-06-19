@@ -228,15 +228,15 @@ angular.module('influuntApp')
       };
 
       atualizaStatusLogicos = function() {
-        $scope.statusLogicoControladores = {}
+        $scope.statusLogicoControladores = {};
         for (var controlador in $scope.statusObj.statusControladoresLogicos){
           $scope.statusLogicoControladores[controlador] = $scope.statusObj.statusControladoresLogicos[controlador].nControladores;
-        };
+        }
 
-        $scope.statusLogicoAneis = {}
+        $scope.statusLogicoAneis = {};
         for (var controlador in $scope.statusObj.statusControladoresLogicos){
           $scope.statusLogicoAneis[controlador] = $scope.statusObj.statusControladoresLogicos[controlador].nAneis;
-        };
+        }
 
         $scope.statusLogicosChart = [
           {
@@ -253,7 +253,7 @@ angular.module('influuntApp')
           },
           {
             label: $filter('translate')('EDITANDO'),
-            value: $scope.statusObj.statusControladoresLogicos.EM_REVISAO.nControladores || 0
+            value: $scope.statusObj.statusControladoresLogicos.EDITANDO.nControladores || 0
           }
         ];
 

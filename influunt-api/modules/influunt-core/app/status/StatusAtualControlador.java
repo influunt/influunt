@@ -21,14 +21,6 @@ public class StatusAtualControlador {
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
-    private Map<String, Object> documentMap = new HashMap<>();
-
-    public StatusAtualControlador(){}
-
-//    public StatusAtualControlador(Map map) {
-//        documentMap = map;
-//    }
-
     public static MongoCollection status() {
         return jongo.getCollection(COLLECTION);
     }

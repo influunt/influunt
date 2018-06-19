@@ -75,7 +75,7 @@ public class InfluuntStatusControllers {
 
         documentMapStatusQuantidadeRevisao.put("nControladores", totalEdit[0]);
         documentMapStatusQuantidadeRevisao.put("nAneis", totalAneisEdit[0]);
-        documentMapStatus.put("EM_REVISAO", documentMapStatusQuantidadeRevisao);
+        documentMapStatus.put("EDITANDO", documentMapStatusQuantidadeRevisao);
 
         documentMap.put("status", documentMapStatus);
 
