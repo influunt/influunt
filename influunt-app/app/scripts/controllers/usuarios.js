@@ -15,6 +15,7 @@ angular.module('influuntApp')
       $scope.inicializaNovoCrud('usuarios');
 
       $scope.pesquisa = {
+        orderField: 'nome', 
         campos: [
           {
             nome: 'nome',
