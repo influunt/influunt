@@ -7,9 +7,6 @@ import org.jongo.MongoCollection;
 import play.api.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  * Created by brunaseewald on 14/2/2018.

@@ -1,10 +1,8 @@
 package utils;
 
-import com.google.gson.Gson;
 import models.Controlador;
 import models.StatusVersao;
 import play.libs.Json;
-import scala.util.parsing.json.JSONObject;
 import status.StatusAtualControlador;
 
 import java.util.HashMap;

@@ -14,7 +14,6 @@ import json.ControladorCustomDeserializer;
 import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
-import org.jongo.MongoCollection;
 import play.libs.Json;
 import status.StatusAtualControlador;
 import status.StatusConexaoControlador;

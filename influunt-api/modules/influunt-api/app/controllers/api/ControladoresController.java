@@ -20,7 +20,6 @@ import security.InfluuntContextManager;
 import security.Secured;
 import services.ControladorService;
 import services.FalhasEAlertasService;
-import status.StatusAtualControlador;
 import utils.ImposicaoHelper;
 import utils.InfluuntQueryBuilder;
 import utils.InfluuntResultBuilder;
@@ -45,7 +44,7 @@ public class ControladoresController extends Controller {
     private InfluuntContextManager contextManager;
 
     public boolean stepAneis;
-    public int aneisAnterior = 0;
+    public int aneisAnterior;
 
 
     @Transactional
