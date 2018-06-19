@@ -31,6 +31,10 @@ public class AgendamentoTrocaPlanoDeserializer extends JsonDeserializer<Agendame
             agendamento.setImpostoPorFalha(node.get("impostoPorFalha").asBoolean());
         }
 
+        if (node.has("impostoForcado")) {
+            agendamento.setImpostoForcado(node.get("impostoForcado").asBoolean());
+        }
+
         if (node.has("plano")) {
             Plano plano = new Plano();
             plano.setPosicao(node.get("plano").get("posicao").asInt());

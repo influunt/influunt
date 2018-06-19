@@ -26,6 +26,6 @@ public class RemoverAmareloIntermitenteHandle extends GerenciadorDeEventos {
         Plano plano = (Plano) eventoMotor.getParams()[1];
         this.plano.setImpostoPorFalha(false);
         terminaTempoEstagio(this.intervalos, this.contadorIntervalo);
-        gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp(), true));
+        gerenciadorDeEstagios.trocarPlano(new AgendamentoTrocaPlano(null, plano, eventoMotor.getTimestamp(), true, false));
     }
 }

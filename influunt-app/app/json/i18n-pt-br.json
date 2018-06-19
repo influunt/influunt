@@ -1030,6 +1030,7 @@
   "NORMAL": "Normal",
   "COM_FALHA": "Com Falha",
   "AMARELO_INTERMITENTE_POR_FALHA": "Amarelo Intermitente Por Falha",
+  "AMARELO_INTERMITENTE_FORCADO": "Amarelo Intermitente Forçado",
   "APAGADO_POR_FALHA": "Apagado Por Falha",
   "IMPOSICAO": "Imposição",
   "MANUAL": "Manual",

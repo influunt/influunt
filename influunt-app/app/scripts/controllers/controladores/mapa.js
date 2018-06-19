@@ -331,6 +331,7 @@ angular.module('influuntApp')
           case 'MANUAL':
             return 'images/leaflet/influunt-icons/anel-controle-manual.svg';
           case 'AMARELO_INTERMITENTE_POR_FALHA':
+          case 'AMARELO_INTERMITENTE_FORCADO':
             return 'images/leaflet/influunt-icons/anel-controle-local.svg';
           case 'APAGADO_POR_FALHA':
             return 'images/leaflet/influunt-icons/anel-offline.svg';

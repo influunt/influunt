@@ -82,7 +82,7 @@ public class TrocaDePlanosControladorTest extends WithInfluuntApplicationNoAuthe
         TrocaDePlanoControlador.log(System.currentTimeMillis(),
             "2",
             "1",
-            Json.toJson(new AgendamentoTrocaPlano(null, plano, new DateTime(), true))
+            Json.toJson(new AgendamentoTrocaPlano(null, plano, new DateTime(), true, false))
         );
 
     }

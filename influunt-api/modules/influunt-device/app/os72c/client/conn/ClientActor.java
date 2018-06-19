@@ -42,7 +42,7 @@ public class ClientActor extends UntypedActor {
                     } else if (t instanceof RuntimeException && "RESTART".equals(t.getMessage())) {
                         return SupervisorStrategy.restart();
                     } else {
-                        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "Ocorreceu um erro no processamento de mensagens. a mensagem será desprezada");
+                        InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "Ocorreu um erro no processamento de mensagens. a mensagem será desprezada");
                         return SupervisorStrategy.resume();
                     }
                 }

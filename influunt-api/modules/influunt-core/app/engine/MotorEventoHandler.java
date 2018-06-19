@@ -90,6 +90,7 @@ public class MotorEventoHandler {
             case FALHA_WATCH_DOG:
             case FALHA_MEMORIA:
             case FALHA_AMARELO_INTERMITENTE:
+            case FALHA_AMARELO_INTERMITENTE_FORCADO:
             case FALHA_SEMAFORO_APAGADO:
                 handleControlador(eventoMotor);
                 break;

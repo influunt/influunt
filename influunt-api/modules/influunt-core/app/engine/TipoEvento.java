@@ -45,6 +45,7 @@ public enum TipoEvento {
     FALHA_ACERTO_RELOGIO_GPS(TipoEventoControlador.FALHA, 13, "Falha acerto relógio GPS", "Falha acerto relógio GPS", null),
     FALHA_AMARELO_INTERMITENTE(TipoEventoControlador.FALHA, 14, true, "Amarelo Intermitente", "Amarelo Intermitente", null),
     FALHA_SEMAFORO_APAGADO(TipoEventoControlador.FALHA, 15, true, "Semáforo apagado", "Semáforo apagado", null),
+    FALHA_AMARELO_INTERMITENTE_FORCADO(TipoEventoControlador.FALHA, 16, true, "Amarelo Intermitente", "Amarelo Intermitente", null),
 
 
     //Remocao de Falhas

@@ -32,6 +32,13 @@ public class PlanoService {
         return novoPlano;
     }
 
+    public static Plano gerarPlanoIntermitenteForcado(Plano plano) {
+        Plano novoPlano = gerarPlano(plano);
+        novoPlano.setModoOperacao(ModoOperacaoPlano.INTERMITENTE);
+        novoPlano.setImpostoForcado(true);
+        return novoPlano;
+    }
+
     private static Plano gerarPlano(Plano plano) {
         Plano novoPlano = CloneHelper.copyPrimitiveFields(plano);
 
