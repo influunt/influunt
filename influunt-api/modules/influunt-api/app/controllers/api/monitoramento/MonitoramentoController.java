@@ -63,8 +63,9 @@ public class MonitoramentoController extends Controller {
         Map<String, Map> modosOperacoes = TrocaDePlanoControlador.ultimoModoOperacaoDosControladoresPorAneis(controladoresIds);
         HashMap<String, Boolean> imposicaoPlanos = TrocaDePlanoControlador.ultimoStatusPlanoImposto(controladoresIds);
 
-
-        Map<String, Map<String, Float>> todosControladores = getStatusTodosControladores();
+        long start = System.currentTimeMillis();
+        Map<String, Map<String, Float>> statusTodosControladoresLogicos = getStatusTodosControladores();
+        long elapsed = System.currentTimeMillis() - start;
 
 //        long start_quant = System.currentTimeMillis();
 //        HashMap<String, Integer> quantidadeDeAneisPorControlador = getQuantidadeDeAneisPorControlador(todosControladores);
@@ -83,7 +84,8 @@ public class MonitoramentoController extends Controller {
 //        retorno.set("aneisPorControlador", Json.toJson(quantidadeDeAneisPorControlador));
 //        retorno.set("statusControladoresLogicos", Json.toJson(statusControladoresLogicos));
 //        retorno.set("tempoBuscarQuantidadeAneis", Json.toJson(elapsed_quant));
-//        retorno.set("tempoBuscarStatusControladoresLogicos", Json.toJson(elapsed));
+        retorno.set("statusControladoresLogicos", Json.toJson(statusTodosControladoresLogicos));
+        retorno.set("tempoBuscarStatusControladoresLogicos", Json.toJson(elapsed));
 
         return CompletableFuture.completedFuture(ok(retorno));
     }
