@@ -12,8 +12,10 @@ import play.mvc.Result;
 import play.routing.Router;
 import play.test.Helpers;
 import security.AuthToken;
+import status.StatusAtualControlador;
 import test.config.WithInfluuntApplicationAuthenticated;
 import test.models.ControladorTestUtil;
+import uk.co.panaxiom.playjongo.PlayJongo;
 
 import java.util.*;
 
@@ -38,6 +40,9 @@ public class AutorizacaoTest extends WithInfluuntApplicationAuthenticated {
 
     @Before
     public void setData() {
+        PlayJongo jongo = provideApp.injector().instanceOf(PlayJongo.class);
+        StatusAtualControlador.jongo = jongo;
+
         List<Router.RouteDocumentation> myRoutes = app.getWrappedApplication().routes().asJava().documentation();
         for (Router.RouteDocumentation doc : myRoutes) {
             String chave = doc.getHttpMethod() + " " + doc.getPathPattern();
