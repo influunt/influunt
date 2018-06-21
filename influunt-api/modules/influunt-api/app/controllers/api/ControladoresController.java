@@ -562,11 +562,9 @@ public class ControladoresController extends Controller {
         }
 
         Controlador controlador = new ControladorCustomDeserializer().getControladorFromJson(request().body().asJson());
-        Controlador controladorAnterior = Controlador.find.byId(controlador.getId());
 
         boolean controladorJaExiste = controlador.getId() != null;
-
-        if (controladorJaExiste && controladorAnterior == null) {
+        if (controladorJaExiste && Controlador.find.byId(controlador.getId()) == null) {
             return CompletableFuture.completedFuture(notFound());
         }
 
@@ -576,6 +574,7 @@ public class ControladoresController extends Controller {
         } else {
             if (controladorJaExiste) {
                 if (stepAneis) {
+                    Controlador controladorAnterior = Controlador.find.byId(controlador.getId());
                     int aneisAnterior = (int) controladorAnterior.getAneis().stream().filter(Anel::isAtivo).count();
                     int aneisAtual = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
                     controlador.atualizarStatusControlador(controladorAnterior.getStatusControladorReal(), controladorAnterior.getStatusControladorReal(), 0, 0, aneisAtual-aneisAnterior, 0);
