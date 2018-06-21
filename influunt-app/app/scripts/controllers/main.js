@@ -228,38 +228,32 @@ angular.module('influuntApp')
       };
 
       atualizaStatusLogicos = function() {
-        $scope.statusLogicoControladores = _.chain($scope.statusObj.statusControladoresLogicos).values().countBy(_.identity).value();
-        $scope.statusLogicoAneis = _
-          .chain($scope.statusObj.statusControladoresLogicos)
-          .map(function(value, key) {
-             return {
-               status: value,
-               quantidadeAneis: $scope.statusObj.aneisPorControlador[key]
-             };
-           })
-           .reduce(function(result, obj) {
-             result[obj.status] = result[obj.status] || 0;
-             result[obj.status] += obj.quantidadeAneis;
-             return result;
-           }, {})
-           .value();
+        $scope.statusLogicoControladores = {};
+        for (var controlador in $scope.statusObj.statusControladoresLogicos){
+          $scope.statusLogicoControladores[controlador] = $scope.statusObj.statusControladoresLogicos[controlador].nControladores;
+        }
+
+        $scope.statusLogicoAneis = {};
+        for (var controlador in $scope.statusObj.statusControladoresLogicos){
+          $scope.statusLogicoAneis[controlador] = $scope.statusObj.statusControladoresLogicos[controlador].nAneis;
+        }
 
         $scope.statusLogicosChart = [
           {
             label: $filter('translate')('EM_CONFIGURACAO'),
-            value: $scope.statusLogicoControladores.EM_CONFIGURACAO || 0
+            value: $scope.statusObj.statusControladoresLogicos.EM_CONFIGURACAO.nControladores || 0
           },
           {
             label: $filter('translate')('CONFIGURADO'),
-            value: $scope.statusLogicoControladores.CONFIGURADO || 0
+            value: $scope.statusObj.statusControladoresLogicos.CONFIGURADO.nControladores || 0
           },
           {
             label: $filter('translate')('SINCRONIZADO'),
-            value: $scope.statusLogicoControladores.SINCRONIZADO || 0
+            value: $scope.statusObj.statusControladoresLogicos.SINCRONIZADO.nControladores || 0
           },
           {
             label: $filter('translate')('EDITANDO'),
-            value: $scope.statusLogicoControladores.EDITANDO || 0
+            value: $scope.statusObj.statusControladoresLogicos.EDITANDO.nControladores || 0
           }
         ];
 

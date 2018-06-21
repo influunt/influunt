@@ -15,6 +15,7 @@ import json.deserializers.InfluuntDateTimeDeserializer;
 import json.serializers.InfluuntDateTimeSerializer;
 import org.joda.time.DateTime;
 import play.libs.Json;
+import status.StatusAtualControlador;
 import status.StatusConexaoControlador;
 import utils.DBUtils;
 import utils.RangeUtils;
@@ -1081,5 +1082,19 @@ public class Controlador extends Model implements Cloneable, Serializable {
 
     public void setAtualizando(boolean atualizando) {
         this.atualizando = atualizando;
+    }
+
+
+    public void atualizarStatusControlador(StatusVersao versaoAtualControlador, StatusVersao versaoAnteriorControlador,
+                                           int nControladoresAtual, int nControladoresAnterior, int nAneisAtual, int nAneisAnterior) {
+
+        StatusAtualControlador statusAtualControlador = new StatusAtualControlador();
+
+        String parameters = "{$inc: { status." + versaoAnteriorControlador + ".nControladores: " + (-nControladoresAnterior) + ", " +
+            "status." + versaoAnteriorControlador + ".nAneis: " + (-nAneisAnterior) + ", " +
+            "status." + versaoAtualControlador + ".nControladores: " + nControladoresAtual + ", " +
+            "status." + versaoAtualControlador + ".nAneis: " + nAneisAtual + "}}";
+
+        statusAtualControlador.update("{}", parameters);
     }
 }

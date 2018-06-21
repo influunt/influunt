@@ -74,8 +74,8 @@ public class ControladorUtil {
             aneisClonados.add(anelClonado);
 
             /*
-            * GRUPOS SEMAFORICOS
-            */
+             * GRUPOS SEMAFORICOS
+             */
             Map<UUID, GrupoSemaforico> gruposSemaforicos = new HashMap<>();
             anel.getGruposSemaforicos().forEach(grupoSemaforico -> {
                 GrupoSemaforico grupoAux = copyPrimitiveFields(grupoSemaforico);

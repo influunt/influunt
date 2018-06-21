@@ -9,7 +9,6 @@ import logger.InfluuntLogger;
 import logger.NivelLog;
 import logger.TipoLog;
 import models.EstagioPlano;
-import models.ModoOperacaoPlano;
 import models.Plano;
 
 import java.util.List;

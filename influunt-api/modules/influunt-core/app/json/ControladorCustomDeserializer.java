@@ -1398,6 +1398,38 @@ public class ControladorCustomDeserializer {
         return endereco;
     }
 
+//    private Endereco parseEndereco(JsonNode node) {
+//        Endereco endereco = new Endereco();
+//
+//        if (node.has("id")) {
+//            JsonNode id = node.get("id");
+//            if (!id.isNull()) {
+//                endereco.setId(UUID.fromString(id.asText()));
+//            }
+//        }
+//
+//        if (node.has("idJson")) {
+//            endereco.setIdJson(node.get("idJson").asText());
+//        }
+//
+//        endereco.setLocalizacao("Rua Paul Bouthilier");
+//        endereco.setLatitude(-19.9245);
+//        endereco.setLongitude(-43.9352);
+//
+//
+//        if (node.has("localizacao2")) {
+//            endereco.setLocalizacao2(node.get("localizacao2").asText());
+//        }
+//        if (node.has("alturaNumerica")) {
+//            endereco.setAlturaNumerica(node.get("alturaNumerica").asInt());
+//        }
+//        if (node.has("referencia")) {
+//            endereco.setReferencia(node.get("referencia").asText());
+//        }
+//
+//        return endereco;
+//    }
+
     private Area parseArea(JsonNode node) {
         Area area = new Area();
 

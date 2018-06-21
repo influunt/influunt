@@ -333,7 +333,7 @@ public class DeviceActor extends UntypedActor implements MotorCallback, DeviceBr
             if (eventoMotor.getParams() == null) {
                 eventoMotor.setParams(new Object[]{});
             }
-            
+
             motor.onEvento(eventoMotor);
         }
     }

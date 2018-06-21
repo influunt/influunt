@@ -145,6 +145,45 @@ public class ControladorTestUtil {
         return controlador;
     }
 
+    public Controlador getControladorVerdesConflitantes() {
+        Controlador controlador = getControladorGrupoSemaforicos();
+
+        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
+        anelAtivo.setDescricao("Anel 1");
+        anelAtivo.setAtivo(Boolean.TRUE);
+        Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
+        paulista.setAnel(anelAtivo);
+        paulista.setLocalizacao2("R. Bela Cintra");
+        anelAtivo.setEndereco(paulista);
+
+        anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
+        anelAtivo.getEstagios().forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
+
+        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
+        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
+
+        controlador.save();
+
+        GrupoSemaforico grupoSemaforico3 = anelAtivo.findGrupoSemaforicoByPosicao(3);
+        GrupoSemaforico grupoSemaforico4 = anelAtivo.findGrupoSemaforicoByPosicao(4);
+
+        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
+        GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.findGrupoSemaforicoByPosicao(1);
+        GrupoSemaforico grupoSemaforico2 = anelCom4Estagios.findGrupoSemaforicoByPosicao(2);
+
+        grupoSemaforico1.addVerdeConflitante(grupoSemaforico2);
+        grupoSemaforico2.addVerdeConflitante(grupoSemaforico1);
+        grupoSemaforico3.addVerdeConflitante(grupoSemaforico4);
+        grupoSemaforico4.addVerdeConflitante(grupoSemaforico3);
+
+        grupoSemaforico1.setDescricao("G1");
+        grupoSemaforico2.setDescricao("G2");
+        grupoSemaforico3.setDescricao("G3");
+        grupoSemaforico4.setDescricao("G4");
+
+        return controlador;
+    }
+
     public Controlador getControladorAssociacao() {
         Controlador controlador = getControladorVerdesConflitantes();
         controlador.save();
@@ -204,45 +243,6 @@ public class ControladorTestUtil {
 
         grupoSemaforicoNovo.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo);
         grupoSemaforicoNovo2.addEstagioGrupoSemaforico(estagioGrupoSemaforicoNovo2);
-
-        return controlador;
-    }
-
-    public Controlador getControladorVerdesConflitantes() {
-        Controlador controlador = getControladorGrupoSemaforicos();
-
-        Anel anelAtivo = controlador.getAneis().stream().filter(anel -> !anel.isAtivo()).findFirst().get();
-        anelAtivo.setDescricao("Anel 1");
-        anelAtivo.setAtivo(Boolean.TRUE);
-        Endereco paulista = new Endereco(1.0, 1.0, "Av. Paulista");
-        paulista.setAnel(anelAtivo);
-        paulista.setLocalizacao2("R. Bela Cintra");
-        anelAtivo.setEndereco(paulista);
-
-        anelAtivo.setEstagios(Arrays.asList(new Estagio(1), new Estagio(2)));
-        anelAtivo.getEstagios().forEach(estagio -> estagio.setTempoMaximoPermanencia(100));
-
-        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 3);
-        criarGrupoSemaforico(anelAtivo, TipoGrupoSemaforico.VEICULAR, 4);
-
-        controlador.save();
-
-        GrupoSemaforico grupoSemaforico3 = anelAtivo.findGrupoSemaforicoByPosicao(3);
-        GrupoSemaforico grupoSemaforico4 = anelAtivo.findGrupoSemaforicoByPosicao(4);
-
-        Anel anelCom4Estagios = controlador.getAneis().stream().filter(anel -> anel.isAtivo() && anel.getEstagios().size() == 4).findFirst().get();
-        GrupoSemaforico grupoSemaforico1 = anelCom4Estagios.findGrupoSemaforicoByPosicao(1);
-        GrupoSemaforico grupoSemaforico2 = anelCom4Estagios.findGrupoSemaforicoByPosicao(2);
-
-        grupoSemaforico1.addVerdeConflitante(grupoSemaforico2);
-        grupoSemaforico2.addVerdeConflitante(grupoSemaforico1);
-        grupoSemaforico3.addVerdeConflitante(grupoSemaforico4);
-        grupoSemaforico4.addVerdeConflitante(grupoSemaforico3);
-
-        grupoSemaforico1.setDescricao("G1");
-        grupoSemaforico2.setDescricao("G2");
-        grupoSemaforico3.setDescricao("G3");
-        grupoSemaforico4.setDescricao("G4");
 
         return controlador;
     }

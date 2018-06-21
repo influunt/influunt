@@ -1,8 +1,6 @@
 package os72c.client.virtual;
 
-import engine.EventoMotor;
 import engine.TipoEvento;
-import org.joda.time.DateTime;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
