@@ -4,6 +4,7 @@ import checks.Erro;
 import models.*;
 import org.junit.Before;
 import status.StatusAtualControlador;
+import status.StatusControladorFisico;
 import test.config.WithInfluuntApplicationNoAuthentication;
 import test.models.ControladorTestUtil;
 import uk.co.panaxiom.playjongo.PlayJongo;
@@ -21,6 +22,7 @@ public abstract class AbstractInfluuntControladorTest extends WithInfluuntApplic
     public void setUpModels() {
         PlayJongo jongo = provideApp.injector().instanceOf(PlayJongo.class);
         StatusAtualControlador.jongo = jongo;
+        StatusControladorFisico.jongo = jongo;
 
         Cidade cidade = new Cidade();
         cidade.setNome("São Paulo");
