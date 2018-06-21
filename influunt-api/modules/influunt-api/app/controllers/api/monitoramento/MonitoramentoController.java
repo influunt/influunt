@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import org.jetbrains.annotations.NotNull;
-import org.jongo.MongoCursor;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -45,11 +44,11 @@ public class MonitoramentoController extends Controller {
         }
 
         StatusAtualControlador statusAtualControlador = new StatusAtualControlador();
-        if(statusAtualControlador.count() == 0){
+        if (statusAtualControlador.count() == 0) {
             new InfluuntStatusControllers();
         }
 
-        Map<String, Map<String, Float>> statusTodosControladoresLogicos = getStatusTodosControladores();
+        Map<String, Map<String, Float>> statusTodosControladoresLogicos = StatusTodosControladores.getStatusTodosControladores(statusAtualControlador);
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
@@ -130,49 +129,6 @@ public class MonitoramentoController extends Controller {
         retorno.put("percentualOnline", percentual).put("clc", controlador.getCLC()).put("endereco", controlador.getNomeEndereco())
             .put("totalOnline", totalOnline).put("totalOffline", totalOffline).putPOJO("historico", status);
         return CompletableFuture.completedFuture(ok(Json.toJson(retorno)));
-    }
-
-//    private HashMap<String, Integer> getQuantidadeDeAneisPorControlador(List<ControladorFisico> controladoresFisicos) {
-//        HashMap<String, Integer> aneisPorControlador = new HashMap<>();
-//
-//        controladoresFisicos.stream().forEach(controladorFisico -> {
-//            aneisPorControlador.put(
-//                controladorFisico.getId().toString(),
-//                controladorFisico.getVersaoAtualControlador().getAneisAtivos().size()
-//            );
-//        });
-//
-//        return aneisPorControlador;
-//    }
-//
-//    private HashMap<String, String> getStatusControladoresLogicos(List<ControladorFisico> controladoresFisicos) {
-//        HashMap<String, String> controladores = new HashMap<>();
-//
-//        controladoresFisicos.stream().forEach(controladorFisico -> {
-//            controladores.put(
-//                controladorFisico.getId().toString(),
-//                controladorFisico.getVersaoAtualControlador().getStatusControladorReal().toString()
-//            );
-//        });
-//
-//        return controladores;
-//    }
-
-    private static class StatusTodosControladores {
-        public Map<String, Map<String, Float>> status;
-    }
-
-    private Map getStatusTodosControladores() throws IOException {
-
-        Map<String, Map<String, Float>> status = null;
-
-        StatusAtualControlador statusAtualControlador = new StatusAtualControlador();
-        MongoCursor<StatusTodosControladores> statusTodosControladoresObj = statusAtualControlador.find().as(StatusTodosControladores.class);
-        while(statusTodosControladoresObj.hasNext()){
-            status = statusTodosControladoresObj.next().status;
-        }
-        statusTodosControladoresObj.close();
-        return status;
     }
 
     private ArrayNode errosToJson(List<AlarmesFalhasControlador> erros) {

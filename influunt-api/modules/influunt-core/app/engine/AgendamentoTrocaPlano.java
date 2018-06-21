@@ -117,7 +117,9 @@ public class AgendamentoTrocaPlano {
         this.impostoPorFalha = impostoPorFalha;
     }
 
-    public boolean isImpostoForcado() { return impostoForcado; }
+    public boolean isImpostoForcado() {
+        return impostoForcado;
+    }
 
     public void setImpostoForcado(boolean impostoForcado) {
         this.impostoForcado = impostoForcado;

@@ -159,7 +159,7 @@ public class GrupoSemaforicoPlano extends Model implements Cloneable, Serializab
         return true;
     }
 
-//    @AssertTrue(groups = PlanosCheck.class,
+    //    @AssertTrue(groups = PlanosCheck.class,
 //        message = "Um grupo semafórico não associado a nenhum estágio da sequência do plano deve estar apagado.")
     public boolean isGrupoApagadoSeNaoAssociado() {
         if (getPlano().isModoOperacaoVerde() && !getPlano().isManual()) {

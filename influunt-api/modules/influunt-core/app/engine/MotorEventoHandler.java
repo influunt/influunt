@@ -2,7 +2,6 @@ package engine;
 
 import models.Anel;
 import models.GrupoSemaforico;
-import models.ModoOperacaoPlano;
 import models.TipoDetector;
 import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;

@@ -38,19 +38,19 @@ public class StatusAtualControlador {
         return status().findOne(statusControlador);
     }
 
-    public Find find(){
+    public Find find() {
         return status().find();
     }
 
-    public long count(){
+    public long count() {
         return status().count();
     }
 
-    public Aggregate aggregate(String query){
+    public Aggregate aggregate(String query) {
         return status().aggregate(query);
     }
 
-    public void update(String query, String parameters){
+    public void update(String query, String parameters) {
         status().update(query).upsert().with(parameters);
     }
 

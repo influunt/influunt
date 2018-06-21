@@ -38,22 +38,22 @@ public class InfluuntStatusControllers {
         final int[] totalAneisEdit = {0};
 
         todosControladores.stream().forEach(controlador -> {
-            if (controlador.getStatusVersao().equals(StatusVersao.EM_CONFIGURACAO)) {
+            if (controlador.getStatusControladorReal().equals(StatusVersao.EM_CONFIGURACAO)) {
                 totalEmConfig[0]++;
                 totalAneisEmConfig[0] += controlador.getAneisAtivos().size();
             }
 
-            if (controlador.getStatusVersao().equals(StatusVersao.CONFIGURADO)) {
+            if (controlador.getStatusControladorReal().equals(StatusVersao.CONFIGURADO)) {
                 totalConfig[0]++;
                 totalAneisConfig[0] += controlador.getAneisAtivos().size();
             }
 
-            if (controlador.getStatusVersao().equals(StatusVersao.SINCRONIZADO)) {
+            if (controlador.getStatusControladorReal().equals(StatusVersao.SINCRONIZADO)) {
                 totalSinc[0]++;
                 totalAneisSinc[0] += controlador.getAneisAtivos().size();
             }
 
-            if (controlador.getStatusVersao().equals(StatusVersao.EDITANDO)) {
+            if (controlador.getStatusControladorReal().equals(StatusVersao.EDITANDO)) {
                 totalEdit[0]++;
                 totalAneisEdit[0] += controlador.getAneisAtivos().size();
             }
