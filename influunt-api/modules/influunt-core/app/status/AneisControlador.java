@@ -1,20 +1,22 @@
 package status;
 
-import org.jongo.Aggregate;
 import org.jongo.Find;
 import org.jongo.FindOne;
 import org.jongo.MongoCollection;
 import play.api.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import java.util.HashMap;
+import java.util.List;
+
 
 /**
- * Created by brunaseewald on 14/6/2018.
+ * Created by brunaseewald on 22/6/2018.
  */
 
-public class StatusAtualControlador {
+public class AneisControlador {
 
-    public static final String COLLECTION = "status_atual_controlador";
+    public static final String COLLECTION = "aneis_por_controlador";
 
     public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
 
@@ -26,16 +28,16 @@ public class StatusAtualControlador {
         status().drop();
     }
 
-    public static void log() {
-        new StatusAtualControlador().save();
-    }
-
     public void insert() {
         status().insert(this);
     }
 
-    public FindOne findOne(String statusControlador) {
-        return status().findOne(statusControlador);
+    public FindOne findOne() {
+        return status().findOne();
+    }
+
+    public FindOne findOne(String query) {
+        return status().findOne(query);
     }
 
     public Find find() {
@@ -46,16 +48,7 @@ public class StatusAtualControlador {
         return status().count();
     }
 
-    public Aggregate aggregate(String query) {
-        return status().aggregate(query);
-    }
-
     public void update(String query, String parameters) {
         status().update(query).upsert().with(parameters);
     }
-
-    private void save() {
-        insert();
-    }
 }
-
