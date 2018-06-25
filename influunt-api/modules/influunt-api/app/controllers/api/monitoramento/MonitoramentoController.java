@@ -82,13 +82,14 @@ public class MonitoramentoController extends Controller {
     private HashMap<String, Integer> getQuantidadeDeAneisPorControlador(AneisControlador aneisControlador) throws IOException {
 
         HashMap<String, Integer> aneisTodosControladores = new HashMap<>();
-        Object[] controladores;
-
         MongoCursor<Map> todosControladores = aneisControlador.find().as(Map.class);
 
-        while(todosControladores.hasNext()) {
-            controladores = todosControladores.next().values().toArray();
-            aneisTodosControladores.put(controladores[0].toString(), Integer.valueOf(controladores[1].toString()));
+        while (todosControladores.hasNext()) {
+            for (Map.Entry entry : (Set<Map.Entry>) todosControladores.next().entrySet()) {
+                if (!"_id".equals(entry.getKey())) {
+                    aneisTodosControladores.put(entry.getKey().toString(), Integer.valueOf(entry.getValue().toString()));
+                }
+            }
         }
         todosControladores.close();
         return aneisTodosControladores;
