@@ -6,6 +6,7 @@ import org.junit.Before;
 import status.AneisControlador;
 import status.StatusAtualControlador;
 import status.StatusControladorFisico;
+import status.TrocaDePlanoControlador;
 import test.config.WithInfluuntApplicationNoAuthentication;
 import test.models.ControladorTestUtil;
 import uk.co.panaxiom.playjongo.PlayJongo;
@@ -25,6 +26,7 @@ public abstract class AbstractInfluuntControladorTest extends WithInfluuntApplic
         StatusAtualControlador.jongo = jongo;
         StatusControladorFisico.jongo = jongo;
         AneisControlador.jongo = jongo;
+        TrocaDePlanoControlador.jongo = jongo;
 
         Cidade cidade = new Cidade();
         cidade.setNome("São Paulo");
