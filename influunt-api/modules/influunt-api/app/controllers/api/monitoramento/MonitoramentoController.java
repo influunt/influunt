@@ -8,12 +8,14 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import org.jetbrains.annotations.NotNull;
+import org.jongo.MongoCursor;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import security.Secured;
 import status.*;
+import utils.InfluuntAneisControllers;
 import utils.InfluuntStatusControllers;
 
 import java.io.IOException;
@@ -47,8 +49,14 @@ public class MonitoramentoController extends Controller {
         if (statusAtualControlador.count() == 0) {
             new InfluuntStatusControllers();
         }
+        AneisControlador aneisControlador = new AneisControlador();
+        if (aneisControlador.count() == 0) {
+            new InfluuntAneisControllers();
+        }
 
         Map<String, Map<String, Float>> statusTodosControladoresLogicos = StatusTodosControladores.getStatusTodosControladores(statusAtualControlador);
+        HashMap<String, Integer> quantidadeDeAneisPorControlador = getQuantidadeDeAneisPorControlador(aneisControlador);
+
         List<ControladorFisico> controladoresSincronizados = ControladorFisico.getControladoresSincronizadosPorUsuario(usuario);
         List<String> controladoresIds = controladoresSincronizados.stream().map(controladorFisico -> controladorFisico.getId().toString()).collect(Collectors.toList());
 
@@ -65,8 +73,25 @@ public class MonitoramentoController extends Controller {
         retorno.set("modosOperacoes", Json.toJson(modosOperacoes));
         retorno.set("imposicaoPlanos", Json.toJson(imposicaoPlanos));
         retorno.set("statusControladoresLogicos", Json.toJson(statusTodosControladoresLogicos));
+        retorno.set("aneisPorControlador", Json.toJson(quantidadeDeAneisPorControlador));
 
         return CompletableFuture.completedFuture(ok(retorno));
+    }
+
+
+    private HashMap<String, Integer> getQuantidadeDeAneisPorControlador(AneisControlador aneisControlador) throws IOException {
+
+        HashMap<String, Integer> aneisTodosControladores = new HashMap<>();
+        Object[] controladores;
+
+        MongoCursor<Map> todosControladores = aneisControlador.find().as(Map.class);
+
+        while(todosControladores.hasNext()) {
+            controladores = todosControladores.next().values().toArray();
+            aneisTodosControladores.put(controladores[0].toString(), Integer.valueOf(controladores[1].toString()));
+        }
+        todosControladores.close();
+        return aneisTodosControladores;
     }
 
     public CompletionStage<Result> ultimoStatusDosAneis() {

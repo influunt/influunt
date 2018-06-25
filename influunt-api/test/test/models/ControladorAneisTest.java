@@ -173,7 +173,6 @@ public class ControladorAneisTest extends ControladorTest {
     public void testController() {
         Controlador controlador = getControladorAneis();
 
-
         Http.RequestBuilder postRequest = new Http.RequestBuilder().method("POST")
             .uri(routes.ControladoresController.aneis().url()).bodyJson(new ControladorCustomSerializer().getControladorJson(controlador, Cidade.find.all(), RangeUtils.getInstance(null)));
         Result postResult = route(postRequest);

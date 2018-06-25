@@ -578,6 +578,7 @@ public class ControladoresController extends Controller {
                     int aneisAnterior = (int) controladorAnterior.getAneis().stream().filter(Anel::isAtivo).count();
                     int aneisAtual = (int) controlador.getAneis().stream().filter(Anel::isAtivo).count();
                     controlador.atualizarStatusControlador(controladorAnterior.getStatusControladorReal(), controladorAnterior.getStatusControladorReal(), 0, 0, aneisAtual-aneisAnterior, 0);
+                    controlador.atualizarAneisPorControlador(controlador.getControladorFisicoId(), aneisAnterior, aneisAtual);
                     stepAneis = false;
                 }
                 controlador.setAtualizando(true);
@@ -594,6 +595,7 @@ public class ControladoresController extends Controller {
                 controladorFisico.save();
 
                 controlador.atualizarStatusControlador(StatusVersao.EM_CONFIGURACAO, StatusVersao.EM_CONFIGURACAO, 1, 0, 0, 0);
+                controlador.atualizarAneisPorControlador(controladorFisico.getId().toString(), 0, 0);
             }
 
             Controlador controlador1 = Controlador.find.byId(controlador.getId());
