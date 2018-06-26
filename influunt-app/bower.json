@@ -17,7 +17,7 @@
     "angular-translate-loader-static-files": "^2.11.0",
     "angular-dynamic-locale": "^0.1.32",
     "restangular": "^1.5.2",
-    "ngSweetAlert": "angular-sweetalert#^1.1.0",
+    "ngSweetAlert": "angular-sweetalert#1.1.2",
     "leaflet": "^0.7.7",
     "tooltipster": "^4.0.4",
     "select2": "^4.0.3",
