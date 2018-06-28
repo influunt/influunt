@@ -151,8 +151,20 @@ angular.module('influuntApp')
       };
 
       atualizaErros = function() {
+        var compare = function(a,b) {
+          if (a.data < b.data){
+            return -1;
+          }
+          if (a.data > b.data) {
+            return 1;
+          }
+          return 0;
+        };
+
         $scope.listaControladores.forEach(function(controlador) {
-          var erros = _.chain($scope.statusObj.erros).filter({idControlador: controlador.controladorFisicoId}).sort('data', 'desc').value();
+          var erros = $scope.statusObj.erros.filter(function(e){
+            return e.idControlador === controlador.controladorFisicoId;
+          }).sort(compare);
           controlador.erros = null;
           controlador.aneis.forEach(function(a) { a.erros = null; });
 
