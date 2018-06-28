@@ -133,18 +133,20 @@ angular.module('influuntApp')
           if (controlador) {
             var anel = _.find(controlador.aneis, {posicao: parseInt(statusPlano.anelPosicao)});
 
-            anel.modoOperacao = statusPlano.modoOperacao;
-            anel.hasPlanoImposto = statusPlano.hasPlanoImposto;
+            if (anel){
+              anel.modoOperacao = statusPlano.modoOperacao;
+              anel.hasPlanoImposto = statusPlano.hasPlanoImposto;
 
-            var posicaoPlano = parseInt(statusPlano.planoPosicao);
-            var ids = _.map(anel.planos, 'idJson');
-            anel.planoVigente = _.find(controlador.planos, function(plano) {
-              return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
-            });
+              var posicaoPlano = parseInt(statusPlano.planoPosicao);
+              var ids = _.map(anel.planos, 'idJson');
+              anel.planoVigente = _.find(controlador.planos, function(plano) {
+                return ids.indexOf(plano.idJson) >= 0 && plano.posicao === posicaoPlano;
+              });
 
-            // atualiza dados do current anel na view.
-            if (anel && $scope.currentAnel && $scope.currentAnel.idJson === anel.idJson) {
-              $scope.currentAnel = anel;
+              // atualiza dados do current anel na view.
+              if (anel && $scope.currentAnel && $scope.currentAnel.idJson === anel.idJson) {
+                $scope.currentAnel = anel;
+              }
             }
           }
         });
