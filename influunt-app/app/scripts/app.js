@@ -24,7 +24,7 @@ angular
     'ngSanitize',
     'ngTouch',
 
-    'environment',
+    'ngConstants',
 
     // API consume.
     'restangular',

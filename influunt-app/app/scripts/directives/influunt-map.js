@@ -42,30 +42,58 @@ angular.module('influuntApp')
           }, 200);
         });
 
-        scope.$watch('markers', function(marker, oldMarker) {
-          if (_.isPlainObject(marker)) {
-            clearTimeout(markersTimeout);
-            markersTimeout = setTimeout(function() {
-              _mapaProvider.renderMarkers(marker);
+        var handleManyMarkers = function(markers, oldMarkers) {
+          _mapaProvider.renderMarkers(markers);
+          return _.size(markers) !== _.size(oldMarkers) && _mapaProvider.setViewForMarkers();
+        };
 
-              var shouldSetView = _.get(marker, 'id') !== _.get(oldMarker, 'id') ||
-                                  _.get(marker, 'latitude') !== _.get(oldMarker, 'latitude') ||
-                                  _.get(marker, 'longitude') !== _.get(oldMarker, 'longitude');
+        var handleSingleMarker = function(marker, oldMarker) {
+          _mapaProvider.renderMarkers(marker);
 
-              return shouldSetView && _mapaProvider.setViewForMarkers();
-            }, 200);
-          }
-        }, true);
+          var shouldSetView = _.get(marker, 'id') !== _.get(oldMarker, 'id') ||
+                              _.get(marker, 'latitude') !== _.get(oldMarker, 'latitude') ||
+                              _.get(marker, 'longitude') !== _.get(oldMarker, 'longitude');
+
+          return shouldSetView && _mapaProvider.setViewForMarkers();
+        };
 
         scope.$watch('markers', function(markers, oldMarkers) {
-          if (_.isArray(markers)) {
-            clearTimeout(markersTimeout);
-            markersTimeout = setTimeout(function() {
-              _mapaProvider.renderMarkers(markers);
-              return _.size(markers) !== _.size(oldMarkers) && _mapaProvider.setViewForMarkers();
-            }, 200);
-          }
-        });
+          clearTimeout(markersTimeout);
+          markersTimeout = setTimeout(function() {
+            if (_.isPlainObject(markers)) {
+              handleSingleMarker(markers, oldMarkers);
+            }
+
+            if (_.isArray(markers)) {
+              handleManyMarkers(markers, oldMarkers);
+            }
+          }, 500);
+        }, true);
+
+        // scope.$watch('markers', function(marker, oldMarker) {
+        //   if (_.isPlainObject(marker)) {
+        //     clearTimeout(markersTimeout);
+        //     markersTimeout = setTimeout(function() {
+        //       _mapaProvider.renderMarkers(marker);
+
+        //       var shouldSetView = _.get(marker, 'id') !== _.get(oldMarker, 'id') ||
+        //                           _.get(marker, 'latitude') !== _.get(oldMarker, 'latitude') ||
+        //                           _.get(marker, 'longitude') !== _.get(oldMarker, 'longitude');
+
+        //       return shouldSetView && _mapaProvider.setViewForMarkers();
+        //     }, 200);
+        //   }
+        // }, true);
+
+        // scope.$watch('markers', function(markers, oldMarkers) {
+        //   if (_.isArray(markers)) {
+        //     clearTimeout(markersTimeout);
+        //     markersTimeout = setTimeout(function() {
+        //       _mapaProvider.renderMarkers(markers);
+        //       return _.size(markers) !== _.size(oldMarkers) && _mapaProvider.setViewForMarkers();
+        //     }, 200);
+        //   }
+        // });
 
         scope.$on('$destroy', function() {
           mapaProvider.destroyMap(scope.mapId);
