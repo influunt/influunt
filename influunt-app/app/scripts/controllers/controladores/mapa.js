@@ -79,7 +79,6 @@ angular.module('influuntApp')
       };
 
       filtraDados = function() {
-        var markers = [];
         $scope.areas = [];
         $scope.agrupamentos = [];
 
@@ -105,7 +104,7 @@ angular.module('influuntApp')
             });
           }
 
-          markers = markers.concat(getMarkersAneis(controlador), getMarkersControladores(controlador))
+          markers = markers.concat(getMarkersAneis(controlador), getMarkersControladores(controlador));
         });
 
         $scope.markers = markers;
