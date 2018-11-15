@@ -166,11 +166,30 @@ public class StatusConexaoControlador {
                 .and("{ $group: { _id: '$idControlador', 'timestamp': { $first: '$timestamp' }, 'conectado': { $first: '$conectado' }, 'idControlador': { $first: '$idControlador' } } }")
                 .and("{ $match: { 'conectado': " + online + "} }")
                 .as(Map.class);
+
         List<StatusConexaoControlador> statuses = new ArrayList<>();
         for (Map m : ultimoStatus) {
             statuses.add(new StatusConexaoControlador(m));
         }
         return statuses;
+    }
+
+    public static void makeAllOffline() {
+        Aggregate.ResultsIterator<Map> ultimoStatus =
+            status()
+                .aggregate("{ $sort: { timestamp:-1 } }")
+                .and("{ $group: { _id: '$idControlador', 'timestamp': { $first: '$timestamp' }, 'conectado': { $first: '$conectado' }, 'idControlador': { $first: '$idControlador' } } }")
+                .and("{ $match: { 'conectado': true} }")
+                .as(Map.class);
+
+        List<StatusConexaoControlador> statuses = new ArrayList<>();
+        for (Map m : ultimoStatus) {
+            statuses.add(new StatusConexaoControlador(m.get("idControlador").toString(), new DateTime().getMillis(), false));
+        }
+
+        if(!statuses.isEmpty()) {
+            status().insert(statuses.toArray());
+        }
     }
 
 

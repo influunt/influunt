@@ -25,7 +25,9 @@ public class ServerActor extends UntypedActor {
             new Function<Throwable, SupervisorStrategy.Directive>() {
                 @Override
                 public SupervisorStrategy.Directive apply(Throwable t) {
-                    if (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) {
+                    if ((t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) ||
+                        (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.SocketException) ||
+                        (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.SocketTimeoutException)) {
                         logger.info("MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else {

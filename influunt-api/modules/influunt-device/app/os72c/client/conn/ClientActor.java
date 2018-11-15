@@ -36,7 +36,9 @@ public class ClientActor extends UntypedActor {
                         (t.getMessage() != null && "Conexao morreu".equals(t.getMessage())) ||
                             (t.getMessage() != null && "Client is not connected".startsWith(t.getMessage())) ||
                             (t.getCause() != null && t.getCause().getClass() != null && t.getCause().getClass().equals(java.net.UnknownHostException.class)) ||
-                            (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException)) {
+                            (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.ConnectException) ||
+                            (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.SocketException) ||
+                            (t instanceof org.eclipse.paho.client.mqttv3.MqttException && t.getCause() instanceof java.net.SocketTimeoutException)) {
                         InfluuntLogger.log(NivelLog.DETALHADO, TipoLog.COMUNICACAO, "MQTT perdeu a conexão com o broker. Restartando ator.");
                         return SupervisorStrategy.stop();
                     } else if (t instanceof RuntimeException && "RESTART".equals(t.getMessage())) {

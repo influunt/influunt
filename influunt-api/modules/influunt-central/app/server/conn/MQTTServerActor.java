@@ -12,6 +12,7 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
+import status.StatusConexaoControlador;
 import status.StatusPacoteTransacao;
 import utils.EncryptionUtil;
 import utils.GzipUtil;
@@ -137,6 +138,8 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
     }
 
     private void connect() throws MqttException {
+        StatusConexaoControlador.makeAllOffline();
+
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
 
@@ -144,7 +147,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
         opts.setUserName("central");
         opts.setAutomaticReconnect(false);
         opts.setCleanSession(false);
-        opts.setConnectionTimeout(0);
+        opts.setConnectionTimeout(15);
         opts.setMqttVersion(MQTT_VERSION_3_1_1);
         client.setCallback(this);
         client.connect(opts);
