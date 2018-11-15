@@ -178,11 +178,10 @@ gulp.task('constants', function () {
   var envConfig = myConfig[process.env.ENVIRONMENT || 'development'];
 
   return ngConstant({
-      name: 'environment',
       constants: envConfig,
       stream: true,
       template: `'use strict';
-angular.module('<%- moduleName %>'<% if (deps) { %>, <%= JSON.stringify(deps) %><% } %>)
+angular.module('environment'<% if (deps) { %>, <%= JSON.stringify(deps) %><% } %>)
 <% constants.forEach(function(constant) { %>
 .constant('<%- constant.name %>', <%= constant.value %>)
 <% }) %>;`

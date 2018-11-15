@@ -78,7 +78,6 @@ angular.module('influuntApp')
       };
 
       filtraDados = function() {
-        $scope.markers = [];
         $scope.areas = [];
         $scope.agrupamentos = [];
 
@@ -86,28 +85,28 @@ angular.module('influuntApp')
         atualizaStatusPlanos();
 
         var controladores = filtrosMapa.getControladores($scope.filtro, $scope.listaControladores);
+        var markers = [];
         controladores.forEach(function(controlador) {
           controlador.online = !!$scope.statusObj.onlines[controlador.controladorFisicoId];
           controlador.status = $scope.statusObj.status[controlador.controladorFisicoId];
-
-          if (_.get(controlador, 'status.statusAneis')) {
-            var statusAneis = controlador.status.statusAneis;
-            _
-              .chain(controlador.aneis)
-              .filter('ativo')
-              .each(function(anel) {
-                anel.status = statusAneis[anel.posicao] || anel.status;
-              })
-              .value();
-          }
 
           if (!controlador.online) {
             _.set(controlador, 'status.statusDevice', OFFLINE);
           }
 
-          $scope.markers = _.concat($scope.markers, getMarkersAneis(controlador));
-          $scope.markers = _.concat($scope.markers, getMarkersControladores(controlador));
+          if (_.get(controlador, 'status.statusAneis')) {
+            var statusAneis = controlador.status.statusAneis;
+            controlador.aneis.forEach(function(anel) {
+              if (anel.ativo) {
+                anel.status = statusAneis[anel.posicao] || anel.status;
+              }
+            });
+          }
+
+          markers = markers.concat(getMarkersAneis(controlador), getMarkersControladores(controlador));
         });
+
+        $scope.markers = markers;
 
         $scope.areas = _
           .chain(controladores)
@@ -297,25 +296,16 @@ angular.module('influuntApp')
 
       getCoordenadasFromControladores = function(controladores) {
         controladores = filtrosMapa.getControladores($scope.filtro, controladores);
-        var enderecosAgrupamento = _
-          .chain(controladores)
-          .map(function(cont) {
-            return _.find($scope.listaControladores, {id: cont.id});
-          })
-          .map('aneis')
-          .flatten()
-          .map('endereco.idJson')
-          .value();
 
-        return _
-          .chain($scope.listaControladores)
-          .map('todosEnderecos')
-          .flatten()
-          .uniqBy('id')
-          .filter(function(e) {
-            return enderecosAgrupamento.indexOf(e.idJson) >= 0;
-          })
-          .value();
+        var result = [];
+
+        controladores.forEach(function(controlador) {
+          controlador.aneis.forEach(function(anel) {
+            result.push(controlador.todosEnderecos.find(function(e) { return e.idJson === anel.endereco.idJson; }));
+          });
+        });
+
+        return result;
       };
 
       registerWatchers = function() {
@@ -490,7 +480,7 @@ angular.module('influuntApp')
       $scope.openAcoesAnel = function() {
         $('.acoes').addClass('open-acao-panel');
       };
-      
+
       $scope.posicaoPlano = function(plano) {
         if (plano.isManual) {
           return $filter('translate')('planos.modoManual');
