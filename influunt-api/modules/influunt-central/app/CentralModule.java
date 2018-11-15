@@ -25,8 +25,10 @@ public class CentralModule extends AbstractModule {
     protected void configure() {
         if (!environment.isTest()) {
             Logger.info("Binding central");
-            bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
-            bind(InfluuntContextManager.class).asEagerSingleton();
+            if(environment.isProd()) {
+                bind(Authenticator.class).to(DBAuthenticator.class).in(Singleton.class);
+                bind(InfluuntContextManager.class).asEagerSingleton();
+            }
             bind(Central.class).asEagerSingleton();
         }
     }

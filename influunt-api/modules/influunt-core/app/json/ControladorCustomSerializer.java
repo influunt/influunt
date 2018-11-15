@@ -213,6 +213,15 @@ public class ControladorCustomSerializer {
         return controladoresJson;
     }
 
+    public JsonNode getControladoresForConsulta(List<Controlador> controladores) {
+        ArrayNode controladoresJson = Json.newArray();
+        for (Controlador controlador : controladores) {
+            ObjectNode root = controladoresJson.addObject();
+            putControladorConsulta(controlador, root);
+        }
+        return controladoresJson;
+    }
+
     public JsonNode getControladorSimulacao(Controlador controlador) {
         ObjectNode root = Json.newObject();
 
@@ -668,6 +677,18 @@ public class ControladorCustomSerializer {
                 }
             }
         });
+    }
+
+    private void putControladorConsulta(Controlador controlador, ObjectNode root) {
+        if (controlador.getId() != null) {
+            root.put("id", controlador.getId().toString());
+        }
+
+        if (controlador.getNomeEndereco() != null) {
+            root.put("nomeEndereco", controlador.getNomeEndereco());
+        }
+
+        root.put("CLC", controlador.getCLC());
     }
 
     private void putControladorModelo(ModeloControlador modeloControlador, ObjectNode root) {

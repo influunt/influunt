@@ -20,7 +20,7 @@ angular.module('influuntApp')
       };
 
       loadControladores = function() {
-        return Restangular.all('controladores').customGET(null, {})
+        return Restangular.all('controladores/tabela_horaria').customGET(null, {})
           .then(function(res) {
             $scope.lista = _.orderBy(res.data, 'CLC');
           })

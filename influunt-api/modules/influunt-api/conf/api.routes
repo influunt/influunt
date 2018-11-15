@@ -34,6 +34,8 @@ GET       /api/v1/controladores/mapas                                 controller
 GET       /api/v1/controladores/agrupamentos                          controllers.api.ControladoresController.getControladoresForAgrupamentos
 GET       /api/v1/controladores/imposicao                             controllers.api.ControladoresController.getControladoresForImposicao
 GET       /api/v1/controladores/sem_subarea                           controllers.api.ControladoresController.getControladoresSemSubareas
+GET       /api/v1/controladores/tabela_horaria                        controllers.api.ControladoresController.getControladoresForTabelaHoraria
+
 POST      /api/v1/controladores/dados_basicos                         controllers.api.ControladoresController.dadosBasicos()
 POST      /api/v1/controladores/aneis                                 controllers.api.ControladoresController.aneis()
 POST      /api/v1/controladores/grupos_semaforicos                    controllers.api.ControladoresController.gruposSemaforicos()

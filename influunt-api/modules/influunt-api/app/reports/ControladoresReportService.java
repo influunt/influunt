@@ -9,6 +9,7 @@ import json.serializers.InfluuntDateTimeSerializer;
 import models.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.util.Pair;
 import org.joda.time.DateTime;
 import status.AlarmesFalhasControlador;
 import status.LogControlador;
@@ -326,6 +327,7 @@ public class ControladoresReportService extends ReportService<Controlador> {
         paramsAux.remove("subareaAgrupamento_eq");
         paramsAux.remove("filtrarPor_eq");
 
+
         int page = 0;
         int perPage = 30;
         if (paramsAux.containsKey("page")) {
@@ -337,11 +339,11 @@ public class ControladoresReportService extends ReportService<Controlador> {
             paramsAux.remove("per_page");
         }
 
-        List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).fetch(Arrays.asList("subarea", "aneis")).query().getResult();
-        List<LogControlador> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(Controlador::getControladorFisicoId).collect(Collectors.toList()));
+        List<Controlador> controladores = (List<Controlador>) new InfluuntQueryBuilder(Controlador.class, paramsAux).reportMode().fetch(Arrays.asList("subarea", "aneis")).query().getResult();
+        Pair<Long, List<LogControlador>> logs = LogControlador.ultimosLogsControladores(controladores.stream().map(Controlador::getControladorFisicoId).collect(Collectors.toList()), page, perPage);
 
         ArrayNode itens = JsonNodeFactory.instance.arrayNode();
-        logs.forEach(log -> {
+        logs.getSecond().forEach(log -> {
             if (tipoLog.isEmpty() || log.getTipoLogControlador().toString().equalsIgnoreCase(tipoLog)) {
                 Controlador controlador = controladores.stream().filter((c -> c.getControladorFisicoId().equals(log.getIdControlador()))).findFirst().get();
                 String date = InfluuntDateTimeSerializer.parse(new DateTime(log.getTimestamp()));
@@ -352,15 +354,12 @@ public class ControladoresReportService extends ReportService<Controlador> {
 
         ObjectNode retorno = JsonNodeFactory.instance.objectNode();
         ArrayNode data = retorno.putArray("data");
-        int skip = page * perPage;
-        for (int i = skip; i < skip + perPage; i++) {
-            if (i < itens.size()) {
-                data.add(itens.get(i));
-            } else {
-                break;
-            }
+
+        for (int i = 0; i < itens.size(); i++) {
+            data.add(itens.get(i));
         }
-        retorno.put("total", itens.size());
+
+        retorno.put("total", logs.getFirst());
         return retorno;
     }
 
