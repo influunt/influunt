@@ -147,7 +147,7 @@ public class MQTTClientActor extends UntypedActor implements MqttCallback, IMqtt
         opts.setAutomaticReconnect(false);
         opts.setCleanSession(false);
         opts.setMqttVersion(MQTT_VERSION_3_1_1);
-        opts.setConnectionTimeout(0);
+        opts.setConnectionTimeout(15);
 
         Envelope controladorOffline = ControladorOffline.getMensagem(id);
 
