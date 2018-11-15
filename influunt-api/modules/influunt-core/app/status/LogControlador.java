@@ -1,6 +1,7 @@
 package status;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.util.Pair;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import play.api.Play;
@@ -52,21 +53,26 @@ public class LogControlador {
         new LogControlador(idControlador, timestamp, mensagem, tipoLogControlador).save();
     }
 
-    public static List<LogControlador> ultimosLogsControladores(List<String> ids) {
+    public static Pair<Long, List<LogControlador>> ultimosLogsControladores(List<String> ids, int page, int perPage) {
         ArrayList<LogControlador> list = new ArrayList<>();
 
+        int skip = page * perPage;
         String controladoresIds = "[\"" + StringUtils.join(ids, "\",\"") + "\"]";
+        long total = logs().count("{ idControlador: { $in: " + controladoresIds + "}}");
+
         Aggregate.ResultsIterator<Map> results = logs()
             .aggregate("{ $match: { idControlador: { $in: " + controladoresIds + "}}}")
             .and("{ $sort: { timestamp: -1 } }")
             .and("{ $project: { _id: 0, idControlador: 1, mensagem: 1, timestamp: 1, tipoLogControlador: 1 } }")
+            .and("{ $skip: " + skip + " }")
+            .and("{ $limit: " + perPage + " }")
             .as(Map.class);
 
         for (Map m : results) {
             list.add(new LogControlador(m));
         }
 
-        return list;
+        return new Pair<>(total, list);
     }
 
     public void insert() {

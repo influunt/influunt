@@ -109,6 +109,14 @@ public class InfluuntQueryBuilder {
     }
 
     public InfluuntQueryResult query() {
+        if(reportMode) {
+            return nonPaginatedQuery();
+        } else {
+            return paginatedQuery();
+        }
+    }
+
+    private InfluuntQueryResult paginatedQuery() {
         PagedList pagedList;
         Query query = Ebean.find(klass);
 
@@ -158,17 +166,9 @@ public class InfluuntQueryBuilder {
             });
 
             if (getSortField() != null) {
-                if (reportMode) {
-                    pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList();
-                } else {
-                    pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
-                }
+                pagedList = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
             } else {
-                if (reportMode) {
-                    pagedList = predicates.findPagedList();
-                } else {
-                    pagedList = predicates.findPagedList(getPage(), getPerPage());
-                }
+                pagedList = predicates.findPagedList(getPage(), getPerPage());
             }
         } else {
             if (klass.equals(Controlador.class)) {
@@ -176,11 +176,7 @@ public class InfluuntQueryBuilder {
                 query.where().add(Expr.in("id", getControladorIds()));
             }
             if (getSortField() != null) {
-                if (reportMode) {
-                    pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList();
-                } else {
-                    pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
-                }
+                pagedList = query.orderBy(getSortField().concat(" ").concat(getSortType())).findPagedList(getPage(), getPerPage());
             } else {
                 pagedList = query.findPagedList(getPage(), getPerPage());
             }
@@ -189,6 +185,77 @@ public class InfluuntQueryBuilder {
         pagedList.loadRowCount();
         return new InfluuntQueryResult(pagedList.getList(), pagedList.getTotalRowCount(), klass);
     }
+
+    //TODO: Refatorar método, pois está duplicado com o de acima
+    private InfluuntQueryResult nonPaginatedQuery() {
+        List list;
+        Query query = Ebean.find(klass);
+
+        fetches.forEach(query::fetch);
+
+        if (klass.equals(Controlador.class)) {
+            query.fetch("endereco");
+        }
+
+        if (!searchFields.isEmpty()) {
+            ExpressionList predicates = query.where();
+
+            if (klass.equals(Controlador.class) && !searchFields.containsKey("id")) {
+                // TODO: fazer somente 1 query para buscar a última versão dos controladores. Está fazendo duas.
+                predicates.add(Expr.in("id", getControladorIds()));
+            }
+
+            ArrayList<SearchFieldDefinition> searchFieldDefinitions = new ArrayList<SearchFieldDefinition>();
+            searchFields.forEach(buildSearchStatement(searchFieldDefinitions));
+
+            searchFieldDefinitions.forEach(searchField -> {
+                DateTime date = null;
+                if (searchField.getValue() != null) {
+                    date = parseDate(searchField.getValue().toString(), null);
+                }
+                if (date != null) {
+                    predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), date));
+                } else {
+                    if (searchField.getFieldOperator() != null) {
+                        predicates.add(getFieldOperator(searchField.getFieldOperator(), searchField.getFieldName(), searchField.getValue()));
+                    } else {
+                        predicates.add(Expr.icontains(searchField.getFieldName(), searchField.getValue().toString()));
+                    }
+                }
+            });
+
+            // Verifica se existem campos com between
+            List<BetweenFieldDefinition> betweenFields = BetweenFieldDefinition.getBetweenFileds(searchFields);
+            betweenFields.forEach(field -> {
+                if (field.hasOnlyStartValue()) {
+                    predicates.add(Expr.ge(field.getFieldName(), field.getStartValue()));
+                } else if (field.hasOnlyEndValue()) {
+                    predicates.add(Expr.le(field.getFieldName(), field.getEndValue()));
+                } else {
+                    predicates.add(Expr.between(field.getFieldName(), field.getStartValue(), field.getEndValue()));
+                }
+            });
+
+            if (getSortField() != null) {
+                list = predicates.orderBy(getSortField().concat(" ").concat(getSortType())).findList();
+            } else {
+                list = predicates.findList();
+            }
+        } else {
+            if (klass.equals(Controlador.class)) {
+                // TODO: fazer somente 1 query para buscar a última versão dos controladores. Está fazendo duas.
+                query.where().add(Expr.in("id", getControladorIds()));
+            }
+            if (getSortField() != null) {
+                list = query.orderBy(getSortField().concat(" ").concat(getSortType())).findList();
+            } else {
+                list = query.findList();
+            }
+        }
+
+        return new InfluuntQueryResult(list, list.size(), klass);
+    }
+
 
     public InfluuntQueryResult auditoriaQuery() {
         List<String> predicates = new ArrayList<>();

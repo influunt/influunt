@@ -382,6 +382,26 @@ public class ControladoresController extends Controller {
 
 
     @Transactional
+    @Dynamic(value = "Influunt")
+    public CompletionStage<Result> getControladoresForTabelaHoraria() {
+        Usuario u = getUsuario();
+        if (u.isRoot() || u.podeAcessarTodasAreas()) {
+            Map<String, String[]> params = new HashMap<>();
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).reportMode().fetch(Arrays.asList("versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("consulta")));
+        } else if (u.getArea() != null) {
+            String[] areaId = {u.getArea().getId().toString()};
+            Map<String, String[]> params = new HashMap<>();
+            params.put("area.id", areaId);
+
+            InfluuntResultBuilder result = new InfluuntResultBuilder(new InfluuntQueryBuilder(Controlador.class, params).reportMode().fetch(Arrays.asList("area", "versaoControlador", "modelo")).query());
+            return CompletableFuture.completedFuture(ok(result.toJson("consulta")));
+        }
+        return CompletableFuture.completedFuture(forbidden());
+    }
+
+
+    @Transactional
     @Dynamic(value = "ControladorAreaAuth(path)")
     public CompletionStage<Result> delete(String id) {
         Controlador controlador = Controlador.find.byId(UUID.fromString(id));

@@ -602,7 +602,20 @@ INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VAL
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarPlanosId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@verTabelaHorariaId, @PermissaoId);
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@criarTabelaHorariaId, @PermissaoId);
+
+
+Set @PermissaoId = UUID();
+INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/tabela_horaria', '[Controladores] - Listar Controladores (Tabela Horária)', NOW(), NOW());
 INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);
+
+## Script p/ atualizar permissoes de buscar controladores para tabelas horárias.
+## Remover daqui depois de executado no servidor!
+# Set @PermissaoId = UUID();
+# INSERT INTO `permissoes` (`id`, `chave`, `descricao`, `data_criacao`, `data_atualizacao`) values (@PermissaoId, 'GET /api/v1/controladores/tabela_horaria', '[Controladores] - Listar Controladores (Tabela Horária)', NOW(), NOW());
+# SELECT id INTO @GerarRelatorioTabelaHoraria FROM permissoes_app where chave = 'criarTabelaHoraria';
+# INSERT INTO `permissoes_app_permissoes` (`permissao_app_id`, `permissao_id`) VALUES (@GerarRelatorioTabelaHoraria, @PermissaoId);
+# SELECT id INTO @PermListaControladores FROM permissoes where chave = 'GET /api/v1/controladores';
+# DELETE FROM permissoes_app_permissoes WHERE permissao_id = @PermListaControladores AND permissao_app_id = @GerarRelatorioTabelaHoraria;
 
 
 Set @PermissaoId = UUID();
