@@ -278,7 +278,7 @@ public class ControladoresController extends Controller {
         Usuario u = getUsuario();
         PagedList<ControladorFisico> controladoresFisicos = null;
         int page = 0;
-        int perPage = 200;
+        int perPage = 100;
         if (u.isRoot() || u.podeAcessarTodasAreas()) {
             controladoresFisicos = ControladorFisico.find.fetch("versoes").findPagedList(page, perPage);
         } else if (u.getArea() != null) {

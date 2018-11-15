@@ -178,14 +178,6 @@ public class ControladorCustomSerializer {
             putControladorAneis(aneis, root);
             putControladorEnderecos(root);
             putControladorPlano(root);
-            putControladorGruposSemaforicos(root);
-            putControladorEstagios(root);
-            putControladorEstagiosPlanos(root);
-            putControladorEstagiosGruposSemaforicos(root);
-            putControladorTransicoes(root);
-            putControladorGruposSemaforicosPlanos(root);
-            putControladorTabelaEntreVerdes(root);
-            putControladorTabelaEntreVerdesTransicoes(root);
             controladoresJson.add(root);
         }
 

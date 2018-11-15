@@ -51,7 +51,7 @@
         </h3>
         <ul class="planos">
           <li data-ng-repeat="plano in currentAnel.planos">
-            <a data-ng-click="showDiagramaIntervalos(plano)">
+            <a ui-sref="app.planos({ id: currentAnel.controlador.id })" target="_blank">
               {{ 'controladores.geral.plano' | translate}} {{ posicaoPlano(plano) }}{{ plano.isTemporario ? '' : ' - ' + plano.descricao }}
             </a>
           </li>
