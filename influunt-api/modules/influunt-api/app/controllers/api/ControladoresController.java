@@ -2,6 +2,8 @@ package controllers.api;
 
 import be.objectify.deadbolt.java.actions.Dynamic;
 import checks.*;
+
+import com.avaje.ebean.PagedList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
@@ -274,16 +276,19 @@ public class ControladoresController extends Controller {
     @Dynamic(value = "Influunt")
     public CompletionStage<Result> getControladoresForMapa() {
         Usuario u = getUsuario();
-        List<ControladorFisico> controladoresFisicos = null;
+        PagedList<ControladorFisico> controladoresFisicos = null;
+        int page = 0;
+        int perPage = 200;
         if (u.isRoot() || u.podeAcessarTodasAreas()) {
-            controladoresFisicos = ControladorFisico.find.fetch("versoes").findList();
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").findPagedList(page, perPage);
         } else if (u.getArea() != null) {
-            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findList();
+            controladoresFisicos = ControladorFisico.find.fetch("versoes").where().eq("area_id", u.getArea().getId()).findPagedList(page, perPage);
         }
 
         if (controladoresFisicos != null) {
-            List<Controlador> controladores = new ArrayList<Controlador>();
-            controladoresFisicos.forEach(controladorFisico -> {
+            List<Controlador> controladores = new ArrayList<>();
+            controladoresFisicos.getList().forEach(controladorFisico -> {
+
                 Controlador controlador = controladorFisico.getControladorConfiguradoOuSincronizado();
                 if (controlador != null) {
                     controladores.add(controlador);
