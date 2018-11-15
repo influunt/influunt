@@ -16,7 +16,7 @@ describe('Controller: RelatorioTabelaHorariaCtrl', function () {
   }));
 
   it('deve carregar a lista de controladores ao iniciar', function () {
-    httpBackend.expectGET('/controladores').respond(controladores);
+    httpBackend.expectGET('/controladores/tabela_horaria').respond(controladores);
     scope.init();
     httpBackend.flush();
     expect(scope.lista).toBeDefined();
