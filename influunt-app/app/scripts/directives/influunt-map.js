@@ -70,31 +70,6 @@ angular.module('influuntApp')
           }, 500);
         }, true);
 
-        // scope.$watch('markers', function(marker, oldMarker) {
-        //   if (_.isPlainObject(marker)) {
-        //     clearTimeout(markersTimeout);
-        //     markersTimeout = setTimeout(function() {
-        //       _mapaProvider.renderMarkers(marker);
-
-        //       var shouldSetView = _.get(marker, 'id') !== _.get(oldMarker, 'id') ||
-        //                           _.get(marker, 'latitude') !== _.get(oldMarker, 'latitude') ||
-        //                           _.get(marker, 'longitude') !== _.get(oldMarker, 'longitude');
-
-        //       return shouldSetView && _mapaProvider.setViewForMarkers();
-        //     }, 200);
-        //   }
-        // }, true);
-
-        // scope.$watch('markers', function(markers, oldMarkers) {
-        //   if (_.isArray(markers)) {
-        //     clearTimeout(markersTimeout);
-        //     markersTimeout = setTimeout(function() {
-        //       _mapaProvider.renderMarkers(markers);
-        //       return _.size(markers) !== _.size(oldMarkers) && _mapaProvider.setViewForMarkers();
-        //     }, 200);
-        //   }
-        // });
-
         scope.$on('$destroy', function() {
           mapaProvider.destroyMap(scope.mapId);
         });

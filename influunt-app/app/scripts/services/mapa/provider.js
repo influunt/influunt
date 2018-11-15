@@ -228,7 +228,6 @@ var mapProviderObj = function(MAP, $timeout) {
   };
 
   renderAgrupamentos = function(agrupamentos) {
-    // return false;
     if (_.isArray(agrupamentos) && angular.isDefined(map)) { addAgrupamentos(agrupamentos); }
   };
 

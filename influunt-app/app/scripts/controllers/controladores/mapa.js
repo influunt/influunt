@@ -26,7 +26,6 @@ angular.module('influuntApp')
 
       $scope.inicializaMapa = function() {
         return Restangular.all('controladores').all('mapas').getList()
-        // return Promise.resolve(window.controladoresTeste)
           .then(function(res) {
             if (res.length === 0) {
               return false;
@@ -108,34 +107,6 @@ angular.module('influuntApp')
         });
 
         $scope.markers = markers;
-        // controladores.forEach(function(controlador) {
-        //   controlador.online = !!$scope.statusObj.onlines[controlador.controladorFisicoId];
-        //   controlador.status = $scope.statusObj.status[controlador.controladorFisicoId];
-
-        //   if (_.get(controlador, 'status.statusAneis')) {
-        //     var statusAneis = controlador.status.statusAneis;
-        //     controlador.aneis.forEach(function(anel) {
-        //       if (anel.ativo) {
-        //         anel.status = statusAneis[anel.posicao] || anel.status;
-        //       }
-        //     });
-        //     // _
-        //     //   .chain(controlador.aneis)
-        //     //   .filter('ativo')
-        //     //   .each(function(anel) {
-        //     //     anel.status = statusAneis[anel.posicao] || anel.status;
-        //     //   })
-        //     //   .value();
-        //   }
-
-        //   if (!controlador.online) {
-        //     _.set(controlador, 'status.statusDevice', OFFLINE);
-        //   }
-
-        //   markers = _.concat(markers, getMarkersAneis(controlador));
-        //   markers = _.concat(markers, getMarkersControladores(controlador));
-        //   $scope.markers = markers;
-        // });
 
         $scope.areas = _
           .chain(controladores)
@@ -328,14 +299,6 @@ angular.module('influuntApp')
 
         var result = [];
 
-        // var controladoresLength = controladores.length;
-        // for (var i = 0; i < controladoresLength; i++) {
-        //   var controlador = controladores[i];
-        //   controlador.aneis.forEach(function(anel) {
-        //     result.push(controlador.todosEnderecos.find(function(e) { return e.idJson === anel.endereco.idJson; }));
-        //   });
-        // }
-
         controladores.forEach(function(controlador) {
           controlador.aneis.forEach(function(anel) {
             result.push(controlador.todosEnderecos.find(function(e) { return e.idJson === anel.endereco.idJson; }));
@@ -343,26 +306,6 @@ angular.module('influuntApp')
         });
 
         return result;
-
-        // var enderecosAgrupamento = _
-        //   .chain(controladores)
-        //   .map(function(cont) {
-        //     return _.find($scope.listaControladores, {id: cont.id});
-        //   })
-        //   .map('aneis')
-        //   .flatten()
-        //   .map('endereco.idJson')
-        //   .value();
-
-        // return _
-        //   .chain($scope.listaControladores)
-        //   .map('todosEnderecos')
-        //   .flatten()
-        //   .uniqBy('id')
-        //   .filter(function(e) {
-        //     return enderecosAgrupamento.indexOf(e.idJson) >= 0;
-        //   })
-        //   .value();
       };
 
       registerWatchers = function() {

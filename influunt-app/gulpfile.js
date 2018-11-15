@@ -178,8 +178,6 @@ gulp.task('constants', function () {
   var envConfig = myConfig[process.env.ENVIRONMENT || 'development'];
 
   return ngConstant({
-      // name: 'environment',
-      // dest: 'ngConstants.js',
       constants: envConfig,
       stream: true,
       template: `'use strict';
