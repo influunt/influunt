@@ -9,6 +9,7 @@
     <div id="page-wrapper" class="gray-bg page-{{$state.current.name.replace('app.', '')}}">
         <toaster-container></toaster-container>
         <ng-include src="'views/common/breadcrumbs.html'"></ng-include>
+        <ng-include src="'views/common/paho-disconnected-warning.html'"></ng-include>
 
         <!-- Main view  -->
         <div ui-view></div>

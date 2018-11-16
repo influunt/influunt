@@ -10,6 +10,7 @@
 angular.module('influuntApp')
   .factory('pahoProvider', ['MQTT_ROOT', '$q', '$timeout', '$rootScope', function pahoProvider(MQTT_ROOT, $q, $timeout, $rootScope) {
 
+    $rootScope.pahoConnected = true;
     var clearConnections, connectClient;
     var isConnected = false;
     var clientId = 'influunt-app-' + UUID.generate();
@@ -36,6 +37,7 @@ angular.module('influuntApp')
     };
 
     client.onConnectionLost = function() {
+      $rootScope.pahoConnected = false;
       clearConnections();
       tryReconnect();
     };
@@ -61,6 +63,7 @@ angular.module('influuntApp')
       var deferred = $q.defer();
 
       if (isConnected) {
+        $rootScope.pahoConnected = true;
         deferred.resolve(true);
       } else {
         $timeout.cancel(timeoutId);
@@ -73,6 +76,7 @@ angular.module('influuntApp')
               deferred.resolve(true);
             },
             onFailure: function(error) {
+              $rootScope.pahoConnected = false;
               tryReconnect();
               deferred.reject(error);
             }
