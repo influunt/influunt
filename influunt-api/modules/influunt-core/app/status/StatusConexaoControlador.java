@@ -6,15 +6,17 @@ import org.joda.time.DateTime;
 import org.jongo.Aggregate;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
-import play.api.Play;
-import uk.co.panaxiom.playjongo.PlayJongo;
-import utils.TipoLogControlador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import play.Application;
+import play.api.Play;
+import uk.co.panaxiom.playjongo.PlayJongo;
+import utils.TipoLogControlador;
 
 /**
  * Created by lesiopinheiro on 9/2/16.
@@ -23,7 +25,7 @@ public class StatusConexaoControlador {
 
     public static final String COLLECTION = "status_conexao_controladores";
 
-    public static PlayJongo jongo = Play.current().injector().instanceOf(PlayJongo.class);
+    public static PlayJongo jongo = null;
 
     private String _id;
 
@@ -45,6 +47,9 @@ public class StatusConexaoControlador {
     }
 
     public static MongoCollection status() {
+        if (jongo == null) {
+            jongo = Play.current().injector().instanceOf(PlayJongo.class);
+        }
         return jongo.getCollection(COLLECTION);
     }
 
@@ -174,7 +179,10 @@ public class StatusConexaoControlador {
         return statuses;
     }
 
-    public static void makeAllOffline() {
+    public static void makeAllOffline(Application application) {
+        if (jongo == null && application != null) {
+            jongo = application.injector().instanceOf(PlayJongo.class);
+        }
         Aggregate.ResultsIterator<Map> ultimoStatus =
             status()
                 .aggregate("{ $sort: { timestamp:-1 } }")
@@ -187,7 +195,7 @@ public class StatusConexaoControlador {
             statuses.add(new StatusConexaoControlador(m.get("idControlador").toString(), new DateTime().getMillis(), false));
         }
 
-        if(!statuses.isEmpty()) {
+        if (!statuses.isEmpty()) {
             status().insert(statuses.toArray());
         }
     }

@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import play.Configuration;
 import play.Environment;
-import play.api.Application;
+import play.Application;
 import server.conn.ServerActor;
 
 @Singleton
@@ -28,7 +28,8 @@ public class Central {
         servidor = system.actorOf(Props.create(ServerActor.class,
             mqttSettings.getString("host"),
             mqttSettings.getString("port"),
-            mqttSettings.getString("senha")), "servidor");
+            mqttSettings.getString("senha"),
+            application), "servidor");
 
     }
 
