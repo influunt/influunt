@@ -9,6 +9,8 @@ import akka.pattern.BackoffSupervisor;
 import akka.routing.RoundRobinPool;
 import handlers.PacoteTransacaoManagerActorHandler;
 import org.slf4j.LoggerFactory;
+
+import play.Application;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;
@@ -54,10 +56,13 @@ public class ServerActor extends UntypedActor {
 
     private Props mqttProps;
 
-    public ServerActor(final String mqttHost, final String mqttPort, final String mqttPassword) {
+    private Application application;
+
+    public ServerActor(final String mqttHost, final String mqttPort, final String mqttPassword, Application application) {
         this.mqttHost = mqttHost;
         this.mqttPort = mqttPort;
         this.mqttPassword = mqttPassword;
+        this.application = application;
     }
 
     @Override
@@ -67,13 +72,11 @@ public class ServerActor extends UntypedActor {
     }
 
     private void setup() {
-
         actorPacoteTrasancaoManager = getContext().actorOf(Props.create(PacoteTransacaoManagerActorHandler.class), "actorPacoteTransacaoManager");
-
         router = getContext().actorOf(new RoundRobinPool(5).props(Props.create(CentralMessageBroker.class, actorPacoteTrasancaoManager)), "centralMessageBroker");
 
         mqttProps = BackoffSupervisor.props(Backoff.onFailure(
-            Props.create(MQTTServerActor.class, mqttHost, mqttPort, mqttPassword, router),
+            Props.create(MQTTServerActor.class, mqttHost, mqttPort, mqttPassword, router, application),
             "CentralMQTT",
             Duration.create(1, TimeUnit.SECONDS),
             Duration.create(10, TimeUnit.SECONDS),

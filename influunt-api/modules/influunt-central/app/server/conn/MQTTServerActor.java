@@ -10,6 +10,8 @@ import models.ControladorFisico;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.paho.client.mqttv3.*;
 import org.fusesource.mqtt.client.QoS;
+
+import play.Application;
 import protocol.Envelope;
 import scala.concurrent.duration.Duration;
 import status.StatusConexaoControlador;
@@ -51,11 +53,14 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
 
     private ActorRef messageBroker;
 
-    public MQTTServerActor(final String host, final String port, final String password, final ActorRef router) {
+    private Application application;
+
+    public MQTTServerActor(final String host, final String port, final String password, final ActorRef router, Application application) {
         this.host = host;
         this.port = port;
         this.password = password;
         this.router = router;
+        this.application = application;
     }
 
     @Override
@@ -138,7 +143,7 @@ public class MQTTServerActor extends UntypedActor implements MqttCallback, IMqtt
     }
 
     private void connect() throws MqttException {
-        StatusConexaoControlador.makeAllOffline();
+        StatusConexaoControlador.makeAllOffline(application);
 
         client = new MqttClient("tcp://" + host + ":" + port, "central");
         opts = new MqttConnectOptions();
