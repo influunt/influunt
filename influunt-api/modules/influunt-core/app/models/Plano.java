@@ -651,7 +651,7 @@ public class Plano extends Model implements Cloneable, Serializable {
         if (!estagioAnterior.equals(estagioAtual) && !estagiosGruposSemaforicos.isEmpty()) {
             for (EstagioGrupoSemaforico estagioGrupoSemaforico : estagiosGruposSemaforicos) {
                 GrupoSemaforicoPlano grupoSemaforicoPlano = getGrupoSemaforicoPlano(estagioGrupoSemaforico.getGrupoSemaforico());
-                if (grupoSemaforicoPlano.isAtivado() && (estagioAtual == null || !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico()))) {
+                if (grupoSemaforicoPlano != null && (grupoSemaforicoPlano.isAtivado() && (estagioAtual == null || !estagioAtual.getGruposSemaforicos().contains(estagioGrupoSemaforico.getGrupoSemaforico())))) {
                     totalTempoEntreverdes.add(getTempoEntreVerdeGrupoSemaforico(estagioAtual, estagioAnterior, estagioGrupoSemaforico.getGrupoSemaforico(), comAtrasoGrupo));
                 } else {
                     totalTempoEntreverdes.add(0);
