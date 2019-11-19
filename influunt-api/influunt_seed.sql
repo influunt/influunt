@@ -18,7 +18,7 @@ INSERT INTO `faixas_de_valores` (`id`, `id_json`, `tempo_defasagem_min`, `tempo_
             `default_tempo_maximo_permanencia_estagio_veicular`, `tempo_ciclo_min`, `tempo_ciclo_max`, `tempo_verde_minimo_min`, `tempo_verde_minimo_max`, `tempo_verde_maximo_min`,
             `tempo_verde_maximo_max`, `tempo_verde_intermediario_min`, `tempo_verde_intermediario_max`, `tempo_extensao_verde_min`, `tempo_extensao_verde_max`, `tempo_verde_min`,
             `tempo_verde_max`, `tempo_ausencia_deteccao_min`, `tempo_ausencia_deteccao_max`, `tempo_deteccao_permanente_min`, `tempo_deteccao_permanente_max`, `data_criacao`, `data_atualizacao`, `tempo_ausencia_deteccao_pedestre_min`, `tempo_ausencia_deteccao_pedestre_max`, `tempo_deteccao_permanente_pedestre_min`, `tempo_deteccao_permanente_pedestre_max`)
-VALUES (UUID(), UUID(), '0', '255', '3', '5', '3', '32', '0', '20', '0', '5', '0', '20', '10', '30', '4', '10', '20', '255', '127', '30', '255', '10', '255', '10', '255', '10', '255', '1.0', '10.0', '1', '255', '0', '5800', '0', '10', NOW(), NOW(), '0', '0', '0', '0');
+VALUES (UUID(), UUID(), '0', '255', '3', '5', '3', '32', '0', '20', '0', '5', '0', '20', '10', '30', '4', '10', '20', '255', '127', '30', '255', '10', '255', '10', '255', '10', '255', '1.0', '10.0', '1', '255', '0', '5800', '0', '10', NOW(), NOW(), '0', '5800', '0', '10');
 
 
 -- Perfis / Permissões
