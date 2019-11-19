@@ -37,7 +37,7 @@ libraryDependencies ++= Seq(
     javaWs,
     "uk.co.panaxiom" %% "play-jongo" % "2.0.0-jongo1.3",
     "be.objectify" %% "deadbolt-java" % "2.5.0",
-    "mysql" % "mysql-connector-java" % "5.1.36",
+    "mysql" % "mysql-connector-java" % "8.0.18",
     "org.hibernate" % "hibernate-validator" % "5.2.4.Final",
     "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5",
     "uk.co.modular-it" % "bean-utils" % "0.9.10",
